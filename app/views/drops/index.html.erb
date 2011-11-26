@@ -1,0 +1,45 @@
+<h1>Listing drops</h1>
+
+<table>
+  <tr>
+    <th>Zone name</th>
+    <th>Mob name</th>
+    <th>Player name</th>
+    <th>Item name</th>
+    <th>Eq2 item</th>
+    <th>Drop time</th>
+    <th>Assigned?</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% @drops.each do |drop| %>
+      <tr>
+        <td><%= drop.zone_name %></td>
+        <td><%= drop.mob_name %></td>
+        <td><%= drop.player_name %></td>
+        <td><%= drop.item_name %></td>
+        <td><%= drop.eq2_item_id %></td>
+        <td><%= drop.drop_time %></td>
+        <% if drop.assigned? %>
+            <td>Yes</td>
+            <td><%= link_to 'Un-Assign', unassign_loot_drop_path(drop), :confirm => 'Are you sure?' %></td>
+            <td><%= link_to 'Show', drop %></td>
+            <td></td>
+            <td></td>
+        <% else %>
+            <td>No</td>
+            <td><%= link_to 'Assign', assign_loot_drop_path(drop), :confirm => 'Are you sure?' %></td>
+            <td><%= link_to 'Show', drop %></td>
+            <td><%= link_to 'Edit', edit_drop_path(drop) %></td>
+            <td><%= link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete %></td>
+        <% end %>
+      </tr>
+  <% end %>
+</table>
+
+<br/>
+
+<%= link_to 'New Drop', new_drop_path %>

@@ -1,0 +1,37 @@
+<h1>Listing Known Loot Items</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Eq2 item id</th>
+    <th>Info url</th>
+    <th>Loot Type</th>
+    <th>Slot(s)</th>
+    <th>Class(es)</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% @items.each do |item| %>
+      <tr>
+        <td><%= item.name %></td>
+        <td><%= item.eq2_item_id %></td>
+        <td><%= item.info_url %></td>
+        <% if item.loot_type %>
+            <td><%= item.loot_type.name %></td>
+        <% else %>
+            <td>Unknown</td>
+        <% end %>
+        <td><%= item.slot_names %></td>
+        <td><%= item.class_names %></td>
+        <td><%= link_to 'Show', item %></td>
+        <td><%= link_to 'Edit', edit_item_path(item) %></td>
+        <td><%= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete %></td>
+      </tr>
+  <% end %>
+</table>
+
+<br/>
+
+<%= link_to 'New Item', new_item_path %>

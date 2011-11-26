@@ -1,0 +1,2 @@
+module LootTypesHelper
+end

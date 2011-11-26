@@ -1,0 +1,51 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Zone:</b>
+  <%= @raid.zone.name %>
+</p>
+
+<p>
+  <b>Raid date:</b>
+  <%= @raid.raid_date %>
+</p>
+
+<p>
+  <b>Start time:</b>
+  <%= @raid.start_time %>
+</p>
+
+<p>
+  <b>End time:</b>
+  <%= @raid.end_time %>
+</p>
+
+<p>
+  <b>Attendees</b>
+<table>
+
+  <tr>
+    <td><b>Player</b></td>
+    <td><b>Looted</b></td>
+  </tr>
+  <% @raid.players.each do |player| %>
+      <tr>
+        <td valign="top"><%= player.name %></td>
+        <td>
+          <table>
+            <% @raid.drops.each do |drop| %>
+                <% if drop.player_name == player.name %>
+                    <tr>
+                      <td><%= drop.item_name %></td>
+                    </tr>
+                <% end %>
+            <% end %>
+          </table>
+        </td>
+      </tr>
+  <% end %>
+</table>
+</p>
+
+<%= link_to 'Edit', edit_raid_path(@raid) %> |
+<%= link_to 'Back', raids_path %>

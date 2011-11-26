@@ -1,0 +1,48 @@
+<%= generate_sub_nav(params) %>
+<h1><%= @pagetitle %></h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Rank</th>
+    <th>Main</th>
+    <th># Raids</th>
+    <%= generate_headings(params) %>
+    <% if logged_in? %>
+        <th></th>
+        <th></th>
+        <th></th>
+    <% end %>
+  </tr>
+
+  <% @players.each do |player| %>
+      <tr>
+        <td><%= player.name %></td>
+        <% if player.rank_id %>
+            <td><%= player.rank.name %></td>
+        <% else %>
+            <td>Unknown</td>
+        <% end %>
+        <% if player.main_character %>
+            <td><%= player.main_character.name %></td>
+        <% else %>
+            <td><%= player.name %></td>
+        <% end %>
+        <td align="center"><%= player.raids.count %></td>
+        <% LootType.all.each do |loot_type| %>
+            <td><%= player.loot_rate(loot_type.name) %></td>
+        <% end %>
+        <% if logged_in? %>
+            <td><%= link_to 'Show', player %></td>
+            <td><%= link_to 'Edit', edit_player_path(player) %></td>
+            <td><%= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete %></td>
+        <% end %>
+      </tr>
+  <% end %>
+</table>
+
+<br/>
+
+<% if logged_in? %>
+    <%= link_to 'New Player', new_player_path %>
+<% end %>

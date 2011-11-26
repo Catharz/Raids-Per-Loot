@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Zone name:</b>
+  <%= @drop.zone_name %>
+</p>
+
+<p>
+  <b>Mob name:</b>
+  <%= @drop.mob_name %>
+</p>
+
+<p>
+  <b>Player name:</b>
+  <%= @drop.player_name %>
+</p>
+
+<p>
+  <b>Item name:</b>
+  <%= @drop.item_name %>
+</p>
+
+<p>
+  <b>Eq2 item:</b>
+  <%= @drop.eq2_item_id %>
+</p>
+
+<p>
+  <b>Drop time:</b>
+  <%= @drop.drop_time %>
+</p>
+
+<p>
+  <b>Assigned:</b>
+  <% if @drop.assigned? %>
+      Assigned
+  <% else %>
+      Unassigned
+  <% end %>
+</p>
+
+
+<%= link_to 'Edit', edit_drop_path(@drop) %> |
+<%= link_to 'Back', drops_path %>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title><%= @pagetitle %></title>
+  <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag :all, :cache => true %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+<div id='pagewrapper'>
+  <div id='header'>
+    <p>Raids Per Loot</p>
+  </div>
+  <div id='navbar'>
+    <ul>
+      <% @tabs.each do |page| -%>
+          <li <%= "id = 'current'" if @page && (@page == page || @page.parent == page)%>><%= link_to page.navlabel, view_page_path(page.name) %></li>
+      <% end -%>
+      <% if logged_in? %>
+          <li><%= link_to "Log Out", logout_path %></li>
+      <% else %>
+          <li><%= link_to "Log In", login_path %></li>
+      <% end %>
+    </ul>
+  </div>
+  <div id='content'>
+    <h2><%= flash[:notice] %></h2>
+    <%= yield %>
+  </div>
+  <div id='footer'>
+    <p>Raids Per Loot</p>
+  </div>
+</div>
+</body>
+</html>

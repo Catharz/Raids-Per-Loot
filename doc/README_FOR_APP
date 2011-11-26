@@ -1,0 +1,27 @@
+The Raids Per Loot system has been created as a means to distribute loot in
+casual and semi-casual guilds who don't have a consistent raid force.
+
+Southern Cross (http://southerncross.guildportal.com), is one of those guilds.
+As raid leader, I wanted a loot system with the following characteristics:
+
+* Participation must be rewarded consistently
+* Frequency of participation should not impact chances of getting loot
+* Waiting for "better loot" to drop should not be be encouraged, but it also
+  should not be impossible
+* Players should be able to choose to raid with two characters without disrupting
+  the fairness of the loot system or sacrifice the viability of the raid force
+
+Southern Cross previously used /random to distribute loot, and while it met
+the 2nd and 3rd criteria, it didn't meet the other.  We'd tried a watered
+down DKP system, but points hoarding caused it to also fail on some counts.
+
+RaidsPerLoot meets all 3.
+
+The formula is: "raids.count / (drops.count + 1)".
+This formula is calculated for each drop category.
+
+The system caters for loot for main characters and alternates, along with ranks
+for each player.
+We use this system for EverQuest 2, but all values such as player classes, player
+ranks, item slots and drop categories are editable to allow this system to be
+reconfigured for any MMO.
