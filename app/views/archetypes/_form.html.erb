@@ -17,7 +17,7 @@
       <%= f.text_field :name %>
     </div>
     <div class="field">
-      <%= f.label :archetype %>
+      <%= f.label "Parent Class" %>
       <br/>
       <%= f.collection_select(:parent_class_id, Archetype.all, :id, :name, :include_blank => true) %>
     </div>

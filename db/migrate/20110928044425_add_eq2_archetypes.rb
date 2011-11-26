@@ -1,198 +1,91 @@
 class AddEq2Archetypes < ActiveRecord::Migration
-  def self.create_top_classes
-    if !Archetype.find_by_name('Fighter')
-      Archetype.create(:name => 'Fighter')
-    end
-    if !Archetype.find_by_name('Mage')
-      Archetype.create(:name => 'Mage')
-    end
-    if !Archetype.find_by_name('Priest')
-      Archetype.create(:name => 'Priest')
-    end
-    if !Archetype.find_by_name('Scout')
-      Archetype.create(:name => 'Scout')
-    end
-  end
-
   def self.create_fighters
-    if !Archetype.find_by_name('Brawler')
-      Archetype.create(:name => 'Brawler', :parent_class => Archetype.find_by_name('Fighter'))
-    end
-    if !Archetype.find_by_name('Crusader')
-      Archetype.create(:name => 'Crusader', :parent_class => Archetype.find_by_name('Fighter'))
-    end
-    if !Archetype.find_by_name('Warrior')
-      Archetype.create(:name => 'Warrior', :parent_class => Archetype.find_by_name('Fighter'))
-    end
+    fighter = Archetype.create!(:name => 'Fighter')
 
-    create_brawlers()
-    create_crusaders()
-    create_warriors()
-  end
+    brawler = Archetype.create!(:name => 'Brawler', :parent_class => fighter)
+    brawler.sub_classes << Archetype.create!(:name => 'Bruiser', :parent_class => brawler)
+    brawler.sub_classes << Archetype.create!(:name => 'Monk', :parent_class => brawler)
 
-  def self.create_brawlers
-    if !Archetype.find_by_name('Bruiser')
-      Archetype.create(:name => 'Bruiser', :parent_class => Archetype.find_by_name('Brawler'))
-    end
-    if !Archetype.find_by_name('Monk')
-      Archetype.create(:name => 'Monk', :parent_class => Archetype.find_by_name('Brawler'))
-    end
-  end
+    crusader = Archetype.create!(:name => 'Crusader', :parent_class => fighter)
+    crusader.sub_classes << Archetype.create!(:name => 'Paladin', :parent_class => crusader)
+    crusader.sub_classes << Archetype.create!(:name => 'Shadow Knight', :parent_class => crusader)
 
-  def self.create_crusaders
-    if !Archetype.find_by_name('Paladin')
-      Archetype.create(:name => 'Paladin', :parent_class => Archetype.find_by_name('Crusader'))
-    end
-    if !Archetype.find_by_name('Shadow Knight')
-      Archetype.create(:name => 'Shadow Knight', :parent_class => Archetype.find_by_name('Crusader'))
-    end
-  end
+    warrior = Archetype.create!(:name => 'Warrior', :parent_class => fighter)
+    warrior.sub_classes << Archetype.create!(:name => 'Berserker', :parent_class => warrior)
+    warrior.sub_classes << Archetype.create!(:name => 'Guardian', :parent_class => warrior)
 
-  def self.create_warriors
-    if !Archetype.find_by_name('Berserker')
-      Archetype.create(:name => 'Berserker', :parent_class => Archetype.find_by_name('Warrior'))
-    end
-    if !Archetype.find_by_name('Guardian')
-      Archetype.create(:name => 'Guardian', :parent_class => Archetype.find_by_name('Warrior'))
-    end
+    fighter.sub_classes << brawler
+    fighter.sub_classes << crusader
+    fighter.sub_classes << warrior
   end
 
   def self.create_mages
-    if !Archetype.find_by_name('Enchanter')
-      Archetype.create(:name => 'Enchanter', :parent_class => Archetype.find_by_name('Mage'))
-    end
-    if !Archetype.find_by_name('Sorcerer')
-      Archetype.create(:name => 'Sorcerer', :parent_class => Archetype.find_by_name('Mage'))
-    end
-    if !Archetype.find_by_name('Summoner')
-      Archetype.create(:name => 'Summoner', :parent_class => Archetype.find_by_name('Mage'))
-    end
+    mage = Archetype.create!(:name => 'Mage')
 
-    create_enchanters()
-    create_sorcerers()
-    create_summoners()
-  end
+    enchanter = Archetype.create!(:name => 'Enchanter', :parent_class => mage)
+    enchanter.sub_classes << Archetype.create!(:name => 'Coercer', :parent_class => enchanter)
+    enchanter.sub_classes << Archetype.create!(:name => 'Illusionist', :parent_class => enchanter)
 
-  def self.create_enchanters
-    if !Archetype.find_by_name('Coercer')
-      Archetype.create(:name => 'Coercer', :parent_class => Archetype.find_by_name('Enchanter'))
-    end
-    if !Archetype.find_by_name('Illusionist')
-      Archetype.create(:name => 'Illusionist', :parent_class => Archetype.find_by_name('Enchanter'))
-    end
-  end
+    sorceror = Archetype.create!(:name => 'Sorcerer', :parent_class => mage)
+    sorceror.sub_classes << Archetype.create!(:name => 'Warlock', :parent_class => sorceror)
+    sorceror.sub_classes << Archetype.create!(:name => 'Wizard', :parent_class => sorceror)
 
-  def self.create_sorcerers
-    if !Archetype.find_by_name('Warlock')
-      Archetype.create(:name => 'Warlock', :parent_class => Archetype.find_by_name('Sorcerer'))
-    end
-    if !Archetype.find_by_name('Wizard')
-      Archetype.create(:name => 'Wizard', :parent_class => Archetype.find_by_name('Sorcerer'))
-    end
-  end
+    summoner = Archetype.create!(:name => 'Summoner', :parent_class => mage)
+    summoner.sub_classes << Archetype.create!(:name => 'Conjuror', :parent_class => summoner)
+    summoner.sub_classes << Archetype.create!(:name => 'Necromancer', :parent_class => summoner)
 
-  def self.create_summoners
-    if !Archetype.find_by_name('Conjuror')
-      Archetype.create(:name => 'Conjuror', :parent_class => Archetype.find_by_name('Summoner'))
-    end
-    if !Archetype.find_by_name('Necromancer')
-      Archetype.create(:name => 'Necromancer', :parent_class => Archetype.find_by_name('Summoner'))
-    end
+    mage.sub_classes << enchanter
+    mage.sub_classes << sorceror
+    mage.sub_classes << summoner
   end
 
   def self.create_priests
-    if !Archetype.find_by_name('Cleric')
-      Archetype.create(:name => 'Cleric', :parent_class => Archetype.find_by_name('Priest'))
-    end
-    if !Archetype.find_by_name('Druid')
-      Archetype.create(:name => 'Druid', :parent_class => Archetype.find_by_name('Priest'))
-    end
-    if !Archetype.find_by_name('Shaman')
-      Archetype.create(:name => 'Shaman', :parent_class => Archetype.find_by_name('Priest'))
-    end
+    priest = Archetype.create!(:name => 'Priest')
 
-    create_clerics()
-    create_druids()
-    create_shamans()
-  end
+    cleric = Archetype.create!(:name => 'Cleric', :parent_class => priest)
+    cleric.sub_classes << Archetype.create!(:name => 'Inquisitor', :parent_class => cleric)
+    cleric.sub_classes << Archetype.create!(:name => 'Templar', :parent_class => cleric)
 
-  def self.create_clerics
-    if !Archetype.find_by_name('Inquisitor')
-      Archetype.create(:name => 'Inquisitor', :parent_class => Archetype.find_by_name('Cleric'))
-    end
-    if !Archetype.find_by_name('Templar')
-      Archetype.create(:name => 'Templar', :parent_class => Archetype.find_by_name('Cleric'))
-    end
-  end
+    druid = Archetype.create!(:name => 'Druid', :parent_class => priest)
+    druid.sub_classes << Archetype.create!(:name => 'Fury', :parent_class => druid)
+    druid.sub_classes << Archetype.create!(:name => 'Warden', :parent_class => druid)
 
-  def self.create_druids
-    if !Archetype.find_by_name('Fury')
-      Archetype.create(:name => 'Fury', :parent_class => Archetype.find_by_name('Druid'))
-    end
-    if !Archetype.find_by_name('Warden')
-      Archetype.create(:name => 'Warden', :parent_class => Archetype.find_by_name('Druid'))
-    end
-  end
+    shaman = Archetype.create!(:name => 'Shaman', :parent_class => priest)
+    shaman.sub_classes << Archetype.create!(:name => 'Defiler', :parent_class => shaman)
+    shaman.sub_classes << Archetype.create!(:name => 'Mystic', :parent_class => shaman)
 
-  def self.create_shamans
-    if !Archetype.find_by_name('Defiler')
-      Archetype.create(:name => 'Defiler', :parent_class => Archetype.find_by_name('Shaman'))
-    end
-    if !Archetype.find_by_name('Mystic')
-      Archetype.create(:name => 'Mystic', :parent_class => Archetype.find_by_name('Shaman'))
-    end
+    priest.sub_classes << cleric
+    priest.sub_classes << druid
+    priest.sub_classes << shaman
   end
 
   def self.create_scouts
-    if !Archetype.find_by_name('Bard')
-      Archetype.create(:name => 'Bard', :parent_class => Archetype.find_by_name('Scout'))
-    end
-    if !Archetype.find_by_name('Predator')
-      Archetype.create(:name => 'Predator', :parent_class => Archetype.find_by_name('Scout'))
-    end
-    if !Archetype.find_by_name('Rogue')
-      Archetype.create(:name => 'Rogue', :parent_class => Archetype.find_by_name('Scout'))
-    end
+    scout = Archetype.create!(:name => 'Scout')
 
-    create_bards()
-    create_predators()
-    create_rogues()
-  end
+    bard = Archetype.create!(:name => 'Bard', :parent_class => scout)
+    bard.sub_classes << Archetype.create!(:name => 'Dirge', :parent_class => bard)
+    bard.sub_classes << Archetype.create!(:name => 'Troubador', :parent_class => bard)
 
-  def self.create_bards
-    if !Archetype.find_by_name('Dirge')
-      Archetype.create(:name => 'Dirge', :parent_class => Archetype.find_by_name('Bard'))
-    end
-    if !Archetype.find_by_name('Troubador')
-      Archetype.create(:name => 'Troubador', :parent_class => Archetype.find_by_name('Bard'))
-    end
-  end
+    predator = Archetype.create!(:name => 'Predator', :parent_class => scout)
+    predator.sub_classes << Archetype.create!(:name => 'Assassin', :parent_class => predator)
+    predator.sub_classes << Archetype.create!(:name => 'Ranger', :parent_class => predator)
 
-  def self.create_predators
-    if !Archetype.find_by_name('Assassin')
-      Archetype.create(:name => 'Assassin', :parent_class => Archetype.find_by_name('Predator'))
-    end
-    if !Archetype.find_by_name('Ranger')
-      Archetype.create(:name => 'Ranger', :parent_class => Archetype.find_by_name('Predator'))
-    end
-  end
+    rogue = Archetype.create!(:name => 'Rogue', :parent_class => scout)
+    rogue.sub_classes << Archetype.create!(:name => 'Brigand', :parent_class => rogue)
+    rogue.sub_classes << Archetype.create!(:name => 'Swashbuckler', :parent_class => rogue)
 
-  def self.create_rogues
-    if !Archetype.find_by_name('Brigand')
-      Archetype.create(:name => 'Brigand', :parent_class => Archetype.find_by_name('Rogue'))
-    end
-    if !Archetype.find_by_name('Swashbuckler')
-      Archetype.create(:name => 'Swashbuckler', :parent_class => Archetype.find_by_name('Rogue'))
-    end
+    scout.sub_classes << bard
+    scout.sub_classes << predator
+    scout.sub_classes << rogue
   end
 
   def self.up
-    create_top_classes()
-
-    create_fighters()
-    create_mages()
-    create_priests()
-    create_scouts()
+    if Archetype.all.empty?
+      create_fighters()
+      create_mages()
+      create_priests()
+      create_scouts()
+    end
   end
 
   def self.down

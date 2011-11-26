@@ -76,7 +76,7 @@ Loot Slots is where you maintain the various places you can equip loot.')
                   :position => 3, :admin => true, :parent => loot_admin,
                   :redirect => false, :controller_name => nil, :action_name => nil,
                   :body => '.')
-      Page.create(:name => 'ranks', :title => 'Player Ranks', :navlabel => 'Player ranks',
+      Page.create(:name => 'ranks', :title => 'Player Ranks', :navlabel => 'Player Ranks',
                   :position => 4, :admin => true, :parent => loot_admin,
                   :redirect => false, :controller_name => nil, :action_name => nil,
                   :body => '.')

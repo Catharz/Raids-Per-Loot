@@ -3,6 +3,7 @@
 <table>
   <tr>
     <th>Name</th>
+    <th>Parent Class</th>
     <th></th>
     <th></th>
     <th></th>
@@ -11,6 +12,9 @@
 <% @archetypes.each do |archetype| %>
   <tr>
     <td><%= archetype.name %></td>
+    <td>
+      <%= archetype.parent_class.name unless archetype.parent_class.nil? %>
+    </td>
     <td><%= link_to 'Show', archetype %></td>
     <td><%= link_to 'Edit', edit_archetype_path(archetype) %></td>
     <td><%= link_to 'Destroy', archetype, :confirm => 'Are you sure?', :method => :delete %></td>
