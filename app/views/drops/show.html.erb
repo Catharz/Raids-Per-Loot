@@ -40,5 +40,7 @@
 </p>
 
 
-<%= link_to 'Edit', edit_drop_path(@drop) %> |
+<% if logged_in? %>
+    <%= link_to 'Edit', edit_drop_path(@drop) %> |
+<% end %>
 <%= link_to 'Back', drops_path %>
