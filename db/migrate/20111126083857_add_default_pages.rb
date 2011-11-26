@@ -7,7 +7,7 @@ class AddDefaultPages < ActiveRecord::Migration
                   :body => 'h1. Welcome to the raids per loot system!')
       Page.create(:name => 'links', :title => 'Links', :navlabel => 'Links',
                   :position => 1, :admin => false, :parent => nil, :redirect => true,
-                  :controller_name => 'links', :action_name => 'index',
+                  :controller_name => 'links', :action_name => 'list',
                   :body => '.')
       Page.create(:name => 'raids', :title => 'Raids', :navlabel => 'Raids',
                   :position => 2, :admin => false, :parent => nil,
