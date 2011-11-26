@@ -126,14 +126,6 @@ ActiveRecord::Schema.define(:version => 20111126092416) do
     t.integer  "zone_id"
   end
 
-  create_table "raids_mobs_players_items", :id => false, :force => true do |t|
-    t.integer  "raid_id"
-    t.integer  "mob_id"
-    t.integer  "player_id"
-    t.integer  "item_id"
-    t.datetime "drop_time"
-  end
-
   create_table "ranks", :force => true do |t|
     t.string   "name"
     t.integer  "priority"
