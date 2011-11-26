@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111120205024) do
+ActiveRecord::Schema.define(:version => 20111126053807) do
 
   create_table "archetypes", :force => true do |t|
     t.string   "name"
@@ -98,6 +98,9 @@ ActiveRecord::Schema.define(:version => 20111120205024) do
     t.integer  "parent_id"
     t.string   "navlabel"
     t.integer  "position"
+    t.boolean  "redirect"
+    t.string   "action_name"
+    t.string   "controller_name"
   end
 
   create_table "players", :force => true do |t|

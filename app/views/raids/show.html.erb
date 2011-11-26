@@ -47,5 +47,7 @@
 </table>
 </p>
 
-<%= link_to 'Edit', edit_raid_path(@raid) %> |
+<% if logged_in? %>
+    <%= link_to 'Edit', edit_raid_path(@raid) %> |
+<% end %>
 <%= link_to 'Back', raids_path %>

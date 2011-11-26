@@ -46,6 +46,21 @@
       <br/>
       <%= f.text_field :position, :size => 3 %>
     </div>
+    <div class="field">
+      <%= f.label :redirect %>
+      <br/>
+      <%= f.check_box :redirect %>
+    </div>
+    <div class="field">
+      <%= f.label :action_name %>
+      <br/>
+      <%= f.text_field :action_name %>
+    </div>
+    <div class="field">
+      <%= f.label :controller_name %>
+      <br/>
+      <%= f.text_field :controller_name %>
+    </div>
     <div class="actions">
       <%= f.submit %>
     </div>

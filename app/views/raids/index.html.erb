@@ -7,8 +7,10 @@
     <th>Start time</th>
     <th>End time</th>
     <th></th>
-    <th></th>
-    <th></th>
+    <% if logged_in? %>
+        <th></th>
+        <th></th>
+    <% end %>
   </tr>
 
   <% @raids.each do |raid| %>
@@ -22,12 +24,16 @@
         <td><%= raid.start_time %></td>
         <td><%= raid.end_time %></td>
         <td><%= link_to 'Show', raid %></td>
-        <td><%= link_to 'Edit', edit_raid_path(raid) %></td>
-        <td><%= link_to 'Destroy', raid, :confirm => 'Are you sure?', :method => :delete %></td>
+        <% if logged_in? %>
+            <td><%= link_to 'Edit', edit_raid_path(raid) %></td>
+            <td><%= link_to 'Destroy', raid, :confirm => 'Are you sure?', :method => :delete %></td>
+        <% end %>
       </tr>
   <% end %>
 </table>
 
 <br/>
 
+<% if logged_in? %>
 <%= link_to 'New Raid', new_raid_path %>
+<% end %>

@@ -1,5 +1,5 @@
 class LinksController < ApplicationController
-  before_filter :login_required
+  before_filter :login_required, :except => [:list]
   before_filter :set_pagetitle
 
   def set_pagetitle
@@ -9,12 +9,19 @@ class LinksController < ApplicationController
   # GET /links
   # GET /links.xml
   def index
+    @categories = LinkCategory.all(:order => 'title')
     @links = Link.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @links }
+      format.xml { render :xml => @links }
     end
+  end
+
+  def list
+    @categories = LinkCategory.all(:order => 'description')
+    @page = Page.find_by_name(params[:name])
+    @pagetitle = @page.title
   end
 
   # GET /links/1
@@ -24,7 +31,7 @@ class LinksController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @link }
+      format.xml { render :xml => @link }
     end
   end
 
@@ -35,7 +42,7 @@ class LinksController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @link }
+      format.xml { render :xml => @link }
     end
   end
 
@@ -52,10 +59,10 @@ class LinksController < ApplicationController
     respond_to do |format|
       if @link.save
         format.html { redirect_to(@link, :notice => 'Link was successfully created.') }
-        format.xml  { render :xml => @link, :status => :created, :location => @link }
+        format.xml { render :xml => @link, :status => :created, :location => @link }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @link.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @link.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -68,10 +75,10 @@ class LinksController < ApplicationController
     respond_to do |format|
       if @link.update_attributes(params[:link])
         format.html { redirect_to(@link, :notice => 'Link was successfully updated.') }
-        format.xml  { head :ok }
+        format.xml { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @link.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @link.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -84,7 +91,7 @@ class LinksController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(links_url) }
-      format.xml  { head :ok }
+      format.xml { head :ok }
     end
   end
 end

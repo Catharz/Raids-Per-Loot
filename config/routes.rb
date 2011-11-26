@@ -1,6 +1,25 @@
 RaidsPerLoot::Application.routes.draw do
 
+#  match '/view_page/:name', :controller => 'viewer', :action => 'show'
+
+  resources :mobs
+  resources :items
+  resources :players
+  resources :raids
+  resources :archetypes
+  resources :zones
+  resources :pages
+  resources :users
   resources :loot_types
+  resources :ranks
+  resources :slots
+  resources :link_categories
+
+  resources :links do
+    collection do
+      get :list
+    end
+  end
 
   resources :drops do
     member do
@@ -8,14 +27,6 @@ RaidsPerLoot::Application.routes.draw do
       get :unassign_loot
     end
   end
-
-  resources :ranks
-
-  resources :slots
-
-  resources :link_categories
-
-  resources :links
 
   resource :session, :only => [:new, :create, :destroy]
 
@@ -25,15 +36,9 @@ RaidsPerLoot::Application.routes.draw do
   match 'logout' => 'sessions#destroy', :as => :logout
   match '/activate/:activation_code' => 'users#activate', :as => :activate, :activation_code => nil
 
-
-  get "viewer/show"
-
   get "pages/home"
-
   get "pages/resources"
-
   get "pages/about"
-
   get "pages/contact"
 
   #resources :users do
@@ -43,26 +48,6 @@ RaidsPerLoot::Application.routes.draw do
   #    delete :purge
   #  end
   #end
-
-  resources :mobs
-
-  resources :items
-
-  resources :players
-
-  resources :raids
-
-  resources :archetypes
-
-  resources :zones
-
-  resources :pages
-
-  resources :users
-
-#  match ':name' => 'viewer#set_page_body', :as => :set_page_body
-#  match ':name' => 'viewer#get_unformatted_text', :as => :get_unformatted_text
-  match ':name' => 'viewer#show', :as => :view_page
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -120,5 +105,7 @@ RaidsPerLoot::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
+  match ':name' => 'viewer#show', :as => :view_page
+
   match ':controller(/:action(/:id(.:format)))'
 end

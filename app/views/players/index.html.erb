@@ -8,8 +8,8 @@
     <th>Main</th>
     <th># Raids</th>
     <%= generate_headings(params) %>
+    <th></th>
     <% if logged_in? %>
-        <th></th>
         <th></th>
         <th></th>
     <% end %>
@@ -32,8 +32,8 @@
         <% LootType.all.each do |loot_type| %>
             <td><%= player.loot_rate(loot_type.name) %></td>
         <% end %>
+        <td><%= link_to 'Show', player %></td>
         <% if logged_in? %>
-            <td><%= link_to 'Show', player %></td>
             <td><%= link_to 'Edit', edit_player_path(player) %></td>
             <td><%= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete %></td>
         <% end %>

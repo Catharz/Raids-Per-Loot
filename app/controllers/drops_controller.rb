@@ -1,4 +1,10 @@
 class DropsController < ApplicationController
+  before_filter :set_pagetitle
+
+  def set_pagetitle
+    @pagetitle = "Loot Drops"
+  end
+
   # GET /drops
   # GET /drops.xml
   def index
