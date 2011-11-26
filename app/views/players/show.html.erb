@@ -30,5 +30,7 @@
   <% end %>
 </table>
 
-<%= link_to 'Edit', edit_player_path(@player) %> |
+<% if logged_in? %>
+    <%= link_to 'Edit', edit_player_path(@player) %> |
+<% end %>
 <%= link_to 'Back', players_path %>

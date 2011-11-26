@@ -1,7 +1,5 @@
 RaidsPerLoot::Application.routes.draw do
 
-#  match '/view_page/:name', :controller => 'viewer', :action => 'show'
-
   resources :mobs
   resources :items
   resources :players
@@ -96,6 +94,9 @@ RaidsPerLoot::Application.routes.draw do
   #     resources :products
   #   end
 
+#  match '/view_page/:name', :controller => 'viewer', :action => 'show'
+  match ':name' => 'viewer#show', :as => :view_page
+
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   # root :to => 'welcome#index'
@@ -105,7 +106,6 @@ RaidsPerLoot::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  match ':name' => 'viewer#show', :as => :view_page
 
   match ':controller(/:action(/:id(.:format)))'
 end
