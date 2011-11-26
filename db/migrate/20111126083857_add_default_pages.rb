@@ -1,6 +1,6 @@
 class AddDefaultPages < ActiveRecord::Migration
   def self.up
-    if Pages.all.empty?
+    if Page.all.empty?
       Page.create(:name => 'home', :title => 'Home', :navlabel => 'Home',
                   :position => 0, :admin => false, :parent => nil,
                   :redirect => false, :controller_name => nil, :action_name => nil,

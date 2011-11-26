@@ -23,8 +23,4 @@ production:
   database: southerncross_rpl_prod
   username: southerncross
   password: d@nger
-  pool: 5
-  timeout: 5000
-
-cucumber:
-  <<: *test
+  host: localhost
