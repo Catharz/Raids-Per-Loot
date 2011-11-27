@@ -6,6 +6,7 @@
     <th>Name</th>
     <th>Rank</th>
     <th>Main</th>
+    <th>Class</th>
     <th># Raids</th>
     <%= generate_headings(params) %>
     <th></th>
@@ -23,10 +24,11 @@
         <% else %>
             <td>Unknown</td>
         <% end %>
-        <% if player.main_character %>
-            <td><%= player.main_character.name %></td>
+        <td><%= player.main_character.name unless player.main_character.nil? %></td>
+        <% if player.archetype %>
+            <td><%= player.archetype.name %></td>
         <% else %>
-            <td><%= player.name %></td>
+            <td>Unknown</td>
         <% end %>
         <td align="center"><%= player.raids.count %></td>
         <% LootType.all.each do |loot_type| %>
