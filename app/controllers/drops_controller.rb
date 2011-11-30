@@ -10,7 +10,7 @@ class DropsController < ApplicationController
   # GET /drops.xml
   def index
     @drops = Drop.all
-    @drops.sort! { |a,b| b.drop_time <=> a.drop_time }
+    @drops.sort! { |a, b| b.drop_time <=> a.drop_time }
 
     respond_to do |format|
       format.html # index.html.erb
@@ -93,14 +93,15 @@ class DropsController < ApplicationController
   # ASSIGN_LOOT /drops/1.xml
   def assign_loot
     @drop = Drop.find(params[:id])
-    if @drop.assign_loot
-      @drop.assigned = true
-      @drop.save
-    end
 
     respond_to do |format|
-      format.html { redirect_to(drops_url) }
-      format.xml { head :ok }
+      if @drop.assign_loot
+        format.html { redirect_to(@drop, :notice => 'Drop was successfully assigned.') }
+        format.xml { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml { render :xml => @drop.errors, :status => :unprocessable_entity }
+      end
     end
   end
 
@@ -108,14 +109,15 @@ class DropsController < ApplicationController
   # UNASSIGN_LOOT /drops/1.xml
   def unassign_loot
     @drop = Drop.find(params[:id])
-    if @drop.unassign_loot
-      @drop.assigned = false
-      @drop.save
-    end
 
     respond_to do |format|
-      format.html { redirect_to(drops_url) }
-      format.xml { head :ok }
+      if @drop.unassign_loot
+        format.html { redirect_to(@drop, :notice => 'Drop was successfully unassigned.') }
+        format.xml { head :ok }
+      else
+        format.html { redirect_to(drops_url) }
+        format.xml { render :xml => @drop.errors, :status => :unprocessable_entity }
+      end
     end
   end
 end

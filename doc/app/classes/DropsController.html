@@ -139,7 +139,7 @@ ASSIGN_LOOT /drops/1 ASSIGN_LOOT /drops/1.xml
 87:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">assign_loot</span>
 88:     <span class="ruby-ivar">@drop</span> = <span class="ruby-constant">Drop</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>])
 89:     <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@drop</span>.<span class="ruby-identifier">assign_loot</span>
-90:       <span class="ruby-ivar">@drop</span>.<span class="ruby-identifier">assigned</span> = <span class="ruby-keyword kw">true</span>
+90:       <span class="ruby-ivar">@drop</span>.<span class="ruby-identifier">assigned_to_player</span> = <span class="ruby-keyword kw">true</span>
 91:       <span class="ruby-ivar">@drop</span>.<span class="ruby-identifier">save</span>
 92:     <span class="ruby-keyword kw">end</span>
 93: 
@@ -362,7 +362,7 @@ UNASSIGN_LOOT /drops/1 UNASSIGN_LOOT /drops/1.xml
 102:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">unassign_loot</span>
 103:     <span class="ruby-ivar">@drop</span> = <span class="ruby-constant">Drop</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-identifier">:id</span>])
 104:     <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@drop</span>.<span class="ruby-identifier">unassign_loot</span>
-105:       <span class="ruby-ivar">@drop</span>.<span class="ruby-identifier">assigned</span> = <span class="ruby-keyword kw">false</span>
+105:       <span class="ruby-ivar">@drop</span>.<span class="ruby-identifier">assigned_to_player</span> = <span class="ruby-keyword kw">false</span>
 106:       <span class="ruby-ivar">@drop</span>.<span class="ruby-identifier">save</span>
 107:     <span class="ruby-keyword kw">end</span>
 108: 

@@ -26,7 +26,7 @@
         <td><%= drop.eq2_item_id %></td>
         <td><%= drop.drop_time %></td>
         <% if logged_in? %>
-            <% if drop.assigned? %>
+            <% if drop.assigned_to_player %>
                 <td>Yes</td>
                 <td><%= link_to 'Un-Assign', unassign_loot_drop_path(drop), :confirm => 'Are you sure?' %></td>
                 <td><%= link_to 'Show', drop %></td>
@@ -40,7 +40,7 @@
                 <td><%= link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete %></td>
             <% end %>
         <% else %>
-            <% if drop.assigned? %>
+            <% if drop.assigned_to_player %>
                 <td>Yes</td>
             <% else %>
                 <td>No</td>

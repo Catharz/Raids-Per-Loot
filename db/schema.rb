@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111126231246) do
+ActiveRecord::Schema.define(:version => 20111129082145) do
 
   create_table "archetypes", :force => true do |t|
     t.string   "name"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(:version => 20111126231246) do
     t.integer  "mob_id"
     t.integer  "player_id"
     t.integer  "item_id"
-    t.boolean  "assigned"
+    t.boolean  "assigned_to_player"
   end
 
   create_table "items", :force => true do |t|

@@ -8,7 +8,7 @@ class Drop < ActiveRecord::Base
   belongs_to :item
 
   validates_presence_of :zone_name, :mob_name, :item_name, :player_name, :drop_time
-  validates_with DropValidator
+  validates_with DropValidator, :on => :update
 
   def assign_loot
     raid = Raid.find_by_zone_and_time(zone_name, drop_time)
@@ -34,7 +34,13 @@ class Drop < ActiveRecord::Base
         item.drops << self
       end
       result = true
+      self.assigned_to_player = true
     else
+      self.errors[:base] << "A valid player must exist to be able to assign drops to them" unless player
+      self.errors[:base] << "A valid zone must exist to be able to create drops for it" unless zone
+      self.errors[:base] << "A raid must exist for the entered zone and drop time to be able to create drops for it" unless raid
+      self.errors[:base] << "A mob must exist for the entered zone to be able to create drops for it" unless mob
+      self.errors[:base] << "A loot item must exist to be able to record it dropping" unless item
       result = false
     end
 
@@ -53,6 +59,7 @@ class Drop < ActiveRecord::Base
     mob.drops.delete(self) unless mob.nil?
     player.drops.delete(self) unless player.nil?
     item.drops.delete(self) unless item.nil?
+    self.assigned_to_player = false
     true
   end
 end
