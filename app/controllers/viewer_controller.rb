@@ -24,6 +24,6 @@ class ViewerController < ApplicationController
 
   def get_unformatted_text
     @page = Page.find(params[:id])
-    render :text => @page.body(:source) unless @page.nil?
+    render :layout => false, :inline => @page.body(:source)
   end
 end

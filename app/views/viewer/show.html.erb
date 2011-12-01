@@ -15,17 +15,21 @@
         </div>
     <% end %>
 
-    <%= @page.body.html_safe %>
-
+    <p id="page_text"><%= @page.body.html_safe %></p>
     <% if logged_in? %>
         <a href='#' id='edit'>Edit This Page</a></br>
-
-        <%= in_place_editor_field :page, 'body', {:hidden => true},
-                                  {:rows => 10, :cols => 80,
-                                   :external_control => 'edit', :external_control_only => true,
-                                   :load_text_url => {:controller => 'viewer',
-                                                      :action => 'get_unformatted_text',
-                                                      :id => @page.id}
-                                  } %>
+        <script language="JavaScript">
+            new Ajax.InPlaceEditor(
+                    'page_text',
+                    'set_page_body',
+                    {
+                        rows:10,
+                        cols:80,
+                        externalControl:'edit',
+                        externalControlOnly:true,
+                        loadTextURL:'/viewer/get_unformatted_text/<%=@page.id%>'
+                    }
+            )
+        </script>
     <% end %>
 <% end %>
