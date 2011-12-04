@@ -19,12 +19,16 @@ end
 
 gem 'jquery-rails'
 gem 'in_place_editing'
+gem 'haml'
 
 # Use unicorn as the web server
 # gem 'unicorn'
 
 # Deploy with Capistrano
-gem 'capistrano'
+# gem 'capistrano'
+
+# Deply with Heroku
+gem 'heroku'
 
 # To use debugger
 # gem 'ruby-debug'

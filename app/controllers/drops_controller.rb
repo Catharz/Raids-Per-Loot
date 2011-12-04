@@ -45,6 +45,33 @@ class DropsController < ApplicationController
     @drop = Drop.find(params[:id])
   end
 
+  # GET /drops/upload
+  def upload
+    zone_name = params[:zoneName]
+    mob_name = params[:mobName]
+    player_name = params[:playerName]
+    item_name = params[:itemName]
+    eq2_item_id = params[:eq2ItemId]
+    drop_time = DateTime.strptime(params[:dropTime], "%d/%m/%Y %I:%M:%S%p")
+
+    @drop = Drop.new(:zone_name => zone_name,
+                     :mob_name => mob_name,
+                     :player_name => player_name,
+                     :item_name => item_name,
+                     :eq2_item_id => eq2_item_id,
+                     :drop_time => drop_time)
+
+    respond_to do |format|
+      if @drop.save
+        format.html { redirect_to(@drop, :notice => 'Drop was successfully created.') }
+        format.xml { render :xml => @drop, :status => :created, :location => @drop }
+      else
+        format.html { render :action => "new" }
+        format.xml { render :xml => @drop.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
   # POST /drops
   # POST /drops.xml
   def create

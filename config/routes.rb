@@ -26,6 +26,8 @@ RaidsPerLoot::Application.routes.draw do
     end
   end
 
+  match '/upload_drop' => 'drops#upload', :as => :upload_drop
+
   resource :session, :only => [:new, :create, :destroy]
 
   match 'signup' => 'users#new', :as => :signup
