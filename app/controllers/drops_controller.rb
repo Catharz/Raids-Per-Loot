@@ -52,8 +52,10 @@ class DropsController < ApplicationController
     player_name = params[:playerName]
     item_name = params[:itemName]
     eq2_item_id = params[:eq2ItemId]
-    drop_time = DateTime.strptime(params[:dropTime], "%d/%m/%Y %I:%M:%S%p")
-
+    drop_time_string = params[:dropTime]
+    drop_time = DateTime.now
+    drop_time = DateTime.strptime(drop_time_string, "%d/%m/%Y %I:%M:%S %p") unless drop_time_string.nil?
+    drop_time = DateTime.now unless !drop_time.nil?
     @drop = Drop.new(:zone_name => zone_name,
                      :mob_name => mob_name,
                      :player_name => player_name,
