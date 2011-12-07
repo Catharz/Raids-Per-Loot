@@ -1,6 +1,8 @@
 class Archetype < ActiveRecord::Base
+  require 'archetype_validator'
   validates_presence_of :name
   has_and_belongs_to_many :items
+  validates_with ArchetypeValidator
 
   has_many :sub_classes, :class_name => 'Archetype', :foreign_key => 'parent_class_id'
   belongs_to :parent_class, :class_name => 'Archetype', :foreign_key => 'parent_class_id'
