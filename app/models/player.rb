@@ -19,17 +19,6 @@ class Player < ActiveRecord::Base
       end
     end
     raids.count / (num_drops + 1)
-#    raids.count / (drops.all(:conditions => ['loot_type_id = ?', loot_type.id]).count +1)
-  end
-
-  #TODO Need to test the item reassignment
-  def reassign_loot(item_name, player_name)
-    item = items.find_by_name(item_name)
-    new_player = Player.find_by_name(player_name)
-    if item && new_player
-      new_player.items << item
-      items.delete(item)
-    end
   end
 
   def self.find_by_archetype(archetype)
