@@ -1,3 +1,7 @@
+Given /^I have an item named (.+) with id (.+)$/ do |item, item_id|
+  Item.create!(:name => item, :eq2_item_id => item_id)
+end
+
 Given /^the following items:$/ do |items|
   Item.create!(items.hashes)
 end

@@ -1,3 +1,7 @@
+Given /^I have a zone named (.+)$/ do |zone|
+  Zone.create(:name => zone) unless Zone.exists?(:name => zone)
+end
+
 Given /^the following zones:$/ do |zones|
   Zone.create!(zones.hashes)
 end

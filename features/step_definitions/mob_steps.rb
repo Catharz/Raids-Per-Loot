@@ -1,5 +1,9 @@
 require 'factory_helper'
 
+Given /^I have a mob named (.+) from (.+)$/ do |mob, zone|
+  FactoryHelper.give_me_mob(zone, mob)
+end
+
 Given /^the following mobs:$/ do |mobs|
   mobs.hashes.each do |this_mob|
     zone = FactoryHelper.give_me_zone(this_mob['zone_name'])

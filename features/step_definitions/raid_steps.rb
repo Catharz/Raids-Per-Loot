@@ -1,3 +1,7 @@
+Given /^I have a (.+) raid at "(.+)"$/ do |zone_name, raid_time|
+  FactoryHelper.give_me_raid(zone_name, DateTime.parse(raid_time))
+end
+
 Given /^the following raids:$/ do |raids|
   raids.hashes.each do |this_raid|
     zone = Zone.find_by_name(this_raid['zone_name'])

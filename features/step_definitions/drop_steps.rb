@@ -1,3 +1,8 @@
+Given /I assign a drop named (.+) to (.+) from (.+) in (.+) at "(.+)"$/ do |item_name, player_name, mob_name, zone_name, drop_time|
+  Drop.create!(:item_name => item_name, :player_name => player_name, :mob_name => mob_name, :zone_name => zone_name, :drop_time => drop_time)
+  When "I assign the 1st drop"
+end
+
 Given /^the following drops:$/ do |drops|
   Drop.create!(drops.hashes)
 end

@@ -1,3 +1,7 @@
+Given /^I have a player named (.+)$/ do |player|
+  Player.create(:name => player)
+end
+
 Given /^the following players:$/ do |players|
   Player.create!(players.hashes)
 end
