@@ -14,5 +14,7 @@ When /^I delete the (\d+)(?:st|nd|rd|th) item$/ do |pos|
 end
 
 Then /^I should see the following items:$/ do |expected_items_table|
-  expected_items_table.diff!(tableish('table tr', 'td,th'))
+  rows = find("table").all('tr')
+  table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
+  expected_items_table.diff!(table)
 end

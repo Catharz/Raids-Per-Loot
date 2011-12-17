@@ -19,10 +19,17 @@
 
   <% @drops.each do |drop| %>
       <tr>
-        <td><%= drop.zone_name %></td>
+        <td>
+          <%= drop.zone_name %></td>
         <td><%= drop.mob_name %></td>
         <td><%= drop.player_name %></td>
-        <td><%= drop.item_name %></td>
+        <td>
+          <% if drop.item_url %>
+              <a href="<%= drop.item_url %>"><%= drop.item_name %></a>
+          <% else %>
+              <%= drop.item_name %>
+          <% end %>
+        </td>
         <td><%= drop.eq2_item_id %></td>
         <td><%= drop.drop_time %></td>
         <% if logged_in? %>

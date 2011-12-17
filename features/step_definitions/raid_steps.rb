@@ -22,5 +22,7 @@ When /^I delete the (\d+)(?:st|nd|rd|th) raid$/ do |pos|
 end
 
 Then /^I should see the following raids:$/ do |expected_raids_table|
-  expected_raids_table.diff!(tableish('table tr', 'td,th'))
+  rows = find("table").all('tr')
+  table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
+  expected_raids_table.diff!(table)
 end

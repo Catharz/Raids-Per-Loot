@@ -10,5 +10,7 @@ When /^I delete the (\d+)(?:st|nd|rd|th) link$/ do |pos|
 end
 
 Then /^I should see the following links:$/ do |expected_links_table|
-  expected_links_table.diff!(tableish('table tr', 'td,th'))
+  rows = find("table").all('tr')
+  table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
+  expected_links_table.diff!(table)
 end

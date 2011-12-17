@@ -10,5 +10,7 @@ When /^I delete the (\d+)(?:st|nd|rd|th) link_category$/ do |pos|
 end
 
 Then /^I should see the following link_categories:$/ do |expected_link_categories_table|
-  expected_link_categories_table.diff!(tableish('table tr', 'td,th'))
+  rows = find("table").all('tr')
+  table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
+  expected_link_categories_table.diff!(table)
 end

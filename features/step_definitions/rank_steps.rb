@@ -10,5 +10,7 @@ When /^I delete the (\d+)(?:st|nd|rd|th) rank$/ do |pos|
 end
 
 Then /^I should see the following ranks:$/ do |expected_ranks_table|
-  expected_ranks_table.diff!(tableish('table tr', 'td,th'))
+  rows = find("table").all('tr')
+  table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
+  expected_ranks_table.diff!(table)
 end

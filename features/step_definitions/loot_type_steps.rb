@@ -10,5 +10,7 @@ When /^I delete the (\d+)(?:st|nd|rd|th) loot_type$/ do |pos|
 end
 
 Then /^I should see the following loot_types:$/ do |expected_loot_types_table|
-  expected_loot_types_table.diff!(tableish('table tr', 'td,th'))
+  rows = find("table").all('tr')
+  table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
+  expected_loot_types_table.diff!(table)
 end

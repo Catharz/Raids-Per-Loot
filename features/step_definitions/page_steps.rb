@@ -10,5 +10,7 @@ When /^I delete the (\d+)(?:st|nd|rd|th) page$/ do |pos|
 end
 
 Then /^I should see the following pages:$/ do |expected_pages_table|
-  expected_pages_table.diff!(tableish('table tr', 'td,th'))
+  rows = find("table").all('tr')
+  table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
+  expected_pages_table.diff!(table)
 end
