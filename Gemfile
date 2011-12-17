@@ -35,7 +35,7 @@ gem 'heroku'
 gem 'ruby-prof'
 
 #START:dev_and_test_gems
-group :development, :test do
+group :test do
   gem "rspec-rails", ">= 2.0.0"
   gem "cucumber-rails", ">= 0.3.2"
   gem "webrat", ">= 0.7.2"
