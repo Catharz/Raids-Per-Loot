@@ -7,6 +7,7 @@ class MobsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @mobs }
+      format.xml { render :xml => @mobs }
     end
   end
 
@@ -18,6 +19,7 @@ class MobsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @mob }
+      format.xml { render :xml => @mob }
     end
   end
 
@@ -29,6 +31,7 @@ class MobsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @mob }
+      format.xml { render :xml => @mob }
     end
   end
 
@@ -46,9 +49,11 @@ class MobsController < ApplicationController
       if @mob.save
         format.html { redirect_to @mob, :notice => 'Mob was successfully created.' }
         format.json { render :json => @mob, :status => :created, :location => @mob }
+        format.xml { render :xml => @mob, :status => :created, :location => @mob }
       else
         format.html { render :action => "new" }
         format.json { render :json => @mob.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @mob.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -62,9 +67,11 @@ class MobsController < ApplicationController
       if @mob.update_attributes(params[:mob])
         format.html { redirect_to @mob, :notice => 'Mob was successfully updated.' }
         format.json { head :ok }
+        format.xml { head :ok }
       else
         format.html { render :action => "edit" }
         format.json { render :json => @mob.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @mob.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -78,6 +85,7 @@ class MobsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to mobs_url }
       format.json { head :ok }
+      format.xml { head :ok }
     end
   end
 end
