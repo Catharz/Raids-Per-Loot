@@ -6,6 +6,23 @@ class RaidsController < ApplicationController
     @pagetitle = "Raids"
   end
 
+  def players
+    @raid = Raid.find(params[:id], :include => [:players])
+    render :xml => @raid.players.to_xml(:include => [:raids])
+  end
+
+  def add_player
+    @raid = Raid.find(params[:id])
+    player = Player.find(params[:player_id])
+    @raid.players << player
+    player.raids << @raid
+  end
+
+  def zone
+    @raid = Raid.find(params[:id], :include => :zone)
+    render :xml => Zone.find(@raid.zone_id).to_xml(:include => [:raids])
+  end
+
   # GET /raids
   # GET /raids.json
   def index
@@ -14,6 +31,7 @@ class RaidsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @raids }
+      format.xml  { render :xml => @raids }
     end
   end
 
@@ -25,6 +43,7 @@ class RaidsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @raid }
+      format.xml  { render :xml => @raid.to_xml(:include => :players) }
     end
   end
 
@@ -36,6 +55,7 @@ class RaidsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @raid }
+      format.xml  { render :xml => @raid }
     end
   end
 
@@ -53,9 +73,11 @@ class RaidsController < ApplicationController
       if @raid.save
         format.html { redirect_to @raid, :notice => 'Raid was successfully created.' }
         format.json { render :json => @raid, :status => :created, :location => @raid }
+        format.xml  { render :xml => @raid, :status => :created, :location => @raid }
       else
         format.html { render :action => "new" }
         format.json { render :json => @raid.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @raid.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -69,9 +91,11 @@ class RaidsController < ApplicationController
       if @raid.update_attributes(params[:raid])
         format.html { redirect_to @raid, :notice => 'Raid was successfully updated.' }
         format.json { head :ok }
+        format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
         format.json { render :json => @raid.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @raid.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -85,6 +109,7 @@ class RaidsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to raids_url }
       format.json { head :ok }
+      format.xml  { head :ok }
     end
   end
 end

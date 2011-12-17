@@ -1,6 +1,7 @@
 class Page < ActiveRecord::Base
   acts_as_textiled :body
   validates_presence_of :name, :title, :navlabel, :body
+  validates_uniqueness_of :name
   has_many :subpages, :class_name => 'Page', :foreign_key => 'parent_id'
   belongs_to :parent, :class_name => 'Page', :foreign_key => 'parent_id'
 

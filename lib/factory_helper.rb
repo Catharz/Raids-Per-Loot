@@ -1,7 +1,7 @@
 module FactoryHelper
   def self.give_me_zone(zone_name)
     zone = Zone.find_by_name(zone_name)
-    zone = Zone.create!(:name => zone_name) unless !zone.nil?
+    zone ||= Zone.create!(:name => zone_name)
     zone
   end
 
@@ -20,24 +20,25 @@ module FactoryHelper
   def self.give_me_mob(zone_name, mob_name)
     zone = give_me_zone(zone_name)
     mob = Mob.find_by_zone_and_mob_name(zone_name, mob_name)
-    mob = Mob.create!(:name => mob_name) unless !mob.nil?
+    mob ||= Mob.create!(:name => mob_name)
+    mob.zones << zone
+    mob.save!
 
     zone.mobs << mob
     zone.save!
-    mob.zones << zone
-    mob.save!
+
     mob
   end
 
   def self.give_me_player(player_name)
     player = Player.find_by_name(player_name)
-    player = Player.create!(:name => player_name) unless !player.nil?
+    player ||= Player.create!(:name => player_name)
     player
   end
 
   def self.give_me_item(item_name, eq2_item_id)
     item = Item.find_by_name(item_name)
-    item = Item.create!(:name => item_name, :eq2_item_id => eq2_item_id) unless !item.nil?
+    item ||= Item.create!(:name => item_name, :eq2_item_id => eq2_item_id)
     item
   end
 

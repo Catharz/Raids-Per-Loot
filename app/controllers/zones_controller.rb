@@ -1,4 +1,11 @@
 class ZonesController < ApplicationController
+  before_filter :login_required
+
+  def raids
+    @zone = Zone.find(params[:id], :include => [:raids])
+    render :xml => @zone.raids.to_xml(:include => [:zone])
+  end
+
   # GET /zones
   # GET /zones.xml
   def index

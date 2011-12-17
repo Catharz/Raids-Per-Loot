@@ -3,7 +3,10 @@ Feature: Manage zones
   The raid leader
   wants each raid to be associated with a Zone
   
-  Scenario: Register new zone
+  Background: Logged In
+    Given I am logged in as a user
+
+  Scenario: Create new zone
     Given I am on the new zone page
     When I fill in "Name" with "name 1"
     And I press "Create"

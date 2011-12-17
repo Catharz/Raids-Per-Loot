@@ -6,6 +6,11 @@ class PlayersController < ApplicationController
     @pagetitle = "Players"
   end
 
+  def raids
+    @player = Player.find(params[:id], :include => [:raids])
+    render :xml => @player.raids.to_xml(:include => [:raids])
+  end
+
   # GET /players
   # GET /players.json
   def index
@@ -28,6 +33,7 @@ class PlayersController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @players }
+      format.xml { render :xml => @players }
     end
   end
 
@@ -39,6 +45,7 @@ class PlayersController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @player }
+      format.xml { render :xml => @player.to_xml(:include => [:raids]) }
     end
   end
 
@@ -50,6 +57,7 @@ class PlayersController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @player }
+      format.xml { render :xml => @player.to_xml(:include => [:raids]) }
     end
   end
 
@@ -67,9 +75,11 @@ class PlayersController < ApplicationController
       if @player.save
         format.html { redirect_to @player, :notice => 'Player was successfully created.' }
         format.json { render :json => @player, :status => :created, :location => @player }
+        format.xml { render :xml => @player, :status => :created, :location => @player }
       else
         format.html { render :action => "new" }
         format.json { render :json => @player.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @player.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -83,9 +93,11 @@ class PlayersController < ApplicationController
       if @player.update_attributes(params[:player])
         format.html { redirect_to @player, :notice => 'Player was successfully updated.' }
         format.json { head :ok }
+        format.xml { head :ok }
       else
         format.html { render :action => "edit" }
         format.json { render :json => @player.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @player.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -99,6 +111,7 @@ class PlayersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to players_url }
       format.json { head :ok }
+      format.xml { head :ok }
     end
   end
 end

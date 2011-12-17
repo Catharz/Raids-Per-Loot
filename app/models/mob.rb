@@ -12,14 +12,12 @@ class Mob < ActiveRecord::Base
   end
 
   def self.find_by_zone_and_mob_name(zone_name, mob_name)
-    result = nil
+    found_mob = nil
     Mob.find_all_by_name(mob_name).each do |mob|
       mob.zones.each do |zone|
-        if zone.name == zone_name
-          result = mob
-        end
+        found_mob ||= mob if zone.name.eql? zone_name
       end
     end
-    result
+    found_mob
   end
 end

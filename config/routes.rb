@@ -2,10 +2,28 @@ RaidsPerLoot::Application.routes.draw do
 
   resources :mobs
   resources :items
-  resources :players
-  resources :raids
+  resources :players do
+    collection do
+      get :raids
+    end
+  end
+
+  resources :raids do
+    collection do
+      get :players
+    end
+    member do
+      put :add_player
+    end
+  end
+
+  resources :zones do
+    collection do
+      get :raids
+    end
+  end
+
   resources :archetypes
-  resources :zones
   resources :pages
   resources :users
   resources :loot_types
@@ -96,7 +114,7 @@ RaidsPerLoot::Application.routes.draw do
   #     resources :products
   #   end
 
-#  match '/view_page/:name', :controller => 'viewer', :action => 'show'
+  #  match '/view_page/:name', :controller => 'viewer', :action => 'show'
   match ':name' => 'viewer#show', :as => :view_page
 
   # You can have the root of your site routed with "root"
