@@ -13,7 +13,7 @@ Feature: Manage drops
     And I fill in "Player name" with "player_name 1"
     And I fill in "Item name" with "item_name 1"
     And I fill in "Eq2 item" with "eq2_item_id 1"
-    And I select "09/16/2011 20:15:00" as the "Drop time" date and time
+    And I select "16/09/2011 20:15:00" as the "Drop time" date and time
     And I press "Create"
     Then I should see "zone_name 1"
     And I should see "mob_name 1"

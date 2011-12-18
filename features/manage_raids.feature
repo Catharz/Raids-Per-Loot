@@ -12,9 +12,9 @@ Feature: Manage raids
   Scenario: Register new raid
     Given I am on the new raid page
     When I select "zone_name 1" from "raid_zone_id"
-    And I select "09/19/2011" as the "Raid date" date
-    And I select "09/19/2011 20:00:00" as the "Start time" date and time
-    And I select "09/19/2011 22:30:00" as the "End time" date and time
+    And I select "19/09/2011" as the "Raid date" date
+    And I select "19/09/2011 20:00:00" as the "Start time" date and time
+    And I select "19/09/2011 22:30:00" as the "End time" date and time
     And I press "Create"
     Then I should see "zone_name 1"
     And I should see "2011-09-19"
@@ -25,9 +25,9 @@ Feature: Manage raids
   Scenario: A raid cannot end before it starts
     Given I am on the new raid page
     When I select "zone_name 1" from "raid_zone_id"
-    And I select "09/19/2011" as the "Raid date" date
-    And I select "09/19/2011 22:30:00" as the "Start time" date and time
-    And I select "09/19/2011 20:00:00" as the "End time" date and time
+    And I select "19/09/2011" as the "Raid date" date
+    And I select "19/09/2011 22:30:00" as the "Start time" date and time
+    And I select "19/09/2011 20:00:00" as the "End time" date and time
     And I press "Create"
     Then I should see "Raid must start before it ends"
     And I should not see "Raid was successfully created"
@@ -38,9 +38,9 @@ Feature: Manage raids
       |zone_name 1|2011-09-18|2011-09-18 15:00:00 +1000|2011-09-18 18:00:00 +1000|
     When I am on the new raid page
     And I select "zone_name 1" from "raid_zone_id"
-    And I select "09/18/2011" as the "Raid date" date
-    And I select "09/18/2011 16:30:00" as the "Start time" date and time
-    And I select "09/18/2011 19:00:00" as the "End time" date and time
+    And I select "18/09/2011" as the "Raid date" date
+    And I select "18/09/2011 16:30:00" as the "Start time" date and time
+    And I select "18/09/2011 19:00:00" as the "End time" date and time
     And I press "Create"
     Then I should see "Two raids cannot run simultaneously"
     And I should not see "Raid was successfully created"
