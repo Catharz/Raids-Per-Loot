@@ -1,34 +1,65 @@
 RaidsPerLoot::Application.routes.draw do
 
-  resources :mobs
-  resources :items
-  resources :players do
-    collection do
-      get :raids
-    end
-  end
 
   resources :raids do
-    collection do
-      get :players
-    end
+    resources :drops
+    resources :players
     member do
       put :add_player
+      get :player_list
     end
   end
 
   resources :zones do
-    collection do
-      get :raids
+    resources :raids
+    resources :mobs
+    resource :drops
+    member do
+      put :add_mob
+      get :mob_list
     end
   end
 
-  resources :archetypes
+  resources :mobs do
+    resources :drops
+    resources :zones
+  end
+  resources :items do
+    resources :drops
+  end
+
+  resources :players do
+    resources :raids
+    resources :drops
+  end
+
+  resources :archetypes do
+    resources :players
+  end
+  resources :ranks do
+    resources :players
+  end
+  resources :loot_types do
+    resources :items
+  end
+  resources :slots do
+    resources :items
+  end
+
+  match '/drops/:id/assign_loot' => "drops#assign_loot"
+  match '/drops/:id/unassign_loot' => "drops#unassign_loot"
+  resources :drops do
+    member do
+      put :assign_loot
+      put :unassign_loot
+    end
+    collection do
+      put :upload_drop
+    end
+  end
+
   resources :pages
   resources :users
-  resources :loot_types
-  resources :ranks
-  resources :slots
   resources :link_categories
 
   resources :links do
@@ -36,15 +67,6 @@ RaidsPerLoot::Application.routes.draw do
       get :list
     end
   end
-
-  resources :drops do
-    member do
-      get :assign_loot
-      get :unassign_loot
-    end
-  end
-
-  match '/upload_drop' => 'drops#upload', :as => :upload_drop
 
   resource :session, :only => [:new, :create, :destroy]
 
@@ -120,12 +142,12 @@ RaidsPerLoot::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   # root :to => 'welcome#index'
-  root :to => 'viewer#show', :name => 'home'
+  root :to => 'viewer#show'
 
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
 
-  match ':controller(/:action(/:id(.:format)))'
+  #match ':controller(/:action(/:id(.:format)))'
 end

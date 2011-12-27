@@ -6,21 +6,32 @@ class RaidsController < ApplicationController
     @pagetitle = "Raids"
   end
 
-  def players
-    @raid = Raid.find(params[:id], :include => [:players])
-    render :xml => @raid.players.to_xml(:include => [:raids])
-  end
-
   def add_player
     @raid = Raid.find(params[:id])
     player = Player.find(params[:player_id])
-    @raid.players << player
-    player.raids << @raid
+
+    @raid.players << player unless @raid.players.include? player
+    respond_to do |format|
+      if @raid.save
+        format.html { redirect_to @raid, :notice => 'Player was successfully added to the raid.' }
+        format.json { head :ok }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.json { render :json => @raid.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @raid.errors, :status => :unprocessable_entity }
+      end
+    end
   end
 
-  def zone
-    @raid = Raid.find(params[:id], :include => :zone)
-    render :xml => Zone.find(@raid.zone_id).to_xml(:include => [:raids])
+  def player_list
+    @raid = Raid.find(params[:id])
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @raid.players }
+      format.xml  { render :xml => @raid.players }
+    end
   end
 
   # GET /raids
@@ -43,7 +54,7 @@ class RaidsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @raid }
-      format.xml  { render :xml => @raid.to_xml(:include => :players) }
+      format.xml  { render :xml => @raid.to_xml(:include => [:drops]) }
     end
   end
 

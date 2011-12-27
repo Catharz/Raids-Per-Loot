@@ -24,8 +24,8 @@
         <td><%= drop.mob_name %></td>
         <td><%= drop.player_name %></td>
         <td>
-          <% if drop.item_url %>
-              <a href="<%= drop.item_url %>"><%= drop.item_name %></a>
+          <% if drop.info_url %>
+              <a href="<%= drop.info_url %>"><%= drop.item_name %></a>
           <% else %>
               <%= drop.item_name %>
           <% end %>

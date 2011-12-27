@@ -45,14 +45,22 @@ class DropsController < ApplicationController
     @drop = Drop.find(params[:id])
   end
 
-  # GET /drops/upload
+  # Put /drops/upload
   def upload
-    zone_name = params[:zoneName]
-    mob_name = params[:mobName]
-    player_name = params[:playerName]
-    item_name = params[:itemName]
-    eq2_item_id = params[:eq2ItemId]
-    drop_time_string = params[:dropTime]
+    zone_name = params[:zone_name]
+    mob_name = params[:mob_name]
+    player_name = params[:player_name]
+    item_name = params[:item_name]
+    eq2_item_id = params[:eq2_item_id]
+    drop_time_string = params[:drop_time_string]
+
+    loot_type_name = nil
+    matching_items = Item.find_all_by_name(item_name)
+    unless matching_items.empty?
+      loot_type = LootType(matching_items[0].loot_type_id)
+      loot_type_name = loot_type.name
+    end
+
     drop_time = DateTime.now
     drop_time = DateTime.strptime(drop_time_string, "%d/%m/%Y %I:%M:%S %p") unless drop_time_string.nil?
     drop_time = DateTime.now unless !drop_time.nil?
@@ -61,7 +69,8 @@ class DropsController < ApplicationController
                      :player_name => player_name,
                      :item_name => item_name,
                      :eq2_item_id => eq2_item_id,
-                     :drop_time => drop_time)
+                     :drop_time => drop_time,
+                     :loot_type_name => loot_type_name)
 
     respond_to do |format|
       if @drop.save

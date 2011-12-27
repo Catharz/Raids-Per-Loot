@@ -1,9 +1,22 @@
 class ZonesController < ApplicationController
   before_filter :login_required
 
-  def raids
-    @zone = Zone.find(params[:id], :include => [:raids])
-    render :xml => @zone.raids.to_xml(:include => [:zone])
+  def add_mob
+    @zone = Zone.find(params[:id])
+    mob = Mob.find(params[:mob_id])
+
+    @zone.mobs << mob unless @zone.mobs.include? mob
+    respond_to do |format|
+      if @zone.save
+        format.html { redirect_to @zone, :notice => 'Mob was successfully added to the zone.' }
+        format.json { head :ok }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.json { render :json => @zone.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @zone.errors, :status => :unprocessable_entity }
+      end
+    end
   end
 
   # GET /zones
@@ -13,6 +26,7 @@ class ZonesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+      format.json { render :json => @zones }
       format.xml  { render :xml => @zones }
     end
   end
@@ -24,7 +38,8 @@ class ZonesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @zone }
+      format.json { render :json => @zone}
+      format.xml  { render :xml => @zone.to_xml( :include => [:raids] ) }
     end
   end
 
@@ -35,6 +50,7 @@ class ZonesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
+      format.json  { render :json => @zone }
       format.xml  { render :xml => @zone }
     end
   end
@@ -52,9 +68,11 @@ class ZonesController < ApplicationController
     respond_to do |format|
       if @zone.save
         format.html { redirect_to(@zone, :notice => 'Zone was successfully created.') }
+        format.json  { render :json => @zone, :status => :created, :location => @zone }
         format.xml  { render :xml => @zone, :status => :created, :location => @zone }
       else
         format.html { render :action => "new" }
+        format.json  { render :json => @zone.errors, :status => :unprocessable_entity }
         format.xml  { render :xml => @zone.errors, :status => :unprocessable_entity }
       end
     end
@@ -68,9 +86,11 @@ class ZonesController < ApplicationController
     respond_to do |format|
       if @zone.update_attributes(params[:zone])
         format.html { redirect_to(@zone, :notice => 'Zone was successfully updated.') }
+        format.json  { head :ok }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
+        format.json  { render :json => @zone.errors, :status => :unprocessable_entity }
         format.xml  { render :xml => @zone.errors, :status => :unprocessable_entity }
       end
     end

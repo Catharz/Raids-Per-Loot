@@ -10,11 +10,12 @@ class Player < ActiveRecord::Base
   has_many :drops
 
   validates_presence_of :name
+  validates_uniqueness_of :name
 
   def loot_rate(loot_type)
     num_drops = 0
     drops.each do |drop|
-      if drop.item.loot_type && (drop.item.loot_type.name.eql? loot_type)
+      if drop.loot_type_name && (drop.loot_type_name.eql? loot_type)
         num_drops += 1
       end
     end

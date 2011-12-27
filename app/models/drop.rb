@@ -8,8 +8,9 @@ class Drop < ActiveRecord::Base
   belongs_to :item
 
   validates_presence_of :zone_name, :mob_name, :item_name, :player_name, :drop_time
-  validates_uniqueness_of :zone_name, :mob_name, :item_name, :player_name, :drop_time
-  validates_with DropValidator, :on => :update
+  validates_uniqueness_of :drop_time, :scope => [:zone_name, :mob_name, :item_name, :player_name]
+  validates_associated :zone, :mob, :player, :item, :raid, :on => :update, :message => "Must Exist!"
+#  validates_with DropValidator, :on => :update
 
   def assign_loot
     raid = Raid.find_by_zone_and_time(zone_name, drop_time)
@@ -45,7 +46,7 @@ class Drop < ActiveRecord::Base
       result = false
     end
 
-    result
+    result and save
   end
 
   def unassign_loot
@@ -61,6 +62,7 @@ class Drop < ActiveRecord::Base
     player.drops.delete(self) unless player.nil?
     item.drops.delete(self) unless item.nil?
     self.assigned_to_player = false
-    true
+    self.raid_id, self.zone_id, self.mob_id, self.player_id, self.item_id = nil
+    self.save
   end
 end

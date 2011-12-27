@@ -32,19 +32,6 @@ Feature: Manage raids
     Then I should see "Raid must start before it ends"
     And I should not see "Raid was successfully created"
 
-  Scenario: Two raids cannot run simultaneously
-    Given the following raids:
-      |zone_name|raid_date|start_time|end_time|
-      |zone_name 1|2011-09-18|2011-09-18 15:00:00 +1000|2011-09-18 18:00:00 +1000|
-    When I am on the new raid page
-    And I select "zone_name 1" from "raid_zone_id"
-    And I select "18/09/2011" as the "Raid date" date
-    And I select "18/09/2011 16:30:00" as the "Start time" date and time
-    And I select "18/09/2011 19:00:00" as the "End time" date and time
-    And I press "Create"
-    Then I should see "Two raids cannot run simultaneously"
-    And I should not see "Raid was successfully created"
-
   Scenario: Delete raid
     Given the following raids:
       |zone_name|raid_date|start_time|end_time|

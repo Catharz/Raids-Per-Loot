@@ -20,19 +20,20 @@ class Raid < ActiveRecord::Base
   end
 
   def self.find_by_zone_and_time(zone_name, raid_time)
-    raid = Raid.find_by_time(raid_time)
-    if raid and raid.zone_name == zone_name
-      raid
+    found_raid = nil
+    raid_list = Raid.find_by_time(raid_time)
+    raid_list.each do |raid|
+      found_raid = raid if raid.zone_name.eql? zone_name
     end
+    found_raid
   end
 
   def self.find_by_time(raid_time)
-    result = nil
+    result = Array.new
     Raid.find_all_by_raid_date(raid_time.to_date).each do |raid|
       if raid.start_time <= raid_time
-        if raid.end_time >= raid_time or raid.end_time.nil?
-          result = raid
-          break
+        if raid.end_time.nil? or raid.end_time >= raid_time
+          result << raid
         end
       end
     end

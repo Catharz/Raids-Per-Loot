@@ -1,4 +1,24 @@
 class MobsController < ApplicationController
+
+  def add_zone
+    zone = Zone.find(params[:zone_id])
+    @mob = Mob.find(params[:id])
+
+    @mob.zones << zone unless @mob.zones.include? zone
+    respond_to do |format|
+      if @mob.save
+        format.html { redirect_to @mob, :notice => 'Zone was successfully added to the mob.' }
+        format.json { head :ok }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.json { render :json => @mob.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @mob.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+
   # GET /mobs
   # GET /mobs.json
   def index

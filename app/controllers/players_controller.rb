@@ -6,28 +6,51 @@ class PlayersController < ApplicationController
     @pagetitle = "Players"
   end
 
-  def raids
-    @player = Player.find(params[:id], :include => [:raids])
-    render :xml => @player.raids.to_xml(:include => [:raids])
-  end
-
   # GET /players
   # GET /players.json
   def index
-    archetype = Archetype.find_by_name(params[:archetype])
-    sort = params[:sort]
-    if archetype
-      @pagetitle = "Listing " + archetype.name + " Players"
-      @players = Player.find_by_archetype(archetype)
-    else
-      @pagetitle = "Listing All Players"
-      @players = Player.all
+    @players = Array.new
+    raid_players = Array.new
+    archetype_players = Array.new
+
+    unless params[:raid_id].nil?
+      raid = Raid.find(params[:raid_id])
+      raid_players += raid.players if raid
     end
+
+    archetype = nil
+    unless params[:archetype_id].nil?
+      archetype = Archetype.find_by_parent_class_id(params[:archetype_id]) if params[:archetype_id]
+      archetype_players += Player.find_by_archetype(archetype) if archetype
+    end
+
+
+    if params[:archetype_id] and params[:raid_id]
+      @players += archetype_players
+      @players.reject! { |player| !raid_players.include? player }
+      @pagetitle = "Listing " + archetype.name + " Participants"
+    elsif params[:raid_id]
+      @players += raid_players
+      @pagetitle = "Listing All Participants"
+    elsif params[:archetype_id]
+      @players += archetype_players
+      @pagetitle = "Listing " + archetype.name + " Players"
+    else
+      @players = Player.all
+      @pagetitle = "Listing All Players"
+    end
+
+
+    sort = params[:sort]
     if !sort
-      @players.sort! { |a,b| a.name <=> b.name }
+      @players.sort! do |a, b|
+        a.name <=> b.name
+      end
     else
       # NOTE: This is a reverse sort, as we want the higher rates at the top
-      @players.sort! { |a,b| b.loot_rate(sort) <=> a.loot_rate(sort) }
+      @players.sort! do |a, b|
+        b.loot_rate(sort) <=> a.loot_rate(sort)
+      end
     end
 
     respond_to do |format|
@@ -37,37 +60,37 @@ class PlayersController < ApplicationController
     end
   end
 
-  # GET /players/1
-  # GET /players/1.json
+# GET /players/1
+# GET /players/1.json
   def show
     @player = Player.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @player }
-      format.xml { render :xml => @player.to_xml(:include => [:raids]) }
+      format.xml { render :xml => @player.to_xml( :include => :drops ) }
     end
   end
 
-  # GET /players/new
-  # GET /players/new.json
+# GET /players/new
+# GET /players/new.json
   def new
     @player = Player.new
 
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @player }
-      format.xml { render :xml => @player.to_xml(:include => [:raids]) }
+      format.xml { render :xml => @player }
     end
   end
 
-  # GET /players/1/edit
+# GET /players/1/edit
   def edit
     @player = Player.find(params[:id])
   end
 
-  # POST /players
-  # POST /players.json
+# POST /players
+# POST /players.json
   def create
     @player = Player.new(params[:player])
 
@@ -84,8 +107,8 @@ class PlayersController < ApplicationController
     end
   end
 
-  # PUT /players/1
-  # PUT /players/1.json
+# PUT /players/1
+# PUT /players/1.json
   def update
     @player = Player.find(params[:id])
 
@@ -102,8 +125,8 @@ class PlayersController < ApplicationController
     end
   end
 
-  # DELETE /players/1
-  # DELETE /players/1.json
+# DELETE /players/1
+# DELETE /players/1.json
   def destroy
     @player = Player.find(params[:id])
     @player.destroy

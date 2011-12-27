@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111217120221) do
+ActiveRecord::Schema.define(:version => 20111227004437) do
 
   create_table "archetypes", :force => true do |t|
     t.string   "name"
@@ -39,7 +39,9 @@ ActiveRecord::Schema.define(:version => 20111217120221) do
     t.integer  "player_id"
     t.integer  "item_id"
     t.boolean  "assigned_to_player"
-    t.string   "item_url"
+    t.string   "info_url"
+    t.string   "loot_type_name"
+    t.integer  "loot_type_id"
   end
 
   create_table "items", :force => true do |t|
