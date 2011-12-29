@@ -1,6 +1,5 @@
 RaidsPerLoot::Application.routes.draw do
 
-
   resources :raids do
     resources :drops
     resources :players
@@ -13,7 +12,7 @@ RaidsPerLoot::Application.routes.draw do
   resources :zones do
     resources :raids
     resources :mobs
-    resource :drops
+    resources :drops
     member do
       put :add_mob
       get :mob_list
@@ -26,6 +25,7 @@ RaidsPerLoot::Application.routes.draw do
   end
   resources :items do
     resources :drops
+    resources :archetypes
   end
 
   resources :players do
@@ -35,6 +35,7 @@ RaidsPerLoot::Application.routes.draw do
 
   resources :archetypes do
     resources :players
+    resources :items
   end
   resources :ranks do
     resources :players
@@ -49,6 +50,8 @@ RaidsPerLoot::Application.routes.draw do
   match '/drops/:id/assign_loot' => "drops#assign_loot"
   match '/drops/:id/unassign_loot' => "drops#unassign_loot"
   resources :drops do
+    resources :raids
+    resources :players
     member do
       put :assign_loot
       put :unassign_loot
@@ -58,10 +61,9 @@ RaidsPerLoot::Application.routes.draw do
     end
   end
 
-  resources :pages
   resources :users
+  resources :pages
   resources :link_categories
-
   resources :links do
     collection do
       get :list

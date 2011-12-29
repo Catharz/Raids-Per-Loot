@@ -10,7 +10,14 @@ class DropsController < ApplicationController
   # GET /drops.xml
   def index
     @drops = Drop.all
-    @drops.sort! { |a, b| b.drop_time <=> a.drop_time }
+
+    @drops.reject! { |drop| !drop.raid_id.eql? params[:raid_id].to_i } if params[:raid_id]
+    @drops.reject! { |drop| !drop.player_id.eql? params[:player_id].to_i } if params[:player_id]
+    @drops.reject! { |drop| !drop.mob_id.eql? params[:mob_id].to_i } if params[:mob_id]
+    @drops.reject! { |drop| !drop.zone_id.eql? params[:zone_id].to_i } if params[:zone_id]
+    @drops.reject! { |drop| !drop.item_id.eql? params[:item_id].to_i } if params[:item_id]
+
+    @drops.sort! { |a, b| b.drop_time <=> a.drop_time } unless @drops.empty?
 
     respond_to do |format|
       format.html # index.html.erb

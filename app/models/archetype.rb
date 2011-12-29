@@ -1,8 +1,9 @@
 class Archetype < ActiveRecord::Base
-  require 'archetype_validator'
+  require File.dirname(__FILE__) + '/../../app/validators/archetype_validator'
   validates_presence_of :name
   validates_uniqueness_of :name
   has_and_belongs_to_many :items
+  has_many :players
   validates_with ArchetypeValidator
 
   has_many :sub_classes, :class_name => 'Archetype', :foreign_key => 'parent_class_id'
@@ -14,7 +15,7 @@ class Archetype < ActiveRecord::Base
 
   # This only handles a depth of 4 classes, which is more than enough for EQ2!
   def self.find_all_children(first_class)
-    archetypes = Array(first_class)
+    archetypes = [first_class]
     first_class.sub_classes.each do |second_class|
       archetypes << second_class
       second_class.sub_classes.each do |third_class|
@@ -39,5 +40,17 @@ class Archetype < ActiveRecord::Base
       end
     end
     return base_classes.flatten
+  end
+
+  def to_xml(options = {})
+    to_xml_opts = {}
+    # a builder instance is provided when to_xml is called on a collection of instructors,
+    # in which case you would not want to have <?xml ...?> added to each item
+    to_xml_opts.merge!(options.slice(:builder, :skip_instruct))
+    to_xml_opts[:root] ||= "archetype"
+    xml_attributes = self.attributes
+    xml_attributes["players"] = self.players
+    xml_attributes["items"] = self.items
+    xml_attributes.to_xml(to_xml_opts)
   end
 end

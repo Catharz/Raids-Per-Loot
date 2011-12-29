@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + '/../../app/models/archetype'
+
 class PlayersController < ApplicationController
   before_filter :login_required, :except => [:index, :show]
   before_filter :set_pagetitle
@@ -9,37 +11,23 @@ class PlayersController < ApplicationController
   # GET /players
   # GET /players.json
   def index
-    @players = Array.new
-    raid_players = Array.new
-    archetype_players = Array.new
+    @players = Player.all
 
-    unless params[:raid_id].nil?
-      raid = Raid.find(params[:raid_id])
-      raid_players += raid.players if raid
-    end
+    parent_archetype = Archetype.find(params[:archetype_id].to_i) unless params[:archetype_id].nil?
+    @players.reject! { |player| !player.raids.find_by_id(params[:raid_id].to_i) } if params[:raid_id]
+    @players.reject! { |player| player.archetype_id.nil? or !Archetype.find_all_children(parent_archetype).include? Archetype.find(player.archetype_id) } if params[:archetype_id]
+    @players.reject! { |player| player.rank_id.nil? or !player.rank_id.eql? params[:rank_id].to_i } if params[:rank_id]
 
-    archetype = nil
-    unless params[:archetype_id].nil?
-      archetype = Archetype.find_by_parent_class_id(params[:archetype_id]) if params[:archetype_id]
-      archetype_players += Player.find_by_archetype(archetype) if archetype
-    end
-
-
-    if params[:archetype_id] and params[:raid_id]
-      @players += archetype_players
-      @players.reject! { |player| !raid_players.include? player }
-      @pagetitle = "Listing " + archetype.name + " Participants"
-    elsif params[:raid_id]
-      @players += raid_players
-      @pagetitle = "Listing All Participants"
-    elsif params[:archetype_id]
-      @players += archetype_players
-      @pagetitle = "Listing " + archetype.name + " Players"
+    if params[:archetype_id]
+      @pagetitle = "Listing #{parent_archetype.name} "
     else
-      @players = Player.all
-      @pagetitle = "Listing All Players"
+      @pagetitle = "Listing All "
     end
-
+    if params[:raid_id]
+      @pagetitle = "#{@pagetitle} Participants"
+    else
+      @pagetitle = "#{@pagetitle} Players"
+    end
 
     sort = params[:sort]
     if !sort
@@ -56,7 +44,7 @@ class PlayersController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @players }
-      format.xml { render :xml => @players }
+      format.xml { render :xml => @players.to_xml(:include => [:raids, :drops]) }
     end
   end
 
@@ -68,7 +56,7 @@ class PlayersController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @player }
-      format.xml { render :xml => @player.to_xml( :include => :drops ) }
+      format.xml { render :xml => @player.to_xml(:include => [:raids, :drops]) }
     end
   end
 

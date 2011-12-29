@@ -39,10 +39,13 @@ class RaidsController < ApplicationController
   def index
     @raids = Raid.all
 
+    @raids.reject! { |raid| !raid.zone_id.eql? params[:zone_id].to_i } if params[:zone_id]
+    @raids.reject! { |raid| !raid.drops.include? Drop.find(params[:drop_id].to_i) } if params[:drop_id]
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @raids }
-      format.xml  { render :xml => @raids }
+      format.xml  { render :xml => @raids.to_xml( :include => [:players, :drops] ) }
     end
   end
 
@@ -54,7 +57,7 @@ class RaidsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @raid }
-      format.xml  { render :xml => @raid.to_xml(:include => [:drops]) }
+      format.xml  { render :xml => @raid.to_xml(:include => [:players, :drops]) }
     end
   end
 

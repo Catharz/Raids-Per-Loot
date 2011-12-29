@@ -4,6 +4,7 @@ class Raid < ActiveRecord::Base
   has_many :drops
   belongs_to :zone
   has_and_belongs_to_many :players
+  accepts_nested_attributes_for :players, :drops
 
   validates_with RaidValidator
 
@@ -38,5 +39,17 @@ class Raid < ActiveRecord::Base
       end
     end
     result
+  end
+
+  def to_xml(options = {})
+    to_xml_opts = {}
+    # a builder instance is provided when to_xml is called on a collection of instructors,
+    # in which case you would not want to have <?xml ...?> added to each item
+    to_xml_opts.merge!(options.slice(:builder, :skip_instruct))
+    to_xml_opts[:root] ||= "raid"
+    xml_attributes = self.attributes
+    xml_attributes["players"] = self.players
+    xml_attributes["drops"] = self.drops
+    xml_attributes.to_xml(to_xml_opts)
   end
 end

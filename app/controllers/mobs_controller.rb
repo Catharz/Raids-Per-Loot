@@ -24,10 +24,12 @@ class MobsController < ApplicationController
   def index
     @mobs = Mob.all
 
+    @mobs.reject! { |mob| !mob.zones.find_by_id(params[:zone_id].to_i) } if params[:zone_id]
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @mobs }
-      format.xml { render :xml => @mobs }
+      format.xml { render :xml => @mobs.to_xml( :include => [:zones, :drops] ) }
     end
   end
 
@@ -39,7 +41,7 @@ class MobsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @mob }
-      format.xml { render :xml => @mob }
+      format.xml { render :xml => @mob.to_xml(:include => [:zones, :drops]) }
     end
   end
 

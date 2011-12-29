@@ -6,7 +6,7 @@ class RanksController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @ranks }
+      format.xml  { render :xml => @ranks.to_xml( :include => [:players] ) }
     end
   end
 
@@ -17,7 +17,7 @@ class RanksController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @rank }
+      format.xml  { render :xml => @rank.to_xml( :include => [:players] ) }
     end
   end
 

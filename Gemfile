@@ -29,6 +29,7 @@ end
 # Deply with Heroku
 group :development, :test do
 	gem 'heroku'
+  gem 'taps'
 
 	# To use debugger
 	#gem 'ruby-debug'

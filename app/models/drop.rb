@@ -1,7 +1,7 @@
 class Drop < ActiveRecord::Base
   require 'drop_validator'
 
-  has_one :raid
+  belongs_to :raid
   belongs_to :zone
   belongs_to :mob
   belongs_to :player
@@ -64,5 +64,15 @@ class Drop < ActiveRecord::Base
     self.assigned_to_player = false
     self.raid_id, self.zone_id, self.mob_id, self.player_id, self.item_id = nil
     self.save
+  end
+
+  def to_xml(options = {})
+    to_xml_opts = {}
+    # a builder instance is provided when to_xml is called on a collection of instructors,
+    # in which case you would not want to have <?xml ...?> added to each item
+    to_xml_opts.merge!(options.slice(:builder, :skip_instruct))
+    to_xml_opts[:root] ||= "drop"
+    xml_attributes = self.attributes
+    xml_attributes.to_xml(to_xml_opts)
   end
 end

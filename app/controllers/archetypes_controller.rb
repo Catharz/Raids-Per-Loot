@@ -4,6 +4,8 @@ class ArchetypesController < ApplicationController
   def index
     @archetypes = Archetype.all
 
+    @archetypes.reject! { |archetype| !Item.find(params[:item_id].to_i).archetypes.include? archetype } if params[:item_id]
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @archetypes }

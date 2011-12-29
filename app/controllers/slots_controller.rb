@@ -6,7 +6,7 @@ class SlotsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @slots }
+      format.xml  { render :xml => @slots.to_xml( :include => [:items] ) }
     end
   end
 
@@ -17,7 +17,7 @@ class SlotsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @slot }
+      format.xml  { render :xml => @slot.to_xml( :include => [:items] ) }
     end
   end
 
