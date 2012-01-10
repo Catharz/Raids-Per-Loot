@@ -3,6 +3,7 @@
 <table>
   <tr>
     <th>Name</th>
+    <th>Show on Player List</th>
     <th></th>
     <th></th>
     <th></th>
@@ -11,6 +12,7 @@
 <% @loot_types.each do |loot_type| %>
   <tr>
     <td><%= loot_type.name %></td>
+    <td><%= loot_type.show_on_player_list? ? 'YES' : 'NO' %></td>
     <td><%= link_to 'Show', loot_type %></td>
     <td><%= link_to 'Edit', edit_loot_type_path(loot_type) %></td>
     <td><%= link_to 'Destroy', loot_type, :confirm => 'Are you sure?', :method => :delete %></td>

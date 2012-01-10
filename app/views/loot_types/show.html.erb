@@ -4,6 +4,10 @@
   <b>Name:</b>
   <%= @loot_type.name %>
 </p>
+<p>
+  <b>Show On Player List:</b>
+  <%= @loot_type.show_on_player_list? ? 'YES' : 'NO' %>
+</p>
 
 
 <%= link_to 'Edit', edit_loot_type_path(@loot_type) %> |
