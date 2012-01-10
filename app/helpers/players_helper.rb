@@ -9,23 +9,17 @@ module PlayersHelper
     eos
     if !archetype
       Archetype.main_classes.each do |main_class|
-        if raid
-          nav_url = "/raids/#{raid}/players?archetype_id=#{main_class.id}"
-        else
-          nav_url = "/players?archetype_id=#{main_class.id}"
-        end
+        nav_url = "/raids/#{raid}/players?archetype_id=#{main_class.id}" if raid
+        nav_url ||= "/players?archetype_id=#{main_class.id}"
         nav_url = "#{nav_url}&sort=#{sort}" if sort
         nav_text = "#{main_class.name}s"
         result += "<li>#{ link_to nav_text, nav_url}</li>"
       end
     else
-      if raid
-        nav_url = "/raids/#{raid}/players"
-        nav_text = 'All Participants'
-      else
-        nav_url = "/players"
-        nav_text = 'All Players'
-      end
+      nav_url = "/raids/#{raid}/players" if raid
+      nav_text = 'All Participants' if raid
+      nav_url ||= "/players"
+      nav_text ||= 'All Players'
       nav_url = "#{nav_url}?sort=#{sort}" if sort
       result += "<li>#{ link_to nav_text, nav_url}</li>"
     end
