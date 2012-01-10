@@ -42,19 +42,18 @@ module PlayersHelper
     sort = params[:sort]
     headings = ""
     LootType.all.each do |loot_type|
-      heading_text = "#{loot_type.name} Rate"
-      if (sort == loot_type.name)
-        column_heading = "<th>#{heading_text}</th>"
-      else
-        if raid
-          heading_url = "/raids/#{raid}/players?sort=#{loot_type.name}"
+      if loot_type.show_on_player_list?
+        heading_text = "#{loot_type.name} Rate"
+        if (sort == loot_type.name)
+          column_heading = "<th>#{heading_text}</th>"
         else
-          heading_url = "/players?sort=#{loot_type.name}"
+          heading_url = "/raids/#{raid}/players?sort=#{loot_type.name}" if raid
+          heading_url ||= "/players?sort=#{loot_type.name}"
+          heading_url = "#{heading_url}&archetype_id=#{archetype}" if archetype
+          column_heading = "<th>#{link_to heading_text, heading_url}</th>"
         end
-        heading_url = "#{heading_url}&archetype_id=#{archetype}" if archetype
-        column_heading = "<th>#{link_to heading_text, heading_url}</th>"
+        headings += column_heading
       end
-      headings += column_heading
     end
     headings.html_safe
   end
@@ -62,8 +61,8 @@ module PlayersHelper
   def display_loot_rates(player)
     loot_rates = ""
     LootType.all.each do |loot_type|
-       loot_rates += "<td>#{player.loot_rate(loot_type.name)}</td>"
+       loot_rates += "<td align=\"right\">#{player.loot_rate(loot_type.name)}</td>" if loot_type.show_on_player_list?
     end
-    loot_rates
+    loot_rates.html_safe
   end
 end

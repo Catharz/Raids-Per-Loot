@@ -30,10 +30,8 @@
         <% else %>
             <td>Unknown</td>
         <% end %>
-        <td align="center"><%= player.raids.count %></td>
-        <% LootType.all.each do |loot_type| %>
-            <td><%= player.loot_rate(loot_type.name) %></td>
-        <% end %>
+        <td align="right"><%= player.raids.count %></td>
+        <%= display_loot_rates(player) %>
         <td><%= link_to 'Show', player %></td>
         <% if logged_in? %>
             <td><%= link_to 'Edit', edit_player_path(player) %></td>
