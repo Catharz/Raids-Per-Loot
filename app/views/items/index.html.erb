@@ -3,8 +3,6 @@
 <table>
   <tr>
     <th>Name</th>
-    <th>Eq2 item id</th>
-    <th>Info url</th>
     <th>Loot Type</th>
     <th>Slot(s)</th>
     <th>Class(es)</th>
@@ -15,9 +13,7 @@
 
   <% @items.each do |item| %>
       <tr>
-        <td><%= item.name %></td>
-        <td><%= item.eq2_item_id %></td>
-        <td><%= item.info_url %></td>
+        <td><a href="<%= item.info_url %>"><%= item.name %></a></td>
         <% if item.loot_type %>
             <td><%= item.loot_type.name %></td>
         <% else %>
