@@ -1,37 +1,5 @@
 module PlayersHelper
-  def generate_sub_nav(params = {})
-    raid = params[:raid_id]
-    archetype = params[:archetype_id]
-    sort = params[:sort]
-    result = <<-eos
-      <div id='subnav'>
-        <ul>
-    eos
-    if !archetype
-      Archetype.main_classes.each do |main_class|
-        nav_url = "/raids/#{raid}/players?archetype_id=#{main_class.id}" if raid
-        nav_url ||= "/players?archetype_id=#{main_class.id}"
-        nav_url = "#{nav_url}&sort=#{sort}" if sort
-        nav_text = "#{main_class.name}s"
-        result += "<li>#{ link_to nav_text, nav_url}</li>"
-      end
-    else
-      nav_url = "/raids/#{raid}/players" if raid
-      nav_text = 'All Participants' if raid
-      nav_url ||= "/players"
-      nav_text ||= 'All Players'
-      nav_url = "#{nav_url}?sort=#{sort}" if sort
-      result += "<li>#{ link_to nav_text, nav_url}</li>"
-    end
-    result += <<-eos
-        </ul>
-      </div>
-    eos
-    result.html_safe
-  end
-
   def generate_headings(params = {})
-    archetype = params[:archetype_id]
     raid = params[:raid_id]
     sort = params[:sort]
     headings = ""
@@ -43,7 +11,6 @@ module PlayersHelper
         else
           heading_url = "/raids/#{raid}/players?sort=#{loot_type.name}" if raid
           heading_url ||= "/players?sort=#{loot_type.name}"
-          heading_url = "#{heading_url}&archetype_id=#{archetype}" if archetype
           column_heading = "<th>#{link_to heading_text, heading_url}</th>"
         end
         headings += column_heading

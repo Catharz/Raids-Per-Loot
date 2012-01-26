@@ -11,22 +11,15 @@ class PlayersController < ApplicationController
   # GET /players
   # GET /players.json
   def index
-    @players = Player.all
+    @players = Player.all(:include => [:raids, :rank, :drops, :archetype])
 
-    parent_archetype = Archetype.find(params[:archetype_id].to_i) unless params[:archetype_id].nil?
     @players.reject! { |player| !player.raids.find_by_id(params[:raid_id].to_i) } if params[:raid_id]
-    @players.reject! { |player| player.archetype_id.nil? or !Archetype.find_all_children(parent_archetype).include? Archetype.find(player.archetype_id) } if params[:archetype_id]
     @players.reject! { |player| player.rank_id.nil? or !player.rank_id.eql? params[:rank_id].to_i } if params[:rank_id]
 
-    if params[:archetype_id]
-      @pagetitle = "Listing #{parent_archetype.name} "
-    else
-      @pagetitle = "Listing All "
-    end
     if params[:raid_id]
-      @pagetitle = "#{@pagetitle} Participants"
+      @pagetitle = "Listing Participants"
     else
-      @pagetitle = "#{@pagetitle} Players"
+      @pagetitle = "Listing Players"
     end
 
     sort = params[:sort]
@@ -38,6 +31,14 @@ class PlayersController < ApplicationController
       # NOTE: This is a reverse sort, as we want the higher rates at the top
       @players.sort! do |a, b|
         b.loot_rate(sort) <=> a.loot_rate(sort)
+      end
+    end
+
+    @player_archetypes = @players.group_by do |p|
+      if p.archetype.nil?
+        "Unknown"
+      else
+        p.archetype.main_class.name
       end
     end
 

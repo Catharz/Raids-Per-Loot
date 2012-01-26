@@ -1,45 +1,52 @@
-<%= generate_sub_nav(params) %>
 <h1><%= @pagetitle %></h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Rank</th>
-    <th>Main</th>
-    <th>Class</th>
-    <th># Raids</th>
-    <%= generate_headings(params) %>
-    <th></th>
-    <% if logged_in? %>
-        <th></th>
-        <th></th>
-    <% end %>
-  </tr>
+<% @player_archetypes.keys.sort.each do |archetype_name| %>
+    <h3>
+      <%= check_box_tag :"#{pluralize("", archetype_name)}", 1, true, :onclick => "new Effect.toggle('#{archetype_name.downcase}');return true;" %>
+      <%= pluralize("", archetype_name) %>
+    </h3>
+    <div id="<%= archetype_name.downcase %>">
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Rank</th>
+          <th>Main</th>
+          <th>Class</th>
+          <th># Raids</th>
+          <%= generate_headings(params) %>
+          <th></th>
+          <% if logged_in? %>
+              <th></th>
+              <th></th>
+          <% end %>
+        </tr>
 
-  <% @players.each do |player| %>
-      <tr>
-        <td><%= player.name %></td>
-        <% if player.rank_id %>
-            <td><%= player.rank.name %></td>
-        <% else %>
-            <td>Unknown</td>
+        <% @player_archetypes[archetype_name].each do |player| %>
+            <tr>
+              <td><%= player.name %></td>
+              <% if player.rank_id %>
+                  <td><%= player.rank.name %></td>
+              <% else %>
+                  <td>Unknown</td>
+              <% end %>
+              <td><%= player.main_character.name unless player.main_character.nil? %></td>
+              <% if player.archetype %>
+                  <td><%= player.archetype.name %></td>
+              <% else %>
+                  <td>Unknown</td>
+              <% end %>
+              <td align="right"><%= player.raids.count %></td>
+              <%= display_loot_rates(player) %>
+              <td><%= link_to 'Show', player %></td>
+              <% if logged_in? %>
+                  <td><%= link_to 'Edit', edit_player_path(player) %></td>
+                  <td><%= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete %></td>
+              <% end %>
+            </tr>
         <% end %>
-        <td><%= player.main_character.name unless player.main_character.nil? %></td>
-        <% if player.archetype %>
-            <td><%= player.archetype.name %></td>
-        <% else %>
-            <td>Unknown</td>
-        <% end %>
-        <td align="right"><%= player.raids.count %></td>
-        <%= display_loot_rates(player) %>
-        <td><%= link_to 'Show', player %></td>
-        <% if logged_in? %>
-            <td><%= link_to 'Edit', edit_player_path(player) %></td>
-            <td><%= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete %></td>
-        <% end %>
-      </tr>
-  <% end %>
-</table>
+      </table>
+    </div>
+<% end %>
 
 <br/>
 

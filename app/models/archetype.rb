@@ -1,5 +1,6 @@
+require File.dirname(__FILE__) + '/../../app/validators/archetype_validator'
+
 class Archetype < ActiveRecord::Base
-  require File.dirname(__FILE__) + '/../../app/validators/archetype_validator'
   validates_presence_of :name
   validates_uniqueness_of :name
   has_and_belongs_to_many :items
@@ -8,6 +9,15 @@ class Archetype < ActiveRecord::Base
 
   has_many :sub_classes, :class_name => 'Archetype', :foreign_key => 'parent_class_id'
   belongs_to :parent_class, :class_name => 'Archetype', :foreign_key => 'parent_class_id'
+
+
+  def main_class
+    if parent_class.nil?
+      self
+    else
+      parent_class.main_class
+    end
+  end
 
   def self.find_parent(archetype)
     Archetype.find_by_id(archetype.parent_class_id)
