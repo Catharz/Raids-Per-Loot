@@ -1,500 +1,629 @@
-players:
-  columns:
-  - id
-  - name
-  - created_at
-  - updated_at
-  - main_character_id
-  - archetype_id
-  - rank_id
-  records:
-  - - 1
-    - Catharz
-    - '2011-11-26 23:55:55.570017'
-    - '2011-11-26 23:55:55.570017'
-    - !!null
-    - 4
-    - 1
-  - - 2
-    - Furiso
-    - '2011-11-26 23:56:28.386051'
-    - '2011-11-26 23:56:28.386051'
-    - !!null
-    - 10
-    - 1
-  - - 3
-    - Felixs
-    - '2011-11-26 23:57:01.950234'
-    - '2011-11-26 23:57:01.950234'
-    - !!null
-    - 6
-    - 1
-  - - 4
-    - Automatic
-    - '2011-11-26 23:57:44.105910'
-    - '2011-11-26 23:57:44.105910'
-    - !!null
-    - 7
-    - 1
-  - - 5
-    - Oduh
-    - '2011-11-26 23:58:12.665632'
-    - '2011-11-26 23:58:12.665632'
-    - !!null
-    - 10
-    - 1
-  - - 6
-    - Spyce
-    - '2011-11-26 23:59:17.100925'
-    - '2011-11-26 23:59:17.100925'
-    - !!null
-    - 13
-    - 1
-  - - 7
-    - Beodan
-    - '2011-11-27 00:00:09.497198'
-    - '2011-11-27 00:00:09.497198'
-    - !!null
-    - 14
-    - 1
-  - - 8
-    - Ryhino
-    - '2011-11-27 00:00:45.226186'
-    - '2011-11-27 00:00:45.226186'
-    - !!null
-    - 20
-    - 1
-  - - 9
-    - Droagon
-    - '2011-11-27 00:03:07.422612'
-    - '2011-11-27 00:03:07.422612'
-    - !!null
-    - 17
-    - 1
-  - - 10
-    - Blooode
-    - '2011-11-27 00:03:33.059595'
-    - '2011-11-27 00:03:33.059595'
-    - !!null
-    - 19
-    - 1
-  - - 11
-    - Tuvokk
-    - '2011-11-27 00:04:34.100255'
-    - '2011-11-27 00:04:34.100255'
-    - !!null
-    - 13
-    - 1
-  - - 12
-    - Fossil
-    - '2011-11-27 00:05:00.068886'
-    - '2011-11-27 00:05:00.068886'
-    - !!null
-    - 17
-    - 1
-  - - 13
-    - Sipporah
-    - '2011-11-27 00:05:29.787550'
-    - '2011-11-27 00:05:29.787550'
-    - !!null
-    - 17
-    - 1
-  - - 14
-    - Coronary
-    - '2011-11-27 00:06:16.398467'
-    - '2011-11-27 00:06:16.398467'
-    - !!null
-    - 16
-    - 1
-  - - 15
-    - Murdo
-    - '2011-11-27 00:07:13.721852'
-    - '2011-11-27 00:07:13.721852'
-    - !!null
-    - 13
-    - 1
-  - - 16
-    - Veranis
-    - '2011-11-27 00:07:38.189630'
-    - '2011-11-27 00:07:38.189630'
-    - !!null
-    - 14
-    - 1
-  - - 17
-    - Phaydra
-    - '2011-11-27 00:07:59.340883'
-    - '2011-11-27 00:07:59.340883'
-    - !!null
-    - 17
-    - 1
-  - - 18
-    - Destruction
-    - '2011-11-27 00:08:25.356626'
-    - '2011-11-27 00:08:25.356626'
-    - !!null
-    - 19
-    - 1
-  - - 19
-    - Agaris
-    - '2011-11-27 00:15:29.173069'
-    - '2011-11-27 00:15:29.173069'
-    - !!null
-    - 29
-    - 1
-  - - 20
-    - Dalandra
-    - '2011-11-27 00:15:49.755544'
-    - '2011-11-27 00:15:49.755544'
-    - !!null
-    - 29
-    - 1
-  - - 21
-    - Fallaarr
-    - '2011-11-27 00:16:07.833216'
-    - '2011-11-27 00:16:07.833216'
-    - !!null
-    - 23
-    - 1
-  - - 22
-    - Jonuos
-    - '2011-11-27 00:16:45.487605'
-    - '2011-11-27 00:16:45.487605'
-    - !!null
-    - 23
-    - 1
-  - - 23
-    - Leddar
-    - '2011-11-27 00:17:02.056986'
-    - '2011-11-27 00:17:02.056986'
-    - !!null
-    - 29
-    - 1
-  - - 24
-    - Naganty
-    - '2011-11-27 00:17:45.810673'
-    - '2011-11-27 00:37:02.578476'
-    - 55
-    - 30
-    - 2
-  - - 25
-    - Nakhari
-    - '2011-11-27 00:18:12.581553'
-    - '2011-11-27 00:18:12.581553'
-    - !!null
-    - 24
-    - 1
-  - - 26
-    - Purzz
-    - '2011-11-27 00:18:32.245512'
-    - '2011-11-27 00:18:32.245512'
-    - !!null
-    - 26
-    - 1
-  - - 27
-    - Scrubbz
-    - '2011-11-27 00:18:49.187643'
-    - '2011-11-27 00:18:49.187643'
-    - !!null
-    - 26
-    - 1
-  - - 28
-    - Turgin
-    - '2011-11-27 00:19:06.647437'
-    - '2011-11-27 00:19:06.647437'
-    - !!null
-    - 23
-    - 1
-  - - 29
-    - Vandemen
-    - '2011-11-27 00:19:23.342837'
-    - '2011-11-27 00:19:23.342837'
-    - !!null
-    - 23
-    - 1
-  - - 30
-    - Arcz
-    - '2011-11-27 00:20:41.151395'
-    - '2011-11-27 00:20:41.151395'
-    - !!null
-    - 33
-    - 1
-  - - 31
-    - Chiteira
-    - '2011-11-27 00:21:01.329926'
-    - '2011-11-27 00:21:01.329926'
-    - !!null
-    - 34
-    - 1
-  - - 32
-    - Coltinator
-    - '2011-11-27 00:21:17.980834'
-    - '2011-11-27 00:21:17.980834'
-    - !!null
-    - 37
-    - 1
-  - - 33
-    - Larkosis
-    - '2011-11-27 00:21:35.429103'
-    - '2011-11-27 00:21:35.429103'
-    - !!null
-    - 34
-    - 1
-  - - 34
-    - Liandel
-    - '2011-11-27 00:21:51.355508'
-    - '2011-11-27 00:21:51.355508'
-    - !!null
-    - 40
-    - 1
-  - - 35
-    - Mitia
-    - '2011-11-27 00:22:11.669223'
-    - '2011-11-27 00:22:11.669223'
-    - !!null
-    - 36
-    - 1
-  - - 36
-    - Piupiupa
-    - '2011-11-27 00:22:32.595985'
-    - '2011-11-27 00:22:32.595985'
-    - !!null
-    - 36
-    - 1
-  - - 37
-    - Porridge
-    - '2011-11-27 00:22:49.401285'
-    - '2011-11-27 00:22:49.401285'
-    - !!null
-    - 36
-    - 1
-  - - 38
-    - Rhaecula
-    - '2011-11-27 00:23:15.104522'
-    - '2011-11-27 00:23:15.104522'
-    - !!null
-    - 33
-    - 1
-  - - 39
-    - Scarletto
-    - '2011-11-27 00:23:33.733499'
-    - '2011-11-27 00:23:33.733499'
-    - !!null
-    - 33
-    - 1
-  - - 40
-    - Scrot
-    - '2011-11-27 00:23:50.419009'
-    - '2011-11-27 00:23:50.419009'
-    - !!null
-    - 36
-    - 1
-  - - 41
-    - Sormm
-    - '2011-11-27 00:25:16.785872'
-    - '2011-11-27 00:25:16.785872'
-    - 10
-    - 7
-    - 2
-  - - 42
-    - Karsa
-    - '2011-11-27 00:29:24.337745'
-    - '2011-11-27 00:29:24.337745'
-    - 15
-    - 9
-    - 2
-  - - 43
-    - Toryl
-    - '2011-11-27 00:29:53.135726'
-    - '2011-11-27 00:29:53.135726'
-    - 35
-    - 9
-    - 2
-  - - 44
-    - Galwen
-    - '2011-11-27 00:30:19.506127'
-    - '2011-11-27 00:30:19.506127'
-    - 6
-    - 9
-    - 2
-  - - 45
-    - Spockula
-    - '2011-11-27 00:30:44.100390'
-    - '2011-11-27 00:30:44.100390'
-    - 11
-    - 6
-    - 2
-  - - 46
-    - Bamm
-    - '2011-11-27 00:31:05.553282'
-    - '2011-11-27 00:31:05.553282'
-    - 14
-    - 3
-    - 2
-  - - 47
-    - Arcadias
-    - '2011-11-27 00:31:46.295696'
-    - '2011-11-27 00:31:46.295696'
-    - 30
-    - 9
-    - 2
-  - - 48
-    - Khalara
-    - '2011-11-27 00:32:49.684530'
-    - '2011-11-27 00:32:49.684530'
-    - 19
-    - 14
-    - 2
-  - - 49
-    - Bluff
-    - '2011-11-27 00:33:29.284924'
-    - '2011-11-27 00:33:29.284924'
-    - 12
-    - 13
-    - 2
-  - - 50
-    - Hemir
-    - '2011-11-27 00:33:54.576019'
-    - '2011-11-27 00:33:54.576019'
-    - 40
-    - 19
-    - 2
-  - - 51
-    - Sugarr
-    - '2011-11-27 00:34:23.729673'
-    - '2011-11-27 00:34:23.729673'
-    - 25
-    - 19
-    - 2
-  - - 52
-    - Ashandra
-    - '2011-11-27 00:34:54.259412'
-    - '2011-11-27 00:34:54.259412'
-    - 20
-    - 19
-    - 2
-  - - 53
-    - Chucky
-    - '2011-11-27 00:35:31.826307'
-    - '2011-11-27 00:35:31.826307'
-    - 3
-    - 27
-    - 2
-  - - 54
-    - Larky
-    - '2011-11-27 00:35:54.996098'
-    - '2011-11-27 00:35:54.996098'
-    - 33
-    - 26
-    - 2
-  - - 55
-    - Tearanin
-    - '2011-11-27 00:36:35.297332'
-    - '2011-11-27 00:36:35.297332'
-    - !!null
-    - 27
-    - 1
-  - - 56
-    - Oriean
-    - '2011-11-27 00:37:36.015017'
-    - '2011-11-27 00:37:36.015017'
-    - 8
-    - 27
-    - 2
-  - - 57
-    - Brandaide
-    - '2011-11-27 00:37:57.620970'
-    - '2011-11-27 00:37:57.620970'
-    - 9
-    - 23
-    - 2
-  - - 58
-    - Colten
-    - '2011-11-27 00:38:30.119952'
-    - '2011-11-27 00:38:30.119952'
-    - 32
-    - 33
-    - 2
-  - - 59
-    - Minuet
-    - '2011-11-27 00:39:00.498198'
-    - '2011-11-27 00:39:00.498198'
-    - 31
-    - 33
-    - 2
-  - - 60
-    - Murillio
-    - '2011-11-27 00:39:25.414996'
-    - '2011-11-27 00:39:25.414996'
-    - 28
-    - 39
-    - 2
-  - - 61
-    - Therron
-    - '2011-11-27 00:39:55.154327'
-    - '2011-11-27 00:39:55.154327'
-    - 7
-    - 37
-    - 2
-  - - 62
-    - Toshi
-    - '2011-11-27 00:40:16.970353'
-    - '2011-11-27 00:40:16.970353'
-    - 37
-    - 39
-    - 2
-  - - 63
-    - Buffcat
-    - '2011-11-27 00:40:37.180489'
-    - '2011-11-27 00:40:37.180489'
-    - 23
-    - 33
-    - 2
-  - - 64
-    - Radda
-    - '2011-11-27 00:41:01.207064'
-    - '2011-11-27 00:41:01.207064'
-    - 26
-    - 36
-    - 2
-  - - 65
-    - Cailus
-    - '2011-11-27 00:41:31.295388'
-    - '2011-11-27 00:41:31.295388'
-    - 16
-    - 33
-    - 2
-  - - 66
-    - Fellhand
-    - '2011-11-27 00:41:52.520110'
-    - '2011-11-27 00:41:52.520110'
-    - 2
-    - 36
-    - 2
-  - - 67
-    - Fafhrd
-    - '2011-11-27 00:42:17.596690'
-    - '2011-11-27 00:42:17.596690'
-    - 1
-    - 34
-    - 2
-  - - 68
-    - Matrim
-    - '2011-11-27 00:42:38.634044'
-    - '2011-11-27 00:42:38.634044'
-    - 13
-    - 37
-    - 2
-  - - 70
-    - Laments
-    - '2011-12-19 02:30:50.000000'
-    - '2011-12-19 07:38:07.305434'
-    - !!null
-    - 33
-    - 1
-  - - 71
-    - Rattso
-    - '2011-12-19 02:50:28.000000'
-    - '2011-12-19 02:50:28.000000'
-    - !!null
-    - !!null
-    - !!null
+catharz:
+  id:                1
+  name:              Catharz
+  created_at:        '2011-11-26 23:55:55.570017'
+  updated_at:        '2011-11-26 23:55:55.570017'
+  main_character_id: !!null
+  archetype_id:      4
+  rank_id:           1
+
+furiso:
+  id:                2
+  name:              Furiso
+  created_at:        '2011-11-26 23:55:55.570017'
+  updated_at:        '2011-11-26 23:55:55.570017'
+  main_character_id: !!null
+  archetype_id:      10
+  rank_id:           1
+
+felixs:
+  id:                3
+  name:              Felixs
+  created_at:        '2011-11-26 23:57:01.950234'
+  updated_at:        '2011-11-26 23:57:01.950234'
+  main_character_id: !!null
+  archetype_id:      6
+  rank_id:           1
+
+automatic:
+  id:                4
+  name:              Automatic
+  created_at:        '2011-11-26 23:57:44.105910'
+  updated_at:        '2011-11-26 23:57:44.105910'
+  main_character_id: !!null
+  archetype_id:      7
+  rank_id:           1
+
+oduh:
+  id:                5
+  name:              Oduh
+  created_at:        '2011-11-26 23:58:12.665632'
+  updated_at:        '2011-11-26 23:58:12.665632'
+  main_character_id: !!null
+  archetype_id:      10
+  rank_id:           1
+
+spyce:
+  id:                6
+  name:              Spyce
+  created_at:        '2011-11-26 23:59:17.100925'
+  updated_at:        '2011-11-26 23:59:17.100925'
+  main_character_id: !!null
+  archetype_id:      13
+  rank_id:           1
+
+beodan:
+  id:                7
+  name:              Beodan
+  created_at:        '2011-11-27 00:00:09.497198'
+  updated_at:        '2011-11-27 00:00:09.497198'
+  main_character_id: !!null
+  archetype_id:      14
+  rank_id:           1
+
+ryhino:
+  id:                8
+  name:              Ryhino
+  created_at:        '2011-11-27 00:00:45.226186'
+  updated_at:        '2011-11-27 00:00:45.226186'
+  main_character_id: !!null
+  archetype_id:      20
+  rank_id:           1
+
+droagon:
+  id:                9
+  name:              Droagon
+  created_at:        '2011-11-27 00:03:07.422612'
+  updated_at:        '2011-11-27 00:03:07.422612'
+  main_character_id: !!null
+  archetype_id:      17
+  rank_id:           1
+
+blooode:
+  id:                10
+  name:              Blooode
+  created_at:        '2011-11-27 00:03:33.059595'
+  updated_at:        '2011-11-27 00:03:33.059595'
+  main_character_id: !!null
+  archetype_id:      19
+  rank_id:           1
+
+tuvokk:
+  id:                11
+  name:              Tuvokk
+  created_at:        '2011-11-27 00:04:34.100255'
+  updated_at:        '2011-11-27 00:04:34.100255'
+  main_character_id: !!null
+  archetype_id:      13
+  rank_id:           1
+
+fossil:
+  id:                12
+  name:              Fossil
+  created_at:        '2011-11-27 00:05:00.068886'
+  updated_at:        '2011-11-27 00:05:00.068886'
+  main_character_id: !!null
+  archetype_id:      17
+  rank_id:           1
+
+sipporah:
+  id:                13
+  name:              Sipporah
+  created_at:        '2011-11-27 00:05:29.787550'
+  updated_at:        '2011-11-27 00:05:29.787550'
+  main_character_id: !!null
+  archetype_id:      17
+  rank_id:           1
+
+coronary:
+  id:                14
+  name:              Coronary
+  created_at:        '2011-11-27 00:06:16.398467'
+  updated_at:        '2011-11-27 00:06:16.398467'
+  main_character_id: !!null
+  archetype_id:      16
+  rank_id:           1
+
+murdo:
+  id:                15
+  name:              Murdo
+  created_at:        '2011-11-27 00:07:13.721852'
+  updated_at:        '2011-11-27 00:07:13.721852'
+  main_character_id: !!null
+  archetype_id:      13
+  rank_id:           1
+
+veranis:
+  id:                16
+  name:              Veranis
+  created_at:        '2011-11-27 00:07:38.189630'
+  updated_at:        '2011-11-27 00:07:38.189630'
+  main_character_id: !!null
+  archetype_id:      14
+  rank_id:           1
+
+phaydra:
+  id:                17
+  name:              Phaydra
+  created_at:        '2011-11-27 00:07:59.340883'
+  updated_at:        '2011-11-27 00:07:59.340883'
+  main_character_id: !!null
+  archetype_id:      17
+  rank_id:           1
+
+destruction:
+  id:                18
+  name:              Destruction
+  created_at:        '2011-11-27 00:08:25.356626'
+  updated_at:        '2011-11-27 00:08:25.356626'
+  main_character_id: !!null
+  archetype_id:      19
+  rank_id:           1
+
+agaris:
+  id:                19
+  name:              Agaris
+  created_at:        '2011-11-27 00:15:29.173069'
+  updated_at:        '2011-11-27 00:15:29.173069'
+  main_character_id: !!null
+  archetype_id:      29
+  rank_id:           1
+
+dalandra:
+  id:                20
+  name:              Dalandra
+  created_at:        '2011-11-27 00:15:49.755544'
+  updated_at:        '2011-11-27 00:15:49.755544'
+  main_character_id: !!null
+  archetype_id:      29
+  rank_id:           1
+
+fallaarr:
+  id:                21
+  name:              Fallaarr
+  created_at:        '2011-11-27 00:16:07.833216'
+  updated_at:        '2011-11-27 00:16:07.833216'
+  main_character_id: !!null
+  archetype_id:      23
+  rank_id:           1
+
+jonuos:
+  id:                22
+  name:              Jonuos
+  created_at:        '2011-11-27 00:16:45.487605'
+  updated_at:        '2011-11-27 00:16:45.487605'
+  main_character_id: !!null
+  archetype_id:      23
+  rank_id:           1
+
+leddar:
+  id:                23
+  name:              Leddar
+  created_at:        '2011-11-27 00:17:02.056986'
+  updated_at:        '2011-11-27 00:17:02.056986'
+  main_character_id: !!null
+  archetype_id:      29
+  rank_id:           1
+
+naganty:
+  id:                24
+  name:              Naganty
+  created_at:        '2011-11-27 00:17:45.810673'
+  updated_at:        '2011-11-27 00:37:02.578476'
+  main_character_id: 55
+  archetype_id:      30
+  rank_id:           2
+
+nakhari:
+  id:                25
+  name:              Nakhari
+  created_at:        '2011-11-27 00:18:12.581553'
+  updated_at:        '2011-11-27 00:18:12.581553'
+  main_character_id: !!null
+  archetype_id:      24
+  rank_id:           1
+
+purzz:
+  id:                26
+  name:              Purzz
+  created_at:        '2011-11-27 00:18:32.245512'
+  updated_at:        '2011-11-27 00:18:32.245512'
+  main_character_id: !!null
+  archetype_id:      26
+  rank_id:           1
+
+scrubbz:
+  id:                27
+  name:              Scrubbz
+  created_at:        '2011-11-27 00:18:49.187643'
+  updated_at:        '2011-11-27 00:18:49.187643'
+  main_character_id: !!null
+  archetype_id:      26
+  rank_id:           1
+
+turgin:
+  id:                28
+  name:              Turgin
+  created_at:        '2011-11-27 00:19:06.647437'
+  updated_at:        '2011-11-27 00:19:06.647437'
+  main_character_id: !!null
+  archetype_id:      23
+  rank_id:           1
+
+vandemen:
+  id:                29
+  name:              Vandemen
+  created_at:        '2011-11-27 00:19:23.342837'
+  updated_at:        '2011-11-27 00:19:23.342837'
+  main_character_id: !!null
+  archetype_id:      23
+  rank_id:           1
+
+arcz:
+  id:                30
+  name:              Arcz
+  created_at:        '2011-11-27 00:20:41.151395'
+  updated_at:        '2011-11-27 00:20:41.151395'
+  main_character_id: !!null
+  archetype_id:      33
+  rank_id:           1
+
+chiteira:
+  id:                31
+  name:              Chiteira
+  created_at:        '2011-11-27 00:21:01.329926'
+  updated_at:        '2011-11-27 00:21:01.329926'
+  main_character_id: !!null
+  archetype_id:      34
+  rank_id:           1
+
+coltinator:
+  id:                32
+  name:              Coltinator
+  created_at:        '2011-11-27 00:21:17.980834'
+  updated_at:        '2011-11-27 00:21:17.980834'
+  main_character_id: !!null
+  archetype_id:      37
+  rank_id:           1
+
+larkosis:
+  id:                33
+  name:              Larkosis
+  created_at:        '2011-11-27 00:21:35.429103'
+  updated_at:        '2011-11-27 00:21:35.429103'
+  main_character_id: !!null
+  archetype_id:      34
+  rank_id:           1
+
+liandel:
+  id:                34
+  name:              Liandel
+  created_at:        '2011-11-27 00:21:51.355508'
+  updated_at:        '2011-11-27 00:21:51.355508'
+  main_character_id: !!null
+  archetype_id:      40
+  rank_id:           1
+
+mitia:
+  id:                35
+  name:              Mitia
+  created_at:        '2011-11-27 00:22:11.669223'
+  updated_at:        '2011-11-27 00:22:11.669223'
+  main_character_id: !!null
+  archetype_id:      36
+  rank_id:           1
+
+piupiupa:
+  id:                36
+  name:              Piupiupa
+  created_at:        '2011-11-27 00:22:32.595985'
+  updated_at:        '2011-11-27 00:22:32.595985'
+  main_character_id: !!null
+  archetype_id:      36
+  rank_id:           1
+
+porridge:
+  id:                37
+  name:              Porridge
+  created_at:        '2011-11-27 00:22:49.401285'
+  updated_at:        '2011-11-27 00:22:49.401285'
+  main_character_id: !!null
+  archetype_id:      36
+  rank_id:           1
+
+rhaecula:
+  id:                38
+  name:              Rhaecula
+  created_at:        '2011-11-27 00:23:15.104522'
+  updated_at:        '2011-11-27 00:23:15.104522'
+  main_character_id: !!null
+  archetype_id:      33
+  rank_id:           1
+
+scarletto:
+  id:                39
+  name:              Scarletto
+  created_at:        '2011-11-27 00:23:33.733499'
+  updated_at:        '2011-11-27 00:23:33.733499'
+  main_character_id: !!null
+  archetype_id:      33
+  rank_id:           1
+
+scrot:
+  id:                40
+  name:              Scrot
+  created_at:        '2011-11-27 00:23:50.419009'
+  updated_at:        '2011-11-27 00:23:50.419009'
+  main_character_id: !!null
+  archetype_id:      36
+  rank_id:           1
+
+sormm:
+  id:                41
+  name:              Sormm
+  created_at:        '2011-11-27 00:25:16.785872'
+  updated_at:        '2011-11-27 00:25:16.785872'
+  main_character_id: 10
+  archetype_id:      7
+  rank_id:           2
+
+karsa:
+  id:                42
+  name:              Karsa
+  created_at:        '2011-11-27 00:29:24.337745'
+  updated_at:        '2011-11-27 00:29:24.337745'
+  main_character_id: 15
+  archetype_id:      9
+  rank_id:           2
+
+toryl:
+  id:                43
+  name:              Toryl
+  created_at:        '2011-11-27 00:29:53.135726'
+  updated_at:        '2011-11-27 00:29:53.135726'
+  main_character_id: 35
+  archetype_id:      9
+  rank_id:           2
+
+galwen:
+  id:                44
+  name:              Galwen
+  created_at:        '2011-11-27 00:30:19.506127'
+  updated_at:        '2011-11-27 00:30:19.506127'
+  main_character_id: 6
+  archetype_id:      9
+  rank_id:           2
+
+spockula:
+  id:                45
+  name:              Spockula
+  created_at:        '2011-11-27 00:30:44.100390'
+  updated_at:        '2011-11-27 00:30:44.100390'
+  main_character_id: 11
+  archetype_id:      6
+  rank_id:           2
+
+bamm:
+  id:                46
+  name:              Bamm
+  created_at:        '2011-11-27 00:31:05.553282'
+  updated_at:        '2011-11-27 00:31:05.553282'
+  main_character_id: 14
+  archetype_id:      3
+  rank_id:           2
+
+arcadias:
+  id:                47
+  name:              Arcadias
+  created_at:        '2011-11-27 00:31:46.295696'
+  updated_at:        '2011-11-27 00:31:46.295696'
+  main_character_id: 30
+  archetype_id:      9
+  rank_id:           2
+
+khalara:
+  id:                48
+  name:              Khalara
+  created_at:        '2011-11-27 00:32:49.684530'
+  updated_at:        '2011-11-27 00:32:49.684530'
+  main_character_id: 19
+  archetype_id:      14
+  rank_id:           2
+
+bluff:
+  id:                49
+  name:              Bluff
+  created_at:        '2011-11-27 00:33:29.284924'
+  updated_at:        '2011-11-27 00:33:29.284924'
+  main_character_id: 12
+  archetype_id:      13
+  rank_id:           2
+
+hemir:
+  id:                50
+  name:              Hemir
+  created_at:        '2011-11-27 00:33:54.576019'
+  updated_at:        '2011-11-27 00:33:54.576019'
+  main_character_id: 40
+  archetype_id:      19
+  rank_id:           2
+
+sugarr:
+  id:                51
+  name:              Sugarr
+  created_at:        '2011-11-27 00:34:23.729673'
+  updated_at:        '2011-11-27 00:34:23.729673'
+  main_character_id: 25
+  archetype_id:      19
+  rank_id:           2
+
+ashandra:
+  id:                52
+  name:              Ashandra
+  created_at:        '2011-11-27 00:34:54.259412'
+  updated_at:        '2011-11-27 00:34:54.259412'
+  main_character_id: 20
+  archetype_id:      19
+  rank_id:           2
+
+chucky:
+  id:                53
+  name:              Chucky
+  created_at:        '2011-11-27 00:35:31.826307'
+  updated_at:        '2011-11-27 00:35:31.826307'
+  main_character_id: 3
+  archetype_id:      27
+  rank_id:           2
+
+larky:
+  id:                54
+  name:              Larky
+  created_at:        '2011-11-27 00:35:54.996098'
+  updated_at:        '2011-11-27 00:35:54.996098'
+  main_character_id: 33
+  archetype_id:      26
+  rank_id:           2
+
+tearanin:
+  id:                55
+  name:              Tearanin
+  created_at:        '2011-11-27 00:36:35.297332'
+  updated_at:        '2011-11-27 00:36:35.297332'
+  main_character_id: !!null
+  archetype_id:      27
+  rank_id:           1
+
+oriean:
+  id:                56
+  name:              Oriean
+  created_at:        '2011-11-27 00:37:36.015017'
+  updated_at:        '2011-11-27 00:37:36.015017'
+  main_character_id: 8
+  archetype_id:      27
+  rank_id:           2
+
+brandaide:
+  id:                57
+  name:              Brandaide
+  created_at:        '2011-11-27 00:37:57.620970'
+  updated_at:        '2011-11-27 00:37:57.620970'
+  main_character_id: 9
+  archetype_id:      23
+  rank_id:           2
+
+colten:
+  id:                58
+  name:              Colten
+  created_at:        '2011-11-27 00:38:30.119952'
+  updated_at:        '2011-11-27 00:38:30.119952'
+  main_character_id: 32
+  archetype_id:      33
+  rank_id:           2
+
+minuet:
+  id:                59
+  name:              Minuet
+  created_at:        '2011-11-27 00:39:00.498198'
+  updated_at:        '2011-11-27 00:39:00.498198'
+  main_character_id: 31
+  archetype_id:      33
+  rank_id:           2
+
+murillio:
+  id:                60
+  name:              Murillio
+  created_at:        '2011-11-27 00:39:25.414996'
+  updated_at:        '2011-11-27 00:39:25.414996'
+  main_character_id: 28
+  archetype_id:      39
+  rank_id:           2
+
+therron:
+  id:                61
+  name:              Therron
+  created_at:        '2011-11-27 00:39:55.154327'
+  updated_at:        '2011-11-27 00:39:55.154327'
+  main_character_id: 7
+  archetype_id:      37
+  rank_id:           2
+
+toshi:
+  id:                62
+  name:              Toshi
+  created_at:        '2011-11-27 00:40:16.970353'
+  updated_at:        '2011-11-27 00:40:16.970353'
+  main_character_id: 37
+  archetype_id:      39
+  rank_id:           2
+
+buffcat:
+  id:                63
+  name:              Buffcat
+  created_at:        '2011-11-27 00:40:37.180489'
+  updated_at:        '2011-11-27 00:40:37.180489'
+  main_character_id: 23
+  archetype_id:      33
+  rank_id:           2
+
+radda:
+  id:                64
+  name:              Radda
+  created_at:        '2011-11-27 00:41:01.207064'
+  updated_at:        '2011-11-27 00:41:01.207064'
+  main_character_id: 26
+  archetype_id:      36
+  rank_id:           2
+
+cailus:
+  id:                65
+  name:              Cailus
+  created_at:        '2011-11-27 00:41:31.295388'
+  updated_at:        '2011-11-27 00:41:31.295388'
+  main_character_id: 16
+  archetype_id:      33
+  rank_id:           2
+
+fellhand:
+  id:                66
+  name:              Fellhand
+  created_at:        '2011-11-27 00:41:52.520110'
+  updated_at:        '2011-11-27 00:41:52.520110'
+  main_character_id: 2
+  archetype_id:      36
+  rank_id:           2
+
+fafhrd:
+  id:                67
+  name:              Fafhrd
+  created_at:        '2011-11-27 00:42:17.596690'
+  updated_at:        '2011-11-27 00:42:17.596690'
+  main_character_id: 1
+  archetype_id:      34
+  rank_id:           2
+
+matrim:
+  id:                68
+  name:              Matrim
+  created_at:        '2011-11-27 00:42:38.634044'
+  updated_at:        '2011-11-27 00:42:38.634044'
+  main_character_id: 13
+  archetype_id:      37
+  rank_id:           2
+
+laments:
+   id:                70
+   name:              Laments
+   created_at:        '2011-12-19 02:30:50.000000'
+   updated_at:        '2011-12-19 07:38:07.305434'
+   main_character_id: !!null
+   archetype_id:      33
+   rank_id:           1
+
+rattso:
+  id:                71
+  name:              Rattso
+  created_at:        '2011-12-19 02:50:28.000000'
+  updated_at:        '2011-12-19 02:50:28.000000'
+  main_character_id: !!null
+  archetype_id:      !!null
+  rank_id:           !!null
