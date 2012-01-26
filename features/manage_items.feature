@@ -23,7 +23,7 @@ Feature: Manage items
       |name 4|eq2_item_id 4|info_url 4|
     When I delete the 3rd item
     Then I should see the following items:
-      |Name|Eq2 item id|Info url|
-      |name 1|eq2_item_id 1|info_url 1|
-      |name 2|eq2_item_id 2|info_url 2|
-      |name 4|eq2_item_id 4|info_url 4|
+      |Name|
+      |name 1|
+      |name 2|
+      |name 4|
