@@ -19,7 +19,7 @@
     <div class="field">
       <b>Main Character</b>
       <br/>
-      <%= f.collection_select(:main_character_id, Player.all, :id, :name, :include_blank => true) %>
+      <%= f.collection_select(:main_character_id, Player.all(:conditions => {:main_character_id => nil}, :order => :name), :id, :name, :include_blank => true) %>
     </div>
     <div class="field">
       <b>Rank</b>
