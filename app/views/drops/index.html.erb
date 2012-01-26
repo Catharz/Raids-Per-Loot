@@ -60,6 +60,12 @@
 
 <br/>
 
+<div class="digg_pagination">
+  <%= will_paginate @drops, :container => false %>
+</div>
+
+<br/>
+
 <% if logged_in? %>
     <%= link_to 'New Drop', new_drop_path %>
 <% end %>

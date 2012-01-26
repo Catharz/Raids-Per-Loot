@@ -9,7 +9,7 @@ class DropsController < ApplicationController
   # GET /drops
   # GET /drops.xml
   def index
-    @drops = Drop.all
+    @drops = Drop.paginate(:page => params[:page], :per_page => 15)
 
     @drops.reject! { |drop| !drop.raid_id.eql? params[:raid_id].to_i } if params[:raid_id]
     @drops.reject! { |drop| !drop.player_id.eql? params[:player_id].to_i } if params[:player_id]

@@ -36,6 +36,12 @@
 
 <br/>
 
+<div class="digg_pagination">
+  <%= will_paginate @raids, :container => false %>
+</div>
+
+<br/>
+
 <% if logged_in? %>
-<%= link_to 'New Raid', new_raid_path %>
+    <%= link_to 'New Raid', new_raid_path %>
 <% end %>
