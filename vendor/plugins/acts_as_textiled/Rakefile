@@ -1,6 +1,6 @@
 require 'rake'
 require 'rake/testtask'
-require 'rake/rdoctask'
+require 'rdoc/task'
 
 desc 'Generate RDoc documentation for the acts_as_textiled plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|

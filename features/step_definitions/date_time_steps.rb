@@ -1,5 +1,3 @@
-require 'cucumber/rails/capybara/select_dates_and_times'
-
 When /^(?:|I )select "([^\"]*)" as the "([^\"]*)" time$/ do |time, selector|
   select_time(selector, :with => time)
 end
