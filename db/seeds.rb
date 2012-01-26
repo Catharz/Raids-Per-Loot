@@ -183,6 +183,7 @@ end
 
 def create_default_ranks
   Rank.create(:name => 'Main', :priority => 1)
+  Rank.create(:name => 'Associate', :priority => 1)
   Rank.create(:name => 'Raid Alternate', :priority => 2)
   Rank.create(:name => 'General Alternate', :priority => 3)
   Rank.create(:name => 'Non-Member', :priority => 4)
@@ -330,6 +331,7 @@ def create_main_mages
   create_player("Fossil", "Conjuror", rank)
   create_player("Murdo", "Conjuror", rank)
   create_player("Playdra", "Wizard", rank)
+  create_player("Rattso", "Necromancer", rank)
   create_player("Ryhino", "Necromancer", rank)
   create_player("Sipporah", "Conjuror", rank)
   create_player("Spyce", "Coercer", rank)
@@ -344,6 +346,7 @@ def create_main_healers
   create_player("Fallaarr", "Inquisitor", rank)
   create_player("Jonuos", "Inquisitor", rank)
   create_player("Leddar", "Defiler", rank)
+  create_player("Nakhari", "Templar", rank)
   create_player("Purzz", "Fury", rank)
   create_player("Scrubbz", "Fury", rank)
   create_player("Tearanin", "Warden", rank)
