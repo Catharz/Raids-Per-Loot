@@ -22,6 +22,10 @@ class Player < ActiveRecord::Base
     raids.count / (num_drops + 1)
   end
 
+  def calculate_loot_rate(event_count, item_count)
+    event_count / (item_count + 1)
+  end
+
   def self.find_by_archetype(archetype)
     all_players = Player.all(:conditions => ['archetype_id = ?', archetype.id], :order => :name).flatten
 
