@@ -10,9 +10,9 @@ class Archetype < ActiveRecord::Base
   validates_with ArchetypesValidator
 
   # This only handles a depth of 4 classes, which is more than enough for EQ2!
-  def self.descendants(first_class)
-    archetypes = [first_class]
-    first_class.children.each do |second_class|
+  def self.descendants(root_archetype)
+    archetypes = []
+    root_archetype.children.each do |second_class|
       archetypes << second_class
       second_class.children.each do |third_class|
         archetypes << third_class
@@ -21,6 +21,15 @@ class Archetype < ActiveRecord::Base
         end
       end
     end
+    return archetypes.flatten
+  end
+
+  # This only handles a depth of 4 classes, which is more than enough for EQ2!
+  def self.family(root_archetype)
+    archetypes = []
+    archetypes << root_archetype.root unless root_archetype.root.nil?
+    archetypes << root_archetype if archetypes.empty?
+    archetypes << descendants(root_archetype)
     return archetypes.flatten
   end
 
