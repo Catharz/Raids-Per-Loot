@@ -13,7 +13,7 @@
   <tr>
     <td><%= archetype.name %></td>
     <td>
-      <%= archetype.parent_class.name unless archetype.parent_class.nil? %>
+      <%= archetype.parent.name unless archetype.parent.nil? %>
     </td>
     <td><%= link_to 'Show', archetype %></td>
     <td><%= link_to 'Edit', edit_archetype_path(archetype) %></td>

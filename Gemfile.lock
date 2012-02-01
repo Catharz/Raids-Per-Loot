@@ -29,6 +29,7 @@ GEM
       activemodel (= 3.0.3)
       activesupport (= 3.0.3)
     activesupport (3.0.3)
+    acts_as_tree (0.1.1)
     addressable (2.2.6)
     arel (2.0.10)
     builder (2.1.2)
@@ -160,6 +161,7 @@ PLATFORMS
 
 DEPENDENCIES
   RedCloth
+  acts_as_tree (~> 0.1.1)
   cucumber-rails
   database_cleaner
   haml

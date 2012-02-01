@@ -14,6 +14,7 @@ gem 'jquery-rails'
 gem 'in_place_editing'
 gem 'haml'
 gem 'will_paginate'
+gem 'acts_as_tree', '~> 0.1.1'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -27,16 +28,6 @@ end
 # Deploy with Capistrano
 # gem 'capistrano'
 
-# Deply with Heroku
-group :development, :test do
-	gem 'heroku'
-  gem 'taps'
-
-	# To use debugger
-	#gem 'ruby-debug'
-	gem 'ruby-prof'
-end
-
 #START:dev_and_test_gems
 group :test do
   gem "cucumber-rails"
@@ -47,4 +38,14 @@ group :test do
   gem "database_cleaner"
   gem "selenium-client"
   #END_HIGHLIGHT
+end
+
+# Deply with Heroku
+group :development, :test do
+	gem 'heroku'
+  gem 'taps'
+
+	# To use debugger
+	#gem 'ruby-debug'
+	gem 'ruby-prof'
 end

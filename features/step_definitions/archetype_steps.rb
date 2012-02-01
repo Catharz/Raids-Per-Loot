@@ -5,7 +5,7 @@ end
 Given /^I have an archetype named (.+) with a parent named (.+)$/ do |archetype,parent|
   parent_archetype = Archetype.find_by_name(parent)
   parent_archetype = Archetype.create!(:name => parent) unless !parent_archetype.nil?
-  Archetype.create(:name => archetype, :parent_class => parent_archetype)
+  Archetype.create(:name => archetype, :parent => parent_archetype)
 end
 
 When /^I am editing the archetype named (.+)$/ do |archetype|
@@ -14,7 +14,7 @@ When /^I am editing the archetype named (.+)$/ do |archetype|
 end
 
 And /^I set the parent archetype to (\w+)$/ do |parent_archetype|
-  select(parent_archetype, :from => "archetype_parent_class_id")
+  select(parent_archetype, :from => "archetype_parent_id")
 end
 
 And /^I click (.+)$/ do |button|

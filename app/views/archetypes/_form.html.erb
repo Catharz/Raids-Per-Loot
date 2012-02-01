@@ -19,7 +19,7 @@
     <div class="field">
       <%= f.label "Parent Class" %>
       <br/>
-      <%= f.collection_select(:parent_class_id, Archetype.all, :id, :name, :include_blank => true) %>
+      <%= f.collection_select(:parent_id, Archetype.all, :id, :name, :include_blank => true) %>
     </div>
 
     <div class="actions">
