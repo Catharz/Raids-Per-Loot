@@ -192,83 +192,67 @@ end
 def create_fighter_archetypes
   fighter = Archetype.create!(:name => 'Fighter')
 
-  brawler = Archetype.create!(:name => 'Brawler', :parent => fighter)
-  brawler.children << Archetype.create!(:name => 'Bruiser', :parent => brawler)
-  brawler.children << Archetype.create!(:name => 'Monk', :parent => brawler)
+  brawler = fighter.children.create(:name => 'Brawler')
+  brawler.children.create(:name => 'Bruiser')
+  brawler.children.create(:name => 'Monk')
 
-  crusader = Archetype.create!(:name => 'Crusader', :parent => fighter)
-  crusader.children << Archetype.create!(:name => 'Paladin', :parent => crusader)
-  crusader.children << Archetype.create!(:name => 'Shadow Knight', :parent => crusader)
+  crusader = fighter.children.create(:name => 'Crusader')
+  crusader.children.create(:name => 'Paladin')
+  crusader.children.create(:name => 'Shadow Knight')
 
-  warrior = Archetype.create!(:name => 'Warrior', :parent => fighter)
-  warrior.children << Archetype.create!(:name => 'Berserker', :parent => warrior)
-  warrior.children << Archetype.create!(:name => 'Guardian', :parent => warrior)
-
-  fighter.children << brawler
-  fighter.children << crusader
-  fighter.children << warrior
+  warrior = fighter.children.create(:name => 'Warrior')
+  warrior.children.create(:name => 'Berserker')
+  warrior.children.create(:name => 'Guardian')
 end
 
 def create_mage_archetypes
   mage = Archetype.create!(:name => 'Mage')
 
-  enchanter = Archetype.create!(:name => 'Enchanter', :parent => mage)
-  enchanter.children << Archetype.create!(:name => 'Coercer', :parent => enchanter)
-  enchanter.children << Archetype.create!(:name => 'Illusionist', :parent => enchanter)
+  enchanter = mage.children.create(:name => 'Enchanter')
+  enchanter.children.create(:name => 'Coercer')
+  enchanter.children.create(:name => 'Illusionist')
 
-  sorceror = Archetype.create!(:name => 'Sorcerer', :parent => mage)
-  sorceror.children << Archetype.create!(:name => 'Warlock', :parent => sorceror)
-  sorceror.children << Archetype.create!(:name => 'Wizard', :parent => sorceror)
+  sorceror = mage.children.create(:name => 'Sorcerer')
+  sorceror.children.create(:name => 'Warlock')
+  sorceror.children.create(:name => 'Wizard')
 
-  summoner = Archetype.create!(:name => 'Summoner', :parent => mage)
-  summoner.children << Archetype.create!(:name => 'Conjuror', :parent => summoner)
-  summoner.children << Archetype.create!(:name => 'Necromancer', :parent => summoner)
-
-  mage.children << enchanter
-  mage.children << sorceror
-  mage.children << summoner
+  summoner = mage.children.create(:name => 'Summoner')
+  summoner.children.create(:name => 'Conjuror')
+  summoner.children.create(:name => 'Necromancer')
 end
 
 def create_priest_archetypes
   priest = Archetype.create!(:name => 'Priest')
 
-  cleric = Archetype.create!(:name => 'Cleric', :parent => priest)
-  cleric.children << Archetype.create!(:name => 'Inquisitor', :parent => cleric)
-  cleric.children << Archetype.create!(:name => 'Templar', :parent => cleric)
+  cleric = priest.children.create(:name => 'Cleric')
+  cleric.children.create(:name => 'Inquisitor')
+  cleric.children.create(:name => 'Templar')
 
-  druid = Archetype.create!(:name => 'Druid', :parent => priest)
-  druid.children << Archetype.create!(:name => 'Fury', :parent => druid)
-  druid.children << Archetype.create!(:name => 'Warden', :parent => druid)
+  druid = priest.children.create(:name => 'Druid')
+  druid.children.create(:name => 'Fury')
+  druid.children.create(:name => 'Warden')
 
-  shaman = Archetype.create!(:name => 'Shaman', :parent => priest)
-  shaman.children << Archetype.create!(:name => 'Defiler', :parent => shaman)
-  shaman.children << Archetype.create!(:name => 'Mystic', :parent => shaman)
-
-  priest.children << cleric
-  priest.children << druid
-  priest.children << shaman
+  shaman = priest.children.create(:name => 'Shaman')
+  shaman.children.create(:name => 'Defiler')
+  shaman.children.create(:name => 'Mystic')
 end
 
 def create_scout_archetypes
   scout = Archetype.create!(:name => 'Scout')
 
-  Archetype.create!(:name => 'Beast Lord', :parent => scout)
+  bard = scout.children.create(:name => 'Bard')
+  bard.children.create(:name => 'Dirge')
+  bard.children.create(:name => 'Troubador')
 
-  bard = Archetype.create!(:name => 'Bard', :parent => scout)
-  bard.children << Archetype.create!(:name => 'Dirge', :parent => bard)
-  bard.children << Archetype.create!(:name => 'Troubador', :parent => bard)
+  predator = scout.children.create(:name => 'Predator')
+  predator.children.create(:name => 'Assassin')
+  predator.children.create(:name => 'Ranger')
 
-  predator = Archetype.create!(:name => 'Predator', :parent => scout)
-  predator.children << Archetype.create!(:name => 'Assassin', :parent => predator)
-  predator.children << Archetype.create!(:name => 'Ranger', :parent => predator)
+  rogue = scout.children.create(:name => 'Rogue')
+  rogue.children.create(:name => 'Brigand')
+  rogue.children.create(:name => 'Swashbuckler')
 
-  rogue = Archetype.create!(:name => 'Rogue', :parent => scout)
-  rogue.children << Archetype.create!(:name => 'Brigand', :parent => rogue)
-  rogue.children << Archetype.create!(:name => 'Swashbuckler', :parent => rogue)
-
-  scout.children << bard
-  scout.children << predator
-  scout.children << rogue
+  scout.children.create(:name => 'Beast Lord')
 end
 
 def create_default_zones
