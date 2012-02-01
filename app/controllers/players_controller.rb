@@ -38,7 +38,7 @@ class PlayersController < ApplicationController
       if p.archetype.nil?
         "Unknown"
       else
-        p.archetype.main_class.name
+        p.archetype.root.name
       end
     end
 

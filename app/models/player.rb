@@ -29,7 +29,7 @@ class Player < ActiveRecord::Base
   def self.find_by_archetype(archetype)
     all_players = Player.all(:conditions => ['archetype_id = ?', archetype.id], :order => :name).flatten
 
-    Archetype.find_all_children(archetype).each do |child_archetype|
+    Archetype.descendants(archetype).each do |child_archetype|
       all_players << Player.all(:conditions => ['archetype_id = ?', child_archetype.id], :order => :name).flatten
     end
     all_players.collect

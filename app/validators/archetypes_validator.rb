@@ -15,7 +15,7 @@ class ArchetypesValidator < ActiveModel::Validator
   def is_own_descendant?(record)
     is_child = false
     unless record.children.empty?
-      Archetype.find_all_children(record).each do |child|
+      Archetype.descendants(record).each do |child|
         if child.name.eql? record.name
           is_child = true
           break
