@@ -1,6 +1,10 @@
 RaidsPerLoot::Application.routes.draw do
 
   resources :raids do
+    resources :instances
+  end
+
+  resources :instances do
     resources :drops
     resources :players
     member do
@@ -10,7 +14,7 @@ RaidsPerLoot::Application.routes.draw do
   end
 
   resources :zones do
-    resources :raids
+    resources :instances
     resources :mobs
     resources :drops
     member do
@@ -29,7 +33,7 @@ RaidsPerLoot::Application.routes.draw do
   end
 
   resources :players do
-    resources :raids
+    resources :instances
     resources :drops
   end
 
@@ -50,7 +54,7 @@ RaidsPerLoot::Application.routes.draw do
   match '/drops/:id/assign_loot' => "drops#assign_loot"
   match '/drops/:id/unassign_loot' => "drops#unassign_loot"
   resources :drops do
-    resources :raids
+    resources :instances
     resources :players
     member do
       put :assign_loot

@@ -12,29 +12,9 @@
     <% end %>
 
     <div class="field">
-      <b>Zone</b>
-      <br/>
-      <%= f.collection_select(:zone_id, Zone.all, :id, :name, :include_blank => true) %>
-    </div>
-    <div class="field">
       <%= f.label :raid_date %>
       <br/>
       <%= f.date_select :raid_date %>
-    </div>
-    <div class="field">
-      <%= f.label :start_time %>
-      <br/>
-      <%= f.datetime_select :start_time %>
-    </div>
-    <div class="field">
-      <%= f.label :end_time %>
-      <br/>
-      <%= f.datetime_select :end_time %>
-    </div>
-    <div class="field">
-      <b>Attendees</b>
-      <br/>
-      <%= f.collection_select :player_ids, Player.all(:order => 'name'), :id, :name, {}, :multiple => true %>
     </div>
     <div class="actions">
       <%= f.submit %>

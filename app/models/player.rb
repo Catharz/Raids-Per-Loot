@@ -4,9 +4,9 @@ class Player < ActiveRecord::Base
   belongs_to :archetype
   belongs_to :rank
 
-  #TODO Decide whether to have a player linking to character(s) of different ranks
+  #TODO Refactor to have a player linking to character(s) of different ranks
 
-  has_and_belongs_to_many :raids
+  has_and_belongs_to_many :instances
   has_many :drops
 
   validates_presence_of :name
@@ -19,7 +19,7 @@ class Player < ActiveRecord::Base
         num_drops += 1
       end
     end
-    raids.count / (num_drops + 1)
+    instances.count / (num_drops + 1)
   end
 
   def calculate_loot_rate(event_count, item_count)
@@ -27,6 +27,7 @@ class Player < ActiveRecord::Base
   end
 
   def self.find_by_archetype(archetype)
+    all_players = Array.new
     Archetype.family(archetype).each do |child_archetype|
       all_players << Player.all(:conditions => ['archetype_id = ?', child_archetype.id], :order => :name).flatten
     end

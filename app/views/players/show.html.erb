@@ -13,13 +13,13 @@
     <th>Looted</th>
   </tr>
 
-  <% @player.raids.each do |raid| %>
+  <% @player.instances.each do |instance| %>
       <tr>
-        <td><%= raid.zone.name %></td>
-        <td><%= raid.raid_date %></td>
+        <td><%= instance.zone.name %></td>
+        <td><%= instance.raid.raid_date %></td>
         <td>
           <table>
-            <% raid.drops.each do |drop| %>
+            <% instance.drops.each do |drop| %>
                 <% if drop.player_name == @player.name %>
                     <td><%= drop.item_name %></td>
                 <% end %>

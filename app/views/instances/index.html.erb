@@ -1,0 +1,47 @@
+<h1>Listing instances</h1>
+
+<table>
+  <tr>
+    <th>Zone</th>
+    <th>Start time</th>
+    <th>End time</th>
+    <th>Raiders</th>
+    <th></th>
+    <% if logged_in? %>
+        <th></th>
+        <th></th>
+    <% end %>
+  </tr>
+
+  <% @instances.each do |instance| %>
+      <tr>
+        <% unless instance.zone.nil? %>
+            <td><%= instance.zone.name %></td>
+        <% else %>
+            <td>Unknown</td>
+        <% end %>
+        <td><%= instance.start_time %></td>
+        <td><%= instance.end_time %></td>
+        <td><%= link_to 'Attendees', instance_players_path(instance) %></td>
+        <td><%= link_to 'Show', instance %></td>
+        <% if logged_in? %>
+            <td><%= link_to 'Edit', edit_instance_path(instance) %></td>
+            <td><%= link_to 'Destroy', instance, :confirm => 'Are you sure?', :method => :delete %></td>
+        <% end %>
+      </tr>
+  <% end %>
+</table>
+
+<br/>
+
+<% if @paginate %>
+    <div class="digg_pagination">
+      <%= will_paginate @instances, :container => false %>
+    </div>
+<% end %>
+
+<br/>
+
+<% if logged_in? %>
+    <%= link_to 'New Instance', new_instance_path %>
+<% end %>

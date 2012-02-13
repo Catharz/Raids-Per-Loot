@@ -5,16 +5,19 @@ module FactoryHelper
     zone
   end
 
-  def self.give_me_raid(zone_name, raid_time)
-    zone = give_me_zone(zone_name)
-    raid = Raid.find_by_zone_and_time(zone_name, raid_time)
-    if raid.nil?
-      raid_date = raid_time.to_date
-      raid_start = raid_time
-      raid_end = raid_time + 2.hours
-      raid = Raid.create!(:zone => zone, :raid_date => raid_date, :start_time => raid_start, :end_time => raid_end)
-    end
+  def self.give_me_raid(raid_date)
+    raid = Raid.find_by_raid_date(raid_date)
+    raid ||= Raid.create(!:raid_date => raid_date)
     raid
+  end
+
+  def self.give_me_instance(zone_name, raid_time)
+    start_time = DateTime.parse(raid_time)
+    end_time = start_time + 2.hours
+    zone = give_me_zone(zone_name)
+    instance = Instance.first(:conditions => ["zone_id = ? AND start_time <= ? AND end_time >= ?", zone.id, raid_time, raid_time])
+    instance ||= Instance.create!(:zone => zone, :start_time => start_time, :end_time => end_time)
+    instance
   end
 
   def self.give_me_mob(zone_name, mob_name)

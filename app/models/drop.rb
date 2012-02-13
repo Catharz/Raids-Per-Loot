@@ -1,7 +1,9 @@
 class Drop < ActiveRecord::Base
   require 'drop_validator'
 
-  belongs_to :raid
+  belongs_to :instance
+
+  belongs_to :instance
   belongs_to :zone
   belongs_to :mob
   belongs_to :player
@@ -9,22 +11,22 @@ class Drop < ActiveRecord::Base
 
   validates_presence_of :zone_name, :mob_name, :item_name, :player_name, :drop_time
   validates_uniqueness_of :drop_time, :scope => [:zone_name, :mob_name, :item_name, :player_name]
-  validates_associated :zone, :mob, :player, :item, :raid, :on => :update, :message => "Must Exist!"
-#  validates_with DropValidator, :on => :update
+  validates_associated :zone, :mob, :player, :item, :instance, :on => :update, :message => "Must Exist!"
+  #validates_with DropValidator, :on => :update
 
   def assign_loot
-    raid = Raid.find_by_zone_and_time(zone_name, drop_time)
+    instance = Instance.find_by_zone_and_time(zone_name, drop_time)
     zone = Zone.find_by_name(zone_name)
     mob = Mob.find_by_zone_and_mob_name(zone_name, mob_name)
     player = Player.find_by_name(player_name)
     item = Item.find_by_name(item_name)
 
-    if (raid && zone && mob && player && item)
+    if (instance && zone && mob && player && item)
       if !zone.drops.exists?(:zone_name => zone_name, :mob_name => mob_name, :item_name => item_name, :drop_time => drop_time)
         zone.drops << self
       end
-      if !raid.drops.exists?(:zone_name => zone_name, :mob_name => mob_name, :item_name => item_name, :drop_time => drop_time)
-        raid.drops << self
+      if !instance.drops.exists?(:zone_name => zone_name, :mob_name => mob_name, :item_name => item_name, :drop_time => drop_time)
+        instance.drops << self
       end
       if !mob.drops.exists?(:zone_name => zone_name, :mob_name => mob_name, :item_name => item_name, :drop_time => drop_time)
         mob.drops << self
@@ -40,7 +42,7 @@ class Drop < ActiveRecord::Base
     else
       self.errors[:base] << "A valid player must exist to be able to assign drops to them" if player.nil?
       self.errors[:base] << "A valid zone must exist to be able to create drops for it" if zone.nil?
-      self.errors[:base] << "A raid must exist for the entered zone and drop time to be able to create drops for it" if raid.nil?
+      self.errors[:base] << "An instance must exist for the entered zone and drop time to be able to create drops for it" if instance.nil?
       self.errors[:base] << "A mob must exist for the entered zone to be able to create drops for it" if mob.nil?
       self.errors[:base] << "A loot item must exist to be able to record it dropping" if item.nil?
       result = false
@@ -50,20 +52,28 @@ class Drop < ActiveRecord::Base
   end
 
   def unassign_loot
-    raid = Raid.find_by_zone_and_time(zone_name, drop_time)
+    instance = Instance.find_by_zone_and_time(zone_name, drop_time)
     zone = Zone.find_by_name(zone_name)
     mob = Mob.find_by_zone_and_mob_name(zone_name, mob_name)
     player = Player.find_by_name(player_name)
     item = Item.find_by_name(item_name)
 
-    raid.drops.delete(self) unless raid.nil?
+    instance.drops.delete(self) unless instance.nil?
     zone.drops.delete(self) unless zone.nil?
     mob.drops.delete(self) unless mob.nil?
     player.drops.delete(self) unless player.nil?
     item.drops.delete(self) unless item.nil?
     self.assigned_to_player = false
-    self.raid_id, self.zone_id, self.mob_id, self.player_id, self.item_id = nil
+    self.instance_id, self.zone_id, self.mob_id, self.player_id, self.item_id = nil
     self.save
+  end
+
+  def utc_time(date_time)
+    TZInfo::Timezone.get('Australia/Melbourne').utc_time(date_time)
+  end
+
+  def local_time(date_time)
+    TZInfo::Timezone.get('Australia/Melbourne').local_time(date_time)
   end
 
   def to_xml(options = {})

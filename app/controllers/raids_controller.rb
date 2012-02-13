@@ -6,40 +6,11 @@ class RaidsController < ApplicationController
     @pagetitle = "Raids"
   end
 
-  def add_player
-    @raid = Raid.find(params[:id])
-    player = Player.find(params[:player_id])
-
-    @raid.players << player unless @raid.players.include? player
-    respond_to do |format|
-      if @raid.save
-        format.html { redirect_to @raid, :notice => 'Player was successfully added to the raid.' }
-        format.json { head :ok }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.json { render :json => @raid.errors, :status => :unprocessable_entity }
-        format.xml  { render :xml => @raid.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  def player_list
-    @raid = Raid.find(params[:id])
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @raid.players }
-      format.xml  { render :xml => @raid.players }
-    end
-  end
-
   # GET /raids
   # GET /raids.json
   def index
     @raids = Raid.paginate(:page => params[:page], :per_page => 15)
 
-    @raids.reject! { |raid| !raid.zone_id.eql? params[:zone_id].to_i } if params[:zone_id]
     @raids.reject! { |raid| !raid.drops.include? Drop.find(params[:drop_id].to_i) } if params[:drop_id]
 
     respond_to do |format|

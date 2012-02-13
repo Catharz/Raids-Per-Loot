@@ -12,7 +12,7 @@
           <th>Rank</th>
           <th>Main</th>
           <th>Class</th>
-          <th># Raids</th>
+          <th># Instances</th>
           <%= generate_headings(params) %>
           <th></th>
           <% if logged_in? %>
@@ -24,7 +24,7 @@
         <% @player_archetypes[archetype_name].each do |player| %>
             <tr>
               <td><%= player.name %></td>
-              <% if player.rank_id %>
+              <% if player.rank %>
                   <td><%= player.rank.name %></td>
               <% else %>
                   <td>Unknown</td>
@@ -35,7 +35,7 @@
               <% else %>
                   <td>Unknown</td>
               <% end %>
-              <td align="right"><%= player.raids.count %></td>
+              <td align="right"><%= player.instances.count %></td>
               <%= display_loot_rates(player) %>
               <td><%= link_to 'Show', player %></td>
               <% if logged_in? %>

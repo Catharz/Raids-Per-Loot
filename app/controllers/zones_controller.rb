@@ -29,7 +29,7 @@ class ZonesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @zones }
-      format.xml  { render :xml => @zones.to_xml( :include => [:raids, :mobs]) }
+      format.xml  { render :xml => @zones.to_xml( :include => [:instances, :mobs]) }
     end
   end
 
@@ -41,7 +41,7 @@ class ZonesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @zone}
-      format.xml  { render :xml => @zone.to_xml( :include => [:raids, :mobs] ) }
+      format.xml  { render :xml => @zone.to_xml( :include => [:instances, :mobs] ) }
     end
   end
 

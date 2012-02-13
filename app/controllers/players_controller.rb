@@ -11,9 +11,9 @@ class PlayersController < ApplicationController
   # GET /players
   # GET /players.json
   def index
-    @players = Player.all(:include => [:raids, :rank, :drops, :archetype])
+    @players = Player.all(:include => [:instances, :rank, :drops, :archetype])
 
-    @players.reject! { |player| !player.raids.find_by_id(params[:raid_id].to_i) } if params[:raid_id]
+    @players.reject! { |player| !player.instances.find_by_id(params[:instance_id].to_i) } if params[:instance_id]
     @players.reject! { |player| player.rank_id.nil? or !player.rank_id.eql? params[:rank_id].to_i } if params[:rank_id]
 
     if params[:raid_id]
@@ -45,7 +45,7 @@ class PlayersController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @players }
-      format.xml { render :xml => @players.to_xml(:include => [:raids, :drops]) }
+      format.xml { render :xml => @players.to_xml(:include => [:instances, :drops]) }
     end
   end
 
@@ -57,7 +57,7 @@ class PlayersController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @player }
-      format.xml { render :xml => @player.to_xml(:include => [:raids, :drops]) }
+      format.xml { render :xml => @player.to_xml(:include => [:instances, :drops]) }
     end
   end
 

@@ -1,47 +1,24 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Zone:</b>
-  <%= @raid.zone.name %>
-</p>
-
-<p>
   <b>Raid date:</b>
   <%= @raid.raid_date %>
 </p>
 
 <p>
-  <b>Start time:</b>
-  <%= @raid.start_time %>
-</p>
-
-<p>
-  <b>End time:</b>
-  <%= @raid.end_time %>
-</p>
-
-<p>
-  <b>Attendees</b>
+  <b>Instances</b>
 <table>
 
   <tr>
-    <td><b>Player</b></td>
-    <td><b>Looted</b></td>
+    <td><b>Zone</b></td>
+    <td><b>Start Time</b></td>
+    <td><b>End Time</b></td>
   </tr>
-  <% @raid.players.each do |player| %>
+  <% @raid.instances.each do |instance| %>
       <tr>
-        <td valign="top"><%= player.name %></td>
-        <td>
-          <table>
-            <% @raid.drops.each do |drop| %>
-                <% if drop.player_name == player.name %>
-                    <tr>
-                      <td><%= drop.item_name %></td>
-                    </tr>
-                <% end %>
-            <% end %>
-          </table>
-        </td>
+        <td valign="top"><%= instance.zone.name %></td>
+        <td valign="top"><%= instance.start_time %></td>
+        <td valign="top"><%= instance.end_time %></td>
       </tr>
   <% end %>
 </table>

@@ -2,11 +2,8 @@
 
 <table>
   <tr>
-    <th>Zone</th>
     <th>Raid date</th>
-    <th>Start time</th>
-    <th>End time</th>
-    <th>Raiders</th>
+    <th>Instances</th>
     <th></th>
     <% if logged_in? %>
         <th></th>
@@ -16,15 +13,8 @@
 
   <% @raids.each do |raid| %>
       <tr>
-        <% if raid.zone %>
-            <td><%= raid.zone.name %></td>
-        <% else %>
-            <td>Unknown</td>
-        <% end %>
         <td><%= raid.raid_date %></td>
-        <td><%= raid.start_time %></td>
-        <td><%= raid.end_time %></td>
-        <td><%= link_to 'Raiders', raid_players_path(raid) %></td>
+        <td><%= link_to 'Instances', raid_instances_path(raid) %></td>
         <td><%= link_to 'Show', raid %></td>
         <% if logged_in? %>
             <td><%= link_to 'Edit', edit_raid_path(raid) %></td>

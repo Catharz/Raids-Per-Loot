@@ -62,6 +62,6 @@ Feature: Manage drops
     And I have an item named Can O' Whoop Ass with id 1234
     And I have a Wherever raid at "2011-09-16 20:15:00 +1000"
     When I assign a drop named Can O' Whoop Ass to Newbie from Bad Ass Dragon in Wherever at "2011-09-17 20:15:00 +1000"
-    Then I should see "A raid must exist for the entered zone and drop time to be able to create drops for it"
+    Then I should see "An instance must exist for the entered zone and drop time to be able to create drops for it"
     And I should not see "Drop was successfully assigned"
 

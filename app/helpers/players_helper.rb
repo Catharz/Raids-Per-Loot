@@ -1,6 +1,6 @@
 module PlayersHelper
   def generate_headings(params = {})
-    raid = params[:raid_id]
+    instance = params[:instance_id]
     sort = params[:sort]
     headings = ""
     LootType.all.each do |loot_type|
@@ -9,7 +9,7 @@ module PlayersHelper
         if (sort == loot_type.name)
           column_heading = "<th>#{heading_text}</th>"
         else
-          heading_url = "/raids/#{raid}/players?sort=#{loot_type.name}" if raid
+          heading_url = "/instances/#{instance}/players?sort=#{loot_type.name}" if instance
           heading_url ||= "/players?sort=#{loot_type.name}"
           column_heading = "<th>#{link_to heading_text, heading_url}</th>"
         end
