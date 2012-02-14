@@ -52,7 +52,19 @@ class PlayersController < ApplicationController
 # GET /players/1
 # GET /players/1.json
   def show
-    @player = Player.find(params[:id])
+    @player = Player.find(params[:id], :include => [:instances, :drops])
+
+    @player_drops = @player.drops.group_by do |drop|
+      unless drop.item.nil? or drop.item.loot_type.nil?
+        drop.item.loot_type.name
+      else
+        "Unknown"
+      end
+    end
+
+    @player_instances = @player.instances.group_by do |instance|
+      instance.start_time.to_date.beginning_of_month
+    end
 
     respond_to do |format|
       format.html # show.html.erb
