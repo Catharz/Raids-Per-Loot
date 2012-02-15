@@ -1,0 +1,28 @@
+<% @player_instances.keys.sort.reverse.each do |raid_date| %>
+    <%
+       instance_list = @player_instances[raid_date]
+       instance_list.sort! { |a, b| b.start_time <=> a.start_time }
+    %>
+    <h3>
+      <%= check_box_tag :"raid_month#{raid_date}", 1, true, :onclick => "new Effect.toggle('month_#{raid_date}');return true;" %>
+      <%= raid_date.strftime("%b %Y") %>
+    </h3>
+    <div id="month_<%= raid_date %>">
+      <table>
+        <thead>
+        <td><b>Date</b></td>
+        <td><b>Zone</b></td>
+        <td><b>Start Time</b></td>
+        <td><b>End Time</b></td>
+        </thead>
+        <% instance_list.each do |instance| %>
+            <tr>
+              <td><%= instance.start_time.to_date %></td>
+              <td><%= instance.zone.name %></td>
+              <td><%= instance.start_time %></td>
+              <td><%= instance.end_time %></td>
+            </tr>
+        <% end %>
+      </table>
+    </div>
+<% end %>

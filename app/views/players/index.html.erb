@@ -12,6 +12,7 @@
           <th>Rank</th>
           <th>Main</th>
           <th>Class</th>
+          <th># Raids</th>
           <th># Instances</th>
           <%= generate_headings(params) %>
           <th></th>
@@ -35,6 +36,7 @@
               <% else %>
                   <td>Unknown</td>
               <% end %>
+              <td align="right"><%= player.raids.count %></td>
               <td align="right"><%= player.instances.count %></td>
               <%= display_loot_rates(player) %>
               <td><%= link_to 'Show', player %></td>

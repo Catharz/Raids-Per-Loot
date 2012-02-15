@@ -4,70 +4,16 @@
   <b>Name:</b>
   <%= @player.name %>
 </p>
+<p>
+  <b>Class:</b>
+  <%= @player.archetype.nil? ? "Unknown" : @player.archetype.name %>
+</p>
 
 <p><b>Attendance</b></p>
-<% @player_instances.keys.sort.reverse.each do |raid_date| %>
-    <%
-       instance_list = @player_instances[raid_date]
-       instance_list.sort! { |a, b| b.start_time <=> a.start_time }
-    %>
-    <h3>
-      <%= check_box_tag :"raid_month#{raid_date}", 1, true, :onclick => "new Effect.toggle('month_#{raid_date}');return true;" %>
-      <%= raid_date.strftime("%b %Y") %>
-    </h3>
-    <div id="month_<%= raid_date %>">
-      <table>
-        <thead>
-        <td><b>Date</b></td>
-        <td><b>Zone</b></td>
-        <td><b>Start Time</b></td>
-        <td><b>End Time</b></td>
-        </thead>
-        <% instance_list.each do |instance| %>
-            <tr>
-              <td><%= instance.start_time.to_date %></td>
-              <td><%= instance.zone.name %></td>
-              <td><%= instance.start_time %></td>
-              <td><%= instance.end_time %></td>
-            </tr>
-        <% end %>
-      </table>
-    </div>
-<% end %>
+<%= render 'instances' %>
 
-<% @player_drops.keys.sort.each do |loot_type| %>
-    <%
-       drop_list = @player_drops[loot_type]
-       drop_list.sort! { |a, b| b.drop_time <=> a.drop_time }
-    %>
-    <h3>
-      <%= check_box_tag :"#{pluralize("", loot_type)}", 1, true, :onclick => "new Effect.toggle('#{loot_type}_list');return true;" %>
-      <%= pluralize("", loot_type) %>
-    </h3>
-
-    <div id="<%= loot_type %>_list">
-      <table>
-        <thead>
-        <tr>
-          <td><b>Zone</b></td>
-          <td><b>Mob</b></td>
-          <td><b>Item</b></td>
-          <td><b>Drop Time</b></td>
-        </tr>
-        </thead>
-        <tbody>
-        <% drop_list.each do |drop| %>
-            <tr>
-              <td><%= drop.zone_name %></td>
-              <td><%= drop.mob_name %></td>
-              <td><%= drop.item_name %></td>
-              <td><%= drop.drop_time %></td>
-            </tr>
-        <% end %>
-        </tbody>
-      </table>
-    </div>
-<% end %>
+<p><b>Drops</b></p>
+<%= render 'drops' %>
 
 <% if logged_in? %>
     <%= link_to 'Edit', edit_player_path(@player) %> |

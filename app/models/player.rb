@@ -19,11 +19,17 @@ class Player < ActiveRecord::Base
         num_drops += 1
       end
     end
-    instances.count / (num_drops + 1)
+    raids.count / (num_drops + 1)
   end
 
   def calculate_loot_rate(event_count, item_count)
     event_count / (item_count + 1)
+  end
+
+  def raids
+    raid_list = []
+    instances.each.collect { |instance| raid_list << instance.raid unless raid_list.include? instance.raid }
+    raid_list
   end
 
   def self.find_by_archetype(archetype)
