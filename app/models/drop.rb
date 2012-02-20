@@ -9,6 +9,9 @@ class Drop < ActiveRecord::Base
   belongs_to :player
   belongs_to :item
 
+
+  scope :of_type, lambda {|loot_type| where(:loot_type_id => LootType.find_by_name(loot_type).id) }
+
   validates_presence_of :zone_name, :mob_name, :item_name, :player_name, :drop_time
   validates_uniqueness_of :drop_time, :scope => [:zone_name, :mob_name, :item_name, :player_name]
   validates_associated :zone, :mob, :player, :item, :instance, :on => :update, :message => "Must Exist!"

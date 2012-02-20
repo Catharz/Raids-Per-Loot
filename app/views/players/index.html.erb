@@ -1,5 +1,9 @@
-<h1><%= @pagetitle %></h1>
-
+<% form_tag players_path, :method => :get do %>
+    <p>
+      <%= text_field_tag :search, params[:search] %>
+      <%= submit_tag "Search", :name => nil %>
+    </p>
+<% end %>
 <% @player_archetypes.keys.sort.each do |archetype_name| %>
     <h3>
       <%= check_box_tag :"#{pluralize("", archetype_name)}", 1, true, :onclick => "new Effect.toggle('#{archetype_name.downcase}');return true;" %>

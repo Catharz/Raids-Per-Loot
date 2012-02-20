@@ -13,13 +13,12 @@ class Player < ActiveRecord::Base
   validates_uniqueness_of :name
 
   def loot_rate(loot_type)
-    num_drops = 0
-    drops.each do |drop|
-      if drop.loot_type_name && (drop.loot_type_name.eql? loot_type)
-        num_drops += 1
-      end
-    end
-    raids.count / (num_drops + 1)
+    raids.count / (drops.of_type(loot_type).count + 1)
+  end
+
+  def drop_list
+    drop_list ||= self.drop_list
+    drop_list
   end
 
   def calculate_loot_rate(event_count, item_count)
@@ -27,6 +26,10 @@ class Player < ActiveRecord::Base
   end
 
   def raids
+    @raids ||= raid_list
+  end
+
+  def raid_list
     raid_list = []
     instances.each.collect { |instance| raid_list << instance.raid unless raid_list.include? instance.raid }
     raid_list

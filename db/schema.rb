@@ -122,12 +122,12 @@ ActiveRecord::Schema.define(:version => 20120207205554) do
   end
 
   create_table "players", :force => true do |t|
-    t.string    "name"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.integer   "main_character_id"
-    t.integer   "archetype_id"
-    t.integer   "rank_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "main_character_id"
+    t.integer  "archetype_id"
+    t.integer  "rank_id"
   end
 
   create_table "raids", :force => true do |t|

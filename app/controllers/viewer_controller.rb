@@ -4,7 +4,9 @@ class ViewerController < ApplicationController
   def show
     @page = Page.find_by_name(params[:name])
     if @page
-      @subpages = @page.subpages
+      @subpages = @page.children
+      @subpages.reject! {|sub_page| sub_page.admin} unless logged_in?
+      @subpages.sort! {|a,b| a.position <=> b.position}
       @pagetitle = @page.title
       login_required if @page.admin?
     end

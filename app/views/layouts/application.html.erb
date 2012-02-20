@@ -2,7 +2,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title><%= @pagetitle %></title>
   <%= stylesheet_link_tag :all %>
   <%= javascript_include_tag :all %>
   <%= csrf_meta_tag %>
@@ -16,7 +15,7 @@
     <ul>
       <% @tabs.each do |page| -%>
           <li <%= "id='current'" if @page && (@page == page || @page.parent == page) %>>
-            <% if page.redirect? %>
+            <% if page.redirect %>
                 <%= link_to page.navlabel, :action => page.action_name, :controller => page.controller_name, :name => page.name %>
             <% else %>
                 <%= link_to page.navlabel, view_page_path(page.name) %>
@@ -30,6 +29,19 @@
       <% end %>
     </ul>
   </div>
+  <h2><%= @pagetitle -%></h2>
+  <% unless @page.nil? %>
+      <ul id="submenu">
+        <% for page in @page.children %>
+            <%= link_to h(page.navlabel), view_page_path(page.name) %>
+        <% end %>
+      </ul>
+      <p>
+        <% for page in @page.ancestors.reverse %>
+            <%= link_to h(page.navlabel), view_page_path(page.name) %> &gt;
+        <% end %>
+      </p>
+  <% end %>
   <div id='content'>
     <h2><%= flash[:notice] %></h2>
     <%= yield %>

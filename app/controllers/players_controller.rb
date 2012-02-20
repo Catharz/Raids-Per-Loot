@@ -11,12 +11,12 @@ class PlayersController < ApplicationController
   # GET /players
   # GET /players.json
   def index
-    @players = Player.all(:include => [:instances, :rank, :drops, :archetype])
+    @players = Player.order("players.name").eager_load({:instances => :raid}, :archetype, :rank)
+    @players = @players.where("players.name like ?", "%" + params[:search] + "%") if params[:search]
+    @players = @players.where("instances.instance_id = ?", params[:instance_id].to_i) if params[:instance_id]
+    @players = @players.where("players.rank_id = ?", params[:rank_id].to_i) if params[:rank_id]
 
-    @players.reject! { |player| !player.instances.find_by_id(params[:instance_id].to_i) } if params[:instance_id]
-    @players.reject! { |player| player.rank_id.nil? or !player.rank_id.eql? params[:rank_id].to_i } if params[:rank_id]
-
-    if params[:raid_id]
+    if params[:instance_id]
       @pagetitle = "Listing Participants"
     else
       @pagetitle = "Listing Players"
