@@ -3,7 +3,7 @@ class LinksController < ApplicationController
   before_filter :set_pagetitle
 
   def set_pagetitle
-    @pagetitle = "Link Administration"
+    @pagetitle = "Links"
   end
 
   # GET /links
@@ -20,8 +20,6 @@ class LinksController < ApplicationController
 
   def list
     @categories = LinkCategory.all(:order => 'description')
-    @page = Page.find_by_name(params[:name])
-    @pagetitle = @page.title
   end
 
   # GET /links/1

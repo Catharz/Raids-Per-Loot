@@ -78,19 +78,14 @@ body {
 #navbar #current a {
 	background-color: #000;
 }
-#subnav {
-	width: 200px;
-	float: left;
-	border-right: 1px solid black;
-	margin-right: 20px;
-}
 #edit {
 	font-size:12px;
 }
 #subnav {
-	width: 160px;
-	float: left;
-	margin: 0 20px 50px -10px;
+    width: 200px;
+    float: left;
+    border-right: 1px solid black;
+	margin: 10px 5px 50px 0px;
 }
 #subnav ul {
     list-style: none;
@@ -113,4 +108,8 @@ body {
 #subnav ul li a:hover {
     background-color: #333;
     color: #fff;
+}
+#breadcrumbs {
+    margin-left: 0px;
+    font-size: 9px;
 }

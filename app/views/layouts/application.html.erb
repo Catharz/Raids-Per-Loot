@@ -29,18 +29,31 @@
       <% end %>
     </ul>
   </div>
-  <h2><%= @pagetitle -%></h2>
+  <div id="pagetitle"><%= @pagetitle %></div>
   <% unless @page.nil? %>
-      <ul id="submenu">
-        <% for page in @page.children %>
-            <%= link_to h(page.navlabel), view_page_path(page.name) %>
-        <% end %>
-      </ul>
-      <p>
-        <% for page in @page.ancestors.reverse %>
-            <%= link_to h(page.navlabel), view_page_path(page.name) %> &gt;
-        <% end %>
-      </p>
+      <% unless @page.ancestors.empty? %>
+          <div id="breadcrumb">
+            <% for page in @page.ancestors.reverse %>
+                <%= link_to h(page.navlabel), view_page_path(page.name) %> &gt;
+            <% end %>
+            <%= @page.navlabel %>
+          </div>
+      <% end %>
+      <% unless @page.children.empty? %>
+          <div id="subnav">
+            <ul>
+              <% for page in @page.children %>
+                  <li>
+                    <% if page.redirect %>
+                        <%= link_to page.navlabel, :action => page.action_name, :controller => page.controller_name, :name => page.name %>
+                    <% else %>
+                        <%= link_to page.navlabel, view_page_path(page.name) %>
+                    <% end %>
+                  </li>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
   <% end %>
   <div id='content'>
     <h2><%= flash[:notice] %></h2>

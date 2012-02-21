@@ -3,7 +3,7 @@ class LinkCategoriesController < ApplicationController
   before_filter :set_pagetitle
 
   def set_pagetitle
-    @pagetitle = "Link Category Administration"
+    @pagetitle = "Link Categories"
   end
 
 

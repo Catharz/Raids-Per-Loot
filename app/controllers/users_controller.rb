@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_filter :set_pagetitle
 
   def set_pagetitle
-    @pagetitle = "User Administration"
+    @pagetitle = "Users"
   end
 
   # GET /users
