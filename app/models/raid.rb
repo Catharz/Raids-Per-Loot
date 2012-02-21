@@ -1,5 +1,3 @@
-require 'raid_validator'
-
 class Raid < ActiveRecord::Base
   has_many :instances
 

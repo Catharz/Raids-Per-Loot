@@ -10,6 +10,7 @@ class Instance < ActiveRecord::Base
 
   def self.find_by_zone_and_time(zone_name, instance_time)
     zone = Zone.find_by_name(zone_name)
+    instance = nil
     unless zone.nil?
       instance = Instance.first(
           :conditions => ["zone_id = ? AND start_time <= ? AND end_time >= ?",

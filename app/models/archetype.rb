@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/../../app/validators/archetypes_validator'
-
 class Archetype < ActiveRecord::Base
   acts_as_tree :order => "name"
 

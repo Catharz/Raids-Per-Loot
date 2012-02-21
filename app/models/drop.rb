@@ -1,14 +1,9 @@
 class Drop < ActiveRecord::Base
-  require 'drop_validator'
-
-  belongs_to :instance
-
   belongs_to :instance
   belongs_to :zone
   belongs_to :mob
   belongs_to :player
   belongs_to :item
-
 
   scope :of_type, lambda {|loot_type| where(:loot_type_id => LootType.find_by_name(loot_type).id) }
 
