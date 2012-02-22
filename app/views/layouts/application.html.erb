@@ -29,16 +29,7 @@
       <% end %>
     </ul>
   </div>
-  <div id="pagetitle"><%= @pagetitle %></div>
   <% unless @page.nil? %>
-      <% unless @page.ancestors.empty? %>
-          <div id="breadcrumb">
-            <% for page in @page.ancestors.reverse %>
-                <%= link_to h(page.navlabel), view_page_path(page.name) %> &gt;
-            <% end %>
-            <%= @page.navlabel %>
-          </div>
-      <% end %>
       <% unless @page.children.empty? %>
           <div id="subnav">
             <ul>
@@ -52,6 +43,14 @@
                   </li>
               <% end %>
             </ul>
+          </div>
+      <% end %>
+      <% unless @page.ancestors.empty? %>
+          <div id="breadcrumb">
+            <% for page in @page.ancestors.reverse %>
+                <%= link_to h(page.navlabel), view_page_path(page.name) %> &gt;
+            <% end %>
+            <%= @page.navlabel %>
           </div>
       <% end %>
   <% end %>
