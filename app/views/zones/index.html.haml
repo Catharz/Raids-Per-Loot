@@ -1,0 +1,14 @@
+%table
+  %tr
+    %th Name
+    %th
+    %th
+    %th
+  - @zones.each do |zone|
+    %tr
+      %td= zone.name
+      %td= link_to 'Show', zone
+      %td= link_to 'Edit', edit_zone_path(zone)
+      %td= link_to 'Destroy', zone, :confirm => 'Are you sure?', :method => :delete
+%br/
+= link_to 'New Zone', new_zone_path

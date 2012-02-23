@@ -1,0 +1,31 @@
+%p#notice= notice
+%p
+  %b Zone:
+  = @instance.zone.name
+%p
+  %b Start time:
+  = @instance.start_time
+%p
+  %b End time:
+  = @instance.end_time
+%p
+  %b Attendees
+  %table
+    %tr
+      %td
+        %b Player
+      %td
+        %b Looted
+    - @instance.players.each do |player|
+      %tr
+        %td{:valign => "top"}= player.name
+        %td
+          %table
+            - @instance.drops.each do |drop|
+              - if drop.player_name == player.name
+                %tr
+                  %td= drop.item_name
+- if logged_in?
+  = link_to 'Edit', edit_instance_path(@instance)
+  |
+= link_to 'Back', instances_path

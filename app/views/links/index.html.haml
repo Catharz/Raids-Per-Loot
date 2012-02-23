@@ -1,0 +1,27 @@
+- if logged_in?
+  %table
+    %tr
+      %th Url
+      %th Title
+      %th Description
+      %th
+      %th
+      %th
+    - @links.each do |link|
+      %tr
+        %td= link.url
+        %td= link.title
+        %td= link.description
+        %td= link_to 'Show', link
+        %td= link_to 'Edit', edit_link_path(link)
+        %td= link_to 'Destroy', link, :confirm => 'Are you sure?', :method => :delete
+  %br/
+  = link_to 'New Link', new_link_path
+- else
+  - for category in @categories
+    - unless category.links.empty?
+      %h2= h category.title
+      %p= h category.description
+      %ul
+        - for link in category.links
+          %li= link_to link.title, link.url

@@ -1,0 +1,6 @@
+- for category in @categories
+  %h2= h category.title
+  %p= h category.description
+  %ul
+    - for link in category.links
+      %li= link_to link.title, link.url

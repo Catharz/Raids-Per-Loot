@@ -1,0 +1,17 @@
+%p#notice= notice
+%p
+  %b Name:
+  = @player.name
+%p
+  %b Class:
+  = @player.archetype.nil? ? "Unknown" : @player.archetype.name
+%p
+  %b Attendance
+= render 'instances'
+%p
+  %b Drops
+= render 'drops'
+- if logged_in?
+  = link_to 'Edit', edit_player_path(@player)
+  |
+= link_to 'Back', players_path

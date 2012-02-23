@@ -1,0 +1,21 @@
+%table
+  %tr
+    %th Zone
+    %th Name
+    %th Strategy
+    %th
+    %th
+    %th
+  - @mobs.each do |mob|
+    %tr
+      %td{:valign => "top"}
+        - mob.zones.each do |zone|
+          = zone.name
+          %br/
+      %td{:valign => "top"}= mob.name
+      %td{:width => "40%"}= mob.strategy
+      %td{:valign => "bottom"}= link_to 'Show', mob
+      %td{:valign => "bottom"}= link_to 'Edit', edit_mob_path(mob)
+      %td{:valign => "bottom"}= link_to 'Destroy', mob, :confirm => 'Are you sure?', :method => :delete
+%br/
+= link_to 'New Mob', new_mob_path

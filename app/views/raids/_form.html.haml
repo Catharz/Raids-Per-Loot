@@ -1,0 +1,15 @@
+= form_for(@raid) do |f|
+  - if @raid.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@raid.errors.count, "error")
+        prohibited this raid from being saved:
+      %ul
+        - @raid.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.label :raid_date
+    %br/
+    = f.date_select :raid_date
+  .actions
+    = f.submit

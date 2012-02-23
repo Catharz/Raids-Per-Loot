@@ -1,0 +1,16 @@
+- if !@page.nil?
+  %p#page_text= @page.body.html_safe
+  - if logged_in?
+    %a#edit{:href => "#"} Edit This Page
+    %script{:language => "JavaScript"}
+      new Ajax.InPlaceEditor(
+      'page_text',
+      '/viewer/set_page_body/#{@page.id}',
+      {
+      rows:10,
+      cols:80,
+      externalControl:'edit',
+      externalControlOnly:true,
+      loadTextURL:'/viewer/get_unformatted_text/#{@page.id}'
+      }
+      )

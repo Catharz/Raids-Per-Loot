@@ -1,0 +1,17 @@
+%table
+  %tr
+    %th Name
+    %th Parent Class
+    %th
+    %th
+    %th
+  - @archetypes.each do |archetype|
+    %tr
+      %td= archetype.name
+      %td
+        = archetype.parent.name unless archetype.parent.nil?
+      %td= link_to 'Show', archetype
+      %td= link_to 'Edit', edit_archetype_path(archetype)
+      %td= link_to 'Destroy', archetype, :confirm => 'Are you sure?', :method => :delete
+%br/
+= link_to 'New Class', new_archetype_path

@@ -1,0 +1,25 @@
+- @player_drops.keys.sort.each do |loot_type|
+  - drop_list = @player_drops[loot_type]
+  - drop_list.sort! { |a, b| b.drop_time <=> a.drop_time }
+  %h3
+    = check_box_tag :"#{pluralize("", loot_type)}", 1, true, :onclick => "new Effect.toggle('#{loot_type}_list');return true;"
+    = pluralize("", loot_type)
+  %div{:id => "#{loot_type}_list"}
+    %table
+      %thead
+        %tr
+          %td
+            %b Zone
+          %td
+            %b Mob
+          %td
+            %b Item
+          %td
+            %b Drop Time
+      %tbody
+        - drop_list.each do |drop|
+          %tr
+            %td= drop.zone_name
+            %td= drop.mob_name
+            %td= drop.item_name
+            %td= drop.drop_time

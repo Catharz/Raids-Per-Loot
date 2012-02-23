@@ -1,0 +1,23 @@
+= form_for(@mob) do |f|
+  - if @mob.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@mob.errors.count, "error")
+        prohibited this mob from being saved:
+      %ul
+        - @mob.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.label :name
+    %br/
+    = f.text_field :name
+  .field
+    = f.label :strategy
+    %br/
+    = f.text_area :strategy
+  .field
+    %b Zone
+    %br/
+    = f.collection_select :zone_ids, Zone.all(:order => 'name'), :id, :name, {}, :multiple => true
+  .actions
+    = f.submit

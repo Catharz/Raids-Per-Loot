@@ -1,0 +1,13 @@
+%p#notice= notice
+%p
+  %b Url:
+  = @link.url
+%p
+  %b Title:
+  = @link.title
+%p
+  %b Description:
+  = @link.description
+= link_to 'Edit', edit_link_path(@link)
+|
+\#{link_to 'Back', links_path}

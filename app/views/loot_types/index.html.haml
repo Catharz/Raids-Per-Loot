@@ -1,0 +1,16 @@
+%table
+  %tr
+    %th Name
+    %th Show on Player List
+    %th
+    %th
+    %th
+  - @loot_types.each do |loot_type|
+    %tr
+      %td= loot_type.name
+      %td= loot_type.show_on_player_list? ? 'YES' : 'NO'
+      %td= link_to 'Show', loot_type
+      %td= link_to 'Edit', edit_loot_type_path(loot_type)
+      %td= link_to 'Destroy', loot_type, :confirm => 'Are you sure?', :method => :delete
+%br/
+= link_to 'New Loot type', new_loot_type_path

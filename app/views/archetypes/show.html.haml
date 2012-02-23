@@ -1,0 +1,7 @@
+%p#notice= notice
+%p
+  %b Name:
+  = @archetype.name
+= link_to 'Edit', edit_archetype_path(@archetype)
+|
+\#{link_to 'Back', archetypes_path}

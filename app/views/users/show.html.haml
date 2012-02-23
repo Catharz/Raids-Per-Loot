@@ -1,0 +1,15 @@
+%p
+  %b Login:
+  = h @user.login
+%p
+  %b Name:
+  = h @user.name
+%p
+  %b Email:
+  = h @user.email
+%p
+  %b Password:
+  [secret]
+= link_to 'Edit', edit_user_path(@user)
+|
+\#{link_to 'Back', users_path}

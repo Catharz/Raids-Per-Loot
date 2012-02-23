@@ -1,0 +1,32 @@
+%p#notice= notice
+%p
+  %b Zone name:
+  = @drop.zone_name
+%p
+  %b Mob name:
+  = @drop.mob_name
+%p
+  %b Player name:
+  = @drop.player_name
+%p
+  %b Item name:
+  = @drop.item_name
+%p
+  %b Eq2 item:
+  = @drop.eq2_item_id
+%p
+  %b Info URL:
+  = @drop.info_url
+%p
+  %b Drop time:
+  = @drop.drop_time
+%p
+  %b Assigned:
+  - if @drop.assigned_to_player
+    Assigned
+  - else
+    Unassigned
+- if logged_in?
+  = link_to 'Edit', edit_drop_path(@drop)
+  |
+= link_to 'Back', drops_path

@@ -1,0 +1,19 @@
+%p#notice= notice
+%p
+  %b Name:
+  = @page.name
+%p
+  %b Title:
+  = @page.title
+%p
+  %b Nav Label:
+  = @page.navlabel
+%p
+  %b Body:
+  = @page.body
+%p
+  %b Admin:
+  = @page.admin? ? "true" : "false"
+= link_to 'Edit', edit_page_path(@page)
+|
+\#{link_to 'Back', pages_path}

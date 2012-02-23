@@ -1,0 +1,44 @@
+= form_tag players_path, :method => :get do
+  %p
+    = text_field_tag :search, params[:search]
+    = submit_tag "Search", :name => nil
+- @player_archetypes.keys.sort.each do |archetype_name|
+  %h3
+    = check_box_tag :"#{pluralize("", archetype_name)}", 1, true, :onclick => "new Effect.toggle('#{archetype_name.downcase}');return true;"
+    = pluralize("", archetype_name)
+  %div{:id => archetype_name.downcase}
+    %table
+      %tr
+        %th Name
+        %th Rank
+        %th Main
+        %th Class
+        %th # Raids
+        %th # Instances
+        = generate_headings(params)
+        %th
+        - if logged_in?
+          %th
+          %th
+      - @player_archetypes[archetype_name].each do |player|
+        %tr
+          %td= player.name
+          - if player.rank
+            %td= player.rank.name
+          - else
+            %td Unknown
+          %td= player.main_character.name unless player.main_character.nil?
+          - if player.archetype
+            %td= player.archetype.name
+          - else
+            %td Unknown
+          %td{:align => "right"}= player.raids.count
+          %td{:align => "right"}= player.instances.count
+          = display_loot_rates(player)
+          %td= link_to 'Show', player
+          - if logged_in?
+            %td= link_to 'Edit', edit_player_path(player)
+            %td= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete
+%br/
+- if logged_in?
+  = link_to 'New Player', new_player_path

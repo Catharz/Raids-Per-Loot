@@ -1,0 +1,23 @@
+%p#notice= notice
+%p
+  %b Raid date:
+  = @raid.raid_date
+%p
+  %b Instances
+  %table
+    %tr
+      %td
+        %b Zone
+      %td
+        %b Start Time
+      %td
+        %b End Time
+    - @raid.instances.each do |instance|
+      %tr
+        %td{:valign => "top"}= instance.zone.name
+        %td{:valign => "top"}= instance.start_time
+        %td{:valign => "top"}= instance.end_time
+- if logged_in?
+  = link_to 'Edit', edit_raid_path(@raid)
+  |
+= link_to 'Back', raids_path

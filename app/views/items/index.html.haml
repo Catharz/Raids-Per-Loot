@@ -1,0 +1,24 @@
+%table
+  %tr
+    %th Name
+    %th Loot Type
+    %th Slot(s)
+    %th Class(es)
+    %th
+    %th
+    %th
+  - @items.each do |item|
+    %tr
+      %td
+        %a{:href => item.info_url}= item.name
+      - if item.loot_type
+        %td= item.loot_type.name
+      - else
+        %td Unknown
+      %td= item.slot_names
+      %td= item.class_names
+      %td= link_to 'Show', item
+      %td= link_to 'Edit', edit_item_path(item)
+      %td= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete
+%br/
+= link_to 'New Item', new_item_path

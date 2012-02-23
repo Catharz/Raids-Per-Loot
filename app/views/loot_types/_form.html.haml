@@ -1,0 +1,19 @@
+= form_for(@loot_type) do |f|
+  - if @loot_type.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@loot_type.errors.count, "error")
+        prohibited this loot_type from being saved:
+      %ul
+        - @loot_type.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.label :name
+    %br/
+    = f.text_field :name
+  .field
+    = f.label :show_on_player_list
+    %br/
+    = f.check_box :show_on_player_list
+  .actions
+    = f.submit

@@ -1,0 +1,35 @@
+= form_for(@item) do |f|
+  - if @item.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@item.errors.count, "error")
+        prohibited this item from being saved:
+      %ul
+        - @item.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.label :name
+    %br/
+    = f.text_field :name
+  .field
+    = f.label :eq2_item_id
+    %br/
+    = f.text_field :eq2_item_id
+  .field
+    = f.label :info_url
+    %br/
+    = f.text_field :info_url
+  .field
+    %b Type
+    %br/
+    = f.collection_select :loot_type_id, LootType.all(:order => 'name'), :id, :name, :include_blank => true
+  .field
+    %b Classes
+    %br/
+    = f.collection_select :archetype_ids, Archetype.all(:order => 'name'), :id, :name, {}, :multiple => true
+  .field
+    %b Slots
+    %br/
+    = f.collection_select :slot_ids, Slot.all(:order => 'name'), :id, :name, {}, :multiple => true
+  .actions
+    = f.submit

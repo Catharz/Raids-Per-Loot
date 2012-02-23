@@ -1,0 +1,19 @@
+= form_for(@archetype) do |f|
+  - if @archetype.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@archetype.errors.count, "error")
+        prohibited this archetype from being saved:
+      %ul
+        - @archetype.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.label :name
+    %br/
+    = f.text_field :name
+  .field
+    = f.label "Parent Class"
+    %br/
+    = f.collection_select(:parent_id, Archetype.all, :id, :name, :include_blank => true)
+  .actions
+    = f.submit

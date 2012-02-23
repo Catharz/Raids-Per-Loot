@@ -1,0 +1,7 @@
+%p#notice= notice
+%p
+  %b Name:
+  = @zone.name
+= link_to 'Edit', edit_zone_path(@zone)
+|
+\#{link_to 'Back', zones_path}
