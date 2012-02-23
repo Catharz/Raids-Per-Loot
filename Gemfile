@@ -13,6 +13,8 @@ gem 'RedCloth'
 gem 'jquery-rails'
 gem 'in_place_editing'
 gem 'haml'
+gem 'ruby_parser'
+gem 'hpricot'
 gem 'will_paginate'
 gem 'acts_as_tree', '~> 0.1.1'
 
