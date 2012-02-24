@@ -17,7 +17,7 @@ class ViewerController < ApplicationController
     if @page
       if @page.update_attribute(:body, params[:value])
         flash[:notice] = 'Page was successfully updated.'
-        redirect_to view_page_path(@page.name)
+        redirect_to view_page_url(@page.name)
       else
         render :text => @page.body
       end

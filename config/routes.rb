@@ -142,13 +142,14 @@ RaidsPerLoot::Application.routes.draw do
   #     resources :products
   #   end
 
-  #  match '/view_page/:name', :controller => 'viewer', :action => 'show'
   match ':name' => 'viewer#show', :as => :view_page
+  post '/viewer/set_page_body/:id', :controller => 'viewer', :action => 'set_page_body'
+  get '/viewer/get_unformatted_text/:id', :controller => 'viewer', :action => 'get_unformatted_text'
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   # root :to => 'welcome#index'
-  root :to => 'viewer#show'
+  root :to => 'viewer#show', :name => 'home'
 
   # See how all your routes lay out with "rake routes"
 
