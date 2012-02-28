@@ -33,14 +33,14 @@ end
 
 #START:dev_and_test_gems
 group :test do
-  gem "cucumber-rails"
-	gem "test-unit"
-  gem "rspec-rails"
-  gem "webrat"
   #START_HIGHLIGHT
   gem "database_cleaner"
   gem "selenium-client"
   #END_HIGHLIGHT
+	gem "test-unit"
+  gem "rspec-rails"
+  gem "cucumber-rails"
+  gem "webrat"
 end
 
 # Deply with Heroku
