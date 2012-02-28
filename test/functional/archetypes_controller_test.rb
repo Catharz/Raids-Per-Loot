@@ -1,10 +1,15 @@
 require File.dirname(__FILE__) + '/../test_helper'
-require 'archetypes_controller'
 
 # Re-raise errors caught by the controller.
 class ArchetypesController; def rescue_action(e) raise e end; end
 
 class ArchetypesControllerTest < ActionController::TestCase
+  fixtures :users
+
+  def setup
+    login_as :quentin
+  end
+
   def test_should_create_archetype
     assert_difference 'Archetype.count' do
       create_archetype
