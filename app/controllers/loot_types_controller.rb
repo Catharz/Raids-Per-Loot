@@ -1,4 +1,6 @@
 class LootTypesController < ApplicationController
+  before_filter :login_required, :except => [:index, :show]
+
   # GET /loot_types
   # GET /loot_types.xml
   def index

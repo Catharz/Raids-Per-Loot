@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_filter :login_required
+  before_filter :login_required, :except => [:index, :show]
   before_filter :set_pagetitle
 
   def set_pagetitle

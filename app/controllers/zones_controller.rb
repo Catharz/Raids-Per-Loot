@@ -1,5 +1,5 @@
 class ZonesController < ApplicationController
-  before_filter :login_required
+  before_filter :login_required, :except => [:index, :show]
 
   def add_mob
     @zone = Zone.find(params[:id])

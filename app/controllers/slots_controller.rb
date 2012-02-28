@@ -1,4 +1,6 @@
 class SlotsController < ApplicationController
+  before_filter :login_required, :except => [:index, :show]
+
   # GET /slots
   # GET /slots.xml
   def index

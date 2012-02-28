@@ -5,15 +5,18 @@ require File.dirname(__FILE__) + '/../spec_helper'
 #include AuthenticatedTestHelper
 
 describe SessionsController do
-  fixtures        :users
-  before do 
+  fixtures :users
+
+  before(:each) do
     @user  = mock_user
     @login_params = { :login => 'quentin', :password => 'monkey' }
     User.stub!(:authenticate).with(@login_params[:login], @login_params[:password]).and_return(@user)
   end
+
   def do_create
     post :create, @login_params
   end
+
   describe "on successful login," do
     [ [:nil,       nil,            nil],
       [:expired,   'valid_token',  15.minutes.ago],

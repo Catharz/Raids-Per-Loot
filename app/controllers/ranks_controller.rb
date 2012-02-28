@@ -1,4 +1,6 @@
 class RanksController < ApplicationController
+  before_filter :login_required, :except => [:index, :show]
+
   # GET /ranks
   # GET /ranks.xml
   def index

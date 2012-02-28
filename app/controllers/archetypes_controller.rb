@@ -1,4 +1,6 @@
 class ArchetypesController < ApplicationController
+  before_filter :login_required, :except => [:index, :show]
+
   # GET /archetypes
   # GET /archetypes.json
   def index

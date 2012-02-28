@@ -1,5 +1,5 @@
 class LinksController < ApplicationController
-  before_filter :login_required, :except => [:list]
+  before_filter :login_required, :except => [:index, :show, :list]
   before_filter :set_pagetitle
 
   def set_pagetitle
