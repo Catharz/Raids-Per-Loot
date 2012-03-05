@@ -79,14 +79,14 @@ describe SessionsController do
   # Cookie Login
   #
   describe "Logging in by cookie" do
-    def set_remember_token token, time
-      @user[:remember_token] = token;
+    def set_remember_token(token, time)
+      @user[:remember_token] = token
       @user[:remember_token_expires_at] = time
       @user.save!
     end
 
     before do
-      @user = User.find(:first);
+      @user = User.first
       set_remember_token 'hello!', 5.minutes.from_now
     end
     it 'logs in with cookie' do

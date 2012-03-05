@@ -3,6 +3,9 @@ Feature: Manage items
   The raid leader
   wants to have a list of Items
   
+  Background: Logged In
+    Given I am logged in as a user
+
   Scenario: Register new item
     Given I am on the new item page
     When I fill in "Name" with "name 1"

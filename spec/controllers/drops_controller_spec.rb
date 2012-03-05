@@ -11,8 +11,8 @@ describe DropsController do
 
     zone = Zone.create!(:name => "Wherever")
     zone.mobs.create(:name => "Whoever")
-    raid = zone.raids.create!(:raid_date => @drop_time.to_date)
-    raid.instances.create(:start_time => @drop_time - 1.hour, :end_time => @drop_time + 2.hours)
+    raid = Raid.create!(:raid_date => @drop_time.to_date)
+    raid.instances.create!(:start_time => @drop_time - 1.hour, :end_time => @drop_time + 2.hours)
 
     # Need to be logged in
     login_as :quentin

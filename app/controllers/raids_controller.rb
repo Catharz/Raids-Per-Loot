@@ -9,7 +9,7 @@ class RaidsController < ApplicationController
   # GET /raids
   # GET /raids.json
   def index
-    @raids = Raid.paginate(:page => params[:page], :per_page => 15)
+    @raids = Raid.order("raid_date").paginate(:page => params[:page], :per_page => 15)
 
     @raids.reject! { |raid| !raid.drops.include? Drop.find(params[:drop_id].to_i) } if params[:drop_id]
 

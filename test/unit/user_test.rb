@@ -16,28 +16,29 @@ class UserTest < ActiveSupport::TestCase
   def test_should_require_login
     assert_no_difference 'User.count' do
       u = create_user(:login => nil)
-      assert u.errors.has_key?(:login)
+      assert u.errors.messages
+      assert_false u.errors.messages[:login].empty?
     end
   end
 
   def test_should_require_password
     assert_no_difference 'User.count' do
       u = create_user(:password => nil)
-      assert u.errors.has_key?(:password)
+      assert_false u.errors.messages[:password].empty?
     end
   end
 
   def test_should_require_password_confirmation
     assert_no_difference 'User.count' do
       u = create_user(:password_confirmation => nil)
-      assert u.errors.has_key?(:password_confirmation)
+      assert_false u.errors.messages[:password_confirmation].empty?
     end
   end
 
   def test_should_require_email
     assert_no_difference 'User.count' do
       u = create_user(:email => nil)
-      assert u.errors.has_key?(:email)
+      assert_false u.errors.messages[:email].empty?
     end
   end
 

@@ -10,29 +10,29 @@ class ArchetypesControllerTest < ActionController::TestCase
     login_as :quentin
   end
 
-  def test_should_create_archetype
-    assert_difference 'Archetype.count' do
-      create_archetype
-      assert_response :redirect
+  test "should create archetype" do
+    assert_difference('Archetype.count') do
+      post :create, :archetype => {:name => 'Blah'}
     end
+
+    assert_redirected_to archetype_path(assigns(:archetype))
   end
 
-  def test_archetype_cannot_be_own_parent
-    create_archetype :name => 'Parent'
-    assert_no_difference 'Archetype.count' do
-      create_archetype :name => 'Parent', :parent => Archetype.find_by_name('Parent')
+  test "archetype cannot be own parent" do
+    parent = Factory.create(:archetype, :name => 'Parent')
+    assert_no_difference('Archetype.count') do
+      edit_archetype parent, :parent_id => parent.id
       assert_response :ok
       assert response.body.include? "Cannot set an archetypes parent to itself"
     end
   end
 
-  def test_parent_archetype_cannot_be_own_child
-    create_archetype :name => 'Grand Parent'
-    create_archetype :name => 'Parent', :parent_id => Archetype.find_by_name('Grand Parent').id
-    create_archetype :name => 'Child', :parent_id => Archetype.find_by_name('Parent').id
+  test "parent archetype cannot be own child" do
+    grand_parent = Factory.create(:archetype, :name => 'Grand Parent')
+    parent = Factory.create(:archetype, :name => 'Parent', :parent => grand_parent)
+    child = Factory.create(:archetype, :name => 'Child', :parent => parent)
+
     assert_no_difference 'Archetype.count' do
-      grand_parent = Archetype.find_by_name('Grand Parent')
-      child = Archetype.find_by_name('Child')
       edit_archetype grand_parent, :parent_id => child.id
       assert_response :ok
       assert response.body.include? "Cannot set an archetypes parent to one of its descendents"
@@ -45,6 +45,6 @@ class ArchetypesControllerTest < ActionController::TestCase
     end
 
     def create_archetype(options = {})
-      post :create, :archetype => { :name => 'Test' }.merge(options)
+      post :create, :archetype => Factory.create(:archetype, options)
     end
 end

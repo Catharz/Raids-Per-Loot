@@ -23,8 +23,6 @@ class PlayerTest < ActiveSupport::TestCase
 
   protected
     def create_player(options = {})
-      record = Player.new({ :name => 'Humpty' }.merge(options))
-      record.save
-      record
+      Factory.create(:player, {:name => 'Humpty'}.merge(options))
     end
 end

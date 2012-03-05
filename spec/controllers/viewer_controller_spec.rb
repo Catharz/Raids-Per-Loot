@@ -4,7 +4,7 @@ describe ViewerController do
 
   describe "GET 'show'" do
     it "should be successful" do
-      get 'show'
+      get 'show', :name => "home"
       response.should be_success
     end
   end

@@ -1,28 +1,35 @@
 require 'spec_helper'
 
 describe "links/index.html.erb" do
+  fixtures :users
+
   before(:each) do
+    login_as users(:quentin)
+    category1 = stub_model(LinkCategory, :title => "Blah 1", :description => "Blah Blah 1")
+    category2 = stub_model(LinkCategory, :title => "Blah 2", :description => "Blah Blah 2")
     assign(:links, [
-      stub_model(Link,
-        :url => "Url",
-        :title => "Title",
-        :description => "MyText"
-      ),
-      stub_model(Link,
-        :url => "Url",
-        :title => "Title",
-        :description => "MyText"
-      )
+        stub_model(Link,
+                   :url => "Url 1",
+                   :title => "Title 1",
+                   :description => "MyText 1",
+                   :link_category_id => category1.id
+        ),
+        stub_model(Link,
+                   :url => "Url 2",
+                   :title => "Title 2",
+                   :description => "MyText 2",
+                   :link_category_id => category2.id
+        )
     ])
   end
 
   it "renders a list of links" do
     render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => "Url".to_s, :count => 2
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => "Title".to_s, :count => 2
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => "MyText".to_s, :count => 2
+    assert_select "tr>td", :text => "Url 1".to_s, :count => 1
+    assert_select "tr>td", :text => "Title 1".to_s, :count => 1
+    assert_select "tr>td", :text => "MyText 1".to_s, :count => 1
+    assert_select "tr>td", :text => "Url 2".to_s, :count => 1
+    assert_select "tr>td", :text => "Title 2".to_s, :count => 1
+    assert_select "tr>td", :text => "MyText 2".to_s, :count => 1
   end
 end

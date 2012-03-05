@@ -3,6 +3,9 @@ Feature: Manage loot_types
   The Raid Leader
   wants a list of loot types
   
+  Background: Logged In
+    Given I am logged in as a user
+
   Scenario: Register new loot_type
     Given I am on the new loot_type page
     When I fill in "Name" with "name 1"

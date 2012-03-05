@@ -3,6 +3,9 @@ Feature: Manage ranks
   The raid leader
   wants to be able to have player ranks
   
+  Background: Logged In
+    Given I am logged in as a user
+
   Scenario: Register new rank
     Given I am on the new rank page
     When I fill in "Name" with "name 1"

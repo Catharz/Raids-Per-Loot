@@ -9,6 +9,10 @@ require 'authenticated_test_helper'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+#def logged_in?
+#  !!@request.session[:user_id] || !!current_user
+#end
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
@@ -17,6 +21,7 @@ RSpec.configure do |config|
   # config.mock_with :mocha
   # config.mock_with :flexmock
   # config.mock_with :rr
+  config.mock_with :rspec
 
   config.include AuthenticatedTestHelper
 

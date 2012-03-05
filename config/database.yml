@@ -24,3 +24,5 @@ production:
   username: southerncross
   password: d@nger
   host: localhost
+cucumber:
+  <<: *test

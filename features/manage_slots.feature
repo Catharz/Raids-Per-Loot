@@ -3,6 +3,9 @@ Feature: Manage slots
   The raid leader
   wants to know what slot loot goes in
   
+  Background: Logged In
+    Given I am logged in as a user
+
   Scenario: Register new slot
     Given I am on the new slot page
     When I fill in "Name" with "name 1"

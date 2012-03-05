@@ -1,27 +1,30 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.3'
-gem 'rake'
+gem 'rails', '3.1'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3-ruby', :require => 'sqlite3'
+gem 'sqlite3'
 
-gem 'json'
-gem 'RedCloth'
-gem 'jquery-rails'
-gem 'in_place_editing'
 gem 'haml'
 gem 'ruby_parser'
 gem 'hpricot'
 gem 'escape_utils'
+
+gem 'json'
+gem 'RedCloth'
+gem 'jquery-rails'
+
+gem 'in_place_editing'
 gem 'will_paginate'
-gem 'acts_as_tree', '~> 0.1.1'
+gem 'acts_as_tree'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
+  gem 'sass-rails', "  ~> 3.1.0"
+  gem 'coffee-rails', "~> 3.1.0"
   gem 'uglifier'
 end
 
@@ -33,22 +36,27 @@ end
 
 #START:dev_and_test_gems
 group :test do
+# Pretty printed test output
+  gem 'turn', '< 0.8.3', :require => false
+
   #START_HIGHLIGHT
   gem "database_cleaner"
   gem "selenium-client"
   #END_HIGHLIGHT
-	gem "test-unit"
+
+	gem "factory_girl_rails"
   gem "rspec-rails"
-  gem "cucumber-rails"
+  gem "cucumber-rails", :require => false
   gem "webrat"
+	gem "test-unit"
 end
 
-# Deply with Heroku
+# Deploy with Heroku
 group :development, :test do
 	gem 'heroku'
   gem 'taps'
 
 	# To use debugger
 	#gem 'ruby-debug'
-	gem 'ruby-prof'
+	#gem 'ruby-prof'
 end

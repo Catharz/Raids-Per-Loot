@@ -4,35 +4,23 @@ class Player < ActiveRecord::Base
   belongs_to :archetype
   belongs_to :rank
 
-  #TODO Refactor to have a player linking to character(s) of different ranks
-
   has_and_belongs_to_many :instances
+  has_many :raids, :through => :instances, :uniq => :true
+
   has_many :drops
+  has_many :items, :through => :drops, :conditions => ["assigned_to_player = ?", true]
+
+  #TODO Refactor to have a player linking to character(s) of different ranks
 
   validates_presence_of :name
   validates_uniqueness_of :name
 
   def loot_rate(loot_type)
-    raids.count / (drops.of_type(loot_type).count + 1)
-  end
-
-  def drop_list
-    drop_list ||= self.drop_list
-    drop_list
+    raids.count / (items.of_type(loot_type).count + 1)
   end
 
   def calculate_loot_rate(event_count, item_count)
     event_count / (item_count + 1)
-  end
-
-  def raids
-    @raids ||= raid_list
-  end
-
-  def raid_list
-    raid_list = []
-    instances.each.collect { |instance| raid_list << instance.raid unless raid_list.include? instance.raid }
-    raid_list
   end
 
   def self.find_by_archetype(archetype)
@@ -45,7 +33,7 @@ class Player < ActiveRecord::Base
   end
 
   def self.find_main_characters
-    Player.find_by_main_character_id(nil, :order => 'name')
+    Player.order("name").where("main_character_id = ?", nil)
   end
 
   def to_xml(options = {})
