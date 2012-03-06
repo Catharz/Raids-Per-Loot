@@ -60,3 +60,7 @@ group :development, :test do
 	#gem 'ruby-debug'
 	#gem 'ruby-prof'
 end
+
+group :production do
+  gem 'pg'
+end
