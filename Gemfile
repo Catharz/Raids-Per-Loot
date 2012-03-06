@@ -63,4 +63,5 @@ end
 
 group :production do
   gem 'pg'
+  gem 'execjs'
 end
