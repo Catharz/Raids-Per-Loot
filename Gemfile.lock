@@ -207,7 +207,6 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner
   escape_utils
-  execjs
   factory_girl_rails
   haml
   heroku
