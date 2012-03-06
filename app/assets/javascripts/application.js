@@ -8,4 +8,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require controls
+//= require effects
+//= require extensions
 //= require_tree .
