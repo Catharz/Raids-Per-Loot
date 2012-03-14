@@ -12,6 +12,26 @@ class Drop < ActiveRecord::Base
   validates_associated :zone, :mob, :player, :item, :instance, :on => :update, :message => "Must Exist!"
   #validates_with DropValidator, :on => :update
 
+  def self.by_instance(instance_id)
+    instance_id ? where('instance_id = ?', instance_id) : scoped
+  end
+
+  def self.by_zone(zone_id)
+    zone_id ? where('zone_id = ?', zone_id) : scoped
+  end
+
+  def self.by_mob(mob_id)
+    mob_id ? where('mob_id = ?', mob_id) : scoped
+  end
+
+  def self.by_player(player_id)
+    player_id ? where('player_id = ?', player_id) : scoped
+  end
+
+  def self.by_item(item_id)
+    item_id ? where('item_id = ?', item_id) : scoped
+  end
+
   def assign_loot
     instance = Instance.find_by_zone_and_time(zone_name, drop_time)
     zone = Zone.find_by_name(zone_name)
@@ -72,6 +92,14 @@ class Drop < ActiveRecord::Base
 
   def local_time(date_time)
     TZInfo::Timezone.get('Australia/Melbourne').local_time(date_time)
+  end
+
+  def loot_type_name
+    if self.item
+      self.item.loot_type ? self.item.loot_type.name : "Unknown"
+    else
+      "Unknown"
+    end
   end
 
   def to_xml(options = {})

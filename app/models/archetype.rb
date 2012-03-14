@@ -1,10 +1,10 @@
 class Archetype < ActiveRecord::Base
   acts_as_tree :order => "name"
+  has_many :players
 
   validates_presence_of :name
   validates_uniqueness_of :name
   has_and_belongs_to_many :items
-  has_many :players
   validates_with ArchetypesValidator
 
   # This only handles a depth of 4 classes, which is more than enough for EQ2!

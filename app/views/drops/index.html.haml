@@ -1,53 +1,44 @@
-%table
-  %tr
-    %th Zone name
-    %th Mob name
-    %th Player name
-    %th Item name
-    %th Eq2 item
-    %th Drop time
-    %th Assigned?
-    - if logged_in?
-      %th
-      %th
-      %th
-    %th
-  - @drops.each do |drop|
+:javascript
+  $(document).ready(function(){
+      $('#dataTable').dataTable( {
+        "aaSorting": [[5,'desc']]
+      } );
+  });
+%table.dataTable{:id => "dataTable" }
+  %thead
     %tr
-      %td
-        = drop.zone_name
-      %td= drop.mob_name
-      %td= drop.player_name
-      %td
-        - if drop.info_url
-          %a{:href => drop.info_url}= drop.item_name
-        - else
-          = drop.item_name
-      %td= drop.eq2_item_id
-      %td= drop.drop_time
-      - if logged_in?
+      %th Zone name
+      %th Mob name
+      %th Player name
+      %th Item name
+      %th Drop time
+      %th Assigned?
+      %th
+      %th
+      %th
+      %th
+  %tbody
+    - @drops.each do |drop|
+      %tr
+        %td
+          = drop.zone_name
+        %td= drop.mob_name
+        %td= drop.player_name
+        %td
+          - if drop.info_url
+            %a{:href => drop.info_url}= drop.item_name
+          - else
+            = drop.item_name
+        %td= drop.drop_time
         - if drop.assigned_to_player
           %td Yes
           %td= link_to 'Un-Assign', unassign_loot_drop_path(drop), :confirm => 'Are you sure?'
-          %td= link_to 'Show', drop
-          %td
-          %td
         - else
           %td No
           %td= link_to 'Assign', assign_loot_drop_path(drop), :confirm => 'Are you sure?'
-          %td= link_to 'Show', drop
-          %td= link_to 'Edit', edit_drop_path(drop)
-          %td= link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete
-      - else
-        - if drop.assigned_to_player
-          %td Yes
-        - else
-          %td No
         %td= link_to 'Show', drop
+        %td= link_to 'Edit', edit_drop_path(drop)
+        %td= link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete
 %br/
-- if @paginate
-  .digg_pagination
-    = will_paginate @drops, :container => false
-  %br/
 - if logged_in?
   = link_to 'New Drop', new_drop_path

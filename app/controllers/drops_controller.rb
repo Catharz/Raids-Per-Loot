@@ -9,20 +9,10 @@ class DropsController < ApplicationController
   # GET /drops
   # GET /drops.xml
   def index
-    @paginate = (params[:instance_id].nil? and params[:player_id].nil? and params[:mob_id].nil? and params[:zone_id].nil? and params[:item_id].nil?)
-
-    if @paginate
-      @drops = Drop.paginate(:page => params[:page], :per_page => 15)
-    else
-      @drops = Drop.all
-      @drops.reject! { |drop| !drop.raid_id.eql? params[:raid_id].to_i } if params[:raid_id]
-      @drops.reject! { |drop| !drop.player_id.eql? params[:player_id].to_i } if params[:player_id]
-      @drops.reject! { |drop| !drop.mob_id.eql? params[:mob_id].to_i } if params[:mob_id]
-      @drops.reject! { |drop| !drop.zone_id.eql? params[:zone_id].to_i } if params[:zone_id]
-      @drops.reject! { |drop| !drop.item_id.eql? params[:item_id].to_i } if params[:item_id]
-
-    end
-    @drops.sort! { |a, b| b.drop_time <=> a.drop_time } unless @drops.empty?
+    @drops = Drop.by_instance(params[:instance_id])
+      .by_zone(params[:zone_id]).by_mob(params[:mob_id])
+      .by_player(params[:player_id]).by_item(params[:item_id])
+      .eager_load(:player, :instance, :zone, :mob, :item => :loot_type)
 
     respond_to do |format|
       format.html # index.html.erb

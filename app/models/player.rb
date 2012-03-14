@@ -23,6 +23,22 @@ class Player < ActiveRecord::Base
     event_count / (item_count + 1)
   end
 
+  def self.with_name_like(name)
+    name ? where('players.name LIKE ?', "%#{name}%") : scoped
+  end
+
+  def self.of_rank(rank_id)
+    if rank_id
+      where(:rank_id => rank_id)
+    else
+      scoped
+    end
+  end
+
+  def self.by_instance(instance_id)
+    instance_id ? where('instances.instance_id = ?', instance_id) : scoped
+  end
+
   def self.find_by_archetype(archetype)
     all_players = Array.new
     Archetype.family(archetype).each do |child_archetype|

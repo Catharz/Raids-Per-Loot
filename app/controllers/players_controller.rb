@@ -1,8 +1,10 @@
-require File.dirname(__FILE__) + '/../../app/models/archetype'
+require 'will_paginate/array'
 
 class PlayersController < ApplicationController
   before_filter :login_required, :except => [:index, :show]
   before_filter :set_pagetitle
+
+  helper_method :sort_column, :sort_direction
 
   def set_pagetitle
     @pagetitle = "Players"
@@ -11,35 +13,53 @@ class PlayersController < ApplicationController
   # GET /players
   # GET /players.json
   def index
-    @players = Player.order("players.name").eager_load({:instances => :raid}, :archetype, :rank)
-    @players = @players.where("players.name like ?", "%" + params[:search] + "%") if params[:search]
-    @players = @players.where("instances.instance_id = ?", params[:instance_id].to_i) if params[:instance_id]
-    @players = @players.where("players.rank_id = ?", params[:rank_id].to_i) if params[:rank_id]
+    @players = Player.with_name_like(params[:with_name_like]).eager_load(:archetype, :rank, :main_character)
+    @players = sort_results(@players.to_a, sort_column, sort_direction.eql?("asc")).paginate(:per_page => 20, :page => params[:page])
+
+    @archetypes = Archetype.roots
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @players }
+      format.xml { render :xml => @players.to_xml }
+    end
+  end
+
+  # GET /players_list
+  # GET /players_list.json
+  def stats
+=begin
+  select p.name,
+         mc.name main_character,
+         a.name archetype,
+         r.name rank,
+         count(distinct ip.instance_id) as instances,
+         count(distinct rc.id) as raids,
+         count(distinct d.id) as items,
+         lt.name item_type
+  from players p
+  left outer join players mc on mc.id = p.main_character_id
+  left outer join archetypes a on a.id = p.archetype_id
+  left outer join ranks r on r.id = p.rank_id
+  left outer join instances_players ip on ip.player_id = p.id
+  left outer join instances i on i.id = ip.instance_id
+  left outer join raids rc on rc.id = i.raid_id
+  left outer join drops d on d.player_id = p.id
+  left join items it on it.id = d.item_id
+  left outer join loot_types lt on lt.id = it.loot_type_id
+  where p.name like 'C%'
+  group by p.name, main_character, archetype, rank, item_type;
+=end
+    @players = Player.with_name_like(params[:with_name_like]).of_rank(params[:rank_id]).by_instance(params[:instance_id]).eager_load({:instances => :raid}, :archetype, :rank, :main_character)
+
+    @players = sort_results(@players.to_a, sort_column, sort_direction.eql?("asc")).paginate(:per_page => 20, :page => params[:page])
+
+    @archetypes = Archetype.roots
 
     if params[:instance_id]
       @pagetitle = "Listing Participants"
     else
       @pagetitle = "Listing Players"
-    end
-
-    sort = params[:sort]
-    if !sort
-      @players.sort! do |a, b|
-        a.name <=> b.name
-      end
-    else
-      # NOTE: This is a reverse sort, as we want the higher rates at the top
-      @players.sort! do |a, b|
-        b.loot_rate(sort) <=> a.loot_rate(sort)
-      end
-    end
-
-    @player_archetypes = @players.group_by do |p|
-      if p.archetype.nil?
-        "Unknown"
-      else
-        p.archetype.root.name
-      end
     end
 
     respond_to do |format|
@@ -55,10 +75,10 @@ class PlayersController < ApplicationController
     @player = Player.find(params[:id], :include => [:instances, :drops])
 
     @player_drops = @player.drops.group_by do |drop|
-      unless drop.item.nil? or drop.item.loot_type.nil?
-        drop.item.loot_type.name
-      else
+      if drop.item.nil? or drop.item.loot_type.nil?
         "Unknown"
+      else
+        drop.item.loot_type.name
       end
     end
 
@@ -137,5 +157,53 @@ class PlayersController < ApplicationController
       format.json { head :ok }
       format.xml { head :ok }
     end
+  end
+
+  private
+  def sort_results(players, sort_type, ascending)
+    players.sort! do |a, b|
+      case sort_type
+        when "rank"
+          player_a = a.rank ? a.rank.name : "Unknown"
+          player_b = b.rank ? b.rank.name : "Unknown"
+        when "main"
+          player_a = a.main_character ? a.main_character.name : a.name
+          player_b = b.main_character ? b.main_character.name : b.name
+        when "archetype"
+          player_a = a.archetype ? a.archetype.name : "Unknown"
+          player_b = b.archetype ? b.archetype.name : "Unknown"
+        when "raids"
+          player_a = a.raids.count
+          player_b = b.raids.count
+        when "instances"
+          player_a = a.instances.count
+          player_b = b.instances.count
+        when "armour_rate"
+          player_a = a.loot_rate("Armour")
+          player_b = b.loot_rate("Armour")
+        when "weapon_rate"
+          player_a = a.loot_rate("Weapon")
+          player_b = b.loot_rate("Weapon")
+        when "jewellery_rate"
+          player_a = a.loot_rate("Jewellery")
+          player_b = b.loot_rate("Jewellery")
+        when "adornment_rate"
+          player_a = a.loot_rate("Adornment")
+          player_b = b.loot_rate("Adornment")
+        else
+          player_a = a.name
+          player_b = b.name
+      end
+      ascending ? player_a <=> player_b : player_b <=> player_a
+    end
+    players.to_a
+  end
+
+  def sort_column
+    params[:sort] ? params[:sort] : "name"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 end

@@ -1,0 +1,27 @@
+%table.pretty
+  %tr
+    %th= sortable_column "name", "Name"
+    %th= sortable_column "rank", "Rank"
+    %th= sortable_column "main", "Main"
+    %th= sortable_column "archetype", "Class"
+    %th= sortable_column "raids", "# Raids"
+    %th= sortable_column "instances", "# Instances"
+    %th= sortable_column "armour_rate", "Armour Rate"
+    %th= sortable_column "jewellery_rate", "Jewellery Rate"
+    %th= sortable_column "weapon_rate", "Weapon Rate"
+    %th= sortable_column "adornment_rate", "Adornment Rate"
+    %th
+    - @players.each do |player|
+      - player_root_archetype = player.archetype ? player.archetype.root.name.downcase : "Unknown"
+      %tr{:id => player_root_archetype + "_row"}
+        %td= player.name
+        %td= player.rank ? player.rank.name : "Unknown"
+        %td= player.main_character ? player.main_character.name : player.name
+        %td= player.archetype ? player.archetype.name : "Unknown"
+        %td{:align => "right"}= player.raids.count
+        %td{:align => "right"}= player.instances.count
+        %td{:align => "right"}= player.loot_rate("Armour")
+        %td{:align => "right"}= player.loot_rate("Jewellery")
+        %td{:align => "right"}= player.loot_rate("Weapon")
+        %td{:align => "right"}= player.loot_rate("Adornment")
+        %td= link_to 'Show', player

@@ -1,7 +1,7 @@
 class Rank < ActiveRecord::Base
+  has_many :players
   validates_presence_of :name
   validates_uniqueness_of :name
-  has_many :players
 
   def to_xml(options = {})
     to_xml_opts = {}
