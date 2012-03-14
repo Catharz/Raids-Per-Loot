@@ -48,7 +48,7 @@ group :test do
   gem "rspec-rails"
   gem "cucumber-rails", :require => false
   gem "webrat"
-	gem "test-unit"
+	gem "test-unit", "2.4.7"
 end
 
 # Deploy with Heroku
