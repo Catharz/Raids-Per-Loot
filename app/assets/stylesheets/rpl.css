@@ -6,7 +6,7 @@ body {
 #pagewrapper {
     width: 99%;
     margin: 10px auto;
-    padding: 10;
+    padding: 10px;
     border: 1px solid #999;
     font-family: Arial, Helvetica, sans-serif;
 }

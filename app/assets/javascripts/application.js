@@ -4,10 +4,30 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-//= require_self
 //= require jquery
 //= require jquery_ujs
-//= require controls
-//= require effects
-//= require extensions
-//= require_tree .
+//= require jquery.dataTables
+//= require_self
+
+$(function () {
+    // Sorting and pagination links.
+    $('#player_list th a, #player_list .pagination a').live('click',
+        function () {
+            $.getScript(this.href);
+            return false;
+        }
+    );
+    $('#player_stats th a, #player_stats .pagination a').live('click',
+        function () {
+            $.getScript(this.href);
+            return false;
+        }
+    );
+
+    // Search form.
+    $('#players_search').submit(function () {
+            $.get(this.action, $(this).serialize(), null, 'script');
+            return false;
+        }
+    );
+});
