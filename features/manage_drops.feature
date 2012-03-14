@@ -33,7 +33,7 @@ Feature: Manage drops
       |zone_name 4|mob_name 4|player_name 4|item_name 4|eq2_item_id 4|2011-09-18 20:00:00 +1000|
     When I delete the 3rd drop
     Then I should see the following drops:
-      |Zone name|Mob name|Player name|Item name|Eq2 item|Drop time|
-      |zone_name 1|mob_name 1|player_name 1|item_name 1|eq2_item_id 1|2011-09-21 20:45:00 +1000|
-      |zone_name 2|mob_name 2|player_name 2|item_name 2|eq2_item_id 2|2011-09-20 20:30:00 +1000|
-      |zone_name 4|mob_name 4|player_name 4|item_name 4|eq2_item_id 4|2011-09-18 20:00:00 +1000|
+      |Zone name|Mob name|Player name|Item name|Drop time|
+      |zone_name 1|mob_name 1|player_name 1|item_name 1|2011-09-21 20:45:00 +1000|
+      |zone_name 2|mob_name 2|player_name 2|item_name 2|2011-09-20 20:30:00 +1000|
+      |zone_name 4|mob_name 4|player_name 4|item_name 4|2011-09-18 20:00:00 +1000|
