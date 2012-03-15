@@ -7,6 +7,13 @@ class Archetype < ActiveRecord::Base
   has_and_belongs_to_many :items
   validates_with ArchetypesValidator
 
+  def self.root_names
+    root_name_list = []
+    self.roots.each { |a| root_name_list << a.name }
+    root_name_list << "Unknown"
+    root_name_list
+  end
+
   # This only handles a depth of 4 classes, which is more than enough for EQ2!
   def self.descendants(root_archetype)
     archetypes = []

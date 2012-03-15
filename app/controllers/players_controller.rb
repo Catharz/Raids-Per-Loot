@@ -13,10 +13,7 @@ class PlayersController < ApplicationController
   # GET /players
   # GET /players.json
   def index
-    @players = Player.with_name_like(params[:with_name_like]).eager_load(:archetype, :rank, :main_character)
-    @players = sort_results(@players.to_a, sort_column, sort_direction.eql?("asc")).paginate(:per_page => 20, :page => params[:page])
-
-    @archetypes = Archetype.roots
+    @players = Player.of_rank(params[:rank_id]).by_instance(params[:instance_id]).eager_load({:instances => :raid}, :archetype, :rank, :main_character)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,54 +22,10 @@ class PlayersController < ApplicationController
     end
   end
 
-  # GET /players_list
-  # GET /players_list.json
-  def stats
-=begin
-  select p.name,
-         mc.name main_character,
-         a.name archetype,
-         r.name rank,
-         count(distinct ip.instance_id) as instances,
-         count(distinct rc.id) as raids,
-         count(distinct d.id) as items,
-         lt.name item_type
-  from players p
-  left outer join players mc on mc.id = p.main_character_id
-  left outer join archetypes a on a.id = p.archetype_id
-  left outer join ranks r on r.id = p.rank_id
-  left outer join instances_players ip on ip.player_id = p.id
-  left outer join instances i on i.id = ip.instance_id
-  left outer join raids rc on rc.id = i.raid_id
-  left outer join drops d on d.player_id = p.id
-  left join items it on it.id = d.item_id
-  left outer join loot_types lt on lt.id = it.loot_type_id
-  where p.name like 'C%'
-  group by p.name, main_character, archetype, rank, item_type;
-=end
-    @players = Player.with_name_like(params[:with_name_like]).of_rank(params[:rank_id]).by_instance(params[:instance_id]).eager_load({:instances => :raid}, :archetype, :rank, :main_character)
-
-    @players = sort_results(@players.to_a, sort_column, sort_direction.eql?("asc")).paginate(:per_page => 20, :page => params[:page])
-
-    @archetypes = Archetype.roots
-
-    if params[:instance_id]
-      @pagetitle = "Listing Participants"
-    else
-      @pagetitle = "Listing Players"
-    end
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @players }
-      format.xml { render :xml => @players.to_xml(:include => [:instances, :drops]) }
-    end
-  end
-
 # GET /players/1
 # GET /players/1.json
   def show
-    @player = Player.find(params[:id], :include => [:instances, :drops])
+    @player = Player.find(params[:id], :include => {:drops => :instance} )
 
     @player_drops = @player.drops.group_by do |drop|
       if drop.item.nil? or drop.item.loot_type.nil?

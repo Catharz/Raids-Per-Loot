@@ -5,7 +5,7 @@ Feature: Manage players
 
   Background: Logged In
     Given I am logged in as a user
-  
+
   Scenario: Register new player
     Given I am on the new player page
     When I fill in "Name" with "name 1"
@@ -13,6 +13,7 @@ Feature: Manage players
     Then I should see "name 1"
     And I should see "Player was successfully created"
 
+  @loot_types
   Scenario: Delete player
     Given the following players:
       |name|

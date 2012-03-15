@@ -10,13 +10,11 @@ class Player < ActiveRecord::Base
   has_many :drops
   has_many :items, :through => :drops, :conditions => ["assigned_to_player = ?", true]
 
-  #TODO Refactor to have a player linking to character(s) of different ranks
-
   validates_presence_of :name
   validates_uniqueness_of :name
 
   def loot_rate(loot_type)
-    raids.count / (items.of_type(loot_type).count + 1)
+    calculate_loot_rate(raids.count, items.of_type(loot_type).count)
   end
 
   def calculate_loot_rate(event_count, item_count)
@@ -28,15 +26,19 @@ class Player < ActiveRecord::Base
   end
 
   def self.of_rank(rank_id)
-    if rank_id
-      where(:rank_id => rank_id)
-    else
-      scoped
-    end
+    rank_id ? where(:rank_id => rank_id) : scoped
   end
 
   def self.by_instance(instance_id)
     instance_id ? where('instances.instance_id = ?', instance_id) : scoped
+  end
+
+  def archetype_root
+    if archetype
+      archetype.root ? archetype.root.name : "Unknown"
+    else
+      "Unknown"
+    end
   end
 
   def self.find_by_archetype(archetype)
@@ -44,8 +46,7 @@ class Player < ActiveRecord::Base
     Archetype.family(archetype).each do |child_archetype|
       all_players << Player.all(:conditions => ['archetype_id = ?', child_archetype.id], :order => :name).flatten
     end
-    all_players.collect
-    return all_players.flatten.uniq
+    all_players.flatten.uniq
   end
 
   def self.find_main_characters

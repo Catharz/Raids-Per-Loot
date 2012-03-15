@@ -1,3 +1,7 @@
+Before('@loot_types') do
+  %w{Armour, Jewellery, Weapon}.each { |loot_type_name| Factory.create(:loot_type, :name => loot_type_name) }
+end
+
 Given /^I have a player named (.+)$/ do |player|
   Player.create(:name => player)
 end
@@ -8,7 +12,7 @@ end
 
 When /^I delete the (\d+)(?:st|nd|rd|th) player$/ do |pos|
   visit players_path
-  within("table tr:nth-child(#{pos.to_i+1})") do
+  within("table tbody tr:nth-child(#{pos.to_i})") do
     click_link "Destroy"
   end
 end

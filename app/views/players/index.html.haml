@@ -1,16 +1,57 @@
-#players_search
-  = form_for players_path, :method => :get, :id => "players_search" do
-    %p
-      = hidden_field_tag :direction, params[:direction]
-      = hidden_field_tag :sort, params[:sort]
-      = text_field_tag :with_name_like, params[:with_name_like]
-      = submit_tag "Search", :name => nil
-%p
-#player_list
-  = render 'player_list'
+:javascript
+  $(document).ready(function() {
+  	$('#dataTable').dataTable( {
+  		"aoColumns": [
+  			/* Name */   null,
+  			/* Rank */  null,
+  			/* Main */  null,
+  			/* Class */  null,
+  			/* Base Class */ { "bSearchable": true,
+  			                   "bVisible":    false },
+  			/* # Raids */  { "sType": "numeric" },
+  			/* # Instances */  { "sType": "numeric" },
+  			/* Armour Rate */  { "sType": "numeric" },
+  			/* Jewellery Rate */  { "sType": "numeric" },
+  			/* Weapon Rate */  { "sType": "numeric" },
+  			/* Show */    null,
+  			/* Edit */    null,
+  			/* Destroy */    null
+  		],
+        "aaSorting": [[0,'asc']]
+  		} );
+  } );
+%table.dataTable{:id => "dataTable" }
+  %thead
+    %tr
+      %th Name
+      %th Rank
+      %th Main
+      %th Class
+      %th Base Class
+      %th # Raids
+      %th # Instances
+      %th Armour Rate
+      %th Jewellery Rate
+      %th Weapon Rate
+      %th
+      %th
+      %th
+  %tbody
+    - @players.each do |player|
+      %tr{:id => "#{player.archetype_root}_row"}
+        %td= player.name
+        %td= player.rank ? player.rank.name : "Unknown"
+        %td= player.main_character ? player.main_character.name : player.name
+        %td= player.archetype ? player.archetype.name : "Unknown"
+        %td= player.archetype_root
+        %td{:align => "right"}= player.raids.count
+        %td{:align => "right"}= player.instances.count
+        %td{:align => "right"}= player.loot_rate("Armour")
+        %td{:align => "right"}= player.loot_rate("Jewellery")
+        %td{:align => "right"}= player.loot_rate("Weapon")
+        %td= link_to 'Show', player
+        %td= link_to 'Edit', edit_player_path(player)
+        %td= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete
 %br/
-.digg_pagination
-  = will_paginate @players, :container => false
 %br/
-- if logged_in?
-  = link_to 'New Player', new_player_path
+= link_to 'New Player', new_player_path

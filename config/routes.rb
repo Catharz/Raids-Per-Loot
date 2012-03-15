@@ -35,9 +35,6 @@ RaidsPerLoot::Application.routes.draw do
   resources :players do
     resources :instances
     resources :drops
-    collection do
-      get :stats
-    end
   end
 
   resources :archetypes do
