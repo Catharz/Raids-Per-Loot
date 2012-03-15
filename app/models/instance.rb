@@ -21,9 +21,20 @@ class Instance < ActiveRecord::Base
     instance
   end
 
+  def self.by_raid(raid_id)
+    raid_id ? where('raid_id = ?', raid_id) : scoped
+  end
+
+  def self.by_zone(zone_id)
+    zone_id ? where('zone_id = ?', zone_id) : scoped
+  end
+
+  def self.by_time(instance_time)
+    instance_time ? where('start_time <= ? AND end_time >= ?', instance_time, instance_time) : scoped
+  end
+
   def self.find_by_time(instance_time)
-    result = Instance.first(:conditions => ["start_time <= ? AND end_time >= ?", instance_time, instance_time])
-    result
+    by_time(instance_time).first
   end
   
   def to_xml(options = {})

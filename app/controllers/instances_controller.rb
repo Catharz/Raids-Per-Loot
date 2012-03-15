@@ -37,15 +37,7 @@ class InstancesController < ApplicationController
   # GET /instances
   # GET /instances.json
   def index
-    @paginate = params[:raid_id].nil? and params[:zone_id].nil? and params[:drop_id].nil?
-    if @paginate
-      @instances = Instance.paginate(:page => params[:page], :per_page => 15)
-    else
-      @instances = Instance.all
-      @instances.reject! { |instance| !instance.raid_id.eql? params[:raid_id].to_i } unless params[:raid_id].nil?
-      @instances.reject! { |instance| !instance.zone_id.eql? params[:zone_id].to_i } unless params[:zone_id].nil?
-      @instances.reject! { |instance| !instance.drops.include? Drop.find(params[:drop_id].to_i) } unless params[:drop_id].nil?
-    end
+    @instances = Instance.by_raid(params[:raid_id]).by_zone(params[:zone_id])
 
     respond_to do |format|
       format.html # index.html.erb

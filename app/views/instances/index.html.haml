@@ -1,30 +1,29 @@
-%table
-  %tr
-    %th Zone
-    %th Start time
-    %th End time
-    %th Raiders
-    %th
-    - if logged_in?
-      %th
-      %th
-  - @instances.each do |instance|
+:javascript
+  $(document).ready(function(){
+      $('#dataTable').dataTable( {
+        "aaSorting": [[1,'desc']]
+      } );
+  });
+%table.dataTable{:id => "dataTable" }
+  %thead
     %tr
-      - unless instance.zone.nil?
-        %td= instance.zone.name
-      - else
-        %td Unknown
-      %td= instance.start_time
-      %td= instance.end_time
-      %td= link_to 'Attendees', instance_players_path(instance)
-      %td= link_to 'Show', instance
-      - if logged_in?
+      %th Zone
+      %th Start time
+      %th End time
+      %th Raiders
+      %th
+      %th
+      %th
+  %tbody
+    - @instances.each do |instance|
+      %tr
+        %td= instance.zone ? instance.zone.name : "Unknown"
+        %td= instance.start_time
+        %td= instance.end_time
+        %td= link_to 'Attendees', instance_players_path(instance)
+        %td= link_to 'Show', instance
         %td= link_to 'Edit', edit_instance_path(instance)
         %td= link_to 'Destroy', instance, :confirm => 'Are you sure?', :method => :delete
 %br/
-- if @paginate
-  .digg_pagination
-    = will_paginate @instances, :container => false
 %br/
-- if logged_in?
-  = link_to 'New Instance', new_instance_path
+= link_to 'New Instance', new_instance_path
