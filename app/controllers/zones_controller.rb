@@ -24,8 +24,6 @@ class ZonesController < ApplicationController
   def index
     @zones = Zone.all
 
-    @zones.reject! { |zone| !zone.mobs.include? Mob.find(params[:mob_id].to_i) } if params[:mob_id]
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @zones }

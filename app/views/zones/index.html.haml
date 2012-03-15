@@ -1,14 +1,23 @@
-%table
-  %tr
-    %th Name
-    %th
-    %th
-    %th
-  - @zones.each do |zone|
+:javascript
+  $(document).ready(function(){
+      $('#dataTable').dataTable();
+  });
+%table.dataTable{:id => "dataTable" }
+  %thead
     %tr
-      %td= zone.name
-      %td= link_to 'Show', zone
-      %td= link_to 'Edit', edit_zone_path(zone)
-      %td= link_to 'Destroy', zone, :confirm => 'Are you sure?', :method => :delete
+      %th Name
+      %th Mobs
+      %th
+      %th
+      %th
+  %tbody
+    - @zones.each do |zone|
+      %tr
+        %td= zone.name
+        %td= link_to 'Mobs', zone_mobs_path(zone)
+        %td= link_to 'Show', zone
+        %td= link_to 'Edit', edit_zone_path(zone)
+        %td= link_to 'Destroy', zone, :confirm => 'Are you sure?', :method => :delete
+%br/
 %br/
 = link_to 'New Zone', new_zone_path
