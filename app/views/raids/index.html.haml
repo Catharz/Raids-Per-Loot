@@ -1,22 +1,25 @@
-%table
-  %tr
-    %th Raid date
-    %th Instances
-    %th
-    - if logged_in?
-      %th
-      %th
-  - @raids.each do |raid|
+:javascript
+  $(document).ready(function(){
+      $('#dataTable').dataTable( {
+        "aaSorting": [[0,'desc']]
+      } );
+  });
+%table.dataTable{:id => "dataTable" }
+  %thead
     %tr
-      %td= raid.raid_date
-      %td= link_to 'Instances', raid_instances_path(raid)
-      %td= link_to 'Show', raid
-      - if logged_in?
+      %th Raid date
+      %th Instances
+      %th
+      %th
+      %th
+  %tbody
+    - @raids.each do |raid|
+      %tr
+        %td= raid.raid_date
+        %td= link_to 'Instances', raid_instances_path(raid)
+        %td= link_to 'Show', raid
         %td= link_to 'Edit', edit_raid_path(raid)
         %td= link_to 'Destroy', raid, :confirm => 'Are you sure?', :method => :delete
 %br/
-.digg_pagination
-  = will_paginate @raids, :container => false
 %br/
-- if logged_in?
-  = link_to 'New Raid', new_raid_path
+= link_to 'New Raid', new_raid_path
