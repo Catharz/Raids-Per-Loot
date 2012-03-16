@@ -1,16 +1,23 @@
-%table
-  %tr
-    %th Title
-    %th Description
-    %th
-    %th
-    %th
-  - @link_categories.each do |link_category|
+:javascript
+  $(document).ready(function(){
+      $('#dataTable').dataTable();
+  });
+%table.dataTable{:id => "dataTable" }
+  %thead
     %tr
-      %td= link_category.title
-      %td= link_category.description
-      %td= link_to 'Show', link_category
-      %td= link_to 'Edit', edit_link_category_path(link_category)
-      %td= link_to 'Destroy', link_category, :confirm => 'Are you sure?', :method => :delete
+      %th Title
+      %th Description
+      %th
+      %th
+      %th
+  %tbody
+    - @link_categories.each do |link_category|
+      %tr
+        %td= link_category.title
+        %td= link_category.description
+        %td= link_to 'Show', link_category
+        %td= link_to 'Edit', edit_link_category_path(link_category)
+        %td= link_to 'Destroy', link_category, :confirm => 'Are you sure?', :method => :delete
+%br/
 %br/
 = link_to 'New Link category', new_link_category_path
