@@ -1,15 +1,25 @@
-%table
-  %tr
-    %th Login
-    %th Name
-    %th Email
-  - for user in @users
+:javascript
+  $(document).ready(function(){
+      $('#dataTable').dataTable();
+  });
+%table.dataTable{:id => "dataTable" }
+  %thead
     %tr
-      %td= h user.login
-      %td= h user.name
-      %td= h user.email
-      %td= link_to 'Show', user
-      %td= link_to 'Edit', edit_user_path(user)
-      %td= link_to 'Delete', user, :confirm => "Are you sure you want to delete '#{user.login}'?", :method => :delete
+      %th Login
+      %th Name
+      %th Email
+      %th
+      %th
+      %th
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= user.login
+        %td= user.name
+        %td= user.email
+        %td= link_to 'Show', user
+        %td= link_to 'Edit', edit_user_path(user)
+        %td= link_to 'Delete', user, :confirm => "Are you sure you want to delete '#{user.login}'?", :method => :delete
+%br/
 %br/
 = link_to 'New User', new_user_path
