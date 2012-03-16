@@ -23,9 +23,7 @@ class MobsController < ApplicationController
   # GET /mobs
   # GET /mobs.json
   def index
-    @mobs = Mob.all
-
-    @mobs.reject! { |mob| !mob.zones.find_by_id(params[:zone_id].to_i) } if params[:zone_id]
+    @mobs = Mob.by_zone(params[:zone_id])
 
     respond_to do |format|
       format.html # index.html.erb

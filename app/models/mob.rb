@@ -21,6 +21,14 @@ class Mob < ActiveRecord::Base
     found_mob
   end
 
+  def self.by_zone(zone_id)
+    zone_id ? zones.where('id = ?', zone_id) : scoped
+  end
+
+  def self.by_zone_name(zone_name)
+    zone_name ? zones.where('name = ?', zone_name) : scoped
+  end
+
   def to_xml(options = {})
     to_xml_opts = {}
     # a builder instance is provided when to_xml is called on a collection of instructors,
