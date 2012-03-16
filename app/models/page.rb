@@ -5,10 +5,10 @@ class Page < ActiveRecord::Base
   validates_uniqueness_of :name
 
   def self.find_main
-    Page.find_all_by_parent_id(nil, :order => 'position')
+    Page.where(:parent_id => nil).order(:position)
   end
 
   def self.find_main_public
-    Page.find_all_by_parent_id(nil, :conditions => ["admin != ?", true], :order => 'position')
+    Page.where(:parent_id => nil).where('admin = ?', false).order(:position)
   end
 end

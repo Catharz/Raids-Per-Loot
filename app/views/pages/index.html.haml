@@ -1,24 +1,31 @@
-%table
-  %tr
-    %th Name
-    %th Title
-    %th Nav Label
-    %th Body
-    %th Position
-    %th Admin?
-    %th
-    %th
-    %th
-  - @pages.each do |page|
+:javascript
+  $(document).ready(function(){
+      $('#dataTable').dataTable();
+  });
+%table.dataTable{:id => "dataTable" }
+  %thead
     %tr
-      %td= page.name
-      %td= page.title
-      %td= page.navlabel
-      %td= page.body
-      %td= page.position
-      %td= page.admin? ? "true" : "false"
-      %td= link_to 'Show', page
-      %td= link_to 'Edit', edit_page_path(page)
-      %td= link_to 'Destroy', page, :confirm => 'Are you sure?', :method => :delete
+      %th Name
+      %th Title
+      %th Nav Label
+      %th Body
+      %th Position
+      %th Admin?
+      %th
+      %th
+      %th
+  %tbody
+    - @pages.each do |page|
+      %tr
+        %td= page.name
+        %td= page.title
+        %td= page.navlabel
+        %td= page.body
+        %td= page.position
+        %td= page.admin? ? "true" : "false"
+        %td= link_to 'Show', page
+        %td= link_to 'Edit', edit_page_path(page)
+        %td= link_to 'Destroy', page, :confirm => 'Are you sure?', :method => :delete
+%br/
 %br/
 = link_to 'New Page', new_page_path
