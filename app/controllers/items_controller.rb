@@ -4,11 +4,7 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.all
-
-    @items.reject! { |item| !item.loot_type_id.eql? params[:loot_type_id].to_i } if params[:loot_type_id]
-    @items.reject! { |item| !item.archetypes.include? Archetype.find(params[:archetype_id].to_i) } if params[:archetype_id]
-    @items.reject! { |item| !item.slots.include? Slot.find(params[:slot_id].to_i) } if params[:slot_id]
+    @items = Item.by_loot_type(params[:loot_type_id])
 
     respond_to do |format|
       format.html # index.html.erb
