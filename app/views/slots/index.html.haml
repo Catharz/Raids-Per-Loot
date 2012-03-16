@@ -1,14 +1,21 @@
-%table
-  %tr
-    %th Name
-    %th
-    %th
-    %th
-  - @slots.each do |slot|
+:javascript
+  $(document).ready(function(){
+      $('#dataTable').dataTable();
+  });
+%table.dataTable{:id => "dataTable" }
+  %thead
     %tr
-      %td= slot.name
-      %td= link_to 'Show', slot
-      %td= link_to 'Edit', edit_slot_path(slot)
-      %td= link_to 'Destroy', slot, :confirm => 'Are you sure?', :method => :delete
+      %th Name
+      %th
+      %th
+      %th
+  %tbody
+    - @slots.each do |slot|
+      %tr
+        %td= slot.name
+        %td= link_to 'Show', slot
+        %td= link_to 'Edit', edit_slot_path(slot)
+        %td= link_to 'Destroy', slot, :confirm => 'Are you sure?', :method => :delete
+%br/
 %br/
 = link_to 'New Slot', new_slot_path
