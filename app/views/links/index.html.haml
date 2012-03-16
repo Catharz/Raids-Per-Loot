@@ -1,5 +1,9 @@
-- if logged_in?
-  %table
+:javascript
+  $(document).ready(function(){
+      $('#dataTable').dataTable();
+  });
+%table.dataTable{:id => "dataTable" }
+  %thead
     %tr
       %th Url
       %th Title
@@ -7,6 +11,7 @@
       %th
       %th
       %th
+  %tbody
     - @links.each do |link|
       %tr
         %td= link.url
@@ -15,13 +20,6 @@
         %td= link_to 'Show', link
         %td= link_to 'Edit', edit_link_path(link)
         %td= link_to 'Destroy', link, :confirm => 'Are you sure?', :method => :delete
-  %br/
-  = link_to 'New Link', new_link_path
-- else
-  - for category in @categories
-    - unless category.links.empty?
-      %h2= h category.title
-      %p= h category.description
-      %ul
-        - for link in category.links
-          %li= link_to link.title, link.url
+%br/
+%br/
+= link_to 'New Link', new_link_path

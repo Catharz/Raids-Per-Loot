@@ -9,7 +9,6 @@ class LinksController < ApplicationController
   # GET /links
   # GET /links.xml
   def index
-    @categories = LinkCategory.all(:order => 'title')
     @links = Link.all
 
     respond_to do |format|
