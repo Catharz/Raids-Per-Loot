@@ -1,17 +1,25 @@
-%table
-  %tr
-    %th Name
-    %th Parent Class
-    %th
-    %th
-    %th
-  - @archetypes.each do |archetype|
+:javascript
+  $(document).ready(function(){
+      $('#dataTable').dataTable();
+  });
+%table.dataTable{:id => "dataTable" }
+  %thead
     %tr
-      %td= archetype.name
-      %td
-        = archetype.parent.name unless archetype.parent.nil?
-      %td= link_to 'Show', archetype
-      %td= link_to 'Edit', edit_archetype_path(archetype)
-      %td= link_to 'Destroy', archetype, :confirm => 'Are you sure?', :method => :delete
+      %th Name
+      %th Parent Class
+      %th Base Class
+      %th
+      %th
+      %th
+  %tbody
+    - @archetypes.each do |archetype|
+      %tr
+        %td= archetype.name
+        %td= archetype.parent ? archetype.parent.name : ""
+        %td= archetype.root ? archetype.root.name : ""
+        %td= link_to 'Show', archetype
+        %td= link_to 'Edit', edit_archetype_path(archetype)
+        %td= link_to 'Destroy', archetype, :confirm => 'Are you sure?', :method => :delete
+%br/
 %br/
 = link_to 'New Class', new_archetype_path

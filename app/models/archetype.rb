@@ -7,6 +7,10 @@ class Archetype < ActiveRecord::Base
   has_and_belongs_to_many :items
   validates_with ArchetypesValidator
 
+  def self.by_item(item_id)
+    item_id ? items.where('id = ?', item_id) : scoped
+  end
+
   def self.root_names
     root_name_list = []
     self.roots.each { |a| root_name_list << a.name }

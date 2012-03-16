@@ -4,9 +4,7 @@ class ArchetypesController < ApplicationController
   # GET /archetypes
   # GET /archetypes.json
   def index
-    @archetypes = Archetype.all
-
-    @archetypes.reject! { |archetype| !Item.find(params[:item_id].to_i).archetypes.include? archetype } if params[:item_id]
+    @archetypes = Archetype.by_item(params[:item_id])
 
     respond_to do |format|
       format.html # index.html.erb
