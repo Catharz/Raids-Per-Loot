@@ -23,18 +23,6 @@ class PlayersController < ApplicationController
   def show
     @player = Player.find(params[:id], :include => {:drops => :instance} )
 
-    @player_drops = @player.drops.group_by do |drop|
-      if drop.item.nil? or drop.item.loot_type.nil?
-        "Unknown"
-      else
-        drop.item.loot_type.name
-      end
-    end
-
-    @player_instances = @player.instances.group_by do |instance|
-      instance.start_time.to_date.beginning_of_month
-    end
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @player }

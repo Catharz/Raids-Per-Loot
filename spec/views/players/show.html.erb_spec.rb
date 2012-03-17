@@ -7,47 +7,62 @@ describe "players/show.html.erb" do
   before(:each) do
     login_as users(:quentin)
 
+    @player = assign(:player, stub_model(Player, :name => "Name"))
+
     zone_1 = stub_model(Zone, :name => "Wherever")
     zone_2 = stub_model(Zone, :name => "Wherever Next")
     instance_1 = stub_model(Instance, :start_time => DateTime.parse("01/01/2011 18:00"), :end_time => DateTime.parse("01/01/2011 20:00"))
     instance_1.zone = zone_1
     instance_2 = stub_model(Instance, :start_time => DateTime.parse("01/01/2011 20:05"), :end_time => DateTime.parse("01/01/2011 22:00"))
     instance_2.zone = zone_2
-    assign(:player_instances, {Date.parse("01/01/2012") => [instance_1, instance_2]})
+
+    @player.stub!(:instances).and_return([instance_1, instance_2])
 
     armour = stub_model(LootType, :name => "Armour", :show_on_player_list => true)
-    weapon = stub_model(LootType, :name => "Weapon", :show_on_player_list => true)
-
     armour_item = stub_model(Item, :name => "Phat BP", :eq2_item_id => "1234", :loot_type_id => armour.id)
-    weapon_item = stub_model(Item, :name => "Phat Sword", :eq2_item_id => "1235", :loot_type_id => weapon.id)
+    armour_item.stub!(:loot_type).and_return(armour)
 
-    drop_1 = stub_model(Drop,
+    weapon = stub_model(LootType, :name => "Weapon", :show_on_player_list => true)
+    weapon_item = stub_model(Item, :name => "Phat Sword", :eq2_item_id => "1235", :loot_type_id => weapon.id)
+    weapon_item.stub!(:loot_type).and_return(weapon)
+
+    armour_drop = stub_model(Drop,
                         :zone_name => "Wherever",
                         :mob_name => "Mob Name",
                         :player_name => "Player Name",
                         :item_name => "Phat BP",
-                        :eq2_item_id => "1234",
-                        :item_id => armour_item.id
-    )
-    drop_2 = stub_model(Drop,
+                        :eq2_item_id => "1234")
+    armour_drop.stub!(:item).and_return(armour_item)
+    weapon_drop = stub_model(Drop,
                         :zone_name => "Wherever Next",
                         :mob_name => "Mob Name",
                         :player_name => "Player Name",
                         :item_name => "Phat Sword",
-                        :eq2_item_id => "1235",
-                        :item_id => weapon_item.id
-    )
-    assign(:player_drops, {"Armour" => [drop_1], "Weapons" => [drop_2]})
+                        :eq2_item_id => "1235")
+    weapon_drop.stub!(:item).and_return(weapon_item)
 
-    @player = assign(:player, stub_model(Player,
-                                         :name => "Name"
-    ))
+    @player.stub!(:drops).and_return([armour_drop, weapon_drop])
   end
 
-  it "renders attributes in <p>" do
+  it "should list the separate sections" do
     render
+
     rendered.should match(/Name/)
-    rendered.should match(/Weapons/)
+    rendered.should match(/Attendance/)
+    rendered.should match(/Drops/)
+  end
+
+  it "should show the loot types" do
+    render
+
+    rendered.should match(/Weapon/)
     rendered.should match(/Armour/)
+  end
+
+  it "should list the loot items" do
+    render
+
+    rendered.should match(/Phat Sword/)
+    rendered.should match(/Phat BP/)
   end
 end

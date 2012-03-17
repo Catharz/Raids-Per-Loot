@@ -4,14 +4,15 @@
   = @player.name
 %p
   %b Class:
-  = @player.archetype.nil? ? "Unknown" : @player.archetype.name
-%p
-  %b Attendance
-= render 'instances'
+  = @player.archetype ? @player.archetype.name : "Unknown"
 %p
   %b Drops
 = render 'drops'
-- if logged_in?
-  = link_to 'Edit', edit_player_path(@player)
-  |
+%br/
+%p
+  %b Attendance
+= render 'instances'
+%br/
+%br/
+= link_to 'Edit', edit_player_path(@player)
 = link_to 'Back', players_path
