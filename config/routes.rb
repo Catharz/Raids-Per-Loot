@@ -30,6 +30,9 @@ RaidsPerLoot::Application.routes.draw do
   resources :items do
     resources :drops
     resources :archetypes
+    member do
+      get :details
+    end
   end
 
   resources :players do

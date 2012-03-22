@@ -1,29 +1,37 @@
 %p#notice= notice
-%p
-  %b Name:
-  = @item.name
-%p
-  %b Eq2 item:
-  = @item.eq2_item_id
-%p
-  %b Info url:
-  = @item.info_url
-%p
-  %table
-    %thead
-      %b Classes:
-    %tbody
-      - @item.archetypes.each do |archetype|
-        %tr
-          %td= archetype.name
-%p
-  %table
-    %thead
-      %b Slots:
-    %tbody
-      - @item.slots.each do |slot|
-        %tr
-          %td= slot.name
+%table
+  %tr
+    %td
+      = eq2_wire_item_details(@item.eq2_item_id)
+    %td{:valign => "top"}
+      %p
+        %b Name:
+        = @item.name
+      %p
+        %b Eq2 item:
+        = @item.eq2_item_id
+      %p
+        %b Info url:
+        = @item.info_url
+
+      %p
+        %table
+          %thead
+            %b Classes:
+          %tbody
+            - @item.archetypes.each do |archetype|
+              %tr
+                %td= archetype.name
+      %p
+        %table
+          %thead
+            %b Slots:
+          %tbody
+            - @item.slots.each do |slot|
+              %tr
+                %td= slot.name
+%br/
+%br/
 = link_to 'Edit', edit_item_path(@item)
-|
-\#{link_to 'Back', items_path}
+%br/
+= link_to 'Back', items_path

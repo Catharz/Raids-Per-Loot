@@ -13,6 +13,19 @@ class ItemsController < ApplicationController
     end
   end
 
+  def details
+    @item = Item.find(params[:id])
+    item_name = @item.name
+
+    begin
+      text = "<div class='lootPopupResult', id='#{params[:id]}'>#{Scraper.get("http://u.eq2wire.com/item/index/#{@item.eq2_item_id}", ".itemd_detailwrap")}</div>"
+    rescue
+      text = "<b>Couldn't download details for #{item_name}</b>"
+    end
+
+    render :text => text, :layout => false
+  end
+
   # GET /items/1
   # GET /items/1.json
   def show

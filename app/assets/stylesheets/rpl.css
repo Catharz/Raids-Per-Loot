@@ -101,8 +101,6 @@ body {
     color: White;
     float: left;
     font-family: arial, helvetica, sans-serif;
-    /*border-right: 1px solid #333;
-    border-bottom: 1px solid #333;*/
 }
 #subnav ul li a {
     padding: 0.2em 0.7em;
@@ -129,4 +127,7 @@ body {
     font-weight: bold;
     font-size: 13px;
     padding: 5px 10px;
+}
+#title {
+    font-weight: bold;
 }

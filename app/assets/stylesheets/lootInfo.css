@@ -1,0 +1,54 @@
+.itemd_surround {
+	color: #c7cfc7; font: bold 13px Times New Roman, Times, serif; line-height: 17px;
+}
+.itemd_detailwrap {
+	border: 1px solid #f7c35a; background-color: #212831; width: 326px; padding: 12px;
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; -khtml-border-radius: 5px; border-radius: 5px;
+}
+.itemd_detail {
+	width: 300px; padding: 14px; background-color: #0d1014; position: relative;
+}
+.itemd_hoverdiv {
+	width: 350px; padding: 12px; background-color: rgba(13, 16, 20, 0.85);
+	border: 1px solid #75420b; -moz-border-radius: 7px; -webkit-border-radius: 7px; -khtml-border-radius: 7px; border-radius: 7px;
+	display:none; z-index: 1000; left: -1000px; top: -1000px; position:absolute;
+}
+.itemd_name {
+	color: white; padding-bottom: 12px; width: 250px; font-size: 15px;
+}
+.itemd_icon {
+	position: absolute; top: 10px; right: 10px; background: #30476e url('slot-empty-blue.png') no-repeat; width: 42px; height: 42px; z-index: 4;
+}
+.itemd_desc {
+	width: 250px; margin-bottom: 4px;
+}
+.itemd_tier {
+	font-size: 14px; font-weight: bold; margin-bottom: 2px;
+}
+.itemd_flags {
+	color: #fee65c; font-size: 14px; font-weight: bold; margin-bottom: 3px;
+}
+.itemd_green {
+	color: #22ff22;
+}
+.itemd_blue {
+	color: #5ce6fe;
+}
+.itemd_recipe {
+	color: #e6e970; margin-top: 12px; height: 150px; overflow: auto;
+}
+.itemd_effects {
+	color: #e6e970; margin-top: 8px; margin-bottom: 2px;
+}
+.itemd_adornslots {
+	color: #e6e970; margin-top: 8px; margin-bottom: 2px;
+}
+.itemd_usableslots {
+	color: #e6e970; margin-top: 8px; margin-bottom: 2px;
+}
+.itemd_itemlink {
+	width: 260px;
+	background-color: #b3c5e3;
+	font-family: Arial, sans-serif;
+	font-size: 13px;
+}

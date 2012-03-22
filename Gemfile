@@ -12,6 +12,9 @@ gem 'ruby_parser'
 gem 'hpricot'
 gem 'escape_utils'
 
+gem 'crack'
+gem 'httparty'
+
 gem 'json'
 gem 'RedCloth'
 gem 'jquery-rails'

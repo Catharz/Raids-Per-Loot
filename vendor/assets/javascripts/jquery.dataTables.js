@@ -181,7 +181,7 @@
 		
 		
 		/**
-		 * Adjust the table column widths for new data. Note: you would probably want to 
+		 * Adjust the table column widths for new data. Note: you would probably want to
 		 * do a redraw after calling this function!
 		 *  @param {object} oSettings dataTables settings object
 		 *  @memberof DataTable#oApi
@@ -426,7 +426,7 @@
 		
 		
 		/**
-		 * Add a data array to the table, creating DOM node etc. This is the parallel to 
+		 * Add a data array to the table, creating DOM node etc. This is the parallel to
 		 * _fnGatherData, but for adding rows from a Javascript source, rather than a
 		 * DOM source.
 		 *  @param {object} oSettings dataTables settings object
@@ -805,7 +805,7 @@
 			}
 			else if ( typeof mSource === 'string' && mSource.indexOf('.') != -1 )
 			{
-				/* If there is a . in the source string then the data source is in a 
+				/* If there is a . in the source string then the data source is in a
 				 * nested object so we loop over the data for each level to get the next
 				 * level down. On each loop we test for undefined, and if found immediatly
 				 * return. This allows entire objects to be missing and sDefaultContent to
@@ -4840,7 +4840,7 @@
 		 * Almost identical to $ in operation, but in this case returns the data for the matched
 		 * rows - as such, the jQuery selector used should match TR row nodes or TD/TH cell nodes
 		 * rather than any decendents, so the data can be obtained for the row/cell. If matching
-		 * rows are found, the data returned is the original data array/object that was used to  
+		 * rows are found, the data returned is the original data array/object that was used to
 		 * create the row (or a generated array if from a DOM source).
 		 *
 		 * This method is often useful incombination with $ where both functions are given the
@@ -4875,7 +4875,7 @@
 		 *    $(document).ready(function() {
 		 *      var oTable = $('#example').dataTable();
 		 *
-		 *      // Filter to 'Webkit' and get all data for 
+		 *      // Filter to 'Webkit' and get all data for
 		 *      oTable.fnFilter('Webkit');
 		 *      var data = oTable._('tr', {"filter": "applied"});
 		 *      
@@ -4982,7 +4982,7 @@
 		
 		
 		/**
-		 * This function will make DataTables recalculate the column sizes, based on the data 
+		 * This function will make DataTables recalculate the column sizes, based on the data
 		 * contained in the table and the sizes applied to the columns (in the DOM, CSS or 
 		 * through the sWidth parameter). This can be useful when the width of the table's 
 		 * parent element changes (for example a window resize).
@@ -5403,7 +5403,7 @@
 		
 		
 		/**
-		 * Get the data for the whole table, an individual row or an individual cell based on the 
+		 * Get the data for the whole table, an individual row or an individual cell based on the
 		 * provided parameters.
 		 *  @param {int|node} [mRow] A TR row node, TD/TH cell node or an integer. If given as
 		 *    a TR node then the data source for the whole row will be returned. If given as a
@@ -5827,7 +5827,7 @@
 		
 		/**
 		 * Sort the table by a particular row
-		 *  @param {int} iCol the data index to sort on. Note that this will not match the 
+		 *  @param {int} iCol the data index to sort on. Note that this will not match the
 		 *    'display index' if you have hidden data entries
 		 *  @dtopt API
 		 *
@@ -6606,7 +6606,7 @@
 		 *
 		 *  @example
 		 *    // The following example shows custom filtering being applied to the fourth column (i.e.
-		 *    // the aData[3] index) based on two input values from the end-user, matching the data in 
+		 *    // the aData[3] index) based on two input values from the end-user, matching the data in
 		 *    // a certain range.
 		 *    $.fn.dataTableExt.afnFiltering.push(
 		 *      function( oSettings, aData, iDataIndex ) {
@@ -6729,7 +6729,7 @@
 		 * Type detection plug-in functions - DataTables utilises types to define how sorting and
 		 * filtering behave, and types can be either  be defined by the developer (sType for the
 		 * column) or they can be automatically detected by the methods in this array. The functions
-		 * defined in the array are quite simple, taking a single parameter (the data to analyse) 
+		 * defined in the array are quite simple, taking a single parameter (the data to analyse)
 		 * and returning the type if it is a known type, or null otherwise.
 		 *   <ul>
 	     *     <li>
@@ -6887,7 +6887,7 @@
 	
 		/**
 		 * Pagination plug-in methods - The style and controls of the pagination can significantly 
-		 * impact on how the end user interacts with the data in your table, and DataTables allows 
+		 * impact on how the end user interacts with the data in your table, and DataTables allows
 		 * the addition of pagination controls by extending this object, which can then be enabled
 		 * through the <i>sPaginationType</i> initialisation parameter. Each pagination type that
 		 * is added is an object (the property name of which is what <i>sPaginationType</i> refers
@@ -7029,7 +7029,7 @@
 	
 		/**
 		 * Sorting plug-in methods - Sorting in DataTables is based on the detected type of the
-		 * data column (you can add your own type detection functions, or override automatic 
+		 * data column (you can add your own type detection functions, or override automatic
 		 * detection using sType). With this specific type given to the column, DataTables will 
 		 * apply the required sort from the functions in the object. Each sort type must provide
 		 * two mandatory methods, one each for ascending and descending sorting, and can optionally
@@ -7174,7 +7174,7 @@
 		 * Data object from the original data source for the row. This is either
 		 * an array if using the traditional form of DataTables, or an object if
 		 * using mDataProp options. The exact type will depend on the passed in
-		 * data from the data source, or will be an array if using DOM a data 
+		 * data from the data source, or will be an array if using DOM a data
 		 * source.
 		 *  @type array|object
 		 *  @default []
@@ -7316,9 +7316,9 @@
 		 * required. This function is automatically assigned by the column 
 		 * initialisation method
 		 *  @type function
-		 *  @param {array|object} oData The data array/object for the array 
+		 *  @param {array|object} oData The data array/object for the array
 		 *    (i.e. aoData[]._aData)
-		 *  @param {string} sSpecific The specific data type you want to get - 
+		 *  @param {string} sSpecific The specific data type you want to get -
 		 *    'display', 'type' 'filter' 'sort'
 		 *  @returns {*} The data for the cell from the given row's data
 		 *  @default null
@@ -7340,12 +7340,12 @@
 		"fnRender": null,
 		
 		/**
-		 * Function to set data for a cell in the column. You should <b>never</b> 
+		 * Function to set data for a cell in the column. You should <b>never</b>
 		 * set the data directly to _aData internally in DataTables - always use
 		 * this method. It allows mDataProp to function as required. This function
 		 * is automatically assigned by the column initialisation method
 		 *  @type function
-		 *  @param {array|object} oData The data array/object for the array 
+		 *  @param {array|object} oData The data array/object for the array
 		 *    (i.e. aoData[]._aData)
 		 *  @param {*} sValue Value to set
 		 *  @default null
@@ -7353,7 +7353,7 @@
 		"fnSetData": null,
 		
 		/**
-		 * Property to read the value for the cells in the column from the data 
+		 * Property to read the value for the cells in the column from the data
 		 * source array / object. If null, then the default content is used, if a
 		 * function is given then the return from the function is used.
 		 *  @type function|int|string|null
@@ -7474,7 +7474,7 @@
 	 */
 	DataTable.defaults = {
 		/**
-		 * An array of data to use for the table, passed in at initialisation which 
+		 * An array of data to use for the table, passed in at initialisation which
 		 * will be used in preference to any data which is already in the DOM. This is
 		 * particularly useful for constructing tables purely in Javascript, for
 		 * example with a custom Ajax call.
@@ -7616,7 +7616,7 @@
 	
 		/**
 		 * The aoColumns option in the initialisation parameter allows you to define
-		 * details about the way individual columns behave. For a full list of
+		 * data about the way individual columns behave. For a full list of
 		 * column options that can be set, please see 
 		 * {@link DataTable.defaults.columns}. Note that if you use aoColumns to
 		 * define your columns, you must have an entry in the array for every single
@@ -8372,7 +8372,7 @@
 		 *            "dataType": 'json', 
 		 *            "type": "POST", 
 		 *            "url": sSource, 
-		 *            "data": aoData, 
+		 *            "data": aoData,
 		 *            "success": fnCallback
 		 *          } );
 		 *        }
@@ -9740,7 +9740,7 @@
 		 *       string by default. This can be useful on generated columns such as
 		 *       edit / delete action columns.</li>
 		 *     <li>function - the function given will be executed whenever DataTables 
-		 *       needs to set or get the data for a cell in the column. The function 
+		 *       needs to set or get the data for a cell in the column. The function
 		 *       takes three parameters:
 		 *       <ul>
 		 *         <li>{array|object} The data source for the row</li>
@@ -9766,8 +9766,8 @@
 		 *          { "mDataProp": "engine" },
 		 *          { "mDataProp": "browser" },
 		 *          { "mDataProp": "platform.inner" },
-		 *          { "mDataProp": "platform.details.0" },
-		 *          { "mDataProp": "platform.details.1" }
+		 *          { "mDataProp": "platform.data.0" },
+		 *          { "mDataProp": "platform.data.1" }
 		 *        ]
 		 *      } );
 		 *    } );
@@ -10582,7 +10582,7 @@
 		"nTableWrapper": null,
 		
 		/**
-		 * Indicate if when using server-side processing the loading of data 
+		 * Indicate if when using server-side processing the loading of data
 		 * should be deferred until the second draw.
 		 * Note that this parameter will be set by the initialisation routine. To
 		 * set a default use {@link DataTable.defaults}.
@@ -10714,7 +10714,7 @@
 		"bAjaxDataGet": true,
 		
 		/**
-		 * The last jQuery XHR object that was used for server-side data gathering. 
+		 * The last jQuery XHR object that was used for server-side data gathering.
 		 * This can be used for working with the XHR information in one of the 
 		 * callbacks
 		 *  @type object

@@ -38,7 +38,7 @@ rescue NameError
 end
 
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
-# See the DatabaseCleaner documentation for details. Example:
+# See the DatabaseCleaner documentation for data. Example:
 #
 #   Before('@no-txn,@selenium,@culerity,@celerity,@javascript') do
 #     # { :except => [:widgets] } may not do what you expect here

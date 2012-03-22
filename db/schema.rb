@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -59,12 +60,12 @@ ActiveRecord::Schema.define(:version => 20120207205554) do
   end
 
   create_table "items", :force => true do |t|
-    t.string    "name"
-    t.string    "eq2_item_id"
-    t.string    "info_url"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.integer   "loot_type_id"
+    t.string   "name"
+    t.string   "eq2_item_id"
+    t.string   "info_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "loot_type_id"
   end
 
   create_table "items_slots", :id => false, :force => true do |t|
