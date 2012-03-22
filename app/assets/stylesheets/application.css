@@ -6,6 +6,8 @@
  *= require jquery.dataTables_themeroller
  *= require lootPopup
  *= require lootInfo
+ *= require ddsmoothmenu
+ *= require ddsmoothmenu-v
  *= require_tree .
  *= require_self
 */
