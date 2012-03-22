@@ -14,6 +14,7 @@ gem 'escape_utils'
 
 gem 'crack'
 gem 'httparty'
+gem 'nokogiri'
 
 gem 'json'
 gem 'RedCloth'

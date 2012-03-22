@@ -222,6 +222,7 @@ DEPENDENCIES
   in_place_editing
   jquery-rails
   json
+  nokogiri
   pg
   rails (= 3.1)
   rspec-rails
