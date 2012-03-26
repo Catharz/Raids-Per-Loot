@@ -5,6 +5,11 @@ class Instance < ActiveRecord::Base
   has_many :drops
   has_many :kills, :through => :drops, :source => :mob, :uniq => true
   has_and_belongs_to_many :players
+
+  has_one :last_drop,
+      :class_name => 'Drop',
+      :order => 'drop_time desc'
+
   accepts_nested_attributes_for :players, :drops
 
   scope :raided, lambda {|raid_date| where(:raid_id => Raid.find_by_raid_date(raid_date).id) }
