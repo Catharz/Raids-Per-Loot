@@ -8,7 +8,7 @@ class Item < ActiveRecord::Base
 
   has_one :last_drop,
       :class_name => 'Drop',
-      :order => 'drop_time desc'
+      :order => 'drops.drop_time desc'
 
   scope :of_type, lambda {|loot_type| LootType.find_by_name(loot_type) ? where(:loot_type_id => LootType.find_by_name(loot_type).id) : [] }
 
