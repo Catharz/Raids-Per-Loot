@@ -1,7 +1,7 @@
 module InstancesHelper
   def mob_names(instance)
     names = []
-    instance.kills.order('drops.drop_time asc').collect! do |mob|
+    instance.kills.each do |mob|
       if mob.alias.nil? or mob.alias.empty?
         names << mob.name
       else
