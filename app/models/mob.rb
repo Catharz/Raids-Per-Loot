@@ -4,7 +4,7 @@ class Mob < ActiveRecord::Base
   has_many :drops
   has_one :last_drop,
       :class_name => 'Drop',
-      :order => 'drops.drop_time desc'
+      :order => 'created_at desc'
 
   validates_presence_of :name
 

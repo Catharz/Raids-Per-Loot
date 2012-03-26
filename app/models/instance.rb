@@ -8,7 +8,7 @@ class Instance < ActiveRecord::Base
 
   has_one :last_drop,
       :class_name => 'Drop',
-      :order => 'drops.drop_time desc'
+      :order => 'created_at desc'
 
   accepts_nested_attributes_for :players, :drops
 

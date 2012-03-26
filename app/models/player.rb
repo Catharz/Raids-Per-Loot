@@ -12,7 +12,7 @@ class Player < ActiveRecord::Base
 
   has_one :last_drop,
       :class_name => 'Drop',
-      :order => 'drops.drop_time desc'
+      :order => 'created_at desc'
 
   validates_presence_of :name
   validates_uniqueness_of :name
