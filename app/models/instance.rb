@@ -3,7 +3,7 @@ class Instance < ActiveRecord::Base
   belongs_to :raid
   belongs_to :zone
   has_many :drops
-  has_many :kills, :through => :drops, :source => :mob, :uniq => true, :order => 'drop_time'
+  has_many :kills, :through => :drops, :source => :mob, :uniq => true
   has_and_belongs_to_many :players
 
   has_one :last_drop,
