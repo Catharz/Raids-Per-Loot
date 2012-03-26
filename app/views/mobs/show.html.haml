@@ -1,13 +1,13 @@
 %p#notice= notice
 %p
-  %b Zones:
-  %table
-    - @mob.zones.each do |zone|
-      %tr
-        %td= zone.name
+  %b Zone:
+  = @mob.zone ? @mob.zone.name :  "Unknown"
 %p
   %b Name:
   = @mob.name
+%p
+  %b Name:
+  = @mob.alias
 %p
   %b Strategy:
   = @mob.strategy

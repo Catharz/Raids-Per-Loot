@@ -1,28 +1,27 @@
-:javascript
-  $(document).ready(function(){
-      $('#dataTable').dataTable();
-  });
-%table.dataTable{:id => "dataTable" }
+%table#dataTable
   %thead
     %tr
       %th Zone
       %th Name
-      %th Strategy
+      %th Alias
+      %th Difficulty
+      %th Kills
+      %th Last Killed
       %th
       %th
       %th
   %tbody
     - @mobs.each do |mob|
       %tr
-        %td{:valign => "top"}
-          - mob.zones.each do |zone|
-            = zone.name
-            %br/
-        %td{:valign => "top"}= mob.name
-        %td{:width => "40%"}= mob.strategy
-        %td{:valign => "bottom"}= link_to 'Show', mob
-        %td{:valign => "bottom"}= link_to 'Edit', edit_mob_path(mob)
-        %td{:valign => "bottom"}= link_to 'Destroy', mob, :confirm => 'Are you sure?', :method => :delete
+        %td= mob.zone ? mob.zone.name : "Unknown"
+        %td= mob.name
+        %td= mob.alias
+        %td= mob.difficulty ? mob.difficulty.name : "Unknown"
+        %td= mob.kills
+        %td= mob.last_drop ? mob.last_drop.drop_time : "Never"
+        %td= link_to 'Show', mob
+        %td= link_to 'Edit', edit_mob_path(mob)
+        %td= link_to 'Destroy', mob, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/
 = link_to 'New Mob', new_mob_path

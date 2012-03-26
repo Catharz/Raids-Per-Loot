@@ -1,10 +1,11 @@
 :javascript
   $(document).ready(function(){
-      $('#dataTable').dataTable( {
+      $('#dropsTable').dataTable( {
+        "sPaginationType":"full_numbers",
         "aaSorting": [[4,'desc']]
       } );
   });
-%table.dataTable{:id => "dataTable" }
+%table#dropsTable
   %thead
     %tr
       %th Zone name

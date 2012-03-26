@@ -1,32 +1,27 @@
 class Mob < ActiveRecord::Base
-  has_and_belongs_to_many :zones, :join_table => "zones_mobs"
+  belongs_to :zone
+  belongs_to :difficulty
   has_many :drops
+  has_one :last_drop,
+      :class_name => 'Drop',
+      :order => 'drop_time desc'
+
   validates_presence_of :name
 
-  def zone_names
-    result = "<table>"
-    zones.each do |zone|
-      result += "<tr><td>" + zone.name + "</td></tr>"
+  def kills
+    num_kills = 0
+    Instance.where(:zone_id => zone_id).each do |instance|
+      num_kills += 1 if instance.kills.include? self
     end
-    result + "</table>"
-  end
-
-  def self.find_by_zone_and_mob_name(zone_name, mob_name)
-    found_mob = nil
-    Mob.find_all_by_name(mob_name).each do |mob|
-      mob.zones.each do |zone|
-        found_mob ||= mob if zone.name.eql? zone_name
-      end
-    end
-    found_mob
+    num_kills
   end
 
   def self.by_zone(zone_id)
-    zone_id ? zones.where('id = ?', zone_id) : scoped
+    zone_id ? where('zone_id = ?', zone_id) : scoped
   end
 
   def self.by_zone_name(zone_name)
-    zone_name ? zones.where('name = ?', zone_name) : scoped
+    zone_name ? where('zone_id = ?', Zone.where('name = ?', zone_name).first.id) : scoped
   end
 
   def to_xml(options = {})

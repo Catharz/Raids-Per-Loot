@@ -11,5 +11,9 @@
     = f.label :name
     %br/
     = f.text_field :name
+  .field
+    %b Difficulty
+    %br/
+    = f.collection_select(:difficulty_id, Difficulty.all, :id, :name, :include_blank => true)
   .actions
     = f.submit

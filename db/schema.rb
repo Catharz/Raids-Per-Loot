@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120207205554) do
+ActiveRecord::Schema.define(:version => 20120326040119) do
 
   create_table "archetypes", :force => true do |t|
     t.string   "name"
@@ -23,6 +23,13 @@ ActiveRecord::Schema.define(:version => 20120207205554) do
   create_table "archetypes_items", :id => false, :force => true do |t|
     t.integer "archetype_id"
     t.integer "item_id"
+  end
+
+  create_table "difficulties", :force => true do |t|
+    t.string   "name"
+    t.integer  "rating"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "drops", :force => true do |t|
@@ -101,10 +108,13 @@ ActiveRecord::Schema.define(:version => 20120207205554) do
   end
 
   create_table "mobs", :force => true do |t|
-    t.string    "name"
-    t.text      "strategy"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
+    t.string   "name"
+    t.text     "strategy"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "zone_id"
+    t.integer  "difficulty_id"
+    t.string   "alias"
   end
 
   create_table "pages", :force => true do |t|
@@ -170,11 +180,7 @@ ActiveRecord::Schema.define(:version => 20120207205554) do
     t.string    "name"
     t.timestamp "created_at"
     t.timestamp "updated_at"
-  end
-
-  create_table "zones_mobs", :id => false, :force => true do |t|
-    t.integer "zone_id"
-    t.integer "mob_id"
+    t.integer   "difficulty_id"
   end
 
 end

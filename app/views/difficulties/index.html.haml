@@ -1,0 +1,20 @@
+%table#dataTable
+  %thead
+    %tr
+      %th Name
+      %th Rating
+      %th
+      %th
+      %th
+  %tbody
+    - @difficulties.each do |difficulty|
+      %tr
+        %td= difficulty.name
+        %td= difficulty.rating
+        %td= link_to 'Show', difficulty
+        %td= link_to 'Edit', edit_difficulty_path(difficulty)
+        %td= link_to 'Destroy', difficulty, :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Difficulty', new_difficulty_path

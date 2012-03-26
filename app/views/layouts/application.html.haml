@@ -1,62 +1,61 @@
 !!! XML
 !!! Strict
 %html{:xmlns => "http://www.w3.org/1999/xhtml"}
-  %head
-    = stylesheet_link_tag "application"
-    = javascript_include_tag "application"
-    = csrf_meta_tag
-    :javascript
-      ddsmoothmenu.init({
-        mainmenuid: "smoothmenu1",
-        arrowimages: {down:['downarrowclass', '/assets/down.gif', 23], right:['rightarrowclass', '/assets/right.gif']},
-        orientation:'h',
-        classname: 'ddsmoothmenu',
-        //customtheme: ["#1c5a80", "#18374a"],
-        contentsource: "markup"
-      })
-  %body
-    #pagewrapper
-      #header
-        %p Raids Per Loot
-      #smoothmenu1.ddsmoothmenu
-        = build_tree(@page_roots).html_safe
-        %ul
-          - if logged_in?
-            %li= link_to "Log Out", logout_path
-          - else
-            %li= link_to "Log In", login_path
-      %br
-      -##navbar
-      -#  %ul
-      -#    - @tabs.each do |page|
-      -#      <li #{"id='current'" if @page && (@page == page || @page.parent == page)}>
-      -#      - if page.redirect
-      -#        = link_to page.navlabel, :action => page.action_name, :controller => page.controller_name, :name => page.name
-      -#      - else
-      -#        = link_to page.navlabel, view_page_path(page.name)
-      -#    - if logged_in?
-      -#      %li= link_to "Log Out", logout_path
-      -#    - else
-      -#      %li= link_to "Log In", login_path
-      -#- unless @page.nil?
-      -#  - unless @page.children.empty?
-      -#    #subnav
-      -#      %ul
-      -#        - for page in @page.children
-      -#          %li
-      -#            - if page.redirect
-      -#              = link_to page.navlabel, :action => page.action_name, :controller => page.controller_name, :name => page.name
-      -#            - else
-      -#              = link_to page.navlabel, view_page_path(page.name)
-      - unless @page.nil?
-        - unless @page.ancestors.empty?
-          #breadcrumb
-            - @page.ancestors.reverse.each do |page|
-              = link_to h(page.navlabel), view_page_path(page.name)
-              \&gt;
-              = @page.navlabel
-      #content
-        %h2= flash[:notice]
-        = yield
-      #footer
-        %p Raids Per Loot
+/Please visit the links below and help support the developers who have helped make this site possible.
+//***********************************************
+/* Smooth Navigational Menu- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+/* This notice MUST stay intact for legal use
+/* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+/***********************************************/
+/Various code snippets and ideas stolen/borrowed from:
+/
+/ Rails
+/  http://railscasts.com
+/  http://www.buildingwebapps.com
+/
+/ JavaScript
+/  http://jquery.com
+/  http://datatables.net
+/  http://rndnext.blogspot.com.au
+/  http://cherne.net/brian
+/  http://dailyjs.com
+/
+/ General Site Design
+/  http://u.eq2wire.com
+%head
+  = stylesheet_link_tag "application"
+  = javascript_include_tag "application"
+  = csrf_meta_tag
+  :javascript
+    ddsmoothmenu.init({
+      mainmenuid: "smoothmenu1",
+      arrowimages: {down:['downarrowclass', '/assets/down.gif', 23], right:['rightarrowclass', '/assets/right.gif']},
+      orientation:'h',
+      classname: 'ddsmoothmenu',
+      //customtheme: ["#1c5a80", "#18374a"],
+      contentsource: "markup"
+    })
+%body
+  #pagewrapper
+    #header
+      %p Raids Per Loot
+    #smoothmenu1.ddsmoothmenu
+      = build_tree(@page_roots).html_safe
+      %ul
+        - if logged_in?
+          %li= link_to "Log Out", logout_path
+        - else
+          %li= link_to "Log In", login_path
+    %br
+    - unless @page.nil?
+      - unless @page.ancestors.empty?
+        #breadcrumb
+          - @page.ancestors.reverse.each do |page|
+            = link_to h(page.navlabel), view_page_path(page.name)
+            \&gt;
+            = @page.navlabel
+    #content
+      %h2= flash[:notice]
+      = yield
+    #footer
+      %p Raids Per Loot

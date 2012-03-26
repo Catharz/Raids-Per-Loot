@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @difficulty.name
+%p
+  %b Rating:
+  = @difficulty.rating
+
+= link_to 'Edit', edit_difficulty_path(@difficulty)
+\|
+= link_to 'Back', difficulties_path

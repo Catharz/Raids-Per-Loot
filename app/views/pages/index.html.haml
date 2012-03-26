@@ -1,8 +1,4 @@
-:javascript
-  $(document).ready(function(){
-      $('#dataTable').dataTable();
-  });
-%table.dataTable{:id => "dataTable" }
+%table#dataTable
   %thead
     %tr
       %th Name
@@ -11,6 +7,7 @@
       %th Body
       %th Position
       %th Admin?
+      %th Parent
       %th
       %th
       %th
@@ -23,6 +20,7 @@
         %td= page.body
         %td= page.position
         %td= page.admin? ? "true" : "false"
+        %td= page.parent ? page.parent.navlabel : ""
         %td= link_to 'Show', page
         %td= link_to 'Edit', edit_page_path(page)
         %td= link_to 'Destroy', page, :confirm => 'Are you sure?', :method => :delete

@@ -13,7 +13,6 @@ Feature: Manage players
     Then I should see "name 1"
     And I should see "Player was successfully created"
 
-  @loot_types
   Scenario: Delete player
     Given the following players:
       |name|

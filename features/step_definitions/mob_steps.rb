@@ -9,10 +9,8 @@ Given /^the following mobs:$/ do |mobs|
     zone = FactoryHelper.give_me_zone(this_mob['zone_name'])
     this_mob.delete('zone_name')
     mob = Mob.create!(this_mob)
-    mob.zones = [zone]
+    mob.zone = zone
     mob.save!
-    zone.mobs = [mob]
-    zone.save!
   end
   Mob.all
 end

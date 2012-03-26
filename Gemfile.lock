@@ -79,6 +79,11 @@ GEM
     gherkin (2.9.0)
       json (>= 1.4.6)
     haml (3.1.4)
+    haml-rails (0.3.4)
+      actionpack (~> 3.0)
+      activesupport (~> 3.0)
+      haml (~> 3.0)
+      railties (~> 3.0)
     heroku (2.21.2)
       launchy (>= 0.3.2)
       rest-client (~> 1.6.1)
@@ -149,6 +154,7 @@ GEM
       activesupport (>= 3.0)
       railties (>= 3.0)
       rspec (~> 2.8.0)
+    ruby-prof (0.10.8)
     ruby_parser (2.3.1)
       sexp_processor (~> 3.0)
     rubyzip (0.9.6.1)
@@ -215,7 +221,7 @@ DEPENDENCIES
   database_cleaner
   escape_utils
   factory_girl_rails
-  haml
+  haml-rails
   heroku
   hpricot
   httparty
@@ -226,6 +232,7 @@ DEPENDENCIES
   pg
   rails (= 3.1)
   rspec-rails
+  ruby-prof
   ruby_parser
   sass-rails (~> 3.1.0)
   selenium-client

@@ -1,8 +1,11 @@
 :javascript
   $(document).ready(function(){
-      $('#dataTable').dataTable();
+      $('#ranksTable').dataTable( {
+        "sPaginationType":"full_numbers",
+        "aaSorting": [[1,'asc']]
+      } );
   });
-%table.dataTable{:id => "dataTable" }
+%table#ranksTable
   %thead
     %tr
       %th Name

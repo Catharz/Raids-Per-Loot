@@ -1,16 +1,19 @@
+- require 'active_support/time_with_zone'
 :javascript
   $(document).ready(function(){
-      $('#dataTable').dataTable( {
+      $('#instancesTable').dataTable( {
+        "sPaginationType":"full_numbers",
         "aaSorting": [[1,'desc']]
       } );
   });
-%table.dataTable{:id => "dataTable" }
+%table#instancesTable
   %thead
     %tr
       %th Zone
       %th Start time
       %th End time
       %th Raiders
+      %th Kills
       %th
       %th
       %th
@@ -18,9 +21,10 @@
     - @instances.each do |instance|
       %tr
         %td= instance.zone ? instance.zone.name : "Unknown"
-        %td= instance.start_time
-        %td= instance.end_time
+        %td= instance.start_time.strftime('%H:%M:%S')
+        %td= instance.end_time.strftime('%H:%M:%S')
         %td= link_to 'Attendees', instance_players_path(instance)
+        %td= mob_names(instance)
         %td= link_to 'Show', instance
         %td= link_to 'Edit', edit_instance_path(instance)
         %td= link_to 'Destroy', instance, :confirm => 'Are you sure?', :method => :delete

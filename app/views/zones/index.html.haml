@@ -1,12 +1,10 @@
-:javascript
-  $(document).ready(function(){
-      $('#dataTable').dataTable();
-  });
-%table.dataTable{:id => "dataTable" }
+%table#dataTable
   %thead
     %tr
       %th Name
       %th Mobs
+      %th Difficulty
+      %th Last Run
       %th
       %th
       %th
@@ -15,6 +13,8 @@
       %tr
         %td= zone.name
         %td= link_to 'Mobs', zone_mobs_path(zone)
+        %td= zone.difficulty ? zone.difficulty.name : "Unknown"
+        %td= zone.last_instance ? zone.last_instance.start_time : "Never"
         %td= link_to 'Show', zone
         %td= link_to 'Edit', edit_zone_path(zone)
         %td= link_to 'Destroy', zone, :confirm => 'Are you sure?', :method => :delete

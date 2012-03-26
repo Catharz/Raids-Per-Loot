@@ -13,25 +13,8 @@
 //= require ddsmoothmenu
 //= require_self
 
-$(function () {
-    // Sorting and pagination links.
-    $('#player_list th a, #player_list .pagination a').live('click',
-        function () {
-            $.getScript(this.href);
-            return false;
-        }
-    );
-    $('#player_stats th a, #player_stats .pagination a').live('click',
-        function () {
-            $.getScript(this.href);
-            return false;
-        }
-    );
-
-    // Search form.
-    $('#players_search').submit(function () {
-            $.get(this.action, $(this).serialize(), null, 'script');
-            return false;
-        }
-    );
+$(document).ready(function () {
+    $('#dataTable').dataTable({
+        "sPaginationType":"full_numbers"
+    });
 });

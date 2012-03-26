@@ -12,12 +12,20 @@
     %br/
     = f.text_field :name
   .field
+    = f.label :alias
+    %br/
+    = f.text_field :alias
+  .field
     = f.label :strategy
     %br/
     = f.text_area :strategy
   .field
     %b Zone
     %br/
-    = f.collection_select :zone_ids, Zone.all(:order => 'name'), :id, :name, {}, :multiple => true
+    = f.collection_select(:zone_id, Zone.all, :id, :name, :include_blank => true)
+  .field
+    %b Difficulty
+    %br/
+    = f.collection_select(:difficulty_id, Difficulty.all, :id, :name, :include_blank => true)
   .actions
     = f.submit

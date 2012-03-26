@@ -1,5 +1,7 @@
 RaidsPerLoot::Application.routes.draw do
 
+  resources :difficulties
+
   resources :raids do
     resources :instances
   end
@@ -25,7 +27,6 @@ RaidsPerLoot::Application.routes.draw do
 
   resources :mobs do
     resources :drops
-    resources :zones
   end
   resources :items do
     resources :drops

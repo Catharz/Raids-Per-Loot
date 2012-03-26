@@ -22,14 +22,8 @@ module FactoryHelper
 
   def self.give_me_mob(zone_name, mob_name)
     zone = give_me_zone(zone_name)
-    mob = Mob.find_by_zone_and_mob_name(zone_name, mob_name)
-    mob ||= Mob.create!(:name => mob_name)
-    mob.zones << zone
-    mob.save!
-
-    zone.mobs << mob
-    zone.save!
-
+    mob = zone.mobs.where(:name => mob_name).first
+    mob ||= zone.mobs.create!(:name => mob_name)
     mob
   end
 

@@ -7,7 +7,7 @@ gem 'rails', '3.1'
 
 gem 'sqlite3'
 
-gem 'haml'
+gem 'haml-rails'
 gem 'ruby_parser'
 gem 'hpricot'
 gem 'escape_utils'
@@ -62,7 +62,7 @@ group :development, :test do
 
 	# To use debugger
 	#gem 'ruby-debug'
-	#gem 'ruby-prof'
+	gem 'ruby-prof'
 end
 
 group :production do

@@ -1,7 +1,13 @@
 class Zone < ActiveRecord::Base
+  belongs_to :difficulty
   has_many :instances
   has_many :drops
-  has_and_belongs_to_many :mobs, :join_table => "zones_mobs"
+  has_many :mobs
+
+  has_one :last_instance,
+      :class_name => 'Instance',
+      :order => 'start_time desc'
+
   validates_presence_of :name
   validates_uniqueness_of :name
 

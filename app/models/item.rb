@@ -6,6 +6,10 @@ class Item < ActiveRecord::Base
   validates_presence_of :name, :eq2_item_id
   validates_uniqueness_of :name, :eq2_item_id
 
+  has_one :last_drop,
+      :class_name => 'Drop',
+      :order => 'drop_time desc'
+
   scope :of_type, lambda {|loot_type| LootType.find_by_name(loot_type) ? where(:loot_type_id => LootType.find_by_name(loot_type).id) : [] }
 
   def class_names

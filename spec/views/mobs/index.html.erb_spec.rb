@@ -5,11 +5,11 @@ describe "mobs/index.html.erb" do
     assign(:mobs, [
       stub_model(Mob,
         :name => "Name",
-        :strategy => "MyText"
+        :alias => "Other Name"
       ),
       stub_model(Mob,
         :name => "Name",
-        :strategy => "MyText"
+        :alias => "Other Name"
       )
     ])
   end
@@ -19,6 +19,6 @@ describe "mobs/index.html.erb" do
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "tr>td", :text => "Name".to_s, :count => 2
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => "MyText".to_s, :count => 2
+    assert_select "tr>td", :text => "Other Name".to_s, :count => 2
   end
 end

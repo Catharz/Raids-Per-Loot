@@ -1,6 +1,7 @@
 :javascript
   $(document).ready(function() {
-  	$('#dataTable').dataTable( {
+  	$('#itemsTable').dataTable( {
+   		"sPaginationType": "full_numbers",
   		"aoColumns": [
   		    /* Name */ { "bSearchable": false,
        		              "bVisible":    true },
@@ -41,7 +42,7 @@
         } );
       } );
   } );
-%table#dataTable
+%table#itemsTable
   %thead
     %tr
       %th Name

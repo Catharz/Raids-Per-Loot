@@ -37,7 +37,7 @@ class InstancesController < ApplicationController
   # GET /instances
   # GET /instances.json
   def index
-    @instances = Instance.by_raid(params[:raid_id]).by_zone(params[:zone_id])
+    @instances = Instance.by_raid(params[:raid_id]).by_zone(params[:zone_id]).eager_load(:drops => [:mob, :zone, :player, :item])
 
     respond_to do |format|
       format.html # index.html.erb

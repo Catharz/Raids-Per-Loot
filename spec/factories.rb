@@ -9,6 +9,11 @@ Factory.define :archetype do |f|
   f.name "Archetype Name"
 end
 
+Factory.define :difficulty do |f|
+  f.name "Easy"
+  f.rating 5
+end
+
 Factory.define :drop do |f|
   f.zone_name "Wherever"
   f.mob_name "Whoever"

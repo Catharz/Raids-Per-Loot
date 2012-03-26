@@ -33,28 +33,22 @@ class Drop < ActiveRecord::Base
   end
 
   def assign_loot
-    instance = Instance.find_by_zone_and_time(zone_name, drop_time)
-    zone = Zone.find_by_name(zone_name)
-    mob = Mob.find_by_zone_and_mob_name(zone_name, mob_name)
+    zone = Zone.where(:name => zone_name).first
+    mob = zone ? Mob.where(:zone_id => zone.id, :name => mob_name).first : nil
+    instance = zone ? Instance.by_zone(zone.id).by_time(drop_time).first : nil
     player = Player.find_by_name(player_name)
     item = Item.find_by_name(item_name)
 
-    if (instance && zone && mob && player && item)
-      if !zone.drops.exists?(:zone_name => zone_name, :mob_name => mob_name, :item_name => item_name, :drop_time => drop_time)
-        zone.drops << self
-      end
-      if !instance.drops.exists?(:zone_name => zone_name, :mob_name => mob_name, :item_name => item_name, :drop_time => drop_time)
-        instance.drops << self
-      end
-      if !mob.drops.exists?(:zone_name => zone_name, :mob_name => mob_name, :item_name => item_name, :drop_time => drop_time)
-        mob.drops << self
-      end
-      if !player.drops.exists?(:zone_name => zone_name, :mob_name => mob_name, :item_name => item_name, :drop_time => drop_time)
-        player.drops << self
-      end
-      if !item.drops.exists?(:zone_name => zone_name, :mob_name => mob_name, :item_name => item_name, :drop_time => drop_time)
-        item.drops << self
-      end
+    if instance && zone && mob && player && item
+      new_drop = {:zone_name => zone_name,
+                :mob_name => mob_name,
+                :item_name => item_name,
+                :drop_time => drop_time}
+      zone.drops << self unless zone.drops.exists? new_drop
+      instance.drops << self unless instance.drops.exists? new_drop
+      mob.drops << self unless mob.drops.exists? new_drop
+      player.drops << self unless player.drops.exists? new_drop
+      item.drops << self unless player.drops.exists? new_drop
       result = true
       self.assigned_to_player = true
     else

@@ -1,6 +1,7 @@
 :javascript
   $(document).ready(function() {
-  	$('#dataTable').dataTable( {
+  	$('#playersTable').dataTable( {
+        "sPaginationType":"full_numbers",
   		"aoColumns": [
   			/* Name */   null,
   			/* Rank */  null,
@@ -20,7 +21,7 @@
         "aaSorting": [[0,'asc']]
   		} );
   } );
-%table.dataTable{:id => "dataTable" }
+%table#playersTable
   %thead
     %tr
       %th Name
