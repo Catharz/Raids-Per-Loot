@@ -22,7 +22,7 @@ class Player < ActiveRecord::Base
   end
 
   def calculate_loot_rate(event_count, item_count)
-    event_count / (item_count + 1)
+    (Float(event_count) / (Float(item_count) + 1.0) * 100.00).round / 100.00
   end
 
   def self.with_name_like(name)
