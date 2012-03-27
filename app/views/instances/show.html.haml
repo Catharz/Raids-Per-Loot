@@ -1,21 +1,21 @@
 %p#notice= notice
 %p
-  %b Zone:
+  %strong Zone:
   = @instance.zone.name
 %p
-  %b Start time:
+  %strong Start time:
   = @instance.start_time
 %p
-  %b End time:
+  %strong End time:
   = @instance.end_time
 %p
-  %b Attendees
+  %strong Attendees
   %table
     %tr
       %td
-        %b Player
+        %strong Player
       %td
-        %b Looted
+        %strong Looted
     - @instance.players.each do |player|
       %tr
         %td{:valign => "top"}= player.name

@@ -22,4 +22,8 @@ module ApplicationHelper
     end
     "#{html}</ul>"
   end
+
+  def base_archetypes
+
+  end
 end

@@ -8,7 +8,7 @@
         - @instance.errors.full_messages.each do |msg|
           %li= msg
   .field
-    %b Zone
+    %strong Zone
     %br/
     = f.collection_select(:zone_id, Zone.all, :id, :name, :include_blank => true)
   .field
@@ -20,7 +20,7 @@
     %br/
     = f.datetime_select :end_time
   .field
-    %b Attendees
+    %strong Attendees
     %br/
     = f.collection_select :player_ids, Player.all(:order => 'name'), :id, :name, {}, :multiple => true
   .actions

@@ -1,15 +1,15 @@
 %p#notice= notice
 %p
-  %b Zone:
+  %strong Zone:
   = @mob.zone ? @mob.zone.name :  "Unknown"
 %p
-  %b Name:
+  %strong Name:
   = @mob.name
 %p
-  %b Name:
+  %strong Name:
   = @mob.alias
 %p
-  %b Strategy:
+  %strong Strategy:
   = @mob.strategy
 = link_to 'Edit', edit_mob_path(@mob)
 |

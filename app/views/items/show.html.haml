@@ -5,19 +5,19 @@
       = eq2_wire_item_details(@item.eq2_item_id)
     %td{:valign => "top"}
       %p
-        %b Name:
+        %strong Name:
         = @item.name
       %p
-        %b Eq2 item:
+        %strong Eq2 item:
         = @item.eq2_item_id
       %p
-        %b Info url:
+        %strong Info url:
         = @item.info_url
 
       %p
         %table
           %thead
-            %b Classes:
+            %strong Classes:
           %tbody
             - @item.archetypes.each do |archetype|
               %tr
@@ -25,7 +25,7 @@
       %p
         %table
           %thead
-            %b Slots:
+            %strong Slots:
           %tbody
             - @item.slots.each do |slot|
               %tr

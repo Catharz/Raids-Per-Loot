@@ -1,18 +1,18 @@
 %p#notice= notice
 %p
-  %b Name:
+  %strong Name:
   = @page.name
 %p
-  %b Title:
+  %strong Title:
   = @page.title
 %p
-  %b Nav Label:
+  %strong Nav Label:
   = @page.navlabel
 %p
-  %b Body:
+  %strong Body:
   = @page.body
 %p
-  %b Admin:
+  %strong Admin:
   = @page.admin? ? "true" : "false"
 = link_to 'Edit', edit_page_path(@page)
 |

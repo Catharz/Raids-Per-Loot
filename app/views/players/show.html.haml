@@ -1,16 +1,16 @@
 %p#notice= notice
 %p
-  %b Name:
+  %strong Name:
   = @player.name
 %p
-  %b Class:
+  %strong Class:
   = @player.archetype ? @player.archetype.name : "Unknown"
 %p
-  %b Drops
+  %strong Drops
 = render 'drops'
 %br/
 %p
-  %b Attendance
+  %strong Attendance
 = render 'instances'
 %br/
 %br/

@@ -1,14 +1,14 @@
 %p
-  %b Login:
+  %strong Login:
   = h @user.login
 %p
-  %b Name:
+  %strong Name:
   = h @user.name
 %p
-  %b Email:
+  %strong Email:
   = h @user.email
 %p
-  %b Password:
+  %strong Password:
   [secret]
 = link_to 'Edit', edit_user_path(@user)
 |

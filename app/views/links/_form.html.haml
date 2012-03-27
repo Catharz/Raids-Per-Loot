@@ -20,7 +20,7 @@
     %br/
     = f.text_area :description
   .field
-    %b Category
+    %strong Category
     %br/
     = f.collection_select :link_category_ids, LinkCategory.all(:order => 'title'), :id, :title, {}, :multiple => true
   .actions

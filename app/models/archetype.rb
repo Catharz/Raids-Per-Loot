@@ -5,6 +5,7 @@ class Archetype < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
   has_and_belongs_to_many :items
+
   validates_with ArchetypesValidator
 
   def self.by_item(item_id)
@@ -42,10 +43,10 @@ class Archetype < ActiveRecord::Base
     return archetypes.flatten
   end
 
-  def self.find_base_classes
-    base_classes = Array.new
+  def self.base_archetypes
+    base_classes = []
     Archetype.all(:order => :name).each do |archetype|
-      if Archetype.find_all_by_parent_id(archetype.id).empty?
+      if archetype.children.empty?
         base_classes << archetype
       end
     end

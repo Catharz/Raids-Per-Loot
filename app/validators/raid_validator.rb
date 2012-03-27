@@ -32,6 +32,8 @@ class RaidValidator < ActiveModel::Validator
                 raid.start_time > record.end_time
               when raid.end_time
                 record.start_time > raid.end_time
+              else
+                true
             end
         break if !result
       end

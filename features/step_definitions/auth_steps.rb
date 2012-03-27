@@ -3,7 +3,7 @@
 
 Given /^I am logged in as a user$/ do
   current_user = User.find_by_login('guest')
-  if !current_user
+  unless current_user
     current_user = User.create!(:name => 'Guest User',
                                 :login => 'guest',
                                 :email => 'guest@sample.com',

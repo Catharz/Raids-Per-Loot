@@ -1,17 +1,17 @@
 %p#notice= notice
 %p
-  %b Raid date:
+  %strong Raid date:
   = @raid.raid_date
 %p
-  %b Instances
+  %strong Instances
   %table
     %tr
       %td
-        %b Zone
+        %strong Zone
       %td
-        %b Start Time
+        %strong Start Time
       %td
-        %b End Time
+        %strong End Time
     - @raid.instances.each do |instance|
       %tr
         %td{:valign => "top"}= instance.zone.name

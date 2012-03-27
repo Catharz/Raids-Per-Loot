@@ -1,9 +1,9 @@
 %p#notice= notice
 %p
-  %b Name:
+  %strong Name:
   = @loot_type.name
 %p
-  %b Show On Player List:
+  %strong Show On Player List:
   = @loot_type.show_on_player_list? ? 'YES' : 'NO'
 = link_to 'Edit', edit_loot_type_path(@loot_type)
 |

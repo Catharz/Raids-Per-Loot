@@ -20,15 +20,15 @@
     %br/
     = f.text_field :info_url
   .field
-    %b Type
+    %strong Type
     %br/
     = f.collection_select :loot_type_id, LootType.all(:order => 'name'), :id, :name, :include_blank => true
   .field
-    %b Classes
+    %strong Classes
     %br/
     = f.collection_select :archetype_ids, Archetype.all(:order => 'name'), :id, :name, {}, :multiple => true
   .field
-    %b Slots
+    %strong Slots
     %br/
     = f.collection_select :slot_ids, Slot.all(:order => 'name'), :id, :name, {}, :multiple => true
   .actions

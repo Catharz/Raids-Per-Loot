@@ -2,9 +2,9 @@
   %p#page_text= @page.body.html_safe
   - if logged_in?
     %a#edit{:href => "#"} Edit This Page
-    %script{:language => "JavaScript"}
+    :javascript
       new Ajax.InPlaceEditor(
-      'page_text',
+      '#page_text',
       '/viewer/set_page_body/#{@page.id}',
       {
       rows:10,

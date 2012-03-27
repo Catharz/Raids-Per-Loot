@@ -12,7 +12,7 @@
     %br/
     = f.text_field :name
   .field
-    %b Difficulty
+    %strong Difficulty
     %br/
     = f.collection_select(:difficulty_id, Difficulty.all, :id, :name, :include_blank => true)
   .actions
