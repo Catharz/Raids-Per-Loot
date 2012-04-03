@@ -44,10 +44,6 @@ class Player < ActiveRecord::Base
     rank_id ? where(:rank_id => rank_id) : scoped
   end
 
-  def self.find_main_characters
-    Player.order("name").where("main_character_id = ?", nil)
-  end
-
   def to_xml(options = {})
     to_xml_opts = {}
     # a builder instance is provided when to_xml is called on a collection of instructors,
