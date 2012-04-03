@@ -1,10 +1,39 @@
-%table#dataTable
+:javascript
+  $(document).ready(function() {
+  	$('#charactersTable').dataTable( {
+        "sPaginationType":"full_numbers",
+  		"aoColumns": [
+  			/* Name */   null,
+  			/* Main */  null,
+  			/* Rank */  null,
+  			/* Class */  null,
+  			/* Base Class */ { "bSearchable": true,
+  			                   "bVisible":    false },
+  			/* # Raids */  { "sType": "numeric" },
+  			/* # Instances */  { "sType": "numeric" },
+  			/* Armour Rate */  { "sType": "numeric" },
+  			/* Jewellery Rate */  { "sType": "numeric" },
+  			/* Weapon Rate */  { "sType": "numeric" },
+  			/* Show */    null,
+  			/* Edit */    null,
+  			/* Destroy */    null
+  		],
+        "aaSorting": [[0,'asc']]
+  		} );
+  } );
+%table#charactersTable
   %thead
     %tr
       %th Name
       %th Main
-      %th Type
+      %th Rank
       %th Class
+      %th Base Class
+      %th # Raids
+      %th # Instances
+      %th Armour Rate
+      %th Jewellery Rate
+      %th Weapon Rate
       %th
       %th
       %th
@@ -15,6 +44,12 @@
         %td= main_character_name(character)
         %td= case character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
         %td= character.archetype ? character.archetype.name : "Unknown"
+        %td= character.archetype ? character.archetype.root.name : "Unknown"
+        %td{:align => "right"}= character.raids.count
+        %td{:align => "right"}= character.instances.count
+        %td{:align => "right"}= character.loot_rate("Armour")
+        %td{:align => "right"}= character.loot_rate("Jewellery")
+        %td{:align => "right"}= character.loot_rate("Weapon")
         %td= link_to 'Show', character
         %td= link_to 'Edit', edit_character_path(character)
         %td= link_to 'Destroy', character, :confirm => 'Are you sure?', :method => :delete

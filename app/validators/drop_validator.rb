@@ -1,7 +1,7 @@
 class DropValidator < ActiveModel::Validator
-  def validate_player(record)
-    unless Player.exists?(:name => record.player_name)
-      record.errors[:base] << "A valid player must exist to be able to create drops for them"
+  def validate_character(record)
+    unless Character.exists?(:name => record.character_name)
+      record.errors[:base] << "A valid character must exist to be able to create drops for them"
     end
   end
 
@@ -12,7 +12,7 @@ class DropValidator < ActiveModel::Validator
   end
 
   def validate_instance(record)
-    unless Instance.by_time(drop_time).exists?(zone_id => Zone.find(:name => record.zone_name.id))
+    unless Instance.by_time(record.drop_time).exists?(:zone_id => Zone.find_by_name(record.zone_name).id)
       record.errors[:base] << "An instance must exist for the entered zone and drop time to be able to create drops for it"
     end
   end
@@ -30,8 +30,8 @@ class DropValidator < ActiveModel::Validator
   end
 
   def validate(record)
-    if record.assigned_to_player
-      validate_player(record)
+    if record.assigned_to_character?
+      validate_character(record)
       validate_zone(record)
       validate_instance(record)
       validate_mob(record)

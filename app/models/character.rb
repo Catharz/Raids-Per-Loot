@@ -4,10 +4,10 @@ class Character < ActiveRecord::Base
   belongs_to :archetype
 
   has_many :drops
-  has_many :items, :through => :drops, :conditions => ["assigned_to_player = ?", true]
+  has_many :items, :through => :drops, :conditions => ["assigned_to_character = ?", true]
   has_many :character_instances
   has_many :instances, :through => :character_instances
-  has_many :raids, :through => :player, :uniq => true
+  has_many :raids, :through => :instances, :uniq => true
 
   has_one :last_drop,
       :class_name => 'Drop',
