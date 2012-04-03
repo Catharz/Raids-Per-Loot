@@ -12,16 +12,8 @@
     %br/
     = f.text_field :name
   .field
-    %strong Main Character
-    %br/
-    = f.collection_select(:main_character_id, Player.all(:conditions => {:main_character_id => nil}, :order => :name), :id, :name, :include_blank => true)
-  .field
-    %strong Rank
+    = f.label :rank_id
     %br/
     = f.collection_select(:rank_id, Rank.all, :id, :name, :include_blank => true)
-  .field
-    %strong Class
-    %br/
-    = f.collection_select(:archetype_id, Archetype.base_archetypes, :id, :name, :include_blank => true)
   .actions
     = f.submit

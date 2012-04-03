@@ -1,16 +1,17 @@
 class Instance < ActiveRecord::Base
-  belongs_to :instance
   belongs_to :raid
   belongs_to :zone
   has_many :drops
   has_many :kills, :through => :drops, :source => :mob, :uniq => true
-  has_and_belongs_to_many :players
+  has_many :character_instances
+  has_many :characters, :through => :character_instances
+  has_many :players, :through => :characters, :uniq => true
 
   has_one :last_drop,
       :class_name => 'Drop',
       :order => 'created_at desc'
 
-  accepts_nested_attributes_for :players, :drops
+  accepts_nested_attributes_for :characters, :drops
 
   scope :raided, lambda {|raid_date| where(:raid_id => Raid.find_by_raid_date(raid_date).id) }
 

@@ -2,14 +2,14 @@ class Drop < ActiveRecord::Base
   belongs_to :instance
   belongs_to :zone
   belongs_to :mob
-  belongs_to :player
+  belongs_to :character
   belongs_to :item
 
   scope :of_type, lambda {|loot_type| where(:loot_type_id => LootType.find_by_name(loot_type).id) }
 
-  validates_presence_of :zone_name, :mob_name, :item_name, :player_name, :drop_time
-  validates_uniqueness_of :drop_time, :scope => [:zone_name, :mob_name, :item_name, :player_name]
-  validates_associated :zone, :mob, :player, :item, :instance, :on => :update, :message => "Must Exist!"
+  validates_presence_of :zone_name, :mob_name, :item_name, :character_name, :drop_time
+  validates_uniqueness_of :drop_time, :scope => [:zone_name, :mob_name, :item_name, :character_name]
+  validates_associated :zone, :mob, :character, :item, :instance, :on => :update, :message => "Must Exist!"
   #validates_with DropValidator, :on => :update
 
   def self.by_instance(instance_id)
@@ -24,8 +24,8 @@ class Drop < ActiveRecord::Base
     mob_id ? where('mob_id = ?', mob_id) : scoped
   end
 
-  def self.by_player(player_id)
-    player_id ? where('player_id = ?', player_id) : scoped
+  def self.by_character(character_id)
+    character_id ? where('character_id = ?', character_id) : scoped
   end
 
   def self.by_item(item_id)
@@ -36,10 +36,10 @@ class Drop < ActiveRecord::Base
     zone = Zone.where(:name => zone_name).first
     mob = zone ? Mob.where(:zone_id => zone.id, :name => mob_name).first : nil
     instance = zone ? Instance.by_zone(zone.id).by_time(drop_time).first : nil
-    player = Player.find_by_name(player_name)
+    character = Character.find_by_name(character_name)
     item = Item.find_by_name(item_name)
 
-    if instance && zone && mob && player && item
+    if instance && zone && mob && character && item
       new_drop = {:zone_name => zone_name,
                 :mob_name => mob_name,
                 :item_name => item_name,
@@ -47,12 +47,12 @@ class Drop < ActiveRecord::Base
       zone.drops << self unless zone.drops.exists? new_drop
       instance.drops << self unless instance.drops.exists? new_drop
       mob.drops << self unless mob.drops.exists? new_drop
-      player.drops << self unless player.drops.exists? new_drop
-      item.drops << self unless player.drops.exists? new_drop
+      character.drops << self unless character.drops.exists? new_drop
+      item.drops << self unless character.drops.exists? new_drop
       result = true
-      self.assigned_to_player = true
+      self.assigned_to_character = true
     else
-      self.errors[:base] << "A valid player must exist to be able to assign drops to them" if player.nil?
+      self.errors[:base] << "A valid character must exist to be able to assign drops to them" if character.nil?
       self.errors[:base] << "A valid zone must exist to be able to create drops for it" if zone.nil?
       self.errors[:base] << "An instance must exist for the entered zone and drop time to be able to create drops for it" if instance.nil?
       self.errors[:base] << "A mob must exist for the entered zone to be able to create drops for it" if mob.nil?
@@ -67,16 +67,16 @@ class Drop < ActiveRecord::Base
     instance = Instance.find_by_zone_and_time(zone_name, drop_time)
     zone = Zone.find_by_name(zone_name)
     mob = Mob.find_by_zone_and_mob_name(zone_name, mob_name)
-    player = Player.find_by_name(player_name)
+    character = Character.find_by_name(character_name)
     item = Item.find_by_name(item_name)
 
     instance.drops.delete(self) unless instance.nil?
     zone.drops.delete(self) unless zone.nil?
     mob.drops.delete(self) unless mob.nil?
-    player.drops.delete(self) unless player.nil?
+    character.drops.delete(self) unless character.nil?
     item.drops.delete(self) unless item.nil?
-    self.assigned_to_player = false
-    self.instance_id, self.zone_id, self.mob_id, self.player_id, self.item_id = nil
+    self.assigned_to_character = false
+    self.instance_id, self.zone_id, self.mob_id, self.character_id, self.item_id = nil
     self.save
   end
 

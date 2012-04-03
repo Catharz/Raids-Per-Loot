@@ -1,0 +1,20 @@
+:javascript
+  $(document).ready(function(){
+      $('#instancesTable').dataTable( {
+        "aaSorting": [[2,'desc']]
+      } );
+  });
+%table.instancesTable{:id => "instancesTable" }
+  %thead
+    %tr
+      %th Zone
+      %th Raid Date
+      %th Start time
+      %th End time
+  %tbody
+    - @character.instances.each do |instance|
+      %tr
+        %td= instance.zone.name
+        %td= instance.start_time.to_date
+        %td= instance.start_time
+        %td= instance.end_time

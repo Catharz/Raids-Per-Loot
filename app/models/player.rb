@@ -1,20 +1,31 @@
 class Player < ActiveRecord::Base
-  has_many :alternates, :class_name => 'Player', :foreign_key => 'main_character_id'
-  belongs_to :main_character, :class_name => 'Player', :foreign_key => 'main_character_id'
-  belongs_to :archetype
   belongs_to :rank
 
-  has_and_belongs_to_many :instances
-  has_many :raids, :through => :instances, :uniq => :true
+  has_many :characters
+  has_one :main_character,
+          :class_name => 'Character',
+          :conditions => ["char_type = 'm'"]
+  has_one :raid_alternate,
+          :class_name => 'Character',
+          :conditions => ["char_type = 'r'"]
+  has_many :general_alternates,
+           :class_name => 'Character',
+           :conditions => ["char_type = 'g'"]
 
-  has_many :drops
-  has_many :items, :through => :drops, :conditions => ["assigned_to_player = ?", true]
+  has_many :characters
+  has_many :character_instances, :through => :characters
+  has_many :instances, :through => :character_instances
+  has_many :raids, :through => :instances, :uniq => true
+
+  has_many :drops, :through => :characters
+  has_many :items, :through => :drops, :conditions => ["assigned_to_character = ?", true]
 
   has_one :last_drop,
       :class_name => 'Drop',
       :order => 'created_at desc'
 
   validates_presence_of :name
+  validates_presence_of :rank_id
   validates_uniqueness_of :name
 
   def loot_rate(loot_type)
@@ -31,26 +42,6 @@ class Player < ActiveRecord::Base
 
   def self.of_rank(rank_id)
     rank_id ? where(:rank_id => rank_id) : scoped
-  end
-
-  def self.by_instance(instance_id)
-    instance_id ? where('instances.instance_id = ?', instance_id) : scoped
-  end
-
-  def archetype_root
-    if archetype
-      archetype.root ? archetype.root.name : "Unknown"
-    else
-      "Unknown"
-    end
-  end
-
-  def self.find_by_archetype(archetype)
-    all_players = Array.new
-    Archetype.family(archetype).each do |child_archetype|
-      all_players << Player.all(:conditions => ['archetype_id = ?', child_archetype.id], :order => :name).flatten
-    end
-    all_players.flatten.uniq
   end
 
   def self.find_main_characters

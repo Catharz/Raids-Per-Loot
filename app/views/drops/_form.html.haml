@@ -17,9 +17,9 @@
     %br/
     = f.text_field :mob_name
   .field
-    = f.label :player_name
+    = f.label :character_name
     %br/
-    = f.text_field :player_name
+    = f.text_field :character_name
   .field
     = f.label :item_name
     %br/
@@ -37,8 +37,8 @@
     %br/
     = f.datetime_select :drop_time
   .field
-    = f.label :assigned_to_player
+    = f.label :assigned_to_character
     %br/
-    = f.check_box :assigned_to_player
+    = f.check_box :assigned_to_character
   .actions
     = f.submit

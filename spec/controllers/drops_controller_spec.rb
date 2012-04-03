@@ -22,7 +22,7 @@ describe DropsController do
     {:zone_name => "Wherever",
      :mob_name => "Whoever",
      :item_name => "Whatever",
-     :player_name => "Me",
+     :character_name => "Me",
      :drop_time => @drop_time}
   end
 

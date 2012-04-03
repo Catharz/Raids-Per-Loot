@@ -11,13 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120326040119) do
+ActiveRecord::Schema.define(:version => 20120330075310) do
 
   create_table "archetypes", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "parent_id"
+    t.string    "name"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "parent_id"
   end
 
   create_table "archetypes_items", :id => false, :force => true do |t|
@@ -25,17 +25,31 @@ ActiveRecord::Schema.define(:version => 20120326040119) do
     t.integer "item_id"
   end
 
-  create_table "difficulties", :force => true do |t|
+  create_table "character_instances", :force => true do |t|
+    t.integer "character_id"
+    t.integer "instance_id"
+  end
+
+  create_table "characters", :force => true do |t|
     t.string   "name"
-    t.integer  "rating"
+    t.integer  "player_id"
+    t.integer  "archetype_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "char_type",    :default => "m", :null => false
+  end
+
+  create_table "difficulties", :force => true do |t|
+    t.string    "name"
+    t.integer   "rating"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "drops", :force => true do |t|
     t.string   "zone_name"
     t.string   "mob_name"
-    t.string   "player_name"
+    t.string   "character_name"
     t.string   "item_name"
     t.string   "eq2_item_id"
     t.datetime "drop_time"
@@ -43,9 +57,9 @@ ActiveRecord::Schema.define(:version => 20120326040119) do
     t.datetime "updated_at"
     t.integer  "zone_id"
     t.integer  "mob_id"
-    t.integer  "player_id"
+    t.integer  "character_id"
     t.integer  "item_id"
-    t.boolean  "assigned_to_player"
+    t.boolean  "assigned_to_character"
     t.string   "info_url"
     t.string   "loot_type_name"
     t.integer  "loot_type_id"
@@ -53,12 +67,12 @@ ActiveRecord::Schema.define(:version => 20120326040119) do
   end
 
   create_table "instances", :force => true do |t|
-    t.integer  "zone_id"
-    t.integer  "raid_id"
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer   "zone_id"
+    t.integer   "raid_id"
+    t.timestamp "start_time"
+    t.timestamp "end_time"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "instances_players", :id => false, :force => true do |t|
@@ -67,12 +81,12 @@ ActiveRecord::Schema.define(:version => 20120326040119) do
   end
 
   create_table "items", :force => true do |t|
-    t.string   "name"
-    t.string   "eq2_item_id"
-    t.string   "info_url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "loot_type_id"
+    t.string    "name"
+    t.string    "eq2_item_id"
+    t.string    "info_url"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "loot_type_id"
   end
 
   create_table "items_slots", :id => false, :force => true do |t|
@@ -108,13 +122,13 @@ ActiveRecord::Schema.define(:version => 20120326040119) do
   end
 
   create_table "mobs", :force => true do |t|
-    t.string   "name"
-    t.text     "strategy"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "zone_id"
-    t.integer  "difficulty_id"
-    t.string   "alias"
+    t.string    "name"
+    t.text      "strategy"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "zone_id"
+    t.integer   "difficulty_id"
+    t.string    "alias"
   end
 
   create_table "pages", :force => true do |t|
@@ -136,22 +150,20 @@ ActiveRecord::Schema.define(:version => 20120326040119) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "main_character_id"
-    t.integer  "archetype_id"
     t.integer  "rank_id"
   end
 
   create_table "raids", :force => true do |t|
-    t.date     "raid_date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.date      "raid_date"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "ranks", :force => true do |t|
-    t.string    "name"
-    t.integer   "priority"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
+    t.string   "name"
+    t.integer  "priority"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "slots", :force => true do |t|
@@ -181,6 +193,11 @@ ActiveRecord::Schema.define(:version => 20120326040119) do
     t.timestamp "created_at"
     t.timestamp "updated_at"
     t.integer   "difficulty_id"
+  end
+
+  create_table "zones_mobs", :id => false, :force => true do |t|
+    t.integer "zone_id"
+    t.integer "mob_id"
   end
 
 end

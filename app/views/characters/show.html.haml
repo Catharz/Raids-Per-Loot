@@ -1,0 +1,23 @@
+%p#notice= notice
+
+%p
+  %strong Name:
+  = @character.name
+%p
+  %strong Type:
+  = case @character.char_type when "m" then "Member" when "r" then "Raid Alternate" else "General Alternate" end
+%p
+  %strong Archetype:
+  = @character.archetype_id ? @character.archetype.name : "Unknown"
+%p
+  %strong Drops
+= render 'drops'
+%br/
+%p
+  %strong Attendance
+= render 'instances'
+%br/
+%br/
+= link_to 'Edit', edit_character_path(@character)
+\|
+= link_to 'Back', characters_path

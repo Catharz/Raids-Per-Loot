@@ -8,7 +8,7 @@ describe "drops/show.html.erb" do
     @drop = assign(:drop, stub_model(Drop,
       :zone_name => "Zone Name",
       :mob_name => "Mob Name",
-      :player_name => "Player Name",
+      :character_name => "Character Name",
       :item_name => "Item Name",
       :eq2_item_id => "Eq2 Item"
     ))
@@ -19,7 +19,7 @@ describe "drops/show.html.erb" do
 
     rendered.should match(/Zone Name/)
     rendered.should match(/Mob Name/)
-    rendered.should match(/Player Name/)
+    rendered.should match(/Character Name/)
     rendered.should match(/Item Name/)
     rendered.should match(/Eq2 Item/)
   end

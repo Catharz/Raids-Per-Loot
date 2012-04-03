@@ -5,10 +5,12 @@ describe PlayersController do
 
   before(:each) do
     login_as :quentin
+    @main_rank ||= Factory.create(:rank, :name => "Main")
   end
 
   def valid_attributes
-    {:name => "Me"}
+    {:name => "Me",
+    :rank_id => @main_rank.id}
   end
 
   describe "GET index" do

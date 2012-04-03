@@ -3,8 +3,8 @@
   %strong Name:
   = @player.name
 %p
-  %strong Class:
-  = @player.archetype ? @player.archetype.name : "Unknown"
+  %strong Rank:
+  = @player.rank ? @player.rank.name : "Unknown"
 %p
   %strong Drops
 = render 'drops'

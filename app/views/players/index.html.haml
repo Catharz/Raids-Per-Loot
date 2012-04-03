@@ -5,10 +5,7 @@
   		"aoColumns": [
   			/* Name */   null,
   			/* Rank */  null,
-  			/* Main */  null,
-  			/* Class */  null,
-  			/* Base Class */ { "bSearchable": true,
-  			                   "bVisible":    false },
+  			/* Characters */  null,
   			/* # Raids */  { "sType": "numeric" },
   			/* # Instances */  { "sType": "numeric" },
   			/* Armour Rate */  { "sType": "numeric" },
@@ -26,9 +23,7 @@
     %tr
       %th Name
       %th Rank
-      %th Main
-      %th Class
-      %th Base Class
+      %th Characters
       %th # Raids
       %th # Instances
       %th Armour Rate
@@ -39,12 +34,10 @@
       %th
   %tbody
     - @players.each do |player|
-      %tr{:id => "#{player.archetype_root}_row"}
+      %tr
         %td= player.name
         %td= player.rank ? player.rank.name : "Unknown"
-        %td= player.main_character ? player.main_character.name : player.name
-        %td= player.archetype ? player.archetype.name : "Unknown"
-        %td= player.archetype_root
+        %td= link_to 'Characters', player_characters_path(player)
         %td{:align => "right"}= player.raids.count
         %td{:align => "right"}= player.instances.count
         %td{:align => "right"}= player.loot_rate("Armour")

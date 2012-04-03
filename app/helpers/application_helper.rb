@@ -8,22 +8,11 @@ module ApplicationHelper
   def build_tree(pages)
     html = "<ul>"
     pages.sort{|a,b| a.position <=> b.position}.each do |page|
-      if page.redirect
-        url = "#{page.controller_name}/#{page.action_name}"
-      else
-        url = page.name
-      end
+      url = page.redirect ? "#{page.controller_name}/#{page.action_name}" : page.name
       html = "#{html}<li><a href='/#{url}'>#{page.navlabel}</a>"
-      if page.children.empty?
-        html = "#{html}</li>"
-      else
-        html = "#{html}#{build_tree(page.children)}</li>"
-      end
+
+      html = page.children.empty? ? "#{html}</li>" : "#{html}#{build_tree(page.children)}</li>"
     end
     "#{html}</ul>"
-  end
-
-  def base_archetypes
-
   end
 end

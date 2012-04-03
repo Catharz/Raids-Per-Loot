@@ -10,7 +10,7 @@
     %tr
       %th Zone name
       %th Mob name
-      %th Player name
+      %th Character name
       %th Item name
       %th Drop time
       %th Assigned?
@@ -24,14 +24,14 @@
         %td
           = drop.zone_name
         %td= drop.mob_name
-        %td= drop.player_name
+        %td= drop.character_name
         %td
           - if drop.info_url
             %a{:href => drop.info_url}= drop.item_name
           - else
             = drop.item_name
         %td= drop.drop_time
-        - if drop.assigned_to_player
+        - if drop.assigned_to_character?
           %td Yes
           %td= link_to 'Un-Assign', unassign_loot_drop_path(drop), :confirm => 'Are you sure?'
         - else

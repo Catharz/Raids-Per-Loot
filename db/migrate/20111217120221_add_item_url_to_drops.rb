@@ -4,6 +4,6 @@ class AddItemUrlToDrops < ActiveRecord::Migration
   end
 
   def self.down
-    drop_column :drops, :item_url
+    remove_column :drops, :item_url
   end
 end

@@ -11,8 +11,8 @@ class DropsController < ApplicationController
   def index
     @drops = Drop.by_instance(params[:instance_id])
       .by_zone(params[:zone_id]).by_mob(params[:mob_id])
-      .by_player(params[:player_id]).by_item(params[:item_id])
-      .eager_load(:player, :instance, :zone, :mob, :item => :loot_type)
+      .by_character(params[:character_id]).by_item(params[:item_id])
+      .eager_load(:character, :instance, :zone, :mob, :item => :loot_type)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -51,7 +51,7 @@ class DropsController < ApplicationController
   def upload
     zone_name = params[:zone_name]
     mob_name = params[:mob_name]
-    player_name = params[:player_name]
+    character_name = params[:character_name]
     item_name = params[:item_name]
     eq2_item_id = params[:eq2_item_id]
     drop_time_string = params[:drop_time_string]
@@ -68,7 +68,7 @@ class DropsController < ApplicationController
     drop_time = DateTime.now unless !drop_time.nil?
     @drop = Drop.new(:zone_name => zone_name,
                      :mob_name => mob_name,
-                     :player_name => player_name,
+                     :character_name => character_name,
                      :item_name => item_name,
                      :eq2_item_id => eq2_item_id,
                      :drop_time => drop_time,

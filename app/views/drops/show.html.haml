@@ -6,8 +6,8 @@
   %strong Mob name:
   = @drop.mob_name
 %p
-  %strong Player name:
-  = @drop.player_name
+  %strong Character name:
+  = @drop.character_name
 %p
   %strong Item name:
   = @drop.item_name
@@ -22,7 +22,7 @@
   = @drop.drop_time
 %p
   %strong Assigned:
-  = @drop.assigned_to_player ? "Assigned" : "Unassigned"
+  = @drop.assigned_to_character? ? "Assigned" : "Unassigned"
 
 - if logged_in?
   = link_to 'Edit', edit_drop_path(@drop)

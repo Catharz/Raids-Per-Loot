@@ -1,5 +1,5 @@
-Given /I assign a drop named (.+) to (.+) from (.+) in (.+) at "(.+)"$/ do |item_name, player_name, mob_name, zone_name, drop_time|
-  Drop.create!(:item_name => item_name, :player_name => player_name, :mob_name => mob_name, :zone_name => zone_name, :drop_time => drop_time)
+Given /I assign a drop named (.+) to (.+) from (.+) in (.+) at "(.+)"$/ do |item_name, character_name, mob_name, zone_name, drop_time|
+  Drop.create!(:item_name => item_name, :character_name => character_name, :mob_name => mob_name, :zone_name => zone_name, :drop_time => drop_time)
   step "I assign the 1st drop"
 end
 

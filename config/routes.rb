@@ -1,5 +1,7 @@
 RaidsPerLoot::Application.routes.draw do
 
+  resources :characters
+
   resources :difficulties
 
   resources :raids do
@@ -39,6 +41,7 @@ RaidsPerLoot::Application.routes.draw do
   resources :players do
     resources :instances
     resources :drops
+    resources :characters
   end
 
   resources :archetypes do

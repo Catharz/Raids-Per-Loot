@@ -9,6 +9,11 @@ Factory.define :archetype do |f|
   f.name "Archetype Name"
 end
 
+Factory.define :character do |f|
+  f.name "Character Name"
+  f.char_type "m"
+end
+
 Factory.define :difficulty do |f|
   f.name "Easy"
   f.rating 5
@@ -17,7 +22,7 @@ end
 Factory.define :drop do |f|
   f.zone_name "Wherever"
   f.mob_name "Whoever"
-  f.player_name "Player"
+  f.character_name "Character"
   f.item_name "Whatever"
   f.eq2_item_id "123456789"
   f.drop_time DateTime.now
@@ -47,11 +52,14 @@ end
 
 Factory.define :loot_type do |f|
   f.name "Whatever"
-  f.show_on_player_list false
 end
 
 Factory.define :mob do |f|
   f.name "Whoever"
+end
+
+Factory.define :rank do |f|
+  f.name "Whatever"
 end
 
 Factory.define :player do |f|

@@ -1,0 +1,22 @@
+:javascript
+  $(document).ready(function(){
+      $('#dropsTable').dataTable( {
+        "aaSorting": [[4,'desc']]
+      } );
+  });
+%table.dropsTable{:id => "dropsTable" }
+  %thead
+    %tr
+      %td Zone
+      %td Mob
+      %td Item
+      %td Item Type
+      %td Drop Time
+  %tbody
+    - @character.drops.each do |drop|
+      %tr
+        %td= drop.zone_name
+        %td= drop.mob_name
+        %td= drop.item_name
+        %td= drop.loot_type_name
+        %td= drop.drop_time

@@ -7,7 +7,7 @@ class PlayerTest < ActiveSupport::TestCase
     end
   end
 
-  def test_loot_rate_equals_raids_when_no_loot
+  def test_rate_eql_raids_if_no_loot
     # Arrange
     player = create_player()
     num_raids = 3
@@ -23,6 +23,8 @@ class PlayerTest < ActiveSupport::TestCase
 
   protected
     def create_player(options = {})
-      Factory.create(:player, {:name => 'Humpty'}.merge(options))
+      @rank ||= Rank.find_by_name('Main')
+      @rank ||= Factory.create(:rank, :name => 'Main')
+      Factory.create(:player, {:name => 'Humpty', :rank_id => @rank.id}.merge(options))
     end
 end
