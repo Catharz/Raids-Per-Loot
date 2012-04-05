@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %strong Character:
+  = @character_type.character.name
+%p
+  %strong Effective:
+  = @character_type.effective_date
+%p
+  %strong Character Type:
+  = case @character_type.char_type  when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+
+= link_to 'Edit', edit_character_type_path(@character_type)
+\|
+= link_to 'Back', character_types_path

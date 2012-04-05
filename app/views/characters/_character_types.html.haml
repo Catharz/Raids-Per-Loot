@@ -1,0 +1,20 @@
+:javascript
+  $(document).ready(function(){
+      $('#characterTypesTable').dataTable( {
+        "sPaginationType": "full_numbers",
+        "sType": "date",
+        "aaSorting": [[1,'desc']]
+      } );
+  });
+%table#characterTypesTable
+  %thead
+    %tr
+      %th Player
+      %th Date Effective
+      %th Character Type
+  %tbody
+    - @character_types.each do |character_type|
+      %tr
+        %td= character_type.character.name
+        %td= character_type.effective_date
+        %td= case character_type.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end

@@ -1,4 +1,6 @@
 class Character < ActiveRecord::Base
+  include PointsCalculator
+
   belongs_to :player
   belongs_to :rank
   belongs_to :archetype
@@ -8,14 +10,10 @@ class Character < ActiveRecord::Base
   has_many :character_instances
   has_many :instances, :through => :character_instances
   has_many :raids, :through => :instances, :uniq => true
-
-  has_one :last_drop,
-      :class_name => 'Drop',
-      :order => 'created_at desc'
+  has_many :character_types
 
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_format_of :char_type, :with => /g|m|r/ # General Alt, Main, Raid Alt
 
   def archetype_root
     if archetype
@@ -23,14 +21,6 @@ class Character < ActiveRecord::Base
     else
       "Unknown"
     end
-  end
-
-  def loot_rate(loot_type)
-    calculate_loot_rate(raids.count, items.of_type(loot_type).count)
-  end
-
-  def calculate_loot_rate(event_count, item_count)
-    (Float(event_count) / (Float(item_count) + 1.0) * 100.00).round / 100.00
   end
 
   def self.by_instance(instance_id)

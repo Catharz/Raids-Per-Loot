@@ -1,6 +1,10 @@
 RaidsPerLoot::Application.routes.draw do
 
-  resources :characters
+  resources :character_types
+
+  resources :characters do
+    resources :character_types
+  end
 
   resources :difficulties
 

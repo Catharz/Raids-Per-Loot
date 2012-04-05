@@ -9,6 +9,8 @@
   			/* Class */  null,
   			/* Base Class */ { "bSearchable": true,
   			                   "bVisible":    false },
+  			/* First Raid */  { "sType": "date" },
+  			/* Last Raid */  { "sType": "date" },
   			/* # Raids */  { "sType": "numeric" },
   			/* # Instances */  { "sType": "numeric" },
   			/* Armour Rate */  { "sType": "numeric" },
@@ -29,6 +31,8 @@
       %th Rank
       %th Class
       %th Base Class
+      %th First Raid
+      %th Last Raid
       %th # Raids
       %th # Instances
       %th Armour Rate
@@ -42,9 +46,11 @@
       %tr
         %td= character.name
         %td= main_character_name(character)
-        %td= case character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+        %td= character.current_char_type ? case character.current_char_type.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end : "Unknown"
         %td= character.archetype ? character.archetype.name : "Unknown"
         %td= character.archetype ? character.archetype.root.name : "Unknown"
+        %td= character.first_raid ? character.first_raid.raid_date : "Never"
+        %td= character.last_raid ? character.last_raid.raid_date : "Never"
         %td{:align => "right"}= character.raids.count
         %td{:align => "right"}= character.instances.count
         %td{:align => "right"}= character.loot_rate("Armour")

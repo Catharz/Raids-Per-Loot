@@ -9,7 +9,7 @@ class CharactersController < ApplicationController
   # GET /characters
   # GET /characters.json
   def index
-    @characters = Character.by_player(params[:player_id]).by_instance(params[:instance_id])
+    @characters = Character.by_player(params[:player_id]).by_instance(params[:instance_id]).eager_load(:character_types)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -22,6 +22,7 @@ class CharactersController < ApplicationController
   # GET /characters/1.json
   def show
     @character = Character.find(params[:id])
+    @character_types = @character.character_types.order("effective_date desc")
 
     respond_to do |format|
       format.html # show.html.erb

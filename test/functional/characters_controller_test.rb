@@ -7,6 +7,10 @@ class CharactersControllerTest < ActionController::TestCase
     login_as :quentin
     archetype = Factory.create(:archetype, :name => 'Mage')
     @character = Factory.create(:character, :name => 'Betty', :archetype_id => archetype.id)
+    Factory.create(:character_type,
+                   :character => @character,
+                   :effective_date => Date.new,
+                   :char_type => 'm')
   end
 
   test "should get index" do

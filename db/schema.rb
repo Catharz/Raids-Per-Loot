@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120330075310) do
+ActiveRecord::Schema.define(:version => 20120403220716) do
 
   create_table "archetypes", :force => true do |t|
     t.string    "name"
@@ -30,13 +30,20 @@ ActiveRecord::Schema.define(:version => 20120330075310) do
     t.integer "instance_id"
   end
 
+  create_table "character_types", :force => true do |t|
+    t.integer  "character_id"
+    t.date     "effective_date"
+    t.string   "char_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "characters", :force => true do |t|
     t.string   "name"
     t.integer  "player_id"
     t.integer  "archetype_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "char_type",    :default => "m", :null => false
   end
 
   create_table "difficulties", :force => true do |t|

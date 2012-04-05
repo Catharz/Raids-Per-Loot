@@ -11,7 +11,11 @@ end
 
 Factory.define :character do |f|
   f.name "Character Name"
+end
+
+Factory.define :character_type do |f|
   f.char_type "m"
+  f.effective_date Date.new
 end
 
 Factory.define :difficulty do |f|

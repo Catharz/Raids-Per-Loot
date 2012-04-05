@@ -4,17 +4,22 @@
   %strong Name:
   = @character.name
 %p
-  %strong Type:
-  = case @character.char_type when "m" then "Member" when "r" then "Raid Alternate" else "General Alternate" end
-%p
   %strong Archetype:
   = @character.archetype_id ? @character.archetype.name : "Unknown"
 %p
-  %strong Drops
+  %strong Character Type:
+  = @character.current_char_type ? case @character.current_char_type.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end : "Unknown"
+
+%p
+  %strong Character Type History
+= render 'character_types'
+%br/
+%p
+  %strong Drop History
 = render 'drops'
 %br/
 %p
-  %strong Attendance
+  %strong Attendance History
 = render 'instances'
 %br/
 %br/

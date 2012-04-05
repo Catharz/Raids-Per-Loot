@@ -15,6 +15,6 @@
 
 $(document).ready(function () {
     $('#dataTable').dataTable({
-        "sPaginationType":"full_numbers"
+        "sPaginationType": "full_numbers"
     });
 });

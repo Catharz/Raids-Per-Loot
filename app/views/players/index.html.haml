@@ -6,6 +6,8 @@
   			/* Name */   null,
   			/* Rank */  null,
   			/* Characters */  null,
+  			/* First Raid */  { "sType": "date" },
+  			/* Last Raid */  { "sType": "date" },
   			/* # Raids */  { "sType": "numeric" },
   			/* # Instances */  { "sType": "numeric" },
   			/* Armour Rate */  { "sType": "numeric" },
@@ -24,6 +26,8 @@
       %th Name
       %th Rank
       %th Characters
+      %th First Raid
+      %th Last Raid
       %th # Raids
       %th # Instances
       %th Armour Rate
@@ -38,6 +42,8 @@
         %td= player.name
         %td= player.rank ? player.rank.name : "Unknown"
         %td= link_to 'Characters', player_characters_path(player)
+        %td= player.first_raid ? player.first_raid.raid_date : "Never"
+        %td= player.last_raid ? player.last_raid.raid_date : "Never"
         %td{:align => "right"}= player.raids.count
         %td{:align => "right"}= player.instances.count
         %td{:align => "right"}= player.loot_rate("Armour")

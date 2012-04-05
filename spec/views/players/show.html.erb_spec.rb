@@ -48,8 +48,8 @@ describe "players/show.html.erb" do
     render
 
     rendered.should match(/Name/)
-    rendered.should match(/Attendance/)
-    rendered.should match(/Drops/)
+    rendered.should match(/Drop History/)
+    rendered.should match(/Attendance History/)
   end
 
   it "should show the loot types" do

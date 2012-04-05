@@ -1,0 +1,24 @@
+= form_for @character_type do |f|
+  -if @character_type.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@character_type.errors.count, "error")} prohibited this character_type from being saved:"
+      %ul
+        - @character_type.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    %strong Character:
+    = f.collection_select(:character_id, Character.all, :id, :name, :include_blank => true)
+  .field
+    %strong Effective Date:
+    = f.date_select :effective_date
+  .field
+    %strong Character Type:
+    = f.label "Main"
+    = f.radio_button :char_type, "m"
+    = f.label "Raid Alternate"
+    = f.radio_button :char_type, "r"
+    = f.label "General Alternate"
+    = f.radio_button :char_type, "g"
+  .actions
+    = f.submit 'Save'
