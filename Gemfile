@@ -32,6 +32,11 @@ group :assets do
   gem 'uglifier'
 end
 
+group :production do
+  gem 'pg'
+  gem 'therubyracer-heroku', '0.8.1.pre3'
+end
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
@@ -39,9 +44,9 @@ end
 # gem 'capistrano'
 
 #START:dev_and_test_gems
-group :test do
+group :test, :development do
 # Pretty printed test output
-  gem 'turn', '< 0.8.3', :require => false
+  gem "turn", '< 0.8.3', :require => false
 
   #START_HIGHLIGHT
   gem "database_cleaner"
@@ -50,22 +55,27 @@ group :test do
 
 	gem "factory_girl_rails"
   gem "rspec-rails"
+  gem "capybara"
   gem "cucumber-rails", :require => false
   gem "webrat"
 	gem "test-unit", "2.4.7"
-end
 
-# Deploy with Heroku
-group :development, :test do
-	gem 'heroku'
-  gem 'taps'
+  # Guard Configuration
+  gem "launchy"
+  gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
+  gem "guard-bundler"
+	gem "guard-test"
+	gem "guard-cucumber"
+  gem "guard-rspec"
+	gem "guard-haml"
+  gem "guard-livereload"
+  gem "growl"
+
+  # Deploy with Heroku
+	gem "heroku"
+  gem "taps"
 
 	# To use debugger
 	#gem 'ruby-debug'
-	gem 'ruby-prof'
-end
-
-group :production do
-  gem 'pg'
-  gem 'therubyracer-heroku', '0.8.1.pre3'
+	gem "ruby-prof"
 end

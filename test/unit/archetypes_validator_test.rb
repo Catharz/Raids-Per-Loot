@@ -1,5 +1,5 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require File.dirname(__FILE__) + '/../../app/validators/archetypes_validator'
+require 'test_helper'
+require 'archetypes_validator'
 
 class ArchetypesValidatorTest < ActiveSupport::TestCase
   def setup
