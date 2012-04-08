@@ -15,6 +15,10 @@ class Character < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
+  def char_type
+    character_types.order('effective_date desc').first
+  end
+
   def archetype_root
     if archetype
       archetype.root ? archetype.root.name : "Unknown"
