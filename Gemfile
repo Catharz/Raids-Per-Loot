@@ -62,7 +62,8 @@ group :test, :development do
 
   # Guard Configuration
   gem "launchy"
-  gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
+  #gem "rb-fsevent", :require => false if RUBY_PLATFORM =~ /darwin/i
+  gem "rb-fsevent"
   gem "guard-bundler"
 	gem "guard-test"
 	gem "guard-cucumber"
