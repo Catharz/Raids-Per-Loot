@@ -11,6 +11,7 @@ end
 
 Factory.define :character do |f|
   f.name "Character Name"
+  f.char_type "g"
 end
 
 Factory.define :character_type do |f|

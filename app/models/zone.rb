@@ -1,8 +1,9 @@
 class Zone < ActiveRecord::Base
-  belongs_to :difficulty
-  has_many :instances
-  has_many :drops
-  has_many :mobs
+  belongs_to :difficulty, :inverse_of => :zones
+
+  has_many :instances, :inverse_of => :zone
+  has_many :drops, :inverse_of => :zone
+  has_many :mobs, :inverse_of => :zone
 
   has_one :last_instance,
       :class_name => 'Instance',

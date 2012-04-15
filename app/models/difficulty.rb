@@ -1,4 +1,4 @@
 class Difficulty < ActiveRecord::Base
-  has_many :mobs
-  has_many :zones
+  has_many :mobs, :inverse_of => :difficulty
+  has_many :zones, :inverse_of => :difficulty
 end

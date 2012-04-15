@@ -1,9 +1,10 @@
 class Player < ActiveRecord::Base
   include PointsCalculator
 
-  belongs_to :rank
+  belongs_to :rank, :inverse_of => :players
 
-  has_many :characters
+  has_many :characters, :inverse_of => :player
+
   has_one :main_character,
           :class_name => 'Character',
           :conditions => ["char_type = 'm'"]
@@ -14,17 +15,29 @@ class Player < ActiveRecord::Base
            :class_name => 'Character',
            :conditions => ["char_type = 'g'"]
 
-  has_many :characters
   has_many :character_instances, :through => :characters
   has_many :instances, :through => :character_instances
   has_many :raids, :through => :instances, :uniq => true
-
   has_many :drops, :through => :characters
   has_many :items, :through => :drops, :conditions => ["assigned_to_character = ?", true]
 
   validates_presence_of :name
   validates_presence_of :rank_id
   validates_uniqueness_of :name
+
+  # Don't accept any blank characters
+  accepts_nested_attributes_for :characters,
+                                :allow_destroy => true,
+                                :reject_if => lambda { |attrs|
+                                  attrs.all? { |key, value| value.blank? }
+                                }
+
+  def with_new_characters(n = 1)
+    n.times do
+      characters.build
+    end
+    self
+  end
 
   def self.with_name_like(name)
     name ? where('players.name LIKE ?', "%#{name}%") : scoped

@@ -1,9 +1,9 @@
 class Drop < ActiveRecord::Base
-  belongs_to :instance
-  belongs_to :zone
-  belongs_to :mob
-  belongs_to :character
-  belongs_to :item
+  belongs_to :instance, :inverse_of => :drops
+  belongs_to :zone, :inverse_of => :drops
+  belongs_to :mob, :inverse_of => :drops
+  belongs_to :character, :inverse_of => :drops
+  belongs_to :item, :inverse_of => :drops
 
   scope :of_type, lambda {|loot_type| where(:loot_type_id => LootType.find_by_name(loot_type).id) }
 

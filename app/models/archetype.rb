@@ -1,10 +1,13 @@
 class Archetype < ActiveRecord::Base
   acts_as_tree :order => "name"
-  has_many :players
+
+  has_many :characters, :inverse_of => :archetype
+
+  has_many :archetypes_items, :inverse_of => :archetype
+  has_many :items, :through => :archetypes_items
 
   validates_presence_of :name
   validates_uniqueness_of :name
-  has_and_belongs_to_many :items
 
   validates_with ArchetypesValidator
 

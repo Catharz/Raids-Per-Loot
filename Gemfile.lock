@@ -199,6 +199,10 @@ GEM
       rubyzip
     sequel (3.20.0)
     sexp_processor (3.1.0)
+    simplecov (0.6.1)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.5.3)
+    simplecov-html (0.5.3)
     sinatra (1.0)
       rack (>= 1.0)
     sprockets (2.0.3)
@@ -273,6 +277,7 @@ DEPENDENCIES
   ruby_parser
   sass-rails (~> 3.1.0)
   selenium-client
+  simplecov
   sqlite3
   taps
   test-unit (= 2.4.7)

@@ -12,5 +12,13 @@
   .field
     %strong Class:
     = f.collection_select(:archetype_id, Archetype.base_archetypes, :id, :name, :include_blank => true)
+  .field
+    %strong Rank:
+    = f.label "Main"
+    = f.radio_button :char_type, "m"
+    = f.label "Raid Alternate"
+    = f.radio_button :char_type, "r"
+    = f.label "General Alternate"
+    = f.radio_button :char_type, "g"
   .actions
     = f.submit 'Save'

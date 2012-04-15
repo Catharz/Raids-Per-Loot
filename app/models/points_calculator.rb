@@ -7,10 +7,6 @@ module PointsCalculator
     (Float(event_count) / (Float(item_count) + 1.0) * 100.00).round / 100.00
   end
 
-  def current_char_type
-    character_types.order("effective_date desc").first
-  end
-
   def first_drop
     drops.order("drop_time").first
   end

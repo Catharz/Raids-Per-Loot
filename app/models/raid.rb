@@ -1,5 +1,5 @@
 class Raid < ActiveRecord::Base
-  has_many :instances
+  has_many :instances, :inverse_of => :raid
 
   def raid_description
     raid_date.to_s + ': ' + zone.name

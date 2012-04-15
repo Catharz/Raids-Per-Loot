@@ -1,6 +1,7 @@
 class Page < ActiveRecord::Base
   acts_as_tree :order => "navlabel"
   acts_as_textiled :body
+
   validates_presence_of :name, :title, :navlabel, :body
   validates_uniqueness_of :name
 

@@ -1,11 +1,12 @@
 class Instance < ActiveRecord::Base
-  belongs_to :raid
-  belongs_to :zone
-  has_many :drops
+  belongs_to :raid, :inverse_of => :instances
+  belongs_to :zone, :inverse_of => :instances
+  has_many :drops, :inverse_of => :instance
+  has_many :character_instances, :inverse_of => :instance
+
   has_many :kills, :through => :drops, :source => :mob, :uniq => true
-  has_many :character_instances
-  has_many :characters, :through => :character_instances
   has_many :players, :through => :characters, :uniq => true
+  has_many :characters, :through => :character_instances
 
   has_one :last_drop,
       :class_name => 'Drop',

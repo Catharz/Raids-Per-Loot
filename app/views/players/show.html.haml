@@ -6,6 +6,10 @@
   %strong Rank:
   = @player.rank ? @player.rank.name : "Unknown"
 %p
+  %strong Characters
+= render 'character_list'
+%br/
+%p
   %strong Drop History
 = render 'drops'
 %br/

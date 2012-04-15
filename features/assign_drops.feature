@@ -8,7 +8,7 @@ Feature: Manage drops
 
   Scenario: Assigning a valid drop
     Given I have a zone named Wherever
-    And I have a character named Newbie
+    And I have a Main character named Newbie
     And I have a mob named Bad Ass Dragon from Wherever
     And I have an item named Can O' Whoop Ass with id 1234
     And I have a Wherever raid at "2011-09-16 20:15:00 +1000"
@@ -17,7 +17,7 @@ Feature: Manage drops
 
   Scenario: Assigning a drop with an invalid zone name
     Given I have a zone named Wherever
-    And I have a character named Newbie
+    And I have a Raid Alternate character named Newbie
     And I have a mob named Bad Ass Dragon from Wherever
     And I have an item named Can O' Whoop Ass with id 3456
     And I have a Wherever raid at "2011-09-16 20:15:00 +1000"
@@ -27,7 +27,7 @@ Feature: Manage drops
 
   Scenario: Assigning a drop with an invalid mob
     Given I have a zone named Wherever
-    And I have a character named Newbie
+    And I have a General Alternate character named Newbie
     And I have a mob named Bad Ass Dragon from Wherever
     And I have an item named Can O' Whoop Ass with id 3456
     And I have a Wherever raid at "2011-09-16 20:15:00 +1000"
@@ -37,7 +37,7 @@ Feature: Manage drops
 
   Scenario: Assigning a drop to an invalid character
     Given I have a zone named Wherever
-    And I have a character named Newbie
+    And I have a Main character named Newbie
     And I have a mob named Bad Ass Dragon from Wherever
     And I have an item named Can O' Whoop Ass with id 1234
     And I have a Wherever raid at "2011-09-16 20:15:00 +1000"
@@ -47,7 +47,7 @@ Feature: Manage drops
 
   Scenario: Drop with an invalid item name should not be assigned
     Given I have a zone named Wherever
-    And I have a character named Newbie
+    And I have a Raid Alternate character named Newbie
     And I have a mob named Bad Ass Dragon from Wherever
     And I have an item named Can O' Whoop Ass with id 1234
     And I have a Wherever raid at "2011-09-16 20:15:00 +1000"
@@ -57,7 +57,7 @@ Feature: Manage drops
 
   Scenario: Drop with an invalid drop time should not be assigned
     Given I have a zone named Wherever
-    And I have a character named Newbie
+    And I have a General Alternate character named Newbie
     And I have a mob named Bad Ass Dragon from Wherever
     And I have an item named Can O' Whoop Ass with id 1234
     And I have a Wherever raid at "2011-09-16 20:15:00 +1000"

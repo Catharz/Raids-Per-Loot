@@ -6,9 +6,10 @@ guard 'bundler' do
 end
 
 guard 'test', :colour => true, :drb => false  do
-  watch(%r{app/(.+)/(.+)\.rb})                  { |m| "test/#{m[1]}/#{m[2]}_test.rb" }
+  watch(%r{app/(.+)/(.+)\.rb})                       { |m| "test/#{m[1]}/#{m[2]}_test.rb" }
   watch(%r{test/(.+)/(.+)_test\.rb})
-  watch(%r{test/test_helper.rb})                { "test" }
+  watch(%r{test/test_helper.rb})                     { "test" }
+  watch('spec/factories.rb')                         { "test" } # used by unit and rspec tests
 end
 
 group :backend do
@@ -16,6 +17,7 @@ group :backend do
     watch(%r{^spec/.+_spec\.rb})
     watch(%r{^lib/(.+)\.rb})                           { |m| "spec/lib/#{m[1]}_spec.rb" }
     watch('spec/spec_helper.rb')                       { "spec" }
+    watch('spec/factories.rb')                         { "spec" } # used by unit and rspec tests
 
     # Rails example
     watch('spec/spec_helper.rb')                       { "spec" }

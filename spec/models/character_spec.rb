@@ -6,7 +6,8 @@ module CharacterSpecHelper
     @main_rank = Factory.create(:rank, :name => 'Main')
     @alternate_rank = Factory.create(:rank, :name => 'General Alternate')
     {:name => 'Fred',
-     :archetype_id => @fighter_archetype.id}
+     :archetype_id => @fighter_archetype.id,
+     :char_type => 'm'}
   end
 end
 
@@ -24,14 +25,6 @@ describe Character do
 
       loot_rate = @character.calculate_loot_rate(num_raids, num_items)
       loot_rate.should == 6.17
-    end
-
-    it "should have a char_type that matches its last character type" do
-      Factory.create(:character_type, :character => @character, :effective_date => Date.new - 90.days, :char_type => 'g')
-      Factory.create(:character_type, :character => @character, :effective_date => Date.new - 60.days, :char_type => 'r')
-      main_char = Factory.create(:character_type, :character => @character, :effective_date => Date.new - 30.days, :char_type => 'm')
-
-      @character.char_type.should == main_char
     end
   end
 end

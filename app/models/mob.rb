@@ -1,7 +1,8 @@
 class Mob < ActiveRecord::Base
-  belongs_to :zone
-  belongs_to :difficulty
-  has_many :drops
+  belongs_to :zone, :inverse_of => :mobs
+  belongs_to :difficulty, :inverse_of => :mobs
+  has_many :drops, :inverse_of => :mob
+
   has_one :last_drop,
       :class_name => 'Drop',
       :order => 'created_at desc'

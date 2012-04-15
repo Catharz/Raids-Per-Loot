@@ -46,7 +46,7 @@
       %tr
         %td= character.name
         %td= main_character_name(character)
-        %td= character.current_char_type ? case character.current_char_type.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end : "Unknown"
+        %td= case character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
         %td= character.archetype ? character.archetype.name : "Unknown"
         %td= character.archetype ? character.archetype.root.name : "Unknown"
         %td= character.first_raid ? character.first_raid.raid_date : "Never"

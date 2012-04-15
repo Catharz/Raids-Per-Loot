@@ -4,11 +4,11 @@
   %strong Name:
   = @character.name
 %p
-  %strong Archetype:
+  %strong Class:
   = @character.archetype_id ? @character.archetype.name : "Unknown"
 %p
-  %strong Character Type:
-  = @character.current_char_type ? case @character.current_char_type.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end : "Unknown"
+  %strong Rank:
+  = case @character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
 
 %p
   %strong Character Type History

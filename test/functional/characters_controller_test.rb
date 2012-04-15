@@ -5,8 +5,12 @@ class CharactersControllerTest < ActionController::TestCase
 
   def setup
     login_as :quentin
-    archetype = Factory.create(:archetype, :name => 'Mage')
-    @character = Factory.create(:character, :name => 'Betty', :archetype_id => archetype.id)
+    archetype = Factory.create(:archetype,
+                               :name => 'Mage')
+    @character = Factory.create(:character,
+                                :name => 'Betty',
+                                :archetype_id => archetype.id,
+                                :char_type => 'm')
     Factory.create(:character_type,
                    :character => @character,
                    :effective_date => Date.new,
@@ -26,10 +30,18 @@ class CharactersControllerTest < ActionController::TestCase
 
   test "should create character" do
     assert_difference('Character.count') do
-      post :create, :character => {:name => "New Character"}
+      post :create, :character => {:name => "New Character", :char_type => "g"}
     end
 
     assert_redirected_to character_path(assigns(:character))
+  end
+
+  test "it should require a character type" do
+    assert_no_difference('Character.count') do
+      post :create, :character => {:name => "New Character"}
+    end
+
+    assert_response :success
   end
 
   test "should show character" do

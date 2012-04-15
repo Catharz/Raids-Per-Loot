@@ -1,4 +1,6 @@
 class Link < ActiveRecord::Base
-  has_and_belongs_to_many :link_categories
+  has_many :link_categories_links, :inverse_of => :link
+  has_many :link_categories, :through => :link_categories_links
+
   validates_presence_of :title
 end
