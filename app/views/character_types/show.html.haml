@@ -9,6 +9,12 @@
 %p
   %strong Character Type:
   = case @character_type.char_type  when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+%p
+  %strong Normal Wait:
+  = @character_type.normal_penalty
+%p
+  %strong Progression Wait:
+  = @character_type.progression_penalty
 
 = link_to 'Edit', edit_character_type_path(@character_type)
 \|

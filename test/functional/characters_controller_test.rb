@@ -36,6 +36,14 @@ class CharactersControllerTest < ActionController::TestCase
     assert_redirected_to character_path(assigns(:character))
   end
 
+  test "should create character type for new character" do
+    assert_difference('CharacterType.count') do
+      post :create, :character => {:name => "New Character", :char_type => "g"}
+    end
+
+    assert_redirected_to character_path(assigns(:character))
+  end
+
   test "it should require a character type" do
     assert_no_difference('Character.count') do
       post :create, :character => {:name => "New Character"}
@@ -56,6 +64,14 @@ class CharactersControllerTest < ActionController::TestCase
 
   test "should update character" do
     put :update, id: @character.to_param, character: @character.attributes
+    assert_redirected_to character_path(assigns(:character))
+  end
+
+  test "should create character type for updated character" do
+    assert_difference('CharacterType.count') do
+      put :update, id: @character.to_param, character: @character.attributes.merge({:char_type => 'r'})
+    end
+
     assert_redirected_to character_path(assigns(:character))
   end
 

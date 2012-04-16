@@ -30,12 +30,12 @@
           %td= characters_form.text_field :name
           %td= characters_form.collection_select(:archetype_id, Archetype.base_archetypes, :id, :name, :include_blank => true)
           %td
-            = characters_form.label "Main"
             = characters_form.radio_button :char_type, "m"
-            = characters_form.label "Raid Alternate"
+            = characters_form.label "Main"
             = characters_form.radio_button :char_type, "r"
-            = characters_form.label "General Alternate"
+            = characters_form.label "Raid Alternate"
             = characters_form.radio_button :char_type, "g"
+            = characters_form.label "General Alternate"
           %td
             - unless characters_form.object.new_record?
               = characters_form.check_box('_destroy', :checked_value => "true", :unchecked_value => "false") + characters_form.label('_destroy', 'Remove')

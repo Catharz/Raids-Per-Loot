@@ -20,5 +20,11 @@
     = f.radio_button :char_type, "r"
     = f.label "General Alternate"
     = f.radio_button :char_type, "g"
+  .field
+    %strong Normal Wait:
+    = f.number_field :normal_penalty
+  .field
+    %strong Progression Wait:
+    = f.number_field :progression_penalty
   .actions
     = f.submit 'Save'

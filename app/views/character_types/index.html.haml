@@ -12,6 +12,8 @@
       %th Player
       %th Date Effective
       %th Character Type
+      %th Normal Wait
+      %th Progression Wait
       %th
       %th
       %th
@@ -21,6 +23,8 @@
         %td= character_type.character.name
         %td= character_type.effective_date
         %td= case character_type.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+        %td= character_type.normal_penalty
+        %td= character_type.progression_penalty
         %td= link_to 'Show', character_type
         %td= link_to 'Edit', edit_character_type_path(character_type)
         %td= link_to 'Destroy', character_type, :confirm => 'Are you sure?', :method => :delete

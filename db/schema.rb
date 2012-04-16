@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120415043658) do
+ActiveRecord::Schema.define(:version => 20120416035358) do
 
   create_table "archetypes", :force => true do |t|
     t.string    "name"
@@ -33,11 +33,13 @@ ActiveRecord::Schema.define(:version => 20120415043658) do
   end
 
   create_table "character_types", :force => true do |t|
-    t.integer   "character_id"
-    t.date      "effective_date"
-    t.string    "char_type"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
+    t.integer  "character_id"
+    t.date     "effective_date"
+    t.string   "char_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "normal_penalty"
+    t.integer  "progression_penalty"
   end
 
   create_table "characters", :force => true do |t|
