@@ -11,6 +11,10 @@
 %p
   %strong Strategy:
   = @mob.strategy
+%p
+  %strong Progression:
+  = @mob.progression ? "Yes" : "No"
+
 = link_to 'Edit', edit_mob_path(@mob)
 |
 \#{link_to 'Back', mobs_path}

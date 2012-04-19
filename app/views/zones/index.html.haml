@@ -6,6 +6,7 @@
       %th Difficulty
       %th Times Run
       %th Last Run
+      %th Progression
       %th
       %th
       %th
@@ -17,6 +18,7 @@
         %td= zone.difficulty ? zone.difficulty.name : "Unknown"
         %td= zone.instances.count
         %td= zone.last_instance ? zone.last_instance.start_time : "Never"
+        %td= zone.progression ? "Yes" : "No"
         %td= link_to 'Show', zone
         %td= link_to 'Edit', edit_zone_path(zone)
         %td= link_to 'Destroy', zone, :confirm => 'Are you sure?', :method => :delete

@@ -7,6 +7,7 @@
       %th Difficulty
       %th Kills
       %th Last Killed
+      %th Progression
       %th
       %th
       %th
@@ -19,6 +20,7 @@
         %td= mob.difficulty ? mob.difficulty.name : "Unknown"
         %td= mob.kills
         %td= mob.last_drop ? mob.last_drop.drop_time : "Never"
+        %td= mob.progression ? "Yes" : "No"
         %td= link_to 'Show', mob
         %td= link_to 'Edit', edit_mob_path(mob)
         %td= link_to 'Destroy', mob, :confirm => 'Are you sure?', :method => :delete

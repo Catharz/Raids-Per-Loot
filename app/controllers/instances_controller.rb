@@ -37,12 +37,12 @@ class InstancesController < ApplicationController
   # GET /instances
   # GET /instances.json
   def index
-    @instances = Instance.by_raid(params[:raid_id]).by_zone(params[:zone_id]).includes(:drops => [:mob, :zone, :player, :item])
+    @instances = Instance.by_raid(params[:raid_id]).by_zone(params[:zone_id]).includes(:characters => [:player], :drops => [:mob, :zone, :character, :item])
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @instances }
-      format.xml  { render :xml => @instances.to_xml( :include => [:players, :drops] ) }
+      format.xml  { render :xml => @instances.to_xml( :include => [:characters => [:player], :drops => [:mob, :zone, :character, :item]] ) }
     end
   end
 
@@ -54,7 +54,7 @@ class InstancesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @instance }
-      format.xml  { render :xml => @instance.to_xml(:include => [:players, :drops]) }
+      format.xml  { render :xml => @instance.to_xml(:include => [:characters => [:player], :drops => [:mob, :zone, :character, :item]]) }
     end
   end
 
