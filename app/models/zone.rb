@@ -12,6 +12,21 @@ class Zone < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
+  def runs
+    instances.count
+  end
+
+  def progression
+    case difficulty.rating
+      when 1 # Easy
+        false
+      when 2 # Normal
+        runs < 10
+      else   # Hard
+        runs < 20
+    end
+  end
+
   def to_xml(options = {})
     to_xml_opts = {}
     # a builder instance is provided when to_xml is called on a collection of instructors,
