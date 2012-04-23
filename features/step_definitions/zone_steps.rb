@@ -1,9 +1,17 @@
 Given /^I have a zone named (.+)$/ do |zone|
-  Zone.create(:name => zone) unless Zone.exists?(:name => zone)
+  easy = Difficulty.find_by_name('Easy')
+  Zone.create(:name => zone, :difficulty => easy) unless Zone.exists?(:name => zone)
 end
 
 Given /^the following zones:$/ do |zones|
-  Zone.create!(zones.hashes)
+  zones.hashes.each do |this_zone|
+    difficulty = Difficulty.find_by_name(this_zone[:difficulty])
+    this_zone.delete('difficulty')
+    zone = Zone.create!(this_zone)
+    zone.difficulty = difficulty
+    zone.save!
+  end
+  Zone.all
 end
 
 When /^I delete the (\d+)(?:st|nd|rd|th) zone$/ do |pos|

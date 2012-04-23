@@ -1,14 +1,17 @@
 require 'factory_helper'
 
 Given /^I have a mob named (.+) from (.+)$/ do |mob, zone|
-  FactoryHelper.give_me_mob(zone, mob)
+  FactoryHelper.give_me_mob(zone, mob, 'Easy')
 end
 
 Given /^the following mobs:$/ do |mobs|
   mobs.hashes.each do |this_mob|
-    zone = FactoryHelper.give_me_zone(this_mob['zone_name'])
+    difficulty = Difficulty.find_by_name(this_mob[:difficulty])
+    zone = FactoryHelper.give_me_zone(this_mob['zone_name'], difficulty.name)
     this_mob.delete('zone_name')
+    this_mob.delete('difficulty')
     mob = Mob.create!(this_mob)
+    mob.difficulty = difficulty
     mob.zone = zone
     mob.save!
   end

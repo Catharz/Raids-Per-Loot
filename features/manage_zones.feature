@@ -1,3 +1,4 @@
+@difficulty
 Feature: Manage zones
   In order to identify Loot
   The raid leader
@@ -9,17 +10,18 @@ Feature: Manage zones
   Scenario: Create new zone
     Given I am on the new zone page
     When I fill in "Name" with "name 1"
+    And I select "Easy" from "zone_difficulty_id"
     And I press "Create"
     Then I should see "name 1"
     And I should see "Zone was successfully created"
 
   Scenario: Delete zone
     Given the following zones:
-      |name|
-      |name 1|
-      |name 2|
-      |name 3|
-      |name 4|
+      |name  |difficulty|
+      |name 1|Easy      |
+      |name 2|Normal    |
+      |name 3|Hard      |
+      |name 4|Normal    |
     When I delete the 3rd zone
     Then I should see the following zones:
       |Name|

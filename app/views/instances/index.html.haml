@@ -23,7 +23,10 @@
         %td= instance.zone ? instance.zone.name : "Unknown"
         %td= instance.start_time.strftime('%H:%M:%S')
         %td= instance.end_time.strftime('%H:%M:%S')
-        %td= link_to 'Attendees', instance_players_path(instance)
+        %td
+          = link_to 'Players', instance_players_path(instance)
+          %br/
+          = link_to 'Characters', instance_characters_path(instance)
         %td= mob_names(instance)
         %td= link_to 'Show', instance
         %td= link_to 'Edit', edit_instance_path(instance)

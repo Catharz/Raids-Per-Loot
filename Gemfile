@@ -59,6 +59,7 @@ group :test, :development do
   gem "capybara"
   gem "cucumber-rails", :require => false
   gem "webrat"
+  gem "spork"
 	gem "test-unit", "2.4.7"
 
   # Guard Configuration
@@ -71,6 +72,7 @@ group :test, :development do
   gem "guard-rspec"
 	gem "guard-haml"
   gem "guard-livereload"
+  gem "guard-spork"
   gem "growl"
 
   # Deploy with Heroku

@@ -58,7 +58,7 @@ def create_default_pages
 
   # Players Page and Sub Pages
   players_page = Page.create(:name => 'players', :title => 'Characters', :navlabel => 'Characters',
-                               :position => 2, :admin => false, :body => '.')
+                             :position => 2, :admin => false, :body => '.')
   players_page.children.create(:name => 'archetypes', :title => 'Classes', :navlabel => 'Classes',
                                :position => 0, :admin => true, :body => '.')
   players_page.children.create(:name => 'ranks', :title => 'Ranks', :navlabel => 'Ranks',
@@ -120,8 +120,8 @@ def create_default_links
   rails_links = LinkCategory.create!(:title => 'Ruby on Rails',
                                      :description => 'Sites related to the technology used to build this site')
   rails_casts = Link.create(:title => 'Rails Casts',
-  :url => 'http://railscasts.com',
-  :description => 'Ryan Bates'' Rails Casts')
+                            :url => 'http://railscasts.com',
+                            :description => 'Ryan Bates' ' Rails Casts')
   ruby_on_rails = Link.create!(:title => 'Ruby on Rails',
                                :url => 'http://www.rubyonrails.org',
                                :description => 'The Ruby on Rails home page')
@@ -218,21 +218,26 @@ def create_scout_archetypes
 end
 
 def create_default_zones
-  @zones = ["Kraytoc's Fortress of Rime",
-            "Throne of Storms: Hall of Legends",
-            "Temple of Rallos Zek: Foundations of Stone",
-            "The Fortress of Drunder: Sullon's Spire",
-            "The Fortress of Drunder: Tallon's Stronghold",
-            "The Fortress of Drunder: Vallon's Tower",
-            "Kraytoc's Fortress of Rime [Challenge]",
-            "Throne of Storms: Hall of Legends [Challenge]",
-            "Temple of Rallos Zek: Foundations of Stone [Challenge]",
-            "The Fortress of Drunder: Sullon's Spire [Challenge]",
-            "The Fortress of Drunder: Tallon's Stronghold [Challenge]",
-            "The Fortress of Drunder: Vallon's Tower [Challenge]"]
-  @zones.each do |zone|
-    Zone.find_or_create_by_name!(zone)
-  end
+  @zones = [{:name => "Kraytoc's Fortress of Rime", :difficulty => Difficulty.find_by_name('Easy')},
+            {:name => "Throne of Storms: Hall of Legends", :difficulty => Difficulty.find_by_name('Easy')},
+            {:name => "Temple of Rallos Zek: Foundations of Stone", :difficulty => Difficulty.find_by_name('Easy')},
+            {:name => "The Fortress of Drunder: Sullon's Spire", :difficulty => Difficulty.find_by_name('Normal')},
+            {:name => "The Fortress of Drunder: Tallon's Stronghold", :difficulty => Difficulty.find_by_name('Normal')},
+            {:name => "The Fortress of Drunder: Vallon's Tower", :difficulty => Difficulty.find_by_name('Normal')},
+            {:name => "Kraytoc's Fortress of Rime [Challenge]", :difficulty => Difficulty.find_by_name('Hard')},
+            {:name => "Throne of Storms: Hall of Legends [Challenge]", :difficulty => Difficulty.find_by_name('Hard')},
+            {:name => "Temple of Rallos Zek: Foundations of Stone [Challenge]", :difficulty => Difficulty.find_by_name('Hard')},
+            {:name => "The Fortress of Drunder: Sullon's Spire [Challenge]", :difficulty => Difficulty.find_by_name('Hard')},
+            {:name => "The Fortress of Drunder: Tallon's Stronghold [Challenge]", :difficulty => Difficulty.find_by_name('Hard')},
+            {:name => "The Fortress of Drunder: Vallon's Tower [Challenge]", :difficulty => Difficulty.find_by_name('Hard')}]
+  Zone.create!(@zones)
+end
+
+def create_default_difficulties
+  @difficulties = [{:name => 'Easy', :rating => 1},
+                   {:name => 'Normal', :rating => 2},
+                   {:name => 'Hard', :rating => 3}]
+  Difficulty.create!(@difficulties)
 end
 
 create_default_users() if User.all.empty?
@@ -242,4 +247,5 @@ create_default_archetypes() if Archetype.all.empty?
 create_default_ranks() if Rank.all.empty?
 create_default_slots() if Slot.all.empty?
 create_default_loot_types() if LootType.all.empty?
+create_default_difficulties if Difficulty.all.empty?
 create_default_zones() if Zone.all.empty?

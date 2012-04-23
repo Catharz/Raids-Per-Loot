@@ -47,6 +47,10 @@ class Player < ActiveRecord::Base
     rank_id ? where(:rank_id => rank_id) : scoped
   end
 
+  def self.by_instance(instance_id)
+    instance_id ? includes(:characters => :character_instances).where('character_instances.instance_id = ?', instance_id) : scoped
+  end
+
   def to_xml(options = {})
     to_xml_opts = {}
     # a builder instance is provided when to_xml is called on a collection of instructors,

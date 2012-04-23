@@ -9,7 +9,7 @@ class PlayersController < ApplicationController
   # GET /players
   # GET /players.json
   def index
-    @players = Player.of_rank(params[:rank_id]).eager_load(:rank, :characters => {:character_instances => {:instance => :raid}})
+    @players = Player.of_rank(params[:rank_id]).by_instance(params[:instance_id]).eager_load(:rank, :characters => {:character_instances => {:instance => :raid}})
 
     respond_to do |format|
       format.html # index.html.erb

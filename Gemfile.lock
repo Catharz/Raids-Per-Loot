@@ -101,6 +101,9 @@ GEM
       multi_json (~> 1.0)
     guard-rspec (0.7.0)
       guard (>= 0.10.0)
+    guard-spork (0.6.1)
+      guard (>= 0.10.0)
+      spork (>= 0.8.4)
     guard-test (0.4.3)
       guard (>= 0.4)
       test-unit (~> 2.2)
@@ -205,6 +208,7 @@ GEM
     simplecov-html (0.5.3)
     sinatra (1.0)
       rack (>= 1.0)
+    spork (0.9.0)
     sprockets (2.0.3)
       hike (~> 1.2)
       rack (~> 1.0)
@@ -259,6 +263,7 @@ DEPENDENCIES
   guard-haml
   guard-livereload
   guard-rspec
+  guard-spork
   guard-test
   haml-rails
   heroku
@@ -278,6 +283,7 @@ DEPENDENCIES
   sass-rails (~> 3.1.0)
   selenium-client
   simplecov
+  spork
   sqlite3
   taps
   test-unit (= 2.4.7)

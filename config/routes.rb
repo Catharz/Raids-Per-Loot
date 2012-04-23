@@ -15,6 +15,7 @@ RaidsPerLoot::Application.routes.draw do
   resources :instances do
     resources :drops
     resources :players
+    resources :characters
     member do
       put :add_player
       get :player_list

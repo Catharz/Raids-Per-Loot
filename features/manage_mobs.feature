@@ -1,3 +1,4 @@
+@difficulty
 Feature: Manage mobs
   In order to identify Loot
   The raid leader
@@ -15,6 +16,7 @@ Feature: Manage mobs
     And I select "zone_name 1" from "mob_zone_id"
     And I fill in "Alias" with "alias 1"
     And I fill in "Strategy" with "strategy 1"
+    And I select "Easy" from "mob_difficulty_id"
     And I press "Create"
     Then I should see "name 1"
     And I should see "strategy 1"
@@ -22,11 +24,11 @@ Feature: Manage mobs
 
   Scenario: Delete mob
     Given the following mobs:
-      |zone_name|name|alias|
-      |zone_name 1|name 1|alias 1|
-      |zone_name 2|name 2|alias 2|
-      |zone_name 3|name 3|alias 3|
-      |zone_name 4|name 4|alias 4|
+      |zone_name  |name  |alias  |difficulty|
+      |zone_name 1|name 1|alias 1|Easy      |
+      |zone_name 2|name 2|alias 2|Normal    |
+      |zone_name 3|name 3|alias 3|Hard      |
+      |zone_name 4|name 4|alias 4|Easy      |
     When I delete the 3rd mob
     Then I should see the following mobs:
       |Zone|Name|Alias|

@@ -27,7 +27,7 @@ class Character < ActiveRecord::Base
   end
 
   def self.by_instance(instance_id)
-    instance_id ? where('character_instances.instance_id = ?', instance_id) : scoped
+    instance_id ? includes(:character_instances).where('character_instances.instance_id = ?', instance_id) : scoped
   end
 
   def self.by_player(player_id)
