@@ -13,8 +13,6 @@
   			/* Armour Rate */  { "sType": "numeric" },
   			/* Jewellery Rate */  { "sType": "numeric" },
   			/* Weapon Rate */  { "sType": "numeric" },
-  			/* Show */    null,
-  			/* Edit */    null,
   			/* Destroy */    null
   		],
         "aaSorting": [[0,'asc']]
@@ -34,12 +32,10 @@
       %th Jewellery Rate
       %th Weapon Rate
       %th
-      %th
-      %th
   %tbody
     - @players.each do |player|
       %tr
-        %td= player.name
+        %td= link_to player.name, player
         %td= player.rank ? player.rank.name : "Unknown"
         %td= link_to 'Characters', player_characters_path(player)
         %td= player.first_raid ? player.first_raid.raid_date : "Never"
@@ -49,8 +45,6 @@
         %td{:align => "right"}= player.loot_rate("Armour")
         %td{:align => "right"}= player.loot_rate("Jewellery")
         %td{:align => "right"}= player.loot_rate("Weapon")
-        %td= link_to 'Show', player
-        %td= link_to 'Edit', edit_player_path(player)
         %td= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/
