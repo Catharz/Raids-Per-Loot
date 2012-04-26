@@ -10,37 +10,10 @@
   			/* Classes */ null,
   		    /* Name Search */ { "bSearchable": true,
        		             "bVisible":    false },
-  			/* Show */    null,
-  			/* Edit */    null,
   			/* Destroy */ null
   		],
         "aaSorting": [[0,'asc']]
   		} );
-    $('.itemDescription').each(function() {
-       var item_id = this.id;
-  	   var hoverHTMLAjax = '<div id="item_details"></div>';
-
-        $(this).hovercard( {
-          detailsHTML: hoverHTMLAjax,
-          width: 350,
-          onHoverIn: function() {
-            $.ajax({
-              url: 'items/' + item_id + '/details',
-              type: 'GET',
-              beforeSend: function () {
-                $("#item_details").prepend('<p class="loading-text">Loading item details...</p>');
-              },
-              success: function (data) {
-                $("#item_details").empty();
-                $("#item_details").append(data);
-              },
-              complete: function () {
-                $('.loading-text').remove();
-              }
-            });
-          }
-        } );
-      } );
   } );
 %table#itemsTable
   %thead
@@ -51,18 +24,14 @@
       %th Class(es)
       %th Name (for searching)
       %th
-      %th
-      %th
   %tbody
     - @items.each do |item|
       %tr
-        %td.lootPopupTrigger{:id => item.id}= item.name
+        %td.itemPopupTrigger{:id => item.id}= link_to item.name, item
         %td= item.loot_type ? item.loot_type.name : "Unknown"
         %td= item.slot_names
         %td= item.class_names
         %td= item.name
-        %td= link_to 'Show', item
-        %td= link_to 'Edit', edit_item_path(item)
         %td= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/

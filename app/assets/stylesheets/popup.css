@@ -1,4 +1,4 @@
-#lootPopupContainer {
+#popupContainer {
     position: absolute;
     left: 0;
     top: 0;
@@ -6,54 +6,54 @@
     z-index: 20000;
 }
 
-.lootPopupPopup {
+.popupPopup {
 }
 
-#lootPopupContent {
+#popupContent {
     background-color: #FFF;
     min-width: 175px;
     min-height: 50px;
 }
 
-.lootPopupPopup .lootPopupImage {
+.popupPopup .popupImage {
     margin: 5px;
     margin-right: 15px;
 }
 
-.lootPopupPopup .corner {
+.popupPopup .corner {
     width: 19px;
     height: 15px;
 }
 
-.lootPopupPopup .topLeft {
+.popupPopup .topLeft {
     background: url(balloon_topLeft.png) no-repeat;
 }
 
-.lootPopupPopup .bottomLeft {
+.popupPopup .bottomLeft {
     background: url(balloon_bottomLeft.png) no-repeat;
 }
 
-.lootPopupPopup .left {
+.popupPopup .left {
     background: url(balloon_left.png) repeat-y;
 }
 
-.lootPopupPopup .right {
+.popupPopup .right {
     background: url(balloon_right.png) repeat-y;
 }
 
-.lootPopupPopup .topRight {
+.popupPopup .topRight {
     background: url(balloon_topRight.png) no-repeat;
 }
 
-.lootPopupPopup .bottomRight {
+.popupPopup .bottomRight {
     background: url(balloon_bottomRight.png) no-repeat;
 }
 
-.lootPopupPopup .top {
+.popupPopup .top {
     background: url(balloon_top.png) repeat-x;
 }
 
-.lootPopupPopup .bottom {
+.popupPopup .bottom {
     background: url(balloon_bottom.png) repeat-x;
     text-align: center;
 }  

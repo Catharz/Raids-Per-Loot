@@ -20,7 +20,7 @@
   %tbody
     - @character_types.each do |character_type|
       %tr
-        %td= character_type.character.name
+        %td= character_type.character ? character_type.character.name : "Unknown"
         %td= character_type.effective_date
         %td= case character_type.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
         %td= character_type.normal_penalty

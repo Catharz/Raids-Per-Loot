@@ -5,9 +5,13 @@ class CharactersControllerTest < ActionController::TestCase
 
   def setup
     login_as :quentin
+
+    rank = Factory.create(:rank, :name => 'Main')
+    @player = Factory.create(:player, :name => 'Dino', :rank_id => rank.id)
     archetype = Factory.create(:archetype,
                                :name => 'Mage')
     @character = Factory.create(:character,
+                                :player_id => @player.id,
                                 :name => 'Betty',
                                 :archetype_id => archetype.id,
                                 :char_type => 'm')
@@ -30,7 +34,7 @@ class CharactersControllerTest < ActionController::TestCase
 
   test "should create character" do
     assert_difference('Character.count') do
-      post :create, :character => {:name => "New Character", :char_type => "g"}
+      post :create, :character => {:name => "New Character", :char_type => "g", :player_id => @player.id}
     end
 
     assert_redirected_to character_path(assigns(:character))
@@ -38,7 +42,7 @@ class CharactersControllerTest < ActionController::TestCase
 
   test "should create character type for new character" do
     assert_difference('CharacterType.count') do
-      post :create, :character => {:name => "New Character", :char_type => "g"}
+      post :create, :character => {:name => "New Character", :char_type => "g", :player_id => @player.id}
     end
 
     assert_redirected_to character_path(assigns(:character))
@@ -47,6 +51,14 @@ class CharactersControllerTest < ActionController::TestCase
   test "it should require a character type" do
     assert_no_difference('Character.count') do
       post :create, :character => {:name => "New Character"}
+    end
+
+    assert_response :success
+  end
+
+  test "it should require a player" do
+    assert_no_difference('Character.count') do
+      post :create, :character => {:name => "New Character", :char_type => "g"}
     end
 
     assert_response :success

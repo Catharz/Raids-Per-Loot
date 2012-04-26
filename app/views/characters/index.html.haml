@@ -40,7 +40,7 @@
   %tbody
     - @characters.each do |character|
       %tr
-        %td= link_to character.name, character
+        %td.characterPopupTrigger{:id => character.id}= link_to character.name, character
         %td= main_character_name(character)
         %td= case character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
         %td= character.archetype ? character.archetype.name : "Unknown"

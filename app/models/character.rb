@@ -6,12 +6,15 @@ class Character < ActiveRecord::Base
 
   has_many :drops, :inverse_of => :character
   has_many :character_instances, :inverse_of => :character
-  has_many :character_types, :inverse_of => :character
+  has_many :character_types, :inverse_of => :character, :dependent => :destroy
 
   has_many :items, :through => :drops, :conditions => ["assigned_to_character = ?", true]
   has_many :instances, :through => :character_instances
   has_many :raids, :through => :instances, :uniq => true
 
+  has_many :adjustments, :as => :adjustable
+
+  validates_presence_of :player
   validates_presence_of :name, :char_type
   validates_uniqueness_of :name
   validates_format_of :char_type, :with => /g|m|r/ # General Alt, Main, Raid Alt

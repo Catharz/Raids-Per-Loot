@@ -9,8 +9,8 @@
 //= require jquery_ujs
 //= require jquery.dataTables
 //= require jquery.hoverIntent
-//= require lootPopup
 //= require ddsmoothmenu
+//= require popup
 //= require_self
 
 $(document).ready(function () {

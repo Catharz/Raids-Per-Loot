@@ -1,0 +1,2 @@
+.itemPopupResult{:id => @item.id}
+  = Scraper.get("http://u.eq2wire.com/item/index/#{@item.eq2_item_id}", ".itemd_detailwrap")

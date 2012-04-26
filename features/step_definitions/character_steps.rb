@@ -3,8 +3,20 @@ Before('@loot_types') do
 end
 
 Given /^I have a (.+) character named (.+)$/ do |rank, character|
-  char_type = case rank when "Main" then "m" when "Raid Alternate" then "r" else "g" end
-  Character.create(:name => character, :char_type => char_type)
+  case rank
+    when "Main" then
+      char_type = "m"
+      player_name = character
+    when "Raid Alternate" then "r"
+      char_type = "r"
+      player_name = "#{character} Raid Alternate"
+    else
+      char_type = "g"
+      player_name = "#{character} General Alternate"
+  end
+  rank = Rank.create(:name => rank)
+  player = Player.create(:name => player_name, :rank_id => rank.id)
+  Character.create(:name => character, :char_type => char_type, :player_id => player.id)
 end
 
 Given /^the following characters:$/ do |characters|

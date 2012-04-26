@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :login_required, :except => [:index, :show, :info]
   before_filter :set_pagetitle
 
   def set_pagetitle
@@ -30,6 +30,13 @@ class CharactersController < ApplicationController
       format.xml { render :xml => @character.to_xml(:include => [:instances, :drops]) }
     end
   end
+
+  def info
+    @character = Character.find(params[:id])
+
+    render :layout => false
+  end
+
 
   # GET /characters/new
   # GET /characters/new.json

@@ -3,10 +3,13 @@ require 'test_helper'
 class CharacterTypesControllerTest < ActionController::TestCase
   fixtures :users
 
-  setup do
+  def setup
     login_as :quentin
+
     archetype = Factory.create(:archetype, :name => 'Mage')
-    betty = Factory.create(:character, :name => 'Betty', :archetype_id => archetype.id)
+    rank = Factory.create(:rank, :name => 'Main')
+    @player = Factory.create(:player, :name => 'Dino', :rank_id => rank.id)
+    betty = Factory.create(:character, :name => 'Betty', :archetype_id => archetype.id, :player_id => @player.id)
     @character_type = Factory.create(:character_type,
                                  :character => betty,
                                  :effective_date => Date.new,

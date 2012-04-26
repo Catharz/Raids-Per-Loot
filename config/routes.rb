@@ -1,9 +1,14 @@
 RaidsPerLoot::Application.routes.draw do
 
+  resources :adjustments
+
   resources :character_types
 
   resources :characters do
     resources :character_types
+    member do
+      get :info
+    end
   end
 
   resources :difficulties
@@ -39,7 +44,7 @@ RaidsPerLoot::Application.routes.draw do
     resources :drops
     resources :archetypes
     member do
-      get :details
+      get :info
     end
   end
 

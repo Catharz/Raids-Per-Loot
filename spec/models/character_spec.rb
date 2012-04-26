@@ -1,15 +1,5 @@
 require 'spec_helper'
-
-module CharacterSpecHelper
-  def valid_character_attributes
-    @fighter_archetype = Factory.create(:archetype, :name => 'Mage')
-    @main_rank = Factory.create(:rank, :name => 'Main')
-    @alternate_rank = Factory.create(:rank, :name => 'General Alternate')
-    {:name => 'Fred',
-     :archetype_id => @fighter_archetype.id,
-     :char_type => 'm'}
-  end
-end
+require 'character_spec_helper'
 
 describe Character do
   include CharacterSpecHelper

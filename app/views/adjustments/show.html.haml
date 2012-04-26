@@ -1,0 +1,27 @@
+%p#notice= notice
+
+%p
+  %b Adjustment date:
+  = @adjustment.adjustment_date
+%p
+  %b Adjustment type:
+  = @adjustment.adjustment_type
+%p
+  %b Amount:
+  = @adjustment.amount
+%p
+  %b Reason:
+  = @adjustment.reason
+%p
+  %b Loot type:
+  = @adjustment.loot_type_id
+%p
+  %b Adjustable:
+  = @adjustment.adjustable_id
+%p
+  %b Adjustable type:
+  = @adjustment.adjustable_type
+
+= link_to 'Edit', edit_adjustment_path(@adjustment)
+\|
+= link_to 'Back', adjustments_path

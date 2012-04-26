@@ -4,7 +4,7 @@
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require jquery.dataTables_themeroller
  *= require jquery.dataTables
- *= require lootPopup
+ *= require popup
  *= require lootInfo
  *= require ddsmoothmenu
  *= require ddsmoothmenu-v

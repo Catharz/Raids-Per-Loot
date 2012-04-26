@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show, :details]
+  before_filter :login_required, :except => [:index, :show, :info]
 
   # GET /items
   # GET /items.json
@@ -13,17 +13,10 @@ class ItemsController < ApplicationController
     end
   end
 
-  def details
+  def info
     @item = Item.find(params[:id])
-    item_name = @item.name
 
-    begin
-      text = "<div class='lootPopupResult', id='#{params[:id]}'>#{Scraper.get("http://u.eq2wire.com/item/index/#{@item.eq2_item_id}", ".itemd_detailwrap")}</div>"
-    rescue
-      text = "<b>Couldn't download details for #{item_name}</b>"
-    end
-
-    render :text => text, :layout => false
+    render :layout => false
   end
 
   # GET /items/1

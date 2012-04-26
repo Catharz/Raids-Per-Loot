@@ -11,7 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120416035358) do
+ActiveRecord::Schema.define(:version => 20120425223359) do
+
+  create_table "adjustments", :force => true do |t|
+    t.datetime "adjustment_date"
+    t.string   "adjustment_type"
+    t.integer  "amount"
+    t.string   "reason"
+    t.integer  "loot_type_id"
+    t.integer  "adjustable_id"
+    t.string   "adjustable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "archetypes", :force => true do |t|
     t.string    "name"

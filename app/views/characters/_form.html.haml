@@ -7,6 +7,9 @@
           %li= msg
 
   .field
+    %strong Player:
+    = f.collection_select(:player_id, Player.all, :id, :name, :include_blank => true)
+  .field
     %strong Name:
     = f.text_field :name
   .field

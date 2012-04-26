@@ -21,6 +21,8 @@ class Player < ActiveRecord::Base
   has_many :drops, :through => :characters
   has_many :items, :through => :drops, :conditions => ["assigned_to_character = ?", true]
 
+  has_many :adjustments, :as => :adjustable
+
   validates_presence_of :name
   validates_presence_of :rank_id
   validates_uniqueness_of :name
