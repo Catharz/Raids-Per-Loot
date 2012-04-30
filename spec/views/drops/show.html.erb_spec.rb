@@ -2,25 +2,47 @@ require 'spec_helper'
 
 describe "drops/show.html.erb" do
   fixtures :users
-  before(:each) do
-    login_as users(:quentin)
 
-    @drop = assign(:drop, stub_model(Drop,
-      :zone_name => "Zone Name",
-      :mob_name => "Mob Name",
-      :character_name => "Character Name",
-      :item_name => "Item Name",
-      :eq2_item_id => "Eq2 Item"
-    ))
+  before(:each) do
+    login_as :quentin
+
+    zone = stub_model(Zone, :name => "This Zone")
+    assign(:zones, [zone])
+
+    mob = stub_model(Mob, :zone => zone, :name => "This Mob")
+    assign(:mobs, [mob])
+
+    character_one = stub_model(Character, :player_id => 1, :archetype_id => 1, :name => "Character One")
+    character_two = stub_model(Character, :player_id => 1, :archetype_id => 2, :name => "Character Two")
+    assign(:characters, [character_one, character_two])
+
+    loot_type_one = stub_model(LootType, :name => "Armour")
+    loot_type_two = stub_model(LootType, :name => "Jewellery")
+    assign(:loot_types, [loot_type_one, loot_type_two])
+
+    item_one = stub_model(Item, :name => "Item One", :eq2_item_id => "eq2 item 1", :loot_type => loot_type_one)
+    item_two = stub_model(Item, :name => "Item Two", :eq2_item_id => "eq2 item 2", :loot_type => loot_type_two)
+    assign(:items, [item_one, item_two])
+
+    @drop = assign(:drop,
+                   stub_model(Drop,
+                              :zone => zone,
+                              :mob => mob,
+                              :character => character_one,
+                              :item => item_one,
+                              :loot_type => loot_type_one,
+                              :loot_method => "r"
+                   ))
   end
 
   it "renders attributes in <p>" do
     render
 
-    rendered.should match(/Zone Name/)
-    rendered.should match(/Mob Name/)
-    rendered.should match(/Character Name/)
-    rendered.should match(/Item Name/)
-    rendered.should match(/Eq2 Item/)
+    rendered.should match(/This Zone/)
+    rendered.should match(/This Mob/)
+    rendered.should match(/Character One/)
+    rendered.should match(/Item One/)
+    rendered.should match(/Random/)
+    rendered.should match(/Armour/)
   end
 end

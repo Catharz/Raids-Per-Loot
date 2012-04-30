@@ -1,30 +1,26 @@
 %p#notice= notice
 %p
-  %strong Zone name:
-  = @drop.zone_name
+  %strong Zone Name:
+  = @drop.zone ? @drop.zone.name : "Unknown"
 %p
-  %strong Mob name:
-  = @drop.mob_name
+  %strong Mob Name:
+  = @drop.mob ? @drop.mob.name : "Unknown"
 %p
-  %strong Character name:
-  = @drop.character_name
+  %strong Item Name:
+  = @drop.item ? @drop.item.name : "Unknown"
 %p
-  %strong Item name:
-  = @drop.item_name
+  %strong Loot Type:
+  = @drop.loot_type ? @drop.loot_type.name : "Unknown"
 %p
-  %strong Eq2 item:
-  = @drop.eq2_item_id
-%p
-  %strong Info URL:
-  = @drop.info_url
-%p
-  %strong Drop time:
+  %strong Drop Time:
   = @drop.drop_time
 %p
-  %strong Assigned:
-  = @drop.assigned_to_character? ? "Assigned" : "Unassigned"
+  %strong Character Name:
+  = @drop.character ? @drop.character.name : "Unknown"
+%p
+  %strong Loot Method:
+  = case @drop.loot_method when "n" then "Need" when "r" then "Random" when "b" then "Bid" when "t" then "Trash" else "Unknown" end
 
-- if logged_in?
-  = link_to 'Edit', edit_drop_path(@drop)
-  |
+= link_to 'Edit', edit_drop_path(@drop)
+\|
 = link_to 'Back', drops_path

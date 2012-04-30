@@ -9,10 +9,7 @@ class DropsController < ApplicationController
   # GET /drops
   # GET /drops.xml
   def index
-    @drops = Drop.by_instance(params[:instance_id])
-      .by_zone(params[:zone_id]).by_mob(params[:mob_id])
-      .by_character(params[:character_id]).by_item(params[:item_id])
-      .eager_load(:character, :instance, :zone, :mob, :item => :loot_type)
+    @drops = Drop.by_instance(params[:instance_id]).by_zone(params[:zone_id]).by_mob(params[:mob_id]).by_character(params[:character_id]).by_item(params[:item_id]).eager_load(:character, :instance, :zone, :mob, :item => :loot_type)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -55,24 +52,28 @@ class DropsController < ApplicationController
     item_name = params[:item_name]
     eq2_item_id = params[:eq2_item_id]
     drop_time_string = params[:drop_time_string]
+    loot_type_name = params[:loot_type_name]
 
-    loot_type_name = nil
-    matching_items = Item.find_all_by_name(item_name)
-    unless matching_items.empty?
-      loot_type = LootType(matching_items[0].loot_type_id)
-      loot_type_name = loot_type.name
-    end
+    zone = Zone.find_or_create_by_name(zone_name)
+    mob = Mob.find_or_create_by_name_and_zone_id(mob_name, zone.id)
+    character = Character.find_or_create_by_name(character_name)
+    item = Item.find_or_create_by_eq2_item_id_and_name(eq2_item_id, item_name)
+    loot_type = LootType.find_or_create_by_name(loot_type_name)
 
-    drop_time = DateTime.now
     drop_time = DateTime.strptime(drop_time_string, "%d/%m/%Y %I:%M:%S %p") unless drop_time_string.nil?
-    drop_time = DateTime.now unless !drop_time.nil?
-    @drop = Drop.new(:zone_name => zone_name,
-                     :mob_name => mob_name,
-                     :character_name => character_name,
-                     :item_name => item_name,
-                     :eq2_item_id => eq2_item_id,
-                     :drop_time => drop_time,
-                     :loot_type_name => loot_type_name)
+    drop_time ||= Date.now
+    @drop = Drop.where(:zone_id => zone.id,
+                       :mob_id => mob.id,
+                       :character_id => character.id,
+                       :item_id => item.id,
+                       :loot_type_id => loot_type.id,
+                       :drop_time => drop_time)
+    @drop ||= Drop.new(:zone_id => zone.id,
+                       :mob_id => mob.id,
+                       :character_id => character.id,
+                       :item_id => item.id,
+                       :loot_type_id => loot_type.id,
+                       :drop_time => drop_time)
 
     respond_to do |format|
       if @drop.save

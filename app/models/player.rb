@@ -19,7 +19,7 @@ class Player < ActiveRecord::Base
   has_many :instances, :through => :character_instances
   has_many :raids, :through => :instances, :uniq => true
   has_many :drops, :through => :characters
-  has_many :items, :through => :drops, :conditions => ["assigned_to_character = ?", true]
+  has_many :items, :through => :drops, :conditions => ["loot_method = ?", "n"]
 
   has_many :adjustments, :as => :adjustable
 

@@ -2,13 +2,14 @@ require 'spec_helper'
 
 describe "drops/new.html.erb" do
   before(:each) do
-    assign(:drop, stub_model(Drop,
-      :zone_name => "MyString",
-      :mob_name => "MyString",
-      :character_name => "MyString",
-      :item_name => "MyString",
-      :eq2_item_id => "MyString"
-    ).as_new_record)
+    assign(:drop,
+           stub_model(Drop,
+                      :zone_id => 1,
+                      :mob_id => 1,
+                      :character_id => 1,
+                      :item_id => 1,
+                      :item_type_id => 1
+           ).as_new_record)
   end
 
   it "renders new drop form" do
@@ -16,11 +17,10 @@ describe "drops/new.html.erb" do
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form", :action => drops_path, :method => "post" do
-      assert_select "input#drop_zone_name", :name => "drop[zone_name]"
-      assert_select "input#drop_mob_name", :name => "drop[mob_name]"
-      assert_select "input#drop_character_name", :name => "drop[character_name]"
-      assert_select "input#drop_item_name", :name => "drop[item_name]"
-      assert_select "input#drop_eq2_item_id", :name => "drop[eq2_item_id]"
+      assert_select "select#drop_zone_id", :id => "drop[zone_id]"
+      assert_select "select#drop_mob_id", :id => "drop[mob_id]"
+      assert_select "select#drop_character_id", :id => "drop[character_id]"
+      assert_select "select#drop_item_id", :id => "drop[item_id]"
     end
   end
 end

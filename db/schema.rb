@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120425223359) do
+ActiveRecord::Schema.define(:version => 20120426113949) do
 
   create_table "adjustments", :force => true do |t|
     t.datetime "adjustment_date"
@@ -71,23 +71,16 @@ ActiveRecord::Schema.define(:version => 20120425223359) do
   end
 
   create_table "drops", :force => true do |t|
-    t.string    "zone_name"
-    t.string    "mob_name"
-    t.string    "character_name"
-    t.string    "item_name"
-    t.string    "eq2_item_id"
-    t.timestamp "drop_time"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.integer   "zone_id"
-    t.integer   "mob_id"
-    t.integer   "character_id"
-    t.integer   "item_id"
-    t.boolean   "assigned_to_character"
-    t.string    "info_url"
-    t.string    "loot_type_name"
-    t.integer   "loot_type_id"
-    t.integer   "instance_id"
+    t.datetime "drop_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "zone_id"
+    t.integer  "mob_id"
+    t.integer  "character_id"
+    t.integer  "item_id"
+    t.integer  "loot_type_id"
+    t.integer  "instance_id"
+    t.string   "loot_method",  :default => "n"
   end
 
   create_table "instances", :force => true do |t|

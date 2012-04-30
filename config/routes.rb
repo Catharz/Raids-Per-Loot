@@ -68,15 +68,9 @@ RaidsPerLoot::Application.routes.draw do
     resources :items
   end
 
-  match '/drops/:id/assign_loot' => "drops#assign_loot"
-  match '/drops/:id/unassign_loot' => "drops#unassign_loot"
   resources :drops do
     resources :instances
     resources :players
-    member do
-      put :assign_loot
-      put :unassign_loot
-    end
     collection do
       put :upload_drop
     end

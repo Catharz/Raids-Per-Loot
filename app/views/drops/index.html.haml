@@ -8,35 +8,26 @@
 %table#dropsTable
   %thead
     %tr
-      %th Zone name
-      %th Mob name
-      %th Character name
-      %th Item name
-      %th Drop time
-      %th Assigned?
-      %th
+      %th Zone Name
+      %th Mob Name
+      %th Item Name
+      %th Loot Type
+      %th Drop Time
+      %th Character Name
+      %th Loot Method
       %th
       %th
       %th
   %tbody
     - @drops.each do |drop|
       %tr
-        %td
-          = drop.zone_name
-        %td= drop.mob_name
-        %td= drop.character_name
-        %td
-          - if drop.info_url
-            %a{:href => drop.info_url}= drop.item_name
-          - else
-            = drop.item_name
+        %td= drop.zone ? drop.zone.name : "Unknown"
+        %td= drop.mob ? drop.mob.name : "Unknown"
+        %td= drop.item ? drop.item.name : "Unknown"
+        %td= drop.loot_type ? drop.loot_type.name : "Unknown"
         %td= drop.drop_time
-        - if drop.assigned_to_character?
-          %td Yes
-          %td= link_to 'Un-Assign', unassign_loot_drop_path(drop), :confirm => 'Are you sure?'
-        - else
-          %td No
-          %td= link_to 'Assign', assign_loot_drop_path(drop), :confirm => 'Are you sure?'
+        %td= drop.character ? drop.character.name : "Unknown"
+        %td= case drop.loot_method when "n" then "Need" when "r" then "Random" when "b" then "Bid" when "t" then "Trash" else "Unknown" end
         %td= link_to 'Show', drop
         %td= link_to 'Edit', edit_drop_path(drop)
         %td= link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete

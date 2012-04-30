@@ -8,7 +8,7 @@ class Character < ActiveRecord::Base
   has_many :character_instances, :inverse_of => :character
   has_many :character_types, :inverse_of => :character, :dependent => :destroy
 
-  has_many :items, :through => :drops, :conditions => ["assigned_to_character = ?", true]
+  has_many :items, :through => :drops, :conditions => ["loot_method = ?", "n"]
   has_many :instances, :through => :character_instances
   has_many :raids, :through => :instances, :uniq => true
 

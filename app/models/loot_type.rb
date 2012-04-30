@@ -1,5 +1,6 @@
 class LootType < ActiveRecord::Base
   has_many :items, :inverse_of => :loot_type
+  has_many :drops, :inverse_of => :loot_type
 
   validates_presence_of :name
   validates_uniqueness_of :name

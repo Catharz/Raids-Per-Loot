@@ -7,38 +7,41 @@
       %ul
         - @drop.errors.full_messages.each do |msg|
           %li= msg
-  / TODO: Implement separate edit form and use combo boxes
+
   .field
-    = f.label :zone_name
+    %strong= f.label :zone
     %br/
-    = f.text_field :zone_name
+    = f.collection_select(:zone_id, Zone.all, :id, :name, :include_blank => true)
   .field
-    = f.label :mob_name
+    %strong= f.label :mob
     %br/
-    = f.text_field :mob_name
+    = f.collection_select(:mob_id, Mob.all, :id, :name, :include_blank => true)
   .field
-    = f.label :character_name
+    %strong= f.label :loot_type
     %br/
-    = f.text_field :character_name
+    = f.collection_select(:loot_type_id, LootType.all, :id, :name, :include_blank => true)
   .field
-    = f.label :item_name
+    %strong= f.label :item
     %br/
-    = f.text_field :item_name
+    = f.collection_select(:item_id, Item.all, :id, :name, :include_blank => true)
   .field
-    = f.label :eq2_item_id
-    %br/
-    = f.text_field :eq2_item_id
-  .field
-    = f.label :info_url
-    %br/
-    = f.text_field :info_url
-  .field
-    = f.label :drop_time
+    %strong= f.label :drop_time
     %br/
     = f.datetime_select :drop_time
   .field
-    = f.label :assigned_to_character
+    %strong= f.label :character
     %br/
-    = f.check_box :assigned_to_character
+    = f.collection_select(:character_id, Character.all, :id, :name, :include_blank => true)
+  .field
+    %strong= f.label :loot_method
+    %br/
+    = f.label "Need"
+    = f.radio_button :loot_method, "n", :id => "need"
+    = f.label "Random"
+    = f.radio_button :loot_method, "r", :id => "random"
+    = f.label "Bid"
+    = f.radio_button :loot_method, "b", :id => "bid"
+    = f.label "Trash"
+    = f.radio_button :loot_method, "t", :id => "trash"
   .actions
     = f.submit

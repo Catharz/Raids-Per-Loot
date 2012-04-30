@@ -2,6 +2,10 @@ Given /^the following loot_types:$/ do |loot_types|
   LootType.create!(loot_types.hashes)
 end
 
+Given /^I have a loot type named (.+)$/ do |loot_type|
+  LootType.create(:name => loot_type)
+end
+
 When /^I delete the (\d+)(?:st|nd|rd|th) loot_type$/ do |pos|
   visit loot_types_path
   within("table tr:nth-child(#{pos.to_i})") do

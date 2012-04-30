@@ -5,24 +5,31 @@ describe DropsController do
 
   #These items must exist or the Drop will not be valid
   before(:each) do
-    @drop_time = DateTime.new!
-    Item.create(:name => "Whatever")
-    Player.create(:name => "Me")
-
-    zone = Zone.create!(:name => "Wherever")
-    zone.mobs.create(:name => "Whoever")
-    raid = Raid.create!(:raid_date => @drop_time.to_date)
-    raid.instances.create!(:start_time => @drop_time - 1.hour, :end_time => @drop_time + 2.hours)
-
     # Need to be logged in
     login_as :quentin
+
+    @drop_time = DateTime.new!
+    @item = Item.create(:name => "Whatever", :eq2_item_id => "blah")
+    main = Rank.create(:name => "Main")
+    player = Player.create(:name => "Me", :rank => main)
+    archetype = Archetype.create(:name => "Scout")
+    @character = Character.create(:name => "Me", :player_id => player.id, :archetype_id => archetype, :char_type => "m")
+    @loot_type = LootType.create(:name => "Spell")
+
+    @zone = Zone.create!(:name => "Wherever")
+    @mob = @zone.mobs.create(:name => "Whoever", :zone_id => @zone.id)
+    raid = Raid.create!(:raid_date => @drop_time.to_date)
+    @instance = Instance.create!(:raid_id => raid.id, :start_time => @drop_time - 1.hour, :end_time => @drop_time + 2.hours)
   end
 
   def valid_attributes
-    {:zone_name => "Wherever",
-     :mob_name => "Whoever",
-     :item_name => "Whatever",
-     :character_name => "Me",
+    {:instance_id => @instance.id,
+     :zone_id => @zone.id,
+     :mob_id => @mob.id,
+     :item_id => @item.id,
+     :loot_type_id => @loot_type.id,
+     :character_id => @character.id,
+     :loot_method => "t",
      :drop_time => @drop_time}
   end
 

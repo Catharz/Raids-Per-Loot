@@ -1,5 +1,6 @@
-Given /^I have an item named (.+) with id (.+)$/ do |item, item_id|
-  Item.create!(:name => item, :eq2_item_id => item_id)
+Given /^I have a (.+) item named (.+) with id (.+)$/ do |loot_type_name, item, item_id|
+  loot_type = LootType.find_or_create_by_name(loot_type_name)
+  Item.create!(:name => item, :eq2_item_id => item_id, :loot_type_id => loot_type.id)
 end
 
 Given /^the following items:$/ do |items|
