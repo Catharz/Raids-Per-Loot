@@ -15,8 +15,6 @@ class Item < ActiveRecord::Base
       :class_name => 'Drop',
       :order => 'created_at desc'
 
-  scope :of_type, lambda {|loot_type| LootType.find_by_name(loot_type) ? where(:loot_type_id => LootType.find_by_name(loot_type).id) : [] }
-
   def class_names
     result = nil
     archetypes.each do |archetype|
@@ -41,8 +39,13 @@ class Item < ActiveRecord::Base
     result
   end
 
+  def self.of_type(loot_type_name)
+    loot_type = LootType.find_by_name(loot_type_name)
+    loot_type ? by_loot_type(loot_type.id) : []
+  end
+
   def self.by_loot_type(loot_type_id)
-    loot_type_id ? where('loot_type_id = ?', loot_type_id) : scoped
+    loot_type_id ? where('items.loot_type_id = ?', loot_type_id) : scoped
   end
 
   def to_xml(options = {})

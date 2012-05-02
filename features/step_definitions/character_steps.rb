@@ -1,7 +1,3 @@
-Before('@loot_types') do
-  %w{Armour, Jewellery, Weapon}.each { |loot_type_name| Factory.create(:loot_type, :name => loot_type_name) }
-end
-
 Given /^I have a (.+) character named (.+)$/ do |rank, character|
   case rank
     when "Main" then

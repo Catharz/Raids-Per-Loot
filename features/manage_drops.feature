@@ -28,17 +28,18 @@ Feature: Manage drops
     And I should see "Need"
     And I should see "Drop was successfully created"
 
-  #NOTE: The drops table is sorted in reverse drop time order (by default)
+#NOTE: The drops table is sorted in reverse drop time order (by default)
+
   Scenario: Delete drop
     Given the following drops:
-      |zone_name|mob_name|character_name|item_name|loot_type|eq2_item_id|drop_time|
-      |zone_name 1|mob_name 1|character_name 1|item_name 1|Armour|eq2_item_id 1|2011-09-21 20:45:00 +1000|
-      |zone_name 2|mob_name 2|character_name 2|item_name 2|Weapon|eq2_item_id 2|2011-09-20 20:30:00 +1000|
-      |zone_name 3|mob_name 3|character_name 3|item_name 3|Armour|eq2_item_id 3|2011-09-19 20:15:00 +1000|
-      |zone_name 4|mob_name 4|character_name 4|item_name 4|Weapon|eq2_item_id 4|2011-09-18 20:00:00 +1000|
+      | zone        | mob        | character        | item        | loot_type | eq2_item_id   | drop_time                 |
+      | zone_name 1 | mob_name 1 | character_name 1 | item_name 1 | Armour    | eq2_item_id 1 | 2011-09-21 20:45:00 +1000 |
+      | zone_name 2 | mob_name 2 | character_name 2 | item_name 2 | Weapon    | eq2_item_id 2 | 2011-09-20 20:30:00 +1000 |
+      | zone_name 3 | mob_name 3 | character_name 3 | item_name 3 | Armour    | eq2_item_id 3 | 2011-09-19 20:15:00 +1000 |
+      | zone_name 4 | mob_name 4 | character_name 4 | item_name 4 | Weapon    | eq2_item_id 4 | 2011-09-18 20:00:00 +1000 |
     When I delete the 3rd drop
     Then I should see the following drops:
-      |Zone Name|Mob Name|Item Name|Loot Type|Drop Time|Character Name|
-      |zone_name 1|mob_name 1|item_name 1|Armour|2011-09-21 20:45:00 +1000|character_name 1|
-      |zone_name 2|mob_name 2|item_name 2|Weapon|2011-09-20 20:30:00 +1000|character_name 2|
-      |zone_name 4|mob_name 4|item_name 4|Weapon|2011-09-18 20:00:00 +1000|character_name 4|
+      | Zone Name   | Mob Name   | Item Name   | Loot Type | Drop Time                 | Character Name   |
+      | zone_name 1 | mob_name 1 | item_name 1 | Armour    | 2011-09-21 20:45:00 +1000 | character_name 1 |
+      | zone_name 2 | mob_name 2 | item_name 2 | Weapon    | 2011-09-20 20:30:00 +1000 | character_name 2 |
+      | zone_name 4 | mob_name 4 | item_name 4 | Weapon    | 2011-09-18 20:00:00 +1000 | character_name 4 |

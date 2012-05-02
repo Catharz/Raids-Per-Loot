@@ -40,8 +40,8 @@
         %td= link_to 'Characters', player_characters_path(player)
         %td= player.first_raid ? player.first_raid.raid_date : "Never"
         %td= player.last_raid ? player.last_raid.raid_date : "Never"
-        %td{:align => "right"}= player.raids.count
-        %td{:align => "right"}= player.instances.count
+        %td{:align => "right"}= player.raid_count
+        %td{:align => "right"}= player.instance_count
         %td{:align => "right"}= player.loot_rate("Armour")
         %td{:align => "right"}= player.loot_rate("Jewellery")
         %td{:align => "right"}= player.loot_rate("Weapon")

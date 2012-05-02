@@ -1,28 +1,25 @@
 Given /^the following drops:$/ do |drops|
   drops.hashes.each do |drop|
-    zone = Zone.find_by_name(drop[:zone_name])
-    zone ||= Zone.create(:name => drop[:zone_name])
+    zone = Zone.find_by_name(drop[:zone])
+    zone ||= Zone.create(:name => drop[:zone])
 
-    mob = Mob.find_by_name_and_zone_id(drop[:mob_name], zone.id)
-    mob ||= Mob.create(:name => drop[:mob_name], :zone_id => zone.id)
+    mob = Mob.find_by_name_and_zone_id(drop[:mob], zone.id)
+    mob ||= Mob.create(:name => drop[:mob], :zone_id => zone.id)
 
     loot_type = LootType.find_by_name(drop[:loot_type])
     loot_type ||= LootType.create(:name => drop[:loot_type])
 
-    item = Item.find_by_name(drop[:item_name])
-    item ||= Item.create(:name => drop[:item_name], :eq2_item_id => drop[:eq2_item_id], :loot_type => loot_type)
+    item = Item.find_by_name(drop[:item])
+    item ||= Item.create(:name => drop[:item], :eq2_item_id => drop[:eq2_item_id], :loot_type => loot_type)
 
-    character = Character.find_by_name(drop[:character_name])
-    if character.nil?
-      rank = Rank.find_or_create_by_name("Main")
+    rank = Rank.find_or_create_by_name("Main")
+    player = Player.find_by_name(drop[:player])
+    player ||= Player.create(:name => drop[:player], :rank => rank)
 
-      player = Player.find_by_name(drop[:character_name])
-      player ||= Player.create(:name => drop[:character_name], :rank => rank)
+    archetype = Archetype.find_or_create_by_name("Scout")
+    character = Character.find_by_name(drop[:character])
+    character ||= Character.create(:name => drop[:character], :player => player, :archetype => archetype, :char_type => "m")
 
-      archetype = Archetype.find_or_create_by_name("Scout")
-
-      character = Character.create(:name => drop[:character_name], :player => player, :archetype => archetype, :char_type => "m")
-    end
     Drop.create!(
         :zone_id => zone.id,
         :mob_id => mob.id,

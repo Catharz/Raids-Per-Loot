@@ -1,9 +1,15 @@
+Before('@loot_types') do
+  %w{Armour Jewellery Weapon}.each { |loot_type_name|
+    LootType.create!(:name => loot_type_name)
+  }
+end
+
 Given /^the following loot_types:$/ do |loot_types|
   LootType.create!(loot_types.hashes)
 end
 
 Given /^I have a loot type named (.+)$/ do |loot_type|
-  LootType.create(:name => loot_type)
+  LootType.create!(:name => loot_type)
 end
 
 When /^I delete the (\d+)(?:st|nd|rd|th) loot_type$/ do |pos|

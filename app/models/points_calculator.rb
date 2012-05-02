@@ -1,6 +1,18 @@
 module PointsCalculator
+  def raid_count
+    raids.count + adjustments.where(:adjustment_type => "raid").sum(:amount)
+  end
+
+  def instance_count
+    instances.count + adjustments.where(:adjustment_type => "instance").sum(:amount)
+  end
+
+  def item_count(loot_type)
+    items.of_type(loot_type).count + adjustments.where(:adjustment_type => loot_type).sum(:amount)
+  end
+
   def loot_rate(loot_type)
-    calculate_loot_rate(raids.count, items.of_type(loot_type).count)
+    calculate_loot_rate(raid_count, item_count(loot_type))
   end
 
   def calculate_loot_rate(event_count, item_count)

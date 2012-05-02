@@ -1,3 +1,9 @@
+Before('@ranks') do
+  ['Main', 'Raid Alternate', 'General Alternate', 'Non-Member', 'Associate'].each do |rank_name|
+    Rank.create(:name => rank_name)
+  end
+end
+
 Given /^the following ranks:$/ do |ranks|
   Rank.create!(ranks.hashes)
 end

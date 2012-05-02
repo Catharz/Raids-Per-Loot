@@ -73,4 +73,23 @@ module CharacterSpecHelper
     assign(:characters, character_list)
     character_list
   end
+
+  def setup_loot(character, looted_items = [])
+    raise "You must specify a valid character" if character.nil?
+
+    zone_list = []
+    mob_list = []
+    drop_list = []
+    item_list = []
+    looted_items.each do |loot|
+      item_count = loot[:count]
+      loot_type = stub_model(LootType, :name => loot[:loot_type])
+      items = (1..item_count).to_a
+      items.each do |n|
+        item = stub_model(Item, :name => "#{loot[:loot_type]} Item #{n}", :loot_type => loot_type)
+        item_list << item
+        drop_list << stub_model(Drop, :item_name => item.name)
+      end
+    end
+  end
 end
