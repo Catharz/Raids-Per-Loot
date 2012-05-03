@@ -39,7 +39,7 @@ When /^I delete the (\d+)(?:st|nd|rd|th) drop$/ do |pos|
 end
 
 Then /^I should see the following drops:$/ do |expected_drops_table|
-  rows = find("table").all('tr')
+  rows = find("table#dropsTable").all('tr')
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip } }
   expected_drops_table.diff!(table)
 end

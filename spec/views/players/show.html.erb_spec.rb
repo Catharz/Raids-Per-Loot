@@ -27,18 +27,20 @@ describe "players/show.html.erb" do
     weapon_item.stub!(:loot_type).and_return(weapon)
 
     armour_drop = stub_model(Drop,
-                        :zone_name => "Wherever",
-                        :mob_name => "Mob Name",
-                        :player_name => "Player Name",
-                        :item_name => "Phat BP",
-                        :eq2_item_id => "1234")
+                             :zone_name => "Wherever",
+                             :mob_name => "Mob Name",
+                             :player_name => "Player Name",
+                             :item_name => "Phat BP",
+                             :eq2_item_id => "1234",
+                             :loot_type => armour)
     armour_drop.stub!(:item).and_return(armour_item)
     weapon_drop = stub_model(Drop,
-                        :zone_name => "Wherever Next",
-                        :mob_name => "Mob Name",
-                        :player_name => "Player Name",
-                        :item_name => "Phat Sword",
-                        :eq2_item_id => "1235")
+                             :zone_name => "Wherever Next",
+                             :mob_name => "Mob Name",
+                             :player_name => "Player Name",
+                             :item_name => "Phat Sword",
+                             :eq2_item_id => "1235",
+                             :loot_type => weapon)
     weapon_drop.stub!(:item).and_return(weapon_item)
 
     @player.stub!(:drops).and_return([armour_drop, weapon_drop])

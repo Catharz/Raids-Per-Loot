@@ -8,16 +8,20 @@
 %table.dropsTable{:id => "dropsTable" }
   %thead
     %tr
-      %td Zone
-      %td Mob
-      %td Item
-      %td Item Type
-      %td Drop Time
+      %th Zone Name
+      %th Mob Name
+      %th Item Name
+      %th Loot Type
+      %th Drop Time
+      %th Character Name
+      %th Loot Method
   %tbody
     - @player.drops.each do |drop|
       %tr
-        %td= drop.zone_name
-        %td= drop.mob_name
-        %td= drop.item_name
-        %td= drop.loot_type_name
+        %td= drop.zone ? drop.zone.name : "Unknown"
+        %td= drop.mob ? drop.mob.name : "Unknown"
+        %td= drop.item ? drop.item.name : "Unknown"
+        %td= drop.loot_type ? drop.loot_type.name : "Unknown"
         %td= drop.drop_time
+        %td= drop.character ? drop.character.name : "Unknown"
+        %td= case drop.loot_method when "n" then "Need" when "r" then "Random" when "b" then "Bid" when "t" then "Trash" else "Unknown" end

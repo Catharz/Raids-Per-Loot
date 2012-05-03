@@ -8,7 +8,7 @@
 
   .field
     %strong Player:
-    = f.collection_select(:player_id, Player.all, :id, :name, :include_blank => true)
+    = f.collection_select(:player_id, Player.all, :id, :name, :include_blank => true, :name => "Player")
   .field
     %strong Name:
     = f.text_field :name
@@ -24,4 +24,4 @@
     = f.label "General Alternate"
     = f.radio_button :char_type, "g"
   .actions
-    = f.submit 'Save'
+    = f.submit 'Create', :id => "btnCreate"

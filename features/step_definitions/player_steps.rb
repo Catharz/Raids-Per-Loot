@@ -71,3 +71,16 @@ When /^the following player adjustments:$/ do |adjustments|
     end
   end
 end
+
+Given /^I have a (.+) player named (.+)$/ do |rank_name, player_name|
+  player = Player.find_by_name(player_name)
+  if player.nil?
+    rank = Rank.find_or_create_by_name(rank_name)
+    Player.create(:name => player_name, :rank_id => rank.id)
+  end
+end
+
+When /^I view the players page for (.+)$/ do |player_name|
+  player = Player.find_by_name(player_name)
+  visit player_path player
+end
