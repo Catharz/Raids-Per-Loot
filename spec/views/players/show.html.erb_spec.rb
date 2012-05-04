@@ -49,9 +49,10 @@ describe "players/show.html.erb" do
   it "should list the separate sections" do
     render
 
-    rendered.should match(/Name/)
-    rendered.should match(/Drop History/)
-    rendered.should match(/Attendance History/)
+    rendered.should match(/Details/)
+    rendered.should match(/Characters/)
+    rendered.should match(/Drops/)
+    rendered.should match(/Attendance/)
   end
 
   it "should show the loot types" do

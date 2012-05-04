@@ -1,21 +1,33 @@
+:javascript
+  $(function() {
+    $("#tabBook").tabs();
+  });
 %p#notice= notice
-%p
-  %strong Name:
-  = @player.name
-%p
-  %strong Rank:
-  = @player.rank ? @player.rank.name : "Unknown"
-%p
-  %strong Characters
-= render 'character_list'
-%br/
-%p
-  %strong Drop History
-= render 'drops'
-%br/
-%p
-  %strong Attendance History
-= render 'instances'
+
+#tabBook
+  %ul
+    %li= link_to "Details", "#details"
+    %li= link_to "Characters", "#characters"
+    %li= link_to "Drops", "#drops"
+    %li= link_to "Attendance", "#attendance"
+
+  #details
+    %p
+      %strong Name:
+      = @player.name
+    %p
+      %strong Rank:
+      = @player.rank ? @player.rank.name : "Unknown"
+
+  #characters
+    = render 'character_list'
+
+  #drops
+    = render 'drops'
+
+  #attendance
+    = render 'instances'
+
 %br/
 %br/
 = link_to 'Edit', edit_player_path(@player)
