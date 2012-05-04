@@ -1,27 +1,36 @@
+:javascript
+  $(function() {
+    $("#tabBook").tabs();
+  });
 %p#notice= notice
 
-%p
-  %strong Name:
-  = @character.name
-%p
-  %strong Class:
-  = @character.archetype_id ? @character.archetype.name : "Unknown"
-%p
-  %strong Rank:
-  = case @character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+#tabBook
+  %ul
+    %li= link_to "Details", "#details"
+    %li= link_to "History", "#history"
+    %li= link_to "Drops", "#drops"
+    %li= link_to "Attendance", "#attendance"
 
-%p
-  %strong Character Type History
-= render 'character_types'
-%br/
-%p
-  %strong Drop History
-= render 'drops'
-%br/
-%p
-  %strong Attendance History
-= render 'instances'
-%br/
+  #details
+    %p
+      %strong Name:
+      = @character.name
+    %p
+      %strong Class:
+      = @character.archetype_id ? @character.archetype.name : "Unknown"
+    %p
+      %strong Rank:
+      = case @character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+
+  #history
+    = render 'character_types'
+
+  #drops
+    = render 'drops'
+
+  #attendance
+    = render 'instances'
+
 %br/
 = link_to 'Edit', edit_character_path(@character)
 \|

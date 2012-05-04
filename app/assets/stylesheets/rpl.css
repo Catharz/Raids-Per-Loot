@@ -3,6 +3,7 @@ body {
     padding: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
+
 #pagewrapper {
     width: 98%;
     margin: 5px auto;
@@ -10,35 +11,40 @@ body {
     border: 1px solid #999;
     font-family: Arial, Helvetica, sans-serif;
 }
+
 #content {
     padding: 10px 5px;
 }
+
 #header {
     background-color: #900;
     margin: 0;
     padding: 0;
 }
+
 #header p {
     padding: 20px 10px;
     font-size: 24px;
     margin: 0;
     color: white;
     font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
+
 #footer {
     background-color: #999;
     padding-top: 6px;
     padding-bottom: 6px;
-    clear:both;
+    clear: both;
     border-top: 2px solid #333;
     text-align: center;
 }
+
 #footer p, #footer a {
     text-align: center;
     font-size: 12px;
     color: white;
-    font-weight:bold;
+    font-weight: bold;
     margin: 0;
     padding: 2px;
 }
@@ -56,36 +62,43 @@ body {
     font-weight: bold;
     font-size: 13px;
 }
-#navbar ul li { 
+
+#navbar ul li {
     display: inline;
     color: White;
     float: left;
     border-right: 1px solid #333;
     font-family: arial, helvetica, sans-serif;
 }
+
 #navbar ul li a {
     padding: 0.2em 0.7em;
-    background-color: #999; 
+    background-color: #999;
     color: White;
     text-decoration: none;
-    float:left;
+    float: left;
 }
+
 #navbar ul li a:hover {
     background-color: #333;
     color: #fff;
 }
+
 #navbar #current a {
-	background-color: #ffffff;
+    background-color: #ffffff;
     color: black;
 }
+
 #edit {
-	font-size:12px;
+    font-size: 12px;
 }
+
 #subnav {
     width: 100%;
     height: 25px;
     float: left;
 }
+
 #subnav ul {
     padding: 0;
     margin: 0;
@@ -96,28 +109,33 @@ body {
     list-style: none;
     font-size: 10px;
 }
+
 #subnav ul li {
     display: inline;
     color: White;
     float: left;
     font-family: arial, helvetica, sans-serif;
 }
+
 #subnav ul li a {
     padding: 0.2em 0.7em;
-	display:block;
-	color:black;
-	text-decoration: none;
+    display: block;
+    color: black;
+    text-decoration: none;
 }
+
 #subnav ul li a:hover {
     background-color: #333;
     color: #fff;
 }
+
 #breadcrumb {
     height: 25px;
     font-size: 10px;
     float: left;
     width: 100%;
 }
+
 #pagetitle {
     width: 140px;
     height: 40px;
@@ -128,6 +146,7 @@ body {
     font-size: 13px;
     padding: 5px 10px;
 }
+
 #title {
     font-weight: bold;
 }
