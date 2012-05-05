@@ -8,7 +8,7 @@ describe "adjustments/index" do
         :amount => 5,
         :reason => "Ok Switch",
         :loot_type_id => 3,
-        :adjustable_id => 1,
+        :name => "Fred",
         :adjustable_type => "Character"
       ),
       stub_model(Adjustment,
@@ -16,7 +16,7 @@ describe "adjustments/index" do
         :amount => 10,
         :reason => "Great Switch",
         :loot_type_id => 4,
-        :adjustable_id => 1,
+        :name => "Barney",
         :adjustable_type => "Player"
       )
     ])
@@ -39,8 +39,9 @@ describe "adjustments/index" do
     assert_select "tr>td", :text => 3.to_s, :count => 1
     assert_select "tr>td", :text => 4.to_s, :count => 1
 
-    # Adjustable Id
-    assert_select "tr>td", :text => 1.to_s, :count => 2
+    # Who was adjusted
+    assert_select "tr>td", :text => "Fred", :count => 1
+    assert_select "tr>td", :text => "Barney", :count => 1
 
     # Adjustable Types
     assert_select "tr>td", :text => "Character".to_s, :count => 1

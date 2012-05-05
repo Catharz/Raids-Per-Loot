@@ -6,8 +6,8 @@
       %th Amount
       %th Reason
       %th Loot type
-      %th Adjustable
-      %th Adjustable type
+      %th Player / Character
+      %th Relationship
       %th
       %th
       %th
@@ -19,7 +19,7 @@
       %td= adjustment.amount
       %td= adjustment.reason
       %td= adjustment.loot_type_id
-      %td= adjustment.adjustable_id
+      %td= adjustment.name
       %td= adjustment.adjustable_type
       %td= link_to 'Show', adjustment
       %td= link_to 'Edit', edit_adjustment_path(adjustment)
