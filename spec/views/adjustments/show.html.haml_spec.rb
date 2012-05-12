@@ -6,7 +6,6 @@ describe "adjustments/show" do
       :adjustment_type => "Adjustment Type",
       :amount => 1,
       :reason => "MyText",
-      :loot_type_id => 1,
       :name => "Dino",
       :adjustable_type => "Character"
     ))
@@ -18,7 +17,6 @@ describe "adjustments/show" do
     rendered.should match(/Adjustment type:/)
     rendered.should match(/Amount:/)
     rendered.should match(/Reason:/)
-    rendered.should match(/Loot type:/)
     rendered.should match(/Character:/)
   end
 

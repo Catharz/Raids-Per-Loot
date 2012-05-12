@@ -11,14 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120426113949) do
+ActiveRecord::Schema.define(:version => 20120511032318) do
 
   create_table "adjustments", :force => true do |t|
-    t.datetime "adjustment_date"
+    t.date     "adjustment_date"
     t.string   "adjustment_type"
     t.integer  "amount"
     t.string   "reason"
-    t.integer  "loot_type_id"
     t.integer  "adjustable_id"
     t.string   "adjustable_type"
     t.datetime "created_at"

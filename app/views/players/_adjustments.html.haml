@@ -1,0 +1,25 @@
+:javascript
+  $(document).ready(function(){
+      $('#adjustmentsTable').dataTable( {
+        "sPaginationType": "full_numbers",
+        "aaSorting": [[0,'desc']]
+      } );
+  });
+%table#adjustmentsTable
+  %thead
+    %tr
+      %th Adjustment date
+      %th Adjustment type
+      %th Amount
+      %th Reason
+  %tbody
+    - @player.adjustments.each do |adjustment|
+      %tr
+        %td= adjustment.adjustment_date
+        %td= adjustment.adjustment_type
+        %td= adjustment.amount
+        %td= adjustment.reason.blank? ? "Unspecified" : adjustment.reason
+
+%br/
+%br/
+= link_to 'Add Adjustment', new_adjustment_path, {:player => @player.id, :adjustable => 'Player'}

@@ -6,6 +6,16 @@ class CharactersController < ApplicationController
     @pagetitle = "Characters"
   end
 
+  def option_list
+    @characters = Character.order(:name)
+
+    options = ""
+    @characters.each do |character|
+      options += "<option value='#{character.id}'>#{character.name}</option>"
+    end
+    render :text => options, :layout => false
+  end
+
   # GET /characters
   # GET /characters.json
   def index

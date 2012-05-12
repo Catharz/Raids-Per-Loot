@@ -7,7 +7,6 @@ describe "adjustments/index" do
         :adjustment_type => "Raids",
         :amount => 5,
         :reason => "Ok Switch",
-        :loot_type_id => 3,
         :name => "Fred",
         :adjustable_type => "Character"
       ),
@@ -15,7 +14,6 @@ describe "adjustments/index" do
         :adjustment_type => "Armour",
         :amount => 10,
         :reason => "Great Switch",
-        :loot_type_id => 4,
         :name => "Barney",
         :adjustable_type => "Player"
       )
@@ -25,6 +23,7 @@ describe "adjustments/index" do
   it "renders a list of adjustments" do
     render
 
+    assert_select "tr>td", :text => "Armour".to_s, :count => 1
     assert_select "tr>td", :text => "Raids".to_s, :count => 1
 
     # Adjustment Amount
@@ -34,10 +33,6 @@ describe "adjustments/index" do
     # Reasons
     assert_select "tr>td", :text => "Ok Switch".to_s, :count => 1
     assert_select "tr>td", :text => "Great Switch".to_s, :count => 1
-
-    # Loot Types
-    assert_select "tr>td", :text => 3.to_s, :count => 1
-    assert_select "tr>td", :text => 4.to_s, :count => 1
 
     # Who was adjusted
     assert_select "tr>td", :text => "Fred", :count => 1

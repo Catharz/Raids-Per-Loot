@@ -1,3 +1,24 @@
+:javascript
+  $(document).ready(function(){
+    $("select#adjustment_adjustable_type").change(function() {
+      var adjustable_type = $(this).val();
+      var adjustable_select = $(this).next('select');
+      var options_url = "";
+
+      if (adjustable_type == "Player") {
+        options_url = "/players/option_list";
+      } else {
+        options_url = "/characters/option_list";
+      }
+
+      $("#adjustable_field").empty();
+      $("#adjustable_field").append("<strong>" + adjustable_type + ":</strong> ");
+      var $adjustables = $('<select id="adjustment_adjustable_id" name="adjustment[adjustable_id]"></select>').appendTo('#adjustable_field');
+      $adjustables.load(options_url);
+    } );
+
+    $("#datepicker").datepicker( { dateFormat: 'yy-mm-dd' } );
+  } );
 = form_for @adjustment do |f|
   -if @adjustment.errors.any?
     #error_explanation
@@ -7,25 +28,23 @@
           %li= msg
 
   .field
-    = f.label :adjustment_date
-    = f.date_select :adjustment_date
+    %strong Adjustable Type:
+    = f.select(:adjustable_type, %w{Character Player}, :include_blank => true)
+  .field#adjustable_field
+    %strong= @adjustment.adjustable_type ? "#{@adjustment.adjustable_type}:" : "Player/Character:"
+    - unless @adjustment.new_record?
+      = f.collection_select(:adjustable_id, eval(@adjustment.adjustable_type).all, :id, :name)
   .field
-    = f.label :adjustment_type
-    = f.text_field :adjustment_type
+    %strong Adjustment Date:
+    = f.text_field :adjustment_date, :id => "datepicker"
   .field
-    = f.label :amount
+    %strong Adjustment Type:
+    = f.select(:adjustment_type, %w{Raids Instances} + LootType.option_names.flatten)
+  .field
+    %strong Amount:
     = f.number_field :amount
   .field
-    = f.label :reason
+    %strong Reason:
     = f.text_area :reason
-  .field
-    = f.label :loot_type_id
-    = f.number_field :loot_type_id
-  .field
-    = f.label :adjustable_id
-    = f.number_field :adjustable_id
-  .field
-    = f.label :adjustable_type
-    = f.text_field :adjustable_type
   .actions
     = f.submit 'Save'

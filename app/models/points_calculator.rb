@@ -1,10 +1,10 @@
 module PointsCalculator
   def raid_count
-    raids.count + adjustments.where(:adjustment_type => "raid").sum(:amount)
+    raids.count + adjustments.where(:adjustment_type => "Raids").sum(:amount)
   end
 
   def instance_count
-    instances.count + adjustments.where(:adjustment_type => "instance").sum(:amount)
+    instances.count + adjustments.where(:adjustment_type => "Instances").sum(:amount)
   end
 
   def item_count(loot_type)

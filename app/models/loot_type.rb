@@ -5,6 +5,14 @@ class LootType < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
+  def self.option_names
+    names = []
+    LootType.where(:show_on_player_list => true).order(:name).each do |loot_type|
+      names << loot_type.name
+    end
+    names
+  end
+
   def to_xml(options = {})
     to_xml_opts = {}
     # a builder instance is provided when to_xml is called on a collection of instructors,

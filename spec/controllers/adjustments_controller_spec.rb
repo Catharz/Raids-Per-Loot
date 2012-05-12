@@ -9,11 +9,13 @@ describe AdjustmentsController do
   end
 
   def valid_attributes
+    rank = Rank.create(:name => "Main")
+    player = Player.create(:name => "Fred", :rank_id => rank.id)
+    character = Character.create(:name => "Fred", :char_type => "m", :player_id => player.id)
     {:adjustment_type => "Raids",
      :amount => 5,
      :reason => "Ok Switch",
-     :loot_type_id => nil,
-     :adjustable_id => 1,
+     :adjustable_id => character.id,
      :adjustable_type => "Character"}
   end
 

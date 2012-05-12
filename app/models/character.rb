@@ -14,8 +14,7 @@ class Character < ActiveRecord::Base
 
   has_many :adjustments, :as => :adjustable
 
-  validates_presence_of :player
-  validates_presence_of :name, :char_type
+  validates_presence_of :player, :name, :char_type
   validates_uniqueness_of :name
   validates_format_of :char_type, :with => /g|m|r/ # General Alt, Main, Raid Alt
 

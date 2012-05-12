@@ -6,6 +6,16 @@ class PlayersController < ApplicationController
     @pagetitle = "Players"
   end
 
+  def option_list
+    @players = Player.order(:name)
+
+    options = ""
+    @players.each do |player|
+      options += "<option value='#{player.id}'>#{player.name}</option>"
+    end
+    render :text => options, :layout => false
+  end
+
   # GET /players
   # GET /players.json
   def index
