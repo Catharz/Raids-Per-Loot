@@ -11,6 +11,8 @@ gem 'haml-rails'
 gem 'ruby_parser'
 gem 'hpricot'
 gem 'escape_utils'
+gem 'formtastic'
+gem 'nested_form'
 
 gem 'crack'
 gem 'httparty'

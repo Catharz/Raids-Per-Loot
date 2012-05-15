@@ -80,6 +80,8 @@ GEM
       factory_girl (~> 2.6.0)
       railties (>= 3.0.0)
     ffi (1.0.11)
+    formtastic (2.2.0)
+      actionpack (>= 3.0)
     gherkin (2.9.0)
       json (>= 1.4.6)
     growl (1.0.3)
@@ -138,6 +140,7 @@ GEM
     mime-types (1.17.2)
     multi_json (1.1.0)
     multi_xml (0.4.2)
+    nested_form (0.2.0)
     nokogiri (1.5.2)
     pg (0.13.2)
     polyglot (0.3.3)
@@ -257,6 +260,7 @@ DEPENDENCIES
   database_cleaner
   escape_utils
   factory_girl_rails
+  formtastic
   growl
   guard-bundler
   guard-cucumber
@@ -273,6 +277,7 @@ DEPENDENCIES
   jquery-rails
   json
   launchy
+  nested_form
   nokogiri
   pg
   rails (= 3.1)

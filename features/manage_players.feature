@@ -7,6 +7,7 @@ Feature: Manage players
     Given I am logged in as a user
 
   @ranks
+  @javascript
   Scenario: Register new player
     Given I am on the new player page
     When I fill in "Name" with "name 1"

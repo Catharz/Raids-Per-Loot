@@ -10,11 +10,7 @@
 //= require jquery.dataTables
 //= require jquery.hoverIntent
 //= require ddsmoothmenu
+//= require jquery_nested_form
 //= require popup
+//= require tables
 //= require_self
-
-$(document).ready(function () {
-    $('#dataTable').dataTable({
-        "sPaginationType": "full_numbers"
-    });
-});

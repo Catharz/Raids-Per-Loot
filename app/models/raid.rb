@@ -1,6 +1,10 @@
 class Raid < ActiveRecord::Base
   has_many :instances, :inverse_of => :raid
 
+  accepts_nested_attributes_for :instances,
+                                :allow_destroy => true,
+                                :reject_if => lambda { |a| a[:content].blank? }
+
   def raid_description
     raid_date.to_s + ': ' + zone.name
   end
