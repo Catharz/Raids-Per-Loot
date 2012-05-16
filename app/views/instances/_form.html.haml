@@ -1,4 +1,4 @@
-= form_for(@instance) do |f|
+= semantic_form_for @instance do |f|
   - if @instance.errors.any?
     #error_explanation
       %h2
@@ -7,21 +7,11 @@
       %ul
         - @instance.errors.full_messages.each do |msg|
           %li= msg
-  .field
-    %strong Zone
-    %br/
-    = f.collection_select(:zone_id, Zone.all, :id, :name, :include_blank => true)
-  .field
-    = f.label :start_time
-    %br/
-    = f.datetime_select :start_time
-  .field
-    = f.label :end_time
-    %br/
-    = f.datetime_select :end_time
-  .field
-    %strong Attendees
-    %br/
-    = f.collection_select :player_ids, Player.all(:order => 'name'), :id, :name, {}, :multiple => true
-  .actions
-    = f.submit
+  - f.inputs do
+    = f.input :zone
+    = f.input :start_time
+    = f.input :end_time
+    #attendees
+      = f.input :characters, :as => :check_boxes
+    = f.actions do
+      = f.action :submit

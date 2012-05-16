@@ -46,6 +46,7 @@ GEM
       xpath (~> 0.1.4)
     childprocess (0.3.1)
       ffi (~> 1.0.6)
+    cocoon (1.0.21)
     coffee-rails (3.1.1)
       coffee-script (>= 2.2.0)
       railties (~> 3.1.0)
@@ -254,6 +255,7 @@ DEPENDENCIES
   RedCloth
   acts_as_tree
   capybara
+  cocoon
   coffee-rails (~> 3.1.0)
   crack
   cucumber-rails

@@ -1,4 +1,4 @@
-= nested_form_for @player.with_new_characters do |f|
+= nested_form_for @player do |f|
   - if @player.errors.any?
     #error_explanation
       %h2
@@ -19,10 +19,10 @@
     %br/
     %strong Characters
     %br/
+    - @base_archetypes ||= Archetype.base_archetypes
     = f.fields_for :characters do |character_form|
-      - base_archetypes ||= Archetype.base_archetypes
       = character_form.text_field :name
-      = character_form.collection_select(:archetype_id, base_archetypes, :id, :name, :include_blank => true)
+      = character_form.collection_select(:archetype_id, @base_archetypes, :id, :name, :include_blank => true)
       = character_form.radio_button :char_type, "m"
       = character_form.label "Main"
       = character_form.radio_button :char_type, "r"

@@ -8,10 +8,6 @@ class ApplicationController < ActionController::Base
 
   before_filter :get_pages_for_tabs, :get_page
 
-  def get_menu
-    @page.roots
-  end
-
   def get_page
     @page_roots ||= Page.roots.sort!{|a,b| a.position <=> b.position}
     @page = Page.find_by_name(params[:name])

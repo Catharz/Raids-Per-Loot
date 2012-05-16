@@ -30,7 +30,7 @@ class Player < ActiveRecord::Base
   # Don't accept any blank characters
   accepts_nested_attributes_for :characters,
                                 :allow_destroy => true,
-                                :reject_if => lambda { |a| a[:content].blank? }
+                                :reject_if => :all_blank
 
   def with_new_characters(n = 1)
     n.times do

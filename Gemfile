@@ -12,6 +12,7 @@ gem 'ruby_parser'
 gem 'hpricot'
 gem 'escape_utils'
 gem 'formtastic'
+gem 'cocoon'
 gem 'nested_form'
 
 gem 'crack'

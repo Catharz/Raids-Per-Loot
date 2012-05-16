@@ -9,6 +9,7 @@
  *= require lootInfo
  *= require ddsmoothmenu
  *= require ddsmoothmenu-v
+ *= require formtastic
  *= require_tree .
  *= require_self
 */

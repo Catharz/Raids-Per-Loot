@@ -13,14 +13,4 @@ describe "players/new.html.erb" do
       assert_select "input#player_name", :name => "player[name]"
     end
   end
-
-  it "should render an empty character slot" do
-    render
-
-    assert_select "form" do
-      assert_select "input#player_characters_attributes_0_name",
-                    :name => "player[characters_attributes][0][name]",
-                    :value => ""
-    end
-  end
 end

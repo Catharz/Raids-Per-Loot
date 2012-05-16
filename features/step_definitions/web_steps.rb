@@ -254,5 +254,5 @@ Then /^show me the page$/ do
 end
 
 When /^I wait until (.+) is visible$/ do |css|
-  page.has_css?(css, :visible => true)
+  page.has_css?("#{css}", :visible => true)
 end

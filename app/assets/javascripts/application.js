@@ -11,6 +11,7 @@
 //= require jquery.hoverIntent
 //= require ddsmoothmenu
 //= require jquery_nested_form
+//= require cocoon
 //= require popup
 //= require tables
 //= require_self

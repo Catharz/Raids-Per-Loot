@@ -12,7 +12,8 @@ class Instance < ActiveRecord::Base
       :class_name => 'Drop',
       :order => 'created_at desc'
 
-  accepts_nested_attributes_for :characters, :drops
+  accepts_nested_attributes_for :character_instances, :reject_if => :all_blank, :allow_destroy => true
+  accepts_nested_attributes_for :drops, :reject_if => :all_blank, :allow_destroy => true
 
   scope :raided, lambda {|raid_date| where(:raid_id => Raid.find_by_raid_date(raid_date).id) }
 
