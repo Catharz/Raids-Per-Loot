@@ -1,5 +1,7 @@
 class Adjustment < ActiveRecord::Base
   belongs_to :adjustable, :polymorphic => true
+  has_many :archetypes_items
+  has_many :items, :through => :archetypes_items
 
   def self.for_character(character_id)
     character_id ? adjustable('Character').where(:adjustable_id => character_id) : scoped

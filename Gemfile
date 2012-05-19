@@ -18,6 +18,7 @@ gem 'nested_form'
 gem 'crack'
 gem 'httparty'
 gem 'nokogiri'
+gem 'delayed_job_active_record'
 
 gem 'json'
 gem 'RedCloth'

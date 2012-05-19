@@ -1,0 +1,111 @@
+item_list:
+- _extended:
+    discovered:
+      charid: 433793767107
+      id: 101
+      timestamp: 1334806851
+      world_list:
+      - {charid: 433793767107, id: 101, timestamp: 1334806851}
+      - {charid: 876174489315, id: 303, timestamp: 1334864088}
+      - {charid: 468152201659, id: 203, timestamp: 1334889138}
+      - {charid: 442381971970, id: 103, timestamp: 1334976345}
+      - {charid: 446679088142, id: 104, timestamp: 1334977252}
+      - {charid: 884764090414, id: 206, timestamp: 1334980506}
+      - {charid: 463858407558, id: 108, timestamp: 1334981055}
+      - {charid: 502512029744, id: 505, timestamp: 1335113898}
+      - {charid: 901943548894, id: 301, timestamp: 1335121668}
+      - {charid: 438087608740, id: 105, timestamp: 1335148123}
+      - {charid: 1335736434123, id: 311, timestamp: 1335289333}
+      - {charid: 1340030629789, id: 312, timestamp: 1335289858}
+      - {charid: 1297080607316, id: 302, timestamp: 1335300834}
+      - {charid: 867584254992, id: 202, timestamp: 1335316756}
+      - {charid: 515397103272, id: 120, timestamp: 1335319414}
+      - {charid: 1722281961252, id: 401, timestamp: 1335622839}
+  adornment_list:
+  - description: {}
+    name: 'Focus: Brawler Hands'
+  - description: {}
+    name: Haste
+  adornmentslot_list:
+  - {color: white}
+  - {color: white}
+  - {color: red}
+  - {color: yellow}
+  description: Gloves studded with drakizite, a rare metal found in the Underdepths,
+    heat treated by the flames of dragons.
+  displayname: Fortified Drakizite-Studded Gloves of the Underdepths
+  displayname_lower: fortified drakizite-studded gloves of the underdepths
+  effect_list:
+  - {description: 'When Equipped:', indentation: 0}
+  - {description: This focus effect does not apply to your class, indentation: 1}
+  - {description: 'When Equipped:', indentation: 0}
+  - {description: Increases Attack Speed of caster by 45.0, indentation: 1}
+  flags:
+    artiface: {value: 0}
+    attunable: {value: 1}
+    heirloom: {value: 1}
+    lore: {value: 0}
+    lore-equip: {value: 0}
+    nodestroy: {value: 0}
+    norent: {value: 0}
+    notrade: {value: 0}
+    novalue: {value: 0}
+    nozone: {value: 0}
+    stacklore: {value: 0}
+  gamelink: \aITEM -423012226 -787088111:Fortified Drakizite-Studded Gloves of the
+    Underdepths\/a
+  iconid: 2890
+  id: 3871955070
+  itemlevel: 96
+  last_update: 1337267349.625906
+  leveltouse: 92
+  maxstacksize: 1
+  modifiers:
+    armormitigationincrease: {displayname: Mitigation Increase, type: modifyproperty,
+      value: 4.7999999999999998}
+    basemodifier: {displayname: Potency, type: modifyproperty, value: 10.0}
+    blockchance: {displayname: Block Chance, type: modifyproperty, value: 5.5999999999999996}
+    critbonus: {displayname: Crit Bonus, type: modifyproperty, value: 10.0}
+    doubleattackchance: {displayname: Multi Attack Chance, type: modifyproperty, value: 36.0}
+    parry: {displayname: Parry, type: skill, value: 22}
+    stamina: {displayname: sta, type: attribute, value: 176}
+    strength: {displayname: str, type: attribute, value: 172}
+  slot_list:
+  - {id: 6, name: Hands}
+  tier: FABLED
+  tierid: 9
+  ts: 1337267349.625906
+  type: Armor
+  typeid: 3
+  typeinfo:
+    classes:
+      assassin: {displayname: Assassin, id: 24, level: 92}
+      beastlord: {displayname: Beastlord, id: 25, level: 92}
+      berserker: {displayname: Berserker, id: 2, level: 92}
+      brigand: {displayname: Brigand, id: 20, level: 92}
+      bruiser: {displayname: Bruiser, id: 4, level: 92}
+      defiler: {displayname: Defiler, id: 12, level: 92}
+      dirge: {displayname: Dirge, id: 22, level: 92}
+      fury: {displayname: Fury, id: 10, level: 92}
+      guardian: {displayname: Guardian, id: 1, level: 92}
+      inquisitor: {displayname: Inquisitor, id: 8, level: 92}
+      monk: {displayname: Monk, id: 3, level: 92}
+      mystic: {displayname: Mystic, id: 11, level: 92}
+      paladin: {displayname: Paladin, id: 6, level: 92}
+      ranger: {displayname: Ranger, id: 23, level: 92}
+      shadowknight: {displayname: Shadowknight, id: 5, level: 92}
+      swashbuckler: {displayname: Swashbuckler, id: 19, level: 92}
+      templar: {displayname: Templar, id: 7, level: 92}
+      troubador: {displayname: Troubador, id: 21, level: 92}
+      warden: {displayname: Warden, id: 9, level: 92}
+    knowledgedesc: Leather Armor
+    knowledgename: lightarmor
+    maxarmorclass: 403
+    minarmorclass: 403
+    name: armor
+    physicaldamageabsorption: 0
+    skilltype: lightarmor
+limit: 1
+min_ts: 1337267349.625906
+returned: 1
+seconds: 0.019101142883300781

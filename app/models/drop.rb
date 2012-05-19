@@ -33,6 +33,10 @@ class Drop < ActiveRecord::Base
     character_id ? where('character_id = ?', character_id) : scoped
   end
 
+  def self.by_player(player_id)
+    player_id ? includes(:character => :player).where('characters.player_id = ?', player_id) : scoped
+  end
+
   def self.by_item(item_id)
     item_id ? where('item_id = ?', item_id) : scoped
   end

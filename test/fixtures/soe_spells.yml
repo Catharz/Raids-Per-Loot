@@ -1,0 +1,100 @@
+item_list:
+- _extended:
+    discovered:
+      charid: 1340030328247
+      from_100: {charid: 429497001008, timestamp: 1289358476}
+      from_101: {charid: 433792233384, timestamp: 1266911399}
+      from_103: {charid: 442382455335, timestamp: 1266816690}
+      from_104: {charid: 446678327486, timestamp: 1266813941}
+      from_105: {charid: 438087084710, timestamp: 1266617757}
+      from_108: {charid: 463857372771, timestamp: 1266724890}
+      from_117: {charid: 502511801840, timestamp: 1267310305}
+      from_120: {charid: 515397453476, timestamp: 1266612287}
+      from_121: {charid: 519691860852, timestamp: 1266557318}
+      from_202: {charid: 867583647587, timestamp: 1267736864}
+      from_203: {charid: 871879289288, timestamp: 1266643221}
+      from_206: {charid: 884763842914, timestamp: 1266785676}
+      from_302: {charid: 1297080730879, timestamp: 1267271576}
+      from_311: {charid: 1335735629805, timestamp: 1266678418}
+      from_312: {charid: 1340030328247, timestamp: 1266513946}
+      from_401: {charid: 1722282196387, timestamp: 1266747626}
+      from_505: {charid: 2168960723095, timestamp: 1283554935}
+      from_51: {charid: 219043529380, timestamp: 1320461232}
+      from_799: {charid: 468152759825, timestamp: 1303764471}
+      from_99: {charid: 425202181838, timestamp: 1281120350}
+      id: 312
+      timestamp: 1266513946
+      world_list:
+      - {charid: 429497001008, id: 100, timestamp: 1289358476}
+      - {charid: 463857372771, id: 108, timestamp: 1266724890}
+      - {charid: 884763842914, id: 206, timestamp: 1266785676}
+      - {charid: 871879289288, id: 203, timestamp: 1266643221}
+      - {charid: 867583647587, id: 202, timestamp: 1267736864}
+      - {charid: 433792233384, id: 101, timestamp: 1266911399}
+      - {charid: 438087084710, id: 105, timestamp: 1266617757}
+      - {charid: 442382455335, id: 103, timestamp: 1266816690}
+      - {charid: 446678327486, id: 104, timestamp: 1266813941}
+      - {charid: 1722282196387, id: 401, timestamp: 1266747626}
+      - {charid: 1340030328247, id: 312, timestamp: 1266513946}
+      - {charid: 1335735629805, id: 311, timestamp: 1266678418}
+      - {charid: 1297080730879, id: 302, timestamp: 1267271576}
+      - {charid: 2168960723095, id: 505, timestamp: 1283554935}
+      - {charid: 515397453476, id: 120, timestamp: 1266612287}
+  description: Increases the berserker's offensive melee skills and grants a chance
+    to attack all nearby enemies in an encounter with each melee attack, but at the
+    cost of decreased defense skill. This is the berserker's primary offensive stance.
+  displayname: Abandoned Fury VII (Master)
+  displayname_lower: abandoned fury vii (master)
+  effect_list:
+  - {description: Decreases Defense of caster by 27.4, indentation: 1}
+  - {description: 'Increases Slashing, Piercing and Crushing of caster by 67.2', indentation: 1}
+  - {description: 'On a melee hit this spell may cast Furious Assault on target of
+      attack.  Triggers about 2.0 times per minute. ', indentation: 1}
+  - {description: Inflicts 432 - 720 melee damage on targets in area, indentation: 2}
+  flags:
+    artiface: {value: 0}
+    attunable: {value: 0}
+    heirloom: {value: 0}
+    lore: {value: 0}
+    lore-equip: {value: 0}
+    nodestroy: {value: 0}
+    norent: {value: 0}
+    notrade: {value: 0}
+    novalue: {value: 0}
+    nozone: {value: 0}
+    stacklore: {value: 0}
+  gamelink: \aITEM 554103124 -1911691210:Abandoned Fury VII (Master)\/a
+  iconid: 711
+  id: 554103124
+  itemlevel: 86
+  last_update: 1337266376.4867001
+  leveltouse: 86
+  maxstacksize: 1
+  modifiers: {}
+  slot_list: []
+  tier: FABLED
+  tierid: 9
+  ts: 1337266376.4867001
+  type: Spell Scroll
+  typeid: 6
+  typeinfo:
+    charges: -1
+    classes:
+      berserker: {displayname: Berserker, id: 2, level: 86}
+    invokerid: 1364932144
+    name: spellscroll
+    resistability: na
+    spellbookid: arts
+    spellcasttime: 0.40000000000000002
+    spellduration: 4320000
+    spellicon: 288
+    spellid: 3794486293
+    spellname: Abandoned Fury VII (Master)
+    spellrecasttime: 0
+    spellrecoverytime: 0.5
+    spelltarget: Caster
+    tier: 9
+limit: 1
+min_ts: 1337266376.4867001
+returned: 1
+seconds: 0.36030697822570801

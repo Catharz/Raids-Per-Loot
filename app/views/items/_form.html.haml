@@ -26,7 +26,7 @@
   .field
     %strong Classes
     %br/
-    = f.collection_select :archetype_ids, Archetype.all(:order => 'name'), :id, :name, {}, :multiple => true
+    = f.collection_select :archetype_ids, Archetype.base_archetypes, :id, :name, {}, :multiple => true
   .field
     %strong Slots
     %br/

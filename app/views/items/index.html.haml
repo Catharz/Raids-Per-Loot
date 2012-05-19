@@ -10,6 +10,7 @@
   			/* Classes */ null,
   		    /* Name Search */ { "bSearchable": true,
        		             "bVisible":    false },
+  			/* Update */ null,
   			/* Destroy */ null
   		],
         "aaSorting": [[0,'asc']]
@@ -24,6 +25,7 @@
       %th Class(es)
       %th Name (for searching)
       %th
+      %th
   %tbody
     - @items.each do |item|
       %tr
@@ -32,6 +34,7 @@
         %td= item.slot_names
         %td= item.class_names
         %td= item.name
+        %td= link_to 'Update', fetch_data_item_path(item), :confirm => 'Are you sure?'
         %td= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/

@@ -1,5 +1,5 @@
 class Slot < ActiveRecord::Base
-  has_many :items_slots, :inverse_of => :slot
+  has_many :items_slots
   has_many :items, :through => :items_slots
 
   validates_presence_of :name

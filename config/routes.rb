@@ -7,6 +7,7 @@ RaidsPerLoot::Application.routes.draw do
   resources :characters do
     resources :character_types
     resources :adjustments
+    resources :drops
     member do
       get :info
     end
@@ -49,6 +50,10 @@ RaidsPerLoot::Application.routes.draw do
     resources :archetypes
     member do
       get :info
+      get :fetch_data
+    end
+    collection do
+      get :fetch_all_data
     end
   end
 
@@ -161,6 +166,7 @@ RaidsPerLoot::Application.routes.draw do
   #     resources :products
   #   end
 
+  get '/admin', :controller => 'admin', :action => 'show'
   match ':name' => 'viewer#show', :as => :view_page
   post '/viewer/set_page_body/:id', :controller => 'viewer', :action => 'set_page_body'
   get '/viewer/get_unformatted_text/:id', :controller => 'viewer', :action => 'get_unformatted_text'

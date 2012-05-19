@@ -1,5 +1,31 @@
+require 'delayed_job'
+
 class ItemsController < ApplicationController
   before_filter :login_required, :except => [:index, :show, :info]
+
+  def fetch_all_data
+    @items = Item.order(:name)
+    @items.each do |item|
+      if item.loot_type.nil? or item.loot_type.name.eql? "Unknown"
+        Delayed::Job.enqueue(ItemDetailsJob.new(item.name))
+      else
+        unless item.loot_type.name.eql? "Trash"
+          Delayed::Job.enqueue(ItemDetailsJob.new(item.name))
+        end
+      end
+    end
+
+    flash[:notice] = "Items are being updated."
+    redirect_to admin_url
+  end
+
+  def fetch_data
+    @item = Item.find(params[:id])
+    @item.download_soe_details
+
+    flash[:notice] = "Item details have been updated."
+    redirect_to @item
+  end
 
   # GET /items
   # GET /items.json

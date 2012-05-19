@@ -13,6 +13,10 @@
       %p
         %strong Info url:
         = @item.info_url
+      %p
+        %strong Item Type:
+        = @item.loot_type ? @item.loot_type.name : "Unknown"
+
 
       %p
         %table
@@ -31,6 +35,8 @@
               %tr
                 %td= slot.name
 %br/
+%br/
+= link_to 'Update Details', fetch_data_item_path(@item)
 %br/
 = link_to 'Edit', edit_item_path(@item)
 %br/

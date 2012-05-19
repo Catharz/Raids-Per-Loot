@@ -1,0 +1,102 @@
+item_list:
+- _extended:
+    discovered:
+      charid: 476742360327
+      id: 104
+      timestamp: 1334707447
+      world_list:
+      - {charid: 476742360327, id: 104, timestamp: 1334707447}
+      - {charid: 884764315222, id: 206, timestamp: 1334715050}
+      - {charid: 515397545938, id: 120, timestamp: 1334783193}
+      - {charid: 871881337853, id: 101, timestamp: 1334818389}
+      - {charid: 463856760530, id: 108, timestamp: 1334868886}
+      - {charid: 438087593692, id: 105, timestamp: 1334870892}
+      - {charid: 468151872782, id: 203, timestamp: 1334888518}
+      - {charid: 867584143749, id: 202, timestamp: 1334956679}
+      - {charid: 442382553486, id: 103, timestamp: 1334994273}
+      - {charid: 1344324888267, id: 311, timestamp: 1335006452}
+      - {charid: 901943853232, id: 301, timestamp: 1335041136}
+      - {charid: 2168961930192, id: 505, timestamp: 1335043733}
+      - {charid: 1297080981847, id: 302, timestamp: 1335044885}
+      - {charid: 1340031127294, id: 312, timestamp: 1335048511}
+      - {charid: 1722282169032, id: 401, timestamp: 1335104232}
+      - {charid: 871881333689, id: 303, timestamp: 1335523806}
+  adornment_list:
+  - description: {}
+    name: Phantasmal Siphon III
+  adornmentslot_list:
+  - {color: white}
+  - {color: white}
+  description: The great red dragon's claws, blood coagulated throughout their tips,
+    are still sharp enough to penetrate even drakizite.
+  displayname: Dozekar Claws of Bloodshed
+  displayname_lower: dozekar claws of bloodshed
+  effect_list:
+  - {description: 'When Equipped:', indentation: 0}
+  - {description: '\#FF0000If adorned on the same item, this effect will not stack
+      with itself.\/c', indentation: 1}
+  - {description: 'On any combat or spell hit this spell may cast Phantasmal Siphon
+      III on target of attack.  Lasts for 10.0 seconds.  Triggers about 2.0 times
+      per minute. ', indentation: 1}
+  - {description: Inflicts 35 - 39 poison damage on target, indentation: 2}
+  - {description: Heals caster for 18 - 19, indentation: 2}
+  - {description: Decreases Mitigation of target vs physical damage by 2, indentation: 2}
+  - {description: Cannot be modified except by direct means, indentation: 2}
+  - {description: Cannot be modified except by direct means, indentation: 1}
+  flags:
+    artiface: {value: 0}
+    attunable: {value: 1}
+    heirloom: {value: 1}
+    lore: {value: 0}
+    lore-equip: {value: 0}
+    nodestroy: {value: 0}
+    norent: {value: 0}
+    notrade: {value: 0}
+    novalue: {value: 0}
+    nozone: {value: 0}
+    stacklore: {value: 0}
+  gamelink: \aITEM -1111820328 -1138876797:Dozekar Claws of Bloodshed\/a
+  iconid: 1671
+  id: 3183146968
+  itemlevel: 96
+  last_update: 1337266827.2143109
+  leveltouse: 92
+  maxstacksize: 1
+  modifiers:
+    agility: {displayname: agi, type: attribute, value: 140}
+    basemodifier: {displayname: Potency, type: modifyproperty, value: 8.4000000000000004}
+    critbonus: {displayname: Crit Bonus, type: modifyproperty, value: 8.4000000000000004}
+    critchance: {displayname: Crit Chance, type: modifyproperty, value: 45.599997999999999}
+    doubleattackchance: {displayname: Multi Attack Chance, type: modifyproperty, value: 28.799999}
+    stamina: {displayname: sta, type: attribute, value: 140}
+    strength: {displayname: str, type: attribute, value: 140}
+    strikethrough: {displayname: Strikethrough, type: modifyproperty, value: 9.0999999999999996}
+  slot_list:
+  - {id: 1, name: Secondary}
+  - {id: 0, name: Primary}
+  tier: FABLED
+  tierid: 9
+  ts: 1337266827.2143109
+  type: Weapon
+  typeid: 1
+  typeinfo:
+    classes:
+      bruiser: {displayname: Bruiser, id: 4, level: 92}
+      monk: {displayname: Monk, id: 3, level: 92}
+    damageid: 0
+    damagerating: 142.06123400000001
+    damagetype: Slash
+    delay: 5.0
+    maxbasedamage: 604
+    maxdamage: 2435
+    maxmasterydamage: 2435
+    minbasedamage: 107
+    mindamage: 430
+    minmasterydamage: 430
+    name: weapon
+    skill: slashing
+    wieldstyle: One-Handed
+limit: 1
+min_ts: 1337266827.2143109
+returned: 1
+seconds: 0.0066671371459960938

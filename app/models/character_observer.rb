@@ -3,15 +3,21 @@ class CharacterObserver < ActiveRecord::Observer
 
   def after_create(character)
     save_new_char_type character
+    get_character_details(character)
   end
 
   def after_save(character)
     unless character.last_switch and character.last_switch.char_type.eql? character.char_type
       save_new_char_type character
+      get_character_details(character)
     end
   end
 
   private
+  def get_character_details(character)
+    Delayed::Job.enqueue(CharacterDetailsJob.new(character.name))
+  end
+
   def save_new_char_type(character)
     new_char_type = character.character_types.build(
         :char_type => character.char_type,

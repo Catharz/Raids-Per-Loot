@@ -1,0 +1,113 @@
+item_list:
+- _extended:
+    discovered:
+      charid: 429497136836
+      from_100: {charid: 429497136836, timestamp: 1333843258}
+      id: 100
+      timestamp: 1333843258
+      world_list:
+      - {charid: 429497136836, id: 100, timestamp: 1333843258}
+      - {charid: 871880100772, id: 203, timestamp: 1334689258}
+      - {charid: 863289224343, id: 206, timestamp: 1334690541}
+      - {charid: 515397680665, id: 120, timestamp: 1334693441}
+      - {charid: 438087005825, id: 105, timestamp: 1334695619}
+      - {charid: 2168961255376, id: 505, timestamp: 1334696175}
+      - {charid: 433792637004, id: 104, timestamp: 1334696530}
+      - {charid: 442383777969, id: 103, timestamp: 1334701927}
+      - {charid: 867585856777, id: 202, timestamp: 1334702022}
+      - {charid: 455266740155, id: 108, timestamp: 1334705753}
+      - {charid: 1335736449683, id: 311, timestamp: 1334737123}
+      - {charid: 901943714807, id: 301, timestamp: 1334736593}
+      - {charid: 1340031278753, id: 312, timestamp: 1334746822}
+      - {charid: 1722282102159, id: 401, timestamp: 1334751479}
+      - {charid: 433791798899, id: 101, timestamp: 1334803644}
+      - {charid: 876174131477, id: 303, timestamp: 1334856829}
+      - {charid: 1297080642302, id: 302, timestamp: 1335017034}
+  adornment_list:
+  - description: {}
+    name: Stout II
+  adornmentslot_list:
+  - {color: white}
+  description: {}
+  displayname: Awakened Token of the Gambler
+  displayname_lower: awakened token of the gambler
+  effect_list:
+  - {description: 'When Equipped:', indentation: 0}
+  - {description: \#FF0000This effect will not stack with any other Stout effect.\/c,
+    indentation: 1}
+  - {description: 'Increases Max Health of caster by 1,220.0', indentation: 1}
+  - {description: Cannot be modified except by direct means, indentation: 1}
+  flags:
+    artiface: {value: 0}
+    attunable: {value: 1}
+    heirloom: {value: 0}
+    lore: {value: 0}
+    lore-equip: {value: 0}
+    nodestroy: {value: 0}
+    norent: {value: 0}
+    notrade: {value: 0}
+    novalue: {value: 0}
+    nozone: {value: 0}
+    stacklore: {value: 0}
+  gamelink: \aITEM 1073837218 653852435:Awakened Token of the Gambler\/a
+  iconid: 1339
+  id: 1073837218
+  itemlevel: 95
+  last_update: 1337265484.2695761
+  leveltouse: 91
+  maxstacksize: 1
+  modifiers:
+    agility: {displayname: agi, type: attribute, value: 136}
+    attackspeed: {displayname: Attack Speed, type: modifyproperty, value: 9.1999999999999993}
+    basemodifier: {displayname: Potency, type: modifyproperty, value: 8.0999999999999996}
+    critbonus: {displayname: Crit Bonus, type: modifyproperty, value: 8.0999999999999996}
+    critchance: {displayname: Crit Chance, type: modifyproperty, value: 22.0}
+    doubleattackchance: {displayname: Multi Attack Chance, type: modifyproperty, value: 45.299999}
+    flurry: {displayname: Flurry Chance, type: modifyproperty, value: 3.0}
+    stamina: {displayname: sta, type: attribute, value: 136}
+    strength: {displayname: str, type: attribute, value: 136}
+  slot_list:
+  - {id: 18, name: Charm}
+  tier: FABLED
+  tierid: 9
+  ts: 1337265484.2695761
+  type: Armor
+  typeid: 3
+  typeinfo:
+    classes:
+      assassin: {displayname: Assassin, id: 24, level: 91}
+      beastlord: {displayname: Beastlord, id: 25, level: 91}
+      berserker: {displayname: Berserker, id: 2, level: 91}
+      brigand: {displayname: Brigand, id: 20, level: 91}
+      bruiser: {displayname: Bruiser, id: 4, level: 91}
+      coercer: {displayname: Coercer, id: 16, level: 91}
+      conjuror: {displayname: Conjuror, id: 17, level: 91}
+      defiler: {displayname: Defiler, id: 12, level: 91}
+      dirge: {displayname: Dirge, id: 22, level: 91}
+      fury: {displayname: Fury, id: 10, level: 91}
+      guardian: {displayname: Guardian, id: 1, level: 91}
+      illusionist: {displayname: Illusionist, id: 15, level: 91}
+      inquisitor: {displayname: Inquisitor, id: 8, level: 91}
+      monk: {displayname: Monk, id: 3, level: 91}
+      mystic: {displayname: Mystic, id: 11, level: 91}
+      necromancer: {displayname: Necromancer, id: 18, level: 91}
+      paladin: {displayname: Paladin, id: 6, level: 91}
+      ranger: {displayname: Ranger, id: 23, level: 91}
+      shadowknight: {displayname: Shadowknight, id: 5, level: 91}
+      swashbuckler: {displayname: Swashbuckler, id: 19, level: 91}
+      templar: {displayname: Templar, id: 7, level: 91}
+      troubador: {displayname: Troubador, id: 21, level: 91}
+      warden: {displayname: Warden, id: 9, level: 91}
+      warlock: {displayname: Warlock, id: 14, level: 91}
+      wizard: {displayname: Wizard, id: 13, level: 91}
+    knowledgedesc: Magic Affinity
+    knowledgename: magicaffinity
+    maxarmorclass: 0
+    minarmorclass: 0
+    name: armor
+    physicaldamageabsorption: 0
+    skilltype: magicaffinity
+limit: 1
+min_ts: 1337265484.2695761
+returned: 1
+seconds: 0.015490055084228516
