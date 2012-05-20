@@ -15,10 +15,9 @@
       %th End time
   %tbody
     - @character.instances.each do |instance|
-      - cache instance do
-        %tr
-          %td= instance.zone.name
-          %td= instance.start_time.to_date
-          %td= instance.start_time
-          %td= instance.end_time
+      %tr
+        %td= instance.zone.name
+        %td= instance.start_time.to_date
+        %td= instance.start_time
+        %td= instance.end_time
 %br/

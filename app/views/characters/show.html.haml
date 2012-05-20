@@ -13,16 +13,15 @@
     %li= link_to "Adjustments", "#adjustments"
 
   #details
-    - cache @character do
-      %p
-        %strong Name:
-        = @character.name
-      %p
-        %strong Class:
-        = @character.archetype_id ? @character.archetype.name : "Unknown"
-      %p
-        %strong Rank:
-        = case @character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+    %p
+      %strong Name:
+      = @character.name
+    %p
+      %strong Class:
+      = @character.archetype_id ? @character.archetype.name : "Unknown"
+    %p
+      %strong Rank:
+      = case @character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
 
   #history
     = render 'character_types'

@@ -15,12 +15,11 @@
       %th Reason
   %tbody
     - @player.adjustments.each do |adjustment|
-      - cache adjustment do
-        %tr
-          %td= adjustment.adjustment_date
-          %td= adjustment.adjustment_type
-          %td= adjustment.amount
-          %td= adjustment.reason.blank? ? "Unspecified" : adjustment.reason
+      %tr
+        %td= adjustment.adjustment_date
+        %td= adjustment.adjustment_type
+        %td= adjustment.amount
+        %td= adjustment.reason.blank? ? "Unspecified" : adjustment.reason
 
 %br/
 %br/

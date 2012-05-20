@@ -1,4 +1,12 @@
-%table#dataTable
+:javascript
+  $(document).ready(function(){
+      $('#adjustmentsTable').dataTable( {
+  	    "bJQueryUI": true,
+        "sPaginationType": "full_numbers",
+        "aaSorting": [[1,'asc'], [2, 'desc']]
+      } );
+  });
+%table#adjustmentsTable
   %thead
     %tr
       %th Relationship

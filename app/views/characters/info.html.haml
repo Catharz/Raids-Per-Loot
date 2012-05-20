@@ -1,10 +1,9 @@
-- cache @character do
-  .characterPopupResult{:id => @character.id}
-    %strong= @character.name
-    %br/
-    Raids:
-    = @character.raids.count
-    %br/
-    Instances:
-    = @character.instances.count
-    %br/
+.characterPopupResult{:id => @character.id}
+  %strong= @character.name
+  %br/
+  Raids:
+  = @character.raids.count
+  %br/
+  Instances:
+  = @character.instances.count
+  %br/
