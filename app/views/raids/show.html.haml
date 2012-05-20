@@ -1,22 +1,23 @@
 %p#notice= notice
-%p
-  %strong Raid date:
-  = @raid.raid_date
-%p
-  %strong Instances
-  %table
-    %tr
-      %td
-        %strong Zone
-      %td
-        %strong Start Time
-      %td
-        %strong End Time
-    - @raid.instances.each do |instance|
+- cache @raid do
+  %p
+    %strong Raid date:
+    = @raid.raid_date
+  %p
+    %strong Instances
+    %table
       %tr
-        %td{:valign => "top"}= instance.zone.name
-        %td{:valign => "top"}= instance.start_time
-        %td{:valign => "top"}= instance.end_time
+        %td
+          %strong Zone
+        %td
+          %strong Start Time
+        %td
+          %strong End Time
+      - @raid.instances.each do |instance|
+        %tr
+          %td{:valign => "top"}= instance.zone.name
+          %td{:valign => "top"}= instance.start_time
+          %td{:valign => "top"}= instance.end_time
 - if logged_in?
   = link_to 'Edit', edit_raid_path(@raid)
   |

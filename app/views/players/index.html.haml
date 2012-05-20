@@ -32,17 +32,18 @@
       %th
   %tbody
     - @players.each do |player|
-      %tr
-        %td= link_to player.name, player
-        %td= player.rank ? player.rank.name : "Unknown"
-        %td= player.first_raid ? player.first_raid.raid_date : "Never"
-        %td= player.last_raid ? player.last_raid.raid_date : "Never"
-        %td{:align => "right"}= player.raid_count
-        %td{:align => "right"}= player.instance_count
-        %td{:align => "right"}= player.loot_rate("Armour")
-        %td{:align => "right"}= player.loot_rate("Jewellery")
-        %td{:align => "right"}= player.loot_rate("Weapon")
-        %td= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete
+      - cache player do
+        %tr
+          %td= link_to player.name, player
+          %td= player.rank ? player.rank.name : "Unknown"
+          %td= player.first_raid ? player.first_raid.raid_date : "Never"
+          %td= player.last_raid ? player.last_raid.raid_date : "Never"
+          %td{:align => "right"}= player.raid_count
+          %td{:align => "right"}= player.instance_count
+          %td{:align => "right"}= player.loot_rate("Armour")
+          %td{:align => "right"}= player.loot_rate("Jewellery")
+          %td{:align => "right"}= player.loot_rate("Weapon")
+          %td= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/
 = link_to 'New Player', new_player_path

@@ -6,8 +6,9 @@
       %td Rank
   %tbody
     - @player.characters.each do |character|
-      %tr
-        %td= character.name
-        %td= character.archetype ? character.archetype.name : "Unknown"
-        %td= case character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+      - cache character do
+        %tr
+          %td= character.name
+          %td= character.archetype ? character.archetype.name : "Unknown"
+          %td= case character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
 %br/

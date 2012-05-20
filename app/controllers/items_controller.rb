@@ -30,7 +30,7 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.by_loot_type(params[:loot_type_id])
+    @items = Item.by_loot_type(params[:loot_type_id]).includes(:loot_type, :items_slots => :slot, :archetypes_items => :archetype)
 
     respond_to do |format|
       format.html # index.html.erb

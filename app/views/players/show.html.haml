@@ -13,12 +13,13 @@
     %li= link_to "Adjustments", "#adjustments"
 
   #details
-    %p
-      %strong Name:
-      = @player.name
-    %p
-      %strong Rank:
-      = @player.rank ? @player.rank.name : "Unknown"
+    - cache @player do
+      %p
+        %strong Name:
+        = @player.name
+      %p
+        %strong Rank:
+        = @player.rank ? @player.rank.name : "Unknown"
 
   #characters
     = render 'character_list'

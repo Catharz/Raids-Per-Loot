@@ -12,16 +12,17 @@
       %th
   %tbody
     - @adjustments.each do |adjustment|
-      %tr
-        %td= adjustment.adjustable_type
-        %td= adjustment.name
-        %td= adjustment.adjustment_date
-        %td= adjustment.adjustment_type
-        %td= adjustment.amount
-        %td= adjustment.reason
-        %td= link_to 'Show', adjustment
-        %td= link_to 'Edit', edit_adjustment_path(adjustment)
-        %td= link_to 'Destroy', adjustment, :confirm => 'Are you sure?', :method => :delete
+      - cache adjustment do
+        %tr
+          %td= adjustment.adjustable_type
+          %td= adjustment.name
+          %td= adjustment.adjustment_date
+          %td= adjustment.adjustment_type
+          %td= adjustment.amount
+          %td= adjustment.reason
+          %td= link_to 'Show', adjustment
+          %td= link_to 'Edit', edit_adjustment_path(adjustment)
+          %td= link_to 'Destroy', adjustment, :confirm => 'Are you sure?', :method => :delete
 
 %br/
 %br/

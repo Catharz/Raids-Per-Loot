@@ -1,8 +1,8 @@
 class Character < ActiveRecord::Base
   include PointsCalculator
 
-  belongs_to :player, :inverse_of => :characters
-  belongs_to :archetype, :inverse_of => :characters
+  belongs_to :player, :inverse_of => :characters, :touch => true
+  belongs_to :archetype, :inverse_of => :characters, :touch => true
 
   has_many :drops, :inverse_of => :character
   has_many :character_instances, :inverse_of => :character

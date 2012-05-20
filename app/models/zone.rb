@@ -1,5 +1,5 @@
 class Zone < ActiveRecord::Base
-  belongs_to :difficulty, :inverse_of => :zones
+  belongs_to :difficulty, :inverse_of => :zones, :touch => true
 
   has_many :instances, :inverse_of => :zone
   has_many :drops, :inverse_of => :zone

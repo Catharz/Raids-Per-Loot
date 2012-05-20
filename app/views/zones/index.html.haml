@@ -12,16 +12,17 @@
       %th
   %tbody
     - @zones.each do |zone|
-      %tr
-        %td= zone.name
-        %td= link_to 'Mobs', zone_mobs_path(zone)
-        %td= zone.difficulty ? zone.difficulty.name : "Unknown"
-        %td= zone.instances.count
-        %td= zone.last_instance ? zone.last_instance.start_time : "Never"
-        %td= zone.progression ? "Yes" : "No"
-        %td= link_to 'Show', zone
-        %td= link_to 'Edit', edit_zone_path(zone)
-        %td= link_to 'Destroy', zone, :confirm => 'Are you sure?', :method => :delete
+      - cache zone do
+        %tr
+          %td= zone.name
+          %td= link_to 'Mobs', zone_mobs_path(zone)
+          %td= zone.difficulty ? zone.difficulty.name : "Unknown"
+          %td= zone.instances.count
+          %td= zone.last_instance ? zone.last_instance.start_time : "Never"
+          %td= zone.progression ? "Yes" : "No"
+          %td= link_to 'Show', zone
+          %td= link_to 'Edit', edit_zone_path(zone)
+          %td= link_to 'Destroy', zone, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/
 = link_to 'New Zone', new_zone_path

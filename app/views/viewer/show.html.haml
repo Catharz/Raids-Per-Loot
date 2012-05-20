@@ -1,5 +1,6 @@
 - if !@page.nil?
-  %p#page_text= @page.body.html_safe
+  - cache @page do
+    %p#page_text= @page.body.html_safe
   - if logged_in?
     %a#edit{:href => "#"} Edit This Page
     :javascript

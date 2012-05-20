@@ -13,17 +13,18 @@
       %th
   %tbody
     - @mobs.each do |mob|
-      %tr
-        %td= mob.zone ? mob.zone.name : "Unknown"
-        %td= mob.name
-        %td= mob.alias
-        %td= mob.difficulty ? mob.difficulty.name : "Unknown"
-        %td= mob.kills
-        %td= mob.last_drop ? mob.last_drop.drop_time : "Never"
-        %td= mob.progression ? "Yes" : "No"
-        %td= link_to 'Show', mob
-        %td= link_to 'Edit', edit_mob_path(mob)
-        %td= link_to 'Destroy', mob, :confirm => 'Are you sure?', :method => :delete
+      - cache mob do
+        %tr
+          %td= mob.zone ? mob.zone.name : "Unknown"
+          %td= mob.name
+          %td= mob.alias
+          %td= mob.difficulty ? mob.difficulty.name : "Unknown"
+          %td= mob.kills
+          %td= mob.last_drop ? mob.last_drop.drop_time : "Never"
+          %td= mob.progression ? "Yes" : "No"
+          %td= link_to 'Show', mob
+          %td= link_to 'Edit', edit_mob_path(mob)
+          %td= link_to 'Destroy', mob, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/
 = link_to 'New Mob', new_mob_path

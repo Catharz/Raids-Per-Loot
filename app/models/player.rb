@@ -1,7 +1,7 @@
 class Player < ActiveRecord::Base
   include PointsCalculator
 
-  belongs_to :rank, :inverse_of => :players
+  belongs_to :rank, :inverse_of => :players, :touch => true
 
   has_many :characters, :inverse_of => :player
 

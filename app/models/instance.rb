@@ -1,6 +1,7 @@
 class Instance < ActiveRecord::Base
-  belongs_to :raid, :inverse_of => :instances
-  belongs_to :zone, :inverse_of => :instances
+  belongs_to :raid, :inverse_of => :instances, :touch => true
+  belongs_to :zone, :inverse_of => :instances, :touch => true
+
   has_many :drops, :inverse_of => :instance
   has_many :character_instances, :inverse_of => :instance
 

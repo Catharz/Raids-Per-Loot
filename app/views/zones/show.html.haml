@@ -1,10 +1,11 @@
 %p#notice= notice
-%p
-  %strong Name:
-  = @zone.name
-%p
-  %strong Progression:
-  = @zone.progression ? "Yes" : "No"
+- cache @zone do
+  %p
+    %strong Name:
+    = @zone.name
+  %p
+    %strong Progression:
+    = @zone.progression ? "Yes" : "No"
 = link_to 'Edit', edit_zone_path(@zone)
 |
 \#{link_to 'Back', zones_path}

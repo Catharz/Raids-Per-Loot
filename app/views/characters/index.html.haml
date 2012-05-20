@@ -39,20 +39,21 @@
       %th
   %tbody
     - @characters.each do |character|
-      %tr
-        %td.characterPopupTrigger{:id => character.id}= link_to character.name, character
-        %td= main_character_name(character)
-        %td= case character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
-        %td= character.archetype ? character.archetype.name : "Unknown"
-        %td= character.archetype ? character.archetype.root.name : "Unknown"
-        %td= character.first_raid ? character.first_raid.raid_date : "Never"
-        %td= character.last_raid ? character.last_raid.raid_date : "Never"
-        %td{:align => "right"}= character.raid_count
-        %td{:align => "right"}= character.instance_count
-        %td{:align => "right"}= character.loot_rate("Armour")
-        %td{:align => "right"}= character.loot_rate("Jewellery")
-        %td{:align => "right"}= character.loot_rate("Weapon")
-        %td= link_to 'Destroy', character, :confirm => 'Are you sure?', :method => :delete
+      - cache character do
+        %tr
+          %td.characterPopupTrigger{:id => character.id}= link_to character.name, character
+          %td= main_character_name(character)
+          %td= case character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+          %td= character.archetype ? character.archetype.name : "Unknown"
+          %td= character.archetype ? character.archetype.root.name : "Unknown"
+          %td= character.first_raid ? character.first_raid.raid_date : "Never"
+          %td= character.last_raid ? character.last_raid.raid_date : "Never"
+          %td{:align => "right"}= character.raid_count
+          %td{:align => "right"}= character.instance_count
+          %td{:align => "right"}= character.loot_rate("Armour")
+          %td{:align => "right"}= character.loot_rate("Jewellery")
+          %td{:align => "right"}= character.loot_rate("Weapon")
+          %td= link_to 'Destroy', character, :confirm => 'Are you sure?', :method => :delete
 
 %br
 %br

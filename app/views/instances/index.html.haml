@@ -19,18 +19,19 @@
       %th
   %tbody
     - @instances.each do |instance|
-      %tr
-        %td= instance.zone ? instance.zone.name : "Unknown"
-        %td= instance.start_time.strftime('%H:%M:%S')
-        %td= instance.end_time.strftime('%H:%M:%S')
-        %td
-          = link_to 'Players', instance_players_path(instance)
-          %br/
-          = link_to 'Characters', instance_characters_path(instance)
-        %td= mob_names(instance)
-        %td= link_to 'Show', instance
-        %td= link_to 'Edit', edit_instance_path(instance)
-        %td= link_to 'Destroy', instance, :confirm => 'Are you sure?', :method => :delete
+      - cache instance do
+        %tr
+          %td= instance.zone ? instance.zone.name : "Unknown"
+          %td= instance.start_time.strftime('%H:%M:%S')
+          %td= instance.end_time.strftime('%H:%M:%S')
+          %td
+            = link_to 'Players', instance_players_path(instance)
+            %br/
+            = link_to 'Characters', instance_characters_path(instance)
+          %td= mob_names(instance)
+          %td= link_to 'Show', instance
+          %td= link_to 'Edit', edit_instance_path(instance)
+          %td= link_to 'Destroy', instance, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/
 = link_to 'New Instance', new_instance_path

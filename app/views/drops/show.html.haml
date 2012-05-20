@@ -1,25 +1,26 @@
 %p#notice= notice
-%p
-  %strong Zone Name:
-  = @drop.zone ? @drop.zone.name : "Unknown"
-%p
-  %strong Mob Name:
-  = @drop.mob ? @drop.mob.name : "Unknown"
-%p
-  %strong Item Name:
-  = @drop.item ? @drop.item.name : "Unknown"
-%p
-  %strong Loot Type:
-  = @drop.loot_type ? @drop.loot_type.name : "Unknown"
-%p
-  %strong Drop Time:
-  = @drop.drop_time
-%p
-  %strong Character Name:
-  = @drop.character ? @drop.character.name : "Unknown"
-%p
-  %strong Loot Method:
-  = case @drop.loot_method when "n" then "Need" when "r" then "Random" when "b" then "Bid" when "t" then "Trash" else "Unknown" end
+- cache @drop do
+  %p
+    %strong Zone Name:
+    = @drop.zone ? @drop.zone.name : "Unknown"
+  %p
+    %strong Mob Name:
+    = @drop.mob ? @drop.mob.name : "Unknown"
+  %p
+    %strong Item Name:
+    = @drop.item ? @drop.item.name : "Unknown"
+  %p
+    %strong Loot Type:
+    = @drop.loot_type ? @drop.loot_type.name : "Unknown"
+  %p
+    %strong Drop Time:
+    = @drop.drop_time
+  %p
+    %strong Character Name:
+    = @drop.character ? @drop.character.name : "Unknown"
+  %p
+    %strong Loot Method:
+    = case @drop.loot_method when "n" then "Need" when "r" then "Random" when "b" then "Bid" when "t" then "Trash" else "Unknown" end
 
 = link_to 'Edit', edit_drop_path(@drop)
 \|

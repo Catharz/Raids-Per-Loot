@@ -8,12 +8,13 @@
       %th
   %tbody
     - @loot_types.each do |loot_type|
-      %tr
-        %td= loot_type.name
-        %td= loot_type.show_on_player_list? ? 'Yes' : 'No'
-        %td= link_to 'Show', loot_type
-        %td= link_to 'Edit', edit_loot_type_path(loot_type)
-        %td= link_to 'Destroy', loot_type, :confirm => 'Are you sure?', :method => :delete
+      - cache loot_type do
+        %tr
+          %td= loot_type.name
+          %td= loot_type.show_on_player_list? ? 'Yes' : 'No'
+          %td= link_to 'Show', loot_type
+          %td= link_to 'Edit', edit_loot_type_path(loot_type)
+          %td= link_to 'Destroy', loot_type, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/
 = link_to 'New Loot type', new_loot_type_path

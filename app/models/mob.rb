@@ -1,6 +1,6 @@
 class Mob < ActiveRecord::Base
-  belongs_to :zone, :inverse_of => :mobs
-  belongs_to :difficulty, :inverse_of => :mobs
+  belongs_to :zone, :inverse_of => :mobs, :touch => true
+  belongs_to :difficulty, :inverse_of => :mobs, :touch => true
   has_many :drops, :inverse_of => :mob
 
   has_one :last_drop,

@@ -20,17 +20,18 @@
       %th
   %tbody
     - @drops.each do |drop|
-      %tr
-        %td= drop.zone ? drop.zone.name : "Unknown"
-        %td= drop.mob ? drop.mob.name : "Unknown"
-        %td= drop.item ? drop.item.name : "Unknown"
-        %td= drop.loot_type ? drop.loot_type.name : "Unknown"
-        %td= drop.drop_time
-        %td= drop.character ? drop.character.name : "Unknown"
-        %td= case drop.loot_method when "n" then "Need" when "r" then "Random" when "b" then "Bid" when "t" then "Trash" else "Unknown" end
-        %td= link_to 'Show', drop
-        %td= link_to 'Edit', edit_drop_path(drop)
-        %td= link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete
+      - cache drop do
+        %tr
+          %td= drop.zone ? drop.zone.name : "Unknown"
+          %td= drop.mob ? drop.mob.name : "Unknown"
+          %td= drop.item ? drop.item.name : "Unknown"
+          %td= drop.loot_type ? drop.loot_type.name : "Unknown"
+          %td= drop.drop_time
+          %td= drop.character ? drop.character.name : "Unknown"
+          %td= case drop.loot_method when "n" then "Need" when "r" then "Random" when "b" then "Bid" when "t" then "Trash" else "Unknown" end
+          %td= link_to 'Show', drop
+          %td= link_to 'Edit', edit_drop_path(drop)
+          %td= link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/
 = link_to 'New Drop', new_drop_path

@@ -1,30 +1,33 @@
 %p#notice= notice
-%p
-  %strong Zone:
-  = @instance.zone.name
-%p
-  %strong Start time:
-  = @instance.start_time
-%p
-  %strong End time:
-  = @instance.end_time
-%p
-  %strong Attendees
-  %table
-    %tr
-      %td
-        %strong Player
-      %td
-        %strong Looted
-    - @instance.players.each do |player|
+- cache @instance do
+  %p
+    %strong Zone:
+    = @instance.zone.name
+  %p
+    %strong Start time:
+    = @instance.start_time
+  %p
+    %strong End time:
+    = @instance.end_time
+  %p
+    %strong Attendees
+    %table
       %tr
-        %td{:valign => "top"}= player.name
         %td
-          %table
-            - @instance.drops.each do |drop|
-              - if drop.player_name == player.name
-                %tr
-                  %td= drop.item_name
+          %strong Player
+        %td
+          %strong Looted
+      - @instance.players.each do |player|
+        - cache player do
+          %tr
+            %td{:valign => "top"}= player.name
+            %td
+              %table
+                - @instance.drops.each do |drop|
+                  - cache drop do
+                    - if drop.player_name == player.name
+                      %tr
+                        %td= drop.item_name
 - if logged_in?
   = link_to 'Edit', edit_instance_path(@instance)
   |

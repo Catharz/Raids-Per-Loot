@@ -28,14 +28,15 @@
       %th
   %tbody
     - @items.each do |item|
-      %tr
-        %td.itemPopupTrigger{:id => item.id}= link_to item.name, item
-        %td= item.loot_type ? item.loot_type.name : "Unknown"
-        %td= item.slot_names
-        %td= item.class_names
-        %td= item.name
-        %td= link_to 'Update', fetch_data_item_path(item), :confirm => 'Are you sure?'
-        %td= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete
+      - cache item do
+        %tr
+          %td.itemPopupTrigger{:id => item.id}= link_to item.name, item
+          %td= item.loot_type ? item.loot_type.name : "Unknown"
+          %td= item.slot_names
+          %td= item.class_names
+          %td= item.name
+          %td= link_to 'Update', fetch_data_item_path(item), :confirm => 'Are you sure?'
+          %td= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/
 = link_to 'New Item', new_item_path

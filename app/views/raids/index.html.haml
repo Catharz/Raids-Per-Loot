@@ -8,12 +8,13 @@
       %th
   %tbody
     - @raids.each do |raid|
-      %tr
-        %td= raid.raid_date
-        %td= link_to 'Instances', raid_instances_path(raid)
-        %td= link_to 'Show', raid
-        %td= link_to 'Edit', edit_raid_path(raid)
-        %td= link_to 'Destroy', raid, :confirm => 'Are you sure?', :method => :delete
+      - cache raid do
+        %tr
+          %td= raid.raid_date
+          %td= link_to 'Instances', raid_instances_path(raid)
+          %td= link_to 'Show', raid
+          %td= link_to 'Edit', edit_raid_path(raid)
+          %td= link_to 'Destroy', raid, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/
 = link_to 'New Raid', new_raid_path

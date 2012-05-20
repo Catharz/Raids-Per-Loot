@@ -40,7 +40,8 @@
     #header
       %p Raids Per Loot
     #smoothmenu1.ddsmoothmenu
-      = build_tree(@page_roots).html_safe
+      - cache @page_roots do
+        = build_tree(@page_roots).html_safe
       %ul
         - if logged_in?
           %li= link_to "Log Out", logout_path
