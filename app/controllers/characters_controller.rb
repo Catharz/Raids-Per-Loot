@@ -1,3 +1,5 @@
+require 'delayed_job'
+
 class CharactersController < ApplicationController
   before_filter :login_required, :except => [:index, :show, :info]
   before_filter :set_pagetitle
@@ -14,6 +16,14 @@ class CharactersController < ApplicationController
       options += "<option value='#{character.id}'>#{character.name}</option>"
     end
     render :text => options, :layout => false
+  end
+
+  def fetch_data
+    @character = Character.find(params[:id])
+    @character.soe_data
+
+    flash[:notice] = "Character details have been updated."
+    redirect_to @character
   end
 
   # GET /characters

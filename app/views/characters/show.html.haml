@@ -7,9 +7,9 @@
 #tabBook
   %ul
     %li= link_to "Details", "#details"
-    %li= link_to "History", "#history"
-    %li= link_to "Drops", "#drops"
     %li= link_to "Attendance", "#attendance"
+    %li= link_to "Drops", "#drops"
+    %li= link_to "History", "#history"
     %li= link_to "Adjustments", "#adjustments"
 
   #details
@@ -22,6 +22,8 @@
     %p
       %strong Rank:
       = case @character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+    %p
+      = render 'soe_data' if internet_connection?
 
   #history
     = render 'character_types'

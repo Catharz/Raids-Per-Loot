@@ -28,6 +28,11 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def soe_data(server_name = "Unrest")
+    json_data = SOEData.get("/json/get/eq2/character/?name.first=#{name}&locationdata.world=#{server_name}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,resists,skills,spell_list,stats,guild.name")
+    json_data['character_list'][0]
+  end
+
   def self.by_instance(instance_id)
     instance_id ? includes(:character_instances).where('character_instances.instance_id = ?', instance_id) : scoped
   end
