@@ -12,8 +12,8 @@ class Item < ActiveRecord::Base
   validates_uniqueness_of :name, :eq2_item_id
 
   has_one :last_drop,
-      :class_name => 'Drop',
-      :order => 'created_at desc'
+          :class_name => 'Drop',
+          :order => 'created_at desc'
 
   def class_names
     result = nil
@@ -56,44 +56,48 @@ class Item < ActiveRecord::Base
   def fetch_soe_item_details
     item_details = soe_data
 
-    # if we have the wrong item name, change it!
-    unless name.eql? item_details['displayname']
-      update_attribute(:name, item_details['displayname'])
-    end
+    if item_details
+      # if we have the wrong item name, change it!
+      unless name.eql? item_details['displayname']
+        update_attribute(:name, item_details['displayname'])
+      end
 
-    loot_type_name = item_details['type']
-    case loot_type_name
-      when 'Armor'
-        loot_type_name = 'Armour'
-        save_archetypes(item_details)
-        save_slots(item_details)
-        loot_type_name = 'Jewellery' if %w{Neck Ear Finger Wrist Charm}.include? slots[0].name
-      when 'Weapon'
-        save_archetypes(item_details)
-        save_slots(item_details)
-      when 'Spell Scroll'
-        loot_type_name = 'Spell'
-        save_archetypes(item_details)
-      else
-        if name.match(/War Rune/)
-          actual_item_name = name.split(": ")[1].gsub(" ", "+")
-          loot_type_name = 'Adornment'
-          json_data = SOEData.get("/json/get/eq2/item/?displayname=#{actual_item_name}&c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list")
-          adornment_details = json_data['item_list'][0]
-          save_slots(adornment_details)
-          save_archetypes(adornment_details)
+      loot_type_name = item_details['type']
+      case loot_type_name
+        when 'Armor'
+          loot_type_name = 'Armour'
+          save_archetypes(item_details)
+          save_slots(item_details)
+          loot_type_name = 'Jewellery' if %w{Neck Ear Finger Wrist Charm}.include? slots[0].name
+        when 'Weapon'
+          save_archetypes(item_details)
+          save_slots(item_details)
+        when 'Spell Scroll'
+          loot_type_name = 'Spell'
+          save_archetypes(item_details)
         else
-          if name.match(/Gore-Imbued/)
-            loot_type_name = 'Armour'
+          if name.match(/War Rune/)
+            actual_item_name = name.split(": ")[1].gsub(" ", "+")
+            loot_type_name = 'Adornment'
+            json_data = SOEData.get("/json/get/eq2/item/?displayname=#{actual_item_name}&c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list")
+            adornment_details = json_data['item_list'][0]
+            save_slots(adornment_details)
+            save_archetypes(adornment_details)
           else
-            loot_type_name = 'Trash'
+            if name.match(/Gore-Imbued/)
+              loot_type_name = 'Armour'
+            else
+              loot_type_name = 'Trash'
+            end
           end
-        end
+      end
+      if loot_type.nil? or loot_type.name.eql? "Unknown"
+        update_attribute(:loot_type, LootType.find_by_name(loot_type_name))
+      end
+      true
+    else
+      false
     end
-    if loot_type.nil? or loot_type.name.eql? "Unknown"
-      update_attribute(:loot_type, LootType.find_by_name(loot_type_name))
-    end
-    save unless persisted?
   end
 
   def self.of_type(loot_type_name)

@@ -17,6 +17,7 @@
   			/* Armour Rate */  { "sType": "numeric" },
   			/* Jewellery Rate */  { "sType": "numeric" },
   			/* Weapon Rate */  { "sType": "numeric" },
+  			/* Update */     null,
   			/* Destroy */    null
   		],
         "aaSorting": [[0,'asc']]
@@ -38,6 +39,7 @@
       %th Jewellery Rate
       %th Weapon Rate
       %th
+      %th
   %tbody
     - @characters.each do |character|
       - cache character do
@@ -54,6 +56,7 @@
           %td{:align => "right"}= character.loot_rate("Armour")
           %td{:align => "right"}= character.loot_rate("Jewellery")
           %td{:align => "right"}= character.loot_rate("Weapon")
+          %td= link_to 'Update', fetch_data_character_path(character), :confirm => 'Are you sure?'
           %td= link_to 'Destroy', character, :confirm => 'Are you sure?', :method => :delete
 
 %br

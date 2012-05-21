@@ -160,7 +160,7 @@ def create_fighter_archetypes
 
   crusader = fighter.children.create(:name => 'Crusader')
   crusader.children.create(:name => 'Paladin')
-  crusader.children.create(:name => 'Shadow Knight')
+  crusader.children.create(:name => 'Shadowknight')
 
   warrior = fighter.children.create(:name => 'Warrior')
   warrior.children.create(:name => 'Berserker')

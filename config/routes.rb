@@ -10,9 +10,11 @@ RaidsPerLoot::Application.routes.draw do
     resources :drops
     member do
       get :info
+      get :fetch_data
     end
     collection do
       get :option_list
+      get :fetch_all_data
     end
   end
 

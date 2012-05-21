@@ -19,13 +19,23 @@ module ApplicationHelper
   end
 
   def internet_connection?
-    @connected ||= connected?
+    # Only check if it's nil
+    if @connected.nil?
+      @connected = connected?
+    else
+      @connected
+    end
   end
 
   private
   def connected?
     begin
-      true if open("http://www.google.com/")
+      # Always return false if we're testing'
+      if ENV["RAILS_ENV"].eql? "test"
+        false
+      else
+        true if open("http://www.google.com/")
+      end
     rescue
       false
     end

@@ -10,3 +10,4 @@ Feature: Site Administration
     When I go to the admin page
     Then I should see "Welcome to the Admin page"
     And I should see "Update All Item Details"
+    And I should see "Update All Character Details"

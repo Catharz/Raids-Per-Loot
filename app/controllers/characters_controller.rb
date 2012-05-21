@@ -18,11 +18,26 @@ class CharactersController < ApplicationController
     render :text => options, :layout => false
   end
 
+  def fetch_all_data
+    @characters = Character.order(:name)
+    @characters.each do |character|
+      if character.archetype.nil?
+        Delayed::Job.enqueue(CharacterDetailsJob.new(character.name))
+      end
+    end
+
+    flash[:notice] = "Characters are being updated."
+    redirect_to admin_url
+  end
+
   def fetch_data
     @character = Character.find(params[:id])
-    @character.soe_data
 
-    flash[:notice] = "Character details have been updated."
+    if @character.fetch_soe_character_details
+      flash[:notice] = "Character details have been updated."
+    else
+      flash[:notice] = "Character details could not be updated."
+    end
     redirect_to @character
   end
 

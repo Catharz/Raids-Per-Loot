@@ -21,9 +21,12 @@ class ItemsController < ApplicationController
 
   def fetch_data
     @item = Item.find(params[:id])
-    @item.fetch_soe_item_details
 
-    flash[:notice] = "Item details have been updated."
+    if @item.fetch_soe_item_details
+      flash[:notice] = "Item details have been updated."
+    else
+      flash[:notice] = "Could not update item details."
+    end
     redirect_to @item
   end
 
