@@ -214,7 +214,7 @@ def create_scout_archetypes
   rogue.children.create(:name => 'Brigand')
   rogue.children.create(:name => 'Swashbuckler')
 
-  scout.children.create(:name => 'Beast Lord')
+  scout.children.create(:name => 'Beastlord')
 end
 
 def create_default_zones
