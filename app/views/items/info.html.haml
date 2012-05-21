@@ -1,2 +1,5 @@
 .itemPopupResult{:id => @item.id}
-  = Scraper.get("http://u.eq2wire.com/item/index/#{@item.eq2_item_id}", ".itemd_detailwrap")
+  - if internet_connection?
+    = @item.eq2wire_data
+  - else
+    Could not load information for #{@item.name}

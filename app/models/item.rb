@@ -39,14 +39,22 @@ class Item < ActiveRecord::Base
     result
   end
 
-  def download_soe_details
+  def eq2wire_data
+    Scraper.get("http://u.eq2wire.com/item/index/#{eq2_item_id}", ".itemd_detailwrap")
+  end
+
+  def soe_data
     # If the ID is negative, need to add 2^32 to convert to an unsigned integer
     item_id = eq2_item_id.to_i
     if item_id < 0
       item_id = item_id + 2 ** 32
     end
     json_data = SOEData.get("/json/get/eq2/item/?id=#{item_id}&c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list")
-    item_details = json_data['item_list'][0]
+    json_data['item_list'][0]
+  end
+
+  def fetch_soe_item_details
+    item_details = soe_data
 
     # if we have the wrong item name, change it!
     unless name.eql? item_details['displayname']

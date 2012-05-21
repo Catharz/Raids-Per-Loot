@@ -21,7 +21,7 @@ class ItemsController < ApplicationController
 
   def fetch_data
     @item = Item.find(params[:id])
-    @item.download_soe_details
+    @item.fetch_soe_item_details
 
     flash[:notice] = "Item details have been updated."
     redirect_to @item
