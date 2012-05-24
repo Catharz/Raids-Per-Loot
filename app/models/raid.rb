@@ -1,8 +1,8 @@
 class Raid < ActiveRecord::Base
   has_many :instances, :inverse_of => :raid
   has_many :kills, :through => :instances
-  has_many :players, :through => :instances
-  has_many :characters, :through => :instances
+  has_many :players, :through => :instances, :uniq => true
+  has_many :characters, :through => :instances, :uniq => true
   has_many :drops, :through => :instances
 
   accepts_nested_attributes_for :instances, :reject_if => :all_blank, :allow_destroy => true
