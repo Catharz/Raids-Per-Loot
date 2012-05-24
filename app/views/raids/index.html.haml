@@ -3,17 +3,21 @@
     %tr
       %th Raid date
       %th Instances
-      %th
-      %th
+      %th Players
+      %th Characters
+      %th Kills
+      %th Drops
       %th
   %tbody
     - @raids.each do |raid|
       - cache raid do
         %tr
-          %td= raid.raid_date
-          %td= link_to 'Instances', raid_instances_path(raid)
-          %td= link_to 'Show', raid
-          %td= link_to 'Edit', edit_raid_path(raid)
+          %td= link_to raid.raid_date, raid
+          %td= raid.instances.count
+          %td= raid.players.count
+          %td= raid.characters.count
+          %td= raid.kills.count
+          %td= raid.drops.count
           %td= link_to 'Destroy', raid, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/
