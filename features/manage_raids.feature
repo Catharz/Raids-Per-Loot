@@ -11,7 +11,7 @@ Feature: Manage raids
 
   Scenario: Register new raid
     Given I am on the new raid page
-    When I select "19/09/2011" as the "Raid date" date
+    When I enter 2011-09-19 as the raid date
     And I press "Create"
     Then I should see "2011-09-19"
     And I should see "Raid was successfully created"

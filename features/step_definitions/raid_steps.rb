@@ -14,3 +14,7 @@ Then /^I should see the following raids:$/ do |expected_raids_table|
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
   expected_raids_table.diff!(table)
 end
+
+When /^I enter (\d+)\-(\d+)\-(\d+) as the raid date$/ do |year, month, day|
+  fill_in "raid[raid_date]", :with => "#{year}-#{month}-#{day}"
+end

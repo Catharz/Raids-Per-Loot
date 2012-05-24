@@ -1,11 +1,47 @@
+:javascript
+  $(function() {
+    $("#tabBook").tabs();
+  });
 %p#notice= notice
-- cache @zone do
-  %p
-    %strong Name:
-    = @zone.name
-  %p
-    %strong Progression:
-    = @zone.progression ? "Yes" : "No"
+
+#tabBook
+  %ul
+    %li= link_to "Details", "#details"
+    %li= link_to "Mobs", "#mobs"
+    %li= link_to "Instances", "#instances"
+    %li= link_to "Drops", "#drops"
+
+  #details
+    - cache @zone do
+      %p
+        %strong Name:
+        = @zone.name
+      %p
+        %strong Difficulty:
+        = @zone.difficulty ? @zone.difficulty.name : "Unknown"
+      %p
+        %strong Named Mobs:
+        = @zone.mobs.count
+      %p
+        %strong Runs:
+        = @zone.instances.count
+      %p
+        %strong Drops:
+        = @zone.drops.count
+      %p
+        %strong Progression:
+        = @zone.progression ? "Yes" : "No"
+
+  #mobs
+    = render 'mobs'
+
+  #instances
+    = render 'instances'
+
+  #drops
+    = render 'drops'
+%br/
+%br/
 = link_to 'Edit', edit_zone_path(@zone)
 |
 \#{link_to 'Back', zones_path}

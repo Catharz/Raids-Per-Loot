@@ -1,0 +1,19 @@
+%table#dataTable
+  %thead
+    %tr
+      %th Name
+      %th Alias
+      %th Difficulty
+      %th Kills
+      %th Last Killed
+      %th Progression
+  %tbody
+    - @zone.mobs.each do |mob|
+      - cache mob do
+        %tr
+          %td= link_to mob.name, mob
+          %td= mob.alias
+          %td= mob.difficulty ? mob.difficulty.name : "Unknown"
+          %td= mob.kills
+          %td= mob.last_drop ? mob.last_drop.drop_time : "Never"
+          %td= mob.progression ? "Yes" : "No"

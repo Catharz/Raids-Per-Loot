@@ -1,0 +1,26 @@
+- require 'active_support/time_with_zone'
+:javascript
+  $(document).ready(function(){
+      $('#zoneInstancesTable').dataTable( {
+  	    "bJQueryUI": true,
+        "sPaginationType":"full_numbers",
+        "aaSorting": [[0,'desc']]
+      } );
+  });
+%table#zoneInstancesTable
+  %thead
+    %tr
+      %th Raid Date
+      %th Start time
+      %th End time
+      %th Attendees
+      %th Kills
+  %tbody
+    - @zone.instances.each do |instance|
+      - cache instance do
+        %tr
+          %td= instance.raid.raid_date
+          %td= instance.start_time.strftime('%H:%M:%S')
+          %td= instance.end_time.strftime('%H:%M:%S')
+          %td= instance.players.count
+          %td= instance.kills.count
