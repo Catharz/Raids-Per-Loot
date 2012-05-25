@@ -7,28 +7,27 @@
     %li= link_to "Drops", "#drops"
 
   #details
-    - cache @zone do
-      %p
-        %strong Name:
-        = @zone.name
-      %p
-        %strong Difficulty:
-        = @zone.difficulty ? @zone.difficulty.name : "Unknown"
-      %p
-        %strong Named Mobs:
-        = @zone.mobs.count
-      %p
-        %strong Runs:
-        = @zone.instances.count
-      %p
-        %strong Unique Items:
-        = @zone.items.count
-      %p
-        %strong Drops:
-        = @zone.drops.count
-      %p
-        %strong Progression:
-        = @zone.progression ? "Yes" : "No"
+    %p
+      %strong Name:
+      = @zone.name
+    %p
+      %strong Difficulty:
+      = @zone.difficulty ? @zone.difficulty.name : "Unknown"
+    %p
+      %strong Named Mobs:
+      = @zone.mobs.count
+    %p
+      %strong Runs:
+      = @zone.instances.count
+    %p
+      %strong Unique Items:
+      = @zone.items.count
+    %p
+      %strong Drops:
+      = @zone.drops.count
+    %p
+      %strong Progression:
+      = @zone.progression ? "Yes" : "No"
 
   #mobs
     = render 'mobs'

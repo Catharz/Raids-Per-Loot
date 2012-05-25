@@ -7,16 +7,15 @@
     %li= link_to "Drops", "#drops"
 
   #details
-    - cache @instance do
-      %p
-        %strong Zone:
-        = @instance.zone.name
-      %p
-        %strong Start time:
-        = @instance.start_time
-      %p
-        %strong End time:
-        = @instance.end_time
+    %p
+      %strong Zone:
+      = @instance.zone.name
+    %p
+      %strong Start time:
+      = @instance.start_time
+    %p
+      %strong End time:
+      = @instance.end_time
 
   #players
     = render 'players'
