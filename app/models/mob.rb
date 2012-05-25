@@ -2,6 +2,7 @@ class Mob < ActiveRecord::Base
   belongs_to :zone, :inverse_of => :mobs, :touch => true
   belongs_to :difficulty, :inverse_of => :mobs, :touch => true
   has_many :drops, :inverse_of => :mob
+  has_many :items, :through => :drops, :uniq => true
 
   has_one :last_drop,
       :class_name => 'Drop',

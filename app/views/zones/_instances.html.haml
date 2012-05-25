@@ -17,10 +17,9 @@
       %th Kills
   %tbody
     - @zone.instances.each do |instance|
-      - cache instance do
-        %tr
-          %td= instance.raid.raid_date
-          %td= instance.start_time.strftime('%H:%M:%S')
-          %td= instance.end_time.strftime('%H:%M:%S')
-          %td= instance.players.count
-          %td= instance.kills.count
+      %tr
+        %td= link_to instance.raid.raid_date, instance
+        %td= instance.start_time.strftime('%H:%M:%S')
+        %td= instance.end_time.strftime('%H:%M:%S')
+        %td= instance.players.count
+        %td= instance.kills.count

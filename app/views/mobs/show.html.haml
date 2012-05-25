@@ -1,18 +1,31 @@
-%p
-  %strong Zone:
-  = @mob.zone ? @mob.zone.name :  "Unknown"
-%p
-  %strong Name:
-  = @mob.name
-%p
-  %strong Name:
-  = @mob.alias
-%p
-  %strong Strategy:
-  = @mob.strategy
-%p
-  %strong Progression:
-  = @mob.progression ? "Yes" : "No"
+#tabBook
+  %ul
+    %li= link_to "Details", "#details"
+    %li= link_to "Items", "#items"
+    %li= link_to "Drops", "#drops"
+
+  #details
+    %p
+      %strong Zone:
+      = @mob.zone ? @mob.zone.name :  "Unknown"
+    %p
+      %strong Name:
+      = @mob.name
+    %p
+      %strong Alias:
+      = @mob.alias
+    %p
+      %strong Strategy:
+      = @mob.strategy
+    %p
+      %strong Progression:
+      = @mob.progression ? "Yes" : "No"
+
+  #items
+    = render 'items'
+
+  #drops
+    = render 'drops'
 
 = link_to 'Edit', edit_mob_path(@mob)
 |

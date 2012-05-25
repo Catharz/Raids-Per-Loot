@@ -1,6 +1,7 @@
 %table#dataTable
   %thead
     %tr
+      %th Zone
       %th Name
       %th Alias
       %th Difficulty
@@ -8,9 +9,10 @@
       %th Last Killed
       %th Progression
   %tbody
-    - @zone.mobs.each do |mob|
+    - @instance.kills.each do |mob|
       %tr
-        %td= link_to mob.name, mob
+        %td= mob.zone ? mob.zone.name : "Unknown"
+        %td= mob.name
         %td= mob.alias
         %td= mob.difficulty ? mob.difficulty.name : "Unknown"
         %td= mob.kills

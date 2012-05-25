@@ -3,6 +3,7 @@ class Zone < ActiveRecord::Base
 
   has_many :instances, :inverse_of => :zone
   has_many :drops, :inverse_of => :zone
+  has_many :items, :through => :drops, :uniq => true
   has_many :mobs, :inverse_of => :zone
 
   has_one :last_instance,

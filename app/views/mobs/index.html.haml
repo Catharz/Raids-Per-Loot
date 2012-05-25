@@ -1,29 +1,25 @@
 %table#dataTable
   %thead
     %tr
-      %th Zone
       %th Name
       %th Alias
+      %th Zone
       %th Difficulty
       %th Kills
       %th Last Killed
       %th Progression
       %th
-      %th
-      %th
   %tbody
     - @mobs.each do |mob|
       - cache mob do
         %tr
-          %td= mob.zone ? mob.zone.name : "Unknown"
-          %td= mob.name
+          %td= link_to mob.name, mob
           %td= mob.alias
+          %td= mob.zone ? mob.zone.name : "Unknown"
           %td= mob.difficulty ? mob.difficulty.name : "Unknown"
           %td= mob.kills
           %td= mob.last_drop ? mob.last_drop.drop_time : "Never"
           %td= mob.progression ? "Yes" : "No"
-          %td= link_to 'Show', mob
-          %td= link_to 'Edit', edit_mob_path(mob)
           %td= link_to 'Destroy', mob, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/

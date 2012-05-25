@@ -7,11 +7,12 @@
       %th
   %tbody
     - @slots.each do |slot|
-      %tr
-        %td= slot.name
-        %td= link_to 'Show', slot
-        %td= link_to 'Edit', edit_slot_path(slot)
-        %td= link_to 'Destroy', slot, :confirm => 'Are you sure?', :method => :delete
+      - cache slot do
+        %tr
+          %td= slot.name
+          %td= link_to 'Show', slot
+          %td= link_to 'Edit', edit_slot_path(slot)
+          %td= link_to 'Destroy', slot, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/
 = link_to 'New Slot', new_slot_path

@@ -14,4 +14,5 @@
 //= require cocoon
 //= require popup
 //= require tables
+//= require tabs
 //= require_self
