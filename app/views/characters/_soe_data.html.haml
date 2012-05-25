@@ -14,11 +14,11 @@
       disabled: true
     });
   });
-- if internet_connection? and @character.soe_data
+- if internet_connection? and @character.soe_data and !@character.soe_data['character_list'].empty?
   #character{:json_data => @character.soe_data.to_json }
   %table
     %td
-      %strong AAs:
+      AAs:
     %td
       #aa_slider{:style => "width:320px"}
     %td
