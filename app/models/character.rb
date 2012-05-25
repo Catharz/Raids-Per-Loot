@@ -29,12 +29,13 @@ class Character < ActiveRecord::Base
   end
 
   def soe_data(server_name = "Unrest")
-    json_data = SOEData.get("/json/get/eq2/character/?name.first=#{name}&locationdata.world=#{server_name}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,resists,skills,spell_list,stats,guild.name,type")
-    json_data['character_list'][0]
+    @soe_data ||= SOEData.get("/json/get/eq2/character/?name.first=#{name}&locationdata.world=#{server_name}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,resists,skills,spell_list,stats,guild.name,type")
   end
 
   def fetch_soe_character_details(server_name = "Unrest")
-    character_details = soe_data(server_name)
+    json_data = soe_data(server_name)
+    character_details = json_data ? json_data['character_list'][0] : nil
+
     if character_details
       unless archetype and archetype.name.eql? character_details['type']['class']
         update_attribute(:archetype, Archetype.find_by_name(character_details['type']['class']))

@@ -2,8 +2,6 @@
   $(function() {
     $("#tabBook").tabs();
   });
-%p#notice= notice
-
 #tabBook
   %ul
     %li= link_to "Details", "#details"
@@ -40,7 +38,7 @@
 %br/
 %br/
 = link_to 'Update Details', fetch_data_character_path(@character)
-%br/
+\|
 = link_to 'Edit', edit_character_path(@character)
 \|
 = link_to 'Back', characters_path

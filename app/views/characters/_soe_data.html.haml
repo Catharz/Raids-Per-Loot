@@ -1,3 +1,26 @@
+:javascript
+  function setAAs( value ) {
+    $("#aa_slider").slider( "option", "value", value );
+  }
+  $(document).ready(function(){
+    var json = $("#character").attr('json_data');
+    var character_list = JSON.parse(json).character_list;
+    var character = character_list[0];
+
+    $("#aa_slider").slider( {
+      value: (character.alternateadvancements.spentpoints + character.alternateadvancements.availablepoints),
+      min: 0,
+      max: 320,
+      disabled: true
+    });
+  });
 - if internet_connection? and @character.soe_data
-  AAs:
-  = @character.soe_data['alternateadvancements']['spentpoints']
+  #character{:json_data => @character.soe_data.to_json }
+  %table
+    %td
+      %strong AAs:
+    %td
+      #aa_slider{:style => "width:320px"}
+    %td
+      = precede "&nbsp;".html_safe * 3 do
+        = "#{@character.soe_data['character_list'][0]['alternateadvancements']['spentpoints'].to_i + @character.soe_data['character_list'][0]['alternateadvancements']['availablepoints'].to_i} / 320"

@@ -56,7 +56,7 @@
             \&gt;
             = @page.navlabel
     #content
-      %h2= flash[:notice]
+      %p#notice= flash[:notice]
       = yield
     #footer
       %p Raids Per Loot
