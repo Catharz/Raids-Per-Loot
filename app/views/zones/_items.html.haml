@@ -4,13 +4,10 @@
   	    "bJQueryUI": true,
    		"sPaginationType": "full_numbers",
   		"aoColumns": [
-  		    /* Name */ { "bSearchable": false,
-       		              "bVisible":    true },
+  		    /* Name */ null,
   			/* Loot Type */  null,
   			/* Slots */   null,
-  			/* Classes */ null,
-  		    /* Name Search */ { "bSearchable": true,
-       		             "bVisible":    false }
+  			/* Classes */ null
   		],
         "aaSorting": [[0,'asc']]
   		} );
@@ -22,7 +19,6 @@
       %th Loot Type
       %th Slot(s)
       %th Class(es)
-      %th Name (for searching)
   %tbody
     - @zone.items.each do |item|
       %tr
@@ -30,4 +26,3 @@
         %td= item.loot_type ? item.loot_type.name : "Unknown"
         %td= item.slot_names
         %td= item.class_names
-        %td= item.name
