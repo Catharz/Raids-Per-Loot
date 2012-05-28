@@ -295,6 +295,7 @@ DEPENDENCIES
   ruby_parser
   sass-rails (~> 3.1.0)
   selenium-client
+  sequel
   simplecov
   spork
   sqlite3

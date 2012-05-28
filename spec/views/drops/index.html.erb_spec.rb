@@ -44,15 +44,17 @@ describe "drops/index.html.erb" do
     ])
   end
 
-  it "renders a list of drops" do
+  it "renders the table headings" do
     render
-    assert_select "tr>td", :text => "Zone Name".to_s, :count => 2
-    assert_select "tr>td", :text => "Mob Name".to_s, :count => 2
-    assert_select "tr>td", :text => "Character One".to_s, :count => 1
-    assert_select "tr>td", :text => "Character Two".to_s, :count => 1
-    assert_select "tr>td", :text => "Item One".to_s, :count => 1
-    assert_select "tr>td", :text => "Item Two".to_s, :count => 1
-    assert_select "tr>td", :text => "Need".to_s, :count => 1
-    assert_select "tr>td", :text => "Random".to_s, :count => 1
+
+    rendered.should contain("Zone Name")
+    rendered.should contain("Mob Name")
+    rendered.should contain("Item Name")
+    rendered.should contain("Character Name")
+    rendered.should contain("Loot Type")
+    rendered.should contain("Zone Name")
+    rendered.should contain("Mob Name")
+    rendered.should contain("Drop Time")
+    rendered.should contain("Loot Method")
   end
 end

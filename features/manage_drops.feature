@@ -30,6 +30,7 @@ Feature: Manage drops
 
 #NOTE: The drops table is sorted in reverse drop time order (by default)
 
+  @javascript
   Scenario: Delete drop
     Given the following drops:
       | zone        | mob        | character        | item        | loot_type | eq2_item_id   | drop_time                 |
@@ -39,7 +40,7 @@ Feature: Manage drops
       | zone_name 4 | mob_name 4 | character_name 4 | item_name 4 | Weapon    | eq2_item_id 4 | 2011-09-18 20:00:00 +1000 |
     When I delete the 3rd drop
     Then I should see the following drops:
-      | Zone Name   | Mob Name   | Item Name   | Loot Type | Drop Time                 | Character Name   |
-      | zone_name 1 | mob_name 1 | item_name 1 | Armour    | 2011-09-21 20:45:00 +1000 | character_name 1 |
-      | zone_name 2 | mob_name 2 | item_name 2 | Weapon    | 2011-09-20 20:30:00 +1000 | character_name 2 |
-      | zone_name 4 | mob_name 4 | item_name 4 | Weapon    | 2011-09-18 20:00:00 +1000 | character_name 4 |
+      | Item Name   | Character Name   | Loot Type | Zone Name   | Mob Name   | Drop Time                 | Loot Method |
+      | item_name 1 | character_name 1 | Armour    | zone_name 1 | mob_name 1 | 2011-09-21T20:45:00+10:00 | Need        |
+      | item_name 2 | character_name 2 | Weapon    | zone_name 2 | mob_name 2 | 2011-09-20T20:30:00+10:00 | Need        |
+      | item_name 4 | character_name 4 | Weapon    | zone_name 4 | mob_name 4 | 2011-09-18T20:00:00+10:00 | Need        |

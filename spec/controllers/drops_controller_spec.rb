@@ -34,10 +34,28 @@ describe DropsController do
   end
 
   describe "GET index" do
-    it "assigns all drops as @drops" do
+    it "should render JSON" do
       drop = Drop.create! valid_attributes
-      get :index
-      assigns(:drops).should eq([drop])
+      expected = {"sEcho" => 0,
+                  "iTotalRecords"  => 1,
+                  "iTotalDisplayRecords" => 1,
+                  "aaData" => [
+                      ['<a href="/drops/1">Whatever</a>',
+                                "Me",
+                                "Spell",
+                                "Wherever",
+                                "Whoever",
+                                "-4712-01-01T21:39:52+09:39",
+                                "Trash",
+                                '<a href="/drops/1" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
+                               ]
+                  ]
+      }
+
+      get :index, :format => :json
+      actual = JSON.parse(response.body)
+
+      actual.should == expected
     end
   end
 

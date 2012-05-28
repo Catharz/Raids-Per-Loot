@@ -34,6 +34,7 @@ end
 When /^I delete the (\d+)(?:st|nd|rd|th) drop$/ do |pos|
   visit drops_path
   within("table tbody tr:nth-child(#{pos.to_i})") do
+    page.evaluate_script('window.confirm = function() { return true; }')
     click_link "Destroy"
   end
 end

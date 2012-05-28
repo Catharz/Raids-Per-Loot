@@ -3,36 +3,24 @@
       $('#dropsTable').dataTable( {
   	    "bJQueryUI": true,
         "sPaginationType":"full_numbers",
-        "aaSorting": [[4,'desc']]
+        "bProcessing": true,
+        "bServerSide": true,
+        "aaSorting": [[5,'desc']],
+        "sAjaxSource": $('#dropsTable').data('source')
       } );
   });
-%table#dropsTable
+%table#dropsTable{:data => {:source => "#{ drops_url(params.merge!(format: "json")) }"}}
   %thead
     %tr
+      %th Item Name
+      %th Character Name
+      %th Loot Type
       %th Zone Name
       %th Mob Name
-      %th Item Name
-      %th Loot Type
       %th Drop Time
-      %th Character Name
       %th Loot Method
       %th
-      %th
-      %th
   %tbody
-    - @drops.each do |drop|
-      - cache drop do
-        %tr
-          %td= drop.zone ? drop.zone.name : "Unknown"
-          %td= drop.mob ? drop.mob.name : "Unknown"
-          %td= drop.item ? drop.item.name : "Unknown"
-          %td= drop.loot_type ? drop.loot_type.name : "Unknown"
-          %td= drop.drop_time
-          %td= drop.character ? drop.character.name : "Unknown"
-          %td= case drop.loot_method when "n" then "Need" when "r" then "Random" when "b" then "Bid" when "t" then "Trash" else "Unknown" end
-          %td= link_to 'Show', drop
-          %td= link_to 'Edit', edit_drop_path(drop)
-          %td= link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/
 = link_to 'New Drop', new_drop_path

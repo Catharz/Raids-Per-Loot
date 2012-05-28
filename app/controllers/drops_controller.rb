@@ -9,11 +9,10 @@ class DropsController < ApplicationController
   # GET /drops
   # GET /drops.xml
   def index
-    @drops = Drop.by_instance(params[:instance_id]).by_zone(params[:zone_id]).by_mob(params[:mob_id]).by_player(params[:player_id]).by_character(params[:character_id]).by_item(params[:item_id]).eager_load(:instance, :zone, :mob, :item => :loot_type, :character => :player)
-
     respond_to do |format|
       format.html # index.html.erb
-      format.xml { render :xml => @drops }
+      format.xml { render :xml => Drop.all }
+      format.json { render json: DropsDatatable.new(view_context) }
     end
   end
 
