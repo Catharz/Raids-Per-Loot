@@ -10,6 +10,7 @@ end
 When /^I delete the (\d+)(?:st|nd|rd|th) item$/ do |pos|
   visit items_path
   within("table tr:nth-child(#{pos.to_i})") do
+    page.evaluate_script('window.confirm = function() { return true; }')
     click_link "Destroy"
   end
 end

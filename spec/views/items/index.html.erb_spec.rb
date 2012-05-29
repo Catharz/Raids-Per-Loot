@@ -4,22 +4,24 @@ describe "items/index.html.erb" do
   before(:each) do
     assign(:items, [
       stub_model(Item,
-        :name => "Name",
-        :eq2_item_id => "Eq2 Item",
-        :info_url => "Info Url"
+        :name => "Item 1",
+        :eq2_item_id => "Eq2 Item-1",
+        :info_url => "Info Url 1"
       ),
       stub_model(Item,
-        :name => "Name",
-        :eq2_item_id => "Eq2 Item",
-        :info_url => "Info Url"
+        :name => "Item 2",
+        :eq2_item_id => "Eq2 Item-2",
+        :info_url => "Info Url 2"
       )
     ])
   end
 
-  it "renders a list of items" do
+  it "renders the table headings" do
     render
-    assert_select "tr>td", :text => "Name".to_s, :count => 4
-    assert_select "tr>td", :text => "Name".to_s, :count => 4
-    assert_select "tr>td", :text => "Name".to_s, :count => 4
+
+    rendered.should contain("Name")
+    rendered.should contain("Loot Type")
+    rendered.should contain("Slot(s)")
+    rendered.should contain("Class(es)")
   end
 end

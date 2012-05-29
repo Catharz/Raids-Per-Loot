@@ -17,6 +17,7 @@ Feature: Manage items
     And I should see "info_url 1"
     And I should see "Item was successfully created"
 
+  @javascript
   Scenario: Delete item
     Given the following items:
       |name|eq2_item_id|info_url|

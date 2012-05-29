@@ -12,10 +12,25 @@ describe ItemsController do
   end
 
   describe "GET index" do
-    it "assigns all items as @items" do
+    it "should render JSON" do
       item = Item.create! valid_attributes
-      get :index
-      assigns(:items).should eq([item])
+      expected = {"sEcho" => 0,
+                  "iTotalRecords"  => 1,
+                  "iTotalDisplayRecords" => 1,
+                  "aaData" => [
+                      ['<a href="/items/1" class="itemPopupTrigger" id="1">Whatever</a>',
+                       "Unknown",
+                       nil,
+                       nil,
+                       '<a href="/items/1" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
+                      ]
+                  ]
+      }
+
+      get :index, :format => :json
+      actual = JSON.parse(response.body)
+
+      actual.should == expected
     end
   end
 

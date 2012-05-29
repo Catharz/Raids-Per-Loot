@@ -1,43 +1,23 @@
 :javascript
   $(document).ready(function() {
   	$('#itemsTable').dataTable( {
-  	    "bJQueryUI": true,
-   		"sPaginationType": "full_numbers",
-  		"aoColumns": [
-  		    /* Name */ { "bSearchable": false,
-       		              "bVisible":    true },
-  			/* Loot Type */  null,
-  			/* Slots */   null,
-  			/* Classes */ null,
-  		    /* Name Search */ { "bSearchable": true,
-       		             "bVisible":    false },
-  			/* Update */ null,
-  			/* Destroy */ null
-  		],
-        "aaSorting": [[0,'asc']]
-  		} );
+      "bJQueryUI": true,
+      "sPaginationType": "full_numbers",
+      "bProcessing": true,
+      "bServerSide": true,
+      "aaSorting": [[0,'asc']],
+      "sAjaxSource": $('#itemsTable').data('source')
+  	} );
   } );
-%table#itemsTable
+%table#itemsTable{:data => {:source => "#{ items_url(params.merge!(format: "json")) }"}}
   %thead
     %tr
       %th Name
       %th Loot Type
       %th Slot(s)
       %th Class(es)
-      %th Name (for searching)
-      %th
       %th
   %tbody
-    - @items.each do |item|
-      - cache item do
-        %tr
-          %td.itemPopupTrigger{:id => item.id}= link_to item.name, item
-          %td= item.loot_type ? item.loot_type.name : "Unknown"
-          %td= item.slot_names
-          %td= item.class_names
-          %td= item.name
-          %td= link_to 'Update', fetch_data_item_path(item), :confirm => 'Are you sure?'
-          %td= link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/
 = link_to 'New Item', new_item_path

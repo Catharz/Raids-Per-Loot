@@ -33,12 +33,10 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.by_loot_type(params[:loot_type_id]).includes(:loot_type, :items_slots => :slot, :archetypes_items => :archetype)
-
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @items }
-      format.xml { render :xml => @items }
+      format.json { render json: ItemsDatatable.new(view_context) }
+      format.xml { render :xml => Item.all }
     end
   end
 
