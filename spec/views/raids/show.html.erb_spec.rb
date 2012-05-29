@@ -17,6 +17,16 @@ describe "raids/show.html.erb" do
     rendered.should contain("2011-01-01")
   end
 
+  it "displays stats for related data" do
+    render
+
+    rendered.should contain("Instances: 0")
+    rendered.should contain("Players: 0")
+    rendered.should contain("Characters: 0")
+    rendered.should contain("Kills: 0")
+    rendered.should contain("Drops: 0")
+  end
+
   it "displays tabs for related data" do
     render
 
