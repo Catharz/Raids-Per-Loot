@@ -23,7 +23,7 @@ Spork.prefork do
   # steps to use the XPath syntax.
   Capybara.default_selector = :css
 
-  Capybara.server_boot_timeout = 20
+  Capybara.server_boot_timeout = 50
 
   Capybara.register_driver :chrome do |app|
     Capybara::Selenium::Driver.new(app, :browser => :chrome)

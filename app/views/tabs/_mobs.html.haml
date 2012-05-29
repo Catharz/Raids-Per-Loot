@@ -11,8 +11,12 @@
   %tbody
     - @mob_list.each do |mob|
       %tr
-        %td= mob.zone ? mob.zone.name : "Unknown"
-        %td= mob.name
+        %td
+          - if mob.zone
+            = link_to mob.zone.name, mob.zone
+          - else
+            Unknown
+        %td= link_to mob.name, mob
         %td= mob.alias
         %td= mob.difficulty ? mob.difficulty.name : "Unknown"
         %td= mob.kills

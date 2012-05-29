@@ -16,7 +16,11 @@
   %tbody
     - @instance_list.each do |instance|
       %tr
-        %td= instance.zone.name
+        %td
+          - if instance.zone
+            = link_to instance.zone.name, instance
+          - else
+            Unknown
         %td= instance.start_time.to_date
         %td= instance.start_time
         %td= instance.end_time

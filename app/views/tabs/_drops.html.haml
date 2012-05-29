@@ -18,9 +18,25 @@
   %tbody
     - @drop_list.each do |drop|
       %tr
-        %td= link_to drop.item ? drop.item.name : "Unknown", drop
-        %td= drop.mob ? drop.mob.name : "Unknown"
-        %td= drop.loot_type ? drop.loot_type.name : "Unknown"
+        %td
+          - if drop.item
+            = link_to drop.item ? drop.item.name : "Unknown", drop
+          - else
+            Unknown
+        %td
+          - if drop.mob
+            = link_to drop.mob.name, drop.mob
+          - else
+            Unknown
+        %td
+          - if drop.loot_type
+            = drop.loot_type ? drop.loot_type.name : "Unknown"
+          - else
+            Unknown
         %td= drop.drop_time
-        %td= drop.character ? drop.character.name : "Unknown"
+        %td
+          - if drop.character
+            = link_to drop.character.name, drop.character
+          - else
+            Unknown
         %td= case drop.loot_method when "n" then "Need" when "r" then "Random" when "b" then "Bid" when "t" then "Trash" else "Unknown" end

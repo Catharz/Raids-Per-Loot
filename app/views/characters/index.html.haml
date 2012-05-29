@@ -45,7 +45,11 @@
       - cache character do
         %tr
           %td.characterPopupTrigger{:id => character.id}= link_to character.name, character
-          %td= main_character_name(character)
+          %td
+            - if character.main_character
+              = link_to character.main_character.name, character.main_character
+            - else
+              Unknown
           %td= case character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
           %td= character.archetype ? character.archetype.name : "Unknown"
           %td= character.archetype ? character.archetype.root.name : "Unknown"
