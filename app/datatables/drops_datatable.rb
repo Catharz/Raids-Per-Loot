@@ -53,7 +53,7 @@ class DropsDatatable
       .order("#{sort_column} #{sort_direction}")
     drops = drops.page(page).per_page(per_page)
     if params[:sSearch].present?
-      drops = drops.where("zones.name like :search or mobs.name like :search or items.name like :search or characters.name like :search or loot_types.name like :search", search: "%#{params[:sSearch]}%")
+      drops = drops.where("upper(zones.name) like :search or upper(mobs.name) like :search or upper(items.name) like :search or upper(characters.name) like :search or upper(loot_types.name) like :search", search: "%#{params[:sSearch].upcase}%")
     end
     drops
   end
