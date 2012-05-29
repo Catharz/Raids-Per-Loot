@@ -1,6 +1,6 @@
 :javascript
   $(document).ready(function() {
-  	$('#zoneItemsTable').dataTable( {
+  	$('#itemsTabTable').dataTable( {
   	    "bJQueryUI": true,
    		"sPaginationType": "full_numbers",
   		"aoColumns": [
@@ -12,7 +12,7 @@
         "aaSorting": [[0,'asc']]
   		} );
   } );
-%table#zoneItemsTable
+%table#itemsTabTable
   %thead
     %tr
       %th Name
@@ -20,7 +20,7 @@
       %th Slot(s)
       %th Class(es)
   %tbody
-    - @zone.items.each do |item|
+    - @item_list.each do |item|
       %tr
         %td.itemPopupTrigger{:id => item.id}= link_to item.name, item
         %td= item.loot_type ? item.loot_type.name : "Unknown"

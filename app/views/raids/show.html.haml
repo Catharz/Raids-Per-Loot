@@ -13,19 +13,19 @@
       = @raid.raid_date
 
   #instances
-    = render 'instances'
+    = render 'tabs/instances', :"@instance_list" => @raid.instances
 
   #kills
-    = render 'mobs'
+    = render 'tabs/mobs', :"@mob_list" => @raid.kills
 
   #players
-    = render 'players'
+    = render 'tabs/players', :"@player_list" => @raid.players
 
   #characters
-    = render 'characters'
+    = render 'tabs/characters', :"@character_list" => @raid.characters
 
   #drops
-    = render 'drops'
+    = render 'tabs/drops', :"@drop_list" => @raid.drops
 
 = link_to 'Edit', edit_raid_path(@raid)
 |

@@ -45,6 +45,12 @@ Then /^I should see the following drops:$/ do |expected_drops_table|
   expected_drops_table.diff!(table)
 end
 
+Then /^I should see the following character|player drops:$/ do |expected_drops_table|
+  rows = find("table#dropsTabTable").all('tr')
+  table = rows.map { |r| r.all('th,td').map { |c| c.text.strip } }
+  expected_drops_table.diff!(table)
+end
+
 When /^I select a loot method of (.+)$/ do |loot_method|
   choose case loot_method
            when "Need" then

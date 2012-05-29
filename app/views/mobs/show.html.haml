@@ -22,10 +22,10 @@
       = @mob.progression ? "Yes" : "No"
 
   #items
-    = render 'items'
+    = render 'tabs/items', :"@item_list" => @mob.items
 
   #drops
-    = render 'drops'
+    = render 'tabs/drops', :"@drop_list" => @mob.drops
 
 = link_to 'Edit', edit_mob_path(@mob)
 |

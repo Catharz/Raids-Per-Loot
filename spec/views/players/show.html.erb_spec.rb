@@ -43,7 +43,10 @@ describe "players/show.html.erb" do
                              :loot_type => weapon)
     weapon_drop.stub!(:item).and_return(weapon_item)
 
+    @player.stub!(:characters).and_return([])
     @player.stub!(:drops).and_return([armour_drop, weapon_drop])
+    @player.stub!(:instances).and_return([])
+    @player.stub!(:adjustments).and_return([])
   end
 
   it "should list the separate sections" do
@@ -53,6 +56,7 @@ describe "players/show.html.erb" do
     rendered.should match(/Characters/)
     rendered.should match(/Drops/)
     rendered.should match(/Attendance/)
+    rendered.should match(/Adjustments/)
   end
 
   it "should show the loot types" do

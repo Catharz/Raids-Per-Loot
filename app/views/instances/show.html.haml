@@ -18,16 +18,16 @@
       = @instance.end_time
 
   #players
-    = render 'players'
+    = render 'tabs/players', :"@player_list" => @instance.players
 
   #characters
-    = render 'characters'
+    = render 'tabs/characters', :"@character_list" => @instance.characters
 
   #kills
-    = render 'mobs'
+    = render 'tabs/mobs', :"@mob_list" => @instance.kills
 
   #drops
-    = render 'drops'
+    = render 'tabs/drops', :"@drop_list" => @instance.drops
 
 = link_to 'Edit', edit_instance_path(@instance)
 |

@@ -15,16 +15,16 @@
       = @player.rank ? @player.rank.name : "Unknown"
 
   #characters
-    = render 'character_list'
+    = render 'tabs/characters', :"@character_list" => @player.characters
 
   #drops
-    = render 'drops'
+    = render 'tabs/drops', :"@drop_list" => @player.drops
 
   #attendance
-    = render 'instances'
+    = render 'tabs/instances', :"@instance_list" => @player.instances
 
   #adjustments
-    = render 'adjustments'
+    = render 'adjustments', :"@adjustment_list" => @player.adjustments
 
 %br/
 %br/

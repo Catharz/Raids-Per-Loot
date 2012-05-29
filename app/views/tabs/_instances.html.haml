@@ -1,12 +1,12 @@
 :javascript
   $(document).ready(function(){
-      $('#instancesTable').dataTable( {
+      $('#instancesTabTable').dataTable( {
   	    "bJQueryUI": true,
         "sPaginationType": "full_numbers",
         "aaSorting": [[2,'desc']]
       } );
   });
-%table.instancesTable{:id => "instancesTable" }
+%table#instancesTabTable
   %thead
     %tr
       %th Zone
@@ -14,7 +14,7 @@
       %th Start time
       %th End time
   %tbody
-    - @character.instances.each do |instance|
+    - @instance_list.each do |instance|
       %tr
         %td= instance.zone.name
         %td= instance.start_time.to_date

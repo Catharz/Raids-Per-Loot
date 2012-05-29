@@ -14,7 +14,7 @@
       %th Amount
       %th Reason
   %tbody
-    - @character.adjustments.each do |adjustment|
+    - @adjustment_list.each do |adjustment|
       %tr
         %td= adjustment.adjustment_date
         %td= adjustment.adjustment_type
@@ -23,4 +23,4 @@
 
 %br/
 %br/
-= link_to 'Add Adjustment', new_adjustment_path, {:character => @character.id, :adjustable => 'Character'}
+= link_to 'Add Adjustment', new_adjustment_path, {:character_id => @character.id, :adjustable => 'Character'}

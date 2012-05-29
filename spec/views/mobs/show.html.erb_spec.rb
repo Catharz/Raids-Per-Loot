@@ -11,13 +11,15 @@ describe "mobs/show.html.erb" do
                                    :strategy => "MyText",
                                    :difficulty => easy
     ))
+    @mob.stub!(:items).and_return([])
+    @mob.stub!(:drops).and_return([])
   end
 
-  it "renders attributes in <p>" do
+  it "renders headings" do
     render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/Name/)
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/MyText/)
+
+    rendered.should contain("Details")
+    rendered.should contain("Items")
+    rendered.should contain("Drops")
   end
 end

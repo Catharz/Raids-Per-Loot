@@ -1,29 +1,26 @@
 :javascript
   $(document).ready(function(){
-      $('#dropsTable').dataTable( {
+      $('#dropsTabTable').dataTable( {
   	    "bJQueryUI": true,
-        "sPaginationType": "full_numbers",
-        "aaSorting": [[4,'desc']]
+        "sPaginationType":"full_numbers",
+        "aaSorting": [[3,'desc']]
       } );
   });
-%table#dropsTable
+%table#dropsTabTable
   %thead
     %tr
-      %th Zone Name
-      %th Mob Name
       %th Item Name
+      %th Mob Name
       %th Loot Type
       %th Drop Time
       %th Character Name
       %th Loot Method
   %tbody
-    - @player.drops.each do |drop|
+    - @drop_list.each do |drop|
       %tr
-        %td= drop.zone ? drop.zone.name : "Unknown"
+        %td= link_to drop.item ? drop.item.name : "Unknown", drop
         %td= drop.mob ? drop.mob.name : "Unknown"
-        %td= drop.item ? drop.item.name : "Unknown"
         %td= drop.loot_type ? drop.loot_type.name : "Unknown"
         %td= drop.drop_time
         %td= drop.character ? drop.character.name : "Unknown"
         %td= case drop.loot_method when "n" then "Need" when "r" then "Random" when "b" then "Bid" when "t" then "Trash" else "Unknown" end
-%br/

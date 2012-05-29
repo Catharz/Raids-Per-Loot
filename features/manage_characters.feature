@@ -28,7 +28,7 @@ Feature: Manage characters
       | zone_name 1 | mob_name 1 | Betty     | item_name 1 | Armour    | eq2_item_id 1 | 2011-09-21 20:45:00 +1000 |
       | zone_name 2 | mob_name 2 | Betty     | item_name 2 | Weapon    | eq2_item_id 2 | 2011-09-20 20:30:00 +1000 |
     When I view the characters page for Betty
-    Then I should see the following drops:
-      | Zone Name   | Mob Name   | Item Name   | Loot Type | Drop Time                 | Loot Method |
-      | zone_name 1 | mob_name 1 | item_name 1 | Armour    | 2011-09-21 20:45:00 +1000 | Need        |
-      | zone_name 2 | mob_name 2 | item_name 2 | Weapon    | 2011-09-20 20:30:00 +1000 | Need        |
+    Then I should see the following character drops:
+      | Item Name   | Mob Name   | Loot Type | Drop Time                 | Character Name | Loot Method |
+      | item_name 1 | mob_name 1 | Armour    | 2011-09-21 20:45:00 +1000 | Betty          | Need        |
+      | item_name 2 | mob_name 2 | Weapon    | 2011-09-20 20:30:00 +1000 | Betty          | Need        |

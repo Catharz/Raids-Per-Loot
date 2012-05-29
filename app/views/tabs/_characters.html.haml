@@ -1,6 +1,6 @@
 :javascript
   $(document).ready(function() {
-  	$('#instanceCharactersTable').dataTable( {
+  	$('#charactersTabTable').dataTable( {
   	    "bJQueryUI": true,
         "sPaginationType":"full_numbers",
   		"aoColumns": [
@@ -21,7 +21,7 @@
         "aaSorting": [[0,'asc']]
   		} );
   } );
-%table#instanceCharactersTable
+%table#charactersTabTable
   %thead
     %tr
       %th Name
@@ -37,7 +37,7 @@
       %th Jewellery Rate
       %th Weapon Rate
   %tbody
-    - @instance.characters.each do |character|
+    - @character_list.each do |character|
       %tr
         %td.characterPopupTrigger{:id => character.id}= link_to character.name, character
         %td= main_character_name(character)

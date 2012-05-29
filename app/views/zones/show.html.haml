@@ -30,16 +30,16 @@
       = @zone.progression ? "Yes" : "No"
 
   #mobs
-    = render 'mobs'
+    = render 'tabs/mobs', :"@mob_list" => @zone.mobs
 
   #instances
-    = render 'instances'
+    = render 'tabs/instances', :"@instance_list" => @zone.instances
 
   #items
-    = render 'items'
+    = render 'tabs/items', :"@item_list" => @zone.items
 
   #drops
-    = render 'drops'
+    = render 'tabs/drops', :"@drop_list" => @zone.drops
 %br/
 %br/
 = link_to 'Edit', edit_zone_path(@zone)

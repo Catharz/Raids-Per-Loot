@@ -1,6 +1,6 @@
 :javascript
   $(document).ready(function() {
-  	$('#instancePlayersTable').dataTable( {
+  	$('#playersTabTable').dataTable( {
   	    "bJQueryUI": true,
         "sPaginationType":"full_numbers",
   		"aoColumns": [
@@ -17,7 +17,7 @@
         "aaSorting": [[0,'asc']]
   		} );
   } );
-%table#instancePlayersTable
+%table#playersTabTable
   %thead
     %tr
       %th Name
@@ -30,7 +30,7 @@
       %th Jewellery Rate
       %th Weapon Rate
   %tbody
-    - @instance.players.each do |player|
+    - @player_list.each do |player|
       %tr
         %td= link_to player.name, player
         %td= player.rank ? player.rank.name : "Unknown"
