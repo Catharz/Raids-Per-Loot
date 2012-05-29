@@ -1,22 +1,32 @@
-%p
-  %strong Raid date:
-  = @raid.raid_date
-%p
-  %strong Instances
-  %table
-    %tr
-      %td
-        %strong Zone
-      %td
-        %strong Start Time
-      %td
-        %strong End Time
-    - @raid.instances.each do |instance|
-      %tr
-        %td{:valign => "top"}= instance.zone.name
-        %td{:valign => "top"}= instance.start_time
-        %td{:valign => "top"}= instance.end_time
-- if logged_in?
-  = link_to 'Edit', edit_raid_path(@raid)
-  |
+#tabBook
+  %ul
+    %li= link_to "Details", "#details"
+    %li= link_to "Instances", "#instances"
+    %li= link_to "Kills", "#kills"
+    %li= link_to "Players", "#players"
+    %li= link_to "Characters", "#characters"
+    %li= link_to "Drops", "#drops"
+
+  #details
+    %p
+      %strong Raid date:
+      = @raid.raid_date
+
+  #instances
+    = render 'instances'
+
+  #kills
+    = render 'mobs'
+
+  #players
+    = render 'players'
+
+  #characters
+    = render 'characters'
+
+  #drops
+    = render 'drops'
+
+= link_to 'Edit', edit_raid_path(@raid)
+|
 = link_to 'Back', raids_path

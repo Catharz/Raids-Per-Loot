@@ -1,6 +1,6 @@
 class Raid < ActiveRecord::Base
   has_many :instances, :inverse_of => :raid
-  has_many :kills, :through => :instances
+  has_many :kills, :through => :instances, :uniq => true
   has_many :players, :through => :instances, :uniq => true
   has_many :characters, :through => :instances, :uniq => true
   has_many :drops, :through => :instances
