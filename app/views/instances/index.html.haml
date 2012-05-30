@@ -1,12 +1,4 @@
 - require 'active_support/time_with_zone'
-:javascript
-  $(document).ready(function(){
-      $('#instancesTable').dataTable( {
-  	    "bJQueryUI": true,
-        "sPaginationType":"full_numbers",
-        "aaSorting": [[1,'desc']]
-      } );
-  });
 %table#instancesTable
   %thead
     %tr

@@ -1,14 +1,3 @@
-:javascript
-  $(document).ready(function() {
-  	$('#itemsTable').dataTable( {
-      "bJQueryUI": true,
-      "sPaginationType": "full_numbers",
-      "bProcessing": true,
-      "bServerSide": true,
-      "aaSorting": [[0,'asc']],
-      "sAjaxSource": $('#itemsTable').data('source')
-  	} );
-  } );
 %table#itemsTable{:data => {:source => "#{ items_url(params.merge!(format: "json")) }"}}
   %thead
     %tr

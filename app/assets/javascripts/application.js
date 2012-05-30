@@ -15,4 +15,5 @@
 //= require popup
 //= require tables
 //= require tabs
+//= require datepickers
 //= require_self

@@ -1,3 +1,0 @@
-$(function() {
-    $("#tabBook").tabs();
-});

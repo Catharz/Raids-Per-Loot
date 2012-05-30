@@ -16,8 +16,6 @@
       var $adjustables = $('<select id="adjustment_adjustable_id" name="adjustment[adjustable_id]"></select>').appendTo('#adjustable_field');
       $adjustables.load(options_url);
     } );
-
-    $("#datepicker").datepicker( { dateFormat: 'yy-mm-dd' } );
   } );
 = form_for @adjustment do |f|
   -if @adjustment.errors.any?

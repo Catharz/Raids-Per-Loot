@@ -1,22 +1,3 @@
-:javascript
-  $(document).ready(function() {
-  	$('#playersTabTable').dataTable( {
-  	    "bJQueryUI": true,
-        "sPaginationType":"full_numbers",
-  		"aoColumns": [
-  			/* Name */   null,
-  			/* Rank */  null,
-  			/* First Raid */  { "sType": "date" },
-  			/* Last Raid */  { "sType": "date" },
-  			/* # Raids */  { "sType": "numeric" },
-  			/* # Instances */  { "sType": "numeric" },
-  			/* Armour Rate */  { "sType": "numeric" },
-  			/* Jewellery Rate */  { "sType": "numeric" },
-  			/* Weapon Rate */  { "sType": "numeric" }
-  		],
-        "aaSorting": [[0,'asc']]
-  		} );
-  } );
 %table#playersTabTable
   %thead
     %tr
