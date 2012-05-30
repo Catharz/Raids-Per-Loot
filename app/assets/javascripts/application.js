@@ -16,4 +16,5 @@
 //= require tables
 //= require tabs
 //= require datepickers
+//= require selects
 //= require_self

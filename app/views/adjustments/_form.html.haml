@@ -1,22 +1,3 @@
-:javascript
-  $(document).ready(function(){
-    $("select#adjustment_adjustable_type").change(function() {
-      var adjustable_type = $(this).val();
-      var adjustable_select = $(this).next('select');
-      var options_url = "";
-
-      if (adjustable_type == "Player") {
-        options_url = "/players/option_list";
-      } else {
-        options_url = "/characters/option_list";
-      }
-
-      $("#adjustable_field").empty();
-      $("#adjustable_field").append("<strong>" + adjustable_type + ":</strong> ");
-      var $adjustables = $('<select id="adjustment_adjustable_id" name="adjustment[adjustable_id]"></select>').appendTo('#adjustable_field');
-      $adjustables.load(options_url);
-    } );
-  } );
 = form_for @adjustment do |f|
   -if @adjustment.errors.any?
     #error_explanation
