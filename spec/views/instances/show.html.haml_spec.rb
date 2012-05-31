@@ -16,10 +16,16 @@ describe "instances/show.html.haml" do
     @instance.stub!(:drops).and_return([])
   end
 
-  it "renders attributes in <p>" do
+  it "renders basic stats for the instance" do
     render
 
-    rendered.should contain("Wherever")
+    rendered.should contain("Zone: Wherever")
+    rendered.should contain("Start time:")
+    rendered.should contain("End time:")
+    rendered.should contain("Players:")
+    rendered.should contain("Characters:")
+    rendered.should contain("Kills:")
+    rendered.should contain("Drops:")
   end
 
   it "displays tabs for related data" do

@@ -16,6 +16,18 @@
     %p
       %strong End time:
       = @instance.end_time
+    %p
+      %strong Players:
+      = @instance.players.count
+    %p
+      %strong Characters:
+      = @instance.characters.count
+    %p
+      %strong Kills:
+      = @instance.kills.count
+    %p
+      %strong Drops:
+      = @instance.drops.count
 
   #players
     = render 'tabs/players', :"@player_list" => @instance.players
