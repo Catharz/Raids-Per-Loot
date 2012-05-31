@@ -8,13 +8,13 @@
 
   #details
     %p
-      %strong Name:
+      Name:
       = @character.name
     %p
-      %strong Class:
+      Class:
       = @character.archetype_id ? @character.archetype.name : "Unknown"
     %p
-      %strong Rank:
+      Rank:
       = case @character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
     %p
       = render 'soe_data' if internet_connection?

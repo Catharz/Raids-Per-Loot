@@ -13,8 +13,8 @@
 //= require jquery_nested_form
 //= require cocoon
 //= require menus
-//= require popup
 //= require tables
+//= require popup
 //= require tabs
 //= require datepickers
 //= require selects

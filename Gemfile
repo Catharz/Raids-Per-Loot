@@ -7,7 +7,16 @@ gem 'rails', '3.1'
 
 gem 'sqlite3'
 
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails', "  ~> 3.1.0"
+  gem 'coffee-rails', "~> 3.1.0"
+  gem 'uglifier'
+end
+
 gem 'haml-rails'
+gem 'coffee-filter'
 gem 'ruby_parser'
 gem 'hpricot'
 gem 'escape_utils'
@@ -28,14 +37,6 @@ gem 'jquery-rails'
 gem 'in_place_editing'
 gem 'will_paginate'
 gem 'acts_as_tree'
-
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails', "  ~> 3.1.0"
-  gem 'coffee-rails', "~> 3.1.0"
-  gem 'uglifier'
-end
 
 group :production do
   gem 'pg'
