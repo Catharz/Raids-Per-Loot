@@ -17,6 +17,12 @@
       Rank:
       = case @character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
     %p
+      Raids:
+      = @character.raids.count
+    %p
+      Instances:
+      = @character.instances.count
+    %p
       = render 'soe_data' if internet_connection?
 
   #history

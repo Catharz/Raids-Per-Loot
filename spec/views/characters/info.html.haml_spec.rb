@@ -1,7 +1,9 @@
 require 'spec_helper'
+require 'attendance_spec_helper'
 require 'character_spec_helper'
 
 describe "characters/info.html.haml" do
+  include AttendanceSpecHelper
   include CharacterSpecHelper
 
   it "should show the characters name" do
