@@ -1,5 +1,5 @@
 module CharacterSpecHelper
-  def valid_character_attributes
+  def valid_character_attributes(options = {})
     @main_rank = Factory.create(:rank, :name => 'Main')
     @player = Factory.create(:player, :name => 'Uber', :rank_id => @main_rank)
     @fighter_archetype = Factory.create(:archetype, :name => 'Mage')
@@ -7,7 +7,7 @@ module CharacterSpecHelper
     {:name => 'Fred',
      :archetype_id => @fighter_archetype.id,
      :char_type => 'm',
-     :player_id => @player.id}
+     :player_id => @player.id}.merge!(options)
   end
 
   def setup_characters(characters)

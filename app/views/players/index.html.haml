@@ -19,11 +19,11 @@
           %td= player.rank ? player.rank.name : "Unknown"
           %td= player.first_raid ? player.first_raid.raid_date : "Never"
           %td= player.last_raid ? player.last_raid.raid_date : "Never"
-          %td{:align => "right"}= player.raid_count
-          %td{:align => "right"}= player.instance_count
-          %td{:align => "right"}= player.loot_rate("Armour")
-          %td{:align => "right"}= player.loot_rate("Jewellery")
-          %td{:align => "right"}= player.loot_rate("Weapon")
+          %td{:align => "right"}= player.raids_count
+          %td{:align => "right"}= player.instances_count
+          %td{:align => "right"}= player.armour_rate
+          %td{:align => "right"}= player.jewellery_rate
+          %td{:align => "right"}= player.weapon_rate
           %td= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete
 %br/
 %br/

@@ -30,11 +30,11 @@
           %td= character.archetype ? character.archetype.root.name : "Unknown"
           %td= character.first_raid ? character.first_raid.raid_date : "Never"
           %td= character.last_raid ? character.last_raid.raid_date : "Never"
-          %td{:align => "right"}= character.raid_count
-          %td{:align => "right"}= character.instance_count
-          %td{:align => "right"}= character.loot_rate("Armour")
-          %td{:align => "right"}= character.loot_rate("Jewellery")
-          %td{:align => "right"}= character.loot_rate("Weapon")
+          %td{:align => "right"}= character.raids_count
+          %td{:align => "right"}= character.instances_count
+          %td{:align => "right"}= character.armour_rate
+          %td{:align => "right"}= character.jewellery_rate
+          %td{:align => "right"}= character.weapon_rate
           %td= link_to 'Update', fetch_data_character_path(character), :confirm => 'Are you sure?'
           %td= link_to 'Destroy', character, :confirm => 'Are you sure?', :method => :delete
 

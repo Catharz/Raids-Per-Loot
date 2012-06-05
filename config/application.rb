@@ -17,9 +17,9 @@ module RaidsPerLoot
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
-    config.autoload_paths += %W(#{config.root}/validators)
     config.autoload_paths += %W(#{config.root}/datatables)
-    #config.autoload_paths += %W(#{config.root}/repositories)
+    config.autoload_paths += %W(#{config.root}/observers)
+    config.autoload_paths += %W(#{config.root}/validators)
     config.generators do |g|
       g.template_engine :haml
     end
@@ -30,7 +30,7 @@ module RaidsPerLoot
 
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
-    config.active_record.observers = :character_observer, :drop_observer
+    config.active_record.observers = :character_observer, :drop_observer, :attendance_observer
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.

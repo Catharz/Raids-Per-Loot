@@ -7,19 +7,19 @@ class Player < ActiveRecord::Base
 
   has_one :main_character,
           :class_name => 'Character',
-          :conditions => ["char_type = 'm'"]
+          :conditions => ["characters.char_type = 'm'"]
   has_one :raid_alternate,
           :class_name => 'Character',
-          :conditions => ["char_type = 'r'"]
+          :conditions => ["characters.char_type = 'r'"]
   has_many :general_alternates,
            :class_name => 'Character',
-           :conditions => ["char_type = 'g'"]
+           :conditions => ["characters.char_type = 'g'"]
 
   has_many :character_instances, :through => :characters
   has_many :instances, :through => :character_instances
   has_many :raids, :through => :instances, :uniq => true
   has_many :drops, :through => :characters
-  has_many :items, :through => :drops, :conditions => ["loot_method = ?", "n"]
+  has_many :items, :through => :drops, :conditions => ["drops.loot_method = ?", "n"]
 
   has_many :adjustments, :as => :adjustable
 

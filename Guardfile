@@ -18,6 +18,13 @@ guard 'bundler' do
   watch('Gemfile')
 end
 
+guard :livereload do
+  watch(%r{^app/.+\.(erb|haml)})
+  watch(%r{^app/helpers/.+\.rb})
+  watch(%r{^public/.+\.(css|js|html)})
+  watch(%r{^config/locales/.+\.yml})
+end
+
 guard 'test', :colour => true, :drb => false do
   watch(%r{app/(.+)/(.+)\.rb}) { |m| "test/#{m[1]}/#{m[2]}_test.rb" }
   watch(%r{test/(.+)/(.+)_test\.rb})
@@ -47,13 +54,6 @@ end
 group :frontend do
   guard 'haml' do
     watch %r{^src/.+(\.html\.haml)}
-  end
-
-  guard :livereload do
-    watch(%r{^app/.+\.(erb|haml)})
-    watch(%r{^app/helpers/.+\.rb})
-    watch(%r{^public/.+\.(css|js|html)})
-    watch(%r{^config/locales/.+\.yml})
   end
 
   guard 'cucumber', :cli => '--drb --format progress --no-profile', all_on_start: false do
