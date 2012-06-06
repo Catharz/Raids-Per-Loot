@@ -10,7 +10,7 @@ class Character < ActiveRecord::Base
   has_many :character_instances, :inverse_of => :character
   has_many :character_types, :inverse_of => :character, :dependent => :destroy
 
-  has_one :last_switch, :class_name => 'CharacterType', :order => 'effective_date desc'
+  has_one :last_switch, :class_name => 'CharacterType', :order => 'updated_at desc'
 
   has_many :items, :through => :drops, :conditions => ["drops.loot_method = ?", "n"]
   has_many :instances, :through => :character_instances

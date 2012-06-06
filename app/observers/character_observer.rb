@@ -6,7 +6,7 @@ class CharacterObserver < ActiveRecord::Observer
     get_character_details(character) if internet_connection?
   end
 
-  def before_save(character)
+  def after_save(character)
     unless character.last_switch and character.last_switch.char_type.eql? character.char_type
       save_new_char_type character
     end
