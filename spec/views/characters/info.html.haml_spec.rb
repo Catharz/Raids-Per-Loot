@@ -17,7 +17,7 @@ describe "characters/info.html.haml" do
 
   it "should show the number of instances" do
     character_list = setup_characters(%w{Scout Mage})
-    setup_raids(:num_raids => 2, :num_instances => 3, :attendees => character_list)
+    create_attendance(:num_raids => 2, :num_instances => 3, :attendees => character_list)
     assign(:character, character_list.first)
 
     render
@@ -27,7 +27,7 @@ describe "characters/info.html.haml" do
 
   it "should show the number of raids" do
     character_list = setup_characters(%w{Scout Mage})
-    setup_raids(:num_raids => 2, :num_instances => 3, :attendees => character_list)
+    create_attendance(:num_raids => 2, :num_instances => 3, :attendees => character_list)
     assign(:character, character_list.first)
 
     render

@@ -13,7 +13,7 @@ describe "characters/show.html.haml" do
 
   it "should show the number of instances" do
     character_list = setup_characters(%w{Freddy})
-    setup_raids(:num_raids => 2, :num_instances => 3, :attendees => character_list)
+    create_attendance(:num_raids => 2, :num_instances => 3, :attendees => character_list)
     character = assign(:character, character_list.first)
     assign(:drop_list, [])
     assign(:instance_list, character.instances)
@@ -27,7 +27,7 @@ describe "characters/show.html.haml" do
 
   it "should show the number of raids" do
     character_list = setup_characters(%w{Julie})
-    setup_raids(:num_raids => 2, :num_instances => 3, :attendees => character_list)
+    create_attendance(:num_raids => 2, :num_instances => 3, :attendees => character_list)
     character = assign(:character, character_list.first)
     assign(:drop_list, [])
     assign(:instance_list, character.instances)
