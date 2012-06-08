@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "players/index.html.erb" do
+describe "players/index.html.haml" do
   fixtures :users
 
   before(:each) do

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'date'
 
-describe "players/show.html.erb" do
+describe "players/show.html.haml" do
   fixtures :users
 
   before(:each) do
@@ -9,14 +9,14 @@ describe "players/show.html.erb" do
 
     @player = assign(:player, stub_model(Player, :name => "Name"))
 
+    raid = stub_model(Raid, :raid_date => Date.parse("01/01/2011"))
+
     zone_1 = stub_model(Zone, :name => "Wherever")
     zone_2 = stub_model(Zone, :name => "Wherever Next")
-    instance_1 = stub_model(Instance, :start_time => DateTime.parse("01/01/2011 18:00"), :end_time => DateTime.parse("01/01/2011 20:00"))
+    instance_1 = stub_model(Instance, :raid => raid, :start_time => DateTime.parse("01/01/2011 18:00"), :end_time => DateTime.parse("01/01/2011 20:00"))
     instance_1.zone = zone_1
-    instance_2 = stub_model(Instance, :start_time => DateTime.parse("01/01/2011 20:05"), :end_time => DateTime.parse("01/01/2011 22:00"))
+    instance_2 = stub_model(Instance, :raid => raid, :start_time => DateTime.parse("01/01/2011 20:05"), :end_time => DateTime.parse("01/01/2011 22:00"))
     instance_2.zone = zone_2
-
-    @player.stub!(:instances).and_return([instance_1, instance_2])
 
     armour = stub_model(LootType, :name => "Armour", :show_on_player_list => true)
     armour_item = stub_model(Item, :name => "Phat BP", :eq2_item_id => "1234", :loot_type_id => armour.id)
@@ -44,9 +44,13 @@ describe "players/show.html.erb" do
     weapon_drop.stub!(:item).and_return(weapon_item)
 
     @player.stub!(:characters).and_return([])
+    @player.stub!(:raids).and_return([raid])
+    @player.stub!(:instances).and_return([instance_1, instance_2])
     @player.stub!(:drops).and_return([armour_drop, weapon_drop])
-    @player.stub!(:instances).and_return([])
     @player.stub!(:adjustments).and_return([])
+    @player.stub!(:armour_rate).and_return(2.0)
+    @player.stub!(:weapon_rate).and_return(3.6)
+    @player.stub!(:jewellery_rate).and_return(6.9)
   end
 
   it "should list the separate sections" do
@@ -71,5 +75,47 @@ describe "players/show.html.erb" do
 
     rendered.should match(/Phat Sword/)
     rendered.should match(/Phat BP/)
+  end
+
+  it "should show the number of characters" do
+    render
+
+    rendered.should contain("Characters: 0")
+  end
+
+  it "should show the number of raids" do
+    render
+
+    rendered.should contain("Raids: 1")
+  end
+
+  it "should show the number of instances" do
+    render
+
+    rendered.should contain("Instances: 2")
+  end
+
+  it "should show the number of drops" do
+    render
+
+    rendered.should contain("Drops: 2")
+  end
+
+  it "should show the armour rate" do
+    render
+
+    rendered.should contain("Armour Rate: 2.0")
+  end
+
+  it "should show the weapon rate" do
+    render
+
+    rendered.should contain("Weapon Rate: 3.6")
+  end
+
+  it "should show the jewellery rate" do
+    render
+
+    rendered.should contain("Jewellery Rate: 6.9")
   end
 end

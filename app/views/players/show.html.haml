@@ -13,6 +13,27 @@
     %p
       %strong Rank:
       = @player.rank ? @player.rank.name : "Unknown"
+    %p
+      %strong Characters:
+      = @player.characters.count
+    %p
+      %strong Raids:
+      = @player.raids.count
+    %p
+      %strong Instances:
+      = @player.instances.count
+    %p
+      %strong Drops:
+      = @player.drops.count
+    %p
+      %strong Armour Rate:
+      = @player.armour_rate
+    %p
+      %strong Weapon Rate:
+      = @player.weapon_rate
+    %p
+      %strong Jewellery Rate:
+      = @player.jewellery_rate
 
   #characters
     = render 'tabs/characters', :"@character_list" => @player.characters
