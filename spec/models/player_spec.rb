@@ -2,8 +2,8 @@ require 'spec_helper'
 
 module PlayerSpecHelper
   def valid_player_attributes
-    @main_rank = Factory.create(:rank, :name => 'Main')
-    @alternate_rank = Factory.create(:rank, :name => 'General Alternate')
+    @main_rank = FactoryGirl.create(:rank, :name => 'Main')
+    @alternate_rank = FactoryGirl.create(:rank, :name => 'General Alternate')
     {:name => 'Fred',
      :rank_id => @main_rank.id}
   end
@@ -14,7 +14,7 @@ describe Player do
 
   describe "player" do
     it "should calculate the loot rate with two decimal places" do
-      @player = Factory.create(:player, valid_player_attributes)
+      @player = FactoryGirl.create(:player, valid_player_attributes)
       num_raids = 37
       num_items = 5
 

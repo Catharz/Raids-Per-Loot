@@ -5,7 +5,7 @@ describe PlayersController do
 
   before(:each) do
     login_as :quentin
-    @main_rank ||= Factory.create(:rank, :name => "Main")
+    @main_rank ||= FactoryGirl.create(:rank, :name => "Main")
   end
 
   def valid_attributes

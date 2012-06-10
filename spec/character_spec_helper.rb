@@ -13,17 +13,13 @@ module CharacterSpecHelper
   end
 
   def setup_characters(characters)
+    character_list = []
     characters.each do |character_name|
-      rank = Rank.find_or_create_by_name("#{character_name} Rank")
-      archetype = Archetype.find_or_create_by_name("#{character_name} Archetype")
-
-      player = Player.find_by_name(character_name)
-      player ||= Player.create(:name => character_name, :rank_id => rank.id)
-
-      unless Character.find_by_name(character_name)
-        Character.create(:name => character_name, :player => player, :archetype => archetype, :char_type => 'm')
-      end
+      rank = mock_model(Rank, :name => "#{character_name} Rank")
+      archetype = mock_model(Archetype, :name => "#{character_name} Archetype")
+      player = mock_model(Player, :name => character_name, :rank => rank)
+      character_list << mock_model(Character, :name => character_name, :player => player, :archetype => archetype, :char_type => "m")
     end
-    Character.all
+    character_list
   end
 end

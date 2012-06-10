@@ -24,6 +24,7 @@ class ArchetypesValidatorTest < ActiveSupport::TestCase
     grand_parent.children << parent
     child = create_archetype(:name => 'Child')
     parent.children << child
+    child.children << grand_parent
     assert  @validator.is_own_descendant?(grand_parent), "Grand parent should have been detected as being a descendant"
     assert  @validator.is_own_descendant?(parent), "Parent should have been detected as being a descendant"
   end

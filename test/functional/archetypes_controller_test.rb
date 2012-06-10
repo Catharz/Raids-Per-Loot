@@ -19,7 +19,7 @@ class ArchetypesControllerTest < ActionController::TestCase
   end
 
   test "archetype cannot be own parent" do
-    parent = Factory.create(:archetype, :name => 'Parent')
+    parent = FactoryGirl.create(:archetype, :name => 'Parent')
     assert_no_difference('Archetype.count') do
       edit_archetype parent, :parent_id => parent.id
       assert_response :ok
@@ -28,14 +28,14 @@ class ArchetypesControllerTest < ActionController::TestCase
   end
 
   test "parent archetype cannot be own child" do
-    grand_parent = Factory.create(:archetype, :name => 'Grand Parent')
-    parent = Factory.create(:archetype, :name => 'Parent', :parent => grand_parent)
-    child = Factory.create(:archetype, :name => 'Child', :parent => parent)
+    grand_parent = FactoryGirl.create(:archetype, :name => 'Grand Parent')
+    parent = FactoryGirl.create(:archetype, :name => 'Parent', :parent => grand_parent)
+    child = FactoryGirl.create(:archetype, :name => 'Child', :parent => parent)
 
     assert_no_difference 'Archetype.count' do
       edit_archetype grand_parent, :parent_id => child.id
       assert_response :ok
-      assert response.body.include? "Cannot set an archetypes parent to one of its descendents"
+      assert response.body.include? "Cannot set an archetypes parent to one of its descendants"
     end
   end
 
@@ -45,6 +45,7 @@ class ArchetypesControllerTest < ActionController::TestCase
     end
 
     def create_archetype(options = {})
-      post :create, :archetype => Factory.create(:archetype, options)
+      archetype = FactoryGirl.create(:archetype, options)
+      post :create, :archetype => archetype
     end
 end

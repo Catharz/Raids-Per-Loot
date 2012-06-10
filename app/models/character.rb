@@ -1,4 +1,5 @@
 class Character < ActiveRecord::Base
+  include RemoteConnectionHelper
   include PointsCalculator
 
   belongs_to :player, :inverse_of => :characters, :touch => true
@@ -35,16 +36,20 @@ class Character < ActiveRecord::Base
   end
 
   def fetch_soe_character_details(server_name = "Unrest")
-    json_data = soe_data(server_name)
-    character_details = json_data ? json_data['character_list'][0] : nil
+    if internet_connection?
+      json_data = soe_data(server_name)
+      character_details = json_data ? json_data['character_list'][0] : nil
 
-    if character_details
-      unless archetype and archetype.name.eql? character_details['type']['class']
-        update_attribute(:archetype, Archetype.find_by_name(character_details['type']['class']))
+      if character_details
+        unless archetype and archetype.name.eql? character_details['type']['class']
+          update_attribute(:archetype, Archetype.find_by_name(character_details['type']['class']))
+        end
+        true
+      else
+        false
       end
-      true
     else
-      false
+      true
     end
   end
 

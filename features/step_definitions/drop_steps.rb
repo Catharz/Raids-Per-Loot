@@ -20,7 +20,8 @@ Given /^the following drops:$/ do |drops|
     character = Character.find_by_name(drop[:character])
     character ||= Character.create(:name => drop[:character], :player => player, :archetype => archetype, :char_type => "m")
 
-    Drop.create!(
+    observer = DropObserver.instance
+    drop = Drop.create!(
         :zone_id => zone.id,
         :mob_id => mob.id,
         :loot_type_id => loot_type.id,
@@ -28,6 +29,7 @@ Given /^the following drops:$/ do |drops|
         :loot_method => "n",
         :character_id => character.id,
         :drop_time => drop[:drop_time])
+    observer.after_save(drop)
   end
 end
 

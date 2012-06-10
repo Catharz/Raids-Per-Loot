@@ -8,9 +8,9 @@ describe CharactersController do
   before(:each) do
     login_as :quentin
 
-    @main_rank ||= Factory.create(:rank, :name => "Main")
-    @player ||= Factory.create(:player, :name => "Jimmy", :rank => @main_rank)
-    @archetype ||= Factory.create(:archetype, :name => "Scout")
+    @main_rank ||= FactoryGirl.create(:rank, :name => "Main")
+    @player ||= FactoryGirl.create(:player, :name => "Jimmy", :rank => @main_rank)
+    @archetype ||= FactoryGirl.create(:archetype, :name => "Scout")
   end
 
   def valid_attributes

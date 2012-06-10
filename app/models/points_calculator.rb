@@ -1,14 +1,21 @@
 module PointsCalculator
+  def recalculate_loot_rates
+    self.armour_rate = loot_rate("Armour")
+    self.jewellery_rate = loot_rate("Jewellery")
+    self.weapon_rate = loot_rate("Weapon")
+    self.save
+  end
+
   def raid_count
-    raids.count + adjustments.where(:adjustment_type => "Raids").sum(:amount)
+    self.raids.count + self.adjustments.where(:adjustment_type => "Raids").sum(:amount)
   end
 
   def instance_count
-    instances.count + adjustments.where(:adjustment_type => "Instances").sum(:amount)
+    self.instances.count + self.adjustments.where(:adjustment_type => "Instances").sum(:amount)
   end
 
   def item_count(loot_type)
-    items.of_type(loot_type).count + adjustments.where(:adjustment_type => loot_type).sum(:amount)
+    self.items.of_type(loot_type).count + self.adjustments.where(:adjustment_type => loot_type).sum(:amount)
   end
 
   def loot_rate(loot_type)

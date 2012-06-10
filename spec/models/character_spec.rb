@@ -5,7 +5,7 @@ describe Character do
   include CharacterSpecHelper
 
   before(:each) do
-    @character = Factory.create(:character, valid_character_attributes)
+    @character = FactoryGirl.create(:character, valid_character_attributes)
   end
 
   describe "character" do

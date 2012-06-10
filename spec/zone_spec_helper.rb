@@ -1,9 +1,14 @@
 module ZoneSpecHelper
   def create_zones(num_zones)
+    zone_list = []
     zones = (1..num_zones).to_a
     zones.each do |zone_num|
-      Zone.find_or_create_by_name("Zone #{zone_num.to_s}")
+      zone_list << mock_model(Zone, :name => "Zone #{zone_num.to_s}")
     end
-    Zone.all
+    zone_list
+  end
+
+  def create_zone
+    create_zones(1)[0]
   end
 end

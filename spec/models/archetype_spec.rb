@@ -3,9 +3,9 @@ require 'spec_helper'
 describe Archetype do
   describe "archetype" do
     before(:each) do
-      @grand_parent = Factory.create(:archetype, :name => 'Grand Parent')
-      @parent = Factory.create(:archetype, :name => 'Parent', :parent_id => @grand_parent.id)
-      @child = Factory.create(:archetype, :name => 'Child', :parent_id => @parent.id)
+      @grand_parent = FactoryGirl.create(:archetype, :name => 'Grand Parent')
+      @parent = FactoryGirl.create(:archetype, :name => 'Parent', :parent_id => @grand_parent.id)
+      @child = FactoryGirl.create(:archetype, :name => 'Child', :parent_id => @parent.id)
     end
 
     it "child root should be the top level" do

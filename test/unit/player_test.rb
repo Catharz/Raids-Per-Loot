@@ -24,7 +24,7 @@ class PlayerTest < ActiveSupport::TestCase
   protected
     def create_player(options = {})
       @rank ||= Rank.find_by_name('Main')
-      @rank ||= Factory.create(:rank, :name => 'Main')
-      Factory.create(:player, {:name => 'Humpty', :rank_id => @rank.id}.merge(options))
+      @rank ||= FactoryGirl.create(:rank, :name => 'Main')
+      FactoryGirl.create(:player, {:name => 'Humpty', :rank_id => @rank.id}.merge(options))
     end
 end

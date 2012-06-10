@@ -6,19 +6,18 @@ class CharactersControllerTest < ActionController::TestCase
   def setup
     login_as :quentin
 
-    rank = Factory.create(:rank, :name => 'Main')
-    @player = Factory.create(:player, :name => 'Dino', :rank_id => rank.id)
-    archetype = Factory.create(:archetype,
-                               :name => 'Mage')
-    @character = Factory.create(:character,
-                                :player_id => @player.id,
-                                :name => 'Betty',
-                                :archetype_id => archetype.id,
-                                :char_type => 'm')
-    Factory.create(:character_type,
-                   :character => @character,
-                   :effective_date => Date.new,
-                   :char_type => 'm')
+    rank = FactoryGirl.create(:rank, :name => 'Main')
+    @player = FactoryGirl.create(:player, :name => 'Dino', :rank_id => rank.id)
+    archetype = FactoryGirl.create(:archetype, :name => 'Mage')
+    @character = FactoryGirl.create(:character,
+                                    :player_id => @player.id,
+                                    :name => 'Betty',
+                                    :archetype_id => archetype.id,
+                                    :char_type => 'm')
+    FactoryGirl.create(:character_type,
+                       :character => @character,
+                       :effective_date => Date.new,
+                       :char_type => 'm')
   end
 
   test "should get index" do

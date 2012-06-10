@@ -8,20 +8,32 @@
 
   #details
     %p
-      Name:
+      %strong Name:
       = @character.name
     %p
-      Class:
-      = @character.archetype_id ? @character.archetype.name : "Unknown"
+      %strong Class:
+      = @character.archetype ? @character.archetype.name : "Unknown"
     %p
-      Rank:
+      %strong Rank:
       = case @character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
     %p
-      Raids:
+      %strong Raids:
       = @character.raids.count
     %p
-      Instances:
+      %strong Instances:
       = @character.instances.count
+    %p
+      %strong Drops:
+      = @character.drops.count
+    %p
+      %strong Armour Rate:
+      = @character.armour_rate
+    %p
+      %strong Jewellery Rate:
+      = @character.jewellery_rate
+    %p
+      %strong Weapon Rate:
+      = @character.weapon_rate
     %p
       = render 'soe_data' if internet_connection?
 

@@ -1,51 +1,19 @@
 require 'spec_helper'
-require 'attendance_spec_helper'
-require 'drop_spec_helper'
-require 'character_spec_helper'
 
 describe DropObserver do
-  include AttendanceSpecHelper, DropSpecHelper, CharacterSpecHelper
+  subject{ DropObserver.instance }
+  let( :drop ) { mock_model(Drop) }
 
-  describe 'saving a drop' do
-    before do
-      @character = Character.create(valid_character_attributes(:name => "Looter 2", :char_type => 'm'))
-      @obs = DropObserver.instance
-    end
+  describe '#after_save' do
+    it "updates the character and item" do
+      drop.should_receive(:character).at_least(2).times.and_return(mock_model(Character, :name => "Freddy"))
+      drop.should_receive(:item).at_least(2).times.and_return(mock_model(Item, :name => "Sword"))
+      drop.item.should_receive( :update_item_details )
+      drop.character.should_receive( :recalculate_loot_rates )
+      drop.character.should_receive(:player).at_least(2).times.and_return(mock_model(Player, :name => "Freddy"))
+      drop.character.player.should_receive( :recalculate_loot_rates )
 
-    it "should update the characters armour rate" do
-      character_list = setup_characters(%w{Scout Mage})
-      character = character_list[0]
-      create_attendance(:num_raids => 2, :num_instances => 3, :attendees => character_list)
-      expect {
-        drop = add_drop(character, "Armour")
-        @obs.after_save(drop)
-      }.to change {
-        character.armour_rate
-      }.by(1)
-    end
-
-    it "should update the characters jewellery rate" do
-      character_list = setup_characters(%w{Scout Mage})
-      character = character_list[0]
-      create_attendance(:num_raids => 3, :num_instances => 3, :attendees => character_list)
-      expect {
-        drop = add_drop(character, "Jewellery")
-        @obs.after_save(drop)
-      }.to change {
-        character.jewellery_rate
-      }.by(1.5)
-    end
-
-    it "should update the characters weapon rate" do
-      character_list = setup_characters(%w{Scout Mage})
-      character = character_list[0]
-      create_attendance(:num_raids => 4, :num_instances => 3, :attendees => character_list)
-      expect {
-        drop = add_drop(character, "Weapon")
-        @obs.after_save(drop)
-      }.to change {
-        character.weapon_rate
-      }.by(2.0)
+      subject.after_save(drop)
     end
   end
 end

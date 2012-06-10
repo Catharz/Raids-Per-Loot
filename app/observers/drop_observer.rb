@@ -2,14 +2,23 @@ class DropObserver < ActiveRecord::Observer
   observe Drop
 
   def after_save(drop)
-    get_item_details(drop)
-    update_caches(drop)
+    if drop.character
+      drop.character.recalculate_loot_rates
+      if drop.character.player
+        drop.character.player.recalculate_loot_rates
+      end
+    end
+    drop.item.update_item_details
+  end
+
+  def helpers
+    ActionController::Base.helpers
   end
 
   private
   def get_item_details(drop)
     if drop.item
-      ItemDetailsJob.new(drop.item.name) if internet_connection?
+      ItemDetailsJob.new(drop.item)
     end
   end
 
@@ -25,18 +34,5 @@ class DropObserver < ActiveRecord::Observer
     model.jewellery_rate = model.loot_rate("Jewellery")
     model.weapon_rate = model.loot_rate("Weapon")
     model.save
-  end
-
-  def internet_connection?
-    begin
-      # Always return false if we're testing'
-      if ENV["RAILS_ENV"].eql? "test"
-        false
-      else
-        true if open("http://www.google.com/")
-      end
-    rescue
-      false
-    end
   end
 end

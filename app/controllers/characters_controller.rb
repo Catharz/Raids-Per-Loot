@@ -22,7 +22,7 @@ class CharactersController < ApplicationController
     @characters = Character.order(:name)
     @characters.each do |character|
       if character.archetype.nil?
-        Delayed::Job.enqueue(CharacterDetailsJob.new(character.name))
+        Delayed::Job.enqueue(CharacterDetailsJob.new(character))
       end
     end
 

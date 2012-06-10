@@ -13,9 +13,8 @@ module AttendanceSpecHelper
     attendees = attendance[:attendees]
 
     attendees.each do |character|
-      instance_list.each do |instance|
-        CharacterInstance.find_or_create_by_character_id_and_instance_id(character.id, instance.id)
-      end
+      character.stub!(:raids).and_return(raid_list)
+      character.stub!(:instances).and_return(instance_list)
     end
   end
 end

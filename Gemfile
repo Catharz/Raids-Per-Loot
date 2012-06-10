@@ -87,5 +87,5 @@ group :test, :development do
 
 	# To use debugger
 	#gem 'ruby-debug'
-	gem "ruby-prof"
+	gem "ruby-prof", "0.10.2"
 end

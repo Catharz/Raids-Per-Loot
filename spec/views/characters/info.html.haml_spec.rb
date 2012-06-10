@@ -8,6 +8,7 @@ describe "characters/info.html.haml" do
 
   it "should show the characters name" do
     character_list = setup_characters(%w{Fighter Priest})
+    create_attendance(:num_raids => 2, :num_instances => 3, :attendees => character_list)
     assign(:character, character_list.first)
 
     render
@@ -34,5 +35,4 @@ describe "characters/info.html.haml" do
 
     rendered.should have_content 'Raids: 2'
   end
-
 end

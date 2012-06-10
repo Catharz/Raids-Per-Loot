@@ -1,4 +1,6 @@
 class Item < ActiveRecord::Base
+  include RemoteConnectionHelper
+
   belongs_to :loot_type, :inverse_of => :items
   has_many :drops, :inverse_of => :item
 
@@ -14,6 +16,12 @@ class Item < ActiveRecord::Base
   has_one :last_drop,
           :class_name => 'Drop',
           :order => 'created_at desc'
+
+  def update_item_details
+    if internet_connection?
+      fetch_soe_item_details
+    end
+  end
 
   def class_names
     result = nil
@@ -40,7 +48,7 @@ class Item < ActiveRecord::Base
   end
 
   def eq2wire_data
-    Scraper.get("http://u.eq2wire.com/item/index/#{eq2_item_id}", ".itemd_detailwrap")
+    Scraper.get("http://u.eq2wire.com/item/index/#{eq2_item_id}", ".itemd_detailwrap") if internet_connection?
   end
 
   def soe_data
@@ -53,6 +61,28 @@ class Item < ActiveRecord::Base
     json_data['item_list'][0]
   end
 
+  def self.of_type(loot_type_name)
+    loot_type = LootType.find_by_name(loot_type_name)
+    loot_type ? by_loot_type(loot_type.id) : []
+  end
+
+  def self.by_loot_type(loot_type_id)
+    loot_type_id ? where('items.loot_type_id = ?', loot_type_id) : scoped
+  end
+
+  def to_xml(options = {})
+    to_xml_opts = {}
+    # a builder instance is provided when to_xml is called on a collection of instructors,
+    # in which case you would not want to have <?xml ...?> added to each item
+    to_xml_opts.merge!(options.slice(:builder, :skip_instruct))
+    to_xml_opts[:root] ||= "item"
+    xml_attributes = self.attributes
+    xml_attributes["drops"] = self.drops
+    xml_attributes["slots"] = self.slots
+    xml_attributes.to_xml(to_xml_opts)
+  end
+
+  private
   def fetch_soe_item_details
     item_details = soe_data
 
@@ -100,28 +130,6 @@ class Item < ActiveRecord::Base
     end
   end
 
-  def self.of_type(loot_type_name)
-    loot_type = LootType.find_by_name(loot_type_name)
-    loot_type ? by_loot_type(loot_type.id) : []
-  end
-
-  def self.by_loot_type(loot_type_id)
-    loot_type_id ? where('items.loot_type_id = ?', loot_type_id) : scoped
-  end
-
-  def to_xml(options = {})
-    to_xml_opts = {}
-    # a builder instance is provided when to_xml is called on a collection of instructors,
-    # in which case you would not want to have <?xml ...?> added to each item
-    to_xml_opts.merge!(options.slice(:builder, :skip_instruct))
-    to_xml_opts[:root] ||= "item"
-    xml_attributes = self.attributes
-    xml_attributes["drops"] = self.drops
-    xml_attributes["slots"] = self.slots
-    xml_attributes.to_xml(to_xml_opts)
-  end
-
-  private
   def save_slots(item_details)
     item_slots = item_details['slot_list']
     if item_slots.nil? or item_slots.empty?

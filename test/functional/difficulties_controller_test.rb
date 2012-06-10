@@ -2,7 +2,7 @@ require 'test_helper'
 
 class DifficultiesControllerTest < ActionController::TestCase
   setup do
-    @difficulty = Factory.create(:difficulty, :name => 'High')
+    @difficulty = FactoryGirl.create(:difficulty, :name => 'High')
   end
 
   test "should get index" do

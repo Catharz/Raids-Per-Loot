@@ -7,10 +7,10 @@ class ItemsController < ApplicationController
     @items = Item.order(:name)
     @items.each do |item|
       if item.loot_type.nil? or item.loot_type.name.eql? "Unknown"
-        Delayed::Job.enqueue(ItemDetailsJob.new(item.name))
+        Delayed::Job.enqueue(ItemDetailsJob.new(item))
       else
         unless item.loot_type.name.eql? "Trash"
-          Delayed::Job.enqueue(ItemDetailsJob.new(item.name))
+          Delayed::Job.enqueue(ItemDetailsJob.new(item))
         end
       end
     end

@@ -1,7 +1,7 @@
 class ArchetypesValidator < ActiveModel::Validator
     def validate(record)
       record.errors[:base] << "Cannot set an archetypes parent to itself" unless !is_own_parent?(record)
-      record.errors[:base] << "Cannot set an archetypes parent to one of its descendents" unless !is_own_descendant?(record)
+      record.errors[:base] << "Cannot set an archetypes parent to one of its descendants" unless !is_own_descendant?(record)
     end
 
   def is_own_parent?(record)
@@ -13,15 +13,15 @@ class ArchetypesValidator < ActiveModel::Validator
   end
 
   def is_own_descendant?(record)
-    is_child = false
-    unless record.children.empty?
-      Archetype.family(record).each do |child|
-        if child.name.eql? record.name
-          is_child = true
-          break
-        end
+    if record.children.empty?
+      false
+    else
+      descendants = Archetype.descendants(record).map {|child| child.name }
+      if record.parent
+        descendants.include? record.name or descendants.include? record.parent.name
+      else
+        descendants.include? record.name
       end
     end
-    is_child
   end
 end
