@@ -1,38 +1,58 @@
-%table
-  %tr
-    %td
-      = eq2_wire_item_details(@item.eq2_item_id)
-    %td{:valign => "top"}
-      %p
-        %strong Name:
-        = @item.name
-      %p
-        %strong Eq2 item:
-        = @item.eq2_item_id
-      %p
-        %strong Info url:
-        = @item.info_url
-      %p
-        %strong Item Type:
-        = @item.loot_type ? @item.loot_type.name : "Unknown"
+#tabBook
+  %ul
+    %li= link_to "Image", "#image"
+    %li= link_to "Details", "#details"
+    %li= link_to "Classes", "#classes"
+    %li= link_to "Slots", "#slots"
+    %li= link_to "Drops", "#drops"
+    %li= link_to "Data", "#data"
 
+  #image
+    = eq2_wire_item_details(@item.eq2_item_id)
 
-      %p
-        %table
-          %thead
-            %strong Classes:
-          %tbody
-            - @item.archetypes.each do |archetype|
-              %tr
-                %td= archetype.name
-      %p
-        %table
-          %thead
-            %strong Slots:
-          %tbody
-            - @item.slots.each do |slot|
-              %tr
-                %td= slot.name
+  #details
+    %p
+      %strong Name:
+      = @item.name
+    %p
+      %strong EQ2 Item Id:
+      = @item.eq2_item_id
+    %p
+      %strong Info url:
+      = @item.info_url
+    %p
+      %strong Item Type:
+      = @item.loot_type ? @item.loot_type.name : "Unknown"
+
+  #classes
+    %p
+      %table
+        %thead
+          %strong Classes:
+        %tbody
+          - @item.archetypes.each do |archetype|
+            %tr
+              %td= archetype.name
+
+  #slots
+    %p
+      %table
+        %thead
+          %strong Slots:
+        %tbody
+          - @item.slots.each do |slot|
+            %tr
+              %td= slot.name
+
+  #drops
+    = render 'tabs/drops', :"@drop_list" => @item.drops
+
+  #data
+    -unless @item.external_data.nil? or @item.external_data.data.empty?
+      %ul
+        - @item.external_data.data.each do |k,v|
+          %li= "#{k} is #{v.to_json}"
+
 %br/
 %br/
 = link_to 'Update Details', fetch_data_item_path(@item)

@@ -8,7 +8,7 @@ class DropObserver < ActiveRecord::Observer
         drop.character.player.recalculate_loot_rates
       end
     end
-    drop.item.update_item_details
+    drop.item.fetch_soe_item_details
   end
 
   def helpers

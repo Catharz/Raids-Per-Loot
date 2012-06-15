@@ -9,7 +9,9 @@ describe "characters/info.html.haml" do
   it "should show the characters name" do
     character_list = setup_characters(%w{Fighter Priest})
     create_attendance(:num_raids => 2, :num_instances => 3, :attendees => character_list)
-    assign(:character, character_list.first)
+    character = assign(:character, character_list.first)
+    external_data = mock_model(ExternalData, :retrievable_id => character.id, :retrievable_type => "Character", :data => {})
+    character.should_receive(:external_data).at_least(:twice).and_return(external_data)
 
     render
 
@@ -19,7 +21,9 @@ describe "characters/info.html.haml" do
   it "should show the number of instances" do
     character_list = setup_characters(%w{Scout Mage})
     create_attendance(:num_raids => 2, :num_instances => 3, :attendees => character_list)
-    assign(:character, character_list.first)
+    character = assign(:character, character_list.first)
+    external_data = mock_model(ExternalData, :retrievable_id => character.id, :retrievable_type => "Character", :data => {})
+    character.should_receive(:external_data).at_least(:twice).and_return(external_data)
 
     render
 
@@ -29,7 +33,9 @@ describe "characters/info.html.haml" do
   it "should show the number of raids" do
     character_list = setup_characters(%w{Scout Mage})
     create_attendance(:num_raids => 2, :num_instances => 3, :attendees => character_list)
-    assign(:character, character_list.first)
+    character = assign(:character, character_list.first)
+    external_data = mock_model(ExternalData, :retrievable_id => character.id, :retrievable_type => "Character", :data => {})
+    character.should_receive(:external_data).at_least(:twice).and_return(external_data)
 
     render
 

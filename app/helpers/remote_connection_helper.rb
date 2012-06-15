@@ -2,7 +2,7 @@ module RemoteConnectionHelper
   def internet_connection?
     # Only check if it's nil
     if @connected.nil?
-      @connected = connected?
+      @connected ||= connected?
     else
       @connected
     end

@@ -17,7 +17,8 @@ class Character < ActiveRecord::Base
   has_many :instances, :through => :character_instances
   has_many :raids, :through => :instances, :uniq => true
 
-  has_many :adjustments, :as => :adjustable
+  has_many :adjustments, :as => :adjustable, :dependent => :destroy
+  has_one :external_data, :as => :retrievable, :dependent => :destroy
 
   validates_presence_of :player, :name, :char_type
   validates_uniqueness_of :name
@@ -31,22 +32,24 @@ class Character < ActiveRecord::Base
     end
   end
 
-  def soe_data(server_name = "Unrest")
-    @soe_data ||= SOEData.get("/json/get/eq2/character/?name.first=#{name}&locationdata.world=#{server_name}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,resists,skills,spell_list,stats,guild.name,type")
+  def soe_data(server_name = "Unrest", format = "json")
+    @soe_data ||= SOEData.get("/#{format}/get/eq2/character/?name.first=#{name}&locationdata.world=#{server_name}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,resists,skills,spell_list,stats,guild.name,type,equipmentslot_list")
   end
 
   def fetch_soe_character_details(server_name = "Unrest")
     if internet_connection?
-      json_data = soe_data(server_name)
-      character_details = json_data ? json_data['character_list'][0] : nil
+      json_data = soe_data(server_name, "json")
+      character_details = json_data ? json_data['character_list'][0] : HashWithIndifferentAccess.new
 
-      if character_details
+      if character_details.nil? or character_details.empty?
+        false
+      else
         unless archetype and archetype.name.eql? character_details['type']['class']
           update_attribute(:archetype, Archetype.find_by_name(character_details['type']['class']))
         end
+        build_external_data(:data => character_details)
+        external_data.save
         true
-      else
-        false
       end
     else
       true

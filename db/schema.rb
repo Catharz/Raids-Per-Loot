@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120605025632) do
+ActiveRecord::Schema.define(:version => 20120612215859) do
 
   create_table "adjustments", :force => true do |t|
     t.date      "adjustment_date"
@@ -122,6 +122,12 @@ ActiveRecord::Schema.define(:version => 20120605025632) do
   add_index "drops", ["loot_type_id"], :name => "index_drops_on_loot_type_id"
   add_index "drops", ["mob_id"], :name => "index_drops_on_mob_id"
   add_index "drops", ["zone_id"], :name => "index_drops_on_zone_id"
+
+  create_table "external_data", :force => true do |t|
+    t.integer "retrievable_id"
+    t.string  "retrievable_type"
+    t.text    "data"
+  end
 
   create_table "instances", :force => true do |t|
     t.integer   "zone_id"

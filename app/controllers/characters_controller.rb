@@ -21,12 +21,11 @@ class CharactersController < ApplicationController
   def fetch_all_data
     @characters = Character.order(:name)
     @characters.each do |character|
-      if character.archetype.nil?
-        Delayed::Job.enqueue(CharacterDetailsJob.new(character))
-      end
+      character.fetch_soe_character_details
+      #Delayed::Job.enqueue(CharacterDetailsJob.new(character))
     end
 
-    flash[:notice] = "Characters are being updated."
+    flash[:notice] = "Characters have been sucessfully updated."
     redirect_to admin_url
   end
 
@@ -44,7 +43,10 @@ class CharactersController < ApplicationController
   # GET /characters
   # GET /characters.json
   def index
-    @characters = Character.by_player(params[:player_id]).by_instance(params[:instance_id]).eager_load(:character_types)
+    @characters = Character \
+      .by_player(params[:player_id]) \
+      .by_instance(params[:instance_id]) \
+      .eager_load(:character_types, :player, :archetype, :character_instances => {:instance => :raid})
 
     respond_to do |format|
       format.html # index.html.erb

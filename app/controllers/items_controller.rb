@@ -6,13 +6,8 @@ class ItemsController < ApplicationController
   def fetch_all_data
     @items = Item.order(:name)
     @items.each do |item|
-      if item.loot_type.nil? or item.loot_type.name.eql? "Unknown"
-        Delayed::Job.enqueue(ItemDetailsJob.new(item))
-      else
-        unless item.loot_type.name.eql? "Trash"
-          Delayed::Job.enqueue(ItemDetailsJob.new(item))
-        end
-      end
+      item.fetch_soe_item_details
+      #Delayed::Job.enqueue(ItemDetailsJob.new(item))
     end
 
     flash[:notice] = "Items are being updated."
