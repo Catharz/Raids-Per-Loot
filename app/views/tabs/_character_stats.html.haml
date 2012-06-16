@@ -1,3 +1,156 @@
-%p
-  %strong Critical Chance:
-  = @data[:stats][:combat][:critchance]
+#subTabBook
+  %ul
+    %li= link_to "General", "#general"
+    %li= link_to "Melee", "#melee"
+    %li= link_to "Casting", "#casting"
+    %li= link_to "Spell Weapon", "#spell_weapon"
+    %li= link_to "Savagery", "#savagery"
+    %li= link_to "Player Vs Player", "#pvp"
+
+  #general
+    %p
+      %strong Agility:
+      %br/
+      Base:
+      = @data[:stats][:agi][:base]
+      %br/
+      Effective:
+      = @data[:stats][:agi][:effective]
+    %p
+      %strong Intelligence:
+      %br/
+      Base:
+      = @data[:stats][:int][:base]
+      %br/
+      Effective:
+      = @data[:stats][:int][:effective]
+    %p
+      %strong Stamina:
+      %br/
+      Base:
+      = @data[:stats][:sta][:base]
+      %br/
+      Effective:
+      = @data[:stats][:sta][:effective]
+    %p
+      %strong Strength:
+      %br/
+      Base:
+      = @data[:stats][:str][:base]
+      %br/
+      Effective:
+      = @data[:stats][:str][:effective]
+    %p
+      %strong Wisdom:
+      %br/
+      Base:
+      = @data[:stats][:wis][:base]
+      %br/
+      Effective:
+      = @data[:stats][:wis][:effective]
+
+  #melee
+    %p
+      %strong Accuracy:
+      = @data[:stats][:combat][:accuracy]
+      %br/
+      %strong AE Auto Attack:
+      = @data[:stats][:combat][:aeautoattackchance]
+      %br/
+      %strong Attack Speed:
+      = @data[:stats][:combat][:attackspeed]
+      %br/
+      %strong Base Avoidance Bonus:
+      = @data[:stats][:combat][:baseavoidancebonus]
+      %br/
+      %strong Base Modifier:
+      = @data[:stats][:combat][:basemodifier]
+      %br/
+      %strong Block Chance:
+      = @data[:stats][:combat][:blockchance]
+      %br/
+      %strong Critical Bonus:
+      = @data[:stats][:combat][:critbonus]
+      %br/
+      %strong Critical Chance:
+      = @data[:stats][:combat][:critchance]
+      %br/
+      %strong Double Attack:
+      = @data[:stats][:combat][:doubleattackchance]
+      %br/
+      %strong DPS:
+      = @data[:stats][:combat][:dps]
+      %br/
+      %strong Flurry:
+      = @data[:stats][:combat][:flurry]
+      %br/
+      %strong Hate Gain Mod:
+      = @data[:stats][:combat][:hategainmod]
+      %br/
+      %strong Strikethrough:
+      = @data[:stats][:combat][:strikethrough]
+
+  #casting
+    %p
+      %strong Ability Modifier:
+      = @data[:stats][:combat][:abilitymod]
+      %br/
+      %strong Spell Double Attack:
+      = @data[:stats][:combat][:spelldoubleattackchance]
+      %br/
+      %strong Spell Time Cast %:
+      = @data[:stats][:ability][:spelltimecastpct]
+      %br/
+      %strong Spell Time Recovery %:
+      = @data[:stats][:ability][:spelltimerecoverypct]
+      %br/
+      %strong Spell Time Reuse %:
+      = @data[:stats][:ability][:spelltimereusepct]
+      %br/
+      %strong Spell Time Reuse Spell Only:
+      = @data[:stats][:ability][:spelltimereusespellonly]
+
+  #spell_weapon
+    %p
+      %strong Auto Attack Chance:
+      = @data[:stats][:combat][:spellweaponaeautoattackchance]
+      %br/
+      %strong Attack Speed:
+      = @data[:stats][:combat][:spellweaponattackspeed]
+      %br/
+      %strong Double Attack:
+      = @data[:stats][:combat][:spellweapondoubleattackchance]
+      %br/
+      %strong DPS:
+      = @data[:stats][:combat][:spellweapondps]
+      %br/
+      %strong Flurry:
+      = @data[:stats][:combat][:spellweaponflurry]
+
+  #savagery
+    %p
+      %strong Base Regen:
+      = @data[:stats][:combat][:savageryregen]
+      %br/
+      %strong In Combat Regen:
+      = @data[:stats][:combat][:incombatsavageryregen]
+      %br/
+      %strong Out Of Combat Regen:
+      = @data[:stats][:combat][:outofcombatsavageryregen]
+      %br/
+      %strong Gain Mod:
+      = @data[:stats][:combat][:savagerygainmod]
+      %br/
+      %strong Max Level:
+      = @data[:stats][:combat][:maxsavagerylevel]
+
+  #pvp
+    %p
+      %strong Double Attack Chance:
+      = @data[:stats][:combat][:pvpdoubleattackchance]
+      %br/
+      %strong Spell Double Attack Chance:
+      = @data[:stats][:combat][:pvpspelldoubleattackchance]
+      %br/
+      %strong Toughness:
+      = @data[:stats][:combat][:pvptoughness]

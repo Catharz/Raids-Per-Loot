@@ -31,19 +31,42 @@ describe "characters/show.html.haml" do
                    :retrievable_id => character.id,
                    :retrievable_type => "Character",
                    :data => {stats:
-                                 {ability: {spelltimecastpct: 16.905919999999998, spelltimerecoverypct: 0.0, spelltimereusepct: 32.300002999999997,
+                                 {ability: {spelltimecastpct: 16.905919999999998,
+                                            spelltimerecoverypct: 0.0,
+                                            spelltimereusepct: 32.300002999999997,
                                             spelltimereusespellonly: 0.0},
                                   agi: {base: 35, effective: 1950},
-                                  combat: {abilitymod: 1160.8000489999999, accuracy: 38.799999, aeautoattackchance: 20.0,
-                                           attackspeed: 184.96719400000001, baseavoidancebonus: 2.3999999999999999, basemodifier: 200.99998500000001,
-                                           blockchance: 60.099995, critbonus: 222.64836099999999, critchance: 293.69998199999998,
-                                           doubleattackchance: 603.41992200000004, dps: 108.89997099999999, flurry: 15.0,
-                                           hategainmod: 0.0, incombatsavageryregen: 0.0, maxsavagerylevel: 0.0, outofcombatsavageryregen: 0.0,
-                                           pvpbasemodifier: 10.0, pvpcritbonus: 19.248360000000002, pvpcriticalmitigation: 0.0,
-                                           pvpdoubleattackchance: 62.519989000000002, pvpspelldoubleattackchance: 0.0,
-                                           pvptoughness: 0, savagerygainmod: 0.0, savageryregen: 0.0, spelldoubleattackchance: 0.0,
-                                           spellweaponaeautoattackchance: 0.0, spellweaponattackspeed: 0.0, spellweapondoubleattackchance: 0.0,
-                                           spellweapondps: 0.0, spellweaponflurry: 0.0, strikethrough: 100.0},
+                                  combat: {abilitymod: 1160.8000489999999,
+                                           accuracy: 38.799999,
+                                           aeautoattackchance: 20.0,
+                                           attackspeed: 184.96719400000001,
+                                           baseavoidancebonus: 2.3999999999999999,
+                                           basemodifier: 200.99998500000001,
+                                           blockchance: 60.099995,
+                                           critbonus: 222.64836099999999,
+                                           critchance: 293.69998199999998,
+                                           doubleattackchance: 603.41992200000004,
+                                           dps: 108.89997099999999,
+                                           flurry: 15.0,
+                                           hategainmod: 0.0,
+                                           incombatsavageryregen: 0.0,
+                                           maxsavagerylevel: 0.0,
+                                           outofcombatsavageryregen: 0.0,
+                                           pvpbasemodifier: 10.0,
+                                           pvpcritbonus: 19.248360000000002,
+                                           pvpcriticalmitigation: 0.0,
+                                           pvpdoubleattackchance: 62.519989000000002,
+                                           pvpspelldoubleattackchance: 0.0,
+                                           pvptoughness: 0,
+                                           savagerygainmod: 0.0,
+                                           savageryregen: 0.0,
+                                           spelldoubleattackchance: 0.0,
+                                           spellweaponaeautoattackchance: 0.0,
+                                           spellweaponattackspeed: 0.0,
+                                           spellweapondoubleattackchance: 0.0,
+                                           spellweapondps: 0.0,
+                                           spellweaponflurry: 0.0,
+                                           strikethrough: 100.0},
                                   defense: {armor: 150, avoidance: 19044, block: 600, parry: 236},
                                   health: {max: 49237, regen: 2159},
                                   int: {base: 15, effective: 271},
@@ -52,11 +75,23 @@ describe "characters/show.html.haml" do
                                   runspeed: 50.0,
                                   sta: {base: 28, effective: 3173},
                                   str: {base: 32, effective: 3498},
-                                  tradeskill: {critfailuremod: 0.0, critsuccessmod: 1.0, durabilityadd: 0.0, durabilitymod: 0.0,
-                                               progressadd: 0.0, progressmod: 2.0, rareharvestchance: 0.0, successmod: 3.0},
-                                  weapon: {primarydelay: 2.9838520000000002, primarymaxdamage: 5204, primarymindamage: 1039,
-                                           rangeddelay: 4.0282, rangedmaxdamage: 13776, rangedmindamage: 2923, secondarydelay: 2.9838520000000002,
-                                           secondarymaxdamage: 4638, secondarymindamage: 926},
+                                  tradeskill: {critfailuremod: 0.0,
+                                               critsuccessmod: 1.0,
+                                               durabilityadd: 0.0,
+                                               durabilitymod: 0.0,
+                                               progressadd: 0.0,
+                                               progressmod: 2.0,
+                                               rareharvestchance: 0.0,
+                                               successmod: 3.0},
+                                  weapon: {primarydelay: 2.9838520000000002,
+                                           primarymaxdamage: 5204,
+                                           primarymindamage: 1039,
+                                           rangeddelay: 4.0282,
+                                           rangedmaxdamage: 13776,
+                                           rangedmindamage: 2923,
+                                           secondarydelay: 2.9838520000000002,
+                                           secondarymaxdamage: 4638,
+                                           secondarymindamage: 926},
                                   wis: {base: 20, effective: 272}}.with_indifferent_access
                    })
     character.stub!(:external_data).and_return(external_data)
@@ -68,51 +103,124 @@ describe "characters/show.html.haml" do
     assign(:data, external_data)
   end
 
+  it "should show the tab headings" do
+    render
+
+    rendered.should contain "Details"
+    rendered.should contain "Attendance"
+    rendered.should contain "Drops"
+    rendered.should contain "History"
+    rendered.should contain "Adjustments"
+    rendered.should contain "Statistics"
+  end
+
   it "should show the characters name" do
     render
 
-    rendered.should contain("Name: Julie")
+    rendered.should contain "Name: Julie"
   end
 
-  it "should show the number of raids" do
+  it "should show the attendance" do
     render
 
-    rendered.should have_content 'Raids: 2'
+    rendered.should contain "Raids: 2"
+    rendered.should contain "Instances: 6"
   end
 
-  it "should show the number of instances" do
+  it "should show the loot" do
     render
 
-    rendered.should have_content 'Instances: 6'
+    rendered.should contain "Drops: 6"
+    rendered.should contain "Armour Rate: 2.0"
+    rendered.should contain "Weapon Rate: 3.6"
+    rendered.should contain "Jewellery Rate: 6.9"
   end
 
-  it "should show the number of drops" do
+  it "should render general statistics" do
     render
 
-    rendered.should contain("Drops: 6")
+    rendered.should contain "General"
+
+    rendered.should contain "Agility:"
+    rendered.should contain "Base: 35"
+    rendered.should contain "Effective: 1950"
+
+    rendered.should contain "Intelligence"
+    rendered.should contain "Base: 15"
+    rendered.should contain "Effective: 271"
+
+    rendered.should contain "Stamina:"
+    rendered.should contain "Base: 28"
+    rendered.should contain "Effective: 3173"
+
+    rendered.should contain "Strength:"
+    rendered.should contain "Base: 32"
+    rendered.should contain "Effective: 3498"
+
+    rendered.should contain "Wisdom:"
+    rendered.should contain "Base: 20"
+    rendered.should contain "Effective: 272"
   end
 
-  it "should show the armour rate" do
+  it "should render melee statistics" do
     render
 
-    rendered.should contain("Armour Rate: 2.0")
+    rendered.should contain "Melee"
+    rendered.should contain "Accuracy: 38.799999"
+    rendered.should contain "AE Auto Attack: 20.0"
+    rendered.should contain "Attack Speed: 184.967194"
+    rendered.should contain "Base Avoidance Bonus: 2.4"
+    rendered.should contain "Base Modifier: 200.999985"
+    rendered.should contain "Block Chance: 60.099995"
+    rendered.should contain "Critical Bonus: 222.648361"
+    rendered.should contain "Critical Chance: 293.699982"
+    rendered.should contain "Double Attack: 603.419922"
+    rendered.should contain "DPS: 108.899971"
+    rendered.should contain "Flurry: 15.0"
+    rendered.should contain "Hate Gain Mod: 0.0"
+    rendered.should contain "Strikethrough: 100.0"
   end
 
-  it "should show the weapon rate" do
+  it "should show casting skills" do
     render
 
-    rendered.should contain("Weapon Rate: 3.6")
+    rendered.should contain "Casting"
+    rendered.should contain "Ability Modifier: 1160.800049"
+    rendered.should contain "Spell Double Attack: 0.0"
+    rendered.should contain "Spell Time Cast %: 16.90592"
+    rendered.should contain "Spell Time Recovery %: 0.0"
+    rendered.should contain "Spell Time Reuse %: 32.300003"
+    rendered.should contain "Spell Time Reuse Spell Only: 0.0"
   end
 
-  it "should show the jewellery rate" do
+  it "should show spell weapon skills" do
     render
 
-    rendered.should contain("Jewellery Rate: 6.9")
+    rendered.should contain "Spell Weapon"
+    rendered.should contain "Auto Attack Chance: 0.0"
+    rendered.should contain "Attack Speed: 0.0"
+    rendered.should contain "Double Attack: 0.0"
+    rendered.should contain "DPS: 0.0"
+    rendered.should contain "Flurry: 0.0"
   end
 
-  it "should render critical chance" do
+  it "should show savagery statistics" do
     render
 
-    rendered.should contain("Critical Chance: 293.699982")
+    rendered.should contain "Savagery"
+    rendered.should contain "In Combat Regen: 0.0"
+    rendered.should contain "Max Level: 0.0"
+    rendered.should contain "Out Of Combat Regen: 0.0"
+    rendered.should contain "Gain Mod: 0.0"
+    rendered.should contain "Base Regen: 0.0"
+  end
+
+  it "should show pvp statistics" do
+    render
+
+    rendered.should contain "Player Vs Player"
+    rendered.should contain "Double Attack Chance: 62.519989"
+    rendered.should contain "Spell Double Attack Chance: 0.0"
+    rendered.should contain "Toughness: 0"
   end
 end

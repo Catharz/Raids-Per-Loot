@@ -1,0 +1,31 @@
+#subTabBook {
+  background: transparent;
+  border: none;
+}
+
+#subTabBook .ui-widget-header {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #c0c0c0;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+}
+
+#subTabBook .ui-state-default {
+  background: transparent;
+  border: none;
+}
+
+#subTabBook .ui-state-active {
+  background: transparent url(uiTabsArrow.png) no-repeat bottom center;
+  border: none;
+}
+
+#subTabBook .ui-state-default a {
+  color: #c0c0c0;
+}
+
+#subTabBook .ui-state-active a {
+  color: #9e0e03;
+}

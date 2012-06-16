@@ -5,7 +5,7 @@
     %li= link_to "Drops", "#drops"
     %li= link_to "History", "#history"
     %li= link_to "Adjustments", "#adjustments"
-    %li= link_to "Data", "#data"
+    %li= link_to "Statistics", "#statistics"
 
   #details
     %p
@@ -50,7 +50,7 @@
   #adjustments
     = render 'adjustments', :"@adjustment_list" => @character.adjustments
 
-  #data
+  #statistics
     -unless @character.external_data.nil? or @character.external_data.data.empty?
       = render 'tabs/character_stats', :"@data" => @character.external_data.data.with_indifferent_access
 
