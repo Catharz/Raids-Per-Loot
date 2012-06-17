@@ -136,10 +136,30 @@ describe "characters/show.html.haml" do
     rendered.should contain "Jewellery Rate: 6.9"
   end
 
-  it "should render general statistics" do
+  it "should show the statistics sub-tab headings" do
     render
 
     rendered.should contain "General"
+    rendered.should contain "Offensive"
+    rendered.should contain "Defensive"
+    rendered.should contain "Casting"
+    rendered.should contain "Melee Weapon"
+    rendered.should contain "Spell Weapon"
+    rendered.should contain "Savagery"
+    rendered.should contain "Player Vs Player"
+    rendered.should contain "Trade Skill"
+  end
+
+  it "should show general statistics" do
+    render
+
+    rendered.should contain "Health:"
+    rendered.should contain "Max: 49237"
+    rendered.should contain "Regen: 2159"
+
+    rendered.should contain "Power:"
+    rendered.should contain "Max: 37107"
+    rendered.should contain "Regen: 1640"
 
     rendered.should contain "Agility:"
     rendered.should contain "Base: 35"
@@ -160,18 +180,18 @@ describe "characters/show.html.haml" do
     rendered.should contain "Wisdom:"
     rendered.should contain "Base: 20"
     rendered.should contain "Effective: 272"
+
+    rendered.should contain "Run Speed: 50.0"
+    rendered.should contain "Personal Status: 29560875"
   end
 
-  it "should render melee statistics" do
+  it "should show offensive skills" do
     render
 
-    rendered.should contain "Melee"
     rendered.should contain "Accuracy: 38.799999"
     rendered.should contain "AE Auto Attack: 20.0"
     rendered.should contain "Attack Speed: 184.967194"
-    rendered.should contain "Base Avoidance Bonus: 2.4"
     rendered.should contain "Base Modifier: 200.999985"
-    rendered.should contain "Block Chance: 60.099995"
     rendered.should contain "Critical Bonus: 222.648361"
     rendered.should contain "Critical Chance: 293.699982"
     rendered.should contain "Double Attack: 603.419922"
@@ -181,10 +201,20 @@ describe "characters/show.html.haml" do
     rendered.should contain "Strikethrough: 100.0"
   end
 
+  it "should show defensive skills" do
+    render
+
+    rendered.should contain "Base Avoidance Bonus: 2.4"
+    rendered.should contain "Block Chance: 60.099995"
+    rendered.should contain "Armour: 150"
+    rendered.should contain "Avoidance: 19044"
+    rendered.should contain "Block: 600"
+    rendered.should contain "Parry: 236"
+  end
+
   it "should show casting skills" do
     render
 
-    rendered.should contain "Casting"
     rendered.should contain "Ability Modifier: 1160.800049"
     rendered.should contain "Spell Double Attack: 0.0"
     rendered.should contain "Spell Time Cast %: 16.90592"
@@ -193,10 +223,25 @@ describe "characters/show.html.haml" do
     rendered.should contain "Spell Time Reuse Spell Only: 0.0"
   end
 
+  it "should show melee weapon skills" do
+    render
+
+    rendered.should contain "Primary:"
+    rendered.should contain "Damage: 1039 - 5204"
+    rendered.should contain "Delay: 2.983852"
+
+    rendered.should contain "Secondary:"
+    rendered.should contain "Damage: 926 - 4638"
+    rendered.should contain "Delay: 2.983852"
+
+    rendered.should contain "Ranged:"
+    rendered.should contain "Damage: 2923 - 13776"
+    rendered.should contain "Delay: 4.0282"
+  end
+
   it "should show spell weapon skills" do
     render
 
-    rendered.should contain "Spell Weapon"
     rendered.should contain "Auto Attack Chance: 0.0"
     rendered.should contain "Attack Speed: 0.0"
     rendered.should contain "Double Attack: 0.0"
@@ -204,10 +249,9 @@ describe "characters/show.html.haml" do
     rendered.should contain "Flurry: 0.0"
   end
 
-  it "should show savagery statistics" do
+  it "should show savagery skills" do
     render
 
-    rendered.should contain "Savagery"
     rendered.should contain "In Combat Regen: 0.0"
     rendered.should contain "Max Level: 0.0"
     rendered.should contain "Out Of Combat Regen: 0.0"
@@ -215,12 +259,30 @@ describe "characters/show.html.haml" do
     rendered.should contain "Base Regen: 0.0"
   end
 
-  it "should show pvp statistics" do
+  it "should show pvp skills" do
     render
 
-    rendered.should contain "Player Vs Player"
     rendered.should contain "Double Attack Chance: 62.519989"
     rendered.should contain "Spell Double Attack Chance: 0.0"
     rendered.should contain "Toughness: 0"
+  end
+
+  it "should show trade skills" do
+    render
+
+    rendered.should contain "Critical Chance:"
+    rendered.should contain "Failure Modifier: 0.0"
+    rendered.should contain "Success Modifier: 1.0"
+
+    rendered.should contain "Durability:"
+    rendered.should contain "Added: 0.0"
+    rendered.should contain "Modifier: 0.0"
+
+    rendered.should contain "Progress:"
+    rendered.should contain "Added: 0.0"
+    rendered.should contain "Modifier: 2.0"
+
+    rendered.should contain "Rare Harvest Chance: 0.0"
+    rendered.should contain "Success Modifier: 3.0"
   end
 end

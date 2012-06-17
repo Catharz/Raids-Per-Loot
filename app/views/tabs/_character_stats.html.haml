@@ -1,13 +1,34 @@
 #subTabBook
   %ul
     %li= link_to "General", "#general"
-    %li= link_to "Melee", "#melee"
+    %li= link_to "Offensive", "#offensive"
+    %li= link_to "Defensive", "#defensive"
     %li= link_to "Casting", "#casting"
+    %li= link_to "Melee Weapon", "#melee_weapon"
     %li= link_to "Spell Weapon", "#spell_weapon"
     %li= link_to "Savagery", "#savagery"
     %li= link_to "Player Vs Player", "#pvp"
+    %li= link_to "Trade Skill", "#trade_skill"
 
   #general
+    %p
+      %strong Health:
+      %br/
+      Max:
+      = @data[:stats][:health][:max]
+      %br/
+      Regen:
+      = @data[:stats][:health][:regen]
+      %br/
+    %p
+      %strong Power:
+      %br/
+      Max:
+      = @data[:stats][:power][:max]
+      %br/
+      Regen:
+      = @data[:stats][:power][:regen]
+      %br/
     %p
       %strong Agility:
       %br/
@@ -48,8 +69,14 @@
       %br/
       Effective:
       = @data[:stats][:wis][:effective]
+    %p
+      %strong Run Speed:
+      = @data[:stats][:runspeed]
+      %br/
+      %strong Personal Status:
+      = @data[:stats][:personal_status_points]
 
-  #melee
+  #offensive
     %p
       %strong Accuracy:
       = @data[:stats][:combat][:accuracy]
@@ -60,14 +87,8 @@
       %strong Attack Speed:
       = @data[:stats][:combat][:attackspeed]
       %br/
-      %strong Base Avoidance Bonus:
-      = @data[:stats][:combat][:baseavoidancebonus]
-      %br/
       %strong Base Modifier:
       = @data[:stats][:combat][:basemodifier]
-      %br/
-      %strong Block Chance:
-      = @data[:stats][:combat][:blockchance]
       %br/
       %strong Critical Bonus:
       = @data[:stats][:combat][:critbonus]
@@ -90,6 +111,26 @@
       %strong Strikethrough:
       = @data[:stats][:combat][:strikethrough]
 
+  #defensive
+    %p
+      %strong Base Avoidance Bonus:
+      = @data[:stats][:combat][:baseavoidancebonus]
+      %br/
+      %strong Block Chance:
+      = @data[:stats][:combat][:blockchance]
+      %br/
+      %strong Armour:
+      = @data[:stats][:defense][:armor]
+      %br/
+      %strong Avoidance:
+      = @data[:stats][:defense][:avoidance]
+      %br/
+      %strong Block:
+      = @data[:stats][:defense][:block]
+      %br/
+      %strong Parry:
+      = @data[:stats][:defense][:parry]
+
   #casting
     %p
       %strong Ability Modifier:
@@ -109,6 +150,32 @@
       %br/
       %strong Spell Time Reuse Spell Only:
       = @data[:stats][:ability][:spelltimereusespellonly]
+
+  #melee_weapon
+    %p
+      %strong Primary:
+      %br/
+      Damage:
+      = "#{@data[:stats][:weapon][:primarymindamage]} - #{@data[:stats][:weapon][:primarymaxdamage]}"
+      %br/
+      Delay:
+      = @data[:stats][:weapon][:primarydelay]
+    %p
+      %strong Secondary:
+      %br/
+      Damage:
+      = "#{@data[:stats][:weapon][:secondarymindamage]} - #{@data[:stats][:weapon][:secondarymaxdamage]}"
+      %br/
+      Delay:
+      = @data[:stats][:weapon][:secondarydelay]
+    %p
+      %strong Ranged:
+      %br/
+      Damage:
+      = "#{@data[:stats][:weapon][:rangedmindamage]} - #{@data[:stats][:weapon][:rangedmaxdamage]}"
+      %br/
+      Delay:
+      = @data[:stats][:weapon][:rangeddelay]
 
   #spell_weapon
     %p
@@ -154,3 +221,35 @@
       %br/
       %strong Toughness:
       = @data[:stats][:combat][:pvptoughness]
+
+  #trade_skill
+    %p
+      %strong Critical Chance:
+      %br/
+      Failure Modifier:
+      = @data[:stats][:tradeskill][:critfailuremod]
+      %br/
+      Success Modifier:
+      = @data[:stats][:tradeskill][:critsuccessmod]
+    %p
+      %strong Durability:
+      %br/
+      Added:
+      = @data[:stats][:tradeskill][:durabilityadd]
+      %br/
+      Modifier:
+      = @data[:stats][:tradeskill][:durabilitymod]
+    %p
+      %strong Progress:
+      %br/
+      Added:
+      = @data[:stats][:tradeskill][:progressadd]
+      %br/
+      Modifier:
+      = @data[:stats][:tradeskill][:progressmod]
+    %p
+      %strong Rare Harvest Chance:
+      = @data[:stats][:tradeskill][:rareharvestchance]
+      %br/
+      %strong Success Modifier:
+      = @data[:stats][:tradeskill][:successmod]
