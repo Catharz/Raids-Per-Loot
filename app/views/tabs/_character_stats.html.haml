@@ -15,241 +15,241 @@
       %strong Health:
       %br/
       Max:
-      = @data[:stats][:health][:max]
+      = @data.stats.health.max
       %br/
       Regen:
-      = @data[:stats][:health][:regen]
+      = @data.stats.health.regen
       %br/
     %p
       %strong Power:
       %br/
       Max:
-      = @data[:stats][:power][:max]
+      = @data.stats.power.max
       %br/
       Regen:
-      = @data[:stats][:power][:regen]
+      = @data.stats.power.regen
       %br/
     %p
       %strong Agility:
       %br/
       Base:
-      = @data[:stats][:agi][:base]
+      = @data.stats.agi.base
       %br/
       Effective:
-      = @data[:stats][:agi][:effective]
+      = @data.stats.agi.effective
     %p
       %strong Intelligence:
       %br/
       Base:
-      = @data[:stats][:int][:base]
+      = @data.stats.int.base
       %br/
       Effective:
-      = @data[:stats][:int][:effective]
+      = @data.stats.int.effective
     %p
       %strong Stamina:
       %br/
       Base:
-      = @data[:stats][:sta][:base]
+      = @data.stats.sta.base
       %br/
       Effective:
-      = @data[:stats][:sta][:effective]
+      = @data.stats.sta.effective
     %p
       %strong Strength:
       %br/
       Base:
-      = @data[:stats][:str][:base]
+      = @data.stats.str.base
       %br/
       Effective:
-      = @data[:stats][:str][:effective]
+      = @data.stats.str.effective
     %p
       %strong Wisdom:
       %br/
       Base:
-      = @data[:stats][:wis][:base]
+      = @data.stats.wis.base
       %br/
       Effective:
-      = @data[:stats][:wis][:effective]
+      = @data.stats.wis.effective
     %p
       %strong Run Speed:
-      = @data[:stats][:runspeed]
+      = @data.stats.runspeed
       %br/
       %strong Personal Status:
-      = @data[:stats][:personal_status_points]
+      = @data.stats.personal_status_points
 
   #offensive
     %p
       %strong Accuracy:
-      = @data[:stats][:combat][:accuracy]
+      = @data.stats.combat.accuracy
       %br/
       %strong AE Auto Attack:
-      = @data[:stats][:combat][:aeautoattackchance]
+      = @data.stats.combat.aeautoattackchance
       %br/
       %strong Attack Speed:
-      = @data[:stats][:combat][:attackspeed]
+      = @data.stats.combat.attackspeed
       %br/
       %strong Base Modifier:
-      = @data[:stats][:combat][:basemodifier]
+      = @data.stats.combat.basemodifier
       %br/
       %strong Critical Bonus:
-      = @data[:stats][:combat][:critbonus]
+      = @data.stats.combat.critbonus
       %br/
       %strong Critical Chance:
-      = @data[:stats][:combat][:critchance]
+      = @data.stats.combat.critchance
       %br/
       %strong Double Attack:
-      = @data[:stats][:combat][:doubleattackchance]
+      = @data.stats.combat.doubleattackchance
       %br/
       %strong DPS:
-      = @data[:stats][:combat][:dps]
+      = @data.stats.combat.dps
       %br/
       %strong Flurry:
-      = @data[:stats][:combat][:flurry]
+      = @data.stats.combat.flurry
       %br/
       %strong Hate Gain Mod:
-      = @data[:stats][:combat][:hategainmod]
+      = @data.stats.combat.hategainmod
       %br/
       %strong Strikethrough:
-      = @data[:stats][:combat][:strikethrough]
+      = @data.stats.combat.strikethrough
 
   #defensive
     %p
       %strong Base Avoidance Bonus:
-      = @data[:stats][:combat][:baseavoidancebonus]
+      = @data.stats.combat.baseavoidancebonus
       %br/
       %strong Block Chance:
-      = @data[:stats][:combat][:blockchance]
+      = @data.stats.combat.blockchance
       %br/
       %strong Armour:
-      = @data[:stats][:defense][:armor]
+      = @data.stats.defense.armor
       %br/
       %strong Avoidance:
-      = @data[:stats][:defense][:avoidance]
+      = @data.stats.defense.avoidance
       %br/
       %strong Block:
-      = @data[:stats][:defense][:block]
+      = @data.stats.defense.block
       %br/
       %strong Parry:
-      = @data[:stats][:defense][:parry]
+      = @data.stats.defense.parry
 
   #casting
     %p
       %strong Ability Modifier:
-      = @data[:stats][:combat][:abilitymod]
+      = @data.stats.combat.abilitymod
       %br/
       %strong Spell Double Attack:
-      = @data[:stats][:combat][:spelldoubleattackchance]
+      = @data.stats.combat.spelldoubleattackchance
       %br/
       %strong Spell Time Cast %:
-      = @data[:stats][:ability][:spelltimecastpct]
+      = @data.stats.ability.spelltimecastpct
       %br/
       %strong Spell Time Recovery %:
-      = @data[:stats][:ability][:spelltimerecoverypct]
+      = @data.stats.ability.spelltimerecoverypct
       %br/
       %strong Spell Time Reuse %:
-      = @data[:stats][:ability][:spelltimereusepct]
+      = @data.stats.ability.spelltimereusepct
       %br/
       %strong Spell Time Reuse Spell Only:
-      = @data[:stats][:ability][:spelltimereusespellonly]
+      = @data.stats.ability.spelltimereusespellonly
 
   #melee_weapon
     %p
       %strong Primary:
       %br/
       Damage:
-      = "#{@data[:stats][:weapon][:primarymindamage]} - #{@data[:stats][:weapon][:primarymaxdamage]}"
+      = "#{@data.stats.weapon.primarymindamage} - #{@data.stats.weapon.primarymaxdamage}"
       %br/
       Delay:
-      = @data[:stats][:weapon][:primarydelay]
+      = @data.stats.weapon.primarydelay
     %p
       %strong Secondary:
       %br/
       Damage:
-      = "#{@data[:stats][:weapon][:secondarymindamage]} - #{@data[:stats][:weapon][:secondarymaxdamage]}"
+      = "#{@data.stats.weapon.secondarymindamage} - #{@data.stats.weapon.secondarymaxdamage}"
       %br/
       Delay:
-      = @data[:stats][:weapon][:secondarydelay]
+      = @data.stats.weapon.secondarydelay
     %p
       %strong Ranged:
       %br/
       Damage:
-      = "#{@data[:stats][:weapon][:rangedmindamage]} - #{@data[:stats][:weapon][:rangedmaxdamage]}"
+      = "#{@data.stats.weapon.rangedmindamage} - #{@data.stats.weapon.rangedmaxdamage}"
       %br/
       Delay:
-      = @data[:stats][:weapon][:rangeddelay]
+      = @data.stats.weapon.rangeddelay
 
   #spell_weapon
     %p
       %strong Auto Attack Chance:
-      = @data[:stats][:combat][:spellweaponaeautoattackchance]
+      = @data.stats.combat.spellweaponaeautoattackchance
       %br/
       %strong Attack Speed:
-      = @data[:stats][:combat][:spellweaponattackspeed]
+      = @data.stats.combat.spellweaponattackspeed
       %br/
       %strong Double Attack:
-      = @data[:stats][:combat][:spellweapondoubleattackchance]
+      = @data.stats.combat.spellweapondoubleattackchance
       %br/
       %strong DPS:
-      = @data[:stats][:combat][:spellweapondps]
+      = @data.stats.combat.spellweapondps
       %br/
       %strong Flurry:
-      = @data[:stats][:combat][:spellweaponflurry]
+      = @data.stats.combat.spellweaponflurry
 
   #savagery
     %p
       %strong Base Regen:
-      = @data[:stats][:combat][:savageryregen]
+      = @data.stats.combat.savageryregen
       %br/
       %strong In Combat Regen:
-      = @data[:stats][:combat][:incombatsavageryregen]
+      = @data.stats.combat.incombatsavageryregen
       %br/
       %strong Out Of Combat Regen:
-      = @data[:stats][:combat][:outofcombatsavageryregen]
+      = @data.stats.combat.outofcombatsavageryregen
       %br/
       %strong Gain Mod:
-      = @data[:stats][:combat][:savagerygainmod]
+      = @data.stats.combat.savagerygainmod
       %br/
       %strong Max Level:
-      = @data[:stats][:combat][:maxsavagerylevel]
+      = @data.stats.combat.maxsavagerylevel
 
   #pvp
     %p
       %strong Double Attack Chance:
-      = @data[:stats][:combat][:pvpdoubleattackchance]
+      = @data.stats.combat.pvpdoubleattackchance
       %br/
       %strong Spell Double Attack Chance:
-      = @data[:stats][:combat][:pvpspelldoubleattackchance]
+      = @data.stats.combat.pvpspelldoubleattackchance
       %br/
       %strong Toughness:
-      = @data[:stats][:combat][:pvptoughness]
+      = @data.stats.combat.pvptoughness
 
   #trade_skill
     %p
       %strong Critical Chance:
       %br/
       Failure Modifier:
-      = @data[:stats][:tradeskill][:critfailuremod]
+      = @data.stats.tradeskill.critfailuremod
       %br/
       Success Modifier:
-      = @data[:stats][:tradeskill][:critsuccessmod]
+      = @data.stats.tradeskill.critsuccessmod
     %p
       %strong Durability:
       %br/
       Added:
-      = @data[:stats][:tradeskill][:durabilityadd]
+      = @data.stats.tradeskill.durabilityadd
       %br/
       Modifier:
-      = @data[:stats][:tradeskill][:durabilitymod]
+      = @data.stats.tradeskill.durabilitymod
     %p
       %strong Progress:
       %br/
       Added:
-      = @data[:stats][:tradeskill][:progressadd]
+      = @data.stats.tradeskill.progressadd
       %br/
       Modifier:
-      = @data[:stats][:tradeskill][:progressmod]
+      = @data.stats.tradeskill.progressmod
     %p
       %strong Rare Harvest Chance:
-      = @data[:stats][:tradeskill][:rareharvestchance]
+      = @data.stats.tradeskill.rareharvestchance
       %br/
       %strong Success Modifier:
-      = @data[:stats][:tradeskill][:successmod]
+      = @data.stats.tradeskill.successmod
