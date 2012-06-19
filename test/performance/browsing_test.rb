@@ -14,6 +14,10 @@ class BrowsingTest < ActionDispatch::PerformanceTest
     get '/players'
   end
 
+  def test_characters
+    get '/characters'
+  end
+
   def test_items
     get '/items'
   end
