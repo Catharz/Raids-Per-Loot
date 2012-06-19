@@ -16,7 +16,7 @@ class CharactersControllerTest < ActionController::TestCase
                                     :char_type => 'm')
     FactoryGirl.create(:character_type,
                        :character => @character,
-                       :effective_date => Date.new,
+                       :effective_date => Date.parse("01/01/2012"),
                        :char_type => 'm')
   end
 

@@ -22,7 +22,7 @@ class ZonesController < ApplicationController
   # GET /zones
   # GET /zones.xml
   def index
-    @zones = Zone.all
+    @zones = Zone.order(:name)
 
     respond_to do |format|
       format.html # index.html.erb

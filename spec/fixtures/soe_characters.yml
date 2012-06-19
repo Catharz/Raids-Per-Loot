@@ -3362,8 +3362,7 @@ character_list:
   - {id: 39, name: Froak}
   last_update: 1337251355.971189
   locationdata: {bindzone: South Qeynos, coords: '-11.754882,-0.410874,6.577996',
-    homefaction: 1, world: Unrest, worldid: 105, zonename: 'Skyshrine: The City of
-      Dracur'}
+    homefaction: 1, world: Unrest, worldid: 105, zonename: 'Skyshrine: The City of Dracur'}
   name: {first: Catharz, first_lower: catharz, last: '', prefix: the Veteran, suffix: of
       Tunare}
   playedtime: 25474087

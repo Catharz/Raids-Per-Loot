@@ -12,7 +12,7 @@ class CharacterTypesControllerTest < ActionController::TestCase
     betty = FactoryGirl.create(:character, :name => 'Betty', :archetype_id => archetype.id, :player_id => @player.id)
     @character_type = FactoryGirl.create(:character_type,
                                          :character => betty,
-                                         :effective_date => Date.new,
+                                         :effective_date => Date.parse("01/02/2012"),
                                          :char_type => 'm')
   end
 

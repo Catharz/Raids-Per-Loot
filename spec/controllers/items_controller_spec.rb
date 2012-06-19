@@ -18,11 +18,11 @@ describe ItemsController do
                   "iTotalRecords"  => 1,
                   "iTotalDisplayRecords" => 1,
                   "aaData" => [
-                      ['<a href="/items/1" class="itemPopupTrigger" id="1">Whatever</a>',
+                      ['<a href="/items/' + item.id.to_s + '" class="itemPopupTrigger" id="' + item.id.to_s + '">Whatever</a>',
                        "Unknown",
                        nil,
                        nil,
-                       '<a href="/items/1" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
+                       '<a href="/items/' + item.id.to_s + '" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
                       ]
                   ]
       }

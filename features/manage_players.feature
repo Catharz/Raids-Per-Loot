@@ -117,5 +117,5 @@ Feature: Manage players
     When I view the players page for Wilma
     Then I should see the following player drops:
       | Item Name   | Mob Name   | Loot Type | Drop Time                 | Character Name | Loot Method |
-      | item_name 1 | mob_name 1 | Armour    | 2011-09-21 20:45:00 +1000 | Dino           | Need        |
       | item_name 2 | mob_name 2 | Weapon    | 2011-09-20 20:30:00 +1000 | Dino           | Need        |
+      | item_name 1 | mob_name 1 | Armour    | 2011-09-21 20:45:00 +1000 | Dino           | Need        |

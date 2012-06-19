@@ -8,7 +8,7 @@ describe DropsController do
     # Need to be logged in
     login_as :quentin
 
-    @drop_time = DateTime.new!
+    @drop_time = DateTime.parse("03/01/2012 14:00PM")
     @item = Item.create(:name => "Whatever", :eq2_item_id => "blah")
     main = Rank.create(:name => "Main")
     player = Player.create(:name => "Me", :rank => main)
@@ -45,7 +45,7 @@ describe DropsController do
                                 "Spell",
                                 "Wherever",
                                 "Whoever",
-                                "-4712-01-01T21:39:52+09:39",
+                                "2012-01-04T01:00:00+11:00",
                                 "Trash",
                                 '<a href="/drops/1" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
                                ]
