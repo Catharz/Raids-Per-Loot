@@ -20,7 +20,10 @@ class Character < ActiveRecord::Base
   has_many :adjustments, :as => :adjustable, :dependent => :destroy
   has_one :external_data, :as => :retrievable, :dependent => :destroy
 
-  validates_presence_of :player, :name, :char_type
+  #TODO: Add tests for updating a character without a player
+  validates_presence_of :name
+  validates_presence_of :player, :char_type, :on => :update
+
   validates_uniqueness_of :name
   validates_format_of :char_type, :with => /g|m|r/ # General Alt, Main, Raid Alt
 
@@ -33,11 +36,13 @@ class Character < ActiveRecord::Base
   end
 
   def soe_data(format = "json")
-    @soe_data ||= SOEData.get("/#{format}/get/eq2/character/?name.first=#{name}&locationdata.world=#{APP_CONFIG["eq2_server"]}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,resists,skills,spell_list,stats,guild.name,type,equipmentslot_list")
+    #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
+  @soe_data ||= SOEData.get("/#{format}/get/eq2/character/?name.first=#{name}&locationdata.world=#{APP_CONFIG["eq2_server"]}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,resists,skills,spell_list,stats,guild.name,type,equipmentslot_list")
   end
 
   def fetch_soe_character_details
-    if internet_connection?
+    #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
+  if internet_connection?
       json_data = soe_data("json")
       character_details = json_data ? json_data['character_list'][0] : HashWithIndifferentAccess.new
 

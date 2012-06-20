@@ -7,6 +7,7 @@ class ItemsController < ApplicationController
     @items = Item.order(:name)
     @items.each do |item|
       item.fetch_soe_item_details
+      #TODO: Re-enable once I have heroku properly configured
       #Delayed::Job.enqueue(ItemDetailsJob.new(item))
     end
 

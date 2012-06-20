@@ -13,7 +13,9 @@ class AttendanceObserver < ActiveRecord::Observer
   private
 
   def update_attendance(model)
-    model.instances_count = model.instances.count + model.adjustments.where(:adjustment_type => "Instances").sum(:amount)
-    model.raids_count = model.raids.count + model.adjustments.where(:adjustment_type => "Raids").sum(:amount)
+    if model
+      model.instances_count = model.instances.count + model.adjustments.where(:adjustment_type => "Instances").sum(:amount)
+      model.raids_count = model.raids.count + model.adjustments.where(:adjustment_type => "Raids").sum(:amount)
+    end
   end
 end

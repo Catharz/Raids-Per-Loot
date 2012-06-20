@@ -22,6 +22,7 @@ class CharactersController < ApplicationController
     @characters = Character.order(:name)
     @characters.each do |character|
       character.fetch_soe_character_details
+      #TODO: Re-enable once I have heroku properly configured
       #Delayed::Job.enqueue(CharacterDetailsJob.new(character))
     end
 

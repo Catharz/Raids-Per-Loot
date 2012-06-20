@@ -40,14 +40,14 @@ describe DropsController do
                   "iTotalRecords"  => 1,
                   "iTotalDisplayRecords" => 1,
                   "aaData" => [
-                      ['<a href="/drops/1">Whatever</a>',
+                      ['<a href="/drops/' + drop.id.to_s + '">Whatever</a>',
                                 "Me",
                                 "Spell",
                                 "Wherever",
                                 "Whoever",
                                 "2012-01-04T01:00:00+11:00",
                                 "Trash",
-                                '<a href="/drops/1" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
+                                '<a href="/drops/' + drop.id.to_s + '" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
                                ]
                   ]
       }

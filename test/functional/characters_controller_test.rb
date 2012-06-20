@@ -55,12 +55,12 @@ class CharactersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "it should require a player" do
-    assert_no_difference('Character.count') do
+  test "it should not require a player on create" do
+    assert_difference('Character.count') do
       post :create, :character => {:name => "New Character", :char_type => "g"}
     end
 
-    assert_response :success
+    assert_response :redirect
   end
 
   test "should show character" do
@@ -76,6 +76,13 @@ class CharactersControllerTest < ActionController::TestCase
   test "should update character" do
     put :update, id: @character.to_param, character: @character.attributes
     assert_redirected_to character_path(assigns(:character))
+  end
+
+  #TODO: Need a better test than this, and move it into rspec
+  test "should require a player when editing a character" do
+    @character.player_id = nil
+    put :update, id: @character.to_param, character: @character.attributes
+    assert_response :success
   end
 
   test "should create character type for updated character" do

@@ -20,7 +20,8 @@ class Item < ActiveRecord::Base
           :order => 'created_at desc'
 
   def fetch_soe_item_details
-    if internet_connection?
+  #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
+  if internet_connection?
       item_details = soe_data
 
       if item_details

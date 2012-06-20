@@ -113,6 +113,13 @@ RaidsPerLoot::Application.routes.draw do
   get "pages/about"
   get "pages/contact"
 
+  get '/admin', :controller => 'admin', :action => 'show'
+  get '/admin/update_character_list', :controller => 'admin', :action => 'update_character_list'
+
+  match ':name' => 'viewer#show', :as => :view_page
+  post '/viewer/set_page_body/:id', :controller => 'viewer', :action => 'set_page_body'
+  get '/viewer/get_unformatted_text/:id', :controller => 'viewer', :action => 'get_unformatted_text'
+
   #resources :users do
   #  member do
   #    put :suspend
@@ -167,11 +174,6 @@ RaidsPerLoot::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-
-  get '/admin', :controller => 'admin', :action => 'show'
-  match ':name' => 'viewer#show', :as => :view_page
-  post '/viewer/set_page_body/:id', :controller => 'viewer', :action => 'set_page_body'
-  get '/viewer/get_unformatted_text/:id', :controller => 'viewer', :action => 'get_unformatted_text'
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
