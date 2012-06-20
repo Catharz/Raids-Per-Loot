@@ -8,7 +8,7 @@
 
   .field
     %strong Player:
-    = f.collection_select(:player_id, Player.all, :id, :name, :include_blank => true, :name => "Player")
+    = f.collection_select(:player_id, Player.order(:name), :id, :name, :include_blank => true, :name => "Player")
   .field
     %strong Name:
     = f.text_field :name

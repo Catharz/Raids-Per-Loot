@@ -13,6 +13,19 @@ describe PlayersController do
     :rank_id => @main_rank.id}
   end
 
+  describe "GET option_list" do
+    it "sorts the players by name" do
+      player1 = Player.create!(:name => "Player C", :rank_id => @main_rank.id)
+      player2 = Player.create!(:name => "Player B", :rank_id => @main_rank.id)
+      player3 = Player.create!(:name => "Player A", :rank_id => @main_rank.id)
+
+      get :option_list
+
+      response.body.should == "<option value='#{player3.id}'>Player A</option><option value='#{player2.id}'>Player B</option><option value='#{player1.id}'>Player C</option>"
+      assigns(:players).should eq([player3, player2, player1])
+    end
+  end
+
   describe "GET index" do
     it "assigns all players as @players" do
       player = Player.create! valid_attributes
