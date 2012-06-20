@@ -1,0 +1,11 @@
+development:
+  guild_name: Southern Cross
+  eq2_server: Unrest
+
+test:
+  guild_name: Southern Cross
+  eq2_server: Unrest
+
+production:
+  guild_name: Southern Cross
+  eq2_server: Unrest

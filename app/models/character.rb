@@ -32,13 +32,13 @@ class Character < ActiveRecord::Base
     end
   end
 
-  def soe_data(server_name = "Unrest", format = "json")
-    @soe_data ||= SOEData.get("/#{format}/get/eq2/character/?name.first=#{name}&locationdata.world=#{server_name}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,resists,skills,spell_list,stats,guild.name,type,equipmentslot_list")
+  def soe_data(format = "json")
+    @soe_data ||= SOEData.get("/#{format}/get/eq2/character/?name.first=#{name}&locationdata.world=#{APP_CONFIG["eq2_server"]}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,resists,skills,spell_list,stats,guild.name,type,equipmentslot_list")
   end
 
-  def fetch_soe_character_details(server_name = "Unrest")
+  def fetch_soe_character_details
     if internet_connection?
-      json_data = soe_data(server_name, "json")
+      json_data = soe_data("json")
       character_details = json_data ? json_data['character_list'][0] : HashWithIndifferentAccess.new
 
       if character_details.nil? or character_details.empty?
