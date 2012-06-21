@@ -10,8 +10,8 @@
       min: 0
       max: 320
       disabled: true
-- if @character.external_data and !@character.external_data.data.empty?
-  #character{:json_data => @character.external_data.data.to_json }
+- if @data and @data.respond_to? :alternateadvancements
+  #character{:json_data => @data.to_json }
     %table
       %tr
         %td
@@ -19,6 +19,5 @@
         %td
           #aa_slider{:style => "width:320px"}
         %td
-          - if @character.external_data && @character.external_data.data
-            = precede "&nbsp;".html_safe * 3 do
-              = "#{@character.external_data.data['alternateadvancements']['spentpoints'].to_i + @character.external_data.data['alternateadvancements']['availablepoints'].to_i} / 320"
+          = precede "&nbsp;".html_safe * 3 do
+            = "#{@data.alternateadvancements.spentpoints + @data.alternateadvancements.availablepoints} / 320"

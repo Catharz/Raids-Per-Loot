@@ -40,5 +40,12 @@ describe HashParser do
 
       obj.archetype.should == "Freaking Edge Cases!"
     end
+
+    it "should respond with N/A for any missing values" do
+      hash = {:dps => 10}.with_indifferent_access
+      obj = HashParser.new(hash)
+
+      obj.flurry.should == "N/A"
+    end
   end
 end

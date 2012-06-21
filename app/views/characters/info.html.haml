@@ -7,4 +7,4 @@
   Instances:
   = @character.instances.count
   %br/
-  = render 'soe_data'
+  = render 'soe_data', :"@data" => HashParser.new(@character.external_data.data.with_indifferent_access)

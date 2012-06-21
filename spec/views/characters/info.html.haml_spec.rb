@@ -11,7 +11,7 @@ describe "characters/info.html.haml" do
     create_attendance(:num_raids => 2, :num_instances => 3, :attendees => character_list)
     character = assign(:character, character_list.first)
     external_data = mock_model(ExternalData, :retrievable_id => character.id, :retrievable_type => "Character", :data => {})
-    character.should_receive(:external_data).at_least(:twice).and_return(external_data)
+    character.should_receive(:external_data).at_least(:once).and_return(external_data)
 
     render
 
@@ -23,7 +23,7 @@ describe "characters/info.html.haml" do
     create_attendance(:num_raids => 2, :num_instances => 3, :attendees => character_list)
     character = assign(:character, character_list.first)
     external_data = mock_model(ExternalData, :retrievable_id => character.id, :retrievable_type => "Character", :data => {})
-    character.should_receive(:external_data).at_least(:twice).and_return(external_data)
+    character.should_receive(:external_data).at_least(:once).and_return(external_data)
 
     render
 
@@ -35,7 +35,7 @@ describe "characters/info.html.haml" do
     create_attendance(:num_raids => 2, :num_instances => 3, :attendees => character_list)
     character = assign(:character, character_list.first)
     external_data = mock_model(ExternalData, :retrievable_id => character.id, :retrievable_type => "Character", :data => {})
-    character.should_receive(:external_data).at_least(:twice).and_return(external_data)
+    character.should_receive(:external_data).at_least(:once).and_return(external_data)
 
     render
 
