@@ -191,7 +191,7 @@ describe "characters/show.html.haml" do
     rendered.should contain "Accuracy: 38.799999"
     rendered.should contain "AE Auto Attack: 20.0"
     rendered.should contain "Attack Speed: 184.967194"
-    rendered.should contain "Base Modifier: 200.999985"
+    rendered.should contain "Potency: 200.999985"
     rendered.should contain "Critical Bonus: 222.648361"
     rendered.should contain "Critical Chance: 293.699982"
     rendered.should contain "Double Attack: 603.419922"

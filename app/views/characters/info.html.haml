@@ -7,4 +7,20 @@
   Instances:
   = @character.instances.count
   %br/
-  = render 'soe_data', :"@data" => HashParser.new(@character.external_data.data.with_indifferent_access)
+  - @data = HashParser.new(@character.external_data.data.with_indifferent_access)
+  Health:
+  = @data.stats.health.max
+  %br/
+  Power:
+  = @data.stats.power.max
+  %br/
+  Critical Chance:
+  = @data.stats.combat.critchance
+  %br/
+  Potency:
+  = @data.stats.combat.basemodifier
+  %br/
+  Critical Bonus:
+  = @data.stats.combat.critbonus
+  %br/
+  = render 'soe_data', :"@data" => @data

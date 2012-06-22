@@ -10,14 +10,15 @@
       min: 0
       max: 320
       disabled: true
-- if @data and @data.respond_to? :alternateadvancements
+- if @data
   #character{:json_data => @data.to_json }
-    %table
-      %tr
-        %td
-          AAs:
-        %td
-          #aa_slider{:style => "width:320px"}
-        %td
-          = precede "&nbsp;".html_safe * 3 do
-            = "#{@data.alternateadvancements.spentpoints + @data.alternateadvancements.availablepoints} / 320"
+    - if @data.respond_to? :alternateadvancements
+      %table
+        %tr
+          %td
+            AAs:
+          %td
+            #aa_slider{:style => "width:320px"}
+          %td
+            = precede "&nbsp;".html_safe * 3 do
+              = "#{@data.alternateadvancements.spentpoints + @data.alternateadvancements.availablepoints} / 320"
