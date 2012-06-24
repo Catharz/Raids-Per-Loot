@@ -19,5 +19,13 @@ describe Archetype do
     it "grand parent root should be the top level" do
       @grand_parent.root.should == @grand_parent
     end
+
+    it "lists the root for every archetype" do
+      root_list = Archetype.root_list
+
+      root_list['Child'].should == 'Grand Parent'
+      root_list['Parent'].should == 'Grand Parent'
+      root_list['Grand Parent'].should == 'Grand Parent'
+    end
   end
 end

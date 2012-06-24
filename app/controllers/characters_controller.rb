@@ -1,7 +1,7 @@
 require 'delayed_job'
 
 class CharactersController < ApplicationController
-  before_filter :login_required, :except => [:index, :show, :info]
+  before_filter :login_required, :except => [:index, :show, :info, :statistics]
   before_filter :set_pagetitle
 
   def set_pagetitle
@@ -39,6 +39,16 @@ class CharactersController < ApplicationController
       flash[:notice] = "Character details could not be updated."
     end
     redirect_to @character
+  end
+
+  def statistics
+    @characters = Character.soe_characters_with_stats
+
+    respond_to do |format|
+      format.html # statistics.html.erb
+      format.json { render json: @characters }
+      format.xml { render :xml => @characters.to_xml }
+    end
   end
 
   # GET /characters

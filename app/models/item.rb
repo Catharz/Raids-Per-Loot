@@ -19,7 +19,7 @@ class Item < ActiveRecord::Base
           :class_name => 'Drop',
           :order => 'created_at desc'
 
-  def fetch_soe_item_details
+  def fetch_soe_item_details(format = "json")
   #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
   if internet_connection?
       item_details = soe_data
@@ -46,7 +46,7 @@ class Item < ActiveRecord::Base
             if name.match(/War Rune/)
               actual_item_name = name.split(": ")[1].gsub(" ", "+")
               loot_type_name = 'Adornment'
-              json_data = SOEData.get("/json/get/eq2/item/?displayname=#{actual_item_name}&c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list")
+              json_data = SOEData.get("/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/item/?displayname=#{actual_item_name}&c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list")
               adornment_details = json_data['item_list'][0]
               save_slots(adornment_details)
               save_archetypes(adornment_details)
@@ -97,13 +97,13 @@ class Item < ActiveRecord::Base
     Scraper.get("http://u.eq2wire.com/item/index/#{eq2_item_id}", ".itemd_detailwrap") if internet_connection?
   end
 
-  def soe_data
+  def soe_data(format = "json")
     # If the ID is negative, need to add 2^32 to convert to an unsigned integer
     item_id = eq2_item_id.to_i
     if item_id < 0
       item_id = item_id + 2 ** 32
     end
-    json_data = SOEData.get("/json/get/eq2/item/?id=#{item_id}&c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list")
+    json_data = SOEData.get("/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/item/?id=#{item_id}&c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list")
     json_data['item_list'][0]
   end
 

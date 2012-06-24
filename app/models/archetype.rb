@@ -22,6 +22,12 @@ class Archetype < ActiveRecord::Base
     root_name_list
   end
 
+  def self.root_list
+    roots = {}
+    Archetype.order(:name).each.map { |archetype| roots.merge! archetype.name => archetype.root.name }
+    roots
+  end
+
   # This only handles a depth of 4 classes, which is more than enough for EQ2!
   def self.descendants(root_archetype)
     archetypes = []

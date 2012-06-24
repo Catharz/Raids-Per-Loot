@@ -29,10 +29,10 @@ class AdminController < ApplicationController
   end
 
   private
-  def download_guild_characters
+  def download_guild_characters(format = "json")
     if internet_connection?
-      guild_details_url = "/json/get/eq2/guild/?name=#{APP_CONFIG["guild_name"]}&world=#{APP_CONFIG["eq2_server"]}"
-      @guild_details ||= SOEData.get(guild_details_url.gsub(" ", "%20"))
+      guild_details_url = "/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/guild/?name=#{APP_CONFIG["guild_name"]}&world=#{APP_CONFIG["eq2_server"]}".gsub(" ", "%20")
+      @guild_details ||= SOEData.get(guild_details_url)
     else
       {}
     end

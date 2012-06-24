@@ -37,7 +37,17 @@ class Character < ActiveRecord::Base
 
   def soe_data(format = "json")
     #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
-  @soe_data ||= SOEData.get("/#{format}/get/eq2/character/?name.first=#{name}&locationdata.world=#{APP_CONFIG["eq2_server"]}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,resists,skills,spell_list,stats,guild.name,type,equipmentslot_list")
+    @soe_data ||= SOEData.get("/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/character/?name.first=#{name}&locationdata.world=#{APP_CONFIG["eq2_server"]}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,resists,skills,spell_list,stats,guild.name,type,equipmentslot_list")
+  end
+
+  def combat_stats(format = "json")
+    @stats ||= SOEData.get("/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/character/?name.first=#{name}&locationdata.world=#{APP_CONFIG["eq2_server"]}&c:limit=500&c:show=name,stats,type,alternateadvancements.spentpoints,alternateadvancements.availablepoints")
+  end
+
+  def self.soe_characters_with_stats(format = "json")
+    url = "/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/guild/?c:limit=1&name=#{APP_CONFIG["guild_name"]}&world=#{APP_CONFIG["eq2_server"]}&c:resolve=members(type,stats)".gsub(" ", "%20")
+    @guild = SOEData.get(url)
+    @guild["guild_list"].empty? ? [] : @guild["guild_list"][0]["member_list"]
   end
 
   def fetch_soe_character_details

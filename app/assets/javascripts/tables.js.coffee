@@ -47,6 +47,22 @@ jQuery ->
     ]
     "aaSorting": [[0,'asc']]
 
+  $('#characterStatsTable').dataTable
+    "bJQueryUI": true
+    "sPaginationType":"full_numbers"
+    "aoColumns": [
+      null, # Name
+      null, # Class
+      {"bSearchable": true, "bVisible": false},  # Base Class
+      {"sType": "numeric"}, # Level
+      {"sType": "numeric"}, # Health
+      {"sType": "numeric"}, # Power
+      {"sType": "numeric"}, # Crit
+      {"sType": "numeric"}, # Crit Bonus
+      {"sType": "numeric"} # Potency
+    ]
+    "aaSorting": [[0,'asc']]
+
   $('#dropsTable').dataTable
     "bJQueryUI": true
     "sPaginationType":"full_numbers"

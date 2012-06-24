@@ -15,6 +15,7 @@ RaidsPerLoot::Application.routes.draw do
     collection do
       get :option_list
       get :fetch_all_data
+      get :statistics
     end
   end
 
