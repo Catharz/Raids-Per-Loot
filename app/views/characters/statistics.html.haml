@@ -5,6 +5,7 @@
       %th Class
       %th Base Class
       %th Level
+      %th AAs
       %th Health
       %th Power
       %th Crit
@@ -20,6 +21,7 @@
           %td= character['type']['class']
           %td= @archetype_roots[character['type']['class']]
           %td{:align => "right"}= character['type']['level']
+          %td{:align => "right"}= character['alternateadvancements']['spentpoints'] + character['alternateadvancements']['availablepoints']
           %td{:align => "right"}= stats['health']['max']
           %td{:align => "right"}= stats['power']['max']
           %td{:align => "right"}= number_with_precision(stats['combat']['critchance'], :precision => 2)
@@ -28,6 +30,7 @@
         - else
           %td Unknown
           %td Unknown
+          %td{:align => "right"} 0
           %td{:align => "right"} 0
           %td{:align => "right"} 0
           %td{:align => "right"} 0

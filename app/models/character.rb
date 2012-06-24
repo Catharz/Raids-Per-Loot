@@ -45,7 +45,7 @@ class Character < ActiveRecord::Base
   end
 
   def self.soe_characters_with_stats(format = "json")
-    url = "/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/guild/?c:limit=1&name=#{APP_CONFIG["guild_name"]}&world=#{APP_CONFIG["eq2_server"]}&c:resolve=members(type,stats)".gsub(" ", "%20")
+    url = "/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/guild/?c:limit=1&name=#{APP_CONFIG["guild_name"]}&world=#{APP_CONFIG["eq2_server"]}&c:resolve=members(type,stats,alternateadvancements.spentpoints,alternateadvancements.availablepoints)".gsub(" ", "%20")
     @guild = SOEData.get(url)
     @guild["guild_list"].empty? ? [] : @guild["guild_list"][0]["member_list"]
   end

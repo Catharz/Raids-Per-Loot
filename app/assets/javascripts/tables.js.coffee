@@ -55,6 +55,7 @@ jQuery ->
       null, # Class
       {"bSearchable": true, "bVisible": false},  # Base Class
       {"sType": "numeric"}, # Level
+      {"sType": "numeric"}, # AAs
       {"sType": "numeric"}, # Health
       {"sType": "numeric"}, # Power
       {"sType": "numeric"}, # Crit
