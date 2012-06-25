@@ -6,8 +6,7 @@ module InstanceSpecHelper
       zone_list.each do |zone|
         instance = mock_model(Instance, :raid_id => raid.id,
                               :zone_id => zone.id,
-                              :start_time => instance_start,
-                              :end_time => instance_start + 1.hour)
+                              :start_time => instance_start)
         instance.stub!(:zone).and_return(zone)
         instance_list << instance
       end

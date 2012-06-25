@@ -7,8 +7,7 @@ describe "instances/show.html.haml" do
     zone = assign(:zone, stub_model(Zone, :name => 'Wherever'))
     @instance = assign(:instance,
                        stub_model(Instance, :raid => raid, :zone => zone,
-                                             :start_time => DateTime.parse("2012-01-01T18:00+10:00"),
-                                             :end_time => DateTime.parse("2012-01-01T22:00+10:00")))
+                                             :start_time => DateTime.parse("2012-01-01T18:00+10:00")))
     @instance.stub!(:instances).and_return([])
     @instance.stub!(:kills).and_return([])
     @instance.stub!(:players).and_return([])
@@ -21,7 +20,6 @@ describe "instances/show.html.haml" do
 
     rendered.should contain("Zone: Wherever")
     rendered.should contain("Start time:")
-    rendered.should contain("End time:")
     rendered.should contain("Players:")
     rendered.should contain("Characters:")
     rendered.should contain("Kills:")

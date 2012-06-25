@@ -10,9 +10,9 @@ describe "instances/index.html.haml" do
     zone2 = assign(:zone, stub_model(Zone, :name => 'There'))
     zone3 = assign(:zone, stub_model(Zone, :name => 'Everywhere'))
     assign(:instances, [
-        stub_model(Instance, :raid => raid, :zone => zone1, :start_time => DateTime.parse("2012-01-01T18:00+10:00"), :end_time => DateTime.parse("2012-01-01T22:00+10:00")),
-        stub_model(Instance, :raid => raid, :zone => zone2, :start_time => DateTime.parse("2012-01-02T18:00+10:00"), :end_time => DateTime.parse("2012-01-02T22:00+10:00")),
-        stub_model(Instance, :raid => raid, :zone => zone3, :start_time => DateTime.parse("2012-01-03T18:00+10:00"), :end_time => DateTime.parse("2012-01-03T22:00+10:00"))
+        stub_model(Instance, :raid => raid, :zone => zone1, :start_time => DateTime.parse("2012-01-01T18:00+10:00")),
+        stub_model(Instance, :raid => raid, :zone => zone2, :start_time => DateTime.parse("2012-01-02T18:00+10:00")),
+        stub_model(Instance, :raid => raid, :zone => zone3, :start_time => DateTime.parse("2012-01-03T18:00+10:00"))
     ])
   end
 
@@ -21,7 +21,6 @@ describe "instances/index.html.haml" do
 
     rendered.should contain("Zone")
     rendered.should contain("Start time")
-    rendered.should contain("End time")
     rendered.should contain("Players")
     rendered.should contain("Characters")
     rendered.should contain("Kills")

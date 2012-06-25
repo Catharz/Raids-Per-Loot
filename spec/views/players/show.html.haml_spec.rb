@@ -13,9 +13,9 @@ describe "players/show.html.haml" do
 
     zone_1 = stub_model(Zone, :name => "Wherever")
     zone_2 = stub_model(Zone, :name => "Wherever Next")
-    instance_1 = stub_model(Instance, :raid => raid, :start_time => DateTime.parse("01/01/2011 18:00"), :end_time => DateTime.parse("01/01/2011 20:00"))
+    instance_1 = stub_model(Instance, :raid => raid, :start_time => DateTime.parse("01/01/2011 18:00"))
     instance_1.zone = zone_1
-    instance_2 = stub_model(Instance, :raid => raid, :start_time => DateTime.parse("01/01/2011 20:05"), :end_time => DateTime.parse("01/01/2011 22:00"))
+    instance_2 = stub_model(Instance, :raid => raid, :start_time => DateTime.parse("01/01/2011 20:05"))
     instance_2.zone = zone_2
 
     armour = stub_model(LootType, :name => "Armour", :show_on_player_list => true)

@@ -19,10 +19,9 @@ module FactoryHelper
 
   def self.give_me_instance(zone_name, raid_time)
     start_time = DateTime.parse(raid_time)
-    end_time = start_time + 2.hours
     zone = give_me_zone(zone_name, 'Easy')
-    instance = Instance.first(:conditions => ["zone_id = ? AND start_time <= ? AND end_time >= ?", zone.id, raid_time, raid_time])
-    instance ||= Instance.create!(:zone => zone, :start_time => start_time, :end_time => end_time)
+    instance = Instance.last(:conditions => ["zone_id = ? AND start_time <= ?", zone.id, raid_time])
+    instance ||= Instance.create!(:zone => zone, :start_time => start_time)
     instance
   end
 

@@ -4,7 +4,6 @@
     %tr
       %th Zone
       %th Start time
-      %th End time
       %th Players
       %th Characters
       %th Kills
@@ -15,7 +14,6 @@
         %tr
           %td= link_to instance.zone ? instance.zone.name : "Unknown", instance
           %td= instance.start_time.strftime('%H:%M:%S')
-          %td= instance.end_time.strftime('%H:%M:%S')
           %td= instance.players.count
           %td= instance.characters.count
           %td= instance.kills.count

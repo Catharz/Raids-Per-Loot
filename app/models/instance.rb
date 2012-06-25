@@ -18,19 +18,6 @@ class Instance < ActiveRecord::Base
 
   scope :raided, lambda {|raid_date| where(:raid_id => Raid.find_by_raid_date(raid_date).id) }
 
-  def self.find_by_zone_and_time(zone_name, instance_time)
-    zone = Zone.find_by_name(zone_name)
-    instance = nil
-    unless zone.nil?
-      instance = Instance.first(
-          :conditions => ["zone_id = ? AND start_time <= ? AND end_time >= ?",
-              zone.id,
-              instance_time,
-              instance_time])
-    end
-    instance
-  end
-
   def self.by_raid(raid_id)
     raid_id ? where('raid_id = ?', raid_id) : scoped
   end
@@ -40,13 +27,9 @@ class Instance < ActiveRecord::Base
   end
 
   def self.by_time(instance_time)
-    instance_time ? where('start_time <= ? AND end_time >= ?', instance_time, instance_time) : scoped
+    instance_time ? order(:start_time).where(['start_time <= ?', instance_time]).last : scoped
   end
 
-  def self.find_by_time(instance_time)
-    by_time(instance_time).first
-  end
-  
   def to_xml(options = {})
     to_xml_opts = {}
     # a builder instance is provided when to_xml is called on a collection of instructors,

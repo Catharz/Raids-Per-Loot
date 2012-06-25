@@ -4,7 +4,6 @@
       %th Zone
       %th Raid Date
       %th Start time
-      %th End time
   %tbody
     - @instance_list.each do |instance|
       %tr
@@ -15,5 +14,4 @@
             Unknown
         %td= instance.start_time.to_date
         %td= instance.start_time
-        %td= instance.end_time
 %br/

@@ -39,12 +39,9 @@ Given /^the following player attendance:$/ do |all_attendance|
     instances = 1..attendance[:instances].to_i
     instances.to_a.each do |n|
       zone = Zone.find_or_create_by_name("Raid Zone #{n}")
-      instance = Instance.find_by_zone_and_time("Raid Zone #{n}", raid.raid_date + 20.hours)
-      instance ||= Instance.create(
-          :raid => raid,
-          :zone => zone,
-          :start_time => raid.raid_date + 18.hours,
-          :end_time => raid.raid_date + 22.hours)
+      start_time = raid.raid_date + (n - 1).hours + 20.hours
+      instance = Instance.find_by_start_time_and_zone_id(start_time, zone.id)
+      instance ||= Instance.create(:raid_id => raid.id, :start_time => start_time, :zone_id => zone.id)
 
       unless CharacterInstance.exists?(:instance_id => instance.id, :character_id => character.id)
         CharacterInstance.create(:instance_id => instance.id, :character_id => character.id)

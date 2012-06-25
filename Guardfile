@@ -57,10 +57,9 @@ group :frontend do
   end
 
   guard 'cucumber', :cli => '--drb --format progress --no-profile', all_on_start: false do
+    watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/manage_#{m[1]}s.feature")][0] || 'features' }
     watch(%r{^features/.+\.feature$})
     watch(%r{^features/support/.+$}) { 'features' }
     watch(%r{^features/step_definitions/.+$}) { 'features' }
-    watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/manage_#{m[1]}s.feature")][0] || 'features' }
-    watch(%r{^features/step_definitions/drop_steps\.rb$}) { |m| Dir[File.join("**/assign_#{m[1]}.feature")][0] || 'features' }
   end
 end

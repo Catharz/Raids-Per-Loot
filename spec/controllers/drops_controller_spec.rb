@@ -19,7 +19,7 @@ describe DropsController do
     @zone = Zone.create!(:name => "Wherever")
     @mob = @zone.mobs.create(:name => "Whoever", :zone_id => @zone.id)
     raid = Raid.create!(:raid_date => @drop_time.to_date)
-    @instance = Instance.create!(:raid_id => raid.id, :start_time => @drop_time - 1.hour, :end_time => @drop_time + 2.hours)
+    @instance = Instance.create!(:raid_id => raid.id, :start_time => @drop_time - 1.hour)
   end
 
   def valid_attributes
