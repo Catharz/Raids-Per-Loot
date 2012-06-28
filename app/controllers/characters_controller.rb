@@ -57,6 +57,7 @@ class CharactersController < ApplicationController
     @characters = Character \
       .by_player(params[:player_id]) \
       .by_instance(params[:instance_id]) \
+      .by_name(params[:name]) \
       .eager_load(:character_types, :player, :archetype, :character_instances => {:instance => :raid})
 
     respond_to do |format|

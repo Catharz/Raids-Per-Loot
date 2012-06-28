@@ -71,6 +71,10 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def self.by_name(name)
+    name ? where(:name => name) : scoped
+  end
+
   def self.by_instance(instance_id)
     instance_id ? includes(:character_instances).where('character_instances.instance_id = ?', instance_id) : scoped
   end
