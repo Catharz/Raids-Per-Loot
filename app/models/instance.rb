@@ -27,7 +27,7 @@ class Instance < ActiveRecord::Base
   end
 
   def self.by_time(instance_time)
-    instance_time ? order(:start_time).where(['start_time <= ?', instance_time]).last : scoped
+    instance_time ? where('start_time = ?', instance_time) : scoped
   end
 
   def to_xml(options = {})
