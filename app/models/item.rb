@@ -116,6 +116,14 @@ class Item < ActiveRecord::Base
     loot_type_id ? where('items.loot_type_id = ?', loot_type_id) : scoped
   end
 
+  def self.by_name(name)
+    name ? where(:name => name) : scoped
+  end
+
+  def self.by_eq2_item_id(eq2_item_id)
+    eq2_item_id ? where(:eq2_item_id => eq2_item_id) : scoped
+  end
+
   def to_xml(options = {})
     to_xml_opts = {}
     # a builder instance is provided when to_xml is called on a collection of instructors,

@@ -12,7 +12,7 @@ describe ItemsController do
   end
 
   describe "GET index" do
-    it "should render JSON" do
+    it "should render JSON by default" do
       item = Item.create! valid_attributes
       expected = {"sEcho" => 0,
                   "iTotalRecords"  => 1,
@@ -31,6 +31,24 @@ describe ItemsController do
       actual = JSON.parse(response.body)
 
       actual.should == expected
+    end
+
+    it "should filter by item name when getting xml" do
+      FactoryGirl.create(:item, valid_attributes)
+      FactoryGirl.create(:item, {:name => "Tin foil hat", :eq2_item_id => "another id"})
+
+      get :index, :format => :xml, :name => "Tin foil hat"
+      response.body.should contain "Tin foil hat"
+      response.body.should_not contain "Whatever"
+    end
+
+    it "should filter by eq2_item_id when getting xml" do
+      FactoryGirl.create(:item, valid_attributes)
+      FactoryGirl.create(:item, {:name => "Dagger of letter opening", :eq2_item_id => "yet another id"})
+
+      get :index, :format => :xml, :eq2_item_id => "yet another id"
+      response.body.should contain "Dagger of letter opening"
+      response.body.should_not contain "Whatever"
     end
   end
 
