@@ -19,22 +19,31 @@ class Mob < ActiveRecord::Base
   end
 
   def progression
-    case difficulty.rating
-      when 1 # Easy
-        false
-      when 2 # Normal
-        kills < 10
-      else   # Hard
-        kills < 20
+    progression = true
+    unless difficulty.nil?
+      progression =
+          case difficulty.rating
+            when 1 # Easy
+              false
+            when 2 # Normal
+              kills < 10
+            else   # Hard
+              kills < 20
+          end
     end
+    progression
   end
 
   def self.by_zone(zone_id)
-    zone_id ? where('zone_id = ?', zone_id) : scoped
+    zone_id ? where(:zone_id => zone_id) : scoped
   end
 
   def self.by_zone_name(zone_name)
     zone_name ? where('zone_id = ?', Zone.where('name = ?', zone_name).first.id) : scoped
+  end
+
+  def self.by_name(name)
+    name ? where(:name => name) : scoped
   end
 
   def to_xml(options = {})

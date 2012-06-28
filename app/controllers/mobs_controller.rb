@@ -4,7 +4,7 @@ class MobsController < ApplicationController
   # GET /mobs
   # GET /mobs.json
   def index
-    @mobs = Mob.by_zone(params[:zone_id]).order("mobs.name").eager_load(:drops => :instance)
+    @mobs = Mob.by_zone(params[:zone_id]).by_name(params[:name]).order("mobs.name").eager_load(:drops => :instance)
 
     respond_to do |format|
       format.html # index.html.erb
