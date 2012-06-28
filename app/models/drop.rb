@@ -14,7 +14,7 @@ class Drop < ActiveRecord::Base
   # If the character received loot via "need", make sure all of the relationships are setup
   with_options :if => :needed do
     validate :relationships_exist
-    validates_presence_of :zone_id, :mob_id, :item_id, :character_id, :loot_type_id, :drop_time, :loot_method
+    validates_presence_of :zone_id, :mob_id, :item_id, :character_id, :drop_time, :loot_method
   end
 
   def self.by_instance(instance_id)
@@ -39,6 +39,10 @@ class Drop < ActiveRecord::Base
 
   def self.by_item(item_id)
     item_id ? where('item_id = ?', item_id) : scoped
+  end
+
+  def self.by_time(drop_time)
+    drop_time ? where(:drop_time => drop_time) : scoped
   end
 
   def utc_time(date_time)
@@ -77,6 +81,8 @@ class Drop < ActiveRecord::Base
     errors.add(:mob_id, "doesn't exist") unless Mob.exists?(mob_id)
     errors.add(:item_id, "doesn't exist") unless Item.exists?(item_id)
     errors.add(:character_id, "doesn't exist") unless Character.exists?(character_id)
-    errors.add(:loot_type_id, "doesn't exist") unless LootType.exists?(loot_type_id)
+    unless loot_type_id.nil?
+      errors.add(:loot_type_id, "doesn't exist") unless LootType.exists?(loot_type_id)
+    end
   end
 end

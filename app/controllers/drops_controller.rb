@@ -11,7 +11,7 @@ class DropsController < ApplicationController
   def index
     respond_to do |format|
       format.html # index.html.erb
-      format.xml { render :xml => Drop.all }
+      format.xml { render :xml => Drop.by_time(params[:drop_time]).by_instance(params[:instance_id]).by_zone(params[:zone_id]).by_mob(params[:mob_id]).by_item(params[:item_id]).by_character(params[:character_id]) }
       format.json { render json: DropsDatatable.new(view_context) }
     end
   end
