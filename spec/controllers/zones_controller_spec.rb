@@ -13,15 +13,24 @@ describe ZonesController do
 
   describe "GET index" do
     it "assigns all zones as @zones" do
-      zone = Zone.create! valid_attributes
+      zone = FactoryGirl.create(:zone, valid_attributes)
+
       get :index
       assigns(:zones).should eq([zone])
+    end
+
+    it "filters by name" do
+      FactoryGirl.create(:zone, valid_attributes)
+      zone2 = FactoryGirl.create(:zone, {:name => 'The Farm'})
+
+      get :index, :name => 'The Farm'
+      assigns(:zones).should eq([zone2])
     end
   end
 
   describe "GET show" do
     it "assigns the requested zone as @zone" do
-      zone = Zone.create! valid_attributes
+      zone = FactoryGirl.create(:zone, valid_attributes)
       get :show, :id => zone.id.to_s
       assigns(:zone).should eq(zone)
     end
@@ -36,7 +45,7 @@ describe ZonesController do
 
   describe "GET edit" do
     it "assigns the requested zone as @zone" do
-      zone = Zone.create! valid_attributes
+      zone = FactoryGirl.create(:zone, valid_attributes)
       get :edit, :id => zone.id.to_s
       assigns(:zone).should eq(zone)
     end
@@ -82,7 +91,7 @@ describe ZonesController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested zone" do
-        zone = Zone.create! valid_attributes
+        zone = FactoryGirl.create(:zone, valid_attributes)
         # Assuming there are no other zones in the database, this
         # specifies that the Zone created on the previous line
         # receives the :update_attributes message with whatever params are
@@ -92,13 +101,13 @@ describe ZonesController do
       end
 
       it "assigns the requested zone as @zone" do
-        zone = Zone.create! valid_attributes
+        zone = FactoryGirl.create(:zone, valid_attributes)
         put :update, :id => zone.id, :zone => valid_attributes
         assigns(:zone).should eq(zone)
       end
 
       it "redirects to the zone" do
-        zone = Zone.create! valid_attributes
+        zone = FactoryGirl.create(:zone, valid_attributes)
         put :update, :id => zone.id, :zone => valid_attributes
         response.should redirect_to(zone)
       end
@@ -106,7 +115,7 @@ describe ZonesController do
 
     describe "with invalid params" do
       it "assigns the zone as @zone" do
-        zone = Zone.create! valid_attributes
+        zone = FactoryGirl.create(:zone, valid_attributes)
         # Trigger the behavior that occurs when invalid params are submitted
         Zone.any_instance.stub(:save).and_return(false)
         put :update, :id => zone.id.to_s, :zone => {}
@@ -114,7 +123,7 @@ describe ZonesController do
       end
 
       it "re-renders the 'edit' template" do
-        zone = Zone.create! valid_attributes
+        zone = FactoryGirl.create(:zone, valid_attributes)
         # Trigger the behavior that occurs when invalid params are submitted
         Zone.any_instance.stub(:save).and_return(false)
         put :update, :id => zone.id.to_s, :zone => {}
@@ -125,17 +134,16 @@ describe ZonesController do
 
   describe "DELETE destroy" do
     it "destroys the requested zone" do
-      zone = Zone.create! valid_attributes
+      zone = FactoryGirl.create(:zone, valid_attributes)
       expect {
         delete :destroy, :id => zone.id.to_s
       }.to change(Zone, :count).by(-1)
     end
 
     it "redirects to the zones list" do
-      zone = Zone.create! valid_attributes
+      zone = FactoryGirl.create(:zone, valid_attributes)
       delete :destroy, :id => zone.id.to_s
       response.should redirect_to(zones_url)
     end
   end
-
 end
