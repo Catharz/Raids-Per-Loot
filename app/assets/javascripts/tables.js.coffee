@@ -102,6 +102,11 @@ jQuery ->
     ]
     "aaSorting": [[0,'asc']]
 
+  $('#raidsTable').dataTable
+    "bJQueryUI": true
+    "sPaginationType":"full_numbers"
+    "aaSorting": [[0,'desc']]
+
   $('#ranksTable').dataTable
     "bJQueryUI": true
     "sPaginationType":"full_numbers"
