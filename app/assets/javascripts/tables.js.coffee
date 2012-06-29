@@ -52,6 +52,7 @@ jQuery ->
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Name
+      null, # Rank
       null, # Class
       {"bSearchable": true, "bVisible": false},  # Base Class
       {"sType": "numeric"}, # Level

@@ -2,6 +2,7 @@
   %thead
     %tr
       %th Name
+      %th Rank
       %th Class
       %th Base Class
       %th Level
@@ -13,13 +14,13 @@
       %th Potency
   %tbody
     - @characters.each do |character|
-      - @archetype_roots ||= Archetype.root_list
       %tr
         %td= character['name']
+        %td= character['rank']
         - if character['type'] and character['stats']
           - stats = character['stats']
           %td= character['type']['class']
-          %td= @archetype_roots[character['type']['class']]
+          %td= character['type']['base_class']
           %td{:align => "right"}= character['type']['level']
           %td{:align => "right"}= character['alternateadvancements']['spentpoints'] + character['alternateadvancements']['availablepoints']
           %td{:align => "right"}= stats['health']['max']
