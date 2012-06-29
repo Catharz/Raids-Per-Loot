@@ -3,6 +3,7 @@ RaidsPerLoot::Application.routes.draw do
   resources :adjustments
 
   resources :character_types
+  resources :character_instances
 
   resources :characters do
     resources :character_types
