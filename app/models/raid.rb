@@ -20,7 +20,7 @@ class Raid < ActiveRecord::Base
   end
 
   def self.by_date(date)
-    date ? where('raid_date = ?', date) : scoped
+    date ? where(:raid_date => date) : scoped
   end
 
   def self.utc_time(date_time)

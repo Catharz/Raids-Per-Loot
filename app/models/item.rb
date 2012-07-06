@@ -13,7 +13,7 @@ class Item < ActiveRecord::Base
   has_one :external_data, :as => :retrievable, :dependent => :destroy
 
   validates_presence_of :name, :eq2_item_id
-  validates_uniqueness_of :name, :eq2_item_id
+  validates_uniqueness_of :name, :scope => :eq2_item_id
 
   has_one :last_drop,
           :class_name => 'Drop',
@@ -25,10 +25,6 @@ class Item < ActiveRecord::Base
       item_details = soe_data
 
       if item_details
-        # if we have the wrong item name, change it!
-        unless name.eql? item_details['displayname']
-          update_attribute(:name, item_details['displayname'])
-        end
         loot_type_name = item_details['type']
         case loot_type_name
           when 'Armor'

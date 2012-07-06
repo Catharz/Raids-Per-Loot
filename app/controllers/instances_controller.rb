@@ -6,34 +6,6 @@ class InstancesController < ApplicationController
     @pagetitle = "Instances"
   end
   
-  def add_player
-    @instance = Instance.find(params[:id])
-    player = Player.find(params[:player_id])
-
-    @instance.players << player unless @instance.players.include? player
-    respond_to do |format|
-      if @instance.save
-        format.html { redirect_to @instance, :notice => 'Player was successfully added to the instance.' }
-        format.json { head :ok }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.json { render :json => @instance.errors, :status => :unprocessable_entity }
-        format.xml  { render :xml => @instance.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  def player_list
-    @instance = Instance.find(params[:id])
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @instance.players }
-      format.xml  { render :xml => @instance.players }
-    end
-  end
-
   # GET /instances
   # GET /instances.json
   def index

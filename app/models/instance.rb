@@ -15,6 +15,7 @@ class Instance < ActiveRecord::Base
 
   accepts_nested_attributes_for :character_instances, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :drops, :reject_if => :all_blank, :allow_destroy => true
+  validates_uniqueness_of :start_time, :scope => [:raid_id, :zone_id]
 
   scope :raided, lambda {|raid_date| where(:raid_id => Raid.find_by_raid_date(raid_date).id) }
 
@@ -26,8 +27,13 @@ class Instance < ActiveRecord::Base
     zone_id ? where('zone_id = ?', zone_id) : scoped
   end
 
-  def self.by_time(instance_time)
-    instance_time ? where('start_time = ?', instance_time) : scoped
+  def self.by_time(time)
+    if time
+      start_time = time.is_a?(String) ? DateTime.parse(time) : time
+      where(:start_time => start_time)
+    else
+      scoped
+    end
   end
 
   def to_xml(options = {})

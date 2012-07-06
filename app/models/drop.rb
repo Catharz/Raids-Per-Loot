@@ -41,8 +41,13 @@ class Drop < ActiveRecord::Base
     item_id ? where('item_id = ?', item_id) : scoped
   end
 
-  def self.by_time(drop_time)
-    drop_time ? where(:drop_time => drop_time) : scoped
+  def self.by_time(time)
+    if time
+      drop_time = time.is_a?(String) ? DateTime.parse(time) : time
+      where(:drop_time => drop_time)
+    else
+      scoped
+    end
   end
 
   def utc_time(date_time)
