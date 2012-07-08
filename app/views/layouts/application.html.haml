@@ -41,11 +41,12 @@
     %br
     - unless @page.nil?
       - unless @page.ancestors.empty?
-        #breadcrumb
-          - @page.ancestors.reverse.each do |page|
-            = link_to h(page.navlabel), view_page_path(page.name)
-            \&gt;
-            = @page.navlabel
+        %p
+          #breadcrumb
+            - @page.ancestors.reverse.each do |page|
+              = link_to h(page.navlabel), view_page_path(page.name)
+              \&gt;
+              = @page.navlabel
     #content
       %p#notice= flash[:notice]
       = yield

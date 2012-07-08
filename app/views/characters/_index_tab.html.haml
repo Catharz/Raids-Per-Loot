@@ -1,0 +1,37 @@
+%table{:id => "charactersTable_#{@char_type}"}
+  %thead
+    %tr
+      %th Name
+      %th Main
+      %th Class
+      %th Base Class
+      %th First Raid
+      %th Last Raid
+      %th # Raids
+      %th # Instances
+      %th Armour Rate
+      %th Jewellery Rate
+      %th Weapon Rate
+      %th
+      %th
+  %tbody
+    - @characters.where(:char_type => @char_type).each do |character|
+      - cache character do
+        %tr
+          %td.characterPopupTrigger{:id => character.id}= link_to character.name, character
+          %td
+            - if character.main_character
+              = link_to character.main_character.name, character.main_character
+            - else
+              Unknown
+          %td= character.archetype ? character.archetype.name : "Unknown"
+          %td= character.archetype ? character.archetype.root.name : "Unknown"
+          %td= character.first_raid ? character.first_raid.raid_date : "Never"
+          %td= character.last_raid ? character.last_raid.raid_date : "Never"
+          %td{:align => "right"}= character.raids_count
+          %td{:align => "right"}= character.instances_count
+          %td{:align => "right"}= character.armour_rate
+          %td{:align => "right"}= character.jewellery_rate
+          %td{:align => "right"}= character.weapon_rate
+          %td= link_to 'Update', fetch_data_character_path(character), :confirm => 'Are you sure?'
+          %td= link_to 'Destroy', character, :confirm => 'Are you sure?', :method => :delete

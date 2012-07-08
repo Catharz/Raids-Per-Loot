@@ -1,43 +1,16 @@
-%table#charactersTable
-  %thead
-    %tr
-      %th Name
-      %th Main
-      %th Rank
-      %th Class
-      %th Base Class
-      %th First Raid
-      %th Last Raid
-      %th # Raids
-      %th # Instances
-      %th Armour Rate
-      %th Jewellery Rate
-      %th Weapon Rate
-      %th
-      %th
-  %tbody
-    - @characters.each do |character|
-      - cache character do
-        %tr
-          %td.characterPopupTrigger{:id => character.id}= link_to character.name, character
-          %td
-            - if character.main_character
-              = link_to character.main_character.name, character.main_character
-            - else
-              Unknown
-          %td= case character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
-          %td= character.archetype ? character.archetype.name : "Unknown"
-          %td= character.archetype ? character.archetype.root.name : "Unknown"
-          %td= character.first_raid ? character.first_raid.raid_date : "Never"
-          %td= character.last_raid ? character.last_raid.raid_date : "Never"
-          %td{:align => "right"}= character.raids_count
-          %td{:align => "right"}= character.instances_count
-          %td{:align => "right"}= character.armour_rate
-          %td{:align => "right"}= character.jewellery_rate
-          %td{:align => "right"}= character.weapon_rate
-          %td= link_to 'Update', fetch_data_character_path(character), :confirm => 'Are you sure?'
-          %td= link_to 'Destroy', character, :confirm => 'Are you sure?', :method => :delete
+#tabBook
+  %ul
+    %li= link_to "Raid Mains", "#raid_mains"
+    %li= link_to "Raid Alts", "#raid_alts"
+    %li= link_to "General Alts", "#general_alts"
 
-%br
+  #raid_mains
+    = render 'index_tab', :"@characters" => @characters, :"@char_type" => 'm'
+
+  #raid_alts
+    = render 'index_tab', :"@characters" => @characters, :"@char_type" => 'r'
+
+  #general_alts
+    = render 'index_tab', :"@characters" => @characters, :"@char_type" => 'g'
 %br
 = link_to 'New Character', new_character_path

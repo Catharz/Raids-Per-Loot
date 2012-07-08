@@ -26,7 +26,11 @@ describe "characters/index.html.haml" do
                                 :archetype => scout)
     assign(:ranks, [main_rank])
     assign(:archetypes, [fighter, priest, mage, scout])
-    assign(:characters, [fighter_char, scout_raid_alt])
+    characters = mock(ActiveRecord::Relation)
+    characters.stub_chain(:where).with(:char_type => 'm').and_return([fighter_char])
+    characters.stub_chain(:where).with(:char_type => 'r').and_return([scout_raid_alt])
+    characters.stub_chain(:where).with(:char_type => 'g').and_return([])
+    assign(:characters, characters)
     assign(:players, [player])
   end
 
