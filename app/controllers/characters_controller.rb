@@ -47,7 +47,7 @@ class CharactersController < ApplicationController
     @characters.each do |character|
       rpl_char = Character.find_by_name(character['name'])
       if rpl_char
-        character['rank'] = case rpl_char.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+        character['char_type'] = rpl_char.char_type
         base_class = rpl_char.archetype ? @archetype_roots[rpl_char.archetype.name] : nil
       else
         character['rank'] = "Unknown"

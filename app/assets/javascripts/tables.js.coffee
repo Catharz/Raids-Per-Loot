@@ -86,12 +86,45 @@ jQuery ->
     ]
     "aaSorting": [[0,'asc']]
 
-  $('#characterStatsTable').dataTable
+  $('#characterStatsTable_m').dataTable
     "bJQueryUI": true
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Name
-      null, # Rank
+      null, # Class
+      {"bSearchable": true, "bVisible": false},  # Base Class
+      {"sType": "numeric"}, # Level
+      {"sType": "numeric"}, # AAs
+      {"sType": "numeric"}, # Health
+      {"sType": "numeric"}, # Power
+      {"sType": "numeric"}, # Crit
+      {"sType": "numeric"}, # Crit Bonus
+      {"sType": "numeric"} # Potency
+    ]
+    "aaSorting": [[0,'asc']]
+
+  $('#characterStatsTable_r').dataTable
+    "bJQueryUI": true
+    "sPaginationType":"full_numbers"
+    "aoColumns": [
+      null, # Name
+      null, # Class
+      {"bSearchable": true, "bVisible": false},  # Base Class
+      {"sType": "numeric"}, # Level
+      {"sType": "numeric"}, # AAs
+      {"sType": "numeric"}, # Health
+      {"sType": "numeric"}, # Power
+      {"sType": "numeric"}, # Crit
+      {"sType": "numeric"}, # Crit Bonus
+      {"sType": "numeric"} # Potency
+    ]
+    "aaSorting": [[0,'asc']]
+
+  $('#characterStatsTable_g').dataTable
+    "bJQueryUI": true
+    "sPaginationType":"full_numbers"
+    "aoColumns": [
+      null, # Name
       null, # Class
       {"bSearchable": true, "bVisible": false},  # Base Class
       {"sType": "numeric"}, # Level

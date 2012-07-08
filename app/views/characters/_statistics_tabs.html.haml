@@ -1,0 +1,39 @@
+%table{:id => "characterStatsTable_#{@char_type}"}
+  %thead
+    %tr
+      %th Name
+      %th Class
+      %th Base Class
+      %th Level
+      %th AAs
+      %th Health
+      %th Power
+      %th Crit
+      %th Crit Bonus
+      %th Potency
+  %tbody
+    - @characters.each do |character|
+      - if character['char_type'].eql? @char_type
+        %tr
+          %td= character['name']
+          - if character['type'] and character['stats']
+            - stats = character['stats']
+            %td= character['type']['class']
+            %td= character['type']['base_class']
+            %td{:align => "right"}= character['type']['level']
+            %td{:align => "right"}= character['alternateadvancements']['spentpoints'] + character['alternateadvancements']['availablepoints']
+            %td{:align => "right"}= stats['health']['max']
+            %td{:align => "right"}= stats['power']['max']
+            %td{:align => "right"}= number_with_precision(stats['combat']['critchance'], :precision => 2)
+            %td{:align => "right"}= number_with_precision(stats['combat']['critbonus'], :precision => 2)
+            %td{:align => "right"}= number_with_precision(stats['combat']['basemodifier'], :precision => 2)
+          - else
+            %td Unknown
+            %td Unknown
+            %td{:align => "right"} 0
+            %td{:align => "right"} 0
+            %td{:align => "right"} 0
+            %td{:align => "right"} 0
+            %td{:align => "right"} 0.00
+            %td{:align => "right"} 0.00
+            %td{:align => "right"} 0.00

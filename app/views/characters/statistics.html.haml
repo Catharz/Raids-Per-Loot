@@ -1,40 +1,14 @@
-%table#characterStatsTable
-  %thead
-    %tr
-      %th Name
-      %th Rank
-      %th Class
-      %th Base Class
-      %th Level
-      %th AAs
-      %th Health
-      %th Power
-      %th Crit
-      %th Crit Bonus
-      %th Potency
-  %tbody
-    - @characters.each do |character|
-      %tr
-        %td= character['name']
-        %td= character['rank']
-        - if character['type'] and character['stats']
-          - stats = character['stats']
-          %td= character['type']['class']
-          %td= character['type']['base_class']
-          %td{:align => "right"}= character['type']['level']
-          %td{:align => "right"}= character['alternateadvancements']['spentpoints'] + character['alternateadvancements']['availablepoints']
-          %td{:align => "right"}= stats['health']['max']
-          %td{:align => "right"}= stats['power']['max']
-          %td{:align => "right"}= number_with_precision(stats['combat']['critchance'], :precision => 2)
-          %td{:align => "right"}= number_with_precision(stats['combat']['critbonus'], :precision => 2)
-          %td{:align => "right"}= number_with_precision(stats['combat']['basemodifier'], :precision => 2)
-        - else
-          %td Unknown
-          %td Unknown
-          %td{:align => "right"} 0
-          %td{:align => "right"} 0
-          %td{:align => "right"} 0
-          %td{:align => "right"} 0
-          %td{:align => "right"} 0.00
-          %td{:align => "right"} 0.00
-          %td{:align => "right"} 0.00
+#tabBook
+  %ul
+    %li= link_to "Raid Mains", "#raid_mains"
+    %li= link_to "Raid Alts", "#raid_alts"
+    %li= link_to "General Alts", "#general_alts"
+
+  #raid_mains
+    = render 'statistics_tabs', :"@characters" => @characters, :"@char_type" => 'm'
+
+  #raid_alts
+    = render 'statistics_tabs', :"@characters" => @characters, :"@char_type" => 'r'
+
+  #general_alts
+    = render 'statistics_tabs', :"@characters" => @characters, :"@char_type" => 'g'
