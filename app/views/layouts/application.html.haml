@@ -29,7 +29,10 @@
 %body
   #pagewrapper
     #header
-      %p Raids Per Loot
+      - if @page.nil?
+        %p Raids Per Loot
+      - else
+        %p Raids Per Loot - #{@page.navlabel}
     #smoothmenu1.ddsmoothmenu
       - cache @page_roots do
         = build_tree(@page_roots).html_safe
