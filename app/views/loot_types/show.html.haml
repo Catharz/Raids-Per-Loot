@@ -3,7 +3,7 @@
   = @loot_type.name
 %p
   %strong Show On Player List:
-  = @loot_type.show_on_player_list? ? 'YES' : 'NO'
+  = case @loot_type.default_loot_method when 'n' then 'Need' when 'r' then 'Random' when 'b' then 'Bid' else 'Trash' end
 = link_to 'Edit', edit_loot_type_path(@loot_type)
 |
 \#{link_to 'Back', loot_types_path}

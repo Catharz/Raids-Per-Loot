@@ -2,7 +2,7 @@
   %thead
     %tr
       %th Name
-      %th Show on Player List
+      %th Default Loot Method
       %th
       %th
       %th
@@ -11,7 +11,7 @@
       - cache loot_type do
         %tr
           %td= loot_type.name
-          %td= loot_type.show_on_player_list? ? 'Yes' : 'No'
+          %td= case loot_type.default_loot_method when 'n' then 'Need' when 'r' then 'Random' when 'b' then 'Bid' else 'Trash' end
           %td= link_to 'Show', loot_type
           %td= link_to 'Edit', edit_loot_type_path(loot_type)
           %td= link_to 'Destroy', loot_type, :confirm => 'Are you sure?', :method => :delete

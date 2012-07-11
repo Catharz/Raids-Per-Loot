@@ -18,11 +18,11 @@ describe "players/show.html.haml" do
     instance_2 = stub_model(Instance, :raid => raid, :start_time => DateTime.parse("01/01/2011 20:05"))
     instance_2.zone = zone_2
 
-    armour = stub_model(LootType, :name => "Armour", :show_on_player_list => true)
+    armour = stub_model(LootType, :name => "Armour", :default_loot_method => 'n')
     armour_item = stub_model(Item, :name => "Phat BP", :eq2_item_id => "1234", :loot_type_id => armour.id)
     armour_item.stub!(:loot_type).and_return(armour)
 
-    weapon = stub_model(LootType, :name => "Weapon", :show_on_player_list => true)
+    weapon = stub_model(LootType, :name => "Weapon", :default_loot_method => 'n')
     weapon_item = stub_model(Item, :name => "Phat Sword", :eq2_item_id => "1235", :loot_type_id => weapon.id)
     weapon_item.stub!(:loot_type).and_return(weapon)
 

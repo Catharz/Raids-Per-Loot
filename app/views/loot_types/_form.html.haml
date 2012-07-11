@@ -12,8 +12,15 @@
     %br/
     = f.text_field :name
   .field
-    = f.label :show_on_player_list
+    = f.label :default_loot_method
     %br/
-    = f.check_box :show_on_player_list
+    = f.label "Need"
+    = f.radio_button :default_loot_method, "n", :id => "need"
+    = f.label "Random"
+    = f.radio_button :default_loot_method, "r", :id => "random"
+    = f.label "Bid"
+    = f.radio_button :default_loot_method, "b", :id => "bid"
+    = f.label "Trash"
+    = f.radio_button :default_loot_method, "t", :id => "trash"
   .actions
     = f.submit

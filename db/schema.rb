@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120625083747) do
+ActiveRecord::Schema.define(:version => 20120711081906) do
 
   create_table "adjustments", :force => true do |t|
     t.date     "adjustment_date"
@@ -195,7 +195,7 @@ ActiveRecord::Schema.define(:version => 20120625083747) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "show_on_player_list", :default => true
+    t.string   "default_loot_method", :limit => 1, :default => "n"
   end
 
   create_table "mobs", :force => true do |t|

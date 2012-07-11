@@ -4,10 +4,11 @@ class LootType < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
+  validates_format_of :default_loot_method, :with => /n|r|b|t/ # Need, Random, Bid, Trash
 
   def self.option_names
     names = []
-    LootType.where(:show_on_player_list => true).order(:name).each do |loot_type|
+    LootType.where(:default_loot_method => 'n').order(:name).each do |loot_type|
       names << loot_type.name
     end
     names
