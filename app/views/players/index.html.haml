@@ -26,5 +26,6 @@
           %td{:align => "right"}= player.weapon_rate
           %td= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete
 %br/
-%br/
 = link_to 'New Player', new_player_path
+%br/
+= link_to 'Download CSV', '/players.csv'

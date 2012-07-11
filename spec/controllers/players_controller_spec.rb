@@ -32,6 +32,19 @@ describe PlayersController do
       get :index
       assigns(:players).should eq([player])
     end
+
+    it "returns CSV" do
+      jimmy = Player.create! valid_attributes
+      jenny = Player.create! valid_attributes.merge! :name => "Jenny"
+
+      get :index, :format => :csv
+
+      assigns(:players).should include jimmy
+      assigns(:players).should include jenny
+
+      response.content_type.should eq('text/csv')
+      response.header.should eq('Content-Type' => 'text/csv; charset=utf-8')
+    end
   end
 
   describe "GET show" do

@@ -59,4 +59,19 @@ class Player < ActiveRecord::Base
     to_xml_opts[:root] ||= "player"
     self.attributes.to_xml(to_xml_opts)
   end
+
+  def to_csv
+    CSV.generate_line(
+        [self.name,
+         self.rank ? self.rank.name : "Unknown",
+         self.main_character ? self.main_character.name : "Unknown",
+         self.first_raid ? self.first_raid.raid_date : "Never",
+         self.last_raid ? self.last_raid.raid_date : "Never",
+         self.raids_count,
+         self.instances_count,
+         self.armour_rate,
+         self.jewellery_rate,
+         self.weapon_rate
+        ])
+  end
 end

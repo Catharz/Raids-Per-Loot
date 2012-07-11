@@ -26,6 +26,7 @@ class PlayersController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @players }
+      format.csv { render csv: @characters }
       format.xml { render :xml => @players.to_xml }
     end
   end
