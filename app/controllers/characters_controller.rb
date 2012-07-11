@@ -81,6 +81,7 @@ class CharactersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+      format.csv { render csv: @characters }
       format.json { render json: @characters }
       format.xml { render :xml => @characters.to_xml }
     end

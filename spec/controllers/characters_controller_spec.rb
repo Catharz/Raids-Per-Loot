@@ -54,4 +54,17 @@ describe CharactersController do
     get :index, :instance_id => second_instance.id
     assigns(:characters).should eq([jimmy])
   end
+
+  it "returns CSV" do
+    jimmy = Character.create! valid_attributes
+    jenny = Character.create! valid_attributes.merge! :name => "Jenny"
+
+    get :index, :format => :csv
+
+    assigns(:characters).should include jimmy
+    assigns(:characters).should include jenny
+
+    response.content_type.should eq('text/csv')
+    response.header.should eq('Content-Type' => 'text/csv; charset=utf-8')
+  end
 end

@@ -1,3 +1,5 @@
+require 'csv'
+
 class Character < ActiveRecord::Base
   include RemoteConnectionHelper
   include PointsCalculator
@@ -52,7 +54,7 @@ class Character < ActiveRecord::Base
 
   def fetch_soe_character_details
     #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
-  if internet_connection?
+    if internet_connection?
       json_data = soe_data("json")
       character_details = json_data ? json_data['character_list'][0] : HashWithIndifferentAccess.new
 
@@ -89,5 +91,28 @@ class Character < ActiveRecord::Base
       all_characters << Character.all(:conditions => ['archetype_id = ?', child_archetype.id], :order => :name).flatten
     end
     all_characters.flatten.uniq
+  end
+
+  def to_csv
+    CSV.generate_line(
+        [self.name,
+         case self.char_type
+           when 'm' then
+             "Raid Main"
+           when 'r' then
+             "Raid Alt"
+           else
+             "General Alt"
+         end,
+         self.main_character ? self.main_character.name : "Unknown",
+         self.archetype ? self.archetype.name : "Unknown",
+         self.first_raid ? self.first_raid.raid_date : "Never",
+         self.last_raid ? self.last_raid.raid_date : "Never",
+         self.raids_count,
+         self.instances_count,
+         self.armour_rate,
+         self.jewellery_rate,
+         self.weapon_rate
+        ])
   end
 end

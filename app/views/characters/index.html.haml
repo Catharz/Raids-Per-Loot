@@ -12,5 +12,7 @@
 
   #general_alts
     = render 'index_tab', :"@characters" => @characters, :"@char_type" => 'g'
-%br
+%br/
 = link_to 'New Character', new_character_path
+%br/
+= link_to 'Download CSV', '/characters.csv'
