@@ -50,6 +50,17 @@ describe ItemsController do
       response.body.should contain "Dagger of letter opening"
       response.body.should_not contain "Whatever"
     end
+
+    it "should filter by loot_type when getting xml" do
+      armour = FactoryGirl.create(:loot_type, :name => 'Armour', :default_loot_method => 'n')
+      trash = FactoryGirl.create(:loot_type, :name => 'Trash', :default_loot_method => 't')
+      FactoryGirl.create(:item, valid_attributes.merge!(:loot_type_id => armour.id))
+      FactoryGirl.create(:item, {:name => "Trash Drop", :eq2_item_id => "yet another id", :loot_type_id => trash.id})
+
+      get :index, :format => :xml, :loot_type_id => trash.id
+      response.body.should contain "Trash Drop"
+      response.body.should_not contain "Whatever"
+    end
   end
 
   describe "GET show" do

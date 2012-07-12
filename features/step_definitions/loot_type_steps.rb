@@ -24,3 +24,10 @@ Then /^I should see the following loot_types:$/ do |expected_loot_types_table|
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
   expected_loot_types_table.diff!(table)
 end
+
+When /^I change the default loot method of (.+) to (.+)$/ do |loot_type_name, default_loot_method|
+  loot_type = LootType.find_or_create_by_name(loot_type_name)
+  visit edit_loot_type_path(loot_type)
+  choose default_loot_method
+  click_button "Update Loot type"
+end

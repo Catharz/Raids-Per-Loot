@@ -2,7 +2,7 @@
   %strong Name:
   = @loot_type.name
 %p
-  %strong Show On Player List:
+  %strong Default Loot Method:
   = case @loot_type.default_loot_method when 'n' then 'Need' when 'r' then 'Random' when 'b' then 'Bid' else 'Trash' end
 = link_to 'Edit', edit_loot_type_path(@loot_type)
 |

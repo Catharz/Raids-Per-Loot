@@ -85,3 +85,7 @@ end
 When /^I select (.+) as the Loot Type$/ do |loot_type|
   select(loot_type, :from => "drop_loot_type_id")
 end
+
+When /^I view the drops page$/ do
+  visit drops_path
+end
