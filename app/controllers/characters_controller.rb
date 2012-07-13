@@ -21,12 +21,14 @@ class CharactersController < ApplicationController
   def fetch_all_data
     @characters = Character.order(:name)
     @characters.each do |character|
-      character.fetch_soe_character_details
-      #TODO: Re-enable once I have heroku properly configured
-      #Delayed::Job.enqueue(CharacterDetailsJob.new(character))
+      if params[:delayed]
+        Delayed::Job.enqueue(CharacterDetailsJob.new(character))
+      else
+        character.fetch_soe_character_details
+      end
     end
 
-    flash[:notice] = "Characters have been sucessfully updated."
+    flash[:notice] = "Characters have been successfully updated."
     redirect_to admin_url
   end
 

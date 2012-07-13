@@ -1,6 +1,8 @@
 class Item < ActiveRecord::Base
   include RemoteConnectionHelper
 
+  after_save :fetch_soe_item_details
+
   belongs_to :loot_type, :inverse_of => :items
   has_many :drops, :inverse_of => :item
 
@@ -20,9 +22,9 @@ class Item < ActiveRecord::Base
           :order => 'created_at desc'
 
   def fetch_soe_item_details(format = "json")
-  #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
-  if internet_connection?
-      item_details = soe_data
+    #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
+    if internet_connection?
+      item_details = soe_data(format)
 
       if item_details
         loot_type_name = item_details['type']
@@ -47,7 +49,7 @@ class Item < ActiveRecord::Base
               save_slots(adornment_details)
               save_archetypes(adornment_details)
             else
-              if name.match(/Gore-Imbued/)
+              if name.match(/Gore-Imbued/) or name.match(/Cruor-Forged/)
                 loot_type_name = 'Armour'
               else
                 loot_type_name = 'Trash'
@@ -58,7 +60,7 @@ class Item < ActiveRecord::Base
           update_attribute(:loot_type, LootType.find_by_name(loot_type_name))
         end
         build_external_data(:data => item_details)
-        save and external_data.save
+        external_data.save unless external_data.persisted?
       else
         false
       end

@@ -22,6 +22,7 @@ describe ItemsController do
                        "Unknown",
                        nil,
                        nil,
+                       '<a href="/items/' + item.id.to_s + '/edit">Edit</a>',
                        '<a href="/items/' + item.id.to_s + '" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
                       ]
                   ]

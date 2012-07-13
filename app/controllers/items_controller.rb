@@ -6,9 +6,11 @@ class ItemsController < ApplicationController
   def fetch_all_data
     @items = Item.order(:name)
     @items.each do |item|
-      item.fetch_soe_item_details
-      #TODO: Re-enable once I have heroku properly configured
-      #Delayed::Job.enqueue(ItemDetailsJob.new(item))
+      if params[:delayed]
+        Delayed::Job.enqueue(ItemDetailsJob.new(item))
+      else
+        item.fetch_soe_item_details
+      end
     end
 
     flash[:notice] = "Items are being updated."

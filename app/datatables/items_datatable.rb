@@ -23,6 +23,7 @@ class ItemsDatatable
           item.loot_type ? item.loot_type.name : "Unknown",
           item.slot_names,
           item.class_names,
+          h(link_to 'Edit', @view.edit_item_path(item)),
           h(link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete)
       ]
     end
