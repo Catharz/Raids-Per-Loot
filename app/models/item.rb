@@ -1,8 +1,6 @@
 class Item < ActiveRecord::Base
   include RemoteConnectionHelper
 
-  after_save :fetch_soe_item_details
-
   belongs_to :loot_type, :inverse_of => :items
   has_many :drops, :inverse_of => :item
 
@@ -15,7 +13,7 @@ class Item < ActiveRecord::Base
   has_one :external_data, :as => :retrievable, :dependent => :destroy
 
   validates_presence_of :name, :eq2_item_id
-  validates_uniqueness_of :name, :scope => :eq2_item_id
+  validates_uniqueness_of :eq2_item_id, :scope => :name
 
   has_one :last_drop,
           :class_name => 'Drop',
