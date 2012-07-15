@@ -37,6 +37,7 @@ class DropsDatatable
             else
               "Unknown"
           end,
+          h(link_to 'Edit', @view.edit_drop_path(drop)),
           h(link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete)
       ]
     end

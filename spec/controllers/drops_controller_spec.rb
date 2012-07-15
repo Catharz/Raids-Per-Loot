@@ -48,6 +48,7 @@ describe DropsController do
                                 "Whoever",
                                 "2012-01-04T01:00:00+11:00",
                                 "Trash",
+                                '<a href="/drops/' + drop.id.to_s + '/edit">Edit</a>',
                                 '<a href="/drops/' + drop.id.to_s + '" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
                                ]
                   ]
