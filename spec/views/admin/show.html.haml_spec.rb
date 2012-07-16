@@ -19,6 +19,12 @@ describe "admin/show" do
     rendered.should contain "Update All Item Details"
   end
 
+  it "has a link for cleaning up duplicate items" do
+    render
+
+    rendered.should contain "Clean Up Duplicate Items"
+  end
+
   it "has a link for updating all character details" do
     render
 

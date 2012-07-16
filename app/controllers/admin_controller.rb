@@ -9,6 +9,16 @@ class AdminController < ApplicationController
     end
   end
 
+  def resolve_duplicate_items
+    if Item.resolve_duplicates
+      flash.notice = "Item duplicates resolved successfully"
+    else
+      flash.alert = "Some Item Duplicates Left Unresolved"
+    end
+
+    redirect_to '/items'
+  end
+
   def update_character_list
     #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
     guild_details = download_guild_characters.with_indifferent_access

@@ -113,6 +113,7 @@ RaidsPerLoot::Application.routes.draw do
 
   get '/admin', :controller => 'admin', :action => 'show'
   get '/admin/update_character_list', :controller => 'admin', :action => 'update_character_list'
+  get '/admin/resolve_duplicate_items', :controller => 'admin', :action => 'resolve_duplicate_items'
 
   match ':name' => 'viewer#show', :as => :view_page
   post '/viewer/set_page_body/:id', :controller => 'viewer', :action => 'set_page_body'
