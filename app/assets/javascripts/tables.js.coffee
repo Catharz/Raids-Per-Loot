@@ -145,6 +145,22 @@ jQuery ->
     "aaSorting": [[5,'desc']]
     "sAjaxSource": $('#dropsTable').data('source')
 
+  $('#invalidDropsTable').dataTable
+    "bJQueryUI": true
+    "sPaginationType":"full_numbers"
+    "aoColumns": [
+      null, # Character Name
+      null, # Character Class
+      null, # Item Type
+      null, # Item Name
+      null, # Item Classes
+      {"sType": "date"}, # Drop Time
+      null, # Edit Drop
+      null, # Edit Item
+      null  # Re-assign Item
+    ]
+    "aaSorting": [[5,'desc']]
+
   $('#instancesTable').dataTable
     "bJQueryUI": true
     "sPaginationType":"full_numbers"

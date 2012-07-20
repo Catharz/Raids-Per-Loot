@@ -18,7 +18,7 @@
   = @drop.character ? @drop.character.name : "Unknown"
 %p
   %strong Loot Method:
-  = case @drop.loot_method when "n" then "Need" when "r" then "Random" when "b" then "Bid" when "t" then "Trash" else "Unknown" end
+  = @drop.loot_method_name
 
 = link_to 'Edit', edit_drop_path(@drop)
 \|

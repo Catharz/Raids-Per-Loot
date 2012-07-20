@@ -1,0 +1,24 @@
+%table#invalidDropsTable
+  %thead
+    %tr
+      %th Character Name
+      %th Character Class
+      %th Item Type
+      %th Item Name
+      %th Item Classes
+      %th Drop Time
+      %th
+      %th
+      %th
+  %tbody
+    - @drops.each do |drop|
+      %tr
+        %th= drop.character ? drop.character.name : "Unknown"
+        %th= drop.character and drop.character.archetype ? drop.character.archetype.name : "Unknown"
+        %th= drop.item and drop.item.loot_type ? drop.item.loot_type.name : "Unknown"
+        %th= drop.item ? drop.item.name : "Unknown"
+        %th= drop.item and !drop.item.archetypes.empty? ? (drop.item.archetypes.map {|a| a.name}).join(", ") : "None"
+        %th= drop.drop_time
+        %th= link_to 'Edit Drop', edit_drop_path(drop)
+        %th= link_to 'Edit Item', edit_item_path(drop.item)
+        %th= link_to 'Reassign Item', edit_drop_path(drop)

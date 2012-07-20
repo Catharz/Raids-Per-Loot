@@ -16,6 +16,16 @@ class DropsController < ApplicationController
     end
   end
 
+  # GET /drops/invalid
+  def invalid
+    @drops = Drop.invalidly_assigned
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml { render :xml => @drops.to_xml }
+    end
+  end
+
   # GET /drops/1
   # GET /drops/1.xml
   def show

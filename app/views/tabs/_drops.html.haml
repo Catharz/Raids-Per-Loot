@@ -31,4 +31,4 @@
             = link_to drop.character.name, drop.character
           - else
             Unknown
-        %td= case drop.loot_method when "n" then "Need" when "r" then "Random" when "b" then "Bid" when "t" then "Trash" else "Unknown" end
+        %td= drop.loot_method_name

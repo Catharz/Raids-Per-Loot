@@ -86,6 +86,7 @@ RaidsPerLoot::Application.routes.draw do
     resources :players
     collection do
       put :upload_drop
+      get :invalid
     end
   end
 

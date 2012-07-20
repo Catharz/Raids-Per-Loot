@@ -17,6 +17,26 @@ class Drop < ActiveRecord::Base
     validates_presence_of :zone_id, :mob_id, :item_id, :character_id, :drop_time, :loot_method
   end
 
+  def loot_method_name
+    case self.loot_method
+      when "n" then "Need"
+      when "r" then "Random"
+      when "b" then "Bid"
+      when "t" then "Trash"
+      else "Unknown"
+    end
+  end
+
+  def self.invalidly_assigned
+    where("drops.loot_method = 'n' " +
+           "and (select c.archetype_id from characters c where c.id = drops.character_id) " +
+           "not in (select ai.archetype_id from archetypes_items ai where ai.item_id = drops.item_id)")
+  end
+
+  def self.by_archetype(archetype_name)
+    archetype_name ? eager_load(:character => :archetype).where(['archetypes.name = ?', archetype_name]) : scoped
+  end
+
   def self.by_instance(instance_id)
     instance_id ? where('instance_id = ?', instance_id) : scoped
   end

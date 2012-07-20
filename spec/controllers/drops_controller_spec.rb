@@ -1,36 +1,36 @@
 require 'spec_helper'
+require 'drop_spec_helper'
 
 describe DropsController do
+  include DropSpecHelper
   fixtures :users
 
-  #These items must exist or the Drop will not be valid
   before(:each) do
     # Need to be logged in
     login_as :quentin
-
-    @drop_time = DateTime.parse("03/01/2012 2:00PM")
-    @item = FactoryGirl.create(:item, :name => "Whatever", :eq2_item_id => "blah")
-    main = FactoryGirl.create(:rank, :name => "Main")
-    @player = FactoryGirl.create(:player, :name => "Me", :rank => main)
-    @archetype = FactoryGirl.create(:archetype, :name => "Scout")
-    @character = FactoryGirl.create(:character, :name => "Me", :player_id => @player.id, :archetype_id => @archetype.id, :char_type => "m")
-    @loot_type = FactoryGirl.create(:loot_type, :name => "Spell")
-
-    @zone = FactoryGirl.create(:zone, :name => "Wherever")
-    @mob = FactoryGirl.create(:mob, :name => "Whoever", :zone_id => @zone.id)
-    @raid = FactoryGirl.create(:raid, :raid_date => Date.parse("2012-01-03"))
-    @instance = FactoryGirl.create(:instance, :raid_id => @raid.id, :start_time => DateTime.parse("03/01/2012 1:00PM"))
+    create_drop_dependencies
   end
 
-  def valid_attributes
-    {:instance_id => @instance.id,
-     :zone_id => @zone.id,
-     :mob_id => @mob.id,
-     :item_id => @item.id,
-     :loot_type_id => @loot_type.id,
-     :character_id => @character.id,
-     :loot_method => "t",
-     :drop_time => @drop_time}
+  describe "GET invalid" do
+    it "lists drops assigned to the wrong archeytpe" do
+      priest = FactoryGirl.create(:archetype, :name => 'Priest')
+      FactoryGirl.create(:archetypes_item, :archetype_id => priest.id, :item_id => @item.id)
+      drop = FactoryGirl.create(:drop, valid_attributes.merge!(:loot_method => 'n'))
+
+      get :invalid
+
+      assigns(:drops).should eq([drop])
+    end
+
+    it "does not list trash drops" do
+      priest = FactoryGirl.create(:archetype, :name => 'Priest')
+      FactoryGirl.create(:archetypes_item, :archetype_id => priest.id, :item_id => @item.id)
+      drop = FactoryGirl.create(:drop, valid_attributes)
+
+      get :invalid
+
+      assigns(:drops).should eq([])
+    end
   end
 
   #TODO: Fix these tests, relying on my time zone is too brittle

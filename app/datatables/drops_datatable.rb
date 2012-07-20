@@ -25,18 +25,7 @@ class DropsDatatable
           drop.zone ? drop.zone.name : "Unknown",
           drop.mob ? drop.mob.name : "Unknown",
           drop.drop_time,
-          case drop.loot_method
-            when "n" then
-              "Need"
-            when "r" then
-              "Random"
-            when "b" then
-              "Bid"
-            when "t" then
-              "Trash"
-            else
-              "Unknown"
-          end,
+          drop.loot_method_name,
           h(link_to 'Edit', @view.edit_drop_path(drop)),
           h(link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete)
       ]
