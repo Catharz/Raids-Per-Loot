@@ -29,7 +29,7 @@ jQuery ->
 
     ajaxCall = $.ajax(
       type: "GET"
-      url: "items/" + currentID + "/info"
+      url: "/items/" + currentID + "/info"
       beforeSend: ->
         $("#popupContent").prepend "<p class=\"loading-text\">Loading item details...</p>"
 

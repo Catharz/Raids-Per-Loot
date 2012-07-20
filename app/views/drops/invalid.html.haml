@@ -13,10 +13,14 @@
   %tbody
     - @drops.each do |drop|
       %tr
+        - item = drop.item
         %th= drop.character ? drop.character.name : "Unknown"
         %th= drop.character and drop.character.archetype ? drop.character.archetype.name : "Unknown"
-        %th= drop.item and drop.item.loot_type ? drop.item.loot_type.name : "Unknown"
-        %th= drop.item ? drop.item.name : "Unknown"
+        %th= item and item.loot_type ? item.loot_type.name : "Unknown"
+        - if item
+          %th= link_to item.name, item, {:class => "itemPopupTrigger", :id => item.id}
+        - else
+          %th Unknown
         %th= drop.item and !drop.item.archetypes.empty? ? (drop.item.archetypes.map {|a| a.name}).join(", ") : "None"
         %th= drop.drop_time
         %th= link_to 'Edit Drop', edit_drop_path(drop)
