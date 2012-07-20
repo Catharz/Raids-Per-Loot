@@ -47,7 +47,7 @@ class Item < ActiveRecord::Base
               save_slots(adornment_details)
               save_archetypes(adornment_details)
             else
-              if name.match(/Gore-Imbued/) or name.match(/Cruor-Forged/) or name.match(/Warbone/)
+              if name.match(/Gore-Imbued/) or name.match(/Cruor-Forged/) or name.match(/Warborne/)
                 loot_type_name = 'Armour'
               else
                 loot_type_name = 'Trash'
