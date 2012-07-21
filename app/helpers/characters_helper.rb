@@ -1,4 +1,63 @@
 module CharactersHelper
+  def health_rating(health, base_class)
+    case base_class
+      when 'Fighter'
+        if health.to_i >= 55000
+          "optimal"
+        else
+          if health.to_i >= 50000
+            "minimal"
+          else
+            "unsatisfactory"
+          end
+        end
+      when 'Priest'
+        if health.to_i >= 50000
+          "optimal"
+        else
+          if health.to_i >= 45000
+            "minimal"
+          else
+            "unsatisfactory"
+          end
+        end
+      else
+        if health.to_i >= 45000
+          "optimal"
+        else
+          if health.to_i >= 40000
+            "minimal"
+          else
+            "unsatisfactory"
+          end
+        end
+    end
+  end
+
+  def crit_rating(crit)
+    if crit.to_f >= 310.0
+      "optimal"
+    else
+      if crit.to_f >= 285.0
+        "minimal"
+      else
+        "unsatisfactory"
+      end
+    end
+  end
+
+  def adornment_rating(adornments)
+    if adornments >= 75.0
+      "optimal"
+    else
+      if adornments >= 50.0
+        "minimal"
+      else
+        "unsatisfactory"
+      end
+    end
+  end
+
   def adornment_stats(character, color = nil)
     possible_adornments, total_adornments = count_adornments(character, color)
     "#{total_adornments} / #{possible_adornments}"
