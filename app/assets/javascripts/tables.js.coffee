@@ -99,7 +99,11 @@ jQuery ->
       {"sType": "numeric"}, # Power
       {"sType": "numeric"}, # Crit
       {"sType": "numeric"}, # Crit Bonus
-      {"sType": "numeric"} # Potency
+      {"sType": "numeric"}, # Potency
+      {"sType": "numeric"}, # Adornments
+      null,                 # White Adornments
+      null,                 # Yellow Adornments
+      null                  # Red Adornments
     ]
     "aaSorting": [[0,'asc']]
 
@@ -116,7 +120,11 @@ jQuery ->
       {"sType": "numeric"}, # Power
       {"sType": "numeric"}, # Crit
       {"sType": "numeric"}, # Crit Bonus
-      {"sType": "numeric"} # Potency
+      {"sType": "numeric"}, # Potency
+      {"sType": "numeric"}, # Adornments
+      null,                 # White Adornments
+      null,                 # Yellow Adornments
+      null                  # Red Adornments
     ]
     "aaSorting": [[0,'asc']]
 
@@ -133,7 +141,32 @@ jQuery ->
       {"sType": "numeric"}, # Power
       {"sType": "numeric"}, # Crit
       {"sType": "numeric"}, # Crit Bonus
-      {"sType": "numeric"} # Potency
+      {"sType": "numeric"}, # Potency
+      {"sType": "numeric"}, # Adornments
+      null,                 # White Adornments
+      null,                 # Yellow Adornments
+      null                  # Red Adornments
+    ]
+    "aaSorting": [[0,'asc']]
+
+  $('#characterStatsTable_all').dataTable
+    "bJQueryUI": true
+    "sPaginationType":"full_numbers"
+    "aoColumns": [
+      null, # Name
+      null, # Class
+      {"bSearchable": true, "bVisible": false},  # Base Class
+      {"sType": "numeric"}, # Level
+      {"sType": "numeric"}, # AAs
+      {"sType": "numeric"}, # Health
+      {"sType": "numeric"}, # Power
+      {"sType": "numeric"}, # Crit
+      {"sType": "numeric"}, # Crit Bonus
+      {"sType": "numeric"}, # Potency
+      {"sType": "numeric"}, # Adornments
+      null,                 # White Adornments
+      null,                 # Yellow Adornments
+      null                  # Red Adornments
     ]
     "aaSorting": [[0,'asc']]
 

@@ -11,9 +11,13 @@
       %th Crit
       %th Crit Bonus
       %th Potency
+      %th Adornments
+      %th White
+      %th Yellow
+      %th Red
   %tbody
     - @characters.each do |character|
-      - if character['char_type'].eql? @char_type
+      - if character['char_type'].eql? @char_type or @char_type.eql? "all"
         %tr
           %td= character['name']
           - if character['type'] and character['stats']
@@ -27,6 +31,10 @@
             %td{:align => "right"}= number_with_precision(stats['combat']['critchance'], :precision => 2)
             %td{:align => "right"}= number_with_precision(stats['combat']['critbonus'], :precision => 2)
             %td{:align => "right"}= number_with_precision(stats['combat']['basemodifier'], :precision => 2)
+            %td{:align => "right"}= number_with_precision(adornment_pct(character), :precision => 2)
+            %td= adornment_stats(character, 'white')
+            %td= adornment_stats(character, 'yellow')
+            %td= adornment_stats(character, 'red')
           - else
             %td Unknown
             %td Unknown
@@ -37,3 +45,7 @@
             %td{:align => "right"} 0.00
             %td{:align => "right"} 0.00
             %td{:align => "right"} 0.00
+            %td{:align => "right"} 0.00
+            %td 0 / 0
+            %td 0 / 0
+            %td 0 / 0

@@ -3,6 +3,7 @@
     %li= link_to "Raid Mains", "#raid_mains"
     %li= link_to "Raid Alts", "#raid_alts"
     %li= link_to "General Alts", "#general_alts"
+    %li= link_to "All", "#all"
 
   #raid_mains
     = render 'statistics_tabs', :"@characters" => @characters, :"@char_type" => 'm'
@@ -12,3 +13,6 @@
 
   #general_alts
     = render 'statistics_tabs', :"@characters" => @characters, :"@char_type" => 'g'
+
+  #all
+    = render 'statistics_tabs', :"@characters" => @characters, :"@char_type" => 'all'
