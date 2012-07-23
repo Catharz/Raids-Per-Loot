@@ -12,6 +12,36 @@ module CharacterSpecHelper
      :player_id => @player.id}.merge!(options)
   end
 
+  def valid_soe_attributes(options = {})
+    {
+        'name' => 'Character',
+        'char_type' => 'm',
+        'type' => {
+            'class' => 'Monk',
+            'base_class' => 'Fighter',
+            'level' => 92
+        },
+        'alternateadvancements' => {
+            'spentpoints' => 320,
+            'availablepoints' => 0
+        },
+        'stats' => {
+            'health' => {'max' => 50000},
+            'power' => {'max' => 40000},
+            'combat' => {
+                'critchance' => 285.0,
+                'critbonus' => 212.02,
+                'basemodifier' => 215.15
+            }
+        },
+        'equipmentslot_list' => [
+            {'item' => {'adornment_list' => [{'color' => 'white', 'id' => '1'},
+                                             {'color' => 'yellow', 'id' => '2'},
+                                             {'color' => 'red', 'id' => '3'}]}}
+        ]
+    }.merge!(options)
+  end
+
   def setup_characters(characters)
     character_list = []
     characters.each do |character_name|
