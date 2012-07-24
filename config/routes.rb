@@ -44,6 +44,9 @@ RaidsPerLoot::Application.routes.draw do
 
   resources :mobs do
     resources :drops
+    collection do
+      get :option_list
+    end
   end
   resources :items do
     resources :drops

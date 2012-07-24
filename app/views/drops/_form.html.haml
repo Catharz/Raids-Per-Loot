@@ -12,10 +12,10 @@
     %strong= f.label :zone
     %br/
     = f.collection_select(:zone_id, Zone.order(:name), :id, :name, :include_blank => true)
-  .field
+  .field#mob_field
     %strong= f.label :mob
     %br/
-    = f.collection_select(:mob_id, Mob.order(:name), :id, :name, :include_blank => true)
+    = f.collection_select(:mob_id, Mob.by_zone(@drop.zone_id).order(:name), :id, :name, :include_blank => true, :id => "drop_mob_id")
   .field
     %strong= f.label :loot_type
     %br/

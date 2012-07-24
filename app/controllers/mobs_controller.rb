@@ -1,6 +1,16 @@
 class MobsController < ApplicationController
   before_filter :login_required, :except => [:index, :show]
 
+  def option_list
+    @mobs = Mob.by_zone(params[:zone_id]).order(:name)
+
+    options = ""
+    @mobs.each do |mob|
+      options += "<option value='#{mob.id}'>#{mob.name}</option>"
+    end
+    render :text => options, :layout => false
+  end
+
   # GET /mobs
   # GET /mobs.json
   def index

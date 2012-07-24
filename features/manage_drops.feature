@@ -11,6 +11,7 @@ Feature: Manage drops
     And I have a Weapon item named Can O' Whoop Ass with id 1234
     And I have a Wherever raid at "2011-09-16 20:15:00 +1000"
 
+  @javascript
   Scenario: Create a valid Needed drop
     Given I am on the new drop page
     When I select Wherever as the Zone
