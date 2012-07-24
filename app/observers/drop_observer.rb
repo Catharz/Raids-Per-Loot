@@ -1,6 +1,19 @@
 class DropObserver < ActiveRecord::Observer
   observe Drop
 
+  def before_save(drop)
+    if drop.loot_type.nil?
+      unless drop.item.nil? or drop.item.loot_type.nil?
+        drop.loot_type = drop.item.loot_type
+      end
+    end
+    if drop.loot_method.nil?
+      unless drop.loot_type.nil?
+        drop.loot_method = drop.loot_type.default_loot_method
+      end
+    end
+  end
+
   def after_save(drop)
     if drop.character
       drop.character.recalculate_loot_rates

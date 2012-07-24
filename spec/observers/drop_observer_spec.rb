@@ -16,4 +16,23 @@ describe DropObserver do
       subject.after_save(drop)
     end
   end
+
+  describe '#before_save' do
+    it "sets the loot type" do
+      drop.should_receive(:loot_type).at_least(2).times.and_return(nil)
+      drop.should_receive(:item).at_least(2).times.and_return(mock_model(Item, :name => "Blue Shard"))
+      drop.item.should_receive(:loot_type).at_least(2).times.and_return(mock_model(LootType, :name => "Trash"))
+      drop.should_receive(:loot_type=).with(drop.item.loot_type)
+
+      subject.before_save(drop)
+    end
+
+    it "sets the loot method to the default loot method" do
+      drop.should_receive(:loot_method).and_return(nil)
+      drop.should_receive(:loot_type).at_least(2).times.and_return(mock_model(LootType, :name => "Trash", :default_loot_method => 't'))
+      drop.should_receive(:loot_method=).with(drop.loot_type.default_loot_method)
+
+      subject.before_save(drop)
+    end
+  end
 end
