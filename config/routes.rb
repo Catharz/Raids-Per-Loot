@@ -1,14 +1,44 @@
 RaidsPerLoot::Application.routes.draw do
 
-  resources :adjustments
+  resources :raids do
+    resources :instances
+  end
+  resources :instances do
+    resources :players, :characters, :drops
+  end
 
+  resources :difficulties
+  resources :zones do
+    resources :mobs, :instances, :drops
+    member do
+      put :add_mob
+      get :mob_list
+    end
+  end
+  resources :mobs do
+    resources :drops
+    collection do
+      get :option_list
+    end
+  end
+
+  resources :ranks do
+    resources :players
+  end
+  resources :players do
+    resources :characters, :instances, :drops, :adjustments
+    collection do
+      get :option_list
+    end
+  end
+
+  resources :archetypes do
+    resources :characters, :items
+  end
   resources :character_types
   resources :character_instances
-
   resources :characters do
-    resources :character_types
-    resources :adjustments
-    resources :drops
+    resources :character_types, :adjustments, :drops
     member do
       get :info
       get :fetch_data
@@ -20,37 +50,16 @@ RaidsPerLoot::Application.routes.draw do
     end
   end
 
-  resources :difficulties
+  resources :adjustments
 
-  resources :raids do
-    resources :instances
+  resources :loot_types do
+    resources :items
   end
-
-  resources :instances do
-    resources :drops
-    resources :players
-    resources :characters
-  end
-
-  resources :zones do
-    resources :instances
-    resources :mobs
-    resources :drops
-    member do
-      put :add_mob
-      get :mob_list
-    end
-  end
-
-  resources :mobs do
-    resources :drops
-    collection do
-      get :option_list
-    end
+  resources :slots do
+    resources :items
   end
   resources :items do
-    resources :drops
-    resources :archetypes
+    resources :drops, :archetypes
     member do
       get :info
       get :fetch_data
@@ -59,34 +68,8 @@ RaidsPerLoot::Application.routes.draw do
       get :fetch_all_data
     end
   end
-
-  resources :players do
-    resources :instances
-    resources :drops
-    resources :characters
-    resources :adjustments
-    collection do
-      get :option_list
-    end
-  end
-
-  resources :archetypes do
-    resources :players
-    resources :items
-  end
-  resources :ranks do
-    resources :players
-  end
-  resources :loot_types do
-    resources :items
-  end
-  resources :slots do
-    resources :items
-  end
-
   resources :drops do
-    resources :instances
-    resources :players
+    resources :instances, :players
     collection do
       put :upload_drop
       get :invalid
@@ -118,6 +101,7 @@ RaidsPerLoot::Application.routes.draw do
   get '/admin', :controller => 'admin', :action => 'show'
   get '/admin/update_character_list', :controller => 'admin', :action => 'update_character_list'
   get '/admin/resolve_duplicate_items', :controller => 'admin', :action => 'resolve_duplicate_items'
+  get '/admin/fix_trash_drops', :controller => 'admin', :action => 'fix_trash_drops'
 
   match ':name' => 'viewer#show', :as => :view_page
   post '/viewer/set_page_body/:id', :controller => 'viewer', :action => 'set_page_body'

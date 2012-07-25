@@ -31,4 +31,9 @@ describe "admin/show" do
     rendered.should contain "Update All Character Details"
   end
 
+  it "has a link for setting the loot_method of all drops of trash items to trash" do
+    render
+
+    rendered.should contain "Fix Trash Drops"
+  end
 end

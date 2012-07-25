@@ -9,6 +9,23 @@ class AdminController < ApplicationController
     end
   end
 
+  def fix_trash_drops
+    incorrect_trash_drops = 0
+    Item.of_type("Trash").each do |item|
+      item.drops.where('loot_method <> ?', 't').each do |drop|
+        incorrect_trash_drops += 1
+        drop.loot_method = 't'
+        drop.save
+      end
+    end
+    if incorrect_trash_drops.eql? 0
+      flash.notice = "There were no trash drops to fix"
+    else
+      flash.notice = "Set #{incorrect_trash_drops} drops of trash items to the correct loot method"
+    end
+    redirect_to '/admin'
+  end
+
   def resolve_duplicate_items
     if Item.resolve_duplicates
       flash.notice = "Item duplicates resolved successfully"
@@ -16,7 +33,7 @@ class AdminController < ApplicationController
       flash.alert = "Some Item Duplicates Left Unresolved"
     end
 
-    redirect_to '/items'
+    redirect_to '/admin'
   end
 
   def update_character_list
@@ -35,7 +52,7 @@ class AdminController < ApplicationController
       end
     end
 
-    redirect_to '/characters'
+    redirect_to '/admin'
   end
 
   private
