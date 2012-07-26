@@ -46,12 +46,6 @@ class Character < ActiveRecord::Base
     @stats ||= SOEData.get("/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/character/?name.first=#{name}&locationdata.world=#{APP_CONFIG["eq2_server"]}&c:limit=500&c:show=name,stats,type,alternateadvancements.spentpoints,alternateadvancements.availablepoints")
   end
 
-  def self.soe_characters_with_stats(format = "json")
-    url = "/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/guild/?c:limit=1&name=#{APP_CONFIG["guild_name"]}&world=#{APP_CONFIG["eq2_server"]}&c:resolve=members(type,stats,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,equipmentslot_list.item.id,equipmentslot_list.item.adornment_list)".gsub(" ", "%20")
-    @guild = SOEData.get(url)
-    @guild["guild_list"].empty? ? [] : @guild["guild_list"][0]["member_list"]
-  end
-
   def fetch_soe_character_details
     #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
     if internet_connection?
@@ -73,6 +67,12 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def self.soe_characters_with_stats(format = "json")
+    url = "/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/guild/?c:limit=1&name=#{APP_CONFIG["guild_name"]}&world=#{APP_CONFIG["eq2_server"]}&c:resolve=members(type,stats,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,equipmentslot_list.item.id,equipmentslot_list.item.adornment_list)".gsub(" ", "%20")
+    @guild = SOEData.get(url)
+    @guild["guild_list"].empty? ? [] : @guild["guild_list"][0]["member_list"]
+  end
+
   def self.by_name(name)
     name ? where(:name => name) : scoped
   end
@@ -91,6 +91,10 @@ class Character < ActiveRecord::Base
       all_characters << Character.all(:conditions => ['archetype_id = ?', child_archetype.id], :order => :name).flatten
     end
     all_characters.flatten.uniq
+  end
+
+  def rank_at_time(time)
+    character_types.where('character_types.effective_date <= ?', time).order(:effective_date).last.char_type
   end
 
   def to_csv
