@@ -7,31 +7,48 @@ require 'zone_spec_helper'
 module DropSpecHelper
   include ItemSpecHelper, LootTypeSpecHelper, MobSpecHelper, RaidSpecHelper, ZoneSpecHelper
 
-  #These items must exist or the Drop will not be valid
+  # These items must exist or the Drop will not be valid
   def create_drop_dependencies
-    @drop_time = DateTime.parse("03/01/2012 2:00PM")
-    @item = FactoryGirl.create(:item, :name => "Whatever", :eq2_item_id => "blah")
-    main = FactoryGirl.create(:rank, :name => "Main")
-    @player = FactoryGirl.create(:player, :name => "Me", :rank => main)
-    @archetype = FactoryGirl.create(:archetype, :name => "Scout")
-    @character = FactoryGirl.create(:character, :name => "Me", :player_id => @player.id, :archetype_id => @archetype.id, :char_type => "m")
-    @loot_type = FactoryGirl.create(:loot_type, :name => "Spell")
+    raid = FactoryGirl.create(:raid, :raid_date => Date.parse("2012-01-03"))
+    instance = FactoryGirl.create(:instance, :raid_id => raid.id, :start_time => DateTime.parse("03/01/2012 1:00PM"))
+    zone = FactoryGirl.create(:zone, :name => "Wherever")
+    mob = FactoryGirl.create(:mob, :name => "Whoever", :zone_id => zone.id)
 
-    @zone = FactoryGirl.create(:zone, :name => "Wherever")
-    @mob = FactoryGirl.create(:mob, :name => "Whoever", :zone_id => @zone.id)
-    @raid = FactoryGirl.create(:raid, :raid_date => Date.parse("2012-01-03"))
-    @instance = FactoryGirl.create(:instance, :raid_id => @raid.id, :start_time => DateTime.parse("03/01/2012 1:00PM"))
+    loot_type = FactoryGirl.create(:loot_type, :name => "Spell")
+    item = FactoryGirl.create(:item, :name => "Whatever", :eq2_item_id => "blah", :loot_type_id => loot_type.id)
+
+    rank = FactoryGirl.create(:rank, :name => "Main")
+    player = FactoryGirl.create(:player, :name => "Me", :rank_id => rank.id)
+
+    archetype = FactoryGirl.create(:archetype, :name => "Scout")
+    character = FactoryGirl.create(:character, :name => "Me", :player_id => player.id, :archetype_id => archetype.id, :char_type => "m")
+
+    drop_time = DateTime.parse("03/01/2012 2:00PM")
+
+    {:raid => raid,
+     :instance => instance,
+     :zone => zone,
+     :mob => mob,
+     :loot_type => loot_type,
+     :item => item,
+     :rank => rank,
+     :player => player,
+     :archetype => archetype,
+     :character => character,
+     :drop_time => drop_time
+    }
   end
 
   def valid_attributes(options = {})
-    {:instance_id => @instance.id,
-     :zone_id => @zone.id,
-     :mob_id => @mob.id,
-     :item_id => @item.id,
-     :loot_type_id => @loot_type.id,
-     :character_id => @character.id,
+    @drop_details ||= create_drop_dependencies
+    {:instance_id => @drop_details[:instance].id,
+     :zone_id => @drop_details[:zone].id,
+     :mob_id => @drop_details[:mob].id,
+     :item_id => @drop_details[:item].id,
+     :loot_type_id => @drop_details[:loot_type].id,
+     :character_id => @drop_details[:character].id,
      :loot_method => "t",
-     :drop_time => @drop_time}.merge!(options)
+     :drop_time => @drop_details[:drop_time]}.merge!(options)
   end
 
   def valid_drop_attributes(options = {})
@@ -54,7 +71,7 @@ module DropSpecHelper
 
   def create_drops(character, drop_counts = {})
     drop_list = []
-    drop_counts.each_key {|loot_type_name|
+    drop_counts.each_key { |loot_type_name|
       count = drop_counts[loot_type_name]
       unless count.eql? 0
         loot_type = mock_model(LootType, :name => loot_type_name)

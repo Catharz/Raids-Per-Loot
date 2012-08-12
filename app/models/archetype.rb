@@ -53,13 +53,15 @@ class Archetype < ActiveRecord::Base
   end
 
   def self.base_archetypes
-    base_classes = []
-    Archetype.all(:order => :name).each do |archetype|
-      if archetype.children.empty?
-        base_classes << archetype
-      end
-    end
-    return base_classes.flatten
+    child_archetypes.not_parent_archetypes.order(:name)
+  end
+
+  def self.not_parent_archetypes
+    where('id not in (select parent_id from archetypes where parent_id is not null)')
+  end
+
+  def self.child_archetypes
+    where('parent_id is not null')
   end
 
   def to_xml(options = {})

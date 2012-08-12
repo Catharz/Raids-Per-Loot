@@ -20,8 +20,8 @@ describe ItemsController do
                   "aaData" => [
                       ['<a href="/items/' + item.id.to_s + '" class="itemPopupTrigger" id="' + item.id.to_s + '">Whatever</a>',
                        "Unknown",
-                       nil,
-                       nil,
+                       "None",
+                       "None",
                        '<a href="/items/' + item.id.to_s + '/edit">Edit</a>',
                        '<a href="/items/' + item.id.to_s + '" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
                       ]

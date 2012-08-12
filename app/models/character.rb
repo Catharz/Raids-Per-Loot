@@ -5,8 +5,6 @@ class Character < ActiveRecord::Base
   include PointsCalculator
 
   belongs_to :player, :inverse_of => :characters, :touch => true
-  has_one :main_character, :through => :player
-
   belongs_to :archetype, :inverse_of => :characters, :touch => true
 
   has_many :drops, :inverse_of => :character
@@ -24,10 +22,34 @@ class Character < ActiveRecord::Base
 
   #TODO: Add tests for updating a character without a player
   validates_presence_of :name
-  validates_presence_of :player, :char_type, :on => :update
+  validates_presence_of :player, :archetype_id, :char_type, :on => :update
 
   validates_uniqueness_of :name
   validates_format_of :char_type, :with => /g|m|r/ # General Alt, Main, Raid Alt
+
+  def main_character(at_time = nil)
+    if player
+      player.main_character(at_time)
+    else
+      char_type == 'm' ? self : nil
+    end
+  end
+
+  def raid_alternate(at_time = nil)
+    if player
+      player.raid_alternate(at_time)
+    else
+      char_type == 'r' ? self : nil
+    end
+  end
+
+  def general_alternates(at_time = nil)
+    if player
+      player.general_alternates(at_time)
+    else
+      char_type == 'g' ? [self] : []
+    end
+  end
 
   def archetype_root
     if archetype

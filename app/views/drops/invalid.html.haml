@@ -1,28 +1,35 @@
 %table#invalidDropsTable
   %thead
     %tr
-      %th Character Name
-      %th Character Class
-      %th Item Type
+      %th Character
+      %th Class
       %th Item Name
       %th Item Classes
+      %th Item Type
+      %th Loot Method
       %th Drop Time
+      %th Invalid Reason
       %th
       %th
       %th
   %tbody
     - @drops.each do |drop|
-      %tr
-        - item = drop.item
-        %th= drop.character ? drop.character.name : "Unknown"
-        %th= drop.character and drop.character.archetype ? drop.character.archetype.name : "Unknown"
-        %th= item and item.loot_type ? item.loot_type.name : "Unknown"
-        - if item
-          %th= link_to item.name, item, {:class => "itemPopupTrigger", :id => item.id}
-        - else
-          %th Unknown
-        %th= drop.item and !drop.item.archetypes.empty? ? (drop.item.archetypes.map {|a| a.name}).join(", ") : "None"
-        %th= drop.drop_time
-        %th= link_to 'Edit Drop', edit_drop_path(drop)
-        %th= link_to 'Edit Item', edit_item_path(drop.item)
-        %th= link_to 'Reassign Item', edit_drop_path(drop)
+      - unless drop.correctly_assigned?
+        %tr
+          - item = drop.item
+          %th= drop.character ? drop.character.name : "Unknown"
+          %th= drop.character and drop.character.archetype ? drop.character.archetype.name : "Unknown"
+          - if item
+            %th= link_to item.name, item, {:class => "itemPopupTrigger", :id => item.id}
+            %th= consolidate_archetypes(item.archetypes)
+            %th= item.loot_type ? item.loot_type.name : "Unknown"
+          - else
+            %th Unknown
+            %th Unknown
+            %th Unknown
+          %th= drop.loot_method_name
+          %th= drop.drop_time
+          %th= drop.invalid_reason
+          %th= link_to 'Edit Drop', edit_drop_path(drop)
+          %th= link_to 'Edit Item', edit_item_path(item)
+          %th= link_to 'Reassign Item', edit_drop_path(drop)

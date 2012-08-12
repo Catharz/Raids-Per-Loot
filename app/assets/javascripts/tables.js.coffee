@@ -184,10 +184,12 @@ jQuery ->
     "aoColumns": [
       null, # Character Name
       null, # Character Class
-      null, # Item Type
       null, # Item Name
       null, # Item Classes
+      null, # Item Type
+      null, # Loot Method
       {"sType": "date"}, # Drop Time
+      null, # Invalid Reason
       null, # Edit Drop
       null, # Edit Item
       null  # Re-assign Item

@@ -1,4 +1,6 @@
 class ItemsDatatable
+  include ArchetypesHelper
+
   delegate :params, :h, :link_to, to: :@view
 
   def initialize(view)
@@ -22,7 +24,7 @@ class ItemsDatatable
           h(link_to item.name, item, {:class => "itemPopupTrigger", :id => item.id}),
           item.loot_type ? item.loot_type.name : "Unknown",
           item.slot_names,
-          item.class_names,
+          consolidate_archetypes(item.archetypes),
           h(link_to 'Edit', @view.edit_item_path(item)),
           h(link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete)
       ]

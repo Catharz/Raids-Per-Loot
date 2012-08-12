@@ -8,13 +8,13 @@ describe DropsController do
   before(:each) do
     # Need to be logged in
     login_as :quentin
-    create_drop_dependencies
+    @drop_details = create_drop_dependencies
   end
 
   describe "GET invalid" do
-    it "lists drops assigned to the wrong archeytpe" do
+    it "lists drops assigned to the wrong archetype" do
       priest = FactoryGirl.create(:archetype, :name => 'Priest')
-      FactoryGirl.create(:archetypes_item, :archetype_id => priest.id, :item_id => @item.id)
+      FactoryGirl.create(:archetypes_item, :archetype_id => priest.id, :item_id => @drop_details[:item].id)
       drop = FactoryGirl.create(:drop, valid_attributes.merge!(:loot_method => 'n'))
 
       get :invalid
@@ -24,8 +24,8 @@ describe DropsController do
 
     it "does not list trash drops" do
       priest = FactoryGirl.create(:archetype, :name => 'Priest')
-      FactoryGirl.create(:archetypes_item, :archetype_id => priest.id, :item_id => @item.id)
-      drop = FactoryGirl.create(:drop, valid_attributes)
+      FactoryGirl.create(:archetypes_item, :archetype_id => priest.id, :item_id => @drop_details[:item].id)
+      FactoryGirl.create(:drop, valid_attributes)
 
       get :invalid
 
@@ -38,19 +38,19 @@ describe DropsController do
     it "should render JSON" do
       drop = FactoryGirl.create(:drop, valid_attributes)
       expected = {"sEcho" => 0,
-                  "iTotalRecords"  => 1,
+                  "iTotalRecords" => 1,
                   "iTotalDisplayRecords" => 1,
                   "aaData" => [
                       ['<a href="/drops/' + drop.id.to_s + '">Whatever</a>',
-                                "Me",
-                                "Spell",
-                                "Wherever",
-                                "Whoever",
-                                "2012-01-04T01:00:00+11:00",
-                                "Trash",
-                                '<a href="/drops/' + drop.id.to_s + '/edit">Edit</a>',
-                                '<a href="/drops/' + drop.id.to_s + '" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
-                               ]
+                       "Me",
+                       "Spell",
+                       "Wherever",
+                       "Whoever",
+                       "2012-01-04T01:00:00+11:00",
+                       "Trash",
+                       '<a href="/drops/' + drop.id.to_s + '/edit">Edit</a>',
+                       '<a href="/drops/' + drop.id.to_s + '" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
+                      ]
                   ]
       }
 
@@ -62,7 +62,7 @@ describe DropsController do
 
     it "should filter by instance when fetching xml" do
       FactoryGirl.create(:drop, valid_attributes)
-      instance = FactoryGirl.create(:instance, :raid_id => @raid.id, :zone_id => @zone.id, :start_time => DateTime.parse("03/01/2012 3:00PM"))
+      instance = FactoryGirl.create(:instance, :raid_id => @drop_details[:raid].id, :zone_id => @drop_details[:zone].id, :start_time => DateTime.parse("03/01/2012 3:00PM"))
       FactoryGirl.create(:drop, valid_attributes.merge!(:instance_id => instance.id, :drop_time => DateTime.parse("03/01/2012 3:00PM")))
 
       get :index, :format => :xml, :instance_id => instance.id
@@ -72,7 +72,7 @@ describe DropsController do
 
     it "should filter by drop time when fetching xml" do
       FactoryGirl.create(:drop, valid_attributes)
-      instance = FactoryGirl.create(:instance, :raid_id => @raid.id, :zone_id => @zone.id, :start_time => DateTime.parse("03/01/2012 3:00PM"))
+      instance = FactoryGirl.create(:instance, :raid_id => @drop_details[:raid].id, :zone_id => @drop_details[:zone].id, :start_time => DateTime.parse("03/01/2012 3:00PM"))
       FactoryGirl.create(:drop, valid_attributes.merge!(:instance_id => instance.id, :drop_time => DateTime.parse("03/01/2012 3:00PM")))
 
       get :index, :format => :xml, :drop_time => DateTime.parse("03/01/2012 3:00PM")
@@ -83,7 +83,7 @@ describe DropsController do
     it "should filter by zone when fetching xml" do
       FactoryGirl.create(:drop, valid_attributes)
       zone = FactoryGirl.create(:zone, :name => 'Loot Lounge')
-      instance = FactoryGirl.create(:instance, :raid_id => @raid.id, :start_time => DateTime.parse("03/01/2012 3:00PM"), :zone_id => zone.id)
+      instance = FactoryGirl.create(:instance, :raid_id => @drop_details[:raid].id, :start_time => DateTime.parse("03/01/2012 3:00PM"), :zone_id => zone.id)
       FactoryGirl.create(:drop, valid_attributes.merge!(:instance_id => instance.id, :zone_id => zone.id, :drop_time => DateTime.parse("03/01/2012 3:00PM")))
 
       get :index, :format => :xml, :zone_id => zone.id
@@ -93,7 +93,7 @@ describe DropsController do
 
     it "should filter by mob when fetching xml" do
       FactoryGirl.create(:drop, valid_attributes)
-      mob = FactoryGirl.create(:mob, :zone_id => @zone.id, :name => 'Loot Pinyata')
+      mob = FactoryGirl.create(:mob, :zone_id => @drop_details[:zone].id, :name => "Whack-a-mole")
       FactoryGirl.create(:drop, valid_attributes.merge!(:mob_id => mob.id, :drop_time => DateTime.parse("03/01/2012 3:00PM")))
 
       get :index, :format => :xml, :mob_id => mob.id
@@ -113,7 +113,7 @@ describe DropsController do
 
     it "should filter by character when fetching xml" do
       FactoryGirl.create(:drop, valid_attributes)
-      character = FactoryGirl.create(:character, :name => "Them", :player_id => @player.id, :archetype_id => @archetype.id, :char_type => "m")
+      character = FactoryGirl.create(:character, :name => "Them", :player_id => @drop_details[:player_id], :archetype_id => @drop_details[:archetype].id, :char_type => "m")
       FactoryGirl.create(:drop, valid_attributes.merge!(:character_id => character.id, :drop_time => DateTime.parse("03/01/2012 3:00PM")))
 
       get :index, :format => :xml, :character_id => character.id

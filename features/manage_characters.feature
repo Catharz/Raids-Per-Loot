@@ -6,7 +6,9 @@ Feature: Manage characters
   Background: Need to login and have some valid defaults
     Given I am logged in as a user
     And I have a player named Newbie
-    And I have an archetype named Monk
+    And I have an archetype named Fighter
+    And I have an archetype named Brawler with a parent named Fighter
+    And I have an archetype named Monk with a parent named Brawler
 
   @ranks
   Scenario: Register new character

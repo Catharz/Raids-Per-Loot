@@ -5,16 +5,6 @@ class Player < ActiveRecord::Base
 
   has_many :characters, :inverse_of => :player
 
-  has_one :main_character,
-          :class_name => 'Character',
-          :conditions => ["characters.char_type = 'm'"]
-  has_one :raid_alternate,
-          :class_name => 'Character',
-          :conditions => ["characters.char_type = 'r'"]
-  has_many :general_alternates,
-           :class_name => 'Character',
-           :conditions => ["characters.char_type = 'g'"]
-
   has_many :character_instances, :through => :characters
   has_many :instances, :through => :character_instances
   has_many :raids, :through => :instances, :uniq => true
@@ -31,6 +21,24 @@ class Player < ActiveRecord::Base
   accepts_nested_attributes_for :characters,
                                 :allow_destroy => true,
                                 :reject_if => :all_blank
+
+  def main_character(at_time = nil)
+    characters_of_type('m', at_time).first
+  end
+
+  def raid_alternate(at_time = nil)
+    characters_of_type('r', at_time).first
+  end
+
+  def general_alternates(at_time = nil)
+    characters_of_type('g', at_time)
+  end
+
+  def characters_of_type(char_type, at_time = nil)
+    results = characters.eager_load(:character_types).where(["character_types.char_type = ?", char_type])
+    results = results.where(["character_types.effective_date <= ?", at_time]) if at_time
+    results.order("character_types.effective_date desc")
+  end
 
   def with_new_characters(n = 1)
     n.times do

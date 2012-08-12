@@ -28,6 +28,6 @@ Feature: Manage items
     When I delete the 3rd item
     Then I should see the following items:
       | Name   | Loot Type | Slot(s) | Class(es) |
-      | name 1 | Unknown   |         |           |
-      | name 2 | Unknown   |         |           |
-      | name 4 | Unknown   |         |           |
+      | name 1 | Unknown   | None    | None      |
+      | name 2 | Unknown   | None    | None      |
+      | name 4 | Unknown   | None    | None      |

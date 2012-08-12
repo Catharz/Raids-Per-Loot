@@ -66,27 +66,19 @@ class Item < ActiveRecord::Base
   end
 
   def class_names
-    result = nil
-    archetypes.each do |archetype|
-      if result
-        result << ', ' + archetype.name
-      else
-        result = archetype.name
-      end
+    if archetypes.empty?
+      "None"
+    else
+      (archetypes.map {|a| a.name}).join(", ")
     end
-    result
   end
 
   def slot_names
-    result = nil
-    slots.each do |slot|
-      if result
-        result << ', ' + slot.name
-      else
-        result = slot.name
-      end
+    if slots.empty?
+      "None"
+    else
+      (slots.map {|a| a.name}).join(", ")
     end
-    result
   end
 
   def eq2wire_data
