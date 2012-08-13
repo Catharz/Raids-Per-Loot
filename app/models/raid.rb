@@ -22,12 +22,4 @@ class Raid < ActiveRecord::Base
   def self.by_date(date)
     date ? where(:raid_date => date) : scoped
   end
-
-  def self.utc_time(date_time)
-    TZInfo::Timezone.get('Australia/Melbourne').utc_time(date_time)
-  end
-
-  def self.local_time(date_time)
-    TZInfo::Timezone.get('Australia/Melbourne').local_time(date_time)
-  end
 end

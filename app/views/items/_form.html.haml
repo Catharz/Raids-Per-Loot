@@ -23,13 +23,14 @@
     %strong Type
     %br/
     = f.collection_select :loot_type_id, LootType.all(:order => 'name'), :id, :name, :include_blank => true
-  .field
-    %strong Classes
-    %br/
-    = f.collection_select :archetype_ids, Archetype.base_archetypes, :id, :name, {}, :multiple => true
-  .field
-    %strong Slots
-    %br/
-    = f.collection_select :slot_ids, Slot.all(:order => 'name'), :id, :name, {}, :multiple => true
-  .actions
+  #item_selects
+    .field#item_classes
+      %strong Classes
+      %br/
+      = f.collection_select :archetype_ids, Archetype.base_archetypes, :id, :name, {}, :multiple => true
+    .field#item_slots
+      %strong Slots
+      %br/
+      = f.collection_select :slot_ids, Slot.all(:order => 'name'), :id, :name, {}, :multiple => true
+  .actions#clear
     = f.submit

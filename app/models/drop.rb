@@ -15,6 +15,12 @@ class Drop < ActiveRecord::Base
     validates_presence_of :zone_id, :mob_id, :item_id, :character_id, :drop_time, :loot_method
   end
 
+  delegate :name, :to => :character, :prefix => :character
+  delegate :name, :to => :item, :prefix => :item
+  delegate :name, :to => :mob, :prefix => :mob
+  delegate :name, :to => :zone, :prefix => :zone
+  delegate :name, :to => :loot_type, :prefix => :loot_type
+
   def loot_method_name
     case self.loot_method
       when "n" then
@@ -139,14 +145,6 @@ class Drop < ActiveRecord::Base
     else
       scoped
     end
-  end
-
-  def utc_time(date_time)
-    TZInfo::Timezone.get('Australia/Melbourne').utc_time(date_time)
-  end
-
-  def local_time(date_time)
-    TZInfo::Timezone.get('Australia/Melbourne').local_time(date_time)
   end
 
   def loot_type_name
