@@ -14,8 +14,8 @@ describe DropsController do
   describe "GET invalid" do
     it "lists drops assigned to the wrong archetype" do
       priest = FactoryGirl.create(:archetype, :name => 'Priest')
-      FactoryGirl.create(:archetypes_item, :archetype_id => priest.id, :item_id => @drop_details[:item].id)
-      drop = FactoryGirl.create(:drop, valid_attributes.merge!(:loot_method => 'n'))
+      FactoryGirl.create(:archetypes_item, :archetype_id => priest.id, :item_id => @drop_details[:armour_item].id)
+      drop = FactoryGirl.create(:drop, valid_attributes(:item_id => @drop_details[:armour_item].id, :loot_method => 'n'))
 
       get :invalid
 
@@ -23,13 +23,35 @@ describe DropsController do
     end
 
     it "does not list trash drops" do
-      priest = FactoryGirl.create(:archetype, :name => 'Priest')
-      FactoryGirl.create(:archetypes_item, :archetype_id => priest.id, :item_id => @drop_details[:item].id)
-      FactoryGirl.create(:drop, valid_attributes)
+      FactoryGirl.create(:drop, valid_attributes(:item_id => @drop_details[:trash_item].id, :loot_method => 't', :loot_type_id => @drop_details[:loot_type_id]))
 
       get :invalid
 
       assigns(:drops).should eq([])
+    end
+
+    it "lists trash drops that were won via need" do
+      drop = FactoryGirl.create(:drop, valid_attributes(:item_id => @drop_details[:trash_item].id, :loot_method => 'n'))
+
+      get :invalid
+
+      assigns(:drops).should eq([drop])
+    end
+
+    it "lists trash drops that were won via random" do
+      drop = FactoryGirl.create(:drop, valid_attributes(:item_id => @drop_details[:trash_item].id, :loot_method => 'r'))
+
+      get :invalid
+
+      assigns(:drops).should eq([drop])
+    end
+
+    it "lists trash drops that were won via bid" do
+      drop = FactoryGirl.create(:drop, valid_attributes(:item_id => @drop_details[:trash_item].id, :loot_method => 'b'))
+
+      get :invalid
+
+      assigns(:drops).should eq([drop])
     end
   end
 
@@ -41,9 +63,9 @@ describe DropsController do
                   "iTotalRecords" => 1,
                   "iTotalDisplayRecords" => 1,
                   "aaData" => [
-                      ['<a href="/drops/' + drop.id.to_s + '">Whatever</a>',
+                      ['<a href="/drops/' + drop.id.to_s + '">' + drop.item_name + '</a>',
                        "Me",
-                       "Spell",
+                       "Armour",
                        "Wherever",
                        "Whoever",
                        "2012-01-04T01:00:00+11:00",

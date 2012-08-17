@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
-  include RemoteConnectionHelper
+  include RemoteConnectionHelper, ArchetypesHelper
 
   belongs_to :loot_type, :inverse_of => :items
   has_many :drops, :inverse_of => :item
@@ -18,6 +18,8 @@ class Item < ActiveRecord::Base
   has_one :last_drop,
           :class_name => 'Drop',
           :order => 'created_at desc'
+
+  delegate :name, :to => :loot_type, :prefix => :loot_type
 
   def fetch_soe_item_details(format = "json")
     #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
@@ -66,11 +68,7 @@ class Item < ActiveRecord::Base
   end
 
   def class_names
-    if archetypes.empty?
-      "None"
-    else
-      (archetypes.map {|a| a.name}).join(", ")
-    end
+    consolidate_archetypes(archetypes)
   end
 
   def slot_names

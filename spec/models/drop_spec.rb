@@ -59,6 +59,7 @@ describe Drop do
       item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Armour"))
       item.should_receive(:archetypes).and_return([@fighter, @scout])
       drop = Drop.new(:character => @raid_main, :item => item, :loot_method => 'n')
+      @raid_main.should_receive(:main_character).and_return(@raid_main)
 
       drop.correctly_assigned?.should be_true
     end
@@ -66,6 +67,7 @@ describe Drop do
     it "should be false when item is won by need for raid alternate" do
       item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Armour"))
       drop = Drop.new(:character => @raid_alt, :item => item, :loot_method => 'n')
+      @raid_alt.should_receive(:main_character).and_return(@raid_main)
 
       drop.correctly_assigned?.should be_false
     end
@@ -73,6 +75,7 @@ describe Drop do
     it "should be false when item is won by need for general alternate" do
       item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Armour"))
       drop = Drop.new(:character => @general_alt, :item => item, :loot_method => 'n')
+      @general_alt.should_receive(:main_character).and_return(@raid_main)
 
       drop.correctly_assigned?.should be_false
     end
@@ -80,6 +83,7 @@ describe Drop do
     it "should be true when item is won by random for raid main" do
       item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Armour"))
       drop = Drop.new(:character => @raid_main, :item => item, :loot_method => 'r')
+      @raid_main.should_receive(:raid_alternate).and_return(@raid_alt)
 
       drop.correctly_assigned?.should be_false
     end
@@ -88,6 +92,7 @@ describe Drop do
       item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Armour"))
       item.should_receive(:archetypes).and_return([@scout])
       drop = Drop.new(:character => @raid_alt, :item => item, :loot_method => 'r')
+      @raid_alt.should_receive(:raid_alternate).and_return(@raid_alt)
 
       drop.correctly_assigned?.should be_true
     end
@@ -95,6 +100,7 @@ describe Drop do
     it "should be false when item is won by random for general alternate" do
       item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Armour"))
       drop = Drop.new(:character => @general_alt, :item => item, :loot_method => 'r')
+      @general_alt.should_receive(:raid_alternate).and_return(@raid_alt)
 
       drop.correctly_assigned?.should be_false
     end

@@ -18,7 +18,7 @@ class DropsController < ApplicationController
 
   # GET /drops/invalid
   def invalid
-    @drops = Drop.invalidly_assigned
+    @drops = Drop.invalidly_assigned.uniq
 
     respond_to do |format|
       format.html # index.html.erb
@@ -34,6 +34,15 @@ class DropsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml { render :xml => @drop }
+      format.json {
+        render :json => @drop.to_json(
+            :methods => [:loot_method_name,
+                         :invalid_reason,
+                         :character_name,
+                         :character_archetype_name,
+                         :item_archetypes,
+                         :loot_type_name])
+      }
     end
   end
 
@@ -45,6 +54,7 @@ class DropsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.xml { render :xml => @drop }
+      format.json { render :json => @drop }
     end
   end
 
@@ -104,9 +114,11 @@ class DropsController < ApplicationController
       if @drop.save
         format.html { redirect_to(@drop, :notice => 'Drop was successfully created.') }
         format.xml { render :xml => @drop, :status => :created, :location => @drop }
+        format.xml { render :json => @drop, :status => :created, :location => @drop }
       else
         format.html { render :action => "new" }
         format.xml { render :xml => @drop.errors, :status => :unprocessable_entity }
+        format.json { render :json => @drop.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -118,11 +130,17 @@ class DropsController < ApplicationController
 
     respond_to do |format|
       if @drop.update_attributes(params[:drop])
-        format.html { redirect_to(@drop, :notice => 'Drop was successfully updated.') }
-        format.xml { head :ok }
+        format.html {
+          if request.env['HTTP_REFERER']
+            redirect_to request.env['HTTP_REFERER'], :response => 303, :notice => 'Drop was successfully updated.'
+          else
+            redirect_to(@drop, :notice => 'Drop was successfully updated.')
+          end
+        }
+        format.json { render :json => @drop, :notice => 'Drop was successfully updated.' }
       else
         format.html { render :action => "edit" }
-        format.xml { render :xml => @drop.errors, :status => :unprocessable_entity }
+        format.json { render :json => @drop.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -136,38 +154,7 @@ class DropsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(drops_url) }
       format.xml { head :ok }
-    end
-  end
-
-  # ASSIGN_LOOT /drops/1
-  # ASSIGN_LOOT /drops/1.xml
-  def assign_loot
-    @drop = Drop.find(params[:id])
-
-    respond_to do |format|
-      if @drop.assign_loot
-        format.html { redirect_to(@drop, :notice => 'Drop was successfully assigned.') }
-        format.xml { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml { render :xml => @drop.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # UNASSIGN_LOOT /drops/1
-  # UNASSIGN_LOOT /drops/1.xml
-  def unassign_loot
-    @drop = Drop.find(params[:id])
-
-    respond_to do |format|
-      if @drop.unassign_loot
-        format.html { redirect_to(@drop, :notice => 'Drop was successfully unassigned.') }
-        format.xml { head :ok }
-      else
-        format.html { redirect_to(drops_url) }
-        format.xml { render :xml => @drop.errors, :status => :unprocessable_entity }
-      end
+      format.json { head :ok }
     end
   end
 end

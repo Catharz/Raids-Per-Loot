@@ -1,35 +1,36 @@
+#edit-invalid-drop-form{:title => "Edit Drop", :style => "display:none"}
+#edit-invalid-item-form{:title => "Edit Item", :style => "display:none"}
 %table#invalidDropsTable
   %thead
     %tr
       %th Character
       %th Class
+      %th Drop Type
+      %th Item Type
       %th Item Name
       %th Item Classes
-      %th Item Type
       %th Loot Method
       %th Drop Time
       %th Invalid Reason
       %th
       %th
-      %th
   %tbody
     - @drops.each do |drop|
-      - unless drop.correctly_assigned?
-        %tr
-          - item = drop.item
-          %th= drop.character ? drop.character.name : "Unknown"
-          %th= drop.character and drop.character.archetype ? drop.character.archetype.name : "Unknown"
-          - if item
-            %th= link_to item.name, item, {:class => "itemPopupTrigger", :id => item.id}
-            %th= consolidate_archetypes(item.archetypes)
-            %th= item.loot_type ? item.loot_type.name : "Unknown"
-          - else
-            %th Unknown
-            %th Unknown
-            %th Unknown
-          %th= drop.loot_method_name
-          %th= drop.drop_time
-          %th= drop.invalid_reason
-          %th= link_to 'Edit Drop', edit_drop_path(drop)
-          %th= link_to 'Edit Item', edit_item_path(item)
-          %th= link_to 'Reassign Item', edit_drop_path(drop)
+      %tr{:id => "drop_#{drop.id}", :class => "item_#{drop.item.id}", "data-drop_id" => drop.id}
+        - item = drop.item
+        %td= drop.character ? drop.character_name : "Unknown"
+        %td= drop.character and drop.character.archetype ? drop.character.archetype.name : "Unknown"
+        %td= drop.loot_type ? drop.loot_type_name : "Unknown"
+        - if item
+          %td= item.loot_type ? item.loot_type.name : "Unknown"
+          %td= link_to item.name, item, {:class => "itemPopupTrigger", :id => item.id}
+          %td= consolidate_archetypes(item.archetypes)
+        - else
+          %td Unknown
+          %td Unknown
+          %td Unknown
+        %td= drop.loot_method_name
+        %td= drop.drop_time
+        %td= drop.invalid_reason
+        %td= link_to 'Edit Drop', edit_drop_path(drop), :remote => true
+        %td= link_to 'Edit Item', edit_item_path(item, :params => {:drop_id => drop.id}), :remote => true

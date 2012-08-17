@@ -14,8 +14,12 @@ module DropSpecHelper
     zone = FactoryGirl.create(:zone, :name => "Wherever")
     mob = FactoryGirl.create(:mob, :name => "Whoever", :zone_id => zone.id)
 
-    loot_type = FactoryGirl.create(:loot_type, :name => "Spell")
-    item = FactoryGirl.create(:item, :name => "Whatever", :eq2_item_id => "blah", :loot_type_id => loot_type.id)
+    armour = FactoryGirl.create(:loot_type, :name => "Armour", :default_loot_method => 'n')
+    spell = FactoryGirl.create(:loot_type, :name => "Spell", :default_loot_method => 'r')
+    trash = FactoryGirl.create(:loot_type, :name => "Trash", :default_loot_method => 't')
+    armour_item = FactoryGirl.create(:item, :name => "Armour", :eq2_item_id => "armour", :loot_type_id => armour.id)
+    spell_item = FactoryGirl.create(:item, :name => "Spell", :eq2_item_id => "spell", :loot_type_id => spell.id)
+    trash_item = FactoryGirl.create(:item, :name => "Trash", :eq2_item_id => "trash", :loot_type_id => trash.id)
 
     rank = FactoryGirl.create(:rank, :name => "Main")
     player = FactoryGirl.create(:player, :name => "Me", :rank_id => rank.id)
@@ -29,8 +33,12 @@ module DropSpecHelper
      :instance => instance,
      :zone => zone,
      :mob => mob,
-     :loot_type => loot_type,
-     :item => item,
+     :armour_loot_type => armour,
+     :spell_loot_type => spell,
+     :trash_loot_type => trash,
+     :spell_item => spell_item,
+     :armour_item => armour_item,
+     :trash_item => trash_item,
      :rank => rank,
      :player => player,
      :archetype => archetype,
@@ -44,8 +52,8 @@ module DropSpecHelper
     {:instance_id => @drop_details[:instance].id,
      :zone_id => @drop_details[:zone].id,
      :mob_id => @drop_details[:mob].id,
-     :item_id => @drop_details[:item].id,
-     :loot_type_id => @drop_details[:loot_type].id,
+     :item_id => @drop_details[:armour_item].id,
+     :loot_type_id => @drop_details[:armour_loot_type].id,
      :character_id => @drop_details[:character].id,
      :loot_method => "t",
      :drop_time => @drop_details[:drop_time]}.merge!(options)

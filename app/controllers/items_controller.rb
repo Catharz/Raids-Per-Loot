@@ -7,14 +7,15 @@ class ItemsController < ApplicationController
     @items = Item.order(:name)
     @items.each do |item|
       if params[:delayed]
+        flash[:notice] = "Items are being updated."
         Delayed::Job.enqueue(ItemDetailsJob.new(item))
       else
+        flash[:notice] = "Items have been updated."
         item.fetch_soe_item_details
       end
     end
 
-    flash[:notice] = "Items are being updated."
-    redirect_to admin_url
+    redirect_to '/admin'
   end
 
   def fetch_data
@@ -51,7 +52,7 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @item }
+      format.json { render :json => @item.to_json(:methods => [:class_names, :slot_names, :loot_type_name]) }
       format.xml { render :xml => @item }
     end
   end
@@ -99,8 +100,8 @@ class ItemsController < ApplicationController
     respond_to do |format|
       if @item.update_attributes(params[:item])
         format.html { redirect_to @item, :notice => 'Item was successfully updated.' }
-        format.json { head :ok }
-        format.xml { head :ok }
+        format.json { render :json => @item, :notice => 'Item was successfully updated.' }
+        format.xml {  render :xml => @item, :notice => 'Item was successfully updated.'  }
       else
         format.html { render :action => "edit" }
         format.json { render :json => @item.errors, :status => :unprocessable_entity }

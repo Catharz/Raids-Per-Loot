@@ -1,3 +1,20 @@
+jQuery.extend jQuery.fn.dataTableExt.oSort,
+  "date-time-pre": (a) ->
+    unless $.trim(a) is ""
+      frDatea = $.trim(a).split(" ")
+      frTimea = frDatea[1].split(":")
+      frDatea2 = frDatea[0].split("-")
+      x = (frDatea2[0] + frDatea2[1] + frDatea2[2] + frTimea[0] + frTimea[1] + frTimea[2]) * 1
+    else
+      x = 10000000000000 # = l'an 1000 ...
+    x
+
+  "date-time-asc": (a, b) ->
+    a - b
+
+  "date-time-desc": (a, b) ->
+    b - a
+
 jQuery ->
   # Default DataTable
 
@@ -184,17 +201,17 @@ jQuery ->
     "aoColumns": [
       null, # Character Name
       null, # Character Class
+      null, # Drop Type
+      null, # Item Type
       null, # Item Name
       null, # Item Classes
-      null, # Item Type
       null, # Loot Method
-      {"sType": "date"}, # Drop Time
+      {"sType": "date-time"}, # Drop Time
       null, # Invalid Reason
       null, # Edit Drop
       null, # Edit Item
-      null  # Re-assign Item
     ]
-    "aaSorting": [[5,'desc']]
+    "aaSorting": [[7,'desc']]
 
   $('#instancesTable').dataTable
     "bJQueryUI": true

@@ -1,0 +1,45 @@
+= form_for @drop do |f|
+  - if @drop.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@drop.errors.count, "error")
+        prohibited this drop from being saved:
+      %ul
+        - @drop.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    %strong= f.label :zone
+    %br/
+    = @drop.zone ? @drop.zone_name : f.collection_select(:zone_id, Zone.order(:name), :id, :name, :include_blank => true)
+  .field#mob_field
+    %strong= f.label :mob
+    %br/
+    = @drop.mob ? @drop.mob_name : f.collection_select(:mob_id, Mob.by_zone(@drop.zone_id).order(:name), :id, :name, :include_blank => true, :id => "drop_mob_id")
+  .field
+    %strong= f.label :loot_type
+    %br/
+    = f.collection_select(:loot_type_id, LootType.order(:name), :id, :name, :include_blank => true)
+  .field
+    %strong= f.label :item
+    %br/
+    = @drop.item ? @drop.item_name : f.collection_select(:item_id, Item.order(:name), :id, :name, :include_blank => true)
+  .field
+    %strong= f.label :drop_time
+    %br/
+    = @drop.drop_time
+  .field
+    %strong= f.label :character
+    %br/
+    = f.collection_select(:character_id, Character.order(:name), :id, :name, :include_blank => true)
+  .field
+    %strong= f.label :loot_method
+    %br/
+    = f.label "Need"
+    = f.radio_button :loot_method, "n", :id => "need"
+    = f.label "Random"
+    = f.radio_button :loot_method, "r", :id => "random"
+    = f.label "Bid"
+    = f.radio_button :loot_method, "b", :id => "bid"
+    = f.label "Trash"
+    = f.radio_button :loot_method, "t", :id => "trash"

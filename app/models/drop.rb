@@ -19,7 +19,14 @@ class Drop < ActiveRecord::Base
   delegate :name, :to => :item, :prefix => :item
   delegate :name, :to => :mob, :prefix => :mob
   delegate :name, :to => :zone, :prefix => :zone
-  delegate :name, :to => :loot_type, :prefix => :loot_type
+
+  def loot_type_name
+    loot_type ? loot_type.name : "Unknown"
+  end
+
+  def character_archetype_name
+    character and character.archetype ? character.archetype.name : "Unknown"
+  end
 
   def loot_method_name
     case self.loot_method
@@ -36,23 +43,6 @@ class Drop < ActiveRecord::Base
     end
   end
 
-  def self.invalidly_assigned
-    needed.for_wrong_class
-  end
-
-  def self.of_type(loot_type_name)
-    where(:loot_type_id => LootType.find_by_name(loot_type_name).id)
-  end
-
-  def self.needed
-    where(:loot_method => "n")
-  end
-
-  def self.for_wrong_class
-    where("(select c.archetype_id from characters c where c.id = drops.character_id) " +
-              "not in (select ai.archetype_id from archetypes_items ai where ai.item_id = drops.item_id)")
-  end
-
   def invalid_reason
     if character
       case loot_method
@@ -60,7 +50,7 @@ class Drop < ActiveRecord::Base
           if item.loot_type and item.loot_type.default_loot_method.eql? 't'
             "Loot via Need for Trash Item"
           else
-            if character.char_type.eql? 'm'
+            if character.main_character(drop_time).eql? character
               if character.archetype and item.archetypes.include? character.archetype
                 nil
               else
@@ -74,7 +64,7 @@ class Drop < ActiveRecord::Base
           if item.loot_type and item.loot_type.default_loot_method.eql? 't'
             "Loot via Random on Trash Item"
           else
-            if character.char_type.eql? 'r'
+            if character.raid_alternate(drop_time).eql? character
               if character.archetype and item.archetypes.include? character.archetype
                 nil
               else
@@ -88,7 +78,7 @@ class Drop < ActiveRecord::Base
           if item.loot_type and item.loot_type.default_loot_method.eql? 't'
             "Loot via Bid for Trash Item"
           else
-            if character.char_type.eql? 'g'
+            if character.general_alternates(drop_time).include? character
               unless character.archetype and item.archetypes.include? character.archetype
                 "Item / Character Class Mis-Match"
               end
@@ -108,6 +98,86 @@ class Drop < ActiveRecord::Base
 
   def correctly_assigned?
     invalid_reason.nil?
+  end
+
+  def self.invalidly_assigned
+    mismatched_loot_types +
+        won_by('n').for_wrong_class +
+        need_on_trash +
+        random_on_trash +
+        bid_on_trash +
+        trash_for_non_trash +
+        main_won_without_need +
+        raid_alt_won_without_random +
+        general_alt_won_without_bid +
+        character_missing
+  end
+
+  def self.character_missing
+    where('drops.character_id is null')
+  end
+
+  def self.mismatched_loot_types
+    joins(:item).where('drops.loot_type_id <> items.loot_type_id')
+  end
+
+  def self.need_on_trash
+    joins(:item => :loot_type).where(["drops.loot_method = ? and loot_types.default_loot_method = ?", 'n', 't'])
+  end
+
+  def self.random_on_trash
+    joins(:item => :loot_type).where(["drops.loot_method = ? and loot_types.default_loot_method = ?", 'r', 't'])
+  end
+
+  def self.bid_on_trash
+    joins(:item => :loot_type).where(["drops.loot_method = ? and loot_types.default_loot_method = ?", 'b', 't'])
+  end
+
+  def self.trash_for_non_trash
+    joins(:item => :loot_type).where(["drops.loot_method = ? and loot_types.default_loot_method <> ?", 't', 't'])
+  end
+
+  def self.main_won_without_need
+    joins(:character => {:player => {:characters => :character_types}})
+    .where("drops.loot_method not in (?)", %w{n t})
+    .where(["(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?", 'm'])
+  end
+
+  def self.raid_alt_won_without_random
+    joins(:character => {:player => {:characters => :character_types}})
+    .where("drops.loot_method not in (?)", %w{r t})
+    .where(["(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?", 'r'])
+  end
+
+  def self.general_alt_won_without_bid
+    joins(:character => {:player => {:characters => :character_types}})
+    .where("drops.loot_method not in (?)", %w{b t})
+    .where(["(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?", 'g'])
+  end
+
+  def self.old_invalidly_assigned
+    all.to_a.select { |d| !d.invalid_reason.nil? }
+  end
+
+  def self.of_type(loot_type_name)
+    where(:loot_type_id => LootType.find_by_name(loot_type_name).id)
+  end
+
+  def self.with_default_loot_method(default_loot_method)
+    joins(:item => :loot_type).where(["loot_types.default_loot_method = ?", default_loot_method])
+  end
+
+  def self.needed
+    won_by('n')
+  end
+
+  def self.won_by(loot_method)
+    where(:loot_method => loot_method)
+  end
+
+  def self.for_wrong_class
+    where("(select c.archetype_id from characters c where c.id = drops.character_id) " +
+              "not in (select ai.archetype_id from archetypes_items ai where ai.item_id = drops.item_id)")
   end
 
   def self.by_archetype(archetype_name)
@@ -144,14 +214,6 @@ class Drop < ActiveRecord::Base
       where(:drop_time => drop_time)
     else
       scoped
-    end
-  end
-
-  def loot_type_name
-    if self.item
-      self.item.loot_type ? self.item.loot_type.name : "Unknown"
-    else
-      "Unknown"
     end
   end
 
