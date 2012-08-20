@@ -35,6 +35,7 @@
   .field
     %strong= f.label :loot_method
     %br/
+    = f.select(:loot_method, [{:id => 'n', :text => 'Need'}].collect {|lt| [ lt[:text], lt[:id] ] })
     = f.label "Need"
     = f.radio_button :loot_method, "n", :id => "need"
     = f.label "Random"

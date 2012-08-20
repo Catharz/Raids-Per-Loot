@@ -35,11 +35,4 @@
   .field
     %strong= f.label :loot_method
     %br/
-    = f.label "Need"
-    = f.radio_button :loot_method, "n", :id => "need"
-    = f.label "Random"
-    = f.radio_button :loot_method, "r", :id => "random"
-    = f.label "Bid"
-    = f.radio_button :loot_method, "b", :id => "bid"
-    = f.label "Trash"
-    = f.radio_button :loot_method, "t", :id => "trash"
+    = f.select(:loot_method, [{:id => 'n', :text => 'Need'}, {:id => 'r', :text => 'Random'}, {:id => 'b', :text => 'Bid'}, {:id => 't', :text => 'Trash'}].collect {|lt| [ lt[:text], lt[:id] ] })

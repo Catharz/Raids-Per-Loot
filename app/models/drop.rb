@@ -100,17 +100,13 @@ class Drop < ActiveRecord::Base
     invalid_reason.nil?
   end
 
-  def self.invalidly_assigned
-    mismatched_loot_types +
-        won_by('n').for_wrong_class +
-        need_on_trash +
-        random_on_trash +
-        bid_on_trash +
-        trash_for_non_trash +
-        main_won_without_need +
-        raid_alt_won_without_random +
-        general_alt_won_without_bid +
-        character_missing
+  def self.invalidly_assigned(options = {:validate_trash => false, :validate_general_alts => false})
+    invalid_list = character_missing + mismatched_loot_types + won_by('n').for_wrong_class +
+        trash_for_non_trash + main_won_without_need + raid_alt_won_without_random
+
+    invalid_list += need_on_trash + random_on_trash + bid_on_trash if options[:validate_trash]
+    invalid_list += general_alt_won_without_bid if options[:validate_general_alts]
+    invalid_list
   end
 
   def self.character_missing
@@ -138,21 +134,15 @@ class Drop < ActiveRecord::Base
   end
 
   def self.main_won_without_need
-    joins(:character => {:player => {:characters => :character_types}})
-    .where("drops.loot_method not in (?)", %w{n t})
-    .where(["(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?", 'm'])
+    joins(:character => {:player => {:characters => :character_types}}).where("drops.loot_method not in (?)", %w{n t}).where(["(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?", 'm'])
   end
 
   def self.raid_alt_won_without_random
-    joins(:character => {:player => {:characters => :character_types}})
-    .where("drops.loot_method not in (?)", %w{r t})
-    .where(["(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?", 'r'])
+    joins(:character => {:player => {:characters => :character_types}}).where("drops.loot_method not in (?)", %w{r t}).where(["(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?", 'r'])
   end
 
   def self.general_alt_won_without_bid
-    joins(:character => {:player => {:characters => :character_types}})
-    .where("drops.loot_method not in (?)", %w{b t})
-    .where(["(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?", 'g'])
+    joins(:character => {:player => {:characters => :character_types}}).where("drops.loot_method not in (?)", %w{b t}).where(["(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?", 'g'])
   end
 
   def self.old_invalidly_assigned

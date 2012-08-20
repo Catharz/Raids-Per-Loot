@@ -18,9 +18,10 @@ updateInvalidDrop = (drop) ->
 
 $("#edit-invalid-drop-form").dialog
   autoOpen: true
-  height: 450
-  width: 420
+  height: 460
+  width: 380
   modal: true
+  resizable: false
   title: 'Edit Drop'
   buttons:
     "Cancel": =>

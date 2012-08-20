@@ -8,6 +8,7 @@ class LootTypesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+      format.json { render :json => @loot_types }
       format.xml  { render :xml => @loot_types.to_xml( :include => [:items, :drops] ) }
     end
   end
@@ -19,6 +20,7 @@ class LootTypesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+      format.json { render :json => @loot_type }
       format.xml  { render :xml => @loot_type.to_xml( :include => [:items, :drops] ) }
     end
   end

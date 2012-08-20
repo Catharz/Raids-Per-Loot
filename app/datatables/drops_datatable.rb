@@ -61,11 +61,19 @@ class DropsDatatable
   end
 
   def sort_column
-    columns = %w[items.name characters.name loot_types.name zones.name mobs.name drops.drop_time drops.loot_method]
-    columns[params[:iSortCol_0].to_i]
+    if params[:iSortCol_0].present?
+      columns = %w[items.name characters.name loot_types.name zones.name mobs.name drops.drop_time drops.loot_method]
+      columns[params[:iSortCol_0].to_i]
+    else
+      'drops.drop_time'
+    end
   end
 
   def sort_direction
-    params[:sSortDir_0] == "desc" ? "desc" : "asc"
+    if params[:sSortDir_0].present?
+      params[:sSortDir_0] == 'desc' ? 'desc' : 'asc'
+    else
+      sort_column == 'drops.drop_time' ? 'desc' : 'asc'
+    end
   end
 end

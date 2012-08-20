@@ -1,6 +1,4 @@
 #item_selects {
-  width: 260px;
-
   .field#item_classes {
     #item_archetype_ids {
       width: 160px;
@@ -14,7 +12,9 @@
       width: 100px;
       height: 206px;
     }
-    float: right;
+    padding-left: 20px;
+    position: relative;
+    float: left;
   }
 }
 
