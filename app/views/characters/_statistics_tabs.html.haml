@@ -19,7 +19,10 @@
     - @characters.each do |character|
       - if character['char_type'].eql? @char_type or @char_type.eql? "all"
         %tr
-          %td= character['name']
+          - if character['rpl_id'].present?
+            %td{:id => "character_#{character['rpl_id']}"}= link_to character['name'], character_path(:id => character['rpl_id']), :remote => true
+          - else
+            %td= character['name']
           - if character['type'] and character['stats']
             - stats = character['stats']
             %td= character['type']['class']

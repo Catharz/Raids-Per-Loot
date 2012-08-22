@@ -29,7 +29,7 @@ $("#edit-invalid-item-form").dialog
   resizable: false
   title: 'Edit Item'
   buttons:
-    "Cancel": =>
+    "Cancel": ->
       $("#edit-invalid-item-form").dialog "close"
     "Save": ->
       $.post "/items/<%= @item.id %>.json", $("#edit-invalid-item-form form").serializeArray(), (data, text, xhr) ->

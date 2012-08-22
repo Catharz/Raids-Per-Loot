@@ -6,8 +6,9 @@ Given /^the following drops:$/ do |drops|
     mob = Mob.find_by_name_and_zone_id(drop[:mob], zone.id)
     mob ||= Mob.create(:name => drop[:mob], :zone_id => zone.id)
 
+    default_loot_method = drop[:loot_type] == "Trash" ? "t" : "n"
     loot_type = LootType.find_by_name(drop[:loot_type])
-    loot_type ||= LootType.create(:name => drop[:loot_type])
+    loot_type ||= LootType.create(:name => drop[:loot_type], :default_loot_method => default_loot_method)
 
     item = Item.find_by_name(drop[:item])
     item ||= Item.create(:name => drop[:item], :eq2_item_id => drop[:eq2_item_id], :loot_type => loot_type)
@@ -26,7 +27,7 @@ Given /^the following drops:$/ do |drops|
         :mob_id => mob.id,
         :loot_type_id => loot_type.id,
         :item_id => item.id,
-        :loot_method => "n",
+        :loot_method => drop[:loot_method],
         :character_id => character.id,
         :drop_time => drop[:drop_time])
     observer.after_save(drop)
@@ -88,4 +89,14 @@ end
 
 When /^I view the drops page$/ do
   visit drops_path
+end
+
+When /^I view the invalid drops page$/ do
+  visit invalid_drops_path
+end
+
+Then /^I should see the following invalid drops:$/ do |invalid_drops_table|
+  rows = find("table#invalidDropsTable").all('tr')
+  table = rows.map { |r| r.all('th,td').map { |c| c.text.strip } }
+  invalid_drops_table.diff!(table)
 end

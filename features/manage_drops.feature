@@ -34,14 +34,30 @@ Feature: Manage drops
   @javascript
   Scenario: Delete drop
     Given the following drops:
-      | zone        | mob        | character        | item        | loot_type | eq2_item_id   | drop_time                 |
-      | zone_name 1 | mob_name 1 | character_name 1 | item_name 1 | Armour    | eq2_item_id 1 | 2011-09-21 20:45:00 +1000 |
-      | zone_name 2 | mob_name 2 | character_name 2 | item_name 2 | Weapon    | eq2_item_id 2 | 2011-09-20 20:30:00 +1000 |
-      | zone_name 3 | mob_name 3 | character_name 3 | item_name 3 | Armour    | eq2_item_id 3 | 2011-09-19 20:15:00 +1000 |
-      | zone_name 4 | mob_name 4 | character_name 4 | item_name 4 | Weapon    | eq2_item_id 4 | 2011-09-18 20:00:00 +1000 |
+      | zone        | mob        | character        | item        | loot_type | eq2_item_id   | drop_time                 | loot_method |
+      | zone_name 1 | mob_name 1 | character_name 1 | item_name 1 | Armour    | eq2_item_id 1 | 2011-09-21 20:45:00 +1000 | n           |
+      | zone_name 2 | mob_name 2 | character_name 2 | item_name 2 | Weapon    | eq2_item_id 2 | 2011-09-20 20:30:00 +1000 | r           |
+      | zone_name 3 | mob_name 3 | character_name 3 | item_name 3 | Jewellery | eq2_item_id 3 | 2011-09-19 20:15:00 +1000 | b           |
+      | zone_name 4 | mob_name 4 | character_name 4 | item_name 4 | Trash     | eq2_item_id 4 | 2011-09-18 20:00:00 +1000 | t           |
     When I delete the 3rd drop
     Then I should see the following drops:
       | Item Name   | Character Name   | Loot Type | Zone Name   | Mob Name   | Drop Time                 | Loot Method |
       | item_name 1 | character_name 1 | Armour    | zone_name 1 | mob_name 1 | 2011-09-21T20:45:00+10:00 | Need        |
-      | item_name 2 | character_name 2 | Weapon    | zone_name 2 | mob_name 2 | 2011-09-20T20:30:00+10:00 | Need        |
-      | item_name 4 | character_name 4 | Weapon    | zone_name 4 | mob_name 4 | 2011-09-18T20:00:00+10:00 | Need        |
+      | item_name 2 | character_name 2 | Weapon    | zone_name 2 | mob_name 2 | 2011-09-20T20:30:00+10:00 | Random      |
+      | item_name 4 | character_name 4 | Trash     | zone_name 4 | mob_name 4 | 2011-09-18T20:00:00+10:00 | Trash       |
+
+  @javascript
+  Scenario: Invalid Drops
+    Given the following drops:
+      | zone        | mob        | character        | item        | loot_type | eq2_item_id   | drop_time                 | loot_method |
+      | zone_name 1 | mob_name 1 | character_name 1 | item_name 1 | Armour    | eq2_item_id 1 | 2011-09-21 20:45:00 +1000 | t           |
+      | zone_name 2 | mob_name 2 | character_name 2 | item_name 2 | Weapon    | eq2_item_id 2 | 2011-09-20 20:30:00 +1000 | t           |
+      | zone_name 3 | mob_name 3 | character_name 3 | item_name 3 | Trash     | eq2_item_id 3 | 2011-09-19 20:15:00 +1000 | n           |
+      | zone_name 4 | mob_name 4 | character_name 4 | item_name 4 | Weapon    | eq2_item_id 4 | 2011-09-18 20:00:00 +1000 | t           |
+    When I view the invalid drops page
+    Then I should see the following invalid drops:
+      | Character        | Class | Drop Type | Item Type | Item Name   | Item Classes | Loot Method | Drop Time                 | Invalid Reason                    |
+      | character_name 1 | Scout | Armour    | Armour    | item_name 1 | None         | Trash       | 2011-09-21 20:45:00 +1000 | Loot via Trash for Non-Trash item |
+      | character_name 2 | Scout | Weapon    | Weapon    | item_name 2 | None         | Trash       | 2011-09-20 20:30:00 +1000 | Loot via Trash for Non-Trash item |
+      | character_name 3 | Scout | Trash     | Trash     | item_name 3 | None         | Need        | 2011-09-19 20:15:00 +1000 | Loot via Need for Trash Item      |
+      | character_name 4 | Scout | Weapon    | Weapon    | item_name 4 | None         | Trash       | 2011-09-18 20:00:00 +1000 | Loot via Trash for Non-Trash item |

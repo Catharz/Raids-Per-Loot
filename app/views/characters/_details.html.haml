@@ -1,0 +1,55 @@
+#tabBook
+  %ul
+    %li= link_to "Details", "#details"
+    %li= link_to "Attendance", "#attendance"
+    %li= link_to "Drops", "#drops"
+    %li= link_to "History", "#history"
+    %li= link_to "Adjustments", "#adjustments"
+    %li= link_to "Statistics", "#statistics"
+
+  #details
+    %p
+      %strong Name:
+      = @character.name
+    %p
+      %strong Class:
+      = @character.archetype ? @character.archetype.name : "Unknown"
+    %p
+      %strong Rank:
+      = case @character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+    %p
+      %strong Raids:
+      = @character.raids.count
+    %p
+      %strong Instances:
+      = @character.instances.count
+    %p
+      %strong Drops:
+      = @character.drops.count
+    %p
+      %strong Armour Rate:
+      = @character.armour_rate
+    %p
+      %strong Jewellery Rate:
+      = @character.jewellery_rate
+    %p
+      %strong Weapon Rate:
+      = @character.weapon_rate
+    %p
+      = render 'soe_data' if internet_connection?
+
+  #history
+    = render 'character_types'
+
+  #drops
+    = render 'tabs/drops', :"@drop_list" => @character.drops
+
+  #attendance
+    = render 'tabs/instances', :"@instance_list" => @character.instances
+
+  #adjustments
+    = render 'adjustments', :"@adjustment_list" => @character.adjustments
+
+  #statistics
+    -unless @character.external_data.nil? or @character.external_data.data.empty?
+      = render 'tabs/character_stats', :"@data" => HashParser.new(@character.external_data.data.with_indifferent_access)

@@ -114,7 +114,7 @@ class DropsController < ApplicationController
       if @drop.save
         format.html { redirect_to(@drop, :notice => 'Drop was successfully created.') }
         format.xml { render :xml => @drop, :status => :created, :location => @drop }
-        format.xml { render :json => @drop, :status => :created, :location => @drop }
+        format.json { render :json => @drop, :status => :created, :location => @drop }
       else
         format.html { render :action => "new" }
         format.xml { render :xml => @drop.errors, :status => :unprocessable_entity }

@@ -26,11 +26,25 @@ Feature: Manage characters
   Scenario: Showing a character with drops
     Given I have a Main character named Betty
     And the following drops:
-      | zone        | mob        | character | item        | loot_type | eq2_item_id   | drop_time                 |
-      | zone_name 1 | mob_name 1 | Betty     | item_name 1 | Armour    | eq2_item_id 1 | 2011-09-21 20:45:00 +1000 |
-      | zone_name 2 | mob_name 2 | Betty     | item_name 2 | Weapon    | eq2_item_id 2 | 2011-09-20 20:30:00 +1000 |
+      | zone        | mob        | character | item        | loot_type | eq2_item_id   | drop_time                 | loot_method |
+      | zone_name 1 | mob_name 1 | Betty     | item_name 1 | Armour    | eq2_item_id 1 | 2011-09-21 20:45:00 +1000 | n           |
+      | zone_name 2 | mob_name 2 | Betty     | item_name 2 | Weapon    | eq2_item_id 2 | 2011-09-20 20:30:00 +1000 | n           |
     When I view the characters page for Betty
     Then I should see the following character drops:
       | Item Name   | Mob Name   | Loot Type | Drop Time                 | Character Name | Loot Method |
       | item_name 2 | mob_name 2 | Weapon    | 2011-09-20 20:30:00 +1000 | Betty          | Need        |
       | item_name 1 | mob_name 1 | Armour    | 2011-09-21 20:45:00 +1000 | Betty          | Need        |
+
+  @javascript
+  Scenario: Show Character Popup
+    Given the following characters:
+      | name  | char_type | player |
+      | Flute | r         | Newbie |
+      | Newt  | m         | Newbie |
+      | Toot  | g         | Newbie |
+      | Zoot  | g         | Newbie |
+    And I view the character Newt's details
+    Then I should see "Newt"
+    And I should see "Main"
+    And I should see "Raids: 0"
+    And I should see "Drops: 0"

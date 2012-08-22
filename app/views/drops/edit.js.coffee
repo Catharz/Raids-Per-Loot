@@ -24,7 +24,7 @@ $("#edit-invalid-drop-form").dialog
   resizable: false
   title: 'Edit Drop'
   buttons:
-    "Cancel": =>
+    "Cancel": ->
       $("#edit-invalid-drop-form").dialog "close"
     "Save": ->
       $.post "/drops/<%= @drop.id %>.json", $("#edit-invalid-drop-form form").serializeArray(), (data, text, xhr) ->

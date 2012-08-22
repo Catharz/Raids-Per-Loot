@@ -50,6 +50,7 @@ class CharactersController < ApplicationController
       rpl_char = Character.find_by_name(character['name'])
       if rpl_char
         character['char_type'] = rpl_char.char_type
+        character['rpl_id'] = rpl_char.id
         base_class = rpl_char.archetype ? @archetype_roots[rpl_char.archetype.name] : nil
       else
         character['rank'] = "Unknown"
@@ -97,6 +98,7 @@ class CharactersController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+      format.js  # show.js.coffee
       format.json { render json: @character }
       format.xml { render :xml => @character.to_xml(:include => [:instances, :drops]) }
     end

@@ -36,6 +36,14 @@ When /^I delete the (\d+)(?:st|nd|rd|th) character$/ do |pos|
   end
 end
 
+When /^I view the character (.+)'s details$/ do |name|
+  visit characters_path
+  within("table tbody") do
+    click_link name
+  end
+end
+
+
 Then /^I should see the following characters:$/ do |expected_characters_table|
   rows = find("table").all('tr')
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip } }

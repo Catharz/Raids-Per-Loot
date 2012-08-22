@@ -18,12 +18,11 @@
     - @characters.where(:char_type => @char_type).each do |character|
       - cache character do
         %tr
-          %td.characterPopupTrigger{:id => character.id}= link_to character.name, character
-          %td
-            - if character.main_character
-              = link_to character.main_character.name, character.main_character
-            - else
-              Unknown
+          %td{:id => "character_#{character.id}"}= link_to character.name, character_path(character), :remote => true
+          - if character.main_character
+            %td{:id => "character_#{character.main_character.id}"}= link_to character.main_character.name, character_path(character.main_character), :remote => true
+          - else
+            %td Unknown
           %td= character.archetype ? character.archetype.name : "Unknown"
           %td= character.archetype ? character.archetype.root.name : "Unknown"
           %td= character.first_raid ? character.first_raid.raid_date : "Never"
