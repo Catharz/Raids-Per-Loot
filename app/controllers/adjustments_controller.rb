@@ -4,9 +4,7 @@ class AdjustmentsController < ApplicationController
   # GET /adjustments
   # GET /adjustments.json
   def index
-    player_id = params[:player_id]
-    character_id = params[:character_id]
-    @adjustments = Adjustment.for_player(player_id).for_character(character_id)
+    @adjustments = Adjustment.for_player(params[:player_id]).for_character(params[:character_id])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -29,7 +27,7 @@ class AdjustmentsController < ApplicationController
   # GET /adjustments/new.json
   def new
     @adjustment = Adjustment.new
-    @adjustable_list = []
+    @list = []
     @selected = ""
 
     respond_to do |format|
@@ -41,22 +39,6 @@ class AdjustmentsController < ApplicationController
   # GET /adjustments/1/edit
   def edit
     @adjustment = Adjustment.find(params[:id])
-    @adjustable_list = []
-
-    case @adjustment.adjustable_type
-      when "Character"
-        adjustables = Character.order(:name)
-        @selected = Character.find(@adjustment.adjustable_id).id
-      when "Player"
-        adjustables = Player.order(:name)
-        @selected = Player.find(@adjustment.adjustable_id).id
-      else
-        adjustables = []
-        @selected = ""
-    end
-    adjustables.each do |adj|
-      @adjustable_list << adj.name
-    end
   end
 
   # POST /adjustments
