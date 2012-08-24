@@ -13,7 +13,6 @@ class CharacterTypesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @character_types }
     end
   end
 
@@ -24,7 +23,6 @@ class CharacterTypesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @character_type }
     end
   end
 
@@ -35,7 +33,6 @@ class CharacterTypesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @character_type }
     end
   end
 
@@ -52,10 +49,8 @@ class CharacterTypesController < ApplicationController
     respond_to do |format|
       if @character_type.save
         format.html { redirect_to @character_type, notice: 'Character type was successfully created.' }
-        format.json { render json: @character_type, status: :created, location: @character_type }
       else
         format.html { render action: "new" }
-        format.json { render json: @character_type.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -68,10 +63,8 @@ class CharacterTypesController < ApplicationController
     respond_to do |format|
       if @character_type.update_attributes(params[:character_type])
         format.html { redirect_to @character_type, notice: 'Character type was successfully updated.' }
-        format.json { head :ok }
       else
         format.html { render action: "edit" }
-        format.json { render json: @character_type.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -84,7 +77,6 @@ class CharacterTypesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to character_types_url }
-      format.json { head :ok }
     end
   end
 end
