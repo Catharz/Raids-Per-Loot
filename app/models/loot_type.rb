@@ -4,7 +4,7 @@ class LootType < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_format_of :default_loot_method, :with => /n|r|b|t/ # Need, Random, Bid, Trash
+  validates_format_of :default_loot_method, :with => /n|r|b|g|t/ # Need, Random, Bid, Guild Bank, Trash
 
   def self.option_names
     names = []

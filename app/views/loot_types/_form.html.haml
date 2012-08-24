@@ -14,13 +14,6 @@
   .field
     = f.label :default_loot_method
     %br/
-    = f.label "Need"
-    = f.radio_button :default_loot_method, "n", :id => "need"
-    = f.label "Random"
-    = f.radio_button :default_loot_method, "r", :id => "random"
-    = f.label "Bid"
-    = f.radio_button :default_loot_method, "b", :id => "bid"
-    = f.label "Trash"
-    = f.radio_button :default_loot_method, "t", :id => "trash"
+    = loot_method_select f, :default_loot_method
   .actions
     = f.submit

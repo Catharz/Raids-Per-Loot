@@ -35,4 +35,4 @@
   .field
     %strong= f.label :loot_method
     %br/
-    = f.select(:loot_method, [{:id => 'n', :text => 'Need'}, {:id => 'r', :text => 'Random'}, {:id => 'b', :text => 'Bid'}, {:id => 't', :text => 'Trash'}].collect {|lt| [ lt[:text], lt[:id] ] })
+    = loot_method_select f, :loot_method

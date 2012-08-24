@@ -1,4 +1,5 @@
 class Drop < ActiveRecord::Base
+  include LootMethodHelper
   belongs_to :instance, :inverse_of => :drops, :touch => true
   belongs_to :zone, :inverse_of => :drops, :touch => true
   belongs_to :mob, :inverse_of => :drops, :touch => true
@@ -7,7 +8,7 @@ class Drop < ActiveRecord::Base
   belongs_to :loot_type, :inverse_of => :drops, :touch => true
 
   validates_uniqueness_of :drop_time, :scope => [:instance_id, :zone_id, :mob_id, :item_id, :character_id]
-  validates_format_of :loot_method, :with => /n|r|b|t/ # Need, Random, Bid, Trash
+  validates_format_of :loot_method, :with => /n|r|b|g|t/ # Need, Random, Bid, Guild Bank, Trash
 
   # If the character received loot via "need", make sure all of the relationships are setup
   with_options :if => :needed do
@@ -29,18 +30,7 @@ class Drop < ActiveRecord::Base
   end
 
   def loot_method_name
-    case self.loot_method
-      when "n" then
-        "Need"
-      when "r" then
-        "Random"
-      when "b" then
-        "Bid"
-      when "t" then
-        "Trash"
-      else
-        "Unknown"
-    end
+    loot_method_description loot_method
   end
 
   def invalid_reason

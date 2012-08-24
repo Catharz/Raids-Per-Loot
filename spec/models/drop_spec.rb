@@ -35,6 +35,12 @@ describe Drop do
       drop.loot_method_name.should eq 'Random'
     end
 
+    it "should return 'Guild Bank' when loot_method is 'g'" do
+      drop = Drop.new(:loot_method => 'g')
+
+      drop.loot_method_name.should eq 'Guild Bank'
+    end
+
     it "should return 'Bid' when loot_method is 'b'" do
       drop = Drop.new(:loot_method => 'b')
 

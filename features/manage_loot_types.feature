@@ -30,16 +30,16 @@ Feature: Manage loot_types
   @javascript
   Scenario: Changing the default loot method
     Given the following loot_types:
-      | name   | default_loot_method |
-      | Armour | n                   |
-      | Trash  | n                   |
+      | name      | default_loot_method |
+      | Armour    | n                   |
+      | Body Drop | n                   |
     And the following drops:
       | zone        | mob        | character        | item        | loot_type | eq2_item_id   | drop_time                 | loot_method |
       | zone_name 1 | mob_name 1 | character_name 1 | item_name 1 | Armour    | eq2_item_id 1 | 2011-09-21 20:45:00 +1000 | n           |
-      | zone_name 2 | mob_name 2 | character_name 2 | item_name 2 | Trash     | eq2_item_id 2 | 2011-09-20 20:30:00 +1000 | n           |
-    When I change the default loot method of Trash to trash
+      | zone_name 2 | mob_name 2 | character_name 2 | item_name 2 | Body Drop | eq2_item_id 2 | 2011-09-20 20:30:00 +1000 | n           |
+    When I change the default loot method of Body Drop to Trash
     And I view the drops page
     Then I should see the following drops:
       | Item Name   | Character Name   | Loot Type | Zone Name   | Mob Name   | Drop Time                 | Loot Method |
       | item_name 1 | character_name 1 | Armour    | zone_name 1 | mob_name 1 | 2011-09-21T20:45:00+10:00 | Need        |
-      | item_name 2 | character_name 2 | Trash     | zone_name 2 | mob_name 2 | 2011-09-20T20:30:00+10:00 | Trash       |
+      | item_name 2 | character_name 2 | Body Drop | zone_name 2 | mob_name 2 | 2011-09-20T20:30:00+10:00 | Trash       |

@@ -55,16 +55,7 @@ Then /^I should see the following character|player drops:$/ do |expected_drops_t
 end
 
 When /^I select a loot method of (.+)$/ do |loot_method|
-  choose case loot_method
-           when "Need" then
-             "need"
-           when "Random" then
-             "random"
-           when "Bid" then
-             "bid"
-           else
-             "trash"
-         end
+  select(loot_method, from: "drop_loot_method")
 end
 
 When /^I select (.+) as the Zone$/ do |zone_name|

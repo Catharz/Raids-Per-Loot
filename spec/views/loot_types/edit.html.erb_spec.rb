@@ -14,10 +14,7 @@ describe "loot_types/edit.html.erb" do
 
       form.should have_selector("input", :type => "submit")
       form.should have_selector("input", :name => "loot_type[name]")
-      form.should have_selector("input", :name => "loot_type[default_loot_method]", :type => "radio", :id => "need")
-      form.should have_selector("input", :name => "loot_type[default_loot_method]", :type => "radio", :id => "random")
-      form.should have_selector("input", :name => "loot_type[default_loot_method]", :type => "radio", :id => "bid")
-      form.should have_selector("input", :name => "loot_type[default_loot_method]", :type => "radio", :id => "trash")
+      form.should have_selector("select", :name => "loot_type[default_loot_method]", :id => "loot_type_default_loot_method")
     end
   end
 end

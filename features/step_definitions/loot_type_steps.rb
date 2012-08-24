@@ -28,6 +28,6 @@ end
 When /^I change the default loot method of (.+) to (.+)$/ do |loot_type_name, default_loot_method|
   loot_type = LootType.find_or_create_by_name(loot_type_name)
   visit edit_loot_type_path(loot_type)
-  choose default_loot_method
+  select(default_loot_method, from: "loot_type_default_loot_method")
   click_button "Update Loot type"
 end
