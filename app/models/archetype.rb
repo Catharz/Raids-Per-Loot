@@ -9,7 +9,17 @@ class Archetype < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
-  validates_with ArchetypesValidator
+  def descendants(descendants = [])
+    (descendants + children.all.map { |c| [c] + c.descendants(descendants) }).uniq.flatten
+  end
+
+  def family
+    root.descendants( [root] )
+  end
+
+  def potential_parents
+    Archetype.order(:name) - self.descendants([self])
+  end
 
   def self.by_item(item_id)
     item_id ? items.where('id = ?', item_id) : scoped
@@ -26,30 +36,6 @@ class Archetype < ActiveRecord::Base
     roots = {}
     Archetype.order(:name).each.map { |archetype| roots.merge! archetype.name => archetype.root.name }
     roots
-  end
-
-  # This only handles a depth of 4 classes, which is more than enough for EQ2!
-  def self.descendants(root_archetype)
-    archetypes = []
-    root_archetype.children.each do |second_class|
-      archetypes << second_class
-      second_class.children.each do |third_class|
-        archetypes << third_class
-        third_class.children.each do |fourth_class|
-          archetypes << fourth_class
-        end
-      end
-    end
-    return archetypes.flatten
-  end
-
-  # This only handles a depth of 4 classes, which is more than enough for EQ2!
-  def self.family(root_archetype)
-    archetypes = []
-    archetypes << root_archetype.root unless root_archetype.root.nil?
-    archetypes << root_archetype if archetypes.empty?
-    archetypes << descendants(root_archetype)
-    return archetypes.flatten
   end
 
   def self.base_archetypes

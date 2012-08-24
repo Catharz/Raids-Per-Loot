@@ -8,24 +8,56 @@ describe Archetype do
       @child = FactoryGirl.create(:archetype, :name => 'Child', :parent_id => @parent.id)
     end
 
-    it "child root should be the top level" do
-      @child.root.should == @grand_parent
+    describe "root" do
+      it "should have the grand parent as the root of child" do
+        @child.root.should == @grand_parent
+      end
+
+      it "should have the grand parent as the root of parent" do
+        @parent.root.should == @grand_parent
+      end
+
+      it "should have the grand parent as the root of grand parent" do
+        @grand_parent.root.should == @grand_parent
+      end
     end
 
-    it "parent root should be the top level" do
-      @parent.root.should == @grand_parent
+    describe "descendants" do
+      it "should have the child as a descendant of parent" do
+        @parent.descendants.should include @child
+      end
+
+      it "should have the parent as a descendant of grand parent" do
+        @grand_parent.descendants.should include @parent
+      end
+
+      it "should have the child as a descendant of grand parent" do
+        @grand_parent.descendants.should include @child
+      end
+
+      it "should not have itself as a descendant" do
+        @parent.descendants.should_not include @parent
+      end
     end
 
-    it "grand parent root should be the top level" do
-      @grand_parent.root.should == @grand_parent
+    describe "family" do
+      it "should return self as a member" do
+        @parent.family.should include @parent
+      end
+
+      it "should return all its descendants" do
+        (@grand_parent.family & @grand_parent.descendants).should eq @grand_parent.descendants
+      end
     end
 
-    it "lists the root for every archetype" do
-      root_list = Archetype.root_list
+    describe "self.root_list" do
+      it "lists the root for every archetype" do
+        root_list = Archetype.root_list
 
-      root_list['Child'].should == 'Grand Parent'
-      root_list['Parent'].should == 'Grand Parent'
-      root_list['Grand Parent'].should == 'Grand Parent'
+        root_list['Child'].should == 'Grand Parent'
+        root_list['Parent'].should == 'Grand Parent'
+        root_list['Grand Parent'].should == 'Grand Parent'
+      end
     end
   end
 end

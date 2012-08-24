@@ -13,18 +13,3 @@ Feature: Manage archetypes
     And I set the parent archetype to Rogue
     And I click Update Archetype
     Then I should see "Archetype was successfully updated"
-
-  Scenario: Setting an archetypes parent to itself
-    Given I have an archetype named Scout
-    When I edit the Scout archetype and set its parent to Scout
-    And I click Update Archetype
-    Then I should see "Cannot set an archetypes parent to itself"
-    But I should not see "Archetype was successfully updated"
-
-  Scenario: Creating archetype with circular parentage
-    Given I have an archetype named Scout
-    And I have an archetype named Brigand with a parent named Scout
-    When I edit the Scout archetype and set its parent to Brigand
-    And I click Update Archetype
-    Then I should see "Cannot set an archetypes parent to one of its descendants"
-    But I should not see "Archetype was successfully updated"

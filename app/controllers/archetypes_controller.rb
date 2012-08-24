@@ -32,8 +32,6 @@ class ArchetypesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @archetype }
-      format.xml { render :xml => @archetype }
     end
   end
 
@@ -50,12 +48,8 @@ class ArchetypesController < ApplicationController
     respond_to do |format|
       if @archetype.save
         format.html { redirect_to @archetype, :notice => 'Archetype was successfully created.' }
-        format.json { render :json => @archetype, :status => :created, :location => @archetype }
-        format.xml { render :xml => @archetype, :status => :created, :location => @archetype }
       else
         format.html { render :action => "new" }
-        format.json { render :json => @archetype.errors, :status => :unprocessable_entity }
-        format.xml { render :xml => @archetype.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -68,12 +62,8 @@ class ArchetypesController < ApplicationController
     respond_to do |format|
       if @archetype.update_attributes(params[:archetype])
         format.html { redirect_to @archetype, :notice => 'Archetype was successfully updated.' }
-        format.json { head :ok }
-        format.xml { head :ok }
       else
         format.html { render :action => "edit" }
-        format.json { render :json => @archetype.errors, :status => :unprocessable_entity }
-        format.xml { render :xml => @archetype.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -86,8 +76,6 @@ class ArchetypesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to archetypes_url }
-      format.json { head :ok }
-      format.xml { head :ok }
     end
   end
 end
