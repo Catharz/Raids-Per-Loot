@@ -33,66 +33,102 @@ class Drop < ActiveRecord::Base
     loot_method_description loot_method
   end
 
-  def invalid_reason
+  def assignment_issues
+    issues = []
+    issues << "Drop / Item Type Mismatch" unless loot_type.eql? item.loot_type
     if character
       case loot_method
         when 'n'
-          if item.loot_type and item.loot_type.default_loot_method.eql? 't'
-            "Loot via Need for Trash Item"
-          else
-            if character.main_character(drop_time).eql? character
-              if character.archetype and item.archetypes.include? character.archetype
-                nil
-              else
-                "Item / Character Class Mis-Match"
-              end
-            else
-              "Loot via Need for Non-Raid Main"
-            end
-          end
+          validate_need_assignment(issues)
         when 'r'
-          if item.loot_type and item.loot_type.default_loot_method.eql? 't'
-            "Loot via Random on Trash Item"
-          else
-            if character.raid_alternate(drop_time).eql? character
-              if character.archetype and item.archetypes.include? character.archetype
-                nil
-              else
-                "Item / Character Class Mis-Match"
-              end
-            else
-              "Loot via Random for Non-Raid Alt"
-            end
-          end
+          validate_random_assignment(issues)
         when 'b'
-          if item.loot_type and item.loot_type.default_loot_method.eql? 't'
-            "Loot via Bid for Trash Item"
-          else
-            if character.general_alternates(drop_time).include? character
-              unless character.archetype and item.archetypes.include? character.archetype
-                "Item / Character Class Mis-Match"
-              end
-            else
-              "Loot via Bid for Non-General Alt"
-            end
+          validate_bid_assignment(issues)
+        when 'g'
+          unless item.loot_type and item.loot_type.default_loot_method.eql? 'g'
+            issues << "Loot via Guild Bank for non-Guild Bank Item"
           end
         else
           unless item.loot_type and item.loot_type.default_loot_method.eql? 't'
-            "Loot via Trash for Non-Trash item"
+            issues << "Loot via Trash for Non-Trash item"
           end
       end
     else
-      "No Character for Drop"
+      issues << "No Character for Drop"
+    end
+    issues
+  end
+
+  def validate_bid_assignment(issues)
+    if item.loot_type and item.loot_type.default_loot_method.eql? 't'
+      issues << "Loot via Bid on Trash Item"
+    else
+      if character.main_character(drop_time).eql? character
+        issues << "Loot via Bid for Raid Main"
+      else
+        if character.raid_alternate(drop_time).eql? character
+          issues << "Loot via Bid for Raid Alt"
+        else
+          unless character.archetype and item.archetypes.include? character.archetype
+            issues << "Item / Character Class Mis-Match"
+          end
+        end
+      end
     end
   end
 
+  def validate_random_assignment(issues)
+    if item.loot_type and item.loot_type.default_loot_method.eql? 't'
+      issues << "Loot via Random on Trash Item"
+    else
+      if item.loot_type and item.loot_type.default_loot_method.eql? 'g'
+        unless item.archetypes.empty?
+          unless character.archetype and item.archetypes.include? character.archetype
+            issues << "Item / Character Class Mis-Match"
+          end
+        end
+      else
+        if character.raid_alternate(drop_time).eql? character
+          unless character.archetype and item.archetypes.include? character.archetype
+            issues << "Item / Character Class Mis-Match"
+          end
+        else
+          issues << "Loot via Random for Non-Raid Alt"
+        end
+      end
+    end
+  end
+
+  def validate_need_assignment(issues)
+    if item.loot_type and item.loot_type.default_loot_method.eql? 't'
+      issues << "Loot via Need for Trash Item"
+    else
+      if item.loot_type and item.loot_type.default_loot_method.eql? 'g'
+        issues << "Loot via Need for Guild Bank Item"
+      else
+        if character.main_character(drop_time).eql? character
+          unless character.archetype and item.archetypes.include? character.archetype
+            issues << "Item / Character Class Mis-Match"
+          end
+        else
+          issues << "Loot via Need for Non-Raid Main"
+        end
+      end
+    end
+  end
+
+  def invalid_reason
+    assignment_issues.join('</br>')
+  end
+
   def correctly_assigned?
-    invalid_reason.nil?
+    assignment_issues.empty?
   end
 
   def self.invalidly_assigned(options = {:validate_trash => false, :validate_general_alts => false})
     invalid_list = character_missing + mismatched_loot_types + won_by('n').for_wrong_class +
-        trash_for_non_trash + main_won_without_need + raid_alt_won_without_random
+        trash_for_non_trash + main_won_without_need + raid_alt_won_without_random +
+        guild_bank_for_non_guild_bank + guild_bank_bad_assignment
 
     invalid_list += need_on_trash + random_on_trash + bid_on_trash if options[:validate_trash]
     invalid_list += general_alt_won_without_bid if options[:validate_general_alts]
@@ -123,16 +159,24 @@ class Drop < ActiveRecord::Base
     joins(:item => :loot_type).where(["drops.loot_method = ? and loot_types.default_loot_method <> ?", 't', 't'])
   end
 
+  def self.guild_bank_for_non_guild_bank
+    joins(:item => :loot_type).where(["drops.loot_method = ? and loot_types.default_loot_method <> ?", 'g', 'g'])
+  end
+
+  def self.guild_bank_bad_assignment
+    joins(:item => :loot_type).where(["drops.loot_method not in (?, ?) and loot_types.default_loot_method = ?", 'r', 'g', 'g'])
+  end
+
   def self.main_won_without_need
-    joins(:character => {:player => {:characters => :character_types}}).where("drops.loot_method not in (?)", %w{n t}).where(["(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?", 'm'])
+    joins(:character => {:player => {:characters => :character_types}}).where("drops.loot_method not in (?)", %w{n g t}).where(["(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?", 'm'])
   end
 
   def self.raid_alt_won_without_random
-    joins(:character => {:player => {:characters => :character_types}}).where("drops.loot_method not in (?)", %w{r t}).where(["(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?", 'r'])
+    joins(:character => {:player => {:characters => :character_types}}).where("drops.loot_method not in (?)", %w{r g t}).where(["(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?", 'r'])
   end
 
   def self.general_alt_won_without_bid
-    joins(:character => {:player => {:characters => :character_types}}).where("drops.loot_method not in (?)", %w{b t}).where(["(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?", 'g'])
+    joins(:character => {:player => {:characters => :character_types}}).where("drops.loot_method not in (?)", %w{b g t}).where(["(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?", 'g'])
   end
 
   def self.old_invalidly_assigned

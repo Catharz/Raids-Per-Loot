@@ -4,51 +4,54 @@ require 'drop_spec_helper'
 describe Drop do
   include DropSpecHelper
 
-  before(:each) do
-    @fighter = mock_model(Archetype, :name => 'Fighter')
-    @scout = mock_model(Archetype, :name => 'Scout')
-    @priest = mock_model(Archetype, :name => 'Priest')
+  let(:armour) { mock_model(LootType, name: "Armour", default_loot_method: 'n') }
+  let(:weapon) { mock_model(LootType, name: "Weapon", default_loot_method: 'n') }
+  let(:trade_skill) { mock_model(LootType, name: "Trade Skill", default_loot_method: 'g') }
+  let(:spell) { mock_model(LootType, name: "Spell", default_loot_method: 'g') }
+  let(:trash) { mock_model(LootType, name: "Trash", default_loot_method: 't') }
 
-    @player = mock_model(Player, :name => 'Fred')
+  let(:fighter) { mock_model(Archetype, name: 'Fighter') }
+  let(:scout) { mock_model(Archetype, name: 'Scout') }
+  let(:priest) { mock_model(Player, name: 'Fred') }
 
-    @raid_main = mock_model(Character, :name => 'Barny', :player => @player, :char_type => 'm', :archetype => @fighter)
-    @raid_alt = mock_model(Character, :name => 'Betty', :player => @player, :char_type => 'r', :archetype => @scout)
-    @general_alt = mock_model(Character, :name => 'Wilma', :player => @player, :char_type => 'g', :archetype => @priest)
-  end
+  let(:player) { mock_model(Player, name: 'Fred') }
+  let(:raid_main) { mock_model(Character, name: 'Barny', player: player, char_type: 'm', archetype: fighter) }
+  let(:raid_alternate) { mock_model(Character, name: 'Betty', player: player, char_type: 'r', archetype: scout) }
+  let(:general_alternate) { mock_model(Character, name: 'Wilma', player: player, char_type: 'g', archetype: priest) }
 
   describe "#loot_method_name" do
     it "should return 'Need' when loot_method is 'n'" do
-      drop = Drop.new(:loot_method => 'n')
+      drop = Drop.new(loot_method: 'n')
 
       drop.loot_method_name.should eq 'Need'
     end
 
     it "should return 'Trash' when loot_method is 't'" do
-      drop = Drop.new(:loot_method => 't')
+      drop = Drop.new(loot_method: 't')
 
       drop.loot_method_name.should eq 'Trash'
     end
 
     it "should return 'Random' when loot_method is 'r'" do
-      drop = Drop.new(:loot_method => 'r')
+      drop = Drop.new(loot_method: 'r')
 
       drop.loot_method_name.should eq 'Random'
     end
 
     it "should return 'Guild Bank' when loot_method is 'g'" do
-      drop = Drop.new(:loot_method => 'g')
+      drop = Drop.new(loot_method: 'g')
 
       drop.loot_method_name.should eq 'Guild Bank'
     end
 
     it "should return 'Bid' when loot_method is 'b'" do
-      drop = Drop.new(:loot_method => 'b')
+      drop = Drop.new(loot_method: 'b')
 
       drop.loot_method_name.should eq 'Bid'
     end
 
     it "should return 'Unknown' when loot_method is invalid" do
-      drop = Drop.new(:loot_method => '?')
+      drop = Drop.new(loot_method: '?')
 
       drop.loot_method_name.should eq 'Unknown'
     end
@@ -61,82 +64,285 @@ describe Drop do
   end
 
   describe "#correctly_assigned?" do
-    it "should be true when item is won by need for raid main" do
-      item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Armour"))
-      item.should_receive(:archetypes).and_return([@fighter, @scout])
-      drop = Drop.new(:character => @raid_main, :item => item, :loot_method => 'n')
-      @raid_main.should_receive(:main_character).and_return(@raid_main)
+    context "when drop and item loot type do not match" do
+      it "should be false" do
+        item = mock_model(Item, loot_type: armour)
+        item.should_receive(:archetypes).and_return([fighter, scout])
+        drop = Drop.new(character: raid_main, item: item, loot_method: 'n', loot_type: weapon)
+        raid_main.should_receive(:main_character).and_return(raid_main)
 
-      drop.correctly_assigned?.should be_true
+        drop.correctly_assigned?.should be_false
+      end
     end
 
-    it "should be false when item is won by need for raid alternate" do
-      item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Armour"))
-      drop = Drop.new(:character => @raid_alt, :item => item, :loot_method => 'n')
-      @raid_alt.should_receive(:main_character).and_return(@raid_main)
+    context "when looting a normal item" do
+      context "via need" do
+        context "for a raid main" do
+          context "of the right archetype" do
+            it "should be true" do
+              item = mock_model(Item, loot_type: armour)
+              item.should_receive(:archetypes).and_return([fighter, scout])
+              drop = Drop.new(character: raid_main, item: item, loot_method: 'n', loot_type: armour)
+              raid_main.should_receive(:main_character).and_return(raid_main)
 
-      drop.correctly_assigned?.should be_false
+              drop.correctly_assigned?.should be_true
+            end
+          end
+          context "of the wrong archetype" do
+            it "should be false" do
+              item = mock_model(Item, loot_type: armour)
+              item.should_receive(:archetypes).and_return([priest])
+              drop = Drop.new(character: raid_main, item: item, loot_method: 'n', loot_type: armour)
+              raid_main.should_receive(:main_character).and_return(raid_main)
+
+              drop.correctly_assigned?.should be_false
+            end
+          end
+        end
+        context "for a raid alternate" do
+          it "should be false" do
+            item = mock_model(Item, loot_type: armour)
+            drop = Drop.new(character: raid_alternate, item: item, loot_method: 'n', loot_type: armour)
+            raid_alternate.should_receive(:main_character).and_return(raid_main)
+
+            drop.correctly_assigned?.should be_false
+          end
+        end
+        context "for a general alternate" do
+          it "should be false" do
+            item = mock_model(Item, loot_type: armour)
+            drop = Drop.new(character: general_alternate, item: item, loot_method: 'n', loot_type: armour)
+            general_alternate.should_receive(:main_character).and_return(raid_main)
+
+            drop.correctly_assigned?.should be_false
+          end
+        end
+      end
+
+      context "via random" do
+        context "for a raid main" do
+          it "should be false" do
+            item = mock_model(Item, loot_type: armour)
+            drop = Drop.new(character: raid_main, item: item, loot_method: 'r', loot_type: armour)
+            raid_main.should_receive(:raid_alternate).and_return(raid_alternate)
+
+            drop.correctly_assigned?.should be_false
+          end
+        end
+        context "for a raid alternate" do
+          context "of the right archetype" do
+            it "should be true" do
+              item = mock_model(Item, loot_type: armour)
+              item.should_receive(:archetypes).and_return([fighter, scout])
+              drop = Drop.new(character: raid_alternate, item: item, loot_method: 'r', loot_type: armour)
+              raid_alternate.should_receive(:raid_alternate).and_return(raid_alternate)
+
+              drop.correctly_assigned?.should be_true
+            end
+          end
+          context "of the wrong archetype" do
+            it "should be false" do
+              item = mock_model(Item, loot_type: armour)
+              item.should_receive(:archetypes).and_return([priest])
+              drop = Drop.new(character: raid_alternate, item: item, loot_method: 'r', loot_type: armour)
+              raid_alternate.should_receive(:raid_alternate).and_return(raid_alternate)
+
+              drop.correctly_assigned?.should be_false
+            end
+          end
+        end
+        context "for a general alternate" do
+          it "should be false" do
+            item = mock_model(Item, loot_type: armour)
+            drop = Drop.new(character: general_alternate, item: item, loot_method: 'r', loot_type: armour)
+            general_alternate.should_receive(:raid_alternate).and_return(raid_alternate)
+
+            drop.correctly_assigned?.should be_false
+          end
+        end
+      end
+
+      context "via bid" do
+        context "for raid main" do
+          it "should be false" do
+            item = mock_model(Item, loot_type: armour)
+            drop = Drop.new(character: raid_main, item: item, loot_method: 'b', loot_type: armour)
+            raid_main.should_receive(:main_character).and_return(raid_main)
+
+            drop.correctly_assigned?.should be_false
+          end
+        end
+        context "for raid alt" do
+          it "should be false" do
+            item = mock_model(Item, loot_type: armour)
+            drop = Drop.new(character: raid_alternate, item: item, loot_method: 'b', loot_type: armour)
+            raid_alternate.should_receive(:main_character).and_return(raid_main)
+            raid_alternate.should_receive(:raid_alternate).and_return(raid_alternate)
+
+            drop.correctly_assigned?.should be_false
+          end
+        end
+        context "for general alt" do
+          context "of the right archetype" do
+            it "should be true" do
+              item = mock_model(Item, loot_type: armour)
+              item.should_receive(:archetypes).and_return([priest])
+              drop = Drop.new(character: general_alternate, item: item, loot_method: 'b', loot_type: armour)
+              general_alternate.should_receive(:main_character).and_return(raid_main)
+              general_alternate.should_receive(:raid_alternate).and_return(raid_alternate)
+
+              drop.correctly_assigned?.should be_true
+            end
+          end
+          context "of the wrong archetype" do
+            it "should be false" do
+              item = mock_model(Item, loot_type: armour)
+              item.should_receive(:archetypes).and_return([fighter, scout])
+              drop = Drop.new(character: general_alternate, item: item, loot_method: 'b', loot_type: armour)
+              general_alternate.should_receive(:main_character).and_return(raid_main)
+              general_alternate.should_receive(:raid_alternate).and_return(raid_alternate)
+
+              drop.correctly_assigned?.should be_false
+            end
+          end
+        end
+      end
+
+      context "via guild bank" do
+        it "should be false" do
+          item = mock_model(Item, loot_type: armour)
+          drop = Drop.new(character: raid_main, item: item, loot_method: 'g', loot_type: armour)
+
+          drop.correctly_assigned?.should be_false
+        end
+      end
+
+      context "via trash" do
+        it "should return false" do
+          item = mock_model(Item, loot_type: armour)
+          drop = Drop.new(character: raid_main, item: item, loot_method: 't', loot_type: armour)
+
+          drop.correctly_assigned?.should be_false
+        end
+      end
     end
 
-    it "should be false when item is won by need for general alternate" do
-      item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Armour"))
-      drop = Drop.new(:character => @general_alt, :item => item, :loot_method => 'n')
-      @general_alt.should_receive(:main_character).and_return(@raid_main)
+    context "when looting a trade skill item" do
+      context "via need" do
+        it "should return false" do
+          item = mock_model(Item, loot_type: trade_skill)
+          drop = Drop.new(character: raid_main, item: item, loot_method: 'n', loot_type: trade_skill)
 
-      drop.correctly_assigned?.should be_false
+          drop.correctly_assigned?.should be_false
+        end
+      end
+      context "via random" do
+        it "should return true" do
+          item = mock_model(Item, loot_type: trade_skill)
+          item.should_receive(:archetypes).and_return([])
+          drop = Drop.new(character: raid_main, item: item, loot_method: 'r', loot_type: trade_skill)
+
+          drop.correctly_assigned?.should be_true
+        end
+      end
+      context "via guild bank" do
+        it "should return true" do
+          item = mock_model(Item, loot_type: trade_skill)
+          drop = Drop.new(character: raid_main, item: item, loot_method: 'g', loot_type: trade_skill)
+
+          drop.correctly_assigned?.should be_true
+        end
+      end
+      context "via trash" do
+        it "should return false" do
+          item = mock_model(Item, loot_type: trade_skill)
+          drop = Drop.new(character: raid_main, item: item, loot_method: 't', loot_type: trade_skill)
+
+          drop.correctly_assigned?.should be_false
+        end
+      end
     end
 
-    it "should be true when item is won by random for raid main" do
-      item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Armour"))
-      drop = Drop.new(:character => @raid_main, :item => item, :loot_method => 'r')
-      @raid_main.should_receive(:raid_alternate).and_return(@raid_alt)
+    context "when looting a spell" do
+      context "via need" do
+        it "should return false" do
+          item = mock_model(Item, loot_type: spell)
+          drop = Drop.new(character: raid_main, item: item, loot_method: 'n', loot_type: spell)
 
-      drop.correctly_assigned?.should be_false
+          drop.correctly_assigned?.should be_false
+        end
+      end
+      context "via random" do
+        context "for the right archetype" do
+          it "should return true" do
+            item = mock_model(Item, loot_type: spell)
+            item.should_receive(:archetypes).at_least(2).times.and_return([fighter])
+            drop = Drop.new(character: raid_main, item: item, loot_method: 'r', loot_type: spell)
+
+            drop.correctly_assigned?.should be_true
+          end
+        end
+        context "for the wrong archetype" do
+          it "should return false" do
+            item = mock_model(Item, loot_type: spell)
+            item.should_receive(:archetypes).at_least(2).times.and_return([priest])
+            drop = Drop.new(character: raid_main, item: item, loot_method: 'r', loot_type: spell)
+
+            drop.correctly_assigned?.should be_false
+          end
+        end
+      end
+      context "via guild bank" do
+        it "should return true" do
+          item = mock_model(Item, loot_type: spell)
+          drop = Drop.new(character: raid_main, item: item, loot_method: 'g', loot_type: spell)
+
+          drop.correctly_assigned?.should be_true
+        end
+      end
+      context "via trash" do
+        it "should return false" do
+          item = mock_model(Item, loot_type: spell)
+          drop = Drop.new(character: raid_main, item: item, loot_method: 't', loot_type: spell)
+
+          drop.correctly_assigned?.should be_false
+        end
+      end
     end
 
-    it "should be true when item is won by random for raid alternate" do
-      item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Armour"))
-      item.should_receive(:archetypes).and_return([@scout])
-      drop = Drop.new(:character => @raid_alt, :item => item, :loot_method => 'r')
-      @raid_alt.should_receive(:raid_alternate).and_return(@raid_alt)
+    context "when looting a trash item" do
+      context "via need" do
+        it "should return false" do
+          item = mock_model(Item, loot_type: trash)
+          drop = Drop.new(character: raid_main, item: item, loot_method: 'n', loot_type: trash)
 
-      drop.correctly_assigned?.should be_true
-    end
+          drop.correctly_assigned?.should be_false
+        end
+      end
+      context "via random" do
+        it "should return false" do
+          item = mock_model(Item, loot_type: trash)
+          drop = Drop.new(character: raid_main, item: item, loot_method: 'r', loot_type: trash)
 
-    it "should be false when item is won by random for general alternate" do
-      item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Armour"))
-      drop = Drop.new(:character => @general_alt, :item => item, :loot_method => 'r')
-      @general_alt.should_receive(:raid_alternate).and_return(@raid_alt)
+          drop.correctly_assigned?.should be_false
+        end
+      end
+      context "via guild bank" do
+        it "should return false" do
+          item = mock_model(Item, loot_type: trash)
+          drop = Drop.new(character: raid_main, item: item, loot_method: 'g', loot_type: trash)
 
-      drop.correctly_assigned?.should be_false
-    end
+          drop.correctly_assigned?.should be_false
+        end
+      end
+      context "via trash" do
+        it "should return true" do
+          item = mock_model(Item, loot_type: trash)
+          drop = Drop.new(character: raid_main, item: item, loot_method: 't', loot_type: trash)
 
-    it "should be true when item is won as trash and item is trash" do
-      item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Trash", :default_loot_method => 't'))
-      drop = Drop.new(:character => @raid_main, :item => item, :loot_method => 't')
-
-      drop.correctly_assigned?.should be_true
-    end
-
-    it "should be false when item is won by need and item is trash" do
-      item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Trash", :default_loot_method => 't'))
-      drop = Drop.new(:character => @raid_main, :item => item, :loot_method => 'n')
-
-      drop.correctly_assigned?.should be_false
-    end
-
-    it "should be false when item is won by random and item is trash" do
-      item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Trash", :default_loot_method => 't'))
-      drop = Drop.new(:character => @raid_main, :item => item, :loot_method => 'r')
-
-      drop.correctly_assigned?.should be_false
-    end
-
-    it "should be false when item is won by bid and item is trash" do
-      item = mock_model(Item, :loot_type => mock_model(LootType, :name => "Trash", :default_loot_method => 't'))
-      drop = Drop.new(:character => @raid_main, :item => item, :loot_method => 'b')
-
-      drop.correctly_assigned?.should be_false
+          drop.correctly_assigned?.should be_true
+        end
+      end
     end
   end
 end

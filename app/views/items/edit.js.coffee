@@ -24,7 +24,7 @@ updateInvalidDropItem = (item) ->
 $("#edit-invalid-item-form").dialog
   autoOpen: true
   height: 520
-  width: 310
+  width: 340
   modal: true
   resizable: false
   title: 'Edit Item'

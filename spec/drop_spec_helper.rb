@@ -17,9 +17,11 @@ module DropSpecHelper
     armour = FactoryGirl.create(:loot_type, :name => "Armour", :default_loot_method => 'n')
     spell = FactoryGirl.create(:loot_type, :name => "Spell", :default_loot_method => 'r')
     trash = FactoryGirl.create(:loot_type, :name => "Trash", :default_loot_method => 't')
+    trade_skill = FactoryGirl.create(:loot_type, :name => "Trade Skill", :default_loot_method => 'g')
     armour_item = FactoryGirl.create(:item, :name => "Armour", :eq2_item_id => "armour", :loot_type_id => armour.id)
     spell_item = FactoryGirl.create(:item, :name => "Spell", :eq2_item_id => "spell", :loot_type_id => spell.id)
     trash_item = FactoryGirl.create(:item, :name => "Trash", :eq2_item_id => "trash", :loot_type_id => trash.id)
+    trade_skill_item = FactoryGirl.create(:item, name: "Trade Skill Item", :loot_type_id => trade_skill.id)
 
     rank = FactoryGirl.create(:rank, :name => "Main")
     player = FactoryGirl.create(:player, :name => "Me", :rank_id => rank.id)
@@ -29,21 +31,16 @@ module DropSpecHelper
 
     drop_time = DateTime.parse("03/01/2012 2:00PM")
 
-    {:raid => raid,
-     :instance => instance,
-     :zone => zone,
-     :mob => mob,
-     :armour_loot_type => armour,
-     :spell_loot_type => spell,
-     :trash_loot_type => trash,
-     :spell_item => spell_item,
-     :armour_item => armour_item,
-     :trash_item => trash_item,
-     :rank => rank,
-     :player => player,
-     :archetype => archetype,
-     :character => character,
-     :drop_time => drop_time
+    {
+        raid: raid, instance: instance,
+        zone: zone, mob: mob,
+        armour_loot_type: armour, armour_item: armour_item,
+        spell_loot_type: spell, spell_item: spell_item,
+        trash_loot_type: trash, trade_skill_loot_type: trade_skill,
+        trash_item: trash_item, trade_skill_item: trade_skill_item,
+        rank: rank, player: player,
+        character: character, archetype: archetype,
+        drop_time: drop_time
     }
   end
 

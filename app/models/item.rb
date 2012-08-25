@@ -19,7 +19,9 @@ class Item < ActiveRecord::Base
           :class_name => 'Drop',
           :order => 'created_at desc'
 
-  delegate :name, :to => :loot_type, :prefix => :loot_type
+  def loot_type_name
+    loot_type ? loot_type.name : "Unknown"
+  end
 
   def fetch_soe_item_details(format = "json")
     #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
