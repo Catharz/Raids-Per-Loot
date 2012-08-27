@@ -34,7 +34,6 @@ jQuery ->
       null,                 # Character Type
       {"sType": "numeric"}, # Normal Wait
       {"sType": "numeric"}, # Progression Wait
-      null,                 # Show
       null,                 # Edit
       null                  # Destroy
     ]

@@ -14,8 +14,8 @@ updateCharacterType = (character_type) ->
 
 $("#popup-form").dialog
   autoOpen: true
-  height: 400
-  width: 400
+  height: 300
+  width: 390
   modal: true
   resizable: true
   title: 'Edit Character Type'

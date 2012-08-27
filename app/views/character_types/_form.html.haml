@@ -14,12 +14,7 @@
     = f.text_field :effective_date, :id => "datepicker"
   .field
     %strong Character Type:
-    = f.label "Main"
-    = f.radio_button :char_type, "m"
-    = f.label "Raid Alternate"
-    = f.radio_button :char_type, "r"
-    = f.label "General Alternate"
-    = f.radio_button :char_type, "g"
+    = char_type_select(f, :char_type)
   .field
     %strong Normal Wait:
     = f.number_field :normal_penalty

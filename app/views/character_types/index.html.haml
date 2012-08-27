@@ -12,7 +12,6 @@
       %th Progression Wait
       %th
       %th
-      %th
   %tbody
     - @character_types.each do |character_type|
       - cache character_type do
@@ -25,7 +24,6 @@
           %td= char_type_name(character_type.char_type)
           %td= character_type.normal_penalty
           %td= character_type.progression_penalty
-          %td= link_to 'Show', character_type
           %td= link_to 'Edit', edit_character_type_path(character_type), remote: true
           %td= link_to 'Destroy', character_type, confirm: 'Are you sure?', method: :delete
 %br

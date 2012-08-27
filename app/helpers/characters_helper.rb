@@ -1,4 +1,8 @@
 module CharactersHelper
+  def char_type_select(form, field)
+    form.select(field, [{:id => 'm', :text => 'Raid Main'}, {:id => 'r', :text => 'Raid Alternate'}, {:id => 'g', :text => 'General Alternate'}].collect {|ct| [ ct[:text], ct[:id] ] })
+  end
+
   def char_type_name(char_type)
     case char_type
       when "m" then
