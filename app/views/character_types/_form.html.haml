@@ -11,7 +11,7 @@
     = f.collection_select(:character_id, Character.all, :id, :name, :include_blank => true)
   .field
     %strong Effective Date:
-    = f.date_select :effective_date
+    = f.text_field :effective_date, :id => "datepicker"
   .field
     %strong Character Type:
     = f.label "Main"

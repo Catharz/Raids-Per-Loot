@@ -133,4 +133,20 @@ describe CharactersHelper do
       actual.should eq 1
     end
   end
+
+  describe "#char_type_name" do
+    let(:character) { mock_model(:character) }
+
+    it "should return raid main for char_type 'm'" do
+      char_type_name('m').should eq 'Raid Main'
+    end
+
+    it "should return raid alternate for char_type 'r'" do
+      char_type_name('r').should eq 'Raid Alternate'
+    end
+
+    it "should return general alternate for any other char_type" do
+      char_type_name('blah blah').should eq 'General Alternate'
+    end
+  end
 end

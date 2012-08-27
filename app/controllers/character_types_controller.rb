@@ -23,6 +23,7 @@ class CharacterTypesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
+      format.json { render json: @character_type.to_json(:methods => [:character_type_name]) }
     end
   end
 
@@ -63,8 +64,10 @@ class CharacterTypesController < ApplicationController
     respond_to do |format|
       if @character_type.update_attributes(params[:character_type])
         format.html { redirect_to @character_type, notice: 'Character type was successfully updated.' }
+        format.json { render :json => @character_type, :notice => 'Character type successfully updated.' }
       else
         format.html { render action: "edit" }
+        format.json { render json: @character_type.errors, status: :unprocessable_entity }
       end
     end
   end

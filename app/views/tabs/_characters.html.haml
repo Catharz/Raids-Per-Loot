@@ -22,7 +22,7 @@
             = link_to character.main_character.name, character.main_character
           - else
             Unknown
-        %td= case character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+        %td= char_type_name(character.char_type)
         %td= character.archetype ? character.archetype.name : "Unknown"
         %td= character.archetype ? character.archetype.root.name : "Unknown"
         %td= character.first_raid ? character.first_raid.raid_date : "Never"

@@ -6,7 +6,7 @@
   = @character_type.effective_date
 %p
   %strong Character Type:
-  = case @character_type.char_type  when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+  = char_type_name(@character_type.char_type)
 %p
   %strong Normal Wait:
   = @character_type.normal_penalty

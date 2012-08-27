@@ -16,6 +16,7 @@ gem 'escape_utils'
 gem 'formtastic'
 gem 'cocoon'
 gem 'nested_form'
+gem 'memoist'
 
 gem 'crack'
 gem 'httparty'

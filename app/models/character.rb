@@ -1,8 +1,7 @@
 require 'csv'
 
 class Character < ActiveRecord::Base
-  include RemoteConnectionHelper
-  include PointsCalculator
+  include RemoteConnectionHelper, PointsCalculator, CharactersHelper
 
   belongs_to :player, :inverse_of => :characters, :touch => true
   belongs_to :archetype, :inverse_of => :characters, :touch => true
@@ -26,6 +25,7 @@ class Character < ActiveRecord::Base
 
   validates_uniqueness_of :name
   validates_format_of :char_type, :with => /g|m|r/ # General Alt, Main, Raid Alt
+
 
   def main_character(at_time = nil)
     if player
@@ -122,14 +122,7 @@ class Character < ActiveRecord::Base
   def to_csv
     CSV.generate_line(
         [self.name,
-         case self.char_type
-           when 'm' then
-             "Raid Main"
-           when 'r' then
-             "Raid Alt"
-           else
-             "General Alt"
-         end,
+         char_type_name(self.char_type),
          self.main_character ? self.main_character.name : "Unknown",
          self.archetype ? self.archetype.name : "Unknown",
          self.first_raid ? self.first_raid.raid_date : "Never",

@@ -1,8 +1,12 @@
+#popup-form{:title => "Edit Character Type", :style => "display:none"}
 %table#characterTypesTable
   %thead
     %tr
       %th Player
+      %th Character
       %th Date Effective
+      %th First Raid
+      %th Last Raid
       %th Character Type
       %th Normal Wait
       %th Progression Wait
@@ -12,15 +16,18 @@
   %tbody
     - @character_types.each do |character_type|
       - cache character_type do
-        %tr
+        %tr{:id => "character_type_#{character_type.id}"}
+          %td= character_type.character and character_type.character.player ? character_type.character.player.name : "Unknown"
           %td= character_type.character ? character_type.character.name : "Unknown"
           %td= character_type.effective_date
-          %td= case character_type.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+          %td= character_type.character and character_type.character.first_raid ? character_type.character.first_raid.raid_date : "Never"
+          %td= character_type.character and character_type.character.last_raid ? character_type.character.last_raid.raid_date : "Never"
+          %td= char_type_name(character_type.char_type)
           %td= character_type.normal_penalty
           %td= character_type.progression_penalty
           %td= link_to 'Show', character_type
-          %td= link_to 'Edit', edit_character_type_path(character_type)
-          %td= link_to 'Destroy', character_type, :confirm => 'Are you sure?', :method => :delete
+          %td= link_to 'Edit', edit_character_type_path(character_type), remote: true
+          %td= link_to 'Destroy', character_type, confirm: 'Are you sure?', method: :delete
 %br
 %br
 

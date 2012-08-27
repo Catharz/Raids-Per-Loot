@@ -1,4 +1,15 @@
 module CharactersHelper
+  def char_type_name(char_type)
+    case char_type
+      when "m" then
+        "Raid Main"
+      when "r" then
+        "Raid Alternate"
+      else
+        "General Alternate"
+    end
+  end
+
   def health_rating(health, base_class)
     case base_class
       when 'Fighter'

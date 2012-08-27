@@ -25,8 +25,20 @@ jQuery ->
   $('#characterTypesTable').dataTable
     "bJQueryUI": true
     "sPaginationType": "full_numbers"
-    "sType": "date"
-    "aaSorting": [[1,'desc']]
+    "aoColumns": [
+      null, # Player Name
+      null, # Character Name
+      {"sType": "date"},    # Date Effective
+      {"sType": "date"},    # First Raid
+      {"sType": "date"},    # Last Raid
+      null,                 # Character Type
+      {"sType": "numeric"}, # Normal Wait
+      {"sType": "numeric"}, # Progression Wait
+      null,                 # Show
+      null,                 # Edit
+      null                  # Destroy
+    ]
+    "aaSorting": [[2,'desc']]
 
   $('#adjustmentsTable').dataTable
     "bJQueryUI": true

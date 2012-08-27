@@ -16,7 +16,7 @@
       = @character.archetype ? @character.archetype.name : "Unknown"
     %p
       %strong Rank:
-      = case @character.char_type when "m" then "Main" when "r" then "Raid Alternate" else "General Alternate" end
+      = char_type_name(@character.char_type)
     %p
       %strong Raids:
       = @character.raids.count

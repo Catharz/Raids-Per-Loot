@@ -1,4 +1,5 @@
 class CharactersDatatable
+  include CharactersHelper
   delegate :params, :h, :link_to, to: :@view
 
   def initialize(view)
@@ -21,15 +22,9 @@ class CharactersDatatable
       [
           h(link_to character.name, character, :class => "characterPopupTrigger", :id => "#{character.id}"),
           character.main_character ? h(link_to character.main_character.name, character.main_character) : "Unknown",
-          case character.char_type
-            when "m" then "Main"
-            when "r" then "Raid Alternate"
-            else "General Alternate"
-          end,
+          char_type_name(character.char_type),
           character.archetype ? character.archetype.name : "Unknown",
           character.archetype && character.archetype.root ? character.archetype.root.name : "Unknown",
-          #character.first_raid ? character.first_raid.raid_date : "Never",
-          #character.last_raid ? character.last_raid.raid_date : "Never",
           character.raids_count,
           character.instances_count,
           character.armour_rate,
@@ -73,7 +68,6 @@ class CharactersDatatable
   end
 
   def sort_column
-    #"SELECT select c.*,         case char_type           when 'm' then 'Raid Main'           when 'r' then 'Raid Alternate'                 else 'General Alternate'                 end as character_rank         from characters FROM "characters"  ORDER BY characters.name asc"
     columns = [
         "characters.name",
         "main_characters_players.name",

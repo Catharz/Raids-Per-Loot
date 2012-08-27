@@ -10,6 +10,10 @@ class Page < ActiveRecord::Base
   end
 
   def self.find_main_public
-    Page.where(:parent_id => nil).where('admin = ?', false).order(:position)
+    Page.where(:parent_id => nil).where(admin: false).order(:position)
+  end
+
+  def self.after_commit
+    Page.all.touch
   end
 end
