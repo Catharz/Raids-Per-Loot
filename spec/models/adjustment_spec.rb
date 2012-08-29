@@ -9,6 +9,43 @@ describe Adjustment do
     @barny = FactoryGirl.create(:character, name: 'Barney', char_type: 'm')
   end
 
+  describe "self#for_period" do
+    let(:adj1) { FactoryGirl.create(:adjustment,
+                                    adjustable_type: 'Character',
+                                    adjustable_id: @fred.id,
+                                    adjustment_date: Date.today - 60.days,
+                                    reason: "Whatever",
+                                    amount: 6) }
+    let(:adj2) { FactoryGirl.create(:adjustment,
+                                    adjustable_type: 'Character',
+                                    adjustable_id: @fred.id,
+                                    adjustment_date: Date.today - 30.days,
+                                    reason: "Some Other Reason",
+                                    amount: 3) }
+    let(:adj3) { FactoryGirl.create(:adjustment,
+                                    adjustable_type: 'Character',
+                                    adjustable_id: @barny.id,
+                                    adjustment_date: Date.today,
+                                    reason: "Testing",
+                                    amount: 1) }
+
+    it "should show all by default" do
+      Adjustment.for_period.should eq [adj1, adj2, adj3]
+    end
+
+    it "should filter by start" do
+      Adjustment.for_period({start: Date.today - 40.days}).should eq [adj2, adj3]
+    end
+
+    it "should filter by end" do
+      Adjustment.for_period({end: Date.today - 20.days}).should eq [adj1, adj2]
+    end
+
+    it "should filter by start and end" do
+      Adjustment.for_period({start: Date.today - 40.days, end: Date.today - 20.days}).should eq [adj2]
+    end
+  end
+
   describe "self.for_character" do
     it "should filter by character_id" do
       adj1 = FactoryGirl.create(:adjustment,

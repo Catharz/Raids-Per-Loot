@@ -3,6 +3,13 @@ class Adjustment < ActiveRecord::Base
   has_many :archetypes_items
   has_many :items, :through => :archetypes_items
 
+  def self.for_period(range = {start:  nil, end: nil})
+    adjustments = scoped
+    adjustments = where('adjustment_date >= ?', range[:start]) if range[:start]
+    adjustments = where('adjustment_date <= ?', range[:end]) if range[:end]
+    adjustments
+  end
+
   def self.for_character(character_id)
     character_id ? by_adjustable_type('Character').where(:adjustable_id => character_id) : scoped
   end

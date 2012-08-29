@@ -1,6 +1,6 @@
 module PointsCalculator
   def attendance(range = {start:  nil, end: nil})
-    self.raids.for_period(range).uniq.count.to_f / Raid.for_period(range).count.to_f * 100.00
+    raid_count(range).to_f / Raid.for_period(range).count.to_f * 100.00
   end
 
   def recalculate_loot_rates
@@ -10,8 +10,8 @@ module PointsCalculator
     self.save
   end
 
-  def raid_count
-    self.raids.count + self.adjustments.by_adjustment_type("Raids").sum(:amount)
+  def raid_count(range = {start:  nil, end: nil})
+    self.raids.for_period(range).uniq.count + self.adjustments.for_period(range).by_adjustment_type("Raids").sum(:amount)
   end
 
   def instance_count
