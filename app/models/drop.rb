@@ -118,7 +118,7 @@ class Drop < ActiveRecord::Base
   end
 
   def invalid_reason
-    assignment_issues.empty? ? null : assignment_issues.join('</br>')
+    assignment_issues.empty? ? null : assignment_issues.join(', ')
   end
 
   def correctly_assigned?

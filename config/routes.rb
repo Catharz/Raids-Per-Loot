@@ -29,6 +29,7 @@ RaidsPerLoot::Application.routes.draw do
     resources :characters, :instances, :drops, :adjustments
     collection do
       get :option_list
+      get :attendance
     end
   end
 

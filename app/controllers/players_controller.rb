@@ -31,6 +31,14 @@ class PlayersController < ApplicationController
     end
   end
 
+  def attendance
+    @players = Player.order("players.name").eager_load(:rank, characters: {character_instances: {instance: :raid}})
+
+    respond_to do |format|
+      format.html
+    end
+  end
+
 # GET /players/1
 # GET /players/1.json
   def show

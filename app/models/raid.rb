@@ -19,6 +19,13 @@ class Raid < ActiveRecord::Base
     end
   end
 
+  def self.for_period(range = {start:  nil, end: nil})
+    raids = scoped
+    raids = where('raid_date >= ?', range[:start]) if range[:start]
+    raids = where('raid_date <= ?', range[:end]) if range[:end]
+    raids
+  end
+
   def self.by_date(date)
     date ? where(:raid_date => date) : scoped
   end

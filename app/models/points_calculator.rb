@@ -1,4 +1,8 @@
 module PointsCalculator
+  def attendance(range = {start:  nil, end: nil})
+    self.raids.for_period(range).uniq.count.to_f / Raid.for_period(range).count.to_f * 100.00
+  end
+
   def recalculate_loot_rates
     self.armour_rate = loot_rate("Armour")
     self.jewellery_rate = loot_rate("Jewellery")

@@ -237,6 +237,23 @@ jQuery ->
     "aaSorting": [[0,'asc']]
     "sAjaxSource": $('#itemsTable').data('source')
 
+  $('#playersAttendanceTable').dataTable
+    "bJQueryUI": true,
+    "sPaginationType":"full_numbers",
+    "aoColumns": [
+      null,                   # Name
+      { "sType": "date" },    # First Raid
+      { "sType": "date" },    # Last Raid
+      { "sType": "numeric" }, # No. Raids
+      { "sType": "numeric" }, # Total Attendance
+      { "sType": "numeric" }, # 1 Year Attendance
+      { "sType": "numeric" }, # 9 Months Attendance
+      { "sType": "numeric" }, # 6 Months Attendance
+      { "sType": "numeric" }, # 3 Months Attendance
+      { "sType": "numeric" } # 1 Month Attendance
+    ]
+    "aaSorting": [[0,'asc']]
+
   $('#playersTable').dataTable
     "bJQueryUI": true,
     "sPaginationType":"full_numbers",
