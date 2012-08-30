@@ -19,6 +19,11 @@ class Raid < ActiveRecord::Base
     end
   end
 
+  def benched_players
+    ids = Adjustment.where(adjustment_date: raid_date, adjustment_type: 'Raid', adjustable_type: 'Player').collect! { |a| a.adjustable_id }
+    Player.find(ids)
+  end
+
   def self.for_period(range = {start:  nil, end: nil})
     raids = scoped
     raids = where('raid_date >= ?', range[:start]) if range[:start]
