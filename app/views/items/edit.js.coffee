@@ -6,7 +6,7 @@ updateItemTableColumns = (item, oTable, aPos) ->
 refreshDropDetails = (drop_id, oTable, aPos) ->
   $.get "/drops/#{drop_id}.json", (data, text, xhr) ->
     if (xhr.status = 200)
-      if (data.drop.invalid_reason == null)
+      if (data.drop.invalid_reason == "")
         oTable.fnDeleteRow( aPos )
       else
         oTable.fnUpdate(data.drop.invalid_reason, aPos, 8)

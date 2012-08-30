@@ -3,7 +3,7 @@ updateDropTableColumns = (drop, oTable, aPos) ->
   oTable.fnUpdate(drop.character_archetype_name, aPos, 1)
   oTable.fnUpdate(drop.loot_type_name, aPos, 2)
   oTable.fnUpdate(drop.loot_method_name, aPos, 6)
-  if (drop.invalid_reason == null)
+  if (drop.invalid_reason == "")
     oTable.fnDeleteRow( aPos )
   else
     oTable.fnUpdate(drop.invalid_reason, aPos, 8)
