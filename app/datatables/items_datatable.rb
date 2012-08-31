@@ -60,8 +60,12 @@ class ItemsDatatable
   end
 
   def sort_column
-    columns = %w[items.name loot_types.name slots.name archetypes.name]
-    columns[params[:iSortCol_0].to_i]
+    if params[:iSortCol_0].present?
+      columns = %w[items.name loot_types.name slots.name archetypes.name]
+      columns[params[:iSortCol_0].to_i]
+    else
+      'items.name'
+    end
   end
 
   def sort_direction

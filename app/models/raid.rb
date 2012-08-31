@@ -24,6 +24,13 @@ class Raid < ActiveRecord::Base
     Player.find(ids)
   end
 
+  def add_benched_player(player)
+    unless benched_players.include? player
+      adjustment = Adjustment.create(adjustment_date: raid_date, adjustment_type: 'Raid', adjustable_type: 'Player', adjustable_id: player.id, amount: 1)
+      adjustment.save
+    end
+  end
+
   def self.for_period(range = {start:  nil, end: nil})
     raids = scoped
     raids = where('raid_date >= ?', range[:start]) if range[:start]
