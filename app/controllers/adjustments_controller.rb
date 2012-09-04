@@ -8,7 +8,7 @@ class AdjustmentsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @adjustments }
+      format.json { render json: @adjustments.to_json(methods: [:adjusted_name]) }
     end
   end
 
@@ -19,7 +19,8 @@ class AdjustmentsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @adjustment }
+      format.json { render json: @adjustment.to_json(methods: [:adjusted_name]) }
+      format.js
     end
   end
 
@@ -27,12 +28,14 @@ class AdjustmentsController < ApplicationController
   # GET /adjustments/new.json
   def new
     @adjustment = Adjustment.new
+
     @list = []
     @selected = ""
 
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @adjustment }
+      format.js
     end
   end
 
@@ -49,7 +52,7 @@ class AdjustmentsController < ApplicationController
     respond_to do |format|
       if @adjustment.save
         format.html { redirect_to @adjustment, notice: 'Adjustment was successfully created.' }
-        format.json { render json: @adjustment, status: :created, location: @adjustment }
+        format.json { render json: @adjustment.to_json(methods: [:adjusted_name]), status: :created, location: @adjustment }
       else
         format.html { render action: "new" }
         format.json { render json: @adjustment.errors, status: :unprocessable_entity }
@@ -65,7 +68,7 @@ class AdjustmentsController < ApplicationController
     respond_to do |format|
       if @adjustment.update_attributes(params[:adjustment])
         format.html { redirect_to @adjustment, notice: 'Adjustment was successfully updated.' }
-        format.json { head :ok }
+        format.json { render :json => @adjustment, :notice => 'Adjustment was successfully updated.' }
       else
         format.html { render action: "edit" }
         format.json { render json: @adjustment.errors, status: :unprocessable_entity }

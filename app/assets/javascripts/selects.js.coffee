@@ -1,4 +1,4 @@
-jQuery ->
+decorateSelects = () ->
   $("select#adjustment_adjustable_type").change ->
     adjustable_type = $(this).val()
     adjustable_select = $(this).next 'select'
@@ -23,3 +23,6 @@ jQuery ->
     $("#mob_field").append "<strong>Mob</strong></br>"
     $mob_list = $('<select id="drop_mob_id" name="drop[mob_id]"></select>').appendTo '#mob_field'
     $mob_list.load mob_options_url
+
+jQuery ->
+  decorateSelects()

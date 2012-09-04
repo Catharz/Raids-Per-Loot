@@ -1,18 +1,4 @@
-%p
-  %strong= "#{@adjustment.adjustable_type}:"
-  = @adjustment.name
-%p
-  %strong Adjustment date:
-  = @adjustment.adjustment_date
-%p
-  %strong Adjustment type:
-  = @adjustment.adjustment_type
-%p
-  %strong Amount:
-  = @adjustment.amount
-%p
-  %strong Reason:
-  = @adjustment.reason
+= render 'details'
 
 = link_to 'Edit', edit_adjustment_path(@adjustment)
 \|

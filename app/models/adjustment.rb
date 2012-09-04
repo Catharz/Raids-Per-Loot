@@ -26,7 +26,7 @@ class Adjustment < ActiveRecord::Base
     adjustment_type ? where(:adjustment_type => adjustment_type) : scoped
   end
 
-  def name
+  def adjusted_name
     adjustable ? adjustable.name : "Unknown"
   end
 

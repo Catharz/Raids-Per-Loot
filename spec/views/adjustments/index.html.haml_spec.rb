@@ -7,14 +7,14 @@ describe "adjustments/index" do
         :adjustment_type => "Raids",
         :amount => 5,
         :reason => "Ok Switch",
-        :name => "Fred",
+        :adjusted_name => "Fred",
         :adjustable_type => "Character"
       ),
       stub_model(Adjustment,
         :adjustment_type => "Armour",
         :amount => 10,
         :reason => "Great Switch",
-        :name => "Barney",
+        :adjusted_name => "Barney",
         :adjustable_type => "Player"
       )
     ])

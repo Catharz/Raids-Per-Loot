@@ -15,7 +15,7 @@
       = f.collection_select(:adjustable_id, @adjustment.adjustable_entities, :id, :name)
   .field
     %strong Adjustment Date:
-    = f.text_field :adjustment_date, :id => "datepicker"
+    = f.text_field :adjustment_date, id: "datepicker"
   .field
     %strong Adjustment Type:
     = f.select(:adjustment_type, @adjustment.adjustment_types)
@@ -24,6 +24,6 @@
     = f.number_field :amount
   .field
     %strong Reason:
-    = f.text_area :reason
+    = f.text_area :reason, class: "popup"
   .actions
     = f.submit 'Save'

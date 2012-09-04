@@ -16,21 +16,20 @@ updateInvalidDrop = (drop) ->
     if (xhr.status == 200)
       updateDropTableColumns(data.drop, oTable, aPos)
 
-$("#edit-invalid-drop-form").dialog
+$("#popup").dialog
   autoOpen: true
   height: 460
-  width: 380
   modal: true
   resizable: false
   title: 'Edit Drop'
   buttons:
     "Cancel": ->
-      $("#edit-invalid-drop-form").dialog "close"
+      $("#popup").dialog "close"
     "Save": ->
-      $.post "/drops/<%= @drop.id %>.json", $("#edit-invalid-drop-form form").serializeArray(), (data, text, xhr) ->
+      $.post "/drops/<%= @drop.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 200)
           updateInvalidDrop(data.drop)
           $("#notice").empty().append("Drop updated successfully")
-          $("#edit-invalid-drop-form").dialog "close"
+          $("#popup").dialog "close"
   open: ->
-    $("#edit-invalid-drop-form").html "<%= escape_javascript(render('dialog_form')) %>"
+    $("#popup").html "<%= escape_javascript(render('dialog_form')) %>"

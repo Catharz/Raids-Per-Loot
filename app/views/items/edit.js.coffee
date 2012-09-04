@@ -21,21 +21,20 @@ updateInvalidDropItem = (item) ->
         refreshDropDetails(this.dataset['drop_id'], oTable, aPos)
       oTable.fnDraw()
 
-$("#edit-invalid-item-form").dialog
+$("#popup").dialog
   autoOpen: true
   height: 520
-  width: 340
   modal: true
   resizable: false
   title: 'Edit Item'
   buttons:
     "Cancel": ->
-      $("#edit-invalid-item-form").dialog "close"
+      $("#popup").dialog "close"
     "Save": ->
-      $.post "/items/<%= @item.id %>.json", $("#edit-invalid-item-form form").serializeArray(), (data, text, xhr) ->
+      $.post "/items/<%= @item.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 200)
           updateInvalidDropItem(data.item)
           $("#notice").empty().append("Item updated successfully")
-          $("#edit-invalid-item-form").dialog "close"
+          $("#popup").dialog "close"
   open: ->
-    $("#edit-invalid-item-form").html "<%= escape_javascript(render('dialog_form')) %>"
+    $("#popup").html "<%= escape_javascript(render('dialog_form')) %>"

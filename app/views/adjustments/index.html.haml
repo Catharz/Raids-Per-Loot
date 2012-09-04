@@ -13,17 +13,17 @@
   %tbody
     - @adjustments.each do |adjustment|
       - cache adjustment do
-        %tr
+        %tr{id: "adjustment_#{adjustment.id}"}
           %td= adjustment.adjustable_type
-          %td= adjustment.name
+          %td= adjustment.adjusted_name
           %td= adjustment.adjustment_date
           %td= adjustment.adjustment_type
           %td= adjustment.amount
           %td= adjustment.reason
-          %td= link_to 'Show', adjustment
-          %td= link_to 'Edit', edit_adjustment_path(adjustment)
+          %td= link_to 'Show', adjustment, remote: true
+          %td= link_to 'Edit', edit_adjustment_path(adjustment), remote: true
           %td= link_to 'Destroy', adjustment, :confirm => 'Are you sure?', :method => :delete
 
 %br/
 %br/
-= link_to 'New Adjustment', new_adjustment_path
+= link_to 'New Adjustment', new_adjustment_path, remote: true

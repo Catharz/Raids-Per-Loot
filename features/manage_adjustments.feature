@@ -60,6 +60,7 @@ Feature: Manage Adjustments
       | adjusted | type  | amount | name     | date       |
       | Player   | Raids | 56     | player 1 | 2012-05-15 |
     When I edit the 1st adjustment for the Player named player 1
+    And I wait until New Adjustment is visible
     And I change the adjustable entity to Character
     And I change the adjusted entity to character 1
     And I save the adjustment

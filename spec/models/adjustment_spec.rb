@@ -124,19 +124,19 @@ describe Adjustment do
     it "returns 'Unknown' if the name is not present" do
       adj1 = Adjustment.new
 
-      adj1.name.should eq "Unknown"
+      adj1.adjusted_name.should eq "Unknown"
     end
 
     it "returns the character name for a character adjustment" do
       adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Character', adjustment_type: 'Raids', adjustable_id: @fred.id)
 
-      adj1.name.should eq "Fred"
+      adj1.adjusted_name.should eq "Fred"
     end
 
     it "returns the player name for a player adjustment" do
       adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Player', adjustment_type: 'Instances', adjustable_id: @betty.id)
 
-      adj1.name.should eq "Betty"
+      adj1.adjusted_name.should eq "Betty"
     end
   end
 

@@ -6,7 +6,7 @@ describe "adjustments/show" do
       :adjustment_type => "Adjustment Type",
       :amount => 1,
       :reason => "MyText",
-      :name => "Dino",
+      :adjusted_name => "Dino",
       :adjustable_type => "Character"
     ))
   end
