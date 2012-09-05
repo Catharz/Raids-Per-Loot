@@ -85,6 +85,7 @@ class AdjustmentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to adjustments_url }
       format.json { head :ok }
+      format.js
     end
   end
 end

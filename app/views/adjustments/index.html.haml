@@ -22,7 +22,7 @@
           %td= adjustment.reason
           %td= link_to 'Show', adjustment, remote: true
           %td= link_to 'Edit', edit_adjustment_path(adjustment), remote: true
-          %td= link_to 'Destroy', adjustment, :confirm => 'Are you sure?', :method => :delete
+          %td= link_to 'Destroy', adjustment, :confirm => 'Are you sure?', method: :delete, remote: true
 
 %br/
 %br/
