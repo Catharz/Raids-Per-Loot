@@ -9,10 +9,11 @@ insertAdjustment = (adjustment) ->
         data.adjustment.adjustment_type,
         data.adjustment.amount,
         data.adjustment.reason,
-        "<a href='/adjustments/#{adjustment.id}' data-remote='true'>Show</a>",
-        "<a href='/adjustments/#{adjustment.id}/edit' data-remote='true'>Edit</a>",
-        "<a href='/adjustments/#{adjustment.id}' data-confirm='Are you sure?' data-method='delete' rel='nofollow'>Destroy</a>"
+        "<a href='/adjustments/#{adjustment.id}' data-remote='true' class='table-button'>Show</a>",
+        "<a href='/adjustments/#{adjustment.id}/edit' data-remote='true' class='table-button'>Edit</a>",
+        "<a href='/adjustments/#{adjustment.id}' data-confirm='Are you sure?' data-method='delete' rel='nofollow' class='table-button'>Destroy</a>"
       ])
+      $(".table-button").button()
       oTable.fnDraw()
 
 $("#popup").dialog

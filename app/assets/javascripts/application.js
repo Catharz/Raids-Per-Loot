@@ -15,6 +15,7 @@
 //= require menus
 //= require datepickers
 //= require selects
+//= require buttons
 //= require tables
 //= require popup
 //= require tabs
