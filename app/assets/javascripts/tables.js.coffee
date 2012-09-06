@@ -123,6 +123,27 @@ jQuery ->
     ]
     "aaSorting": [[0,'asc']]
 
+  $('#charactersTable_all').dataTable
+    "bJQueryUI": true
+    "bStateSave": true
+    "sPaginationType":"full_numbers"
+    "aoColumns": [
+      null, # Name
+      null, # Main
+      null, # Class
+      {"bSearchable": true, "bVisible": false},  # Base Class
+      {"sType": "date"},    # First Raid
+      {"sType": "date"},    # Last Raid
+      {"sType": "numeric"}, # No. Raids
+      {"sType": "numeric"}, # No. Instances
+      {"sType": "numeric"}, # Armour Rate
+      {"sType": "numeric"}, # Jewellery Rate
+      {"sType": "numeric"}, # Weapon Rate
+      null,                 # Update Link
+      null                  # Destroy Link
+    ]
+    "aaSorting": [[0,'asc']]
+
   $('#characterStatsTable_m').dataTable
     "bJQueryUI": true
     "bStateSave": true

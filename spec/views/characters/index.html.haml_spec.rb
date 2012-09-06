@@ -26,12 +26,17 @@ describe "characters/index.html.haml" do
                                 :archetype => scout)
     assign(:ranks, [main_rank])
     assign(:archetypes, [fighter, priest, mage, scout])
-    characters = mock(ActiveRecord::Relation)
-    characters.stub_chain(:where).with(:char_type => 'm').and_return([fighter_char])
-    characters.stub_chain(:where).with(:char_type => 'r').and_return([scout_raid_alt])
-    characters.stub_chain(:where).with(:char_type => 'g').and_return([])
-    assign(:characters, characters)
+    assign(:characters, [fighter_char, scout_raid_alt])
     assign(:players, [player])
+  end
+
+  it "should list all tabs" do
+    render
+
+    rendered.should have_content "Raid Mains"
+    rendered.should have_content "Raid Alts"
+    rendered.should have_content "General Alts"
+    rendered.should have_content "All"
   end
 
   it "should list all characters" do

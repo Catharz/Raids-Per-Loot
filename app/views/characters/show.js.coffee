@@ -1,4 +1,4 @@
-$("#character-show-form").dialog
+$("#popup").dialog
   autoOpen: true
   height: 800
   width: 1200
@@ -7,10 +7,10 @@ $("#character-show-form").dialog
   title: '<%= @character.name %>'
   buttons:
     "Close": ->
-      $("#character-show-form").html ""
-      $("#character-show-form").dialog "close"
+      $("#popup").html ""
+      $("#popup").dialog "close"
   open: ->
-    $("#character-show-form").html "<%= escape_javascript( render('details') ) %>"
+    $("#popup").html "<%= escape_javascript( render('details') ) %>"
     $('#characterTypesTable').dataTable
       "bJQueryUI": true
       "bStateSave": true
@@ -33,4 +33,4 @@ $("#character-show-form").dialog
       "sPaginationType": "full_numbers"
       "aaSorting": [[0,'desc']]
     $("#subTabBook").tabs()
-    $("#character-show-form #tabBook").tabs()
+    $("#popup #tabBook").tabs()
