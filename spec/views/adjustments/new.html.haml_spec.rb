@@ -7,7 +7,7 @@ describe "adjustments/new" do
       :amount => 1,
       :reason => "MyText",
       :adjustable_id => 1,
-      :adjustable_type => "MyString"
+      :adjustable_type => "Character"
     ).as_new_record)
   end
 

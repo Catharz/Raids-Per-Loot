@@ -1,17 +1,35 @@
 %table#characterTypesTable
   %thead
     %tr
+      %th Player
       %th Character
       %th Date Effective
-      %th Rank
+      %th First Raid
+      %th Last Raid
+      %th Character Type
       %th Normal Wait
       %th Progression Wait
+      %th
+      %th
+      %th
   %tbody
     - @character_types.each do |character_type|
-      %tr
-        %td= character_type.character.name
-        %td= character_type.effective_date
-        %td= char_type_name(character_type.char_type)
-        %td= character_type.normal_penalty
-        %td= character_type.progression_penalty
-%br/
+      - cache character_type do
+        %tr{:id => "character_type_#{character_type.id}"}
+          %td= character_type.player_name
+          %td= character_type.character_name
+          %td= character_type.effective_date
+          %td= character_type.character_first_raid_date
+          %td= character_type.character_last_raid_date
+          %td= character_type.character_type_name
+          %td= character_type.normal_penalty
+          %td= character_type.progression_penalty
+          %td= link_to 'Show', character_type, remote: true, class: 'table-button'
+          %td= link_to 'Edit', edit_character_type_path(character_type), remote: true, class: 'table-button'
+          %td= link_to 'Destroy', character_type, confirm: 'Are you sure?', method: :delete, class: 'table-button'
+
+%br
+- if @character
+  = link_to 'New Character type', new_character_type_path, params: {character_id: @character.id}, remote: true, class: 'button'
+- else
+  = link_to 'New Character type', new_character_type_path, remote: true, class: 'button'

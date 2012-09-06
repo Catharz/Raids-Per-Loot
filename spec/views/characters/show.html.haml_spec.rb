@@ -25,6 +25,7 @@ describe "characters/show.html.haml" do
     character.stub!(:adjustments).and_return([])
     character.stub!(:armour_rate).and_return(2.0)
     character.stub!(:weapon_rate).and_return(3.6)
+    character.stub!(:character_types).and_return([])
     character.stub!(:jewellery_rate).and_return(6.9)
     external_data =
         mock_model(ExternalData,

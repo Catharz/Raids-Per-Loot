@@ -11,7 +11,7 @@
     = f.select(:adjustable_type, %w{Character Player}, :include_blank => true)
   .field#adjustable_field
     %strong= @adjustment.type_label
-    - unless @adjustment.new_record?
+    - unless @adjustment.adjustable_entities.empty?
       = f.collection_select(:adjustable_id, @adjustment.adjustable_entities, :id, :name)
   .field
     %strong Adjustment Date:

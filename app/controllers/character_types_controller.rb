@@ -32,7 +32,7 @@ class CharacterTypesController < ApplicationController
   # GET /character_types/new
   # GET /character_types/new.json
   def new
-    @character_type = CharacterType.new
+    @character_type = CharacterType.new(character_id: params[:character_id])
 
     respond_to do |format|
       format.html # new.html.erb

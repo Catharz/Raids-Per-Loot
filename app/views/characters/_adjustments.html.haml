@@ -1,18 +1,30 @@
-%table#characterAdjustmentsTable
+%table#adjustmentsTable
   %thead
     %tr
+      %th Relationship
+      %th Player / Character
       %th Adjustment date
       %th Adjustment type
       %th Amount
       %th Reason
+      %th
+      %th
+      %th
   %tbody
-    - @adjustment_list.each do |adjustment|
-      %tr
-        %td= adjustment.adjustment_date
-        %td= adjustment.adjustment_type
-        %td= adjustment.amount
-        %td= adjustment.reason.blank? ? "Unspecified" : adjustment.reason
-
+    - @adjustments.each do |adjustment|
+      - cache adjustment do
+        %tr{id: "adjustment_#{adjustment.id}"}
+          %td= adjustment.adjustable_type
+          %td= adjustment.adjusted_name
+          %td= adjustment.adjustment_date
+          %td= adjustment.adjustment_type
+          %td= adjustment.amount
+          %td= adjustment.reason
+          %td= link_to 'Show', adjustment, remote: true, class: 'table-button'
+          %td= link_to 'Edit', edit_adjustment_path(adjustment), remote: true, class: 'table-button'
+          %td= link_to 'Destroy', adjustment, :confirm => 'Are you sure?', method: :delete, remote: true, class: 'table-button'
 %br/
-%br/
-= link_to 'Add Adjustment', new_adjustment_path, {:character_id => @character.id, :adjustable => 'Character'}
+- if @character
+  = link_to 'Add Adjustment', new_adjustment_path(:adjustable_id => @character.id, :adjustable_type => 'Character'), remote: true, class: 'button'
+- else
+  = link_to 'Add Adjustment', new_adjustment_path, remote: true, class: 'button'

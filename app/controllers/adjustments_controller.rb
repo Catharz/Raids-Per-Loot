@@ -27,9 +27,10 @@ class AdjustmentsController < ApplicationController
   # GET /adjustments/new
   # GET /adjustments/new.json
   def new
-    @adjustment = Adjustment.new
+    @adjustment = Adjustment.new(adjustable_id: params[:adjustable_id], adjustable_type: params[:adjustable_type])
 
     @list = []
+    @list << eval("#{params[:adjustable_type]}.order(:name)") if params[:adjustment_type].present?
     @selected = ""
 
     respond_to do |format|

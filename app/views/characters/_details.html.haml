@@ -39,7 +39,7 @@
       = render 'soe_data' if internet_connection?
 
   #history
-    = render 'character_types'
+    = render 'character_types', :"@character_types" => @character.character_types
 
   #drops
     = render 'tabs/drops', :"@drop_list" => @character.drops
@@ -48,7 +48,7 @@
     = render 'tabs/instances', :"@instance_list" => @character.instances
 
   #adjustments
-    = render 'adjustments', :"@adjustment_list" => @character.adjustments
+    = render 'adjustments', :"@adjustments" => @character.adjustments
 
   #statistics
     -unless @character.external_data.nil? or @character.external_data.data.empty?
