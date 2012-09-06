@@ -24,4 +24,7 @@
           %td= link_to 'Edit', edit_adjustment_path(adjustment), remote: true, class: 'table-button'
           %td= link_to 'Destroy', adjustment, :confirm => 'Are you sure?', method: :delete, remote: true, class: 'table-button'
 %br/
-= link_to 'New Adjustment', new_adjustment_path, remote: true, class: 'button'
+- if @character
+  = link_to 'New Adjustment', new_adjustment_path(character_id: @character.id), remote: true, class: 'button'
+- else
+  = link_to 'New Adjustment', new_adjustment_path, remote: true, class: 'button'

@@ -30,6 +30,6 @@
 
 %br
 - if @character
-  = link_to 'New Character type', new_character_type_path, params: {character_id: @character.id}, remote: true, class: 'button'
+  = link_to 'New Character type', new_character_type_path(character_id: @character.id), remote: true, class: 'button'
 - else
   = link_to 'New Character type', new_character_type_path, remote: true, class: 'button'
