@@ -1,0 +1,5 @@
+oTable = $('#characterTypesTable').dataTable()
+aPos = oTable.fnGetPosition( document.getElementById("character_type_<%= @character_type.id %>") )
+oTable.fnDeleteRow(aPos)
+oTable.fnDraw()
+$("#notice").empty().append("Character type was successfully deleted.")

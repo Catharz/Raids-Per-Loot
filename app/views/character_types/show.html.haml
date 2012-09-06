@@ -1,18 +1,4 @@
-%p
-  %strong Character:
-  = @character_type.character.name
-%p
-  %strong Effective:
-  = @character_type.effective_date
-%p
-  %strong Character Type:
-  = char_type_name(@character_type.char_type)
-%p
-  %strong Normal Wait:
-  = @character_type.normal_penalty
-%p
-  %strong Progression Wait:
-  = @character_type.progression_penalty
+= render 'details'
 
 = link_to 'Edit', edit_character_type_path(@character_type)
 \|

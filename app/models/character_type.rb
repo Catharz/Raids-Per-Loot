@@ -8,8 +8,24 @@ class CharacterType < ActiveRecord::Base
   scope :by_character_and_date,
         lambda { |character_id, date| by_character(character_id).as_at(date) }
 
+  def player_name
+    character and character.player ? character.player.name : "Unknown"
+  end
+
+  def character_name
+    character ? character.name : "Unknown"
+  end
+
   def character_type_name
     char_type_name(char_type)
+  end
+
+  def character_first_raid_date
+    character and character.first_raid ? character.first_raid.raid_date : "Never"
+  end
+
+  def character_last_raid_date
+    character and character.last_raid ? character.last_raid.raid_date : "Never"
   end
 
   def self.by_character(character_id = nil)
