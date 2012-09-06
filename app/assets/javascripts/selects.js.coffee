@@ -1,4 +1,8 @@
-decorateSelects = () ->
+jQuery ->
+  configureAdjustmentSelect()
+  configureZoneMobSelect()
+
+configureAdjustmentSelect = () ->
   $("select#adjustment_adjustable_type").change ->
     adjustable_type = $(this).val()
     adjustable_select = $(this).next 'select'
@@ -14,6 +18,7 @@ decorateSelects = () ->
     $adjustables = $('<select id="adjustment_adjustable_id" name="adjustment[adjustable_id]"></select>').appendTo '#adjustable_field'
     $adjustables.load options_url
 
+configureZoneMobSelect = () ->
   $("select#drop_zone_id").change ->
     zone_id = $(this).val()
     mob_select = $("select#drop_mob_id")
@@ -23,6 +28,3 @@ decorateSelects = () ->
     $("#mob_field").append "<strong>Mob</strong></br>"
     $mob_list = $('<select id="drop_mob_id" name="drop[mob_id]"></select>').appendTo '#mob_field'
     $mob_list.load mob_options_url
-
-jQuery ->
-  decorateSelects()

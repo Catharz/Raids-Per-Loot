@@ -8,7 +8,6 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require jquery.dataTables
-//= require jquery.hoverIntent
 //= require ddsmoothmenu
 //= require jquery_nested_form
 //= require cocoon
