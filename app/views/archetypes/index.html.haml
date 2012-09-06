@@ -10,13 +10,13 @@
   %tbody
     - @archetypes.each do |archetype|
       - cache archetype do
-        %tr
+        %tr{id: "archetype_#{archetype.id}"}
           %td= archetype.name
-          %td= archetype.parent ? archetype.parent.name : ""
-          %td= archetype.root ? archetype.root.name : ""
-          %td= link_to 'Show', archetype
-          %td= link_to 'Edit', edit_archetype_path(archetype)
-          %td= link_to 'Destroy', archetype, :confirm => 'Are you sure?', :method => :delete
+          %td= archetype.parent_name
+          %td= archetype.root_name
+          %td= link_to 'Show', archetype, remote: true, class: 'table-button'
+          %td= link_to 'Edit', edit_archetype_path(archetype), remote: true, class: 'table-button'
+          %td= link_to 'Destroy', archetype, :confirm => 'Are you sure?', :method => :delete, remote: true, class: 'table-button'
 %br/
 %br/
-= link_to 'New Class', new_archetype_path
+= link_to 'New Class', new_archetype_path, remote: true, class: 'button'

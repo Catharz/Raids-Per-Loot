@@ -1,6 +1,5 @@
-%p
-  %strong Name:
-  = @archetype.name
+= render 'details'
+
 = link_to 'Edit', edit_archetype_path(@archetype)
 |
 \#{link_to 'Back', archetypes_path}

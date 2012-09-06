@@ -23,6 +23,12 @@ describe Archetype do
     end
 
     describe "descendants" do
+      it "should have no descendants when new" do
+        a = Archetype.new
+
+        a.descendants.should eq []
+      end
+
       it "should have the child as a descendant of parent" do
         @parent.descendants.should include @child
       end

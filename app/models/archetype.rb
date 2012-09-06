@@ -9,12 +9,20 @@ class Archetype < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
-  def descendants(descendants = [])
-    (descendants + children.all.map { |c| [c] + c.descendants(descendants) }).uniq.flatten
+  def root_name
+    root ? root.name : ""
+  end
+
+  def parent_name
+    parent ? parent.name : ""
   end
 
   def family
     root.descendants( [root] )
+  end
+
+  def descendants(list = [])
+    (list + children.map { |c| [c] + c.descendants(list) }).uniq.flatten
   end
 
   def potential_parents
