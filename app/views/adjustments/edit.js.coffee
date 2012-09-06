@@ -1,15 +1,13 @@
 updateAdjustment = (adjustment) ->
   oTable = $('#adjustmentsTable').dataTable()
   aPos = oTable.fnGetPosition( document.getElementById("adjustment_#{adjustment.id}") )
-  $.get "/adjustments/#{adjustment.id}.json", (data, text, xhr) ->
-    if (xhr.status == 200)
-      oTable.fnUpdate(data.adjustment.adjustable_type, aPos, 0)
-      oTable.fnUpdate(data.adjustment.adjusted_name, aPos, 1)
-      oTable.fnUpdate(data.adjustment.adjustment_date, aPos, 2)
-      oTable.fnUpdate(data.adjustment.adjustment_type, aPos, 3)
-      oTable.fnUpdate(data.adjustment.amount, aPos, 4)
-      oTable.fnUpdate(data.adjustment.reason, aPos, 5)
-      oTable.fnDraw()
+  oTable.fnUpdate(adjustment.adjustable_type, aPos, 0)
+  oTable.fnUpdate(adjustment.adjusted_name, aPos, 1)
+  oTable.fnUpdate(adjustment.adjustment_date, aPos, 2)
+  oTable.fnUpdate(adjustment.adjustment_type, aPos, 3)
+  oTable.fnUpdate(adjustment.amount, aPos, 4)
+  oTable.fnUpdate(adjustment.reason, aPos, 5)
+  oTable.fnDraw()
 
 $("#popup").dialog
   autoOpen: true

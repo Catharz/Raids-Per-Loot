@@ -1,20 +1,20 @@
 insertAdjustment = (adjustment) ->
   oTable = $('#adjustmentsTable').dataTable()
-  $.get "/adjustments/#{adjustment.id}.json", (data, text, xhr) ->
-    if (xhr.status == 200)
-      oTable.fnAddData([
-        data.adjustment.adjustable_type,
-        data.adjustment.adjusted_name,
-        data.adjustment.adjustment_date,
-        data.adjustment.adjustment_type,
-        data.adjustment.amount,
-        data.adjustment.reason,
-        "<a href='/adjustments/#{adjustment.id}' data-remote='true' class='table-button'>Show</a>",
-        "<a href='/adjustments/#{adjustment.id}/edit' data-remote='true' class='table-button'>Edit</a>",
-        "<a href='/adjustments/#{adjustment.id}' data-confirm='Are you sure?' data-method='delete' rel='nofollow' class='table-button'>Destroy</a>"
-      ])
-      $(".table-button").button()
-      oTable.fnDraw()
+  aRow = oTable.fnAddData([
+    adjustment.adjustable_type,
+    adjustment.adjusted_name,
+    adjustment.adjustment_date,
+    adjustment.adjustment_type,
+    adjustment.amount,
+    adjustment.reason,
+    "<a href='/adjustments/#{adjustment.id}' data-remote='true' class='table-button'>Show</a>",
+    "<a href='/adjustments/#{adjustment.id}/edit' data-remote='true' class='table-button'>Edit</a>",
+    "<a href='/adjustments/#{adjustment.id}' data-confirm='Are you sure?' data-method='delete' rel='nofollow' data-remote='true' class='table-button'>Destroy</a>"
+  ])
+  aNode = oTable.fnSettings().aoData[aRow[0]].nTr
+  aNode.setAttribute('id', 'adjustment_' + adjustment.id)
+  $(".table-button").button()
+  oTable.fnDraw()
 
 $("#popup").dialog
   autoOpen: true

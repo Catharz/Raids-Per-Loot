@@ -68,7 +68,7 @@ class AdjustmentsController < ApplicationController
     respond_to do |format|
       if @adjustment.update_attributes(params[:adjustment])
         format.html { redirect_to @adjustment, notice: 'Adjustment was successfully updated.' }
-        format.json { render :json => @adjustment, :notice => 'Adjustment was successfully updated.' }
+        format.json { render :json => @adjustment.to_json(methods: [:adjusted_name]), :notice => 'Adjustment was successfully updated.' }
       else
         format.html { render action: "edit" }
         format.json { render json: @adjustment.errors, status: :unprocessable_entity }
