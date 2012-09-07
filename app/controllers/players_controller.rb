@@ -32,7 +32,7 @@ class PlayersController < ApplicationController
   end
 
   def attendance
-    @players = Player.order("players.name").eager_load(:rank, characters: {character_instances: {instance: :raid}})
+    @players = Player.order("players.name")
 
     respond_to do |format|
       format.html

@@ -1,7 +1,7 @@
-- for category in @categories
-  - cache category do
-    %h2= h category.title
-    %p= h category.description
+- @link_categories.each do |link_category|
+  - cache link_category do
+    %h2= h link_category.title
+    %p= h link_category.description
     %ul
-      - for link in category.links
+      - link_category.links.each do |link|
         %li= link_to link.title, link.url

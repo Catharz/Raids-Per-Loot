@@ -18,7 +18,7 @@ class LinksController < ApplicationController
   end
 
   def list
-    @categories = LinkCategory.all(:order => 'description')
+    @link_categories = LinkCategory.order(:description).includes(:links)
   end
 
   # GET /links/1

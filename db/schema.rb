@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120711081906) do
+ActiveRecord::Schema.define(:version => 20120907080203) do
 
   create_table "adjustments", :force => true do |t|
     t.date     "adjustment_date"
@@ -224,6 +224,7 @@ ActiveRecord::Schema.define(:version => 20120711081906) do
     t.boolean  "redirect"
     t.string   "action_name"
     t.string   "controller_name"
+    t.integer  "children_count",  :default => 0, :null => false
   end
 
   add_index "pages", ["parent_id"], :name => "index_pages_on_parent_id"

@@ -49,6 +49,8 @@ end
 # Deploy with Capistrano
 # gem 'capistrano'
 
+gem 'bullet', group: :development
+
 #START:dev_and_test_gems
 group :test, :development do
 # Pretty printed test output

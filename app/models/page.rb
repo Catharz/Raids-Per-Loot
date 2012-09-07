@@ -1,5 +1,5 @@
 class Page < ActiveRecord::Base
-  acts_as_tree :order => "navlabel"
+  acts_as_tree :order => "navlabel", counter_cache: true
   acts_as_textiled :body
 
   validates_presence_of :name, :title, :navlabel, :body
