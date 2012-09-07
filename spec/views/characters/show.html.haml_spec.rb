@@ -27,6 +27,7 @@ describe "characters/show.html.haml" do
     character.stub!(:weapon_rate).and_return(3.6)
     character.stub!(:character_types).and_return([])
     character.stub!(:jewellery_rate).and_return(6.9)
+    character.stub!(:archetype_name).and_return('Mage')
     external_data =
         mock_model(ExternalData,
                    :retrievable_id => character.id,

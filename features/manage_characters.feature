@@ -16,7 +16,7 @@ Feature: Manage characters
     When I select "Newbie" as the characters player
     And I enter "name 1" as the characters name
     And I select "Monk" as the characters class
-    And I choose "Main" as the character type
+    And I select "Main" as the character type
     And I save the character
     Then I should see "name 1"
     And I should see "Monk"

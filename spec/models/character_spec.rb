@@ -35,5 +35,19 @@ describe Character do
       character.rank_at_time(Date.parse("01/03/2012")).should eq 'r'
       character.rank_at_time(Date.parse("01/06/2012")).should eq 'm'
     end
+
+    context "#archetype_name" do
+      it "should show the archetype name when the archetype is valid" do
+        mage = FactoryGirl.create(:character, valid_character_attributes.merge!(:name => 'mage'))
+
+        mage.archetype_name.should eq 'Mage'
+      end
+
+      it "should have an archetype name of Unknown when the archetype is not valid" do
+        unknown = Character.new
+
+        unknown.archetype_name.should eq 'Unknown'
+      end
+    end
   end
 end

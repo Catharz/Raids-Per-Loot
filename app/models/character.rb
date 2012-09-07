@@ -51,6 +51,10 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def archetype_name
+    archetype ? archetype.name : "Unknown"
+  end
+
   def archetype_root
     if archetype
       archetype.root ? archetype.root.name : "Unknown"

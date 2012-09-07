@@ -62,15 +62,8 @@ When /^I select "([^"]*)" as the characters class$/ do |archetype|
   select(archetype, :from => "character_archetype_id")
 end
 
-When /^I choose "(.+)" as the character type$/ do |character_type|
-  case character_type
-    when "Main"
-      choose("character_char_type_m")
-    when "Raid Alternate"
-      choose("character_char_type_r")
-    else
-      choose("character_char_type_g")
-  end
+When /^I select "(.+)" as the character type$/ do |character_type|
+  select(character_type, from: "character_char_type")
 end
 
 When /^I save the character$/ do
