@@ -19,6 +19,10 @@ class Instance < ActiveRecord::Base
 
   scope :raided, lambda {|raid_date| where(:raid_id => Raid.find_by_raid_date(raid_date).id) }
 
+  def zone_name
+    zone ? zone.name : "Unknown"
+  end
+
   def self.by_raid(raid_id)
     raid_id ? where('raid_id = ?', raid_id) : scoped
   end

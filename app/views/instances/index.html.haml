@@ -8,16 +8,19 @@
       %th Characters
       %th Kills
       %th
+      %th
+      %th
   %tbody
     - @instances.each do |instance|
       - cache instance do
         %tr
-          %td= link_to instance.zone ? instance.zone.name : "Unknown", instance
+          %td= instance.zone_name
           %td= instance.start_time.strftime('%H:%M:%S')
           %td= instance.players.count
           %td= instance.characters.count
           %td= instance.kills.count
-          %td= link_to 'Destroy', instance, :confirm => 'Are you sure?', :method => :delete
+          %td= link_to 'Show', instance, class: 'table-button'
+          %td= link_to 'Edit', edit_instance_path(instance), class: 'table-button'
+          %td= link_to 'Destroy', instance, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
 %br/
-%br/
-= link_to 'New Instance', new_instance_path
+= link_to 'New Instance', new_instance_path, class: 'button'
