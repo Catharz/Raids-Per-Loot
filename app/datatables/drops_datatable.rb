@@ -26,7 +26,7 @@ class DropsDatatable
           drop.mob_name,
           drop.drop_time,
           drop.loot_method_name,
-          h(link_to 'Show', @view.drop_path(drop), class: 'table-button'),
+          h(link_to 'Show', drop, class: 'table-button'),
           h(link_to 'Edit', @view.edit_drop_path(drop), class: 'table-button'),
           h(link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete, class: 'table-button')
       ]

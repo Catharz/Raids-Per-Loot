@@ -40,7 +40,7 @@ Feature: Manage drops
       | zone_name 3 | mob_name 3 | character_name 3 | item_name 3 | Jewellery | eq2_item_id 3 | 2011-09-19 20:15:00 +1000 | b           |
       | zone_name 4 | mob_name 4 | character_name 4 | item_name 4 | Trash     | eq2_item_id 4 | 2011-09-18 20:00:00 +1000 | t           |
     When I delete the 3rd drop
-    Given I wait until tbody is visible
+    Given I wait until tbody tr is visible
     Then I should see the following drops:
       | Item Name   | Character Name   | Loot Type | Zone Name   | Mob Name   | Drop Time                 | Loot Method |
       | item_name 1 | character_name 1 | Armour    | zone_name 1 | mob_name 1 | 2011-09-21T20:45:00+10:00 | Need        |

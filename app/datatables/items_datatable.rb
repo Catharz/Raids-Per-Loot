@@ -21,12 +21,13 @@ class ItemsDatatable
   def data
     items.map do |item|
       [
-          h(link_to item.name, item, {:class => "itemPopupTrigger", :id => item.id}),
-          item.loot_type ? item.loot_type.name : "Unknown",
+          item.name,
+          item.loot_type_name,
           item.slot_names,
           consolidate_archetypes(item.archetypes),
-          h(link_to 'Edit', @view.edit_item_path(item)),
-          h(link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete)
+          h(link_to 'Show', item, class: 'table-button'),
+          h(link_to 'Edit', @view.edit_item_path(item), class: 'table-button'),
+          h(link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete, class: 'table-button')
       ]
     end
   end
@@ -37,7 +38,7 @@ class ItemsDatatable
 
   def fetch_items
     items = Item.by_loot_type(params[:loot_type_id]) \
-      .eager_load(:loot_type, :items_slots => :slot, :archetypes_items => :archetype) \
+      .eager_load(:archetypes => :parent) \
       .order("#{sort_column} #{sort_direction}")
     items = items.page(page).per_page(per_page)
 

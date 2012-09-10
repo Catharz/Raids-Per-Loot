@@ -18,12 +18,13 @@ describe ItemsController do
                   "iTotalRecords"  => 1,
                   "iTotalDisplayRecords" => 1,
                   "aaData" => [
-                      ['<a href="/items/' + item.id.to_s + '" class="itemPopupTrigger" id="' + item.id.to_s + '">Whatever</a>',
+                      ["Whatever",
                        "Unknown",
                        "None",
                        "None",
-                       '<a href="/items/' + item.id.to_s + '/edit">Edit</a>',
-                       '<a href="/items/' + item.id.to_s + '" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
+                       '<a href="/items/' + item.id.to_s + '" class="table-button">Show</a>',
+                       '<a href="/items/' + item.id.to_s + '/edit" class="table-button">Edit</a>',
+                       '<a href="/items/' + item.id.to_s + '" class="table-button" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
                       ]
                   ]
       }

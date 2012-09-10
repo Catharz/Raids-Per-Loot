@@ -276,6 +276,8 @@ jQuery ->
     "bServerSide": true
     "aaSorting": [[0,'asc']]
     "sAjaxSource": $('#itemsTable').data('source')
+    "fnDrawCallback": ( oSettings ) ->
+      $(".table-button").button()
 
   $('#playersAttendanceTable').dataTable
     "bJQueryUI": true,
