@@ -24,10 +24,10 @@
               %td{:id => "character_#{character.main_character.id}"}= link_to character.main_character.name, character_path(character.main_character), :remote => true
             - else
               %td Unknown
-            %td= character.archetype ? character.archetype.name : "Unknown"
-            %td= character.archetype ? character.archetype.root.name : "Unknown"
-            %td= character.first_raid ? character.first_raid.raid_date : "Never"
-            %td= character.last_raid ? character.last_raid.raid_date : "Never"
+            %td= character.archetype_name
+            %td= character.archetype_root
+            %td= character.first_raid_date
+            %td= character.last_raid_date
             %td{:align => "right"}= character.raids_count
             %td{:align => "right"}= character.instances_count
             %td{:align => "right"}= character.armour_rate
