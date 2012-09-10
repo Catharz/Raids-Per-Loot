@@ -11,11 +11,13 @@
       %th Jewellery Rate
       %th Weapon Rate
       %th
+      %th
+      %th
   %tbody
     - @players.each do |player|
       - cache player do
         %tr
-          %td= link_to player.name, player
+          %td= player.name
           %td= player.rank ? player.rank.name : "Unknown"
           %td= player.first_raid ? player.first_raid.raid_date : "Never"
           %td= player.last_raid ? player.last_raid.raid_date : "Never"
@@ -24,8 +26,10 @@
           %td{:align => "right"}= player.armour_rate
           %td{:align => "right"}= player.jewellery_rate
           %td{:align => "right"}= player.weapon_rate
-          %td= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete
+          %td= link_to 'Show', player, class: 'table-button'
+          %td= link_to 'Edit', edit_player_path(player), class: 'table-button'
+          %td= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
 %br/
-= link_to 'New Player', new_player_path
-%br/
-= link_to 'Download CSV', '/players.csv'
+= link_to 'New Player', new_player_path, class: 'button'
+%nobr
+= link_to 'Download CSV', '/players.csv', class: 'button'

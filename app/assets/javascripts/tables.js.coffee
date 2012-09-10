@@ -307,6 +307,8 @@ jQuery ->
       { "sType": "numeric" }, # Armour Rate
       { "sType": "numeric" }, # Jewellery Rate
       { "sType": "numeric" }, # Weapon Rate
+      null,                   # Show Link
+      null,                   # Edit Link
       null                    # Destroy Link
     ]
     "aaSorting": [[0,'asc']]
