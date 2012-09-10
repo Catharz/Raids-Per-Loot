@@ -10,8 +10,28 @@ class Zone < ActiveRecord::Base
       :class_name => 'Instance',
       :order => 'start_time desc'
 
+  has_one :first_instance,
+          :class_name => 'Instance',
+          :order => 'start_time'
+
   validates_presence_of :name
   validates_uniqueness_of :name
+
+  def difficulty_name
+    difficulty ? difficulty.name : "Unknown"
+  end
+
+  def first_run
+    first_instance ? first_instance.start_time.to_date : "Never"
+  end
+
+  def last_run
+    last_instance ? last_instance.start_time.to_date : "Never"
+  end
+
+  def is_progression?
+    progression ? "Yes" : "No"
+  end
 
   def runs
     instances.count

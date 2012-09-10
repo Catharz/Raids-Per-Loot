@@ -5,20 +5,25 @@
       %th Mobs
       %th Difficulty
       %th Times Run
+      %th First Run
       %th Last Run
       %th Progression
+      %th
+      %th
       %th
   %tbody
     - @zones.each do |zone|
       - cache zone do
         %tr
-          %td= link_to zone.name, zone
-          %td= link_to 'Mobs', zone_mobs_path(zone)
-          %td= zone.difficulty ? zone.difficulty.name : "Unknown"
+          %td= zone.name
+          %td= link_to 'Mobs', zone_mobs_path(zone), class: 'table-button'
+          %td= zone.difficulty_name
           %td= zone.instances.count
-          %td= zone.last_instance ? zone.last_instance.start_time : "Never"
-          %td= zone.progression ? "Yes" : "No"
-          %td= link_to 'Destroy', zone, :confirm => 'Are you sure?', :method => :delete
+          %td= zone.first_run
+          %td= zone.last_run
+          %td= zone.is_progression?
+          %td= link_to 'Show', zone, class: 'table-button'
+          %td= link_to 'Edit', edit_zone_path(zone), class: 'table-button'
+          %td= link_to 'Destroy', zone, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
 %br/
-%br/
-= link_to 'New Zone', new_zone_path
+= link_to 'New Zone', new_zone_path, class: 'button'
