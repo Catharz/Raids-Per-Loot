@@ -80,7 +80,7 @@ describe Mob do
       FactoryGirl.create(:drop, mob_id: mob.id, drop_time: DateTime.parse("28/02/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
       FactoryGirl.create(:drop, mob_id: mob.id, drop_time: DateTime.parse("31/03/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
 
-      mob.first_killed.should eq "31/01/2012"
+      mob.first_killed.should eq "2012-01-31"
     end
 
     it "should return Never if no drops exist" do
@@ -102,7 +102,7 @@ describe Mob do
       FactoryGirl.create(:drop, mob_id: mob.id, drop_time: DateTime.parse("28/02/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
       FactoryGirl.create(:drop, mob_id: mob.id, drop_time: DateTime.parse("31/03/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
 
-      mob.last_killed.should eq "31/03/2012"
+      mob.last_killed.should eq "2012-03-31"
     end
 
     it "should return Never if no drops exist" do

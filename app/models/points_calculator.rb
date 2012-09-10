@@ -53,4 +53,12 @@ module PointsCalculator
   def last_raid
     raids.order("raid_date desc").first
   end
+
+  def first_raid_date
+    first_raid ? first_raid.raid_date.strftime("%Y-%m-%d") : "Never"
+  end
+
+  def last_raid_date
+    first_raid ? first_raid.raid_date.strftime("%Y-%m-%d") : "Never"
+  end
 end

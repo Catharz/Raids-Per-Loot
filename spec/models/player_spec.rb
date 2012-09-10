@@ -33,5 +33,17 @@ describe Player do
         player.attendance.should eq 75.00
       end
     end
+
+    describe "#rank_name" do
+      it "should return the rank name if set" do
+        player.rank_name.should eq "Main"
+      end
+
+      it "should return Unknown if not set" do
+        player.rank = nil
+
+        player.rank_name.should eq "Unknown"
+      end
+    end
   end
 end

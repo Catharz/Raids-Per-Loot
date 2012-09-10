@@ -23,11 +23,11 @@ class Mob < ActiveRecord::Base
   end
 
   def last_killed
-    last_drop ? last_drop.drop_time.strftime("%d/%m/%Y") : "Never"
+    last_drop ? last_drop.drop_time.strftime("%Y-%m-%d") : "Never"
   end
 
   def first_killed
-    first_drop ? first_drop.drop_time.strftime("%d/%m/%Y") : "Never"
+    first_drop ? first_drop.drop_time.strftime("%Y-%m-%d") : "Never"
   end
 
   def zone_name

@@ -22,6 +22,10 @@ class Player < ActiveRecord::Base
                                 :allow_destroy => true,
                                 :reject_if => :all_blank
 
+  def rank_name
+    rank ? rank.name : "Unknown"
+  end
+
   def main_character(at_time = nil)
     characters_of_type('m', at_time).first
   end

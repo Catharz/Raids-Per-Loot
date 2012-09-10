@@ -18,9 +18,9 @@
       - cache player do
         %tr
           %td= player.name
-          %td= player.rank ? player.rank.name : "Unknown"
-          %td= player.first_raid ? player.first_raid.raid_date : "Never"
-          %td= player.last_raid ? player.last_raid.raid_date : "Never"
+          %td= player.rank_name
+          %td= player.first_raid_date
+          %td= player.last_raid_date
           %td{:align => "right"}= player.raids_count
           %td{:align => "right"}= player.instances_count
           %td{:align => "right"}= player.armour_rate
