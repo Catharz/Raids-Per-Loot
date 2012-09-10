@@ -63,15 +63,16 @@ describe DropsController do
                   "iTotalRecords" => 1,
                   "iTotalDisplayRecords" => 1,
                   "aaData" => [
-                      ['<a href="/drops/' + drop.id.to_s + '">' + drop.item_name + '</a>',
+                      ["Armour",
                        "Me",
                        "Armour",
                        "Wherever",
                        "Whoever",
                        "2012-01-04T01:00:00+11:00",
                        "Trash",
-                       '<a href="/drops/' + drop.id.to_s + '/edit">Edit</a>',
-                       '<a href="/drops/' + drop.id.to_s + '" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
+                       '<a href="/drops/' + drop.id.to_s + '" class="table-button">Show</a>',
+                       '<a href="/drops/' + drop.id.to_s + '/edit" class="table-button">Edit</a>',
+                       '<a href="/drops/' + drop.id.to_s + '" class="table-button" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
                       ]
                   ]
       }

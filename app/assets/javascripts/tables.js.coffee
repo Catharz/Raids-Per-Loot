@@ -240,6 +240,8 @@ jQuery ->
     "bServerSide": true
     "aaSorting": [[5,'desc']]
     "sAjaxSource": $('#dropsTable').data('source')
+    "fnDrawCallback": ( oSettings ) ->
+      $(".table-button").button()
 
   $('#invalidDropsTable').dataTable
     "bJQueryUI": true

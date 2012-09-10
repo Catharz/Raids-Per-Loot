@@ -19,15 +19,16 @@ class DropsDatatable
   def data
     drops.map do |drop|
       [
-          h(link_to drop.item ? drop.item.name : "Unknown", drop),
-          drop.character ? drop.character.name : "Unknown",
-          drop.loot_type ? drop.loot_type.name : "Unknown",
-          drop.zone ? drop.zone.name : "Unknown",
-          drop.mob ? drop.mob.name : "Unknown",
+          drop.item_name,
+          drop.character_name,
+          drop.loot_type_name,
+          drop.zone_name,
+          drop.mob_name,
           drop.drop_time,
           drop.loot_method_name,
-          h(link_to 'Edit', @view.edit_drop_path(drop)),
-          h(link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete)
+          h(link_to 'Show', @view.drop_path(drop), class: 'table-button'),
+          h(link_to 'Edit', @view.edit_drop_path(drop), class: 'table-button'),
+          h(link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete, class: 'table-button')
       ]
     end
   end
@@ -39,7 +40,7 @@ class DropsDatatable
   def fetch_drops
     drops = Drop.by_instance(params[:instance_id]).by_zone(params[:zone_id]).by_mob(params[:mob_id]) \
       .by_player(params[:player_id]).by_character(params[:character_id]).by_item(params[:item_id]) \
-      .eager_load(:instance, :zone, :mob, :item => :loot_type, :character => :player) \
+      .eager_load(:instance, :zone, :mob, :character, :item, :loot_type) \
       .order("#{sort_column} #{sort_direction}")
     drops = drops.page(page).per_page(per_page)
     if params[:sSearch].present?
