@@ -8,6 +8,7 @@
       %th Position
       %th Admin?
       %th Parent
+      %th Redirection
       %th
       %th
       %th
@@ -19,11 +20,11 @@
         %td= page.navlabel
         %td= page.body
         %td= page.position
-        %td= page.admin? ? "true" : "false"
-        %td= page.parent ? page.parent.navlabel : ""
-        %td= link_to 'Show', page
-        %td= link_to 'Edit', edit_page_path(page)
-        %td= link_to 'Destroy', page, :confirm => 'Are you sure?', :method => :delete
+        %td= page.is_admin?
+        %td= page.parent_navlabel
+        %td= page.redirection
+        %td= link_to 'Show', page, class: 'table-button'
+        %td= link_to 'Edit', edit_page_path(page), class: 'table-button'
+        %td= link_to 'Destroy', page, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
 %br/
-%br/
-= link_to 'New Page', new_page_path
+= link_to 'New Page', new_page_path, class: 'button'

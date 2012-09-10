@@ -5,6 +5,18 @@ class Page < ActiveRecord::Base
   validates_presence_of :name, :title, :navlabel, :body
   validates_uniqueness_of :name
 
+  def parent_navlabel
+    parent ? parent.navlabel : ""
+  end
+
+  def is_admin?
+    admin? ? "Yes" : "No"
+  end
+
+  def redirection
+    redirect ? "#{controller_name}/#{action_name}" : "None"
+  end
+
   def self.find_main
     Page.where(:parent_id => nil).order(:position)
   end
