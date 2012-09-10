@@ -6,7 +6,11 @@ class Mob < ActiveRecord::Base
 
   has_one :last_drop,
       :class_name => 'Drop',
-      :order => 'created_at desc'
+      :order => 'drop_time desc'
+
+  has_one :first_drop,
+          :class_name => 'Drop',
+          :order => 'drop_time'
 
   validates_presence_of :name
 
@@ -16,6 +20,26 @@ class Mob < ActiveRecord::Base
       num_kills += 1 if instance.kills.include? self
     end
     num_kills
+  end
+
+  def last_killed
+    last_drop ? last_drop.drop_time.strftime("%d/%m/%Y") : "Never"
+  end
+
+  def first_killed
+    first_drop ? first_drop.drop_time.strftime("%d/%m/%Y") : "Never"
+  end
+
+  def zone_name
+    zone ? zone.name : "Unknown"
+  end
+
+  def difficulty_name
+    difficulty ? difficulty.name : "Unknown"
+  end
+
+  def is_progression?
+    progression ? "Yes" : "No"
   end
 
   def progression

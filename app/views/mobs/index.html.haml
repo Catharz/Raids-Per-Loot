@@ -6,21 +6,26 @@
       %th Zone
       %th Difficulty
       %th Kills
+      %th First Killed
       %th Last Killed
       %th Progression
+      %th
+      %th
       %th
   %tbody
     - @mobs.each do |mob|
       - cache mob do
         %tr
-          %td= link_to mob.name, mob
+          %td= mob.name
           %td= mob.alias
-          %td= mob.zone ? mob.zone.name : "Unknown"
-          %td= mob.difficulty ? mob.difficulty.name : "Unknown"
+          %td= mob.zone_name
+          %td= mob.difficulty_name
           %td= mob.kills
-          %td= mob.last_drop ? mob.last_drop.drop_time : "Never"
-          %td= mob.progression ? "Yes" : "No"
-          %td= link_to 'Destroy', mob, :confirm => 'Are you sure?', :method => :delete
+          %td= mob.first_killed
+          %td= mob.last_killed
+          %td= mob.is_progression?
+          %td= link_to 'Show', mob, class: 'table-button'
+          %td= link_to 'Edit', edit_mob_path(mob), class: 'table-button'
+          %td= link_to 'Destroy', mob, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
 %br/
-%br/
-= link_to 'New Mob', new_mob_path
+= link_to 'New Mob', new_mob_path, class: 'button'
