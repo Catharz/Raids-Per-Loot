@@ -20,12 +20,10 @@ jQuery ->
 
   $('#dataTable').dataTable
     "bJQueryUI": true
-    "bStateSave": true
     "sPaginationType": "full_numbers"
 
   $('#characterTypesTable').dataTable
     "bJQueryUI": true
-    "bStateSave": true
     "sPaginationType": "full_numbers"
     "aoColumns": [
       null, # Player Name
@@ -44,19 +42,16 @@ jQuery ->
 
   $('#adjustmentsTable').dataTable
     "bJQueryUI": true
-    "bStateSave": true
     "sPaginationType": "full_numbers"
     "aaSorting": [[1,'asc'], [2, 'desc']]
 
   $('#characterAdjustmentsTable').dataTable
     "bJQueryUI": true
-    "bStateSave": true
     "sPaginationType": "full_numbers"
     "aaSorting": [[0,'desc']]
 
   $('#playerAdjustmentsTable').dataTable
     "bJQueryUI": true
-    "bStateSave": true
     "sPaginationType": "full_numbers"
     "aaSorting": [[0,'desc']]
 
@@ -264,7 +259,6 @@ jQuery ->
 
   $('#instancesTable').dataTable
     "bJQueryUI": true
-    "bStateSave": true
     "sPaginationType":"full_numbers"
     "aaSorting": [[1,'desc']]
 
@@ -319,13 +313,11 @@ jQuery ->
 
   $('#raidsTable').dataTable
     "bJQueryUI": true
-    "bStateSave": true
     "sPaginationType":"full_numbers"
     "aaSorting": [[0,'desc']]
 
   $('#ranksTable').dataTable
     "bJQueryUI": true
-    "bStateSave": true
     "sPaginationType":"full_numbers"
     "aaSorting": [[1,'asc']]
 
@@ -358,7 +350,6 @@ jQuery ->
 
   $('#instancesTabTable').dataTable
     "bJQueryUI": true
-    "bStateSave": true
     "sPaginationType": "full_numbers"
     "aaSorting": [[2,'desc']]
 
