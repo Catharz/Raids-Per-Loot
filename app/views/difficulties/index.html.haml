@@ -3,6 +3,8 @@
     %tr
       %th Name
       %th Rating
+      %th Zones
+      %th Mobs
       %th
       %th
       %th
@@ -11,10 +13,10 @@
       %tr
         %td= difficulty.name
         %td= difficulty.rating
-        %td= link_to 'Show', difficulty
-        %td= link_to 'Edit', edit_difficulty_path(difficulty)
-        %td= link_to 'Destroy', difficulty, :confirm => 'Are you sure?', :method => :delete
-
+        %td= difficulty.zones.count
+        %td= difficulty.mobs.count
+        %td= link_to 'Show', difficulty, class: 'table-button'
+        %td= link_to 'Edit', edit_difficulty_path(difficulty), class: 'table-button'
+        %td= link_to 'Destroy', difficulty, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
 %br
-
-= link_to 'New Difficulty', new_difficulty_path
+= link_to 'New Difficulty', new_difficulty_path, class: 'button'
