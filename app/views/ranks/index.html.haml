@@ -12,9 +12,8 @@
         %tr
           %td= rank.name
           %td= rank.priority
-          %td= link_to 'Show', rank
-          %td= link_to 'Edit', edit_rank_path(rank)
-          %td= link_to 'Destroy', rank, :confirm => 'Are you sure?', :method => :delete
+          %td= link_to 'Show', rank, class: 'table-button'
+          %td= link_to 'Edit', edit_rank_path(rank), class: 'table-button'
+          %td= link_to 'Destroy', rank, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
 %br/
-%br/
-= link_to 'New Rank', new_rank_path
+= link_to 'New Rank', new_rank_path, class: 'button'
