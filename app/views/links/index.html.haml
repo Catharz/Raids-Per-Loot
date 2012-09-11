@@ -13,9 +13,8 @@
         %td= link.url
         %td= link.title
         %td= link.description
-        %td= link_to 'Show', link
-        %td= link_to 'Edit', edit_link_path(link)
-        %td= link_to 'Destroy', link, :confirm => 'Are you sure?', :method => :delete
+        %td= link_to 'Show', link, class: 'table-button'
+        %td= link_to 'Edit', edit_link_path(link), class: 'table-button'
+        %td= link_to 'Destroy', link, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
 %br/
-%br/
-= link_to 'New Link', new_link_path
+= link_to 'New Link', new_link_path, class: 'button'
