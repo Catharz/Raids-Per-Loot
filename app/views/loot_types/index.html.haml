@@ -12,9 +12,8 @@
         %tr
           %td= loot_type.name
           %td= loot_method_description loot_type.default_loot_method
-          %td= link_to 'Show', loot_type
-          %td= link_to 'Edit', edit_loot_type_path(loot_type)
-          %td= link_to 'Destroy', loot_type, :confirm => 'Are you sure?', :method => :delete
+          %td= link_to 'Show', loot_type, class: 'table-button'
+          %td= link_to 'Edit', edit_loot_type_path(loot_type), class: 'table-button'
+          %td= link_to 'Destroy', loot_type, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
 %br/
-%br/
-= link_to 'New Loot type', new_loot_type_path
+= link_to 'New Loot type', new_loot_type_path, class: 'button'

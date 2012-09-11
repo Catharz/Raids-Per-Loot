@@ -14,9 +14,8 @@
           %td= user.login
           %td= user.name
           %td= user.email
-          %td= link_to 'Show', user
-          %td= link_to 'Edit', edit_user_path(user)
-          %td= link_to 'Delete', user, :confirm => "Are you sure you want to delete '#{user.login}'?", :method => :delete
+          %td= link_to 'Show', user, class: 'table-button'
+          %td= link_to 'Edit', edit_user_path(user), class: 'table-button'
+          %td= link_to 'Delete', user, :confirm => "Are you sure you want to delete '#{user.login}'?", :method => :delete, class: 'table-button'
 %br/
-%br/
-= link_to 'New User', new_user_path
+= link_to 'New User', new_user_path, class: 'button'
