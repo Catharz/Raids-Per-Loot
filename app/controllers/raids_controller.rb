@@ -27,6 +27,7 @@ class RaidsController < ApplicationController
       format.html # show.html.erb
       format.json { render :json => @raid }
       format.xml  { render :xml => @raid.to_xml(:include => [:players, :drops]) }
+      format.js
     end
   end
 

@@ -20,7 +20,7 @@
           %td= raid.characters.count
           %td= raid.kills.count
           %td= raid.drops.count
-          %td= link_to 'Show', raid, class: 'table-button'
+          %td= link_to 'Show', raid, remote: true, class: 'table-button'
           %td= link_to 'Edit', edit_raid_path(raid), class: 'table-button'
           %td= link_to 'Destroy', raid, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
 %br/

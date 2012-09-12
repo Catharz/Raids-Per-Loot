@@ -1,46 +1,4 @@
-#tabBook
-  %ul
-    %li= link_to "Details", "#details"
-    %li= link_to "Instances", "#instances"
-    %li= link_to "Players", "#players"
-    %li= link_to "Characters", "#characters"
-    %li= link_to "Kills", "#kills"
-    %li= link_to "Drops", "#drops"
-
-  #details
-    %p
-      Raid date:
-      = @raid.raid_date
-    %p
-      Instances:
-      = @raid.instances.count
-    %p
-      Players:
-      = @raid.players.count
-    %p
-      Characters:
-      = @raid.characters.count
-    %p
-      Kills:
-      = @raid.kills.count
-    %p
-      Drops:
-      = @raid.drops.count
-
-  #instances
-    = render 'tabs/instances', :"@instance_list" => @raid.instances
-
-  #players
-    = render 'tabs/players', :"@player_list" => @raid.players
-
-  #characters
-    = render 'tabs/characters', :"@character_list" => @raid.characters
-
-  #kills
-    = render 'tabs/mobs', :"@mob_list" => @raid.kills
-
-  #drops
-    = render 'tabs/drops', :"@drop_list" => @raid.drops
+= render 'details'
 
 = link_to 'Edit', edit_raid_path(@raid)
 |
