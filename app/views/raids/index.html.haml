@@ -13,7 +13,7 @@
   %tbody
     - @raids.each do |raid|
       - cache raid do
-        %tr
+        %tr{id: "raid_#{raid.id}"}
           %td= raid.raid_date
           %td= raid.instances.count
           %td= raid.players.count
@@ -21,7 +21,7 @@
           %td= raid.kills.count
           %td= raid.drops.count
           %td= link_to 'Show', raid, remote: true, class: 'table-button'
-          %td= link_to 'Edit', edit_raid_path(raid), class: 'table-button'
-          %td= link_to 'Destroy', raid, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
+          %td= link_to 'Edit', edit_raid_path(raid), remote: true, class: 'table-button'
+          %td= link_to 'Destroy', raid, :confirm => 'Are you sure?', :method => :delete, remote: true, class: 'table-button'
 %br/
-= link_to 'New Raid', new_raid_path, class: 'button'
+= link_to 'New Raid', new_raid_path, remote: true, class: 'button'

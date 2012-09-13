@@ -1,0 +1,5 @@
+oTable = $('#raidsTable').dataTable()
+aPos = oTable.fnGetPosition( document.getElementById("raid_<%= @raid.id %>") )
+oTable.fnDeleteRow(aPos)
+oTable.fnDraw()
+$("#notice").empty().append("Raid was successfully deleted.")

@@ -25,7 +25,7 @@ class RaidsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @raid }
+      format.json { render :json => @raid.to_json(methods: [:instances, :players, :characters, :kills, :drops]) }
       format.xml  { render :xml => @raid.to_xml(:include => [:players, :drops]) }
       format.js
     end
@@ -40,6 +40,7 @@ class RaidsController < ApplicationController
       format.html # new.html.erb
       format.json { render :json => @raid }
       format.xml  { render :xml => @raid }
+      format.js
     end
   end
 
@@ -56,7 +57,7 @@ class RaidsController < ApplicationController
     respond_to do |format|
       if @raid.save
         format.html { redirect_to @raid, :notice => 'Raid was successfully created.' }
-        format.json { render :json => @raid, :status => :created, :location => @raid }
+        format.json { render :json => @raid.to_json(methods: [:instances, :players, :characters, :kills, :drops]), :status => :created, :location => @raid }
         format.xml  { render :xml => @raid, :status => :created, :location => @raid }
       else
         format.html { render :action => "new" }
@@ -74,7 +75,7 @@ class RaidsController < ApplicationController
     respond_to do |format|
       if @raid.update_attributes(params[:raid])
         format.html { redirect_to @raid, :notice => 'Raid was successfully updated.' }
-        format.json { head :ok }
+        format.json { render json: @raid.to_json(methods: [:instances, :players, :characters, :kills, :drops]), :notice => 'Raid was successfully updated.' }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -94,6 +95,7 @@ class RaidsController < ApplicationController
       format.html { redirect_to raids_url }
       format.json { head :ok }
       format.xml  { head :ok }
+      format.js
     end
   end
 end

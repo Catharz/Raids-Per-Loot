@@ -19,7 +19,7 @@
     = f.fields_for :instances do |instance_form|
       = instance_form.collection_select(:zone_id, zones, :id, :name)
       = instance_form.datetime_select :start_time
-      = instance_form.link_to_remove "Remove"
-    = f.link_to_add "Add", :instances
+      = instance_form.link_to_remove "Remove", class: 'table-button'
+    = f.link_to_add "Add", :instances, class: 'button'
   .actions
     = f.submit
