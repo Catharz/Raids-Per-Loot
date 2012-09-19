@@ -72,7 +72,7 @@ RaidsPerLoot::Application.routes.draw do
   resources :drops do
     resources :instances, :players
     collection do
-      put :upload_drop
+      post :upload
       get :invalid
     end
   end

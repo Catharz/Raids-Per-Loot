@@ -204,6 +204,10 @@ class Drop < ActiveRecord::Base
               "not in (select ai.archetype_id from archetypes_items ai where ai.item_id = drops.item_id)")
   end
 
+  def self.by_eq2_item_id(eq2_item_id)
+    eq2_item_id ? eager_load(:item).where('items.eq2_item_id = ?', eq2_item_id) : scoped
+  end
+
   def self.by_archetype(archetype_name)
     archetype_name ? eager_load(:character => :archetype).where(['archetypes.name = ?', archetype_name]) : scoped
   end

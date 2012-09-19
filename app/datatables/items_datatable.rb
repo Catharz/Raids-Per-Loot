@@ -38,8 +38,8 @@ class ItemsDatatable
 
   #TODO: Get some specs around the searching
   def fetch_items
-    items = Item.by_loot_type(params[:loot_type_id]) \
-      .eager_load(:loot_type, :items_slots => :slot, :archetypes_items => :archetype) \
+    items = Item.by_name(params[:name]).by_eq2_item_id(params[:eq2_item_id]).by_loot_type(params[:loot_type_id]) \
+      .eager_load(:loot_type) \
       .order("#{sort_column} #{sort_direction}")
     items = items.page(page).per_page(per_page)
 

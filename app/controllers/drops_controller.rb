@@ -1,4 +1,5 @@
 class DropsController < ApplicationController
+  skip_before_filter :verify_authenticity_token, :only => [:upload]
   before_filter :login_required, :except => [:index, :show]
   before_filter :set_pagetitle
 
@@ -11,7 +12,7 @@ class DropsController < ApplicationController
   def index
     respond_to do |format|
       format.html # index.html.erb
-      format.xml { render :xml => Drop.by_time(params[:drop_time]).by_instance(params[:instance_id]).by_zone(params[:zone_id]).by_mob(params[:mob_id]).by_item(params[:item_id]).by_character(params[:character_id]) }
+      format.xml { render :xml => Drop.by_eq2_item_id(params[:eq2_item_id]).by_time(params[:drop_time]).by_instance(params[:instance_id]).by_zone(params[:zone_id]).by_mob(params[:mob_id]).by_item(params[:item_id]).by_character(params[:character_id]) }
       format.json { render json: DropsDatatable.new(view_context) }
     end
   end
@@ -63,44 +64,40 @@ class DropsController < ApplicationController
     @drop = Drop.find(params[:id])
   end
 
-  # Put /drops/upload
+  # Post /drops/upload
   def upload
-    zone_name = params[:zone_name]
-    mob_name = params[:mob_name]
-    character_name = params[:character_name]
-    item_name = params[:item_name]
-    eq2_item_id = params[:eq2_item_id]
-    drop_time_string = params[:drop_time_string]
-    loot_type_name = params[:loot_type_name]
+    zone = Zone.find_or_create_by_name(params[:zone_name])
+    mob = Mob.find_or_create_by_name_and_zone_id(params[:mob_name], zone.id)
+    character = Character.find_or_create_by_name(params[:character_name])
+    item = Item.find_or_create_by_eq2_item_id_and_name(params[:eq2_item_id], params[:item_name])
+    loot_type_id = item.loot_type_id
 
-    zone = Zone.find_or_create_by_name(zone_name)
-    mob = Mob.find_or_create_by_name_and_zone_id(mob_name, zone.id)
-    character = Character.find_or_create_by_name(character_name)
-    item = Item.find_or_create_by_eq2_item_id_and_name(eq2_item_id, item_name)
-    loot_type = LootType.find_or_create_by_name(loot_type_name)
+    drop_time = DateTime.parse(params[:drop_time]) if params[:drop_time].present?
+    drop_time ||= DateTime.now
+    instance = Instance.at_time(drop_time)
 
-    drop_time = DateTime.strptime(drop_time_string, "%d/%m/%Y %I:%M:%S %p") unless drop_time_string.nil?
-    drop_time ||= Date.now
     @drop = Drop.where(:zone_id => zone.id,
                        :mob_id => mob.id,
-                       :character_id => character.id,
                        :item_id => item.id,
-                       :loot_type_id => loot_type.id,
-                       :drop_time => drop_time)
+                       :instance_id => instance.id,
+                       :drop_time => drop_time).first
     @drop ||= Drop.new(:zone_id => zone.id,
                        :mob_id => mob.id,
+                       :instance_id => instance.id,
                        :character_id => character.id,
                        :item_id => item.id,
-                       :loot_type_id => loot_type.id,
+                       :loot_type_id => loot_type_id,
                        :drop_time => drop_time)
 
     respond_to do |format|
-      if @drop.save
-        format.html { redirect_to(@drop, :notice => 'Drop was successfully created.') }
-        format.xml { render :xml => @drop, :status => :created, :location => @drop }
+      if @drop.new_record?
+        if @drop.save
+          format.json { render json: @drop.to_json, status: :created, location: @drop}
+        else
+          format.json { render :json => @drop.errors, :status => :unprocessable_entity }
+        end
       else
-        format.html { render :action => "new" }
-        format.xml { render :xml => @drop.errors, :status => :unprocessable_entity }
+        format.json { render json: @drop.to_json, status: :ok, location: @drop}
       end
     end
   end

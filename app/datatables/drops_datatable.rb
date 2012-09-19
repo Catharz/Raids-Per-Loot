@@ -38,7 +38,7 @@ class DropsDatatable
   end
 
   def fetch_drops
-    drops = Drop.by_instance(params[:instance_id]).by_zone(params[:zone_id]).by_mob(params[:mob_id]) \
+    drops = Drop.by_eq2_item_id(params[:eq2_item_id]).by_time(params[:drop_time]).by_instance(params[:instance_id]).by_zone(params[:zone_id]).by_mob(params[:mob_id]) \
       .by_player(params[:player_id]).by_character(params[:character_id]).by_item(params[:item_id]) \
       .eager_load(:instance, :zone, :mob, :character, :item, :loot_type) \
       .order("#{sort_column} #{sort_direction}")

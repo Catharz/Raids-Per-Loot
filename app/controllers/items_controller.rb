@@ -48,7 +48,7 @@ class ItemsController < ApplicationController
   # GET /items/1
   # GET /items/1.json
   def show
-    @item = Item.find(params[:id])
+    @item = Item.where('id = ? or eq2_item_id = ?', params[:id], params[:id]).first
 
     respond_to do |format|
       format.html # show.html.erb

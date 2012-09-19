@@ -31,12 +31,21 @@ class Instance < ActiveRecord::Base
     zone_id ? where('zone_id = ?', zone_id) : scoped
   end
 
-  def self.by_time(time)
+  def self.by_start_time(time)
     if time
       start_time = time.is_a?(String) ? DateTime.parse(time) : time
       where(:start_time => start_time)
     else
       scoped
+    end
+  end
+
+  def self.at_time(time)
+    if time
+      start_time = time.is_a?(String) ? DateTime.parse(time) : time
+      where('start_time <= ?', start_time).last
+    else
+      scoped.last
     end
   end
 
