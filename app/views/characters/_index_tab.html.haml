@@ -16,9 +16,9 @@
       %th
   %tbody
     - @characters.each do |character|
-      - cache character do
-        - if character.char_type.eql? @char_type or @char_type.eql? "all"
-          %tr
+      - if character.char_type.eql? @char_type or @char_type.eql? "all"
+        %tr
+          - cache character do
             %td{:id => "character_#{character.id}"}= link_to character.name, character_path(character), :remote => true
             - if character.main_character
               %td{:id => "character_#{character.main_character.id}"}= link_to character.main_character.name, character_path(character.main_character), :remote => true
