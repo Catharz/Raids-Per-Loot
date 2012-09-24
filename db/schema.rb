@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120910224203) do
+ActiveRecord::Schema.define(:version => 20120923222834) do
 
   create_table "adjustments", :force => true do |t|
     t.date     "adjustment_date"
@@ -228,6 +228,17 @@ ActiveRecord::Schema.define(:version => 20120910224203) do
   end
 
   add_index "pages", ["parent_id"], :name => "index_pages_on_parent_id"
+
+  create_table "player_raids", :id => false, :force => true do |t|
+    t.integer "player_id"
+    t.integer "raid_id"
+    t.boolean "signed_up", :default => true
+    t.boolean "punctual",  :default => true
+    t.string  "status",    :default => "a"
+  end
+
+  add_index "player_raids", ["player_id"], :name => "index_player_raids_on_player_id"
+  add_index "player_raids", ["raid_id"], :name => "index_player_raids_on_raid_id"
 
   create_table "players", :force => true do |t|
     t.string   "name"

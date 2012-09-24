@@ -1,8 +1,10 @@
 class Raid < ActiveRecord::Base
   has_many :instances, :inverse_of => :raid
   has_many :kills, :through => :instances, :uniq => true
-  has_many :players, :through => :instances, :uniq => true
-  has_many :characters, :through => :instances, :uniq => true
+  has_many :character_instances, :through => :instances
+  has_many :characters, :through => :character_instances, :uniq => true
+  has_many :player_raids
+  has_many :players, :through => :player_raids, :uniq => true
   has_many :drops, :through => :instances
 
   accepts_nested_attributes_for :instances, :reject_if => :all_blank, :allow_destroy => true
@@ -20,15 +22,7 @@ class Raid < ActiveRecord::Base
   end
 
   def benched_players
-    ids = Adjustment.where(adjustment_date: raid_date, adjustment_type: 'Raid', adjustable_type: 'Player').collect! { |a| a.adjustable_id }
-    Player.find(ids)
-  end
-
-  def add_benched_player(player)
-    unless benched_players.include? player
-      adjustment = Adjustment.create(adjustment_date: raid_date, adjustment_type: 'Raid', adjustable_type: 'Player', adjustable_id: player.id, amount: 1)
-      adjustment.save
-    end
+    players.includes(:player_raids).where("player_raids.status = ?", 'b')
   end
 
   def self.for_period(range = {start:  nil, end: nil})

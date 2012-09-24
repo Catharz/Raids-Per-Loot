@@ -26,32 +26,13 @@ describe Raid do
   end
 
   describe "#benched_players" do
-    it "should list players who have raid adjustments on that date" do
-      FactoryGirl.create(:adjustment, adjustment_date: first_raid.raid_date,
-                         adjustment_type: 'Raid', adjustable_type: 'Player',
-                         adjustable_id: player.id, reason: 'Benched', amount: 1)
+    it "should list players with a status of b" do
+      FactoryGirl.create(:player_raid, raid_id: first_raid.id, player_id: player.id, status: 'b')
       first_raid.benched_players.should eq [player]
     end
 
-    it "should not list players who have raid adjustments on other dates" do
-      FactoryGirl.create(:adjustment, adjustment_date: first_raid.raid_date,
-                         adjustment_type: 'Raid', adjustable_type: 'Player',
-                         adjustable_id: player.id, reason: 'Benched', amount: 1)
-      second_raid.benched_players.should eq []
-    end
-  end
-
-
-  describe "#benched_players<<" do
-    it "should add players to the list of benched players" do
-      first_raid.add_benched_player(player)
-      first_raid.benched_players.should eq [player]
-    end
-
-    it "should not list players who have raid adjustments on other dates" do
-      FactoryGirl.create(:adjustment, adjustment_date: first_raid.raid_date,
-                         adjustment_type: 'Raid', adjustable_type: 'Player',
-                         adjustable_id: player.id, reason: 'Benched', amount: 1)
+    it "should not list players with a status of a" do
+      FactoryGirl.create(:player_raid, raid_id: second_raid.id, player_id: player.id)
       second_raid.benched_players.should eq []
     end
   end

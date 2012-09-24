@@ -4,28 +4,22 @@ describe "players/attendance.html.haml" do
 
   let(:main) { Rank.create(name: 'Main') }
   let(:player) { Player.create(name: 'Jenny', rank: main) }
-  let(:scout) { Archetype.create(name: 'Scout') }
-  let(:character) { Character.create(name: 'Jenny', player: player, archetype: scout, char_type: 'm')}
-  let(:zone) { Zone.create(name: 'Wherever') }
 
   before(:each) do
     @t = Time.parse("01/07/2012 20:15")
     d = Date.parse("01/07/2012")
     @raids = []
-    @instances = []
     for n in 0..100
       raid = Raid.create(raid_date: d - n.weeks)
-      instance = Instance.create(raid: raid, zone: zone, start_time: raid.raid_date + 18.hours)
-      @instances << instance
       @raids << raid
     end
     Time.should_receive(:now).at_least(1).times.and_return(@t)
-    @instances.each do |i|
-      unless (i.raid.raid_date.cweek % i.raid.raid_date.month) == 0 or (i.raid.raid_date.cweek % (i.raid.raid_date.month - 1)) == 0
-        CharacterInstance.create(instance: i, character: character )
+    @raids.each do |raid|
+      unless (raid.raid_date.cweek % raid.raid_date.month) == 0 or (raid.raid_date.cweek % (raid.raid_date.month - 1)) == 0
+        PlayerRaid.create(raid: raid, player: player )
       end
     end
-    player.stub!(:raids_count).and_return(CharacterInstance.count)
+    player.stub!(:raids_count).and_return(PlayerRaid.count)
   end
 
   context "layout" do

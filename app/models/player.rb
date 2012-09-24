@@ -7,7 +7,8 @@ class Player < ActiveRecord::Base
 
   has_many :character_instances, :through => :characters
   has_many :instances, :through => :character_instances
-  has_many :raids, :through => :instances, :uniq => true
+  has_many :player_raids
+  has_many :raids, :through => :player_raids, :uniq => true
   has_many :drops, :through => :characters
   has_many :items, :through => :drops, :conditions => ["drops.loot_method = ?", "n"]
 

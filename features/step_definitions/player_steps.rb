@@ -36,6 +36,7 @@ Given /^the following player attendance:$/ do |all_attendance|
     character ||= Character.create(:name => attendance[:character], :archetype_id => archetype.id, :player_id => player.id, :char_type => "m")
 
     raid = Raid.find_or_create_by_raid_date(attendance[:raid_date])
+    PlayerRaid.create(player: player, raid: raid)
     instances = 1..attendance[:instances].to_i
     instances.to_a.each do |n|
       zone = Zone.find_or_create_by_name("Raid Zone #{n}")
