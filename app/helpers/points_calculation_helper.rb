@@ -1,4 +1,4 @@
-module PointsCalculator
+module PointsCalculationHelper
   def attendance(range = {start:  nil, end: nil})
     raid_count(range).to_f / Raid.for_period(range).count.to_f * 100.00
   end

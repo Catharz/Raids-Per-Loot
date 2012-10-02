@@ -11,7 +11,7 @@ updateRaid = (raid) ->
 
 $("#popup").dialog
   autoOpen: true
-  width: 850
+  width: 900
   height: 600
   modal: true
   resizable: false
@@ -32,3 +32,4 @@ $("#popup").dialog
     $(".actions").empty()
     $(".table-button").button()
     $(".button").button()
+    $("#tabBook").tabs()

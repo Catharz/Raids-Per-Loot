@@ -1,7 +1,7 @@
 require 'csv'
 
 class Character < ActiveRecord::Base
-  include RemoteConnectionHelper, PointsCalculator, CharactersHelper
+  include RemoteConnectionHelper, PointsCalculationHelper, CharactersHelper
 
   belongs_to :player, :inverse_of => :characters, :touch => true
   belongs_to :archetype, :inverse_of => :characters, :touch => true

@@ -46,7 +46,7 @@ class RaidsController < ApplicationController
 
   # GET /raids/1/edit
   def edit
-    @raid = Raid.find(params[:id])
+    @raid = Raid.includes([:instances, :player_raids]).find(params[:id])
   end
 
   # POST /raids
