@@ -6,7 +6,6 @@ gem 'rails', '3.1'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
-gem 'sqlite3'
 
 gem 'haml-rails'
 gem 'coffee-filter'
