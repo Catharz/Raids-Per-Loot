@@ -49,7 +49,6 @@ end
 # gem 'capistrano'
 
 gem 'bullet', group: :development
-gem "taps"
 
 #START:dev_and_test_gems
 group :test, :development do
