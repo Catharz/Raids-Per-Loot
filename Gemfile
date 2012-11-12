@@ -49,6 +49,7 @@ end
 # gem 'capistrano'
 
 gem 'bullet', group: :development
+gem "taps"
 
 #START:dev_and_test_gems
 group :test, :development do
@@ -84,7 +85,6 @@ group :test, :development do
 
   # Deploy with Heroku
 	gem "heroku"
-  gem "taps"
 
 	# To use debugger
 	#gem 'ruby-debug'
