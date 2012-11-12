@@ -6,13 +6,13 @@ gem 'rails', '3.1'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
+gem 'sqlite3'
 
 gem 'haml-rails'
 gem 'coffee-filter'
 gem 'ruby_parser'
 gem 'hpricot'
 gem 'escape_utils'
-gem 'formtastic'
 gem 'cocoon'
 gem 'nested_form'
 gem 'memoist'
@@ -49,10 +49,11 @@ end
 # Deploy with Capistrano
 # gem 'capistrano'
 
+gem 'bullet', group: :development
+
 #START:dev_and_test_gems
 group :test, :development do
 # Pretty printed test output
-  gem 'bullet'
   gem "turn", '< 0.8.3', :require => false
   gem "simplecov"
 

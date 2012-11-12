@@ -92,8 +92,6 @@ GEM
       factory_girl (~> 3.3.0)
       railties (>= 3.0.0)
     ffi (1.0.11)
-    formtastic (2.2.1)
-      actionpack (>= 3.0)
     gherkin (2.10.0)
       json (>= 1.4.6)
     growl (1.0.3)
@@ -246,6 +244,7 @@ GEM
       hike (~> 1.2)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    sqlite3 (1.3.6)
     taps (0.3.24)
       rack (>= 1.0.1)
       rest-client (>= 1.4.0, < 1.7.0)
@@ -290,7 +289,6 @@ DEPENDENCIES
   delayed_job_active_record
   escape_utils
   factory_girl_rails
-  formtastic
   growl
   guard-bundler
   guard-cucumber
@@ -321,6 +319,7 @@ DEPENDENCIES
   selenium-client
   simplecov
   spork
+  sqlite3
   taps
   test-unit (= 2.4.7)
   therubyracer-heroku (= 0.8.1.pre3)
