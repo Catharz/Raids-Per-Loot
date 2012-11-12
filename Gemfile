@@ -84,6 +84,7 @@ group :test, :development do
 
   # Deploy with Heroku
 	gem "heroku"
+  gem "taps"
 
 	# To use debugger
 	#gem 'ruby-debug'
