@@ -45,7 +45,7 @@ end
 # Use unicorn as the web server
 # gem 'unicorn'
 
-gem 'bullet', group: :development
+gem 'bullet', :group => :development
 
 #START:dev_and_test_gems
 group :test, :development do
