@@ -229,7 +229,7 @@ ActiveRecord::Schema.define(:version => 20120923222834) do
 
   add_index "pages", ["parent_id"], :name => "index_pages_on_parent_id"
 
-  create_table "player_raids", :id => false, :force => true do |t|
+  create_table "player_raids", :force => true do |t|
     t.integer "player_id"
     t.integer "raid_id"
     t.boolean "signed_up", :default => true

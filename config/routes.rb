@@ -32,6 +32,7 @@ RaidsPerLoot::Application.routes.draw do
       get :attendance
     end
   end
+  resources :player_raids
 
   resources :archetypes do
     resources :characters, :items

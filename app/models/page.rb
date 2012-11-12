@@ -4,6 +4,7 @@ class Page < ActiveRecord::Base
 
   validates_presence_of :name, :title, :navlabel, :body
   validates_uniqueness_of :name
+  after_commit :invalidate_page_cache
 
   def parent_navlabel
     parent ? parent.navlabel : ""
@@ -25,7 +26,7 @@ class Page < ActiveRecord::Base
     Page.where(:parent_id => nil).where(admin: false).order(:position)
   end
 
-  def self.after_commit
+  def invalidate_page_cache
     Page.all.touch
   end
 end
