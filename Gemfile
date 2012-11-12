@@ -45,9 +45,6 @@ end
 # Use unicorn as the web server
 # gem 'unicorn'
 
-# Deploy with Capistrano
-# gem 'capistrano'
-
 gem 'bullet', group: :development
 
 #START:dev_and_test_gems
@@ -86,6 +83,9 @@ group :test, :development do
   gem "heroku"
   gem "taps"
   gem 'therubyracer-heroku', '0.8.1.pre3'
+
+  #Deploy with Capistrano
+  gem 'capistrano'
 
 	# To use debugger
 	#gem 'ruby-debug'
