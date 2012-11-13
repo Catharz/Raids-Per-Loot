@@ -19,9 +19,9 @@ test: &test
   password:
 
 production:
-  adapter: mysql
-  database: southerncross_rpl_prod
-  username: 
+  adapter: postgresql
+  database: deploy
+  username: deploy
   password: 
   host: localhost
 cucumber:
