@@ -38,6 +38,8 @@ group :assets do
   gem 'uglifier'
 end
 
+gem 'therubyracer'
+
 #group :production do
 #  gem 'therubyracer-heroku', '0.8.1.pre3'
 #end
@@ -85,7 +87,7 @@ group :test, :development do
   gem 'therubyracer-heroku', '0.8.1.pre3'
 
   #Deploy with Capistrano
-  gem 'capistrano'
+  gem 'rvm-capistrano'
 
 	# To use debugger
 	#gem 'ruby-debug'
