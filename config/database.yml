@@ -21,7 +21,7 @@ test: &test
 production:
   adapter: postgresql
   database: deploy
-  username: deploy
+  username:
   password: 
   host: localhost
 cucumber:
