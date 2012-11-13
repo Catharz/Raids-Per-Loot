@@ -38,7 +38,7 @@ group :assets do
   gem 'uglifier'
 end
 
-gem 'therubyracer'
+gem 'execjs'
 
 #group :production do
 #  gem 'therubyracer-heroku', '0.8.1.pre3'
