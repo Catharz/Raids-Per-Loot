@@ -15,70 +15,70 @@ describe CharactersHelper do
   }
   describe "#health_rating" do
     context "Fighter" do
-      it "should be optimal if 55,000" do
-        health_rating(55000, 'Fighter').should eq "optimal"
+      it "should be optimal if 65,000" do
+        health_rating(65000, 'Fighter').should eq "optimal"
       end
-      it "should be minimal if 50,000" do
-        health_rating(54999, 'Fighter').should eq "minimal"
-        health_rating(50000, 'Fighter').should eq "minimal"
+      it "should be minimal if 60,000" do
+        health_rating(64999, 'Fighter').should eq "minimal"
+        health_rating(60000, 'Fighter').should eq "minimal"
       end
-      it "should be unsatisfactory if below 50,000" do
-        health_rating(49999, 'Fighter').should eq "unsatisfactory"
+      it "should be unsatisfactory if below 60,000" do
+        health_rating(59999, 'Fighter').should eq "unsatisfactory"
       end
     end
 
     context "Priest" do
       it "should be optimal if 50,000" do
-        health_rating(50000, 'Priest').should eq "optimal"
+        health_rating(60000, 'Priest').should eq "optimal"
       end
-      it "should be minimal if 45,000" do
-        health_rating(49999, 'Priest').should eq "minimal"
-        health_rating(45000, 'Priest').should eq "minimal"
+      it "should be minimal if 55,000" do
+        health_rating(59999, 'Priest').should eq "minimal"
+        health_rating(55000, 'Priest').should eq "minimal"
       end
-      it "should be unsatisfactory if below 45,000" do
-        health_rating(44999, 'Priest').should eq "unsatisfactory"
+      it "should be unsatisfactory if below 55,000" do
+        health_rating(54999, 'Priest').should eq "unsatisfactory"
       end
     end
 
     context "Scout" do
-      it "should be optimal if 45,000" do
-        health_rating(45000, 'Scout').should eq "optimal"
+      it "should be optimal if 55,000" do
+        health_rating(55000, 'Scout').should eq "optimal"
       end
-      it "should be minimal if 40,000" do
-        health_rating(44999, 'Scout').should eq "minimal"
-        health_rating(40000, 'Scout').should eq "minimal"
+      it "should be minimal if 50,000" do
+        health_rating(54999, 'Scout').should eq "minimal"
+        health_rating(50000, 'Scout').should eq "minimal"
       end
-      it "should be unsatisfactory if below 40,000" do
-        health_rating(39999, 'Scout').should eq "unsatisfactory"
+      it "should be unsatisfactory if below 50,000" do
+        health_rating(49999, 'Scout').should eq "unsatisfactory"
       end
     end
 
     context "Mage" do
-      it "should be optimal if 45,000" do
-        health_rating(45000, 'Mage').should eq "optimal"
+      it "should be optimal if 55,000" do
+        health_rating(55000, 'Mage').should eq "optimal"
       end
-      it "should be minimal if 40,000" do
-        health_rating(44999, 'Mage').should eq "minimal"
-        health_rating(40000, 'Mage').should eq "minimal"
+      it "should be minimal if 50,000" do
+        health_rating(54999, 'Mage').should eq "minimal"
+        health_rating(50000, 'Mage').should eq "minimal"
       end
-      it "should be unsatisfactory if below 40,000" do
-        health_rating(39999, 'Mage').should eq "unsatisfactory"
+      it "should be unsatisfactory if below 50,000" do
+        health_rating(49999, 'Mage').should eq "unsatisfactory"
       end
     end
   end
 
   describe "#crit_rating" do
-    it "should be optimal if 310.0" do
-      crit_rating(310.0).should eq "optimal"
+    it "should be optimal if 420.0" do
+      crit_rating(420.0).should eq "optimal"
     end
 
-    it "should be minimal if 285.0" do
-      crit_rating(309.99).should eq "minimal"
-      crit_rating(285.0).should eq "minimal"
+    it "should be minimal if 350.0" do
+      crit_rating(419.99).should eq "minimal"
+      crit_rating(350.0).should eq "minimal"
     end
 
-    it "should be unsatisfactory if below 285.0" do
-      crit_rating(284.99).should eq "unsatisfactory"
+    it "should be unsatisfactory if below 350.0" do
+      crit_rating(349.99).should eq "unsatisfactory"
     end
   end
 

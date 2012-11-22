@@ -17,6 +17,26 @@ module CharactersHelper
   def health_rating(health, base_class)
     case base_class
       when 'Fighter'
+        if health.to_i >= 65000
+          "optimal"
+        else
+          if health.to_i >= 60000
+            "minimal"
+          else
+            "unsatisfactory"
+          end
+        end
+      when 'Priest'
+        if health.to_i >= 60000
+          "optimal"
+        else
+          if health.to_i >= 55000
+            "minimal"
+          else
+            "unsatisfactory"
+          end
+        end
+      else
         if health.to_i >= 55000
           "optimal"
         else
@@ -26,34 +46,14 @@ module CharactersHelper
             "unsatisfactory"
           end
         end
-      when 'Priest'
-        if health.to_i >= 50000
-          "optimal"
-        else
-          if health.to_i >= 45000
-            "minimal"
-          else
-            "unsatisfactory"
-          end
-        end
-      else
-        if health.to_i >= 45000
-          "optimal"
-        else
-          if health.to_i >= 40000
-            "minimal"
-          else
-            "unsatisfactory"
-          end
-        end
     end
   end
 
   def crit_rating(crit)
-    if crit.to_f >= 310.0
+    if crit.to_f >= 420.0
       "optimal"
     else
-      if crit.to_f >= 285.0
+      if crit.to_f >= 350.0
         "minimal"
       else
         "unsatisfactory"
