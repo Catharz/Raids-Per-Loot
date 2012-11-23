@@ -18,6 +18,18 @@ module PointsCalculationHelper
     self.instances.count + self.adjustments.by_adjustment_type("Instances").sum(:amount)
   end
 
+  def armour_count
+    item_count("Armour")
+  end
+
+  def jewellery_count
+    item_count("Jewellery")
+  end
+
+  def weapon_count
+    item_count("Weapon")
+  end
+
   def item_count(loot_type)
     self.items.of_type(loot_type).count + self.adjustments.by_adjustment_type(loot_type).sum(:amount)
   end

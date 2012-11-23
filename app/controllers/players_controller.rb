@@ -46,7 +46,7 @@ class PlayersController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @player }
+      format.json { render :json => @player.to_json(methods: [:armour_count, :jewellery_count, :weapon_count]) }
       format.xml { render :xml => @player.to_xml(:include => [:instances, :drops]) }
     end
   end
