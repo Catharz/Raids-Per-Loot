@@ -110,7 +110,32 @@ jQuery ->
       "</br>Weapons: " + data.weapon + "</p>"
     container.css "display", "block"
 
-  $(".playerLootRateTrigger").live "mouseout", ->
+  $(".lootRateTrigger").live "mouseout", ->
+    clearTimeout hideTimer  if hideTimer
+    hideTimer = setTimeout ->
+      container.css "display", "none", hideDelay
+
+  $(".lootRateTrigger").live "mouseover", ->
+    currentID = @id
+    return  if currentID is ""
+
+    clearTimeout hideTimer  if hideTimer
+
+    pos = $(this).offset()
+    width = $(this).width()
+
+    container.css
+      left: (pos.left + width) + "px"
+      top: (pos.top - 5) + "px"
+
+    data = $(this).parent().data()
+    $("#popupContent").empty()
+    $("#popupContent").append "<div class='popupResult'>Armour: " + data.armour +
+    "</br>Jewellery: " + data.jewellery +
+    "</br>Weapons: " + data.weapon + "</class>"
+    container.css "display", "block"
+
+  $(".lootRateTrigger").live "mouseout", ->
     clearTimeout hideTimer  if hideTimer
     hideTimer = setTimeout ->
       container.css "display", "none", hideDelay

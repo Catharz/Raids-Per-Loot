@@ -23,9 +23,9 @@
           %td= player.last_raid_date
           %td{:align => "right"}= player.raids_count
           %td{:align => "right"}= player.instances_count
-          %td.playerLootRateTrigger{:id => player.id,:align => "right"}= player.armour_rate
-          %td.playerLootRateTrigger{:id => player.id,:align => "right"}= player.jewellery_rate
-          %td.playerLootRateTrigger{:id => player.id,:align => "right"}= player.weapon_rate
+          %td.lootRateTrigger{:id => player.id,:align => "right"}= player.armour_rate
+          %td.lootRateTrigger{:id => player.id,:align => "right"}= player.jewellery_rate
+          %td.lootRateTrigger{:id => player.id,:align => "right"}= player.weapon_rate
           %td= link_to 'Show', player, class: 'table-button'
           %td= link_to 'Edit', edit_player_path(player), class: 'table-button'
           %td= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
