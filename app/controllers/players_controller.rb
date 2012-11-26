@@ -42,7 +42,7 @@ class PlayersController < ApplicationController
 # GET /players/1
 # GET /players/1.json
   def show
-    @player = Player.find(params[:id], :include => {:drops => :instance} )
+    @player = Player.includes(:drops => :instance).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
