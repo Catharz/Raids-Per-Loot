@@ -19,15 +19,15 @@ module PointsCalculationHelper
   end
 
   def armour_count
-    item_count("Armour")
+    self.item_count("Armour")
   end
 
   def jewellery_count
-    item_count("Jewellery")
+    self.item_count("Jewellery")
   end
 
   def weapon_count
-    item_count("Weapon")
+    self.item_count("Weapon")
   end
 
   def item_count(loot_type)
