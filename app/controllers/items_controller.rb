@@ -35,7 +35,7 @@ class ItemsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: ItemsDatatable.new(view_context) }
-      format.xml { render :xml => Item.by_name(params[:name]).by_eq2_item_id(params[:eq2_item_id]).by_loot_type(params[:loot_type_id]) }
+      format.xml { render :xml => Item.by_name(params[:name]).by_eq2_item_id(params[:eq2_item_id]).by_loot_type(params[:loot_type_id]).of_type(params[:loot_type_name]) }
     end
   end
 

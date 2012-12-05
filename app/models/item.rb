@@ -97,7 +97,7 @@ class Item < ActiveRecord::Base
 
   def self.of_type(loot_type_name)
     loot_type = LootType.find_by_name(loot_type_name)
-    loot_type ? by_loot_type(loot_type.id) : []
+    loot_type ? by_loot_type(loot_type.id) : scoped
   end
 
   def self.by_loot_type(loot_type_id)
