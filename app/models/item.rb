@@ -39,6 +39,9 @@ class Item < ActiveRecord::Base
           when 'Weapon'
             save_archetypes(item_details)
             save_slots(item_details)
+          when 'Shield'
+            save_archetypes(item_details)
+            save_slots(item_details)
           when 'Spell Scroll'
             loot_type_name = 'Spell'
             save_archetypes(item_details)
@@ -57,6 +60,10 @@ class Item < ActiveRecord::Base
                 loot_type_name = 'Trash'
               end
             end
+        end
+        if loot_type_name.eql? 'Shield'
+          loot_type_name = 'Weapon'
+          update_attribute(:loot_type, LootType.find_by_name(loot_type_name))
         end
         if loot_type.nil? or loot_type.name.eql? "Unknown"
           update_attribute(:loot_type, LootType.find_by_name(loot_type_name))
