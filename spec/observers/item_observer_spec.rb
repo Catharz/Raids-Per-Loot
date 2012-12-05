@@ -5,15 +5,7 @@ describe ItemObserver do
   let( :item ) { mock_model(Item) }
 
   describe "#after_save" do
-    it "fetches data from soe" do
-      item.should_receive(:fetch_soe_item_details)
-      item.should_receive(:drops).and_return([])
-
-      subject.after_save(item)
-    end
-
     it "updates the loot type of drops when they do not match" do
-      item.should_receive(:fetch_soe_item_details)
       armour = mock_model(LootType, :name => "Armour")
       weapon = mock_model(LootType, :name => "Weapon")
       drop = mock_model(Drop)
@@ -26,7 +18,6 @@ describe ItemObserver do
     end
 
     it "does not update the loot type of drops when they do match" do
-      item.should_receive(:fetch_soe_item_details)
       armour = mock_model(LootType, :name => "Armour")
       drop = mock_model(Drop)
       drop.should_receive(:loot_type).and_return(armour)
@@ -38,7 +29,6 @@ describe ItemObserver do
     end
 
     it "sets drop loot method to trash if loot type is trash" do
-      item.should_receive(:fetch_soe_item_details)
       trash = mock_model(LootType, :name => "Trash")
       drop = mock_model(Drop)
       drop.should_receive(:loot_type).and_return(nil)
