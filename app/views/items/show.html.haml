@@ -1,14 +1,11 @@
 #tabBook
   %ul
-    %li= link_to "Image", "#image"
     %li= link_to "Details", "#details"
+    %li= link_to "Image", "#image"
     %li= link_to "Classes", "#classes"
     %li= link_to "Slots", "#slots"
     %li= link_to "Drops", "#drops"
     %li= link_to "Data", "#data"
-
-  #image
-    = eq2_wire_item_details(@item.eq2_item_id)
 
   #details
     %p
@@ -23,6 +20,9 @@
     %p
       %strong Item Type:
       = @item.loot_type ? @item.loot_type.name : "Unknown"
+
+  #image
+    = eq2_wire_item_details(@item.eq2_item_id)
 
   #classes
     %p
