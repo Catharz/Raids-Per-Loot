@@ -8,7 +8,7 @@ class Drop < ActiveRecord::Base
   belongs_to :loot_type, :inverse_of => :drops, :touch => true
 
   validates_uniqueness_of :drop_time, :scope => [:instance_id, :zone_id, :mob_id, :item_id, :character_id]
-  validates_format_of :loot_method, :with => /n|r|b|g|t/ # Need, Random, Bid, Guild Bank, Trash
+  validates_format_of :loot_method, :with => /n|r|b|g|t|m/ # Need, Random, Bid, Guild Bank, Trash, Transmuted
 
   # If the character received loot via "need", make sure all of the relationships are setup
   with_options :if => :needed do
@@ -16,10 +16,12 @@ class Drop < ActiveRecord::Base
     validates_presence_of :zone_id, :mob_id, :item_id, :character_id, :drop_time, :loot_method
   end
 
-  delegate :name, :to => :character, :prefix => :character
-  delegate :name, :to => :item, :prefix => :item
-  delegate :name, :to => :mob, :prefix => :mob
   delegate :name, :to => :zone, :prefix => :zone
+  delegate :name, :to => :mob, :prefix => :mob
+  delegate :name, :to => :item, :prefix => :item
+  delegate :name, :to => :character, :prefix => :character
+
+  default_scope select((column_names - %w{chat}).map {|column_name| "#{table_name}.#{column_name}"})
 
   def loot_type_name
     loot_type ? loot_type.name : "Unknown"

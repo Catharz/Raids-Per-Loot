@@ -50,9 +50,13 @@ gem 'therubyracer'
 
 gem 'bullet', :group => :development
 
+group :test do
+  gem "shoulda-matchers"
+end
+
 #START:dev_and_test_gems
 group :test, :development do
-# Pretty printed test output
+  # Pretty printed test output
   gem "turn", '< 0.8.3', :require => false
   gem "simplecov"
 

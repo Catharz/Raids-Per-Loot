@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120923222834) do
+ActiveRecord::Schema.define(:version => 20121214064356) do
 
   create_table "adjustments", :force => true do |t|
     t.date     "adjustment_date"
@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(:version => 20120923222834) do
     t.integer  "loot_type_id"
     t.integer  "instance_id"
     t.string   "loot_method",  :default => "n"
+    t.text     "chat"
   end
 
   add_index "drops", ["character_id"], :name => "index_drops_on_character_id"

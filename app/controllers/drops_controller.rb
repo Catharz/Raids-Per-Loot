@@ -12,7 +12,7 @@ class DropsController < ApplicationController
   def index
     respond_to do |format|
       format.html # index.html.erb
-      format.xml { render :xml => Drop.by_eq2_item_id(params[:eq2_item_id]).by_time(params[:drop_time]).by_instance(params[:instance_id]).by_zone(params[:zone_id]).by_mob(params[:mob_id]).by_item(params[:item_id]).by_character(params[:character_id]) }
+      format.xml { render :xml => Drop.select(:chat).by_eq2_item_id(params[:eq2_item_id]).by_time(params[:drop_time]).by_instance(params[:instance_id]).by_zone(params[:zone_id]).by_mob(params[:mob_id]).by_item(params[:item_id]).by_character(params[:character_id]) }
       format.json { render json: DropsDatatable.new(view_context) }
     end
   end
@@ -30,7 +30,7 @@ class DropsController < ApplicationController
   # GET /drops/1
   # GET /drops/1.xml
   def show
-    @drop = Drop.find(params[:id])
+    @drop = Drop.select(:chat).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -61,7 +61,7 @@ class DropsController < ApplicationController
 
   # GET /drops/1/edit
   def edit
-    @drop = Drop.find(params[:id])
+    @drop = Drop.select(:chat).find(params[:id])
   end
 
   # Post /drops/upload

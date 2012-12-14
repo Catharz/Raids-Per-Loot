@@ -31,7 +31,8 @@ describe "drops/show.html.erb" do
                               :character => character_one,
                               :item => item_one,
                               :loot_type => loot_type_one,
-                              :loot_method => "r"
+                              :loot_method => "r",
+                              :chat => "blah, blah, blah"
                    ))
   end
 
@@ -44,5 +45,6 @@ describe "drops/show.html.erb" do
     rendered.should match(/Item One/)
     rendered.should match(/Random/)
     rendered.should match(/Armour/)
+    rendered.should match(/blah, blah, blah/)
   end
 end

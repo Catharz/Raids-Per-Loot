@@ -19,6 +19,10 @@
 %p
   %strong Loot Method:
   = @drop.loot_method_name
+%p
+  %strong Chat:
+  %p
+    = h(@drop.chat).gsub(/\n/, '<br/>').html_safe
 
 = link_to 'Edit', edit_drop_path(@drop)
 \|

@@ -21,6 +21,7 @@ describe "drops/new.html.erb" do
       assert_select "select#drop_mob_id", :id => "drop[mob_id]"
       assert_select "select#drop_character_id", :id => "drop[character_id]"
       assert_select "select#drop_item_id", :id => "drop[item_id]"
+      assert_select "textarea#drop_chat", :id => "drop_chat"
     end
   end
 end

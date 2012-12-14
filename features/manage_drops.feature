@@ -21,12 +21,14 @@ Feature: Manage drops
     And I select Weapon as the Loot Type
     And I select "16/09/2011 20:15:00" as the "Drop time" date and time
     And I select a loot method of Need
+    And I fill in "Chat" with "blah, blah, blah"
     And I press "Create"
     Then I should see "Wherever"
     And I should see "Bad Ass Dragon"
     And I should see "Can O' Whoop Ass"
     And I should see "2011-09-16 20:15:00 +1000"
     And I should see "Need"
+    And I should see "blah, blah, blah"
     And I should see "Drop was successfully created"
 
 #NOTE: The drops table is sorted in reverse drop time order (by default)

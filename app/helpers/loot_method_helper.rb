@@ -1,6 +1,6 @@
 module LootMethodHelper
   def loot_method_select(form, field)
-    form.select(field, [{:id => 'n', :text => 'Need'}, {:id => 'r', :text => 'Random'}, {:id => 'b', :text => 'Bid'}, {:id => 'g', :text => 'Guild Bank'}, {:id => 't', :text => 'Trash'}].collect {|lt| [ lt[:text], lt[:id] ] })
+    form.select(field, [{:id => 'n', :text => 'Need'}, {:id => 'r', :text => 'Random'}, {:id => 'b', :text => 'Bid'}, {:id => 'g', :text => 'Guild Bank'}, {:id => 't', :text => 'Trash'}, {:id => 'm', :text => 'Transmuted'}].collect {|lt| [ lt[:text], lt[:id] ] })
   end
 
   def loot_method_description(loot_method)
@@ -10,6 +10,7 @@ module LootMethodHelper
       when 'b' then 'Bid'
       when 'g' then 'Guild Bank'
       when 't' then 'Trash'
+      when 'm' then 'Transmuted'
       else 'Unknown'
     end
   end
