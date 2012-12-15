@@ -32,7 +32,8 @@ describe "drops/show.html.erb" do
                               :item => item_one,
                               :loot_type => loot_type_one,
                               :loot_method => "r",
-                              :chat => "blah, blah, blah"
+                              :chat => "blah, blah, blah",
+                              :log_line => "Barmy looted a can of whoop'ass from the shiney green dragon"
                    ))
   end
 
@@ -46,5 +47,6 @@ describe "drops/show.html.erb" do
     rendered.should match(/Random/)
     rendered.should match(/Armour/)
     rendered.should match(/blah, blah, blah/)
+    rendered.should match(/Barmy looted a can of whoop\'ass from the shiney green dragon/)
   end
 end

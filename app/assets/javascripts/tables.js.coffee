@@ -251,6 +251,7 @@ jQuery ->
       null, # Item Classes
       null, # Loot Method
       {"sType": "date-time"}, # Drop Time
+      null, # Log Line
       null, # Invalid Reason
       null, # Edit Drop
       null, # Edit Item

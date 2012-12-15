@@ -22,6 +22,7 @@ describe "drops/edit.html.erb" do
       assert_select "select#drop_character_id", :id => "drop[character_id]"
       assert_select "select#drop_item_id", :id => "drop[item_id]"
       assert_select "textarea#drop_chat", :id => "drop_chat"
+      assert_select "input#drop_log_line", :id => "drop[log_line]", :readonly => "readonly"
     end
   end
 end

@@ -37,6 +37,10 @@
     %br/
     = loot_method_select f, :loot_method
   .field
+    %strong= f.label :log_line
+    %br/
+    = f.text_field :log_line, readonly:true
+  .field
     %strong= f.label :chat
     %br/
     = f.text_area :chat

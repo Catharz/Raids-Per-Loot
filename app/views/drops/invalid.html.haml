@@ -9,6 +9,7 @@
       %th Item Classes
       %th Loot Method
       %th Drop Time
+      %th Log Line
       %th Invalid Reason
       %th
       %th
@@ -29,6 +30,7 @@
           %td Unknown
         %td= drop.loot_method_name
         %td= drop.drop_time
+        %td= drop.log_line
         %td= drop.invalid_reason
         %td= link_to 'Edit Drop', edit_drop_path(drop), :remote => true, class: 'table-button'
         %td= link_to 'Edit Item', edit_item_path(item, :params => {:drop_id => drop.id}), :remote => true, class: 'table-button'

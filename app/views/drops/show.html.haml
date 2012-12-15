@@ -20,6 +20,9 @@
   %strong Loot Method:
   = @drop.loot_method_name
 %p
+  %strong Log Line:
+  = @drop.log_line
+%p
   %strong Chat:
   %p
     = h(@drop.chat).gsub(/\n/, '<br/>').html_safe
