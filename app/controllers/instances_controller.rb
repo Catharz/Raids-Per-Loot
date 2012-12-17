@@ -5,7 +5,17 @@ class InstancesController < ApplicationController
   def set_pagetitle
     @pagetitle = "Instances"
   end
-  
+
+  def option_list
+    @instances = Instance.by_raid(params[:raid_id]).order(:start_time)
+
+    options = "<option value='0'>Select Instance</option>"
+    @instances.each do |instance|
+      options += "<option value='#{instance.id}'>#{instance.zone_name} - #{instance.start_time}</option>"
+    end
+    render :text => options, :layout => false
+  end
+
   # GET /instances
   # GET /instances.json
   def index

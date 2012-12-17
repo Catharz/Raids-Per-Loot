@@ -4,7 +4,7 @@ class MobsController < ApplicationController
   def option_list
     @mobs = Mob.by_zone(params[:zone_id]).order(:name)
 
-    options = ""
+    options = "<option value='0'>Select Mob</option>"
     @mobs.each do |mob|
       options += "<option value='#{mob.id}'>#{mob.name}</option>"
     end

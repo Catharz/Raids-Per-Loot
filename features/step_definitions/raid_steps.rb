@@ -18,3 +18,7 @@ end
 When /^I enter (\d+)\-(\d+)\-(\d+) as the raid date$/ do |year, month, day|
   fill_in "raid[raid_date]", :with => "#{year}-#{month}-#{day}"
 end
+
+When /^I have a raid on "([^"]*)"$/ do |raid_date|
+  Raid.create!(raid_date: raid_date)
+end

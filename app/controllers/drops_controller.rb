@@ -1,5 +1,4 @@
 class DropsController < ApplicationController
-  skip_before_filter :verify_authenticity_token, :only => [:upload]
   before_filter :login_required, :except => [:index, :show]
   before_filter :set_pagetitle
 
@@ -62,44 +61,6 @@ class DropsController < ApplicationController
   # GET /drops/1/edit
   def edit
     @drop = Drop.select(:chat).find(params[:id])
-  end
-
-  # Post /drops/upload
-  def upload
-    zone = Zone.find_or_create_by_name(params[:zone_name])
-    mob = Mob.find_or_create_by_name_and_zone_id(params[:mob_name], zone.id)
-    character = Character.find_or_create_by_name(params[:character_name])
-    item = Item.find_or_create_by_eq2_item_id_and_name(params[:eq2_item_id], params[:item_name])
-    loot_type_id = item.loot_type_id
-
-    drop_time = DateTime.parse(params[:drop_time]) if params[:drop_time].present?
-    drop_time ||= DateTime.now
-    instance = Instance.at_time(drop_time)
-
-    @drop = Drop.where(:zone_id => zone.id,
-                       :mob_id => mob.id,
-                       :item_id => item.id,
-                       :instance_id => instance.id,
-                       :drop_time => drop_time).first
-    @drop ||= Drop.new(:zone_id => zone.id,
-                       :mob_id => mob.id,
-                       :instance_id => instance.id,
-                       :character_id => character.id,
-                       :item_id => item.id,
-                       :loot_type_id => loot_type_id,
-                       :drop_time => drop_time)
-
-    respond_to do |format|
-      if @drop.new_record?
-        if @drop.save
-          format.json { render json: @drop.to_json, status: :created, location: @drop}
-        else
-          format.json { render :json => @drop.errors, :status => :unprocessable_entity }
-        end
-      else
-        format.json { render json: @drop.to_json, status: :ok, location: @drop}
-      end
-    end
   end
 
   # POST /drops

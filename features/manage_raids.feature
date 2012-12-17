@@ -6,8 +6,8 @@ Feature: Manage raids
   Background: Need to login, and have a valid zone
     Given I am logged in as a user
     And the following zones:
-      |name|
-      |zone_name 1|
+      | name        | difficulty |
+      | zone_name 1 | easy       |
 
   Scenario: Register new raid
     Given I am on the new raid page
@@ -18,14 +18,14 @@ Feature: Manage raids
 
   Scenario: Delete raid
     Given the following raids:
-      |raid_date|
-      |2011-09-18|
-      |2011-09-21|
-      |2011-09-23|
-      |2011-09-24|
+      | raid_date  |
+      | 2011-09-18 |
+      | 2011-09-21 |
+      | 2011-09-23 |
+      | 2011-09-24 |
     When I delete the 3rd raid
     Then I should see the following raids:
-      |Raid date|
-      |2011-09-18|
-      |2011-09-21|
-      |2011-09-24|
+      | Raid date  |
+      | 2011-09-18 |
+      | 2011-09-21 |
+      | 2011-09-24 |

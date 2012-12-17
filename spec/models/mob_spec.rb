@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Mob do
+
   describe "progression" do
     it "should be a progression mob if killed less than 10 times and normal or lower difficulty" do
       normal = FactoryGirl.create(:difficulty, :name => 'Normal', :rating => 2)
@@ -75,10 +76,13 @@ describe Mob do
       mob = FactoryGirl.create(:mob, name: 'Pinyata', zone_id: zone.id)
       character = FactoryGirl.create(:character, name: 'Whoever')
       item = FactoryGirl.create(:item, name: 'Whatever', eq2_item_id: '123')
+      first_instance = FactoryGirl.create(:instance, start_time: DateTime.parse("2012-01-31 18:00"))
+      second_instance = FactoryGirl.create(:instance, start_time: DateTime.parse("2012-02-28 18:00"))
+      third_instance = FactoryGirl.create(:instance, start_time: DateTime.parse("2012-03-31 18:00"))
 
-      FactoryGirl.create(:drop, mob_id: mob.id, drop_time: DateTime.parse("31/01/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
-      FactoryGirl.create(:drop, mob_id: mob.id, drop_time: DateTime.parse("28/02/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
-      FactoryGirl.create(:drop, mob_id: mob.id, drop_time: DateTime.parse("31/03/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
+      FactoryGirl.create(:drop, instance_id: first_instance.id, mob_id: mob.id, drop_time: DateTime.parse("31/01/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
+      FactoryGirl.create(:drop, instance_id: second_instance.id, mob_id: mob.id, drop_time: DateTime.parse("28/02/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
+      FactoryGirl.create(:drop, instance_id: third_instance.id, mob_id: mob.id, drop_time: DateTime.parse("31/03/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
 
       mob.first_killed.should eq "2012-01-31"
     end
@@ -97,10 +101,13 @@ describe Mob do
       mob = FactoryGirl.create(:mob, name: 'Pinyata', zone_id: zone.id)
       character = FactoryGirl.create(:character, name: 'Whoever')
       item = FactoryGirl.create(:item, name: 'Whatever', eq2_item_id: '123')
+      first_instance = FactoryGirl.create(:instance, start_time: DateTime.parse("2012-01-31 18:00"))
+      second_instance = FactoryGirl.create(:instance, start_time: DateTime.parse("2012-02-28 18:00"))
+      third_instance = FactoryGirl.create(:instance, start_time: DateTime.parse("2012-03-31 18:00"))
 
-      FactoryGirl.create(:drop, mob_id: mob.id, drop_time: DateTime.parse("31/01/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
-      FactoryGirl.create(:drop, mob_id: mob.id, drop_time: DateTime.parse("28/02/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
-      FactoryGirl.create(:drop, mob_id: mob.id, drop_time: DateTime.parse("31/03/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
+      FactoryGirl.create(:drop, instance_id: first_instance.id, mob_id: mob.id, drop_time: DateTime.parse("31/01/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
+      FactoryGirl.create(:drop, instance_id: second_instance.id, mob_id: mob.id, drop_time: DateTime.parse("28/02/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
+      FactoryGirl.create(:drop, instance_id: third_instance.id, mob_id: mob.id, drop_time: DateTime.parse("31/03/2012"), zone_id: zone.id, character_id: character.id, item_id: item.id)
 
       mob.last_killed.should eq "2012-03-31"
     end

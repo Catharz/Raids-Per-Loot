@@ -1,13 +1,13 @@
 class Instance < ActiveRecord::Base
-  belongs_to :raid, :inverse_of => :instances, :touch => true
-  belongs_to :zone, :inverse_of => :instances, :touch => true
+  belongs_to :raid, inverse_of: :instances, touch: true
+  belongs_to :zone, inverse_of: :instances, touch: true
 
-  has_many :drops, :inverse_of => :instance
-  has_many :character_instances, :inverse_of => :instance
+  has_many :drops, :inverse_of => :instance, dependent: :destroy
+  has_many :character_instances, :inverse_of => :instance, dependent: :destroy
 
   has_many :kills, :through => :drops, :source => :mob, :uniq => true
-  has_many :players, :through => :characters, :uniq => true
   has_many :characters, :through => :character_instances
+  has_many :players, :through => :characters, :uniq => true
 
   has_one :last_drop,
       :class_name => 'Drop',
@@ -15,13 +15,14 @@ class Instance < ActiveRecord::Base
 
   accepts_nested_attributes_for :character_instances, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :drops, :reject_if => :all_blank, :allow_destroy => true
+
+  validates_presence_of :raid_id, :zone_id, :start_time
   validates_uniqueness_of :start_time, :scope => [:raid_id, :zone_id]
 
-  scope :raided, lambda {|raid_date| where(:raid_id => Raid.find_by_raid_date(raid_date).id) }
+  delegate :name, :to => :zone, :prefix => :zone
+  delegate :raid_date, :to => :raid
 
-  def zone_name
-    zone ? zone.name : "Unknown"
-  end
+  scope :raided, lambda {|raid_date| where(:raid_id => Raid.find_by_raid_date(raid_date).id) }
 
   def self.by_raid(raid_id)
     raid_id ? where('raid_id = ?', raid_id) : scoped
@@ -33,7 +34,7 @@ class Instance < ActiveRecord::Base
 
   def self.by_start_time(time)
     if time
-      start_time = time.is_a?(String) ? DateTime.parse(time) : time
+      start_time = time.is_a?(String) ? Time.zone.parse(time) : time
       where(:start_time => start_time)
     else
       scoped
@@ -42,7 +43,7 @@ class Instance < ActiveRecord::Base
 
   def self.at_time(time)
     if time
-      start_time = time.is_a?(String) ? DateTime.parse(time) : time
+      start_time = time.is_a?(String) ? Time.zone.parse(time) : time
       where('start_time <= ?', start_time).last
     else
       scoped.last

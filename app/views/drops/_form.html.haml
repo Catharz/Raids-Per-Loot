@@ -9,21 +9,29 @@
           %li= msg
 
   .field
+    %strong= f.label 'Raid'
+    %br/
+    - raid_select(@drop)
+  .field#instance_field
+    %strong= f.label :instance
+    - raid_id = @drop.instance ? @drop.instance.raid_id : nil
+    = f.collection_select(:instance_id, Instance.by_raid(raid_id).order(:start_time), :id, :start_time, :id => "drop_instance_id", :include_blank => 'Select Instance')
+  .field#zone_field
     %strong= f.label :zone
     %br/
-    = f.collection_select(:zone_id, Zone.order(:name), :id, :name, :include_blank => true)
+    = f.collection_select(:zone_id, Zone.order(:name), :id, :name, :include_blank => 'Select Zone')
   .field#mob_field
     %strong= f.label :mob
     %br/
-    = f.collection_select(:mob_id, Mob.by_zone(@drop.zone_id).order(:name), :id, :name, :include_blank => true, :id => "drop_mob_id")
+    = f.collection_select(:mob_id, Mob.by_zone(@drop.zone_id).order(:name), :id, :name, :include_blank => 'Select Mob', :id => "drop_mob_id")
   .field
     %strong= f.label :loot_type
     %br/
-    = f.collection_select(:loot_type_id, LootType.order(:name), :id, :name, :include_blank => true)
+    = f.collection_select(:loot_type_id, LootType.order(:name), :id, :name, :include_blank => 'Select Loot Type')
   .field
     %strong= f.label :item
     %br/
-    = f.collection_select(:item_id, Item.order(:name), :id, :name, :include_blank => true)
+    = f.collection_select(:item_id, Item.order(:name), :id, :name, :include_blank => 'Select Item')
   .field
     %strong= f.label :drop_time
     %br/
@@ -31,7 +39,7 @@
   .field
     %strong= f.label :character
     %br/
-    = f.collection_select(:character_id, Character.order(:name), :id, :name, :include_blank => true)
+    = f.collection_select(:character_id, Character.order(:name), :id, :name, :include_blank => 'Select Character')
   .field
     %strong= f.label :loot_method
     %br/

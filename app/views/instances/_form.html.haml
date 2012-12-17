@@ -8,7 +8,10 @@
         - @instance.errors.full_messages.each do |msg|
           %li= msg
   - f.inputs do
-    = f.input :zone
+    %li{:id => "instance_raid_input", :class => "select input required"}
+      %label{:class => " label", :for => "instance_raid_id"}Raid
+      = f.collection_select(:raid_id, Raid.order('raid_date desc'), :id, :raid_date, :include_blank => 'Select Raid', :id => "instance_raid_id", :name => "instance[raid_id]")
+    = f.input :zone, :as => :select, :include_blank => 'Select Zone'
     = f.input :start_time
     #attendees
       = f.input :characters, :as => :check_boxes

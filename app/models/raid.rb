@@ -1,5 +1,5 @@
 class Raid < ActiveRecord::Base
-  has_many :instances, inverse_of: :raid
+  has_many :instances, inverse_of: :raid, dependent: :destroy
   has_many :kills, through: :instances, uniq: true
   has_many :character_instances, through: :instances
   has_many :characters, through: :character_instances, uniq: true
@@ -9,18 +9,6 @@ class Raid < ActiveRecord::Base
 
   accepts_nested_attributes_for :instances, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :player_raids, reject_if: :all_blank, allow_destroy: true
-
-  def raid_description
-    raid_date.to_s + ': ' + zone.name
-  end
-
-  def zone_name
-    if zone
-      zone.name
-    else
-      "Unknown"
-    end
-  end
 
   def benched_players
     players.includes(:player_raids).where("player_raids.status = ?", 'b')

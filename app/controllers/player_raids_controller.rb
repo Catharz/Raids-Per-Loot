@@ -7,6 +7,7 @@ class PlayerRaidsController < ApplicationController
 
     respond_to do |format|
       format.json { render json: @player_raids }
+      format.xml { render xml: @player_raids.to_xml }
     end
   end
 

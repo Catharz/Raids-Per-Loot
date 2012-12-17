@@ -14,7 +14,9 @@ Feature: Manage drops
   @javascript
   Scenario: Create a valid Needed drop
     Given I am on the new drop page
-    When I select Wherever as the Zone
+    When I select "2011-09-16" as the drop's Raid
+    And I select "Wherever - 2011-09-16 20:15:00 +1000" as the drop's Instance
+    And I select Wherever as the Zone
     And I select Bad Ass Dragon as the Mob
     And I select Newbie as the Character
     And I select Can O' Whoop Ass as the Item

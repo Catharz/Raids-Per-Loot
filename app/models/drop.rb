@@ -13,7 +13,7 @@ class Drop < ActiveRecord::Base
   # If the character received loot via "need", make sure all of the relationships are setup
   with_options :if => :needed do
     validate :relationships_exist
-    validates_presence_of :zone_id, :mob_id, :item_id, :character_id, :drop_time, :loot_method
+    validates_presence_of :instance_id, :zone_id, :mob_id, :item_id, :character_id, :drop_time, :loot_method
   end
 
   delegate :name, :to => :zone, :prefix => :zone
@@ -244,7 +244,7 @@ class Drop < ActiveRecord::Base
 
   def self.by_time(time)
     if time
-      drop_time = time.is_a?(String) ? DateTime.parse(time) : time
+      drop_time = time.is_a?(String) ? Time.zone.parse(time) : time
       where(:drop_time => drop_time)
     else
       scoped
@@ -263,6 +263,7 @@ class Drop < ActiveRecord::Base
 
   protected
   def relationships_exist
+    errors.add(:instance_id, "doesn't exist") unless Instance.exists?(instance_id)
     errors.add(:zone_id, "doesn't exist") unless Zone.exists?(zone_id)
     errors.add(:mob_id, "doesn't exist") unless Mob.exists?(mob_id)
     errors.add(:item_id, "doesn't exist") unless Item.exists?(item_id)

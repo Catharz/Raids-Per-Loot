@@ -3,6 +3,12 @@ Given /^the following drops:$/ do |drops|
     zone = Zone.find_by_name(drop[:zone])
     zone ||= Zone.create(:name => drop[:zone])
 
+    raid = Raid.find_by_raid_date(drop[:drop_time])
+    raid ||= Raid.create(raid_date: drop[:drop_time])
+
+    instance = Instance.find_by_raid_id_and_start_time_and_zone_id(raid.id, drop[:drop_time], zone.id)
+    instance ||= Instance.create(raid_id: raid.id, start_time: drop[:drop_time], zone_id: zone.id)
+
     mob = Mob.find_by_name_and_zone_id(drop[:mob], zone.id)
     mob ||= Mob.create(:name => drop[:mob], :zone_id => zone.id)
 
@@ -23,6 +29,7 @@ Given /^the following drops:$/ do |drops|
 
     observer = DropObserver.instance
     drop = Drop.create!(
+        :instance_id => instance.id,
         :zone_id => zone.id,
         :mob_id => mob.id,
         :loot_type_id => loot_type.id,
@@ -78,6 +85,10 @@ When /^I select (.+) as the Loot Type$/ do |loot_type|
   select(loot_type, :from => "drop_loot_type_id")
 end
 
+When /^I select "([^"]*)" as the drop's Raid$/ do |raid_date|
+  select raid_date, :from => 'drop_raid_id'
+end
+
 When /^I view the drops page$/ do
   visit drops_path
 end
@@ -90,4 +101,8 @@ Then /^I should see the following invalid drops:$/ do |invalid_drops_table|
   rows = find("table#invalidDropsTable").all('tr')
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip } }
   invalid_drops_table.diff!(table)
+end
+
+When /^I select "([^"]*)" as the drop's Instance$/ do |instance_description|
+  select instance_description, :from => "drop_instance_id"
 end

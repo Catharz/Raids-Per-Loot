@@ -7,7 +7,9 @@ describe AttendanceObserver do
   it "updates the number of character raids" do
     character = Character.create(valid_character_attributes(:name => "char 1"))
     raid = Raid.create(:raid_date => "01/01/2012")
+    zone = Zone.create(:name => 'Anywhere')
     instance = Instance.create(:raid_id => raid.id,
+                               :zone_id => zone.id,
                                :start_time => raid.raid_date + 18.hours)
     CharacterInstance.create(:instance => instance, :character => character)
 
@@ -17,9 +19,12 @@ describe AttendanceObserver do
   it "updates the number of character instances" do
     character = Character.create(valid_character_attributes(:name => "char2"))
     raid = Raid.create(:raid_date => "02/01/2012")
+    zone = Zone.create(:name => 'Anywhere')
     instance1 = Instance.create(:raid_id => raid.id,
+                                :zone_id => zone.id,
                                :start_time => raid.raid_date + 18.hours)
     instance2 = Instance.create(:raid_id => raid.id,
+                                :zone_id => zone.id,
                                :start_time => raid.raid_date + 20.hours)
     CharacterInstance.create(:instance => instance1, :character => character)
     CharacterInstance.create(:instance => instance2, :character => character)

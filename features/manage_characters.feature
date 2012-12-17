@@ -25,6 +25,10 @@ Feature: Manage characters
 
   Scenario: Showing a character with drops
     Given I have a Main character named Betty
+    And the following player attendance:
+      | player | character | archetype | raid_date  | instances |
+      | Fred   | Betty     | Scout     | 2011-09-21 | 1         |
+      | Fred   | Betty     | Scout     | 2011-09-20 | 1         |
     And the following drops:
       | zone        | mob        | character | item        | loot_type | eq2_item_id   | drop_time                 | loot_method |
       | zone_name 1 | mob_name 1 | Betty     | item_name 1 | Armour    | eq2_item_id 1 | 2011-09-21 20:45:00 +1000 | n           |

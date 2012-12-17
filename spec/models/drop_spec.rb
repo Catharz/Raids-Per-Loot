@@ -32,6 +32,7 @@ describe Drop do
     context "validations" do
 #      it { should validate_uniqueness_of(:drop_time).scoped_to([:instance_id, :zone_id, :mob_id, :item_id, :character_id]) }
       it { should validate_format_of(:loot_method).with(/n|r|b|g|t|m/) }
+      it { should validate_presence_of(:instance_id) }
       it { should validate_presence_of(:zone_id) }
       it { should validate_presence_of(:mob_id) }
       it { should validate_presence_of(:character_id) }

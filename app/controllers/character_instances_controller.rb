@@ -7,6 +7,7 @@ class CharacterInstancesController < ApplicationController
 
     respond_to do |format|
       format.json { render json: @character_instances }
+      format.xml { render xml: @character_instances.to_xml }
     end
   end
 

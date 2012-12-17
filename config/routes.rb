@@ -5,6 +5,9 @@ RaidsPerLoot::Application.routes.draw do
   end
   resources :instances do
     resources :players, :characters, :drops
+    collection do
+      get :option_list
+    end
   end
 
   resources :difficulties
@@ -13,6 +16,9 @@ RaidsPerLoot::Application.routes.draw do
     member do
       put :add_mob
       get :mob_list
+    end
+    collection do
+      get :option_list
     end
   end
   resources :mobs do
@@ -73,7 +79,6 @@ RaidsPerLoot::Application.routes.draw do
   resources :drops do
     resources :instances, :players
     collection do
-      post :upload
       get :invalid
     end
   end

@@ -19,6 +19,22 @@ class ZonesController < ApplicationController
     end
   end
 
+
+  def option_list
+    instance = params[:instance_id] ? Instance.find(params[:instance_id]) :nil
+    if instance
+      @zones = instance.zone ? [Zone.find(instance.zone_id)] : []
+    else
+      @zones = Zone.order(:name)
+    end
+
+    options = "<option value='0'>Select Zone</option>"
+    @zones.each do |zone|
+      options += "<option value='#{zone.id}'>#{zone.name}</option>"
+    end
+    render :text => options, :layout => false
+  end
+
   # GET /zones
   # GET /zones.xml
   def index
