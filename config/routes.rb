@@ -107,6 +107,7 @@ RaidsPerLoot::Application.routes.draw do
 
   get '/admin', :controller => 'admin', :action => 'show'
   get '/admin/update_character_list', :controller => 'admin', :action => 'update_character_list'
+  get '/admin/update_player_list', :controller => 'admin', :action => 'update_player_list'
   get '/admin/resolve_duplicate_items', :controller => 'admin', :action => 'resolve_duplicate_items'
   get '/admin/fix_trash_drops', :controller => 'admin', :action => 'fix_trash_drops'
 
