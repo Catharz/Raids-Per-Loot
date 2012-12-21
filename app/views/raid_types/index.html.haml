@@ -1,0 +1,24 @@
+%table#dataTable
+  %thead
+    %tr
+      %th Name
+      %th Raid counted
+      %th Raid points
+      %th Loot counted
+      %th Loot cost
+      %th
+      %th
+      %th
+  %tbody
+    - @raid_types.each do |raid_type|
+      %tr
+        %td= raid_type.name
+        %td= raid_type.raid_counted
+        %td= raid_type.raid_points
+        %td= raid_type.loot_counted
+        %td= raid_type.loot_cost
+        %td= link_to 'Show', raid_type, class: 'table-button'
+        %td= link_to 'Edit', edit_raid_type_path(raid_type), class: 'table-button'
+        %td= link_to 'Destroy', raid_type, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
+%br/
+= link_to 'New Raid type', new_raid_type_path, class: 'button'

@@ -2,6 +2,7 @@
   %thead
     %tr
       %th Raid date
+      %th Raid type
       %th Instances
       %th Players
       %th Characters
@@ -15,6 +16,7 @@
       - cache raid do
         %tr{id: "raid_#{raid.id}"}
           %td= raid.raid_date
+          %td= raid.raid_type_name
           %td= raid.instances.count
           %td= raid.players.count
           %td= raid.characters.count

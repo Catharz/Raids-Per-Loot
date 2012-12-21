@@ -1,0 +1,10 @@
+= semantic_form_for @raid_type do |f|
+  = f.inputs do
+    = f.input :name
+    = f.input :raid_counted
+    = f.input :raid_points
+    = f.input :loot_counted
+    = f.input :loot_cost
+
+  = f.actions do
+    = f.action :submit, :as => :input

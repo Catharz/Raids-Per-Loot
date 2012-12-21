@@ -8,7 +8,6 @@ describe "raids/new.html.erb" do
   it "renders new raid form" do
     render
 
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form", :action => raids_path, :method => "post" do
     end
   end

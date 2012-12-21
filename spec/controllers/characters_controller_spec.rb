@@ -44,7 +44,8 @@ describe CharactersController do
     jimmy = Character.create! valid_attributes
     jenny = Character.create! valid_attributes.merge! :name => "Jenny"
     raid_date = Date.new(2012, 12, 25)
-    raid = FactoryGirl.create(:raid, :raid_date => raid_date)
+    progression = FactoryGirl.create(:raid_type, name: 'Progression')
+    raid = FactoryGirl.create(:raid, :raid_date => raid_date, raid_type: progression)
     first_instance = FactoryGirl.create(:instance, :raid_id => raid.id, :start_time => raid_date + 20.hours)
     second_instance = FactoryGirl.create(:instance, :raid_id => raid.id, :start_time => raid_date + 21.hours)
     FactoryGirl.create(:character_instance, :instance_id => first_instance.id, :character_id => jimmy.id)

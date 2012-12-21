@@ -11,9 +11,10 @@ module FactoryHelper
     zone
   end
 
-  def self.give_me_raid(raid_date)
-    raid = Raid.find_by_raid_date(raid_date)
-    raid ||= Raid.create!(:raid_date => raid_date)
+  def self.give_me_raid(raid_date, raid_type_name = 'Progression')
+    raid_type = RaidType.find_or_create_by_name(raid_type_name)
+    raid = Raid.find_by_raid_date_and_raid_type_id(raid_date, raid_type.id)
+    raid ||= Raid.create!(:raid_date => raid_date, raid_type: raid_type)
     raid
   end
 

@@ -5,10 +5,12 @@ describe RaidsController do
 
   before(:each) do
     login_as :quentin
+
+    @progression = RaidType.create(name: 'Progression')
   end
 
   def valid_attributes
-    {:raid_date => Date.new(2011, 03, 30)}
+    {:raid_date => Date.new(2011, 03, 30), raid_type_id: @progression.id}
   end
 
   describe "GET index" do

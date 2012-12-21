@@ -1,3 +1,4 @@
+-#TODO Change this to use datatables for the instances and players with popups
 = nested_form_for @raid do |f|
   - if @raid.errors.any?
     #error_explanation
@@ -11,33 +12,31 @@
     = f.label :raid_date
     = f.text_field :raid_date, :id => "datepicker"
     %br/
+  .field
+    = f.label :raid_type
+    = f.collection_select(:raid_type_id, RaidType.order(:name), :id, :name, :id => "raid_type_id")
     %br/
-    #tabBook
-      %ul
-        %li= link_to "Instances", "#instances"
-        %li= link_to "Players", "#players"
-      #instances
-        %table
-          %thead
-            %tr
-              %td Zone
-
-              %td Start Time
-              %td
-          %tbody
-            %tr
-              = f.fields_for :instances do |instance_form|
-                %td= instance_form.collection_select(:zone_id, Zone.order(:name), :id, :name)
-                %td= instance_form.datetime_select :start_time
-                %td= instance_form.link_to_remove "Remove", class: 'table-button'
-        = f.link_to_add "Add Instance", :instances, class: 'table-button'
-      #players
-        = f.fields_for :player_raids do |player_form|
-          = player_form.collection_select(:player_id, Player.order(:name), :id, :name)
-          = player_form.check_box(:signed_up)
-          = player_form.check_box(:punctual)
-          = player_form.select(:status, [{:id => 'a', :text => 'Attended'}, {:id => 'b', :text => 'Benched'}].collect {|status| [ status[:text], status[:id] ] })
-          = player_form.link_to_remove "Remove", class: 'table-button'
-        = f.link_to_add "Add Player", :player_raids, class: 'table-button'
+  #tabBook
+    %ul
+      %li= link_to "Instances", "#instances"
+      %li= link_to "Players", "#players"
+    #instances
+      %table
+        = f.fields_for :instances, wrapper: false do |instance_form|
+          %tr
+            %td= instance_form.collection_select(:zone_id, Zone.order(:name), :id, :name)
+            %td= instance_form.datetime_select :start_time
+            %td= instance_form.link_to_remove "Remove", class: 'table-button'
+      = f.link_to_add "Add Instance", :instances, class: 'table-button'
+    #players
+      %table
+        = f.fields_for :player_raids, wrapper: false do |player_form|
+          %tr
+            %td= player_form.collection_select(:player_id, Player.order(:name), :id, :name)
+            %td= player_form.check_box(:signed_up)
+            %td= player_form.check_box(:punctual)
+            %td= player_form.select(:status, [{:id => 'a', :text => 'Attended'}, {:id => 'b', :text => 'Benched'}].collect {|status| [ status[:text], status[:id] ] })
+            %td= player_form.link_to_remove "Remove", class: 'table-button'
+      = f.link_to_add "Add Player", :player_raids, class: 'table-button'
   .actions
     = f.submit

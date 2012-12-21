@@ -6,12 +6,13 @@ describe CharacterInstancesController do
   before(:each) do
     login_as :quentin
 
-    @char1 = FactoryGirl.create(:character, :name => 'character 1')
-    @char2 = FactoryGirl.create(:character, :name => 'character 2')
+    @char1 = FactoryGirl.create(:character, name: 'character 1')
+    @char2 = FactoryGirl.create(:character, name: 'character 2')
 
-    raid = FactoryGirl.create(:raid, :raid_date => Date.parse("01/07/2012"))
-    @inst1 = FactoryGirl.create(:instance, :raid_id => raid.id, :start_time => DateTime.parse("01/07/2012 18:00"))
-    @inst2 = FactoryGirl.create(:instance, :raid_id => raid.id, :start_time => DateTime.parse("01/07/2012 20:00"))
+    progression = FactoryGirl.create(:raid_type, name: 'Progression')
+    raid = FactoryGirl.create(:raid, raid_date: Date.parse("01/07/2012"), raid_type: progression)
+    @inst1 = FactoryGirl.create(:instance, raid_id: raid.id, start_time: DateTime.parse("01/07/2012 18:00"))
+    @inst2 = FactoryGirl.create(:instance, raid_id: raid.id, start_time: DateTime.parse("01/07/2012 20:00"))
   end
 
   describe "GET index" do

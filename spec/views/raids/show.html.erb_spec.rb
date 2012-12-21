@@ -3,7 +3,8 @@ require 'spec_helper'
 describe "raids/show.html.erb" do
 
   before(:each) do
-    @raid = assign(:raid, stub_model(Raid, :raid_date => Date.parse("01/01/2011")))
+    prog = stub_model(RaidType, name: "Progression")
+    @raid = assign(:raid, stub_model(Raid, raid_date: Date.parse("01/01/2011"), raid_type: prog))
     @raid.stub!(:instances).and_return([])
     @raid.stub!(:kills).and_return([])
     @raid.stub!(:players).and_return([])
@@ -14,6 +15,7 @@ describe "raids/show.html.erb" do
   it "renders attributes in <p>" do
     render
 
+    rendered.should contain("Progression")
     rendered.should contain("2011-01-01")
   end
 

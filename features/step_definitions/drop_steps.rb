@@ -3,8 +3,10 @@ Given /^the following drops:$/ do |drops|
     zone = Zone.find_by_name(drop[:zone])
     zone ||= Zone.create(:name => drop[:zone])
 
-    raid = Raid.find_by_raid_date(drop[:drop_time])
-    raid ||= Raid.create(raid_date: drop[:drop_time])
+    prog = RaidType.find_or_create_by_name('Progression')
+
+    raid = Raid.find_by_raid_date_and_raid_type_id(drop[:drop_time], prog.id)
+    raid ||= Raid.create(raid_date: drop[:drop_time], raid_type: prog)
 
     instance = Instance.find_by_raid_id_and_start_time_and_zone_id(raid.id, drop[:drop_time], zone.id)
     instance ||= Instance.create(raid_id: raid.id, start_time: drop[:drop_time], zone_id: zone.id)

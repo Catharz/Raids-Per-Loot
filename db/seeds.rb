@@ -55,6 +55,8 @@ def create_default_pages
                                :position => 3, :admin => false, :body => '.')
   raiding_page.children.create(:name => 'difficulties', :title => 'Difficulties', :navlabel => 'Difficulties',
                                :position => 4, :admin => true, :body => '.')
+  raiding_page.children.create(:name => 'raid_types', :titel => 'Raid Types', :navlabel => 'Raid Types',
+                               :position => 5, :admin => true, :body => '.')
 
   # Players Page and Sub Pages
   players_page = Page.create(:name => 'players', :title => 'Characters', :navlabel => 'Characters',
@@ -90,10 +92,16 @@ def create_default_pages
 end
 
 def create_default_loot_types
-  @loot_types = %w{Armour Jewellery Weapon Adornment Spell}
-  @loot_types.each do |loot_type|
-    LootType.find_or_create_by_name(loot_type)
-  end
+  loot_types = [{name: "Armour", default_loot_method: "n"},
+                {name: "Jewellery", default_loot_method: "n"},
+                {name: "Weapon", default_loot_method: "n"},
+                {name: "Adornment", default_loot_method: "r"},
+                {name: "Spell", default_loot_method: "g"},
+                {name: "Trash", default_loot_method: "t"},
+                {name: "Mount", default_loot_method: "n"},
+                {name: "Unknown", default_loot_method: "t"},
+                {name: "Trade Skill Component", default_loot_method: "g"}]
+  LootType.create!(loot_types)
 end
 
 def create_default_links
@@ -218,26 +226,35 @@ def create_scout_archetypes
 end
 
 def create_default_zones
-  @zones = [{:name => "Kraytoc's Fortress of Rime", :difficulty => Difficulty.find_by_name('Easy')},
-            {:name => "Throne of Storms: Hall of Legends", :difficulty => Difficulty.find_by_name('Easy')},
-            {:name => "Temple of Rallos Zek: Foundations of Stone", :difficulty => Difficulty.find_by_name('Easy')},
-            {:name => "The Fortress of Drunder: Sullon's Spire", :difficulty => Difficulty.find_by_name('Normal')},
-            {:name => "The Fortress of Drunder: Tallon's Stronghold", :difficulty => Difficulty.find_by_name('Normal')},
-            {:name => "The Fortress of Drunder: Vallon's Tower", :difficulty => Difficulty.find_by_name('Normal')},
-            {:name => "Kraytoc's Fortress of Rime [Challenge]", :difficulty => Difficulty.find_by_name('Hard')},
-            {:name => "Throne of Storms: Hall of Legends [Challenge]", :difficulty => Difficulty.find_by_name('Hard')},
-            {:name => "Temple of Rallos Zek: Foundations of Stone [Challenge]", :difficulty => Difficulty.find_by_name('Hard')},
-            {:name => "The Fortress of Drunder: Sullon's Spire [Challenge]", :difficulty => Difficulty.find_by_name('Hard')},
-            {:name => "The Fortress of Drunder: Tallon's Stronghold [Challenge]", :difficulty => Difficulty.find_by_name('Hard')},
-            {:name => "The Fortress of Drunder: Vallon's Tower [Challenge]", :difficulty => Difficulty.find_by_name('Hard')}]
-  Zone.create!(@zones)
+  zones = [{:name => "Kraytoc's Fortress of Rime", :difficulty => Difficulty.find_by_name('Easy')},
+           {:name => "Throne of Storms: Hall of Legends", :difficulty => Difficulty.find_by_name('Easy')},
+           {:name => "Temple of Rallos Zek: Foundations of Stone", :difficulty => Difficulty.find_by_name('Easy')},
+           {:name => "The Fortress of Drunder: Sullon's Spire", :difficulty => Difficulty.find_by_name('Normal')},
+           {:name => "The Fortress of Drunder: Tallon's Stronghold", :difficulty => Difficulty.find_by_name('Normal')},
+           {:name => "The Fortress of Drunder: Vallon's Tower", :difficulty => Difficulty.find_by_name('Normal')},
+           {:name => "Kraytoc's Fortress of Rime [Challenge]", :difficulty => Difficulty.find_by_name('Hard')},
+           {:name => "Throne of Storms: Hall of Legends [Challenge]", :difficulty => Difficulty.find_by_name('Hard')},
+           {:name => "Temple of Rallos Zek: Foundations of Stone [Challenge]", :difficulty => Difficulty.find_by_name('Hard')},
+           {:name => "The Fortress of Drunder: Sullon's Spire [Challenge]", :difficulty => Difficulty.find_by_name('Hard')},
+           {:name => "The Fortress of Drunder: Tallon's Stronghold [Challenge]", :difficulty => Difficulty.find_by_name('Hard')},
+           {:name => "The Fortress of Drunder: Vallon's Tower [Challenge]", :difficulty => Difficulty.find_by_name('Hard')}]
+  Zone.create!(zones)
 end
 
 def create_default_difficulties
-  @difficulties = [{:name => 'Easy', :rating => 1},
-                   {:name => 'Normal', :rating => 2},
-                   {:name => 'Hard', :rating => 3}]
-  Difficulty.create!(@difficulties)
+  difficulties = [{:name => 'Easy', :rating => 1},
+                  {:name => 'Normal', :rating => 2},
+                  {:name => 'Hard', :rating => 3}]
+  Difficulty.create!(difficulties)
+end
+
+def create_default_raid_types
+  raid_types = [{name: "Progression", raid_counted: true, raid_points: 1, loot_counted: true, loot_cost: 1.0},
+                {name: "Normal", raid_counted: true, raid_points: 1, loot_counted: true, loot_cost: 1.0},
+                {name: "Pickup", raid_counted: false, raid_points: 0, loot_counted: false, loot_cost: 0.0},
+                {name: "Alternate", raid_counted: true, raid_points: 1, loot_counted: true, loot_cost: 1.0},
+                {name: "Trash Clearing", raid_counted: false, raid_points: 0, loot_counted: false, loot_cost: 0.0}]
+  RaidType.create!(raid_types)
 end
 
 create_default_users() if User.all.empty?
@@ -249,3 +266,4 @@ create_default_slots() if Slot.all.empty?
 create_default_loot_types() if LootType.all.empty?
 create_default_difficulties if Difficulty.all.empty?
 create_default_zones() if Zone.all.empty?
+create_default_raid_types() if RaidType.all.empty?

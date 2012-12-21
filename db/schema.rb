@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121215010329) do
+ActiveRecord::Schema.define(:version => 20121220062855) do
 
   create_table "adjustments", :force => true do |t|
     t.date     "adjustment_date"
@@ -257,10 +257,21 @@ ActiveRecord::Schema.define(:version => 20121215010329) do
 
   add_index "players", ["rank_id"], :name => "index_players_on_rank_id"
 
+  create_table "raid_types", :force => true do |t|
+    t.string   "name"
+    t.boolean  "raid_counted", :default => true
+    t.float    "raid_points",  :default => 1.0
+    t.boolean  "loot_counted", :default => true
+    t.float    "loot_cost",    :default => 1.0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "raids", :force => true do |t|
     t.date     "raid_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "raid_type_id", :default => 2, :null => false
   end
 
   create_table "ranks", :force => true do |t|

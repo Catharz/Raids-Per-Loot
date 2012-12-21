@@ -3,9 +3,10 @@ When /^I have a (.+) raid at "(.+)"$/ do |zone_name, raid_time|
 end
 
 Given /^the following instances:$/ do |instances|
+  prog = RaidType.find_or_create_by_name('Progression')
   instances.hashes.each do |instance|
     zone = Zone.find_or_create_by_name(instance[:zone])
-    raid = Raid.find_or_create_by_raid_date(instance[:start_time])
+    raid = Raid.find_or_create_by_raid_date_and_raid_type_id(instance[:start_time], prog.id)
     Instance.create!(raid_id: raid.id, zone_id: zone.id, start_time: instance[:start_time])
   end
 end

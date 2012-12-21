@@ -1,6 +1,6 @@
 $("#popup").dialog
   autoOpen: true
-  width: 1240
+  width: 1260
   height: 600
   modal: true
   resizable: true

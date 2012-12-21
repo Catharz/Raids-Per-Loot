@@ -2,6 +2,7 @@ insertRaid = (raid) ->
   oTable = $('#raidsTable').dataTable()
   aRow = oTable.fnAddData([
     raid.raid_date,
+    raid.raid_type_name,
     raid.instances.length,
     raid.players.length,
     raid.characters.length,
@@ -19,7 +20,7 @@ insertRaid = (raid) ->
 
 $("#popup").dialog
   autoOpen: true
-  width: 850
+  width: 1100
   height: 600
   modal: true
   resizable: false
@@ -40,3 +41,4 @@ $("#popup").dialog
       dateFormat: 'yy-mm-dd'
     $(".table-button").button()
     $(".button").button()
+    $("#tabBook").tabs()

@@ -1,0 +1,19 @@
+%p
+  %b Name:
+  = @raid_type.name
+%p
+  %b Raid counted:
+  = @raid_type.raid_counted
+%p
+  %b Raid points:
+  = @raid_type.raid_points
+%p
+  %b Loot counted:
+  = @raid_type.loot_counted
+%p
+  %b Loot cost:
+  = @raid_type.loot_cost
+
+= link_to 'Edit', edit_raid_type_path(@raid_type), class: 'button'
+\|
+= link_to 'Back', raid_types_path, class: 'button'

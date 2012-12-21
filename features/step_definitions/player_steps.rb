@@ -27,6 +27,7 @@ end
 Given /^the following player attendance:$/ do |all_attendance|
   main = Rank.find_by_name('Main')
   main ||= Rank.create(:name => 'Main')
+  prog = RaidType.create(name: 'Progression')
   all_attendance.hashes.each do |attendance|
     player = Player.find_by_name(attendance[:player])
     player ||= Player.create(:name => attendance[:player], :rank => main)
@@ -35,7 +36,7 @@ Given /^the following player attendance:$/ do |all_attendance|
     character = Character.find_by_name(attendance[:character])
     character ||= Character.create(:name => attendance[:character], :archetype_id => archetype.id, :player_id => player.id, :char_type => "m")
 
-    raid = Raid.find_or_create_by_raid_date(attendance[:raid_date])
+    raid = Raid.find_or_create_by_raid_date_and_raid_type_id(attendance[:raid_date], prog.id)
     PlayerRaid.create(player: player, raid: raid)
     instances = 1..attendance[:instances].to_i
     instances.to_a.each do |n|

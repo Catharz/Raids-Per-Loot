@@ -8,9 +8,10 @@ describe "players/attendance.html.haml" do
   before(:each) do
     @t = Time.parse("01/07/2012 20:15")
     d = Date.parse("01/07/2012")
+    prog = RaidType.create(name: "Progression")
     @raids = []
     for n in 0..100
-      raid = Raid.create(raid_date: d - n.weeks)
+      raid = Raid.create(raid_date: d - n.weeks, raid_type: prog)
       @raids << raid
     end
     Time.should_receive(:now).at_least(1).times.and_return(@t)

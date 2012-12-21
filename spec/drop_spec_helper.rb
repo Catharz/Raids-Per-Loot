@@ -9,7 +9,8 @@ module DropSpecHelper
 
   # These items must exist or the Drop will not be valid
   def create_drop_dependencies
-    raid = FactoryGirl.create(:raid, :raid_date => Date.parse("2012-01-03"))
+    progression = FactoryGirl.create(:raid_type, name: 'Progression')
+    raid = FactoryGirl.create(:raid, :raid_date => Date.parse("2012-01-03"), raid_type: progression)
     instance = FactoryGirl.create(:instance, :raid_id => raid.id, :start_time => DateTime.parse("03/01/2012 1:00PM"))
     zone = FactoryGirl.create(:zone, :name => "Wherever")
     mob = FactoryGirl.create(:mob, :name => "Whoever", :zone_id => zone.id)
@@ -79,7 +80,7 @@ module DropSpecHelper
     drop_counts.each_key { |loot_type_name|
       count = drop_counts[loot_type_name]
       unless count.eql? 0
-        loot_type = mock_model(LootType, :name => loot_type_name)
+        loot_type = mock_model(LootType, name: loot_type_name)
         drops = (1..count).to_a
         drops.each do |n|
           zone = create_zone
