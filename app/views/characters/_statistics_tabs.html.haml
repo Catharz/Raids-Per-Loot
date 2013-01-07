@@ -15,6 +15,8 @@
       %th White
       %th Yellow
       %th Red
+      %th Green
+      %th Blue
   %tbody
     - @characters.each do |character|
       - if character['char_type'].eql? @char_type or @char_type.eql? "all"
@@ -38,6 +40,8 @@
             %td= adornment_stats(character, 'white')
             %td= adornment_stats(character, 'yellow')
             %td= adornment_stats(character, 'red')
+            %td= adornment_stats(character, 'green')
+            %td= adornment_stats(character, 'blue')
           - else
             %td Unknown
             %td Unknown
@@ -49,6 +53,8 @@
             %td{:align => "right"} 0.00
             %td{:align => "right"} 0.00
             %td{:align => "right"} 0.00
+            %td 0 / 0
+            %td 0 / 0
             %td 0 / 0
             %td 0 / 0
             %td 0 / 0

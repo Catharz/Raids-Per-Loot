@@ -157,7 +157,9 @@ jQuery ->
       {"sType": "numeric"}, # Adornments
       null,                 # White Adornments
       null,                 # Yellow Adornments
-      null                  # Red Adornments
+      null,                 # Red Adornments
+      null,                 # Green Adornments
+      null                  # Blue Adornments
     ]
     "aaSorting": [[0,'asc']]
 
@@ -179,7 +181,9 @@ jQuery ->
       {"sType": "numeric"}, # Adornments
       null,                 # White Adornments
       null,                 # Yellow Adornments
-      null                  # Red Adornments
+      null,                 # Red Adornments
+      null,                 # Green Adornments
+      null                  # Blue Adornments
     ]
     "aaSorting": [[0,'asc']]
 
@@ -201,7 +205,9 @@ jQuery ->
       {"sType": "numeric"}, # Adornments
       null,                 # White Adornments
       null,                 # Yellow Adornments
-      null                  # Red Adornments
+      null,                 # Red Adornments
+      null,                 # Green Adornments
+      null                  # Blue Adornments
     ]
     "aaSorting": [[0,'asc']]
 
@@ -223,7 +229,9 @@ jQuery ->
       {"sType": "numeric"}, # Adornments
       null,                 # White Adornments
       null,                 # Yellow Adornments
-      null                  # Red Adornments
+      null,                 # Red Adornments
+      null,                 # Green Adornments
+      null                  # Blue Adornments
     ]
     "aaSorting": [[0,'asc']]
 

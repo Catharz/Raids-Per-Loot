@@ -31,6 +31,8 @@ describe "characters/statistics.html.haml" do
     rendered.should contain "White"
     rendered.should contain "Yellow"
     rendered.should contain "Red"
+    rendered.should contain "Green"
+    rendered.should contain "Blue"
   end
 
   it "should render the characters names" do
@@ -136,11 +138,13 @@ describe "characters/statistics.html.haml" do
         {'item' =>
              {'adornment_list' => [
                  {'color' => 'white', 'id' => '1'},
+                 {'color' => 'blue'},
                  {'color' => 'yellow'}
              ]}},
         {'item' =>
              {'adornment_list' => [
                  {'color' => 'white', 'id' => '1'},
+                 {'color' => 'green', 'id' => '2'},
                  {'color' => 'yellow'}
              ]}},
         {'item' =>
@@ -167,14 +171,16 @@ describe "characters/statistics.html.haml" do
                  {'color' => 'white'},
                  {'color' => 'white'},
                  {'color' => 'yellow'},
-                 {'color' => 'red', 'id' => '3'}
+                 {'color' => 'blue', 'id' => '3'},
+                 {'color' => 'green', 'id' => '4'},
+                 {'color' => 'red'}
              ]}}
     ])
     assign(:characters, [char1, char2])
     render
 
     rendered.should contain "50.00"
-    rendered.should contain "30.00"
+    rendered.should contain "33.33"
   end
 
   it "should render the characters adornment counts" do
