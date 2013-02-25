@@ -28,6 +28,13 @@ describe ArchetypesHelper do
       consolidate_archetypes([bruiser, monk, paladin, shadowknight, berserker, guardian]).should eq "All Fighters"
     end
 
+    it "should return 'All Brawlers' when all Brawlers are specified" do
+      bruiser = @brawler.children.create(:name => 'Bruiser')
+      monk = @brawler.children.create(:name => 'Monk')
+
+      consolidate_archetypes([bruiser, monk]).should eq "All Brawlers"
+    end
+
     it "should return the supplied archetypes when all Fighters are NOT specified" do
       bruiser = @brawler.children.create(:name => 'Bruiser')
       monk = @brawler.children.create(:name => 'Monk')

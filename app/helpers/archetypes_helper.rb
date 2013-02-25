@@ -1,37 +1,33 @@
-
 module ArchetypesHelper
   def consolidate_archetypes(archetype_list)
     if archetype_list.empty?
       "None"
     else
-      temp_list = []
-      final_list = []
-      archetype_list.each do |a|
-        if a.self_and_siblings & archetype_list == a.self_and_siblings
-          if a.self_and_siblings.count > 0
-            temp_list << a.parent unless temp_list.include? a.parent
-          else
-            temp_list << a unless temp_list.include? a
-          end
-        else
-          temp_list << a unless temp_list.include? a
-        end
-      end
-      temp_list.each do |a|
-        if a.self_and_siblings & temp_list == a.self_and_siblings
-          final_list << a.parent unless final_list.include? a.parent
-        else
-          final_list << a unless final_list.include? a
-        end
-      end
-      final_list.flatten!
-      final_list.map do |t|
-        if t.children.empty?
-          t.name
-        else
-          "All #{t.name}s"
-        end
-      end.join(", ")
+      archetype_list = consolidate_parents(archetype_list) until
+          consolidate_parents(archetype_list) & archetype_list == archetype_list
+      archetype_list.map { |archetype| final_description(archetype) }.join(", ")
     end
+  end
+
+  private
+
+  def final_description(archetype)
+    archetype.children.empty? ? archetype.name : "All #{archetype.name}s"
+  end
+
+  def consolidate_parents(archetype_list)
+    results = []
+    archetype_list.each do |archetype|
+      if all_siblings_included?(archetype, archetype_list)
+        results << archetype.parent unless results.include? archetype.parent
+      else
+        results << archetype
+      end
+    end
+    results
+  end
+
+  def all_siblings_included?(child, list)
+    child.self_and_siblings & list == child.self_and_siblings
   end
 end
