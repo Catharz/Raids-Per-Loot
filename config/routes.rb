@@ -51,11 +51,11 @@ RaidsPerLoot::Application.routes.draw do
     resources :character_types, :adjustments, :drops
     member do
       get :info
-      get :fetch_data
+      post :fetch_data
     end
     collection do
       get :option_list
-      get :fetch_all_data
+      post :fetch_all_data
       get :statistics
     end
   end
@@ -72,10 +72,10 @@ RaidsPerLoot::Application.routes.draw do
     resources :drops, :archetypes
     member do
       get :info
-      get :fetch_data
+      post :fetch_data
     end
     collection do
-      get :fetch_all_data
+      post :fetch_all_data
     end
   end
   resources :drops do
@@ -108,10 +108,10 @@ RaidsPerLoot::Application.routes.draw do
   get "pages/contact"
 
   get '/admin', :controller => 'admin', :action => 'show'
-  get '/admin/update_character_list', :controller => 'admin', :action => 'update_character_list'
-  get '/admin/update_player_list', :controller => 'admin', :action => 'update_player_list'
-  get '/admin/resolve_duplicate_items', :controller => 'admin', :action => 'resolve_duplicate_items'
-  get '/admin/fix_trash_drops', :controller => 'admin', :action => 'fix_trash_drops'
+  post '/admin/update_player_list', :controller => 'admin', :action => 'update_player_list'
+  post '/admin/update_character_list', :controller => 'admin', :action => 'update_character_list'
+  post '/admin/resolve_duplicate_items', :controller => 'admin', :action => 'resolve_duplicate_items'
+  post '/admin/fix_trash_drops', :controller => 'admin', :action => 'fix_trash_drops'
 
   match ':name' => 'viewer#show', :as => :view_page
   post '/viewer/set_page_body/:id', :controller => 'viewer', :action => 'set_page_body'

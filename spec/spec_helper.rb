@@ -5,7 +5,6 @@ require 'spork'
 #require 'spork/ext/ruby-debug'
 
 Spork.prefork do
-  puts "Coverage set to #{ENV['COVERAGE']}"
   if %w{yes true on}.include? ENV['COVERAGE']
     unless ENV['DRB']
       require 'simplecov'

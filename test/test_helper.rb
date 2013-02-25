@@ -1,3 +1,14 @@
+if %w{yes true on}.include? ENV['COVERAGE']
+  unless ENV['DRB']
+    require 'simplecov'
+    SimpleCov.start 'rails' do
+      add_group "Observers", "app/observers"
+      add_group "DataTables", "app/datatables"
+    end
+    puts 'Running Unit Tests with Coverage'
+  end
+end
+
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'

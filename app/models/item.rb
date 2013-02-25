@@ -119,6 +119,18 @@ class Item < ActiveRecord::Base
     eq2_item_id ? where(:eq2_item_id => eq2_item_id) : scoped
   end
 
+  def self.fix_trash_drops
+    incorrect_trash_drops = 0
+    Item.of_type("Trash").each do |item|
+      item.drops.where('loot_method <> ?', 't').each do |drop|
+        incorrect_trash_drops += 1
+        drop.loot_method = 't'
+        drop.save
+      end
+    end
+    incorrect_trash_drops
+  end
+
   def self.resolve_duplicates
     duplicates = Item.group(:name, :eq2_item_id).having(['count(items.id) > 1']).count
     duplicates.each do |k, v|
