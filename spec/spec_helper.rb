@@ -5,11 +5,25 @@ require 'spork'
 #require 'spork/ext/ruby-debug'
 
 Spork.prefork do
+  puts "Coverage set to #{ENV['COVERAGE']}"
+  if %w{yes true on}.include? ENV['COVERAGE']
+    unless ENV['DRB']
+      require 'simplecov'
+      SimpleCov.start 'rails' do
+        add_group "Observers", "app/observers"
+        add_group "DataTables", "app/datatables"
+        add_filter "/spec/"
+      end
+      puts "Running RSpec with Coverage"
+    end
+  end
+
   # Loading more in this block will cause your tests to run faster. However,
   # if you change any configuration or code from libraries loaded here, you'll
   # need to restart spork for it take effect.
 
   # This file is copied to spec/ when you run 'rails generate rspec:install'
+
   ENV["RAILS_ENV"] ||= 'test'
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
