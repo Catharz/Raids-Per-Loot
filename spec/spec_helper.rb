@@ -12,7 +12,6 @@ Spork.prefork do
       SimpleCov.start 'rails' do
         add_group "Observers", "app/observers"
         add_group "DataTables", "app/datatables"
-        add_filter "/spec/"
       end
       puts "Running RSpec with Coverage"
     end

@@ -14,7 +14,6 @@ Spork.prefork do
       SimpleCov.start 'rails' do
         add_group "Observers", "app/observers"
         add_group "DataTables", "app/datatables"
-        add_filter "/features/"
       end
       puts "Running Cucumber with Coverage"
     end
