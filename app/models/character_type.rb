@@ -8,9 +8,7 @@ class CharacterType < ActiveRecord::Base
   scope :by_character_and_date,
         lambda { |character_id, date| by_character(character_id).as_at(date) }
 
-  def player_name
-    character and character.player ? character.player.name : "Unknown"
-  end
+  delegate :player_name, to: :character
 
   def character_name
     character ? character.name : "Unknown"

@@ -8,21 +8,97 @@ describe Character do
     @character = FactoryGirl.create(:character, valid_character_attributes)
   end
 
-  describe "character" do
-    it "should calculate the loot rate with two decimal places" do
-      num_raids = 37
-      num_items = 5
+  context 'associations' do
+    it { should belong_to(:player) }
+    it { should belong_to(:archetype) }
 
-      loot_rate = @character.calculate_loot_rate(num_raids, num_items)
-      loot_rate.should == 6.17
+    it { should have_many(:drops) }
+    it { should have_many(:character_instances) }
+    it { should have_many(:character_types) }
+    it { should have_one(:last_switch).class_name('CharacterType') }
+    it { should have_many(:items).through(:drops) }
+    it { should have_many(:instances).through(:character_instances) }
+    it { should have_many(:raids).through(:instances) }
+    it { should have_many(:adjustments).dependent(:destroy) }
+    it { should have_one(:external_data).dependent(:destroy) }
+  end
+
+  context 'validations' do
+    it { should validate_presence_of(:name) }
+    it 'should require :player on update' do
+      mm = FactoryGirl.create(:character)
+      mm.player = nil
+      mm.save
+      mm.valid?.should be_false
+      mm.errors[:player].should eq(["can't be blank"])
+    end
+    it 'should require :archetype_id on update' do
+      mm = FactoryGirl.create(:character)
+      mm.archetype_id = nil
+      mm.save
+      mm.valid?.should be_false
+      mm.errors[:archetype_id].should eq(["can't be blank"])
+    end
+    it 'should require :char_type on update' do
+      mm = FactoryGirl.create(:character)
+      mm.char_type = nil
+      mm.save
+      mm.valid?.should be_false
+      mm.errors[:char_type].should include("can't be blank")
+    end
+    it 'should require :char_type to be valid on update' do
+      mm = FactoryGirl.create(:character)
+      mm.char_type = "f"
+      mm.save
+      mm.valid?.should be_false
+      mm.errors[:char_type].should include("is invalid")
+    end
+    it { should validate_format_of(:char_type).with(/g|m|r/)}
+  end
+
+  context 'instance methods' do
+    describe '#player_name' do
+      it 'returns Unknown when the player is nil' do
+        character = Character.new
+
+        character.player_name.should eq('Unknown')
+      end
+
+      it 'returns the player name when the player is set' do
+        @character.player_name.should eq('Uber')
+      end
     end
 
-    it "should be representable as csv" do
-      csv = FactoryGirl.create(:character, valid_character_attributes.merge!(:name => 'CSV')).to_csv
+    describe '#archetype_name' do
+      it 'returns Unknown when the archetype is nil' do
+        character = Character.new
 
-      csv.should match('CSV')
-      csv.should match('Raid Main')
-      csv.split(",").count.should == 11
+        character.archetype_name.should eq('Unknown')
+      end
+
+      it 'returns the archetype name when the archetype is set' do
+        @character.archetype_name.should eq('Mage')
+      end
+    end
+
+    describe '#loot_rate' do
+      it 'should calculate to two decimal places' do
+        num_raids = 37
+        num_items = 5
+
+        loot_rate = @character.calculate_loot_rate(num_raids, num_items)
+        loot_rate.should == 6.17
+      end
+    end
+
+    describe '#to_csv' do
+      it "should return csv" do
+        csv = FactoryGirl.create(:character, valid_character_attributes.merge!(:name => 'CSV')).to_csv
+
+        csv.should match('CSV')
+        csv.should match('Raid Main')
+        csv.split(",").count.should == 11
+      end
     end
 
     it "should give the char_type at a particular time" do
