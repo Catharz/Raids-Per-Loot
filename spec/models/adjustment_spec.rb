@@ -179,7 +179,8 @@ describe Adjustment do
     it "should list characters for a character adjustment type" do
       adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Player', adjustment_type: 'Instances', adjustable_id: @betty.id)
 
-      adj1.adjustable_entities.order(:id).should eq [@betty, @wilma]
+      adj1.adjustable_entities.order(:id).should include(@betty)
+      adj1.adjustable_entities.order(:id).should include(@wilma)
     end
   end
 end
