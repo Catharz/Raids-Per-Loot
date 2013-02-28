@@ -2,6 +2,7 @@ FactoryGirl.define do
   sequence :character_name do |n|
     "Character #{n}"
   end
+
   factory :character do |f|
     f.player  { |a| a.association(:player) }
     f.name { generate(:character_name) }

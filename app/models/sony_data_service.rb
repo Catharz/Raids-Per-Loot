@@ -27,6 +27,16 @@ class SonyDataService
     updates
   end
 
+  def update_character_details(characters, params)
+    characters.each do |character|
+      if params[:delayed]
+        Delayed::Job.enqueue(CharacterDetailsJob.new(character))
+      else
+        character.fetch_soe_character_details
+      end
+    end
+  end
+
   def update_player_list
     guild_details = download_guild_characters("json", "&c:resolve=members(guild.rank,type.level)").with_indifferent_access
     return -1 if guild_details.empty?

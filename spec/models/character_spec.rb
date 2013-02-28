@@ -32,12 +32,12 @@ describe Character do
       mm.valid?.should be_false
       mm.errors[:player].should eq(["can't be blank"])
     end
-    it 'should require :archetype_id on update' do
+    it 'should require :archetype on update' do
       mm = FactoryGirl.create(:character)
-      mm.archetype_id = nil
+      mm.archetype = nil
       mm.save
       mm.valid?.should be_false
-      mm.errors[:archetype_id].should eq(["can't be blank"])
+      mm.errors[:archetype].should eq(["can't be blank"])
     end
     it 'should require :char_type on update' do
       mm = FactoryGirl.create(:character)

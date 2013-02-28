@@ -1,71 +1,200 @@
 require 'spec_helper'
-require 'character_spec_helper'
 
 describe CharactersController do
-  include CharacterSpecHelper
   fixtures :users
 
   before(:each) do
     login_as :quentin
-
-    @main_rank ||= FactoryGirl.create(:rank, :name => "Main")
-    @player ||= FactoryGirl.create(:player, :name => "Jimmy", :rank => @main_rank)
-    @archetype ||= FactoryGirl.create(:archetype, :name => "Scout")
   end
 
-  def valid_attributes
-    {:name => "Jimmy", :player_id => @player.id, :archetype_id => @archetype.id, :char_type => "m"}
+  describe 'GET #option_list' do
+    it 'should populate an option list with sorted character names' do
+      character1 = FactoryGirl.create(:character)
+      character2 = FactoryGirl.create(:character)
+      get :option_list
+      response.body.should eq("<option value='#{character1.id}'>#{character1.name}</option>" +
+                                  "<option value='#{character2.id}'>#{character2.name}</option>")
+    end
   end
 
-  it "assigns all characters as @characters" do
-    character = Character.create! valid_attributes
-    get :index
-    assigns(:characters).should eq([character])
+  describe 'GET #index' do
+    it 'populates a collection of characters' do
+      character = FactoryGirl.create(:character)
+      get :index
+      assigns(:characters).should eq([character])
+    end
+
+    it 'renders the :index view' do
+      get :index
+      response.should render_template :index
+    end
+
+    it 'filters by player' do
+      character = FactoryGirl.create(:character)
+      FactoryGirl.create(:character)
+
+      get :index, :player_id => character.player_id
+      assigns(:characters).should eq([character])
+    end
+
+    it 'filters by name' do
+      FactoryGirl.create(:character)
+      jenny = FactoryGirl.create(:character, name: 'Jenny')
+
+      get :index, :name => 'Jenny'
+      assigns(:characters).should eq([jenny])
+    end
+
+    it 'filters by instance' do
+      jimmy = FactoryGirl.create(:character, name: 'Jimmy')
+      jenny = FactoryGirl.create(:character, name: 'Jenny')
+      first_instance = FactoryGirl.create(:instance)
+      second_instance = FactoryGirl.create(:instance)
+      FactoryGirl.create(:character_instance, :instance => first_instance, :character => jimmy)
+      FactoryGirl.create(:character_instance, :instance => first_instance, :character => jenny)
+      FactoryGirl.create(:character_instance, :instance => second_instance, :character => jimmy)
+
+      get :index, :instance_id => second_instance.id
+      assigns(:characters).should eq([jimmy])
+    end
+
+    it 'filters by player' do
+      jack = FactoryGirl.create(:character, name: 'Jack', player: FactoryGirl.create(:player, name: 'Jack'))
+      jill = FactoryGirl.create(:character, name: 'Jill', player: FactoryGirl.create(:player, name: 'Jill'))
+
+      get :index, player_id: jack.player_id
+      assigns(:characters).should eq([jack])
+    end
+
+    it 'can render CSV' do
+      jimmy = FactoryGirl.create(:character, name: 'Jimmy')
+      jenny = FactoryGirl.create(:character, name: 'Jenny')
+
+      get :index, :format => :csv
+
+      assigns(:characters).should include jimmy
+      assigns(:characters).should include jenny
+
+      response.content_type.should eq('text/csv')
+      response.header.should eq('Content-Type' => 'text/csv; charset=utf-8')
+    end
   end
 
-  it "filters by player" do
-    Character.create! valid_attributes
-    jenny_player = FactoryGirl.create(:player, :name => "Jenny", :rank => @main_rank)
-    jenny = Character.create! valid_attributes.merge!({:name => "Jenny", :player_id => jenny_player.id})
+  describe 'GET #show' do
+    it 'assigns the requested character to @character' do
+      character = FactoryGirl.create(:character)
+      get :show, id: character
+      assigns(:character).should eq(character)
+    end
 
-    get :index, :player_id => jenny.player_id
-    assigns(:characters).should eq([jenny])
+    it 'renders the :show template' do
+      get :show, id: FactoryGirl.create(:character)
+      response.should render_template :show
+    end
   end
 
-  it "filters by name" do
-    Character.create! valid_attributes
-    jenny = Character.create! valid_attributes.merge! :name => "Jenny"
+  describe 'GET #new' do
+    it 'assigns a new character to @character' do
+      character = Character.new
+      Character.should_receive(:new).and_return(character)
+      get :new
+      assigns(:character).should eq(character)
+    end
 
-    get :index, :name => "Jenny"
-    assigns(:characters).should eq([jenny])
+    it 'renders the :new template' do
+      get :new
+      response.should render_template :new
+    end
   end
 
-  it "filters by instance" do
-    jimmy = Character.create! valid_attributes
-    jenny = Character.create! valid_attributes.merge! :name => "Jenny"
-    raid_date = Date.new(2012, 12, 25)
-    progression = FactoryGirl.create(:raid_type, name: 'Progression')
-    raid = FactoryGirl.create(:raid, :raid_date => raid_date, raid_type: progression)
-    first_instance = FactoryGirl.create(:instance, :raid_id => raid.id, :start_time => raid_date + 20.hours)
-    second_instance = FactoryGirl.create(:instance, :raid_id => raid.id, :start_time => raid_date + 21.hours)
-    FactoryGirl.create(:character_instance, :instance_id => first_instance.id, :character_id => jimmy.id)
-    FactoryGirl.create(:character_instance, :instance_id => first_instance.id, :character_id => jenny.id)
-    FactoryGirl.create(:character_instance, :instance_id => second_instance.id, :character_id => jimmy.id)
+  describe 'POST #create' do
+    context 'with valid attributes' do
+      it 'saves the new character' do
+        expect {
+          post :create, character: FactoryGirl.attributes_for(:character)
+        }.to change(Character, :count).by(1)
+      end
 
-    get :index, :instance_id => second_instance.id
-    assigns(:characters).should eq([jimmy])
+      it 'redirects to the new character' do
+        post :create, character: FactoryGirl.attributes_for(:character)
+        response.should redirect_to Character.last
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not save the new character' do
+        expect {
+          post :create, character: FactoryGirl.attributes_for(:invalid_character)
+        }.to_not change(Character, :count)
+      end
+
+      it 're-renders the :new template' do
+        post :create, character: FactoryGirl.attributes_for(:invalid_character)
+        response.should render_template :new
+      end
+    end
   end
 
-  it "returns CSV" do
-    jimmy = Character.create! valid_attributes
-    jenny = Character.create! valid_attributes.merge! :name => "Jenny"
+  describe 'PUT #update' do
+    before(:each) do
+      @player = FactoryGirl.create(:player, name: 'Fred')
+      @archetype = FactoryGirl.create(:archetype)
+      @character = FactoryGirl.create(:character, name: 'Fred', char_type: 'm', player: @player, archetype: @archetype)
+    end
 
-    get :index, :format => :csv
+    context 'valid attributes' do
+      it 'located the requested @character' do
+        put :update, id: @character, character: FactoryGirl.attributes_for(:character)
+        assigns(:character).should eq (@character)
+      end
 
-    assigns(:characters).should include jimmy
-    assigns(:characters).should include jenny
+      it "changes @character's attributes" do
+        put :update, id: @character, character: @character.attributes.merge!({name: 'Barney', char_type: 'r'})
+        @character.reload
+        @character.name.should eq('Barney')
+        @character.char_type.should eq('r')
+      end
 
-    response.content_type.should eq('text/csv')
-    response.header.should eq('Content-Type' => 'text/csv; charset=utf-8')
+      it 'redirects to the updated @character' do
+        put :update, id: @character, character: @character.attributes
+        response.should redirect_to @character
+      end
+    end
+
+    context 'invalid attributes' do
+      it 'locates the requested @character' do
+        put :update, id: @character, character: FactoryGirl.attributes_for(:invalid_character)
+        assigns(:character).should eq (@character)
+      end
+
+      it "does not change @character's attributes" do
+        put :update, id: @character, character: FactoryGirl.attributes_for(:character, name: 'Whatever', char_type: nil)
+        @character.reload
+        @character.name.should_not eq('Whatever')
+        @character.char_type.should eq('m')
+      end
+
+      it 're-renders the :edit template' do
+        put :update, id: @character, character: FactoryGirl.attributes_for(:invalid_character)
+        response.should render_template :edit
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before(:each) do
+      @character = FactoryGirl.create(:character)
+    end
+
+    it 'deletes the character' do
+      expect {
+        delete :destroy, id: @character
+      }.to change(Character, :count).by(-1)
+    end
+
+    it 'redirects to difficulties#index' do
+      delete :destroy, id: @character
+      response.should redirect_to characters_url
+    end
   end
 end

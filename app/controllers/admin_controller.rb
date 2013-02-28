@@ -30,7 +30,7 @@ class AdminController < ApplicationController
       flash.alert = 'Some Item Duplicates Left Unresolved'
     end
 
-    redirect_to '/admin'
+    redirect_to admin_url
   end
 
   def update_character_list
@@ -42,7 +42,15 @@ class AdminController < ApplicationController
       flash.notice = "#{updates} characters downloaded"
     end
 
-    redirect_to '/admin'
+    redirect_to admin_url
+  end
+
+  def update_character_details
+    characters = Character.order(:name)
+    SonyDataService.new.update_character_details(characters, params)
+
+    flash[:notice] = 'Characters have been successfully updated.'
+    redirect_to admin_url
   end
 
   def update_player_list

@@ -20,7 +20,7 @@ class Character < ActiveRecord::Base
   has_one :external_data, :as => :retrievable, :dependent => :destroy
 
   validates_presence_of :name
-  validates_presence_of :player, :archetype_id, :char_type, :on => :update
+  validates_presence_of :player, :archetype, :char_type, :on => :update
 
   validates_uniqueness_of :name
   validates_format_of :char_type, :with => /g|m|r/ # General Alt, Main, Raid Alt

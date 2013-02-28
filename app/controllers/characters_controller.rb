@@ -5,7 +5,7 @@ class CharactersController < ApplicationController
   before_filter :set_pagetitle
 
   def set_pagetitle
-    @pagetitle = "Characters"
+    @pagetitle = 'Characters'
   end
 
   def option_list
@@ -16,20 +16,6 @@ class CharactersController < ApplicationController
       options += "<option value='#{character.id}'>#{character.name}</option>"
     end
     render :text => options, :layout => false
-  end
-
-  def fetch_all_data
-    @characters = Character.order(:name)
-    @characters.each do |character|
-      if params[:delayed]
-        Delayed::Job.enqueue(CharacterDetailsJob.new(character))
-      else
-        character.fetch_soe_character_details
-      end
-    end
-
-    flash[:notice] = "Characters have been successfully updated."
-    redirect_to admin_url
   end
 
   def fetch_data

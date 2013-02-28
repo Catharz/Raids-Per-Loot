@@ -55,7 +55,6 @@ RaidsPerLoot::Application.routes.draw do
     end
     collection do
       get :option_list
-      post :fetch_all_data
       get :statistics
     end
   end
@@ -110,6 +109,7 @@ RaidsPerLoot::Application.routes.draw do
   get '/admin', :controller => 'admin', :action => 'show'
   post '/admin/update_player_list', :controller => 'admin', :action => 'update_player_list'
   post '/admin/update_character_list', :controller => 'admin', :action => 'update_character_list'
+  post '/admin/update_character_details', :controller => 'admin', :action => 'update_character_details'
   post '/admin/resolve_duplicate_items', :controller => 'admin', :action => 'resolve_duplicate_items'
   post '/admin/fix_trash_drops', :controller => 'admin', :action => 'fix_trash_drops'
 
