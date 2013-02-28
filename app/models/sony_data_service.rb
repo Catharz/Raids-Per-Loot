@@ -32,7 +32,7 @@ class SonyDataService
       if params[:delayed]
         Delayed::Job.enqueue(CharacterDetailsJob.new(character))
       else
-        character.fetch_soe_character_details
+        fetch_soe_character_details(character)
       end
     end
   end
@@ -60,7 +60,31 @@ class SonyDataService
     updates
   end
 
+  def fetch_character_details(character)
+    if internet_connection?
+      json_data = soe_character_data("json")
+      character_details = json_data ? json_data['character_list'][0] : HashWithIndifferentAccess.new
+
+      if character_details.nil? or character_details.empty?
+        false
+      else
+        unless character.archetype and character.archetype.name.eql? character_details['type']['class']
+          character.update_attribute(:archetype, Archetype.find_by_name(character_details['type']['class']))
+        end
+        character.build_external_data(:data => character_details)
+        character.external_data.save
+        true
+      end
+    else
+      true
+    end
+  end
+
   private
+  def character_data(format = "json")
+    SOEData.get("/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/character/?name.first=#{name}&locationdata.world=#{APP_CONFIG["eq2_server"]}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,resists,skills,spell_list,stats,guild.name")
+  end
+
   def download_guild_characters(format = "json", params = "")
     if internet_connection?
       #guild_details_url = "/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/guild/?name=#{APP_CONFIG["guild_name"]}&world=#{APP_CONFIG["eq2_server"]}#{params}".gsub(" ", "%20")

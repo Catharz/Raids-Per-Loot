@@ -17,6 +17,28 @@ describe CharactersController do
     end
   end
 
+  describe 'POST #fetch_data' do
+    it 'assigns the requested character to @character' do
+      @character = FactoryGirl.create(:character)
+      post :fetch_data, id: @character
+      assigns(:character).should eq(@character)
+    end
+
+    it 'calls SonyDataService.fetch_soe_character_details for the character' do
+      @character = FactoryGirl.create(:character)
+      SonyDataService.any_instance.should_receive(:fetch_character_details).with(@character).and_return(true)
+
+      post :fetch_data, id: @character
+    end
+
+    it 'redirects to the updated @character' do
+      @character = FactoryGirl.create(:character)
+      SonyDataService.any_instance.should_receive(:fetch_character_details).with(@character).and_return(false)
+      post :fetch_data, id: @character
+      response.should redirect_to @character
+    end
+  end
+
   describe 'GET #index' do
     it 'populates a collection of characters' do
       character = FactoryGirl.create(:character)

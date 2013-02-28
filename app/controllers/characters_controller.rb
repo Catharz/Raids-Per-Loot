@@ -21,10 +21,10 @@ class CharactersController < ApplicationController
   def fetch_data
     @character = Character.find(params[:id])
 
-    if @character.fetch_soe_character_details
-      flash[:notice] = "Character details have been updated."
+    if SonyDataService.new.fetch_character_details(@character)
+      flash[:notice] = 'Character details have been updated.'
     else
-      flash[:notice] = "Character details could not be updated."
+      flash[:notice] = 'Character details could not be updated.'
     end
     redirect_to @character
   end

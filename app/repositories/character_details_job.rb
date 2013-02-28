@@ -1,5 +1,5 @@
 class CharacterDetailsJob < Struct.new(:character)
   def perform
-    character.fetch_soe_character_details unless character.nil?
+    SonyDataService.new.fetch_soe_character_details(character) unless character.nil?
   end
 end

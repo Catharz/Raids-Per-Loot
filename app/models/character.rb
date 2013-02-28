@@ -65,34 +65,17 @@ class Character < ActiveRecord::Base
     end
   end
 
-  def soe_data(format = "json")
+  def soe_character_data(format = "json")
     #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
     @soe_data ||= SOEData.get("/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/character/?name.first=#{name}&locationdata.world=#{APP_CONFIG["eq2_server"]}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,resists,skills,spell_list,stats,guild.name")
   end
 
-  def combat_stats(format = "json")
+  def character_combat_statistics(format = "json")
     @stats ||= SOEData.get("/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/character/?name.first=#{name}&locationdata.world=#{APP_CONFIG["eq2_server"]}&c:limit=500&c:show=name,stats,type,alternateadvancements.spentpoints,alternateadvancements.availablepoints")
   end
 
   def fetch_soe_character_details
-    #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
-    if internet_connection?
-      json_data = soe_data("json")
-      character_details = json_data ? json_data['character_list'][0] : HashWithIndifferentAccess.new
-
-      if character_details.nil? or character_details.empty?
-        false
-      else
-        unless archetype and archetype.name.eql? character_details['type']['class']
-          update_attribute(:archetype, Archetype.find_by_name(character_details['type']['class']))
-        end
-        build_external_data(:data => character_details)
-        external_data.save
-        true
-      end
-    else
-      true
-    end
+    SonyDataService.new.fetch_character_details(self)
   end
 
   def self.soe_characters_with_stats(format = "json")
