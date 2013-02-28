@@ -30,27 +30,7 @@ class CharactersController < ApplicationController
   end
 
   def statistics
-    @characters = Character.soe_characters_with_stats
-    @archetype_roots ||= Archetype.root_list
-    @characters.each do |character|
-      rpl_char = Character.find_by_name(character['name'])
-      if rpl_char
-        character['char_type'] = rpl_char.char_type
-        character['rpl_id'] = rpl_char.id
-        base_class = rpl_char.archetype ? @archetype_roots[rpl_char.archetype.name] : nil
-      else
-        character['rank'] = "Unknown"
-      end
-      base_class ||=
-        if character.has_key? 'type'
-          @archetype_roots[character['type']['class']]
-        else
-          "Unknown"
-        end
-      character['type'] = Hash.new unless character.has_key? 'type'
-      base_class ||= "Unknown"
-      character['type']['base_class'] = base_class
-    end
+    @characters = SonyDataService.new.character_statistics
 
     respond_to do |format|
       format.html # statistics.html.erb

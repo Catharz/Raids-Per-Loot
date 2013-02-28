@@ -39,6 +39,18 @@ describe CharactersController do
     end
   end
 
+  describe 'GET #statistics' do
+    it 'calls SonyDataService.character_statistics' do
+      SonyDataService.any_instance.should_receive(:character_statistics)
+      get :statistics
+    end
+
+    it 'renders the statistics view' do
+      get :statistics
+      response.should render_template :statistics
+    end
+  end
+
   describe 'GET #index' do
     it 'populates a collection of characters' do
       character = FactoryGirl.create(:character)

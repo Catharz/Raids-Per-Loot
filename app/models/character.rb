@@ -78,12 +78,6 @@ class Character < ActiveRecord::Base
     SonyDataService.new.fetch_character_details(self)
   end
 
-  def self.soe_characters_with_stats(format = "json")
-    url = "/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/guild/?c:limit=1&name=#{APP_CONFIG["guild_name"]}&world=#{APP_CONFIG["eq2_server"]}&c:resolve=members(type,stats,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,equipmentslot_list.item.id,equipmentslot_list.item.adornment_list)".gsub(" ", "%20")
-    @guild = SOEData.get(url)
-    @guild["guild_list"].empty? ? [] : @guild["guild_list"][0]["member_list"]
-  end
-
   def self.by_name(name)
     name ? where(:name => name) : scoped
   end
