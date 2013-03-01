@@ -1,5 +1,6 @@
 rvm:
   - "1.9.2"
+bundler_args: --without=PRODUCTION
 script:
   - "rake test"
   - "rake spec"
