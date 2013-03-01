@@ -226,7 +226,7 @@ describe CharactersController do
       }.to change(Character, :count).by(-1)
     end
 
-    it 'redirects to difficulties#index' do
+    it 'redirects to characters#index' do
       delete :destroy, id: @character
       response.should redirect_to characters_url
     end

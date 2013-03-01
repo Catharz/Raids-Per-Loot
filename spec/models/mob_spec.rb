@@ -49,7 +49,7 @@ describe Mob do
     end
 
     it "should show Unknown when not set" do
-      mob = FactoryGirl.create(:mob, :name => 'Unknown Mob')
+      mob = FactoryGirl.create(:mob, name: 'Unknown Mob', difficulty: nil)
 
       mob.difficulty_name.should eq 'Unknown'
     end

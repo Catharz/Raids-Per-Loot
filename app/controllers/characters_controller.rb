@@ -1,5 +1,3 @@
-require 'delayed_job'
-
 class CharactersController < ApplicationController
   before_filter :login_required, :except => [:index, :show, :info, :statistics]
   before_filter :set_pagetitle

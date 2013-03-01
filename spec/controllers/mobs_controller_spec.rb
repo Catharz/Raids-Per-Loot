@@ -5,22 +5,17 @@ describe MobsController do
 
   before(:each) do
     login_as :quentin
-    @zone = FactoryGirl.create(:zone, :name => 'Somewhere Nasty')
   end
 
-  def valid_attributes
-    {:name => "Whoever", :zone_id => @zone.id}
-  end
-
-  describe "GET index" do
-    it "assigns all mobs as @mobs" do
-      mob = FactoryGirl.create(:mob, valid_attributes)
+  describe 'GET index' do
+    it 'assigns all mobs as @mobs' do
+      mob = FactoryGirl.create(:mob)
       get :index
       assigns(:mobs).should eq([mob])
     end
 
-    it "filters by zone" do
-      FactoryGirl.create(:mob, valid_attributes)
+    it 'filters by zone' do
+      FactoryGirl.create(:mob)
       zone2 = FactoryGirl.create(:zone, :name => 'Somewhere Even Nastier')
       mob2 = FactoryGirl.create(:mob, :name => 'Tough Guy', :zone_id => zone2.id)
 
@@ -28,132 +23,157 @@ describe MobsController do
       assigns(:mobs).should eq([mob2])
     end
 
-    it "filters by name" do
-      FactoryGirl.create(:mob, valid_attributes)
-      zone2 = FactoryGirl.create(:zone, :name => 'Somewhere Even Nastier')
-      mob2 = FactoryGirl.create(:mob, :name => 'Tough Guy', :zone_id => zone2.id)
+    it 'filters by name' do
+      FactoryGirl.create(:mob)
+      mob2 = FactoryGirl.create(:mob, :name => 'Tough Guy')
 
       get :index, :name => 'Tough Guy'
       assigns(:mobs).should eq([mob2])
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested mob as @mob" do
-      mob = FactoryGirl.create(:mob, valid_attributes)
-      get :show, :id => mob.id.to_s
-      assigns(:mob).should eq(mob)
+  describe 'GET #option_list' do
+    it 'should populate an option list with sorted mob names' do
+      mob1 = FactoryGirl.create(:mob)
+      mob2 = FactoryGirl.create(:mob)
+      get :option_list
+      response.body.should eq('<option value=\'0\'>Select Mob</option>' +
+                                  "<option value='#{mob1.id}'>#{mob1.name}</option>" +
+                                  "<option value='#{mob2.id}'>#{mob2.name}</option>")
     end
   end
 
-  describe "GET new" do
-    it "assigns a new mob as @mob" do
+  describe 'GET show' do
+    it 'assigns the requested mob as @mob' do
+      mob = FactoryGirl.create(:mob)
+      get :show, :id => mob
+      assigns(:mob).should eq(mob)
+    end
+    it 'renders the :show template' do
+      get :show, id: FactoryGirl.create(:mob)
+      response.should render_template :show
+    end
+  end
+
+  describe 'GET new' do
+    it 'assigns a new mob as @mob' do
+      mob = Mob.new
+      Mob.should_receive(:new).and_return(mob)
       get :new
-      assigns(:mob).should be_a_new(Mob)
-    end
-  end
-
-  describe "GET edit" do
-    it "assigns the requested mob as @mob" do
-      mob = FactoryGirl.create(:mob, valid_attributes)
-      get :edit, :id => mob.id.to_s
       assigns(:mob).should eq(mob)
     end
+
+    it 'renders the :new template' do
+      get :new
+      response.should render_template :new
+    end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Mob" do
+  describe 'GET edit' do
+    it 'assigns the requested mob as @mob' do
+      mob = FactoryGirl.create(:mob)
+      get :edit, :id => mob
+      assigns(:mob).should eq(mob)
+    end
+
+    it 'renders the edit template' do
+      mob = FactoryGirl.create(:mob)
+      get :edit, :id => mob
+      response.should render_template :edit
+    end
+  end
+
+  describe 'POST create' do
+    context 'with valid attributes' do
+      it 'creates a new Mob' do
         expect {
-          post :create, :mob => valid_attributes
+          post :create, :mob => FactoryGirl.attributes_for(:mob)
         }.to change(Mob, :count).by(1)
       end
 
-      it "assigns a newly created mob as @mob" do
-        post :create, :mob => valid_attributes
+      it 'assigns a newly created mob as @mob' do
+        post :create, :mob => FactoryGirl.attributes_for(:mob)
         assigns(:mob).should be_a(Mob)
         assigns(:mob).should be_persisted
       end
 
-      it "redirects to the created mob" do
-        post :create, :mob => valid_attributes
+      it 'redirects to the new mob' do
+        post :create, :mob => FactoryGirl.attributes_for(:mob)
         response.should redirect_to(Mob.last)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved mob as @mob" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Mob.any_instance.stub(:save).and_return(false)
-        post :create, :mob => {}
-        assigns(:mob).should be_a_new(Mob)
+    context 'with invalid attributes' do
+      it 'does not save the new mob' do
+        expect {
+          post :create, mob: FactoryGirl.attributes_for(:invalid_mob)
+        }.to_not change(Mob, :count)
       end
 
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Mob.any_instance.stub(:save).and_return(false)
-        post :create, :mob => {}
-        response.should render_template("new")
+
+      it 're-renders the :new template' do
+        post :create, mob: FactoryGirl.attributes_for(:invalid_mob)
+        response.should render_template :new
       end
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested mob" do
-        mob = FactoryGirl.create(:mob, valid_attributes)
-        # Assuming there are no other mobs in the database, this
-        # specifies that the Mob created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Mob.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => mob.id, :mob => {'these' => 'params'}
+  describe 'PUT #update' do
+    before(:each) do
+      @mob = FactoryGirl.create(:mob, name: 'Whack-a-mole')
+    end
+
+    context 'with valid attributes' do
+      it 'located the requested @mob' do
+        put :update, id: @mob, mob: FactoryGirl.attributes_for(:mob)
+        assigns(:mob).should eq (@mob)
       end
 
-      it "assigns the requested mob as @mob" do
-        mob = FactoryGirl.create(:mob, valid_attributes)
-        put :update, :id => mob.id, :mob => valid_attributes
-        assigns(:mob).should eq(mob)
+      it 'changes @mob''s attributes' do
+        put :update, id: @mob, mob: @mob.attributes.merge!({name: 'Barney'})
+        @mob.reload
+        @mob.name.should eq('Barney')
       end
 
-      it "redirects to the mob" do
-        mob = FactoryGirl.create(:mob, valid_attributes)
-        put :update, :id => mob.id, :mob => valid_attributes
-        response.should redirect_to(mob)
+      it 'redirects to the updated @mob' do
+        put :update, id: @mob, mob: @mob.attributes
+        response.should redirect_to @mob
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the mob as @mob" do
-        mob = FactoryGirl.create(:mob, valid_attributes)
-        # Trigger the behavior that occurs when invalid params are submitted
-        Mob.any_instance.stub(:save).and_return(false)
-        put :update, :id => mob.id.to_s, :mob => {}
-        assigns(:mob).should eq(mob)
+    context 'with invalid params' do
+      it 'locates the requested @mob' do
+        put :update, id: @mob, mob: FactoryGirl.attributes_for(:invalid_mob)
+        assigns(:mob).should eq (@mob)
       end
 
-      it "re-renders the 'edit' template" do
-        mob = FactoryGirl.create(:mob, valid_attributes)
-        # Trigger the behavior that occurs when invalid params are submitted
-        Mob.any_instance.stub(:save).and_return(false)
-        put :update, :id => mob.id.to_s, :mob => {}
-        response.should render_template("edit")
+      it 'does not change @mob''s attributes' do
+        put :update, id: @mob, mob: FactoryGirl.attributes_for(:invalid_mob)
+        @mob.reload
+        @mob.name.should_not be_nil
+      end
+
+      it 're-renders the :edit template' do
+        put :update, id: @mob, mob: FactoryGirl.attributes_for(:invalid_mob)
+        response.should render_template :edit
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested mob" do
-      mob = FactoryGirl.create(:mob, valid_attributes)
+  describe 'DELETE #destroy' do
+    before(:each) do
+      @mob = FactoryGirl.create(:mob)
+    end
+
+    it 'deletes the mob' do
       expect {
-        delete :destroy, :id => mob.id.to_s
+        delete :destroy, :id => @mob
       }.to change(Mob, :count).by(-1)
     end
 
-    it "redirects to the mobs list" do
-      mob = FactoryGirl.create(:mob, valid_attributes)
-      delete :destroy, :id => mob.id.to_s
-      response.should redirect_to(mobs_url)
+    it 'redirects mobs#index' do
+      delete :destroy, :id => @mob
+      response.should redirect_to mobs_url
     end
   end
 
