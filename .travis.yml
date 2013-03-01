@@ -1,6 +1,8 @@
 rvm:
   - "1.9.2"
 bundler_args: --without production
+before_script:
+  - psql -c 'create database rpl_test;' -U postgres
 script:
   - "rake test"
   - "rake spec"
