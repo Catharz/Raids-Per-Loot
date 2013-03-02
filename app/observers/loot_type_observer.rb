@@ -1,5 +1,5 @@
 class LootTypeObserver < ActiveRecord::Observer
-  observe LootType
+  observe :loot_type
 
   def after_save(loot_type)
     loot_type.items.each do |item|

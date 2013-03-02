@@ -1,5 +1,5 @@
 class ItemObserver < ActiveRecord::Observer
-  observe Item
+  observe :item
 
   def after_save(item)
     item.drops.each do |drop|

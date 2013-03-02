@@ -1,5 +1,5 @@
 class CharacterObserver < ActiveRecord::Observer
-  observe Character
+  observe :character
 
   def after_create(character)
     save_new_char_type character

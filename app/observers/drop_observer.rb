@@ -1,5 +1,5 @@
 class DropObserver < ActiveRecord::Observer
-  observe Drop
+  observe :drop
 
   def before_save(drop)
     if drop.loot_type.nil?
