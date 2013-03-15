@@ -4,6 +4,12 @@ rvm:
 bundler_args: --without production
 before_script:
   - psql -c 'create database rpl_test;' -U postgres
+  - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+  - sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+  - sudo apt-get update
+  - sudo apt-get install google-chrome-stable
 script:
   - RAILS_ENV=test bundle exec rake db:schema:load --trace
-  - bundle exec rake
+  - bundle exec rake test
+  - bundle exec rake spec
+  - bundle exec rake cucumber
