@@ -27,6 +27,14 @@ describe Raid do
     it { should delegate_method(:raid_type_name).to(:raid_type).as(:name) }
   end
 
+  describe "#description" do
+    it "should be in the format 'raid_date (raid_type.name)'" do
+      raid = FactoryGirl.create(:raid, raid_date: Date.parse("2013-02-28"), raid_type: progression)
+
+      raid.description.should eq("2013-02-28 (Progression)")
+    end
+  end
+
   describe "self#for_period" do
     it "should show all by default" do
       Raid.for_period.should eq [first_raid, second_raid, third_raid]

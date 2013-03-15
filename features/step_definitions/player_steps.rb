@@ -1,9 +1,10 @@
 Given /^I have a player named (.+)$/ do |player|
-  Player.create(:name => player, :rank => Rank.find_by_name('Main')) unless Player.exists?(:name => player)
+  main = Rank.find_or_create_by_name('Main')
+  Player.create(:name => player, :rank => main) unless Player.exists?(:name => player)
 end
 
 Given /^the following players:$/ do |players|
-  main = Rank.find_by_name('Main')
+  main = Rank.find_or_create_by_name('Main')
   players.hashes.each do |player|
     player[:rank_id] = main.id
   end
@@ -25,8 +26,7 @@ Then /^I should see the following players:$/ do |expected_players_table|
 end
 
 Given /^the following player attendance:$/ do |all_attendance|
-  main = Rank.find_by_name('Main')
-  main ||= Rank.create(:name => 'Main')
+  main = Rank.find_or_create_by_name('Main')
   prog = RaidType.create(name: 'Progression')
   all_attendance.hashes.each do |attendance|
     player = Player.find_by_name(attendance[:player])
@@ -53,7 +53,6 @@ Given /^the following player attendance:$/ do |all_attendance|
 end
 
 When /^the following player adjustments:$/ do |adjustments|
-  # table is a |2012-01-01|raid|2     |Fred  |pending
   adjustments.hashes.each do |adj|
     player = Player.find_by_name(adj[:player])
     adjustment = Adjustment.where(

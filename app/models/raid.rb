@@ -15,6 +15,10 @@ class Raid < ActiveRecord::Base
   accepts_nested_attributes_for :instances, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :player_raids, reject_if: :all_blank, allow_destroy: true
 
+  def description
+    "#{raid_date} (#{raid_type_name})"
+  end
+
   def benched_players
     players.includes(:player_raids).where("player_raids.status = ?", 'b')
   end

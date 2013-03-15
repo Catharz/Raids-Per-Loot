@@ -1,0 +1,19 @@
+%p
+  %strong Raid:
+  = @player_raid.raid_description
+%p
+  %strong Player:
+  = @player_raid.player_name
+%p
+  %strong Signed up:
+  = @player_raid.signed_up
+%p
+  %strong Punctual:
+  = @player_raid.punctual
+%p
+  %strong Status:
+  = @player_raid.status_description
+
+= link_to 'Edit', edit_player_raid_path(@player_raid)
+|
+\#{link_to 'Back', player_raids_path}

@@ -1,0 +1,24 @@
+%table#dataTable
+  %thead
+    %tr
+      %th Raid
+      %th Player
+      %th Signed Up
+      %th Punctual
+      %th Status
+      %th
+      %th
+      %th
+  %tbody
+    - @player_raids.each do |player_raid|
+      %tr
+        %td= player_raid.raid_description
+        %td= player_raid.player_name
+        %td= player_raid.signed_up
+        %td= player_raid.punctual
+        %td= player_raid.status_description
+        %td= link_to 'Show', player_raid, class: 'table-button'
+        %td= link_to 'Edit', edit_player_raid_path(player_raid), class: 'table-button'
+        %td= link_to 'Destroy', player_raid, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
+%br/
+= link_to 'New Player Raid', new_player_raid_path, class: 'button'

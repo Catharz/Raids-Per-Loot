@@ -1,0 +1,31 @@
+= form_for(@player_raid) do |f|
+  - if @player_raid.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@player_raid.errors.count, "error")
+        prohibited this player-raid from being saved:
+      %ul
+        - @player_raid.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    %strong Raid
+    %br/
+    = f.select(:raid_id, Raid.all.collect { |r| ["#{r.raid_date} (#{r.raid_type_name})", r.id] }, include_blank: true)
+  .field
+    %strong Player
+    %br/
+    = f.collection_select(:player_id, Player.all, :id, :name, include_blank: true)
+  .field
+    %strong Signed Up
+    %br/
+    = f.check_box :signed_up
+  .field
+    %strong Punctual
+    %br/
+    = f.check_box :punctual
+  .field
+    %strong Status
+    %br/
+    = f.select(:status, [['Attended', 'a'], ['Benched', 'b']], include_blank: true)
+  .actions
+    = f.submit
