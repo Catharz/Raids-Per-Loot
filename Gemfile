@@ -41,9 +41,9 @@ end
 
 gem 'therubyracer'
 
-group :production do
-  gem 'therubyracer-heroku', '0.8.1.pre3'
-end
+#group :production do
+#  gem 'therubyracer-heroku', '0.8.1.pre3'
+#end
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -87,8 +87,8 @@ group :test, :development do
   gem "growl"
 
   # Deploy with Heroku
-  gem "heroku"
-  gem "taps"
+  #gem "heroku"
+  #gem "taps"
 
   #Deploy with Capistrano
   gem 'rvm-capistrano'
