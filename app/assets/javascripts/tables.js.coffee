@@ -58,6 +58,7 @@ jQuery ->
   $('#charactersTable_m').dataTable
     "bJQueryUI": true
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Name
@@ -79,6 +80,7 @@ jQuery ->
   $('#charactersTable_r').dataTable
     "bJQueryUI": true
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Name
@@ -100,6 +102,7 @@ jQuery ->
   $('#charactersTable_g').dataTable
     "bJQueryUI": true
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Name
@@ -121,6 +124,7 @@ jQuery ->
   $('#charactersTable_all').dataTable
     "bJQueryUI": true
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Name
@@ -142,6 +146,7 @@ jQuery ->
   $('#characterStatsTable_m').dataTable
     "bJQueryUI": true
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Name
@@ -166,6 +171,7 @@ jQuery ->
   $('#characterStatsTable_r').dataTable
     "bJQueryUI": true
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Name
@@ -190,6 +196,7 @@ jQuery ->
   $('#characterStatsTable_g').dataTable
     "bJQueryUI": true
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Name
@@ -214,6 +221,7 @@ jQuery ->
   $('#characterStatsTable_all').dataTable
     "bJQueryUI": true
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Name
@@ -238,6 +246,7 @@ jQuery ->
   $('#dropsTable').dataTable
     "bJQueryUI": true
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "bProcessing": true
     "bServerSide": true
@@ -249,6 +258,7 @@ jQuery ->
   $('#invalidDropsTable').dataTable
     "bJQueryUI": true
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Character Name
@@ -274,6 +284,7 @@ jQuery ->
   $('#itemsTable').dataTable
     "bJQueryUI": true
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType": "full_numbers"
     "bProcessing": true
     "bServerSide": true
@@ -285,6 +296,7 @@ jQuery ->
   $('#playersAttendanceTable').dataTable
     "bJQueryUI": true,
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType":"full_numbers",
     "aoColumns": [
       null,                   # Name
@@ -303,6 +315,7 @@ jQuery ->
   $('#playersTable').dataTable
     "bJQueryUI": true,
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType":"full_numbers",
     "aoColumns": [
       null,                   # Name
@@ -335,6 +348,7 @@ jQuery ->
   $('#charactersTabTable').dataTable
     "bJQueryUI": true
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null,                   #  Name
@@ -354,6 +368,7 @@ jQuery ->
   $('#dropsTabTable').dataTable
     "bJQueryUI": true
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aaSorting": [[3,'desc']]
 
@@ -365,6 +380,7 @@ jQuery ->
   $('#itemsTabTable').dataTable
     "bJQueryUI": true
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType": "full_numbers"
     "aoColumns": [
       null, #  Name 
@@ -377,6 +393,7 @@ jQuery ->
   $('#playersTabTable').dataTable
     "bJQueryUI": true
     "bStateSave": true
+    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null,                   #  Name
