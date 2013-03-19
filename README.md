@@ -3,24 +3,26 @@
 Raids Per Loot
 ==============
 
-The Raids Per Loot system has been created as a means to distribute loot guilds lacking a consistent raid force.
+The Raids Per Loot system has been created as a means to distribute loot in guilds lacking a consistent raid force.
 
 [Southern Cross](http://southerncross.guildportal.com), is one of those guilds.
-As guild leader and raid leader, I wanted a loot system with the following characteristics:
 
-* Participation must be rewarded consistently
-* Frequency of participation should not negatively impact chances of getting loot
-* Waiting for "better loot" to drop should neither be encouraged or discouraged
-* Players should be able to choose to raid with two characters without disrupting the fairness of the loot system or sacrifice the viability of the raid force
+As guild and raid leader, I wanted a loot system with the following characteristics:
 
-We previously used the /random command to distribute loot, and while it met the 2nd and 3rd criteria, it didn't meet the other.
-We also tried a watered down DKP system, but it failed on all but the 1st and 3rd criteria.
+* Participation is rewarded in a transparent and consistent manner.
+* Frequency of participation doesn't negatively impact chances of getting loot.
+* Waiting for "better loot" to drop should neither be encouraged or discouraged.
+* Players should be able to choose to raid with two characters, as a means of improving raid force flexibility without sacrificing loot system fairness or raid force viability.
 
-RaidsPerLoot meets all of the above criteria in a transparent manner.
+We previously used the /random command to distribute loot, and while it met the 2nd and 3rd criteria, it didn't meet the other criteria.
+We also tried a watered down DKP system, but it failed on all but the 1st criteria.
 
-The formula used for determining loot priority is: "# raids / (# items looted + 1)".
-This formula is calculated separately for each drop category (Weapon, Armour and Jewellery).
+RaidsPerLoot meets all of the above criteria by distributing loot via the following formula:
 
-The system caters for loot for main characters and alternates, along with ranks for each player.
-While we use this system for EverQuest 2, values such as player classes, player ranks, item slots and drop categories can be modified to suit any game.
-However, the system also use [Sony's data API](http://data.soe.com/) to retrieve character statistics.  This code would need to be modified for other games.
+    # raids / (# items looted + 1)
+
+This formula is calculated separately for each item type (Weapon, Armour and Jewellery) at the player and character level.
+
+While we use this system for EverQuest 2, all of the reference values can be modified at run-time to suit any game.
+
+However, this system also uses [Sony's data API](http://data.soe.com/) to retrieve character and item statistics.  This code would need to be modified for games other than EQ2.
