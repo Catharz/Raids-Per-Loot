@@ -14,6 +14,7 @@
       %th Weapon Rate
       %th
       %th
+      %th
   %tbody
     - @characters.each do |character|
       - if character.char_type.eql? @char_type or @char_type.eql? "all"
@@ -33,5 +34,6 @@
             %td.lootRateTrigger{:id => character.id,:align => "right"}= character.armour_rate
             %td.lootRateTrigger{:id => character.id,:align => "right"}= character.jewellery_rate
             %td.lootRateTrigger{:id => character.id,:align => "right"}= character.weapon_rate
+            %td= link_to 'Edit', edit_character_path(character), class: 'table-button'
             %td= link_to 'Update', fetch_data_character_path(character), :confirm => 'Are you sure?', class: 'table-button'
             %td= link_to 'Destroy', character, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'

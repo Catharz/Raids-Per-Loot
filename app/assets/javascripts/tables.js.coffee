@@ -72,6 +72,7 @@ jQuery ->
       {"sType": "numeric"}, # Armour Rate
       {"sType": "numeric"}, # Jewellery Rate
       {"sType": "numeric"}, # Weapon Rate
+      null,                 # Edit Link
       null,                 # Update Link
       null                  # Destroy Link
     ]
@@ -94,6 +95,7 @@ jQuery ->
       {"sType": "numeric"}, # Armour Rate
       {"sType": "numeric"}, # Jewellery Rate
       {"sType": "numeric"}, # Weapon Rate
+      null,                 # Edit Link
       null,                 # Update Link
       null                  # Destroy Link
     ]
@@ -116,6 +118,7 @@ jQuery ->
       {"sType": "numeric"}, # Armour Rate
       {"sType": "numeric"}, # Jewellery Rate
       {"sType": "numeric"}, # Weapon Rate
+      null,                 # Edit Link
       null,                 # Update Link
       null                  # Destroy Link
     ]
@@ -138,6 +141,7 @@ jQuery ->
       {"sType": "numeric"}, # Armour Rate
       {"sType": "numeric"}, # Jewellery Rate
       {"sType": "numeric"}, # Weapon Rate
+      null,                 # Edit Link
       null,                 # Update Link
       null                  # Destroy Link
     ]
