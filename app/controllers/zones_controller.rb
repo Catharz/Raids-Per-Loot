@@ -1,27 +1,8 @@
 class ZonesController < ApplicationController
   before_filter :login_required, :except => [:index, :show]
 
-  def add_mob
-    @zone = Zone.find(params[:id])
-    mob = Mob.find(params[:mob_id])
-
-    @zone.mobs << mob unless @zone.mobs.include? mob
-    respond_to do |format|
-      if @zone.save
-        format.html { redirect_to @zone, :notice => 'Mob was successfully added to the zone.' }
-        format.json { head :ok }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.json { render :json => @zone.errors, :status => :unprocessable_entity }
-        format.xml  { render :xml => @zone.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-
   def option_list
-    instance = params[:instance_id] ? Instance.find(params[:instance_id]) :nil
+    instance = params[:instance_id] ? Instance.find(params[:instance_id]) : nil
     if instance
       @zones = instance.zone ? [Zone.find(instance.zone_id)] : []
     else

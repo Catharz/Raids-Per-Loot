@@ -11,6 +11,27 @@ describe ZonesController do
     {:name => "Wherever"}
   end
 
+  describe 'GET #option_list' do
+    it 'populates an option list with sorted zone names' do
+      zone1 = FactoryGirl.create(:zone)
+      zone2 = FactoryGirl.create(:zone)
+      get :option_list
+      response.body.should eq("<option value='0'>Select Zone</option>" +
+                                  "<option value='#{zone1.id}'>#{zone1.name}</option>" +
+                                  "<option value='#{zone2.id}'>#{zone2.name}</option>")
+    end
+
+    it 'filters the list by instance_id' do
+      FactoryGirl.create(:zone)
+      zone = FactoryGirl.create(:zone)
+      instance = FactoryGirl.create(:instance, zone_id: zone.id)
+
+      get :option_list, instance_id: instance.id
+      response.body.should eq("<option value='0'>Select Zone</option>" +
+                                  "<option value='#{zone.id}'>#{zone.name}</option>")
+    end
+  end
+
   describe "GET index" do
     it "assigns all zones as @zones" do
       zone = FactoryGirl.create(:zone, valid_attributes)

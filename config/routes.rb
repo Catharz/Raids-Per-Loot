@@ -16,7 +16,6 @@ RaidsPerLoot::Application.routes.draw do
   resources :zones do
     resources :mobs, :instances, :drops
     member do
-      put :add_mob
       get :mob_list
     end
     collection do
