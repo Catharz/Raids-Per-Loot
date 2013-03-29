@@ -17,8 +17,8 @@ describe Instance do
   end
 
   context "validations" do
-    it { should validate_presence_of(:raid_id) }
-    it { should validate_presence_of(:zone_id) }
+    it { should validate_presence_of(:raid) }
+    it { should validate_presence_of(:zone) }
     it { should validate_presence_of(:start_time) }
   end
 
