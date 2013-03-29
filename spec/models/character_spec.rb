@@ -53,7 +53,9 @@ describe Character do
       mm.valid?.should be_false
       mm.errors[:char_type].should include("is invalid")
     end
-    it { should validate_format_of(:char_type).with(/g|m|r/)}
+    it { should allow_value('g').for(:char_type) }
+    it { should allow_value('m').for(:char_type) }
+    it { should allow_value('r').for(:char_type) }
   end
 
   context 'instance methods' do

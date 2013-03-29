@@ -10,7 +10,8 @@ describe PlayerRaid do
     it { should validate_presence_of(:raid_id) }
     it { should validate_presence_of(:player_id) }
     it { should validate_uniqueness_of(:player_id).scoped_to(:raid_id) }
-    it { should validate_format_of(:status).with(/a|b/) }
+    it { should allow_value('a').for(:status) }
+    it { should allow_value('b').for(:status) }
   end
 
   context 'delegations' do

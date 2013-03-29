@@ -51,7 +51,7 @@ describe SessionsController do
             it "sets/resets/expires cookie"  do controller.should_receive(:handle_remember_cookie!).with(want_remember_me); do_create end
             it "sends a cookie"              do controller.should_receive(:send_remember_cookie!);  do_create end
             it 'redirects to the home page'  do do_create; response.should redirect_to('/')   end
-            it "does not reset my session"   do controller.should_not_receive(:reset_session).and_return nil; do_create end # change if you uncomment the reset_session path
+            it "does not reset my session"   do controller.should_not_receive(:reset_session); do_create end # change if you uncomment the reset_session path
             if (has_request_token == :valid)
               it 'does not make new token'   do @user.should_not_receive(:remember_me);   do_create end
               it 'does refresh token'        do @user.should_receive(:refresh_token);     do_create end 

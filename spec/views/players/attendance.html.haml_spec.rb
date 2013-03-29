@@ -6,15 +6,14 @@ describe "players/attendance.html.haml" do
   let(:player) { Player.create(name: 'Jenny', rank: main) }
 
   before(:each) do
-    @t = Time.parse("01/07/2012 20:15")
-    d = Date.parse("01/07/2012")
+    start_date = Date.today - 2.years
     prog = RaidType.create(name: "Progression")
     @raids = []
-    for n in 0..100
-      raid = Raid.create(raid_date: d - n.weeks, raid_type: prog)
+    until start_date >= Date.today
+      raid = Raid.create(raid_date: start_date, raid_type: prog)
       @raids << raid
+      start_date += 1.week
     end
-    Time.should_receive(:now).at_least(1).times.and_return(@t)
     @raids.each do |raid|
       unless (raid.raid_date.cweek % raid.raid_date.month) == 0 or (raid.raid_date.cweek % (raid.raid_date.month - 1)) == 0
         PlayerRaid.create(raid: raid, player: player )
@@ -49,67 +48,61 @@ describe "players/attendance.html.haml" do
       render
 
       rendered.should match 'Jenny'
-      rendered.should match '55'
+      rendered.should match '60'
     end
 
     it "should show all attendance" do
-      Time.should_receive(:now).at_least(1).times.and_return(@t)
       assign(:players, [player])
 
       render
 
       rendered.should match 'Jenny'
-      rendered.should match '54.46'
+      rendered.should match '57.14'
     end
 
     it "should show attendance for 1 year" do
-      Time.should_receive(:now).at_least(1).times.and_return(@t)
       assign(:players, [player])
 
       render
 
       rendered.should match 'Jenny'
-      rendered.should match '54.72'
+      rendered.should match '57.69'
     end
 
     it "should show attendance for 9 months" do
-      Time.should_receive(:now).at_least(1).times.and_return(@t)
+      assign(:players, [player])
+
+      render
+
+      rendered.should match 'Jenny'
+      rendered.should match '56.41'
+    end
+
+    it "should show attendance for 6 months" do
+      assign(:players, [player])
+
+      render
+
+      rendered.should match 'Jenny'
+      rendered.should match '53.85'
+    end
+
+    it "should show attendance for 3 months" do
+      assign(:players, [player])
+
+      render
+
+      rendered.should match 'Jenny'
+      rendered.should match '15.38'
+    end
+
+    it "should show attendance for 1 month" do
       assign(:players, [player])
 
       render
 
       rendered.should match 'Jenny'
       rendered.should match '50.00'
-    end
-
-    it "should show attendance for 6 months" do
-      Time.should_receive(:now).at_least(1).times.and_return(@t)
-      assign(:players, [player])
-
-      render
-
-      rendered.should match 'Jenny'
-      rendered.should match '37.04'
-    end
-
-    it "should show attendance for 3 months" do
-      Time.should_receive(:now).at_least(1).times.and_return(@t)
-      assign(:players, [player])
-
-      render
-
-      rendered.should match 'Jenny'
-      rendered.should match '64.29'
-    end
-
-    it "should show attendance for 1 month" do
-      Time.should_receive(:now).at_least(1).times.and_return(@t)
-      assign(:players, [player])
-
-      render
-
-      rendered.should match 'Jenny'
-      rendered.should match '60.00'
     end
   end
 end

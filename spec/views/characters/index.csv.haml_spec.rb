@@ -36,12 +36,4 @@ describe "characters/index.csv.haml" do
     rendered.should have_content "Fighter Main"
     rendered.should have_content "Scout Raid Alt"
   end
-
-  it "should list all ranks" do
-    render
-
-    rendered.should have_content "Raid Main"
-    rendered.should have_content "Raid Alt"
-    rendered.should have_content "General Alt"
-  end
 end
