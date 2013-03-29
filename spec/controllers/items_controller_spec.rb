@@ -11,6 +11,53 @@ describe ItemsController do
     {:name => "Whatever", :eq2_item_id => "numbers"}
   end
 
+  describe 'GET info' do
+    it 'assigns the requested item as @item' do
+      item = Item.create! valid_attributes
+      get :info, :id => item.id
+      assigns(:item).should eq(item)
+    end
+
+    it 'renders the info view' do
+      item = FactoryGirl.create(:item)
+      get :info, :id => item.id
+      response.should render_template("info")
+    end
+  end
+
+  describe 'POST fetch_all_data' do
+    it 'calls SonyDataService.fetch_items_data' do
+      SonyDataService.any_instance.should_receive(:fetch_items_data).with([], true)
+      post :fetch_all_data, :delayed => true
+    end
+
+    it 'redirects to the admin view' do
+      post :fetch_all_data, :delayed => false
+      response.should redirect_to '/admin'
+    end
+  end
+
+  describe 'POST fetch_data' do
+    it 'assigns the requested item as @item' do
+      item = Item.create! valid_attributes
+      post :fetch_data, :id => item.id.to_s
+      assigns(:item).should eq(item)
+    end
+
+    it 'calls item.fetch_soe_item_details' do
+      item = FactoryGirl.create(:item)
+      Item.any_instance.should_receive(:fetch_soe_item_details).and_return(false)
+      post :fetch_data, :id => item.id
+    end
+
+    it 'redirects to the item' do
+      item = FactoryGirl.create(:item)
+      Item.any_instance.should_receive(:fetch_soe_item_details).and_return(true)
+      post :fetch_data, :id => item.id
+      response.should redirect_to(item)
+    end
+  end
+
   describe "GET index" do
     it "should render JSON by default" do
       item = Item.create! valid_attributes
@@ -70,6 +117,12 @@ describe ItemsController do
       item = Item.create! valid_attributes
       get :show, :id => item.id.to_s
       assigns(:item).should eq(item)
+    end
+
+    it 'renders the show template' do
+      item = Item.create! valid_attributes
+      get :show, :id => item.id.to_s
+      response.should render_template('show')
     end
   end
 

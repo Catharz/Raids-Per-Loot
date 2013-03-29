@@ -24,7 +24,7 @@ class AdminController < ApplicationController
   end
 
   def resolve_duplicate_items
-    if Item.resolve_duplicates
+    if SonyDataService.new.resolve_duplicate_items
       flash.notice = 'Item duplicates resolved successfully'
     else
       flash.alert = 'Some Item Duplicates Left Unresolved'

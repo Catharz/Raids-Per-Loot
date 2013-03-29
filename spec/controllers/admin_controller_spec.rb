@@ -33,14 +33,14 @@ describe AdminController do
     end
 
     describe 'POST #resolve_duplicate_items' do
-      it 'calls Item.resolve_duplicate_items' do
-        Item.should_receive(:resolve_duplicates).and_return(true)
+      it 'calls SonyDataService.resolve_duplicate_items' do
+        SonyDataService.any_instance.should_receive(:resolve_duplicate_items).and_return(true)
 
         post :resolve_duplicate_items
       end
 
       it 'redirects to /admin when done' do
-        Item.should_receive(:resolve_duplicates).and_return(false)
+        SonyDataService.any_instance.should_receive(:resolve_duplicate_items).and_return(false)
 
         post :resolve_duplicate_items
 

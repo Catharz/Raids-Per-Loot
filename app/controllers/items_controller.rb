@@ -4,15 +4,12 @@ class ItemsController < ApplicationController
   before_filter :login_required, :except => [:index, :show, :info]
 
   def fetch_all_data
-    @items = Item.order(:name)
-    @items.each do |item|
-      if params[:delayed]
-        flash[:notice] = "Items are being updated."
-        Delayed::Job.enqueue(ItemDetailsJob.new(item))
-      else
-        flash[:notice] = "Items have been updated."
-        item.fetch_soe_item_details
-      end
+    items = Item.order(:name)
+    SonyDataService.new.fetch_items_data(items, params[:delayed])
+    if params[:delayed]
+      flash[:notice] = "Items are being updated."
+    else
+      flash[:notice] = "Items have been updated."
     end
 
     redirect_to '/admin'

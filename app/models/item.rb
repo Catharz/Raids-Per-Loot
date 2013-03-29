@@ -131,26 +131,6 @@ class Item < ActiveRecord::Base
     incorrect_trash_drops
   end
 
-  def self.resolve_duplicates
-    duplicates = Item.group(:name, :eq2_item_id).having(['count(items.id) > 1']).count
-    duplicates.each do |k, v|
-      item_name = k[0]
-      eq2_item_id = k[1]
-      count = v
-      duplicate_list = Item.where(:name => item_name).order(:id)
-      keep = duplicate_list[0]
-      duplicate_list.each do |item|
-        unless item.eql? keep
-          item.drops.each do |drop|
-            drop.update_attribute(:item_id, keep.id)
-          end
-          item.delete unless item.drops.count > 0
-        end
-      end
-    end
-    (Item.group(:name, :eq2_item_id).having(['count(items.id) > 1']).count).empty?
-  end
-
   private
   def save_slots(item_details)
     item_slots = item_details['slot_list']

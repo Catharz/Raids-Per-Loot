@@ -111,6 +111,36 @@ class SonyDataService
     end
   end
 
+  def resolve_duplicate_items
+    duplicates = Item.group(:name, :eq2_item_id).having(['count(items.id) > 1']).count
+    duplicates.each do |k, v|
+      item_name = k[0]
+      eq2_item_id = k[1]
+      count = v
+      duplicate_list = Item.where(:name => item_name).order(:id)
+      keep = duplicate_list[0]
+      duplicate_list.each do |item|
+        unless item.eql? keep
+          item.drops.each do |drop|
+            drop.update_attribute(:item_id, keep.id)
+          end
+          item.delete unless item.drops.count > 0
+        end
+      end
+    end
+    (Item.group(:name, :eq2_item_id).having(['count(items.id) > 1']).count).empty?
+  end
+
+  def fetch_items_data(items, delayed)
+    items.each do |item|
+      if delayed
+        Delayed::Job.enqueue(ItemDetailsJob.new(item))
+      else
+        item.fetch_soe_item_details
+      end
+    end
+  end
+
   private
   def archetype_roots
     @archetype_roots ||= Archetype.root_list
