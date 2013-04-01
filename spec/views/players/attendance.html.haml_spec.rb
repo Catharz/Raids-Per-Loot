@@ -6,16 +6,25 @@ describe "players/attendance.html.haml" do
   let(:player) { Player.create(name: 'Jenny', rank: main) }
 
   before(:each) do
-    start_date = Date.today - 2.years
+    raid_date = Date.today - 13.months
     prog = RaidType.create(name: "Progression")
     @raids = []
-    until start_date >= Date.today
-      raid = Raid.create(raid_date: start_date, raid_type: prog)
-      @raids << raid
-      start_date += 1.week
+    until raid_date >= Date.today
+      if raid_date > (Date.today - 9.months)
+        if [3, 5, 6].include? raid_date.cwday # Raids on Wed, Fri & Sat
+          raid = Raid.create(raid_date: raid_date, raid_type: prog)
+          @raids << raid
+        end
+      else
+        if [1, 3, 5, 6].include? raid_date.cwday # Raids on Mon, Wed, Fri & Sat
+          raid = Raid.create(raid_date: raid_date, raid_type: prog)
+          @raids << raid
+        end
+      end
+      raid_date += 1.day
     end
     @raids.each do |raid|
-      unless (raid.raid_date.cweek % raid.raid_date.month) == 0 or (raid.raid_date.cweek % (raid.raid_date.month - 1)) == 0
+      unless (raid.raid_date.cweek % raid.raid_date.cwday) == 0
         PlayerRaid.create(raid: raid, player: player )
       end
     end
@@ -57,7 +66,7 @@ describe "players/attendance.html.haml" do
       render
 
       rendered.should match 'Jenny'
-      rendered.should match '57.14'
+      rendered.should match '71.60'
     end
 
     it "should show attendance for 1 year" do
@@ -66,7 +75,7 @@ describe "players/attendance.html.haml" do
       render
 
       rendered.should match 'Jenny'
-      rendered.should match '57.69'
+      rendered.should match '71.60'
     end
 
     it "should show attendance for 9 months" do
@@ -75,7 +84,7 @@ describe "players/attendance.html.haml" do
       render
 
       rendered.should match 'Jenny'
-      rendered.should match '56.41'
+      rendered.should match '77.78'
     end
 
     it "should show attendance for 6 months" do
@@ -84,7 +93,7 @@ describe "players/attendance.html.haml" do
       render
 
       rendered.should match 'Jenny'
-      rendered.should match '53.85'
+      rendered.should match '78.21'
     end
 
     it "should show attendance for 3 months" do
@@ -93,7 +102,7 @@ describe "players/attendance.html.haml" do
       render
 
       rendered.should match 'Jenny'
-      rendered.should match '15.38'
+      rendered.should match '79.49'
     end
 
     it "should show attendance for 1 month" do
@@ -102,7 +111,7 @@ describe "players/attendance.html.haml" do
       render
 
       rendered.should match 'Jenny'
-      rendered.should match '50.00'
+      rendered.should match '78.57'
     end
   end
 end
