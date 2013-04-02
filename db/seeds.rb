@@ -55,7 +55,7 @@ def create_default_pages
                                :position => 3, :admin => false, :body => '.')
   raiding_page.children.create(:name => 'difficulties', :title => 'Difficulties', :navlabel => 'Difficulties',
                                :position => 4, :admin => true, :body => '.')
-  raiding_page.children.create(:name => 'raid_types', :titel => 'Raid Types', :navlabel => 'Raid Types',
+  raiding_page.children.create(:name => 'raid_types', :title => 'Raid Types', :navlabel => 'Raid Types',
                                :position => 5, :admin => true, :body => '.')
 
   # Players Page and Sub Pages
