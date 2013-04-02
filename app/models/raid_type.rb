@@ -3,4 +3,8 @@ class RaidType < ActiveRecord::Base
   has_many :instances, through: :raids
 
   validates_presence_of :name
+
+  def self.by_name(name = nil)
+    name ? where(name: name) : scoped
+  end
 end

@@ -9,7 +9,7 @@ class RaidTypesController < ApplicationController
   # GET /raid_types
   # GET /raid_types.json
   def index
-    @raid_types = RaidType.all
+    @raid_types = RaidType.by_name(params[:name])
 
     respond_to do |format|
       format.html # index.html.erb
