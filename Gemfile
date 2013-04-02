@@ -72,6 +72,7 @@ group :test, :development do
   gem "webrat"
   gem "spork"
 	gem "test-unit", "2.4.7"
+  gem 'timecop'
 
   # Guard Configuration
   gem "launchy"

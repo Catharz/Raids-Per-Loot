@@ -6,6 +6,7 @@ describe "players/attendance.html.haml" do
   let(:player) { Player.create(name: 'Jenny', rank: main) }
 
   before(:each) do
+    Timecop.freeze(Date.parse("2013-04-01"))
     raid_date = Date.today - 13.months
     prog = RaidType.create(name: "Progression")
     @raids = []
@@ -29,6 +30,10 @@ describe "players/attendance.html.haml" do
       end
     end
     player.stub!(:raids_count).and_return(PlayerRaid.count)
+  end
+
+  after(:each) do
+    Timecop.return
   end
 
   context "layout" do
@@ -57,7 +62,7 @@ describe "players/attendance.html.haml" do
       render
 
       rendered.should match 'Jenny'
-      rendered.should match '60'
+      rendered.should match '132'
     end
 
     it "should show all attendance" do
@@ -66,7 +71,7 @@ describe "players/attendance.html.haml" do
       render
 
       rendered.should match 'Jenny'
-      rendered.should match '71.60'
+      rendered.should match '70.59'
     end
 
     it "should show attendance for 1 year" do
@@ -75,7 +80,7 @@ describe "players/attendance.html.haml" do
       render
 
       rendered.should match 'Jenny'
-      rendered.should match '71.60'
+      rendered.should match '71.76'
     end
 
     it "should show attendance for 9 months" do
@@ -84,7 +89,7 @@ describe "players/attendance.html.haml" do
       render
 
       rendered.should match 'Jenny'
-      rendered.should match '77.78'
+      rendered.should match '77.97'
     end
 
     it "should show attendance for 6 months" do

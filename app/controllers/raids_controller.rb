@@ -9,7 +9,7 @@ class RaidsController < ApplicationController
   # GET /raids
   # GET /raids.json
   def index
-    @raids = Raid.by_date(params[:raid_date])
+    @raids = Raid.by_date(params[:raid_date]).by_raid_type(params[:raid_type])
 
     respond_to do |format|
       format.html # index.html.erb

@@ -35,6 +35,30 @@ describe Raid do
     end
   end
 
+  describe 'self #by_date' do
+    it 'shows all by default' do
+      Raid.by_date.should eq [first_raid, second_raid, third_raid]
+    end
+
+    it 'filters by date' do
+      Raid.by_date(Date.today).should eq [third_raid]
+    end
+  end
+
+  describe 'self #by_raid_type' do
+    it 'shows all by default' do
+      pickup = FactoryGirl.create(:raid_type, name: 'Pickup')
+      raid = FactoryGirl.create(:raid, raid_date: Date.today, raid_type: pickup)
+      Raid.by_raid_type.should eq [raid, first_raid, second_raid, third_raid]
+    end
+
+    it 'filters by raid_type' do
+      pickup = FactoryGirl.create(:raid_type, name: 'Pickup')
+      raid = FactoryGirl.create(:raid, raid_date: Date.today, raid_type: pickup)
+      Raid.by_raid_type('Pickup').should eq [raid]
+    end
+  end
+
   describe "self#for_period" do
     it "should show all by default" do
       Raid.for_period.should eq [first_raid, second_raid, third_raid]

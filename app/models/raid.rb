@@ -30,7 +30,11 @@ class Raid < ActiveRecord::Base
     raids
   end
 
-  def self.by_date(date)
+  def self.by_date(date = nil)
     date ? where(:raid_date => date) : scoped
+  end
+
+  def self.by_raid_type(raid_type = nil)
+     raid_type ? includes(:raid_type).where('raid_types.name = ?', raid_type) : scoped.includes(:raid_type)
   end
 end

@@ -13,10 +13,30 @@ describe RaidsController do
     {:raid_date => Date.new(2011, 03, 30), raid_type_id: @progression.id}
   end
 
-  describe "GET index" do
-    it "assigns all raids as @raids" do
+  describe 'GET index' do
+    it 'assigns all raids as @raids' do
       raid = Raid.create! valid_attributes
       get :index
+      assigns(:raids).should eq([raid])
+    end
+
+    it 'filters on raid_date' do
+      raid_date = Date.new(2012, 01, 01)
+      Raid.create! valid_attributes
+      raid = Raid.create! valid_attributes.merge!(raid_date: raid_date)
+
+      get :index, raid_date: raid_date
+
+      assigns(:raids).should eq([raid])
+    end
+
+    it 'filters on raid_type' do
+      pickup = RaidType.create(name: 'Pickup')
+      Raid.create! valid_attributes
+      raid = Raid.create! valid_attributes.merge!(raid_type: pickup)
+
+      get :index, raid_type: pickup.name
+
       assigns(:raids).should eq([raid])
     end
   end
