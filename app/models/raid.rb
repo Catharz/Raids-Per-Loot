@@ -31,7 +31,7 @@ class Raid < ActiveRecord::Base
   end
 
   def self.by_date(date = nil)
-    date ? where(:raid_date => date) : scoped
+    date ? where('raid_date = ?', date) : scoped
   end
 
   def self.by_raid_type(raid_type = nil)
