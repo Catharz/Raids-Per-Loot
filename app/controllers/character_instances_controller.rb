@@ -17,6 +17,7 @@ class CharacterInstancesController < ApplicationController
 
     respond_to do |format|
       format.json { render json: @character_instance }
+      format.xml { render json: @character_instance.to_xml }
     end
   end
 
@@ -27,11 +28,6 @@ class CharacterInstancesController < ApplicationController
     respond_to do |format|
       format.json { render json: @character_instance }
     end
-  end
-
-  # GET /character_instances/1/edit
-  def edit
-    @character_instance = CharacterInstance.find(params[:id])
   end
 
   # POST /character_instances.json
