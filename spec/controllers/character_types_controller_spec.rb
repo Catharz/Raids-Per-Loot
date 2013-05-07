@@ -47,6 +47,14 @@ describe CharacterTypesController do
     end
   end
 
+  describe 'GET edit' do
+    it 'assigns the requested character_type as @character_type' do
+      character_type = CharacterType.create! FactoryGirl.attributes_for(:character_type)
+      get :edit, :id => character_type.id.to_s
+      assigns(:character_type).should eq(character_type)
+    end
+  end
+
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves the new character_type' do
