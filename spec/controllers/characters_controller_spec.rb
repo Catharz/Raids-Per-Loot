@@ -127,6 +127,19 @@ describe CharactersController do
     end
   end
 
+  describe 'GET #info' do
+    it 'assigns the requested character to @character' do
+      character = FactoryGirl.create(:character)
+      get :info, id: character
+      assigns(:character).should eq(character)
+    end
+
+    it 'renders the :info template without the layout' do
+      get :info, id: FactoryGirl.create(:character)
+      response.should render_template :info, :layout => false
+    end
+  end
+
   describe 'GET #new' do
     it 'assigns a new character to @character' do
       character = Character.new
@@ -138,6 +151,14 @@ describe CharactersController do
     it 'renders the :new template' do
       get :new
       response.should render_template :new
+    end
+  end
+
+  describe 'GET edit' do
+    it 'assigns the requested character as @character' do
+      character = Character.create! FactoryGirl.attributes_for(:character)
+      get :edit, :id => character.id.to_s
+      assigns(:character).should eq(character)
     end
   end
 
