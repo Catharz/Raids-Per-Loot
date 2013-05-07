@@ -8,9 +8,9 @@ describe PlayersController do
     @main_rank ||= FactoryGirl.create(:rank, :name => "Main")
   end
 
-  def valid_attributes
+  def valid_attributes(options = {})
     {:name => "Me",
-    :rank_id => @main_rank.id}
+    :rank_id => @main_rank.id}.merge!(options)
   end
 
   describe "GET option_list" do
@@ -44,6 +44,17 @@ describe PlayersController do
 
       response.content_type.should eq('text/csv')
       response.header.should eq('Content-Type' => 'text/csv; charset=utf-8')
+    end
+  end
+
+  describe 'GET attendance' do
+    it 'assigns all players as @players, sorted by name' do
+      fred = Player.create! valid_attributes(name: 'Fred')
+      barney = Player.create! valid_attributes(name: 'Barney')
+
+      get :attendance
+
+      assigns(:players).should eq([barney, fred])
     end
   end
 
