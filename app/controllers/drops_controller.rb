@@ -40,7 +40,6 @@ class DropsController < ApplicationController
                          :invalid_reason,
                          :character_name,
                          :character_archetype_name,
-                         :item_archetypes,
                          :loot_type_name])
       }
     end
@@ -90,7 +89,7 @@ class DropsController < ApplicationController
       if @drop.update_attributes(params[:drop])
         format.html {
           if request.env['HTTP_REFERER']
-            redirect_to request.env['HTTP_REFERER'], :response => 303, :notice => 'Drop was successfully updated.'
+            redirect_to request.env['HTTP_REFERER'], :status => 303, :notice => 'Drop was successfully updated.'
           else
             redirect_to(@drop, :notice => 'Drop was successfully updated.')
           end

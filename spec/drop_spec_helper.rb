@@ -53,7 +53,8 @@ module DropSpecHelper
      :item_id => @drop_details[:armour_item].id,
      :loot_type_id => @drop_details[:armour_loot_type].id,
      :character_id => @drop_details[:character].id,
-     :loot_method => "t",
+     :loot_method => 't',
+     :chat => 'blah blah blah',
      :drop_time => @drop_details[:drop_time]}.merge!(options)
   end
 

@@ -146,10 +146,24 @@ describe DropsController do
   end
 
   describe "GET show" do
-    it "assigns the requested drop as @drop" do
+    it 'assigns the requested drop as @drop' do
       drop = FactoryGirl.create(:drop, valid_attributes)
       get :show, :id => drop.id.to_s
       assigns(:drop).should eq(drop)
+    end
+
+    it 'renders JSON' do
+      drop = FactoryGirl.create(:drop, valid_attributes)
+
+      get :show, :format => :json, :id => drop.id.to_s
+      actual = JSON.parse(response.body)
+
+      actual.should.eql? drop.to_json(
+                             :methods => [:loot_method_name,
+                                          :invalid_reason,
+                                          :character_name,
+                                          :character_archetype_name,
+                                          :loot_type_name])
     end
   end
 
@@ -205,9 +219,9 @@ describe DropsController do
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested drop" do
+  describe 'PUT update' do
+    describe 'with valid params' do
+      it 'updates the requested drop' do
         drop = FactoryGirl.create(:drop, valid_attributes)
         # Assuming there are no other drops in the database, this
         # specifies that the Drop created on the previous line
@@ -217,16 +231,24 @@ describe DropsController do
         put :update, :id => drop.id, :drop => {'these' => 'params'}
       end
 
-      it "assigns the requested drop as @drop" do
+      it 'assigns the requested drop as @drop' do
         drop = FactoryGirl.create(:drop, valid_attributes)
         put :update, :id => drop.id, :drop => valid_attributes
         assigns(:drop).should eq(drop)
       end
 
-      it "redirects to the drop" do
+      it 'redirects to the drop' do
         drop = FactoryGirl.create(:drop, valid_attributes)
         put :update, :id => drop.id, :drop => valid_attributes
         response.should redirect_to(drop)
+      end
+
+      it 'responds with 303 if HTTP_REFERER is set' do
+        drop = FactoryGirl.create(:drop, valid_attributes)
+        @request.env['HTTP_REFERER'] = admin_path
+        put :update, :id => drop.id, :drop => valid_attributes
+        response.status.should == 303
+        response.should redirect_to(admin_path)
       end
     end
 
