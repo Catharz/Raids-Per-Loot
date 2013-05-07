@@ -7,15 +7,26 @@ describe LinksController do
     login_as :quentin
   end
 
-  def valid_attributes
-    {:title => "Link Title"}
+  def valid_attributes(title = 'Link Title')
+    { title: title }
   end
 
-  describe "GET index" do
-    it "assigns all links as @links" do
+  describe 'GET index' do
+    it 'assigns all links as @links' do
       link = Link.create! valid_attributes
       get :index
       assigns(:links).should eq([link])
+    end
+  end
+
+  describe 'GET list' do
+    it 'assigns all link categories as @link_categories' do
+      category = LinkCategory.create!(title: 'Link Category', description: 'Test')
+      link = Link.create! valid_attributes
+      LinkCategoriesLink.create!(link: link, link_category: category)
+
+      get :list
+      assigns(:link_categories).should eq([category])
     end
   end
 
