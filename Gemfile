@@ -50,10 +50,6 @@ gem 'therubyracer'
 
 gem 'bullet', :group => :development
 
-group :test do
-  gem "shoulda-matchers"
-end
-
 #START:dev_and_test_gems
 group :test, :development do
   # Pretty printed test output
@@ -73,6 +69,7 @@ group :test, :development do
   gem "spork"
 	gem "test-unit", "2.4.7"
   gem 'timecop'
+  gem "shoulda-matchers"
 
   # Guard Configuration
   gem "launchy"
