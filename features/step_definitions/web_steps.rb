@@ -260,3 +260,7 @@ end
 When /^I wait (\d+) seconds$/ do |seconds|
   sleep seconds.to_i
 end
+
+Given(/^I wait until the table is rendered$/) do
+  step 'I wait until tbody tr is visible'
+end

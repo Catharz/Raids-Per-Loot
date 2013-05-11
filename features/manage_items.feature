@@ -26,7 +26,7 @@ Feature: Manage items
       | name 3 | eq2_item_id 3 | info_url 3 |
       | name 4 | eq2_item_id 4 | info_url 4 |
     When I delete the 3rd item
-    Given I wait until tbody tr is visible
+    Given I wait until the table is rendered
     Then I should see the following items:
       | Name   | Slot(s) | Class(es) |
       | name 1 | None    | None      |
