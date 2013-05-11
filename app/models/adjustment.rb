@@ -3,31 +3,27 @@ class Adjustment < ActiveRecord::Base
   has_many :archetypes_items
   has_many :items, :through => :archetypes_items
 
-  def self.for_period(range = {start:  nil, end: nil})
+  scope :for_period, ->(range = {start: nil, end: nil}) {
     adjustments = scoped
     adjustments = where('adjustment_date >= ?', range[:start]) if range[:start]
     adjustments = where('adjustment_date <= ?', range[:end]) if range[:end]
     adjustments
-  end
-
-  def self.for_character(character_id)
+  }
+  scope :for_character, ->(character_id = nil) {
     character_id ? by_adjustable_type('Character').where(:adjustable_id => character_id) : scoped
-  end
-
-  def self.for_player(player_id)
+  }
+  scope :for_player, ->(player_id = nil) {
     player_id ? by_adjustable_type('Player').where(:adjustable_id => player_id) : scoped
-  end
-
-  def self.by_adjustable_type(adjustable_type)
+  }
+  scope :by_adjustable_type, ->(adjustable_type = nil) {
     adjustable_type ? where(:adjustable_type => adjustable_type) : scoped
-  end
-
-  def self.by_adjustment_type(adjustment_type)
+  }
+  scope :by_adjustment_type, ->(adjustment_type = nil) {
     adjustment_type ? where(:adjustment_type => adjustment_type) : scoped
-  end
+  }
 
   def adjusted_name
-    adjustable ? adjustable.name : "Unknown"
+    adjustable ? adjustable.name : 'Unknown'
   end
 
   def adjustment_types
@@ -35,7 +31,7 @@ class Adjustment < ActiveRecord::Base
   end
 
   def type_label
-    adjustable_type ? "#{adjustable_type}:" : "Player/Character:"
+    adjustable_type ? "#{adjustable_type}:" : 'Player/Character:'
   end
 
   def adjustable_entities
