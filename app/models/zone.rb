@@ -17,20 +17,22 @@ class Zone < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
-  def difficulty_name
-    difficulty ? difficulty.name : "Unknown"
-  end
+  delegate :name, to: :difficulty, prefix: :difficulty, allow_nil: true
+
+  scope :by_name, ->(name) {
+    name ? where('name = ?', name) : scoped
+  }
 
   def first_run
-    first_instance ? first_instance.start_time.to_date : "Never"
+    first_instance ? first_instance.start_time.to_date : 'Never'
   end
 
   def last_run
-    last_instance ? last_instance.start_time.to_date : "Never"
+    last_instance ? last_instance.start_time.to_date : 'Never'
   end
 
   def is_progression?
-    progression ? "Yes" : "No"
+    progression ? 'Yes' : 'No'
   end
 
   def runs
@@ -51,10 +53,6 @@ class Zone < ActiveRecord::Base
           end
     end
     progression
-  end
-
-  def self.by_name(name)
-    name ? where('name = ?', name) : scoped
   end
 
   def to_xml(options = {})

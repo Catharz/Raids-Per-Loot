@@ -8,7 +8,7 @@ describe Raid do
   let(:second_raid) { FactoryGirl.create(:raid, raid_date: Date.today - 30.days, raid_type_id: progression.id) }
   let(:third_raid) { FactoryGirl.create(:raid, raid_date: Date.today, raid_type_id: progression.id) }
 
-  context "associations" do
+  context 'associations' do
     it { should belong_to(:raid_type) }
     it { should have_many(:instances) }
     it { should have_many(:kills).through(:instances) }
@@ -19,19 +19,15 @@ describe Raid do
     it { should have_many(:drops).through(:instances) }
   end
 
-  context "validations" do
+  context 'validations' do
     it { should validate_presence_of(:raid_type) }
   end
 
-  context "delegations" do
-    it { should delegate_method(:raid_type_name).to(:raid_type).as(:name) }
-  end
-
-  describe "#description" do
+  describe '#description' do
     it "should be in the format 'raid_date (raid_type.name)'" do
-      raid = FactoryGirl.create(:raid, raid_date: Date.parse("2013-02-28"), raid_type: progression)
+      raid = FactoryGirl.create(:raid, raid_date: Date.parse('2013-02-28'), raid_type: progression)
 
-      raid.description.should eq("2013-02-28 (Progression)")
+      raid.description.should eq('2013-02-28 (Progression)')
     end
   end
 
@@ -59,31 +55,31 @@ describe Raid do
     end
   end
 
-  describe "self#for_period" do
-    it "should show all by default" do
+  describe 'self#for_period' do
+    it 'should show all by default' do
       Raid.for_period.should eq [first_raid, second_raid, third_raid]
     end
 
-    it "should filter by start" do
+    it 'should filter by start' do
       Raid.for_period({start: Date.today - 40.days}).should eq [second_raid, third_raid]
     end
 
-    it "should filter by end" do
+    it 'should filter by end' do
       Raid.for_period({end: Date.today - 20.days}).should eq [first_raid, second_raid]
     end
 
-    it "should filter by start and end" do
+    it 'should filter by start and end' do
       Raid.for_period({start: Date.today - 40.days, end: Date.today - 20.days}).should eq [second_raid]
     end
   end
 
-  describe "#benched_players" do
-    it "should list players with a status of b" do
+  describe '#benched_players' do
+    it 'should list players with a status of b' do
       FactoryGirl.create(:player_raid, raid_id: first_raid.id, player_id: player.id, status: 'b')
       first_raid.benched_players.should eq [player]
     end
 
-    it "should not list players with a status of a" do
+    it 'should not list players with a status of a' do
       FactoryGirl.create(:player_raid, raid_id: second_raid.id, player_id: player.id)
       second_raid.benched_players.should eq []
     end

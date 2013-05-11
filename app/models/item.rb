@@ -12,16 +12,26 @@ class Item < ActiveRecord::Base
 
   has_one :external_data, :as => :retrievable, :dependent => :destroy
 
+  has_one :last_drop, :class_name => 'Drop', :order => 'created_at desc'
+
   validates_presence_of :name, :eq2_item_id
   validates_uniqueness_of :eq2_item_id, :scope => :name
 
-  has_one :last_drop,
-          :class_name => 'Drop',
-          :order => 'created_at desc'
+  delegate :name, to: :loot_type, prefix: :loot_type, allow_nil: true
 
-  def loot_type_name
-    loot_type ? loot_type.name : "Unknown"
-  end
+  scope :of_type, ->(loot_type_name) {
+    loot_type = LootType.find_by_name(loot_type_name)
+    loot_type ? by_loot_type(loot_type.id) : scoped
+  }
+  scope :by_loot_type, ->(loot_type_id) {
+    loot_type_id ? where('items.loot_type_id = ?', loot_type_id) : scoped
+  }
+  scope :by_name, ->(name) {
+    name ? where(:name => name) : scoped
+  }
+  scope :by_eq2_item_id, ->(eq2_item_id) {
+    eq2_item_id ? where(:eq2_item_id => eq2_item_id) : scoped
+  }
 
   def fetch_soe_item_details(format = "json")
     #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
@@ -47,9 +57,9 @@ class Item < ActiveRecord::Base
             save_archetypes(item_details)
           else
             if name.match(/War Rune/)
-              actual_item_name = name.split(": ")[1].gsub(" ", "+")
+              actual_item_name = name.split(': ')[1].gsub(' ', '+')
               loot_type_name = 'Adornment'
-              json_data = SOEData.get("/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/item/?displayname=#{actual_item_name}&c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list")
+              json_data = SOEData.get("/s:#{APP_CONFIG['soe_query_id']}/#{format}/get/eq2/item/?displayname=#{actual_item_name}&c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list")
               adornment_details = json_data['item_list'][0]
               save_slots(adornment_details)
               save_archetypes(adornment_details)
@@ -82,46 +92,29 @@ class Item < ActiveRecord::Base
 
   def slot_names
     if slots.empty?
-      "None"
+      'None'
     else
       (slots.map {|a| a.name}).join(", ")
     end
   end
 
   def eq2wire_data
-    Scraper.get("http://u.eq2wire.com/item/index/#{eq2_item_id}", ".itemd_detailwrap") if internet_connection?
+    Scraper.get("http://u.eq2wire.com/item/index/#{eq2_item_id}", '.itemd_detailwrap') if internet_connection?
   end
 
-  def soe_data(format = "json")
+  def soe_data(format = 'json')
     # If the ID is negative, need to add 2^32 to convert to an unsigned integer
     item_id = eq2_item_id.to_i
     if item_id < 0
       item_id = item_id + 2 ** 32
     end
-    json_data = SOEData.get("/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/item/?id=#{item_id}&c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list")
+    json_data = SOEData.get("/s:#{APP_CONFIG['soe_query_id']}/#{format}/get/eq2/item/?id=#{item_id}&c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list")
     json_data['item_list'][0]
-  end
-
-  def self.of_type(loot_type_name)
-    loot_type = LootType.find_by_name(loot_type_name)
-    loot_type ? by_loot_type(loot_type.id) : scoped
-  end
-
-  def self.by_loot_type(loot_type_id)
-    loot_type_id ? where('items.loot_type_id = ?', loot_type_id) : scoped
-  end
-
-  def self.by_name(name)
-    name ? where(:name => name) : scoped
-  end
-
-  def self.by_eq2_item_id(eq2_item_id)
-    eq2_item_id ? where(:eq2_item_id => eq2_item_id) : scoped
   end
 
   def self.fix_trash_drops
     incorrect_trash_drops = 0
-    Item.of_type("Trash").each do |item|
+    Item.of_type('Trash').each do |item|
       item.drops.where('loot_method <> ?', 't').each do |drop|
         incorrect_trash_drops += 1
         drop.loot_method = 't'

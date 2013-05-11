@@ -14,11 +14,6 @@ describe PlayerRaid do
     it { should allow_value('b').for(:status) }
   end
 
-  context 'delegations' do
-    it { should delegate_method(:raid_description).to(:raid).as(:description) }
-    it { should delegate_method(:player_name).to(:player).as(:name) }
-  end
-
   context 'scopes' do
     let(:progression) { FactoryGirl.create(:raid_type, name: 'Progression') }
     let(:player1) { FactoryGirl.create(:player) }

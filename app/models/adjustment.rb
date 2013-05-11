@@ -3,6 +3,8 @@ class Adjustment < ActiveRecord::Base
   has_many :archetypes_items
   has_many :items, :through => :archetypes_items
 
+  delegate :name, to: :adjustable, prefix: :adjusted, allow_nil: true
+
   scope :for_period, ->(range = {start: nil, end: nil}) {
     adjustments = scoped
     adjustments = where('adjustment_date >= ?', range[:start]) if range[:start]
@@ -21,10 +23,6 @@ class Adjustment < ActiveRecord::Base
   scope :by_adjustment_type, ->(adjustment_type = nil) {
     adjustment_type ? where(:adjustment_type => adjustment_type) : scoped
   }
-
-  def adjusted_name
-    adjustable ? adjustable.name : 'Unknown'
-  end
 
   def adjustment_types
     %w{Raids Instances} + LootType.option_names.flatten

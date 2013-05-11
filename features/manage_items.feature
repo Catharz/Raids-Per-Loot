@@ -28,7 +28,7 @@ Feature: Manage items
     When I delete the 3rd item
     Given I wait until tbody tr is visible
     Then I should see the following items:
-      | Name   | Loot Type | Slot(s) | Class(es) |
-      | name 1 | Unknown   | None    | None      |
-      | name 2 | Unknown   | None    | None      |
-      | name 4 | Unknown   | None    | None      |
+      | Name   | Slot(s) | Class(es) |
+      | name 1 | None    | None      |
+      | name 2 | None    | None      |
+      | name 4 | None    | None      |

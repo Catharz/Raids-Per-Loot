@@ -9,9 +9,7 @@ class Instance < ActiveRecord::Base
   has_many :characters, :through => :character_instances
   has_many :players, :through => :characters, :uniq => true
 
-  has_one :last_drop,
-      :class_name => 'Drop',
-      :order => 'created_at desc'
+  has_one :last_drop, :class_name => 'Drop', :order => 'created_at desc'
 
   accepts_nested_attributes_for :character_instances, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :drops, :reject_if => :all_blank, :allow_destroy => true
@@ -23,33 +21,31 @@ class Instance < ActiveRecord::Base
   delegate :name, :to => :zone, :prefix => :zone
   delegate :raid_date, :to => :raid
 
-  scope :raided, lambda {|raid_date| where(:raid_id => Raid.find_by_raid_date(raid_date).id) }
-
-  def self.by_raid(raid_id)
-    raid_id ? where('raid_id = ?', raid_id) : scoped
-  end
-
-  def self.by_zone(zone_id)
-    zone_id ? where('zone_id = ?', zone_id) : scoped
-  end
-
-  def self.by_start_time(time)
+  scope :raided, ->(raid_date) {
+    where(:raid_id => Raid.find_by_raid_date(raid_date).id)
+  }
+  scope :by_raid, ->(raid_id) {
+    raid_id ? where('instances.raid_id = ?', raid_id) : scoped
+  }
+  scope :by_zone, ->(zone_id) {
+    zone_id ? where('instances.zone_id = ?', zone_id) : scoped
+  }
+  scope :by_start_time, ->(time) {
     if time
       start_time = time.is_a?(String) ? Time.zone.parse(time) : time
       where(:start_time => start_time)
     else
       scoped
     end
-  end
-
-  def self.at_time(time)
+  }
+  scope :at_time, ->(time) {
     if time
       start_time = time.is_a?(String) ? Time.zone.parse(time) : time
       where('start_time <= ?', start_time).last
     else
-      scoped.last
+      order(:start_time).last
     end
-  end
+  }
 
   def to_xml(options = {})
     to_xml_opts = {}

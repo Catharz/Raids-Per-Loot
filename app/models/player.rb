@@ -23,9 +23,18 @@ class Player < ActiveRecord::Base
                                 :allow_destroy => true,
                                 :reject_if => :all_blank
 
-  def rank_name
-    rank ? rank.name : "Unknown"
-  end
+  delegate :name, to: :rank, prefix: :rank, allow_nil: true
+
+  scope :with_name_like, ->(name) {
+    name ? where('players.name LIKE ?', "%#{name}%") : scoped
+  }
+  scope :of_rank, ->(rank_id) {
+    rank_id ? where(:rank_id => rank_id) : scoped
+  }
+  scope :by_instance, ->(instance_id) {
+    instance_id ? includes(:characters => :character_instances).
+        where('character_instances.instance_id = ?', instance_id) : scoped
+  }
 
   def main_character(at_time = nil)
     characters_of_type('m', at_time).first
@@ -40,9 +49,9 @@ class Player < ActiveRecord::Base
   end
 
   def characters_of_type(char_type, at_time = nil)
-    results = characters.eager_load(:character_types).where(["character_types.char_type = ?", char_type])
-    results = results.where(["character_types.effective_date <= ?", at_time]) if at_time
-    results.order("character_types.effective_date desc")
+    results = characters.eager_load(:character_types).where(['character_types.char_type = ?', char_type])
+    results = results.where(['character_types.effective_date <= ?', at_time]) if at_time
+    results.order('character_types.effective_date desc')
   end
 
   def with_new_characters(n = 1)
@@ -50,18 +59,6 @@ class Player < ActiveRecord::Base
       characters.build
     end
     self
-  end
-
-  def self.with_name_like(name)
-    name ? where('players.name LIKE ?', "%#{name}%") : scoped
-  end
-
-  def self.of_rank(rank_id)
-    rank_id ? where(:rank_id => rank_id) : scoped
-  end
-
-  def self.by_instance(instance_id)
-    instance_id ? includes(:characters => :character_instances).where('character_instances.instance_id = ?', instance_id) : scoped
   end
 
   def to_xml(options = {})

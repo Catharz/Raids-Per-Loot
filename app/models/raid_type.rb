@@ -4,7 +4,7 @@ class RaidType < ActiveRecord::Base
 
   validates_presence_of :name
 
-  def self.by_name(name = nil)
+  scope :by_name, ->(name = nil) {
     name ? where(name: name) : scoped
-  end
+  }
 end

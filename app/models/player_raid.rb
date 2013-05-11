@@ -9,13 +9,12 @@ class PlayerRaid < ActiveRecord::Base
   delegate :name, to: :player, prefix: :player
   delegate :description, to: :raid, prefix: :raid
 
-  def self.by_player(player_id = nil)
+  scope :by_player, ->(player_id = nil) {
     player_id ? where(player_id: player_id) : scoped
-  end
-
-  def self.by_raid(raid_id = nil)
+  }
+  scope :by_raid, ->(raid_id = nil) {
     raid_id ? where(raid_id: raid_id) : scoped
-  end
+  }
 
   def status_description
     @status_types ||= {a: 'Attended', b: 'Benched'}.with_indifferent_access

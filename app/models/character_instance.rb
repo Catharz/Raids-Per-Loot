@@ -4,11 +4,10 @@ class CharacterInstance < ActiveRecord::Base
 
   validates_uniqueness_of :character_id, :scope => :instance_id
 
-  def self.by_character(character_id)
+  scope :by_character, ->(character_id) {
     character_id ? where(:character_id => character_id) : scoped
-  end
-
-  def self.by_instance(instance_id)
+  }
+  scope :by_instance, ->(instance_id) {
     instance_id ? where(:instance_id => instance_id) : scoped
-  end
+  }
 end

@@ -15,26 +15,25 @@ class Raid < ActiveRecord::Base
   accepts_nested_attributes_for :instances, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :player_raids, reject_if: :all_blank, allow_destroy: true
 
+  scope :for_period, ->(range = {start: nil, end: nil}) {
+    raids = scoped
+    raids = where('raid_date >= ?', range[:start]) if range[:start]
+    raids = where('raid_date <= ?', range[:end]) if range[:end]
+    raids
+  }
+  scope :by_date, ->(date = nil) {
+    date ? where('raid_date = ?', date) : scoped
+  }
+  scope :by_raid_type, ->(raid_type = nil) {
+    raid_type ? includes(:raid_type).
+        where('raid_types.name = ?', raid_type) : scoped.includes(:raid_type)
+  }
+
   def description
     "#{raid_date} (#{raid_type_name})"
   end
 
   def benched_players
-    players.includes(:player_raids).where("player_raids.status = ?", 'b')
-  end
-
-  def self.for_period(range = {start:  nil, end: nil})
-    raids = scoped
-    raids = where('raid_date >= ?', range[:start]) if range[:start]
-    raids = where('raid_date <= ?', range[:end]) if range[:end]
-    raids
-  end
-
-  def self.by_date(date = nil)
-    date ? where('raid_date = ?', date) : scoped
-  end
-
-  def self.by_raid_type(raid_type = nil)
-     raid_type ? includes(:raid_type).where('raid_types.name = ?', raid_type) : scoped.includes(:raid_type)
+    players.includes(:player_raids).where('player_raids.status = ?', 'b')
   end
 end

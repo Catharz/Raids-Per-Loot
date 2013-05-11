@@ -7,11 +7,7 @@ class LootType < ActiveRecord::Base
   validates_format_of :default_loot_method, :with => /n|r|b|g|t/ # Need, Random, Bid, Guild Bank, Trash
 
   def self.option_names
-    names = []
-    LootType.where(:default_loot_method => 'n').order(:name).each do |loot_type|
-      names << loot_type.name
-    end
-    names
+    where(:default_loot_method => 'n').order(:name).each.collect { |loot_type| loot_type.name }
   end
 
   def to_xml(options = {})

@@ -5,12 +5,12 @@ module CharactersHelper
 
   def char_type_name(char_type)
     case char_type
-      when "m" then
-        "Raid Main"
-      when "r" then
-        "Raid Alternate"
+      when 'm' then
+        'Raid Main'
+      when 'r' then
+        'Raid Alternate'
       else
-        "General Alternate"
+        'General Alternate'
     end
   end
 
@@ -18,32 +18,32 @@ module CharactersHelper
     case base_class
       when 'Fighter'
         if health.to_i >= 65000
-          "optimal"
+          'optimal'
         else
           if health.to_i >= 60000
-            "minimal"
+            'minimal'
           else
-            "unsatisfactory"
+            'unsatisfactory'
           end
         end
       when 'Priest'
         if health.to_i >= 60000
-          "optimal"
+          'optimal'
         else
           if health.to_i >= 55000
-            "minimal"
+            'minimal'
           else
-            "unsatisfactory"
+            'unsatisfactory'
           end
         end
       else
         if health.to_i >= 55000
-          "optimal"
+          'optimal'
         else
           if health.to_i >= 50000
-            "minimal"
+            'minimal'
           else
-            "unsatisfactory"
+            'unsatisfactory'
           end
         end
     end
@@ -51,24 +51,24 @@ module CharactersHelper
 
   def crit_rating(crit)
     if crit.to_f >= 420.0
-      "optimal"
+      'optimal'
     else
       if crit.to_f >= 350.0
-        "minimal"
+        'minimal'
       else
-        "unsatisfactory"
+        'unsatisfactory'
       end
     end
   end
 
   def adornment_rating(adornments)
     if adornments >= 75.0
-      "optimal"
+      'optimal'
     else
       if adornments >= 50.0
-        "minimal"
+        'minimal'
       else
-        "unsatisfactory"
+        'unsatisfactory'
       end
     end
   end
