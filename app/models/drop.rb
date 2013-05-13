@@ -25,6 +25,36 @@ class Drop < ActiveRecord::Base
 
   default_scope select((column_names - %w{chat}).map {|column_name| "#{table_name}.#{column_name}"})
 
+  scope :by_character, ->(character_id) { character_id ? where(character_id: character_id) : scoped }
+  scope :by_instance, ->(instance_id) { instance_id ? where(instance_id: instance_id) : scoped }
+  scope :by_zone, ->(zone_id) { zone_id ? where(zone_id: zone_id) : scoped }
+  scope :by_mob, ->(mob_id) { mob_id ? where(mob_id: mob_id) : scoped }
+  scope :by_item, ->(item_id) { item_id ? where(item_id: item_id) : scoped }
+  scope :by_log_line, ->(line) { line ? where(log_line:line) : scoped }
+  scope :by_eq2_item_id, ->(eq2_item_id) {
+    eq2_item_id ? includes(:item).
+        where('items.eq2_item_id = ?', eq2_item_id) : scoped
+  }
+  scope :of_type, ->(loot_type_name) {
+    where(:loot_type_id => LootType.find_by_name(loot_type_name).id)
+  }
+  scope :by_archetype, ->(archetype_name) {
+    archetype_name ? includes(:character => :archetype).
+        where('archetypes.name = ?', archetype_name) : scoped
+  }
+  scope :by_player, ->(player_id) {
+    player_id ? includes(:character => :player).
+        where('characters.player_id = ?', player_id) : scoped
+  }
+  scope :by_time, ->(time) {
+    if time
+      drop_time = time.is_a?(String) ? Time.zone.parse(time) : time
+      where(:drop_time => drop_time)
+    else
+      scoped
+    end
+  }
+
   def loot_method_name
     loot_method_description loot_method
   end
@@ -99,10 +129,6 @@ class Drop < ActiveRecord::Base
     all.to_a.select { |d| !d.invalid_reason.nil? }
   end
 
-  def self.of_type(loot_type_name)
-    where(:loot_type_id => LootType.find_by_name(loot_type_name).id)
-  end
-
   def self.with_default_loot_method(default_loot_method)
     joins(:item => :loot_type).where(['loot_types.default_loot_method = ?', default_loot_method])
   end
@@ -118,51 +144,6 @@ class Drop < ActiveRecord::Base
   def self.for_wrong_class
     where('(select c.archetype_id from characters c where c.id = drops.character_id) ' +
               'not in (select ai.archetype_id from archetypes_items ai where ai.item_id = drops.item_id)')
-  end
-
-  def self.by_log_line(line)
-    line ? where(log_line:line) : scoped
-  end
-
-  def self.by_eq2_item_id(eq2_item_id)
-    eq2_item_id ? eager_load(:item).where('items.eq2_item_id = ?', eq2_item_id) : scoped
-  end
-
-  def self.by_archetype(archetype_name)
-    archetype_name ? eager_load(:character => :archetype).where(['archetypes.name = ?', archetype_name]) : scoped
-  end
-
-  def self.by_instance(instance_id)
-    instance_id ? where('instance_id = ?', instance_id) : scoped
-  end
-
-  def self.by_zone(zone_id)
-    zone_id ? where('zone_id = ?', zone_id) : scoped
-  end
-
-  def self.by_mob(mob_id)
-    mob_id ? where('mob_id = ?', mob_id) : scoped
-  end
-
-  def self.by_character(character_id)
-    character_id ? where('character_id = ?', character_id) : scoped
-  end
-
-  def self.by_player(player_id)
-    player_id ? includes(:character => :player).where('characters.player_id = ?', player_id) : scoped
-  end
-
-  def self.by_item(item_id)
-    item_id ? where('item_id = ?', item_id) : scoped
-  end
-
-  def self.by_time(time)
-    if time
-      drop_time = time.is_a?(String) ? Time.zone.parse(time) : time
-      where(:drop_time => drop_time)
-    else
-      scoped
-    end
   end
 
   def to_xml(options = {})
