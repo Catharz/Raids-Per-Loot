@@ -44,6 +44,331 @@ describe Drop do
     it { should validate_presence_of(:loot_method) }
   end
 
+  context 'scopes' do
+    context 'for general filtering' do
+      let(:d1) { FactoryGirl.create(:drop) }
+      let(:d2) { FactoryGirl.create(:drop) }
+
+      describe 'default' do
+        it 'does not include chat by default' do
+          FactoryGirl.create(:drop)
+
+          expect {
+            Drop.first.chat
+          }.to raise_exception ActiveModel::MissingAttributeError
+        end
+        it 'includes the chat if requested' do
+          FactoryGirl.create(:drop)
+
+          expect {
+            Drop.select('drops.*').chat
+          }.to_not raise_exception ActiveModel::MissingAttributeError
+        end
+      end
+
+      describe 'by_character' do
+        it 'returns a full list by default' do
+          Drop.by_character(nil).order(:id).should eq [d1, d2]
+        end
+        it 'filters by character when provided an id' do
+          Drop.by_character(d2.character_id).should eq [d2]
+        end
+      end
+
+      describe 'by_instance' do
+        it 'returns a full list by default' do
+          Drop.by_instance(nil).order(:id).should eq [d1, d2]
+        end
+        it 'filters by instance when provided an id' do
+          Drop.by_instance(d1.instance_id).should eq [d1]
+        end
+      end
+
+      describe 'by_zone' do
+        it 'returns a full list by default' do
+          Drop.by_zone(nil).order(:id).should eq [d1, d2]
+        end
+        it 'filters by zone when provided an id' do
+          Drop.by_zone(d2.zone_id).should eq [d2]
+        end
+      end
+
+      describe 'by_mob' do
+        it 'returns a full list by default' do
+          Drop.by_mob(nil).order(:id).should eq [d1, d2]
+        end
+        it 'filters by mob when provided an id' do
+          Drop.by_mob(d1.mob_id).should eq [d1]
+        end
+      end
+
+      describe 'by_item' do
+        it 'returns a full list by default' do
+          Drop.by_item(nil).order(:id).should eq [d1, d2]
+        end
+        it 'filters by item when provided an id' do
+          Drop.by_item(d2.item_id).should eq [d2]
+        end
+      end
+
+      describe 'by_log_line' do
+        it 'returns a full list by default' do
+          Drop.by_log_line(nil).order(:id).should eq [d1, d2]
+        end
+        it 'filters by log line when provided an id' do
+          Drop.by_log_line(d1.log_line).should eq [d1]
+        end
+      end
+
+      describe 'by_eq2_item_id' do
+        it 'returns a full list by default' do
+          Drop.by_eq2_item_id(nil).order(:id).should eq [d1, d2]
+        end
+        it 'filters by eq2 item id when provided an id' do
+          Drop.by_eq2_item_id(d2.eq2_item_id).should eq [d2]
+        end
+      end
+
+      describe 'of_type' do
+        it 'filters by loot type name' do
+          Drop.of_type(d1.loot_type_name).should eq [d1]
+        end
+      end
+
+      describe 'by_archetype' do
+        it 'returns a full list by default' do
+          Drop.by_archetype(nil).order(:id).should eq [d1, d2]
+        end
+        it 'filters by archetype name' do
+          Drop.by_archetype(d1.character.archetype_name).should eq [d1]
+        end
+      end
+
+      describe 'by_player' do
+        it 'returns a full list by default' do
+          Drop.by_player(nil).order(:id).should eq [d1, d2]
+        end
+        it 'filters by player when provided an id' do
+          Drop.by_player(d2.character.player_id).should eq [d2]
+        end
+      end
+
+      describe 'by_time' do
+        it 'returns a full list by default' do
+          Drop.by_time(nil).order(:id).should eq [d1, d2]
+        end
+
+        it 'filters by a time string' do
+          Drop.by_time(d1.drop_time.to_s).should eq [d1]
+        end
+
+        it 'filters by a time object' do
+          Drop.by_time(d2.drop_time).should eq [d2]
+        end
+      end
+
+      describe 'won_by' do
+        it 'filters based on a string' do
+          d3 = FactoryGirl.create(:drop, loot_method: 'r')
+
+          Drop.won_by('r').should eq [d3]
+        end
+        it 'filters based on an array' do
+          d3 = FactoryGirl.create(:drop, loot_method: 'r')
+          d4 = FactoryGirl.create(:drop, loot_method: 'b')
+
+          Drop.won_by(%w{b r}).order(:id).should eq [d3, d4]
+        end
+      end
+
+      describe 'not_won_by' do
+        it 'filters based on a string' do
+          d3 = FactoryGirl.create(:drop, loot_method: 'r')
+
+          Drop.not_won_by('n').should eq [d3]
+        end
+        it 'filters based on an array' do
+          FactoryGirl.create(:drop, loot_method: 'r')
+          FactoryGirl.create(:drop, loot_method: 'b')
+
+          Drop.not_won_by(%w{b r}).order(:id).should eq [d1, d2]
+        end
+      end
+
+      describe 'by_character_type' do
+        it 'uses the last character type from before the drop' do
+          FactoryGirl.create(:character_type, character: d1.character, char_type: 'm', effective_date: d1.drop_time - 1.day)
+          FactoryGirl.create(:character_type, character: d2.character, char_type: 'm', effective_date: d2.drop_time - 1.day)
+          char1 = FactoryGirl.create(:character, char_type: 'g')
+          d3 = FactoryGirl.create(:drop, character: char1)
+          FactoryGirl.create(:character_type, character: char1, char_type: 'g', effective_date: d3.drop_time - 1.day)
+          FactoryGirl.create(:character_type, character: char1, char_type: 'r', effective_date: d3.drop_time - 1.hour)
+          FactoryGirl.create(:character_type, character: char1, char_type: 'm', effective_date: d3.drop_time + 1.day)
+
+          Drop.by_character_type('r').should eq [d3]
+        end
+        it 'filters based on a string' do
+          FactoryGirl.create(:character_type, character: d1.character, char_type: 'm', effective_date: d1.drop_time - 1.day)
+          FactoryGirl.create(:character_type, character: d2.character, char_type: 'm', effective_date: d2.drop_time - 1.day)
+          char1 = FactoryGirl.create(:character, char_type: 'g')
+          d3 = FactoryGirl.create(:drop, character: char1)
+          FactoryGirl.create(:character_type, character: char1, char_type: 'g', effective_date: d3.drop_time - 1.day)
+
+          Drop.by_character_type('g').should eq [d3]
+        end
+        it 'filters based on an array' do
+          FactoryGirl.create(:character_type, character: d1.character, char_type: 'm', effective_date: d1.drop_time - 1.day)
+          FactoryGirl.create(:character_type, character: d2.character, char_type: 'm', effective_date: d2.drop_time - 1.day)
+          char1 = FactoryGirl.create(:character, char_type: 'g')
+          d3 = FactoryGirl.create(:drop, character: char1)
+          char2 = FactoryGirl.create(:character, char_type: 'r')
+          d4 = FactoryGirl.create(:drop, character: char2)
+          FactoryGirl.create(:character_type, character: char1, char_type: 'g', effective_date: d3.drop_time - 1.day)
+          FactoryGirl.create(:character_type, character: char2, char_type: 'r', effective_date: d4.drop_time - 1.day)
+
+          Drop.by_character_type(%w{g r}).order(:id).should eq [d3, d4]
+        end
+      end
+
+      describe 'with_default_loot_method' do
+        it 'filters based on an array' do
+          ts = FactoryGirl.create(:loot_type, default_loot_method: 'g')
+          trash = FactoryGirl.create(:loot_type, default_loot_method: 't')
+          recipe = FactoryGirl.create(:item, loot_type: ts)
+          body_drop = FactoryGirl.create(:item, loot_type: trash)
+          d3 = FactoryGirl.create(:drop, item: recipe)
+          d4 = FactoryGirl.create(:drop, item: body_drop)
+
+          Drop.with_default_loot_method(%w{g t}).should eq [d3, d4]
+        end
+
+        it 'filters based on the items loot type' do
+          ts = FactoryGirl.create(:loot_type, default_loot_method: 'r')
+          recipe = FactoryGirl.create(:item, loot_type: ts)
+          d3 = FactoryGirl.create(:drop, item: recipe)
+
+          Drop.with_default_loot_method('r').should eq [d3]
+        end
+      end
+    end
+
+    context 'identifying invalidly assigned drops' do
+      describe 'mismatched_loot_types' do
+        it 'identifies drops with a loot type different from its item' do
+          ts = FactoryGirl.create(:loot_type, default_loot_method: 'r')
+          recipe = FactoryGirl.create(:item)
+          d3 = FactoryGirl.create(:drop, item: recipe, loot_type: ts)
+
+          Drop.mismatched_loot_types.should eq [d3]
+        end
+      end
+
+      describe 'for_wrong_class' do
+        it 'identifies drops whose items archetypes do not match the looters archetype' do
+          monk = FactoryGirl.create(:archetype)
+          bruiser = FactoryGirl.create(:archetype)
+          main = FactoryGirl.create(:character, archetype: bruiser)
+          weapon = FactoryGirl.create(:item)
+          FactoryGirl.create(:archetypes_item, item: weapon, archetype: monk)
+          d3 = FactoryGirl.create(:drop, item: weapon, character: main)
+
+          Drop.for_wrong_class.should eq [d3]
+        end
+      end
+
+      describe 'invalid_need_assignment' do
+        it 'identifies drops looted via need by a general alt' do
+          ga = FactoryGirl.create(:character, char_type: 'g')
+          d3 = FactoryGirl.create(:drop, character: ga)
+          FactoryGirl.create(:character_type, character: ga, char_type: 'g')
+
+          Drop.invalid_need_assignment.should eq [d3]
+        end
+      end
+
+      describe 'invalid_guild_bank_assignment' do
+        it 'identifies guild bank item drops that were not won as trash or guild bank items' do
+          gb = FactoryGirl.create(:loot_type, default_loot_method: 'g')
+          spell = FactoryGirl.create(:item, loot_type: gb)
+          d3 = FactoryGirl.create(:drop, item: spell, loot_method: 'b')
+          d4 = FactoryGirl.create(:drop, item: spell, loot_method: 'n')
+
+          Drop.invalid_guild_bank_assignment.order(:id).should eq [d3, d4]
+        end
+      end
+
+      describe 'invalid_trash_assignment' do
+        it 'identifies trash item drops that were not won as trash items' do
+          trash = FactoryGirl.create(:loot_type, default_loot_method: 't')
+          item = FactoryGirl.create(:item, loot_type: trash)
+          d3 = FactoryGirl.create(:drop, item: item, loot_method: 'n')
+          d4 = FactoryGirl.create(:drop, item: item, loot_method: 'b')
+          d5 = FactoryGirl.create(:drop, item: item, loot_method: 'r')
+
+          Drop.invalid_trash_assignment.sort{ |a,b| a.id <=> b.id}.should eq [d3, d4, d5]
+        end
+
+        it 'identifies bid, need and random items won as trash' do
+          armour = FactoryGirl.create(:loot_type, default_loot_method: 'n')
+          mount = FactoryGirl.create(:loot_type, default_loot_method: 'b')
+          spell = FactoryGirl.create(:loot_type, default_loot_method: 'r')
+          helm = FactoryGirl.create(:item, loot_type: armour)
+          drake = FactoryGirl.create(:item, loot_type: mount)
+          smite = FactoryGirl.create(:item, loot_type: spell)
+
+          d3 = FactoryGirl.create(:drop, item: helm, loot_method: 't')
+          d4 = FactoryGirl.create(:drop, item: drake, loot_method: 't')
+          d5 = FactoryGirl.create(:drop, item: smite, loot_method: 't')
+
+          Drop.invalid_trash_assignment.sort{ |a,b| a.id <=> b.id}.should eq [d3, d4, d5]
+        end
+      end
+
+      describe 'needed_for_wrong_class' do
+        it 'identifies items won by need for the wrong class' do
+          monk = FactoryGirl.create(:archetype)
+          bruiser = FactoryGirl.create(:archetype)
+          main = FactoryGirl.create(:character, archetype: monk)
+          weapon = FactoryGirl.create(:item)
+          FactoryGirl.create(:archetypes_item, item: weapon, archetype: bruiser)
+          d3 = FactoryGirl.create(:drop, item: weapon, character: main)
+
+          Drop.needed_for_wrong_class.should eq [d3]
+        end
+      end
+
+      describe 'invalidly_assigned' do
+        context 'when validating trash' do
+          it 'calls all the methods' do
+              Drop.should_receive(:mismatched_loot_types).and_return([])
+              Drop.should_receive(:needed_for_wrong_class).and_return([])
+              Drop.should_receive(:invalid_need_assignment).and_return([])
+              Drop.should_receive(:invalid_guild_bank_assignment).and_return([])
+              Drop.should_receive(:invalid_trash_assignment).and_return([])
+
+              Drop.invalidly_assigned(true)
+          end
+        end
+
+        context 'when not validating trash' do
+          it 'calls all the normal methods' do
+            Drop.should_receive(:mismatched_loot_types).and_return([])
+            Drop.should_receive(:needed_for_wrong_class).and_return([])
+            Drop.should_receive(:invalid_need_assignment).and_return([])
+            Drop.should_receive(:invalid_guild_bank_assignment).and_return([])
+
+            Drop.invalidly_assigned
+          end
+
+          it 'should not validate trash drops' do
+            Drop.should_not_receive(:invalid_trash_assignment)
+            Drop.invalidly_assigned
+          end
+        end
+      end
+    end
+  end
+
   describe '#loot_method_name' do
     it "should return 'Need' when loot_method is 'n'" do
       drop = Drop.new(loot_method: 'n')
@@ -91,6 +416,17 @@ describe Drop do
       drop = Drop.new
 
       drop.loot_method_name.should eq 'Need'
+    end
+  end
+
+  describe '#assignment_issues' do
+    it 'uses a DropAssignmentsValidator' do
+      drop = FactoryGirl.create(:drop)
+      validator = mock(DropAssignmentValidator)
+      DropAssignmentValidator.should_receive(:new).with(drop).and_return(validator)
+      validator.should_receive(:validate)
+
+      drop.assignment_issues
     end
   end
 

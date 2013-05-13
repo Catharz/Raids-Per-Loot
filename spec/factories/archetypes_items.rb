@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :archetypes_item do |f|
-    f.archetype_id 1
-    f.item_id 1
+    f.archetype { |a| a.association(:archetype) }
+    f.item { |a| a.association(:item) }
   end
 end

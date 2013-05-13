@@ -1,17 +1,18 @@
 module ArchetypesHelper
   def consolidate_archetypes(archetype_list)
     if archetype_list.empty?
-      "None"
+      'None'
     else
       archetype_list = consolidate_parents(archetype_list) until
           consolidate_parents(archetype_list) & archetype_list == archetype_list
-      archetype_list.map { |archetype| final_description(archetype) }.join(", ")
+      archetype_list.map { |archetype| final_description(archetype) }.join(', ')
     end
   end
 
   private
 
   def final_description(archetype)
+    return '' if archetype.nil?
     archetype.children.empty? ? archetype.name : "All #{archetype.name}s"
   end
 
@@ -28,6 +29,7 @@ module ArchetypesHelper
   end
 
   def all_siblings_included?(child, list)
+    return false if child.nil?
     child.self_and_siblings & list == child.self_and_siblings
   end
 end

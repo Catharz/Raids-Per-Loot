@@ -18,7 +18,7 @@ class DropsController < ApplicationController
 
   # GET /drops/invalid
   def invalid
-    @drops = Drop.invalidly_assigned.uniq
+    @drops = Drop.invalidly_assigned(params[:trash]).uniq
 
     respond_to do |format|
       format.html # index.html.erb

@@ -14,7 +14,7 @@ Given /^the following drops:$/ do |drops|
     mob = Mob.find_by_name_and_zone_id(drop[:mob], zone.id)
     mob ||= Mob.create(:name => drop[:mob], :zone_id => zone.id)
 
-    default_loot_method = drop[:loot_type] == "Trash" ? "t" : "n"
+    default_loot_method = drop[:loot_type] == 'Trash' ? 't' : 'n'
     loot_type = LootType.find_by_name(drop[:loot_type])
     loot_type ||= LootType.create(:name => drop[:loot_type], :default_loot_method => default_loot_method)
 
@@ -95,8 +95,12 @@ When /^I view the drops page$/ do
   visit drops_path
 end
 
-When /^I view the invalid drops page$/ do
+When /^I view the invalid drops$/ do
   visit invalid_drops_path
+end
+
+When /^I view all the invalid drops$/ do
+  visit "#{invalid_drops_path}?trash=true"
 end
 
 Then /^I should see the following invalid drops:$/ do |invalid_drops_table|

@@ -77,12 +77,12 @@ class DropAssignmentValidator
       if @item.loot_type and @item.loot_type.default_loot_method.eql? 'g'
         @issues << 'Loot via Need for Guild Bank Item'
       else
-        if @character.main_character(@drop.drop_time).eql? @character
+        if @character.general_alternates(@drop.drop_time).include? @character
+          @issues << 'Loot via Need for General Alternate'
+        else
           unless @character.archetype and @item.archetypes.include? @character.archetype
             @issues << 'Item / Character Class Mis-Match'
           end
-        else
-          @issues << 'Loot via Need for Non-Raid Main'
         end
       end
     end

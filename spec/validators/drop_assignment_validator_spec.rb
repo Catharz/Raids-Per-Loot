@@ -31,7 +31,7 @@ describe DropAssignmentValidator do
         item = mock_model(Item, loot_type: armour)
         item.should_receive(:archetypes).and_return([fighter, scout])
         drop = Drop.new(character: raid_main, item: item, loot_method: 'n', loot_type: weapon)
-        raid_main.should_receive(:main_character).and_return(raid_main)
+        raid_main.should_receive(:general_alternates).and_return([general_alternate])
 
         DropAssignmentValidator.new(drop).validate.should eql ['Drop / Item Type Mismatch']
       end
@@ -45,7 +45,7 @@ describe DropAssignmentValidator do
               item = mock_model(Item, loot_type: armour)
               item.should_receive(:archetypes).and_return([fighter, scout])
               drop = Drop.new(character: raid_main, item: item, loot_method: 'n', loot_type: armour)
-              raid_main.should_receive(:main_character).and_return(raid_main)
+              raid_main.should_receive(:general_alternates).and_return([general_alternate])
 
               DropAssignmentValidator.new(drop).validate.should eql []
             end
@@ -55,28 +55,29 @@ describe DropAssignmentValidator do
               item = mock_model(Item, loot_type: armour)
               item.should_receive(:archetypes).and_return([priest])
               drop = Drop.new(character: raid_main, item: item, loot_method: 'n', loot_type: armour)
-              raid_main.should_receive(:main_character).and_return(raid_main)
+              raid_main.should_receive(:general_alternates).and_return([general_alternate])
 
               DropAssignmentValidator.new(drop).validate.should eql ['Item / Character Class Mis-Match']
             end
           end
         end
         context 'for a raid alternate' do
-          it 'signifies an issue' do
+          it 'signifies no issues' do
             item = mock_model(Item, loot_type: armour)
+            item.should_receive(:archetypes).and_return([fighter, scout])
             drop = Drop.new(character: raid_alternate, item: item, loot_method: 'n', loot_type: armour)
-            raid_alternate.should_receive(:main_character).and_return(raid_main)
+            raid_alternate.should_receive(:general_alternates).and_return([general_alternate])
 
-            DropAssignmentValidator.new(drop).validate.should eql ['Loot via Need for Non-Raid Main']
+            DropAssignmentValidator.new(drop).validate.should eql []
           end
         end
         context 'for a general alternate' do
           it 'signifies an issue' do
             item = mock_model(Item, loot_type: armour)
             drop = Drop.new(character: general_alternate, item: item, loot_method: 'n', loot_type: armour)
-            general_alternate.should_receive(:main_character).and_return(raid_main)
+            general_alternate.should_receive(:general_alternates).and_return([general_alternate])
 
-            DropAssignmentValidator.new(drop).validate.should eql ['Loot via Need for Non-Raid Main']
+            DropAssignmentValidator.new(drop).validate.should eql ['Loot via Need for General Alternate']
           end
         end
       end

@@ -6,7 +6,7 @@ FactoryGirl.define do
   factory :character do |f|
     f.player  { |a| a.association(:player) }
     f.name { generate(:character_name) }
-    f.char_type 'g'
+    f.char_type 'm'
     f.archetype { |a| a.association(:archetype) }
   end
 

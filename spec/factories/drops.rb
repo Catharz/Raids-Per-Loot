@@ -1,11 +1,16 @@
 FactoryGirl.define do
+  sequence :log_line do |n|
+    "This is Log line No. #{n}"
+  end
+
   factory :drop do |f|
-    f.instance_id 1
-    f.zone_id 1
-    f.mob_id 1
-    f.character_id 1
-    f.item_id 1
+    f.instance { |a| a.association(:instance) }
+    f.zone  { |a| a.association(:zone) }
+    f.mob  { |a| a.association(:mob) }
+    f.character  { |a| a.association(:character) }
+    f.item  { |a| a.association(:item) }
     f.loot_method 'n'
-    f.drop_time DateTime.now
+    f.drop_time { |a| a.association(:instance).start_time }
+    f.log_line { generate(:log_line) }
   end
 end

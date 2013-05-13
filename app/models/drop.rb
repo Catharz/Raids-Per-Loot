@@ -1,3 +1,5 @@
+require 'drop_assignment_validator'
+
 class Drop < ActiveRecord::Base
   include LootMethodHelper
   belongs_to :instance, :inverse_of => :drops, :touch => true
@@ -19,31 +21,32 @@ class Drop < ActiveRecord::Base
   delegate :name, to: :zone, prefix: :zone
   delegate :name, to: :mob, prefix: :mob
   delegate :name, to: :item, prefix: :item
+  delegate :eq2_item_id, to: :item
   delegate :name, to: :character, prefix: :character
   delegate :name, to: :loot_type, prefix: :loot_type, allow_nil: true
   delegate :archetype_name, to: :character, prefix: :character, allow_nil: true
 
   default_scope select((column_names - %w{chat}).map {|column_name| "#{table_name}.#{column_name}"})
 
-  scope :by_character, ->(character_id) { character_id ? where(character_id: character_id) : scoped }
+  scope :by_character, ->(character_id ) { character_id ? where(character_id: character_id) : scoped }
   scope :by_instance, ->(instance_id) { instance_id ? where(instance_id: instance_id) : scoped }
   scope :by_zone, ->(zone_id) { zone_id ? where(zone_id: zone_id) : scoped }
   scope :by_mob, ->(mob_id) { mob_id ? where(mob_id: mob_id) : scoped }
   scope :by_item, ->(item_id) { item_id ? where(item_id: item_id) : scoped }
   scope :by_log_line, ->(line) { line ? where(log_line:line) : scoped }
   scope :by_eq2_item_id, ->(eq2_item_id) {
-    eq2_item_id ? includes(:item).
+    eq2_item_id ? joins(:item).
         where('items.eq2_item_id = ?', eq2_item_id) : scoped
   }
   scope :of_type, ->(loot_type_name) {
-    where(:loot_type_id => LootType.find_by_name(loot_type_name).id)
+    joins(:loot_type).where('loot_types.name = ?', loot_type_name)
   }
   scope :by_archetype, ->(archetype_name) {
-    archetype_name ? includes(:character => :archetype).
+    archetype_name ? joins(:character => :archetype).
         where('archetypes.name = ?', archetype_name) : scoped
   }
   scope :by_player, ->(player_id) {
-    player_id ? includes(:character => :player).
+    player_id ? joins(:character => :player).
         where('characters.player_id = ?', player_id) : scoped
   }
   scope :by_time, ->(time) {
@@ -53,6 +56,66 @@ class Drop < ActiveRecord::Base
     else
       scoped
     end
+  }
+
+  # scopes to support assignment validation
+  scope :won_by, ->(loot_method) {
+    loot_method.is_a?(Array) ?
+        where('loot_method in (?)', loot_method) :
+        where(loot_method: loot_method)
+  }
+  scope :not_won_by, ->(loot_method) {
+    loot_method.is_a?(Array) ?
+        where('loot_method not in (?)', loot_method) :
+        where('loot_method <> ?', loot_method)
+  }
+  scope :by_character_type, ->(character_type) {
+    current_character_type = '(select ct2.char_type from character_types ct2 ' +
+        'where ct2.character_id = drops.character_id ' +
+        'and ct2.effective_date = ((select max(ct3.effective_date) ' +
+        'from character_types ct3 ' +
+        'where ct3.character_id = drops.character_id ' +
+        'and ct3.effective_date <= drops.drop_time)))'
+    if character_type.is_a? Array
+      where("#{current_character_type} in (?)", character_type)
+    else
+      where("#{current_character_type} = ?", character_type)
+    end
+  }
+  scope :with_default_loot_method, ->(loot_method) {
+    if loot_method.is_a? Array
+      joins(:item => :loot_type).
+          where('loot_types.default_loot_method in (?)', loot_method)
+    else
+      joins(:item => :loot_type).
+          where('loot_types.default_loot_method = ?', loot_method)
+    end
+  }
+
+  scope :mismatched_loot_types, ->() { joins(:item).where('drops.loot_type_id <> items.loot_type_id') }
+  scope :for_wrong_class, ->() {
+    where('(select c.archetype_id ' +
+              'from characters c ' +
+              'where c.id = drops.character_id) ' +
+              'not in (select ai.archetype_id ' +
+              'from archetypes_items ai ' +
+              'where ai.item_id = drops.item_id)')
+  }
+  scope :invalid_need_assignment, ->() { won_by('n').by_character_type('g') }
+  scope :invalid_guild_bank_assignment, ->() { not_won_by(%w{g r}).with_default_loot_method('g') }
+  scope :invalid_trash_assignment, ->() {
+    not_won_by('t').with_default_loot_method('t') +
+        won_by('t').with_default_loot_method(%w{b n r})
+  }
+  scope :needed_for_wrong_class, ->() { won_by('n').for_wrong_class }
+  scope :invalidly_assigned, ->(validate_trash = false) {
+    invalid_list = mismatched_loot_types +
+        needed_for_wrong_class +
+        invalid_need_assignment +
+        invalid_guild_bank_assignment
+
+    invalid_list += invalid_trash_assignment if validate_trash
+    invalid_list
   }
 
   def loot_method_name
@@ -69,81 +132,6 @@ class Drop < ActiveRecord::Base
 
   def correctly_assigned?
     assignment_issues.empty?
-  end
-
-  def self.invalidly_assigned(options = {:validate_trash => false, :validate_general_alts => false})
-    invalid_list = character_missing + mismatched_loot_types + won_by('n').for_wrong_class +
-        trash_for_non_trash + main_won_without_need + raid_alt_won_without_random +
-        guild_bank_for_non_guild_bank + guild_bank_bad_assignment
-
-    invalid_list += need_on_trash + random_on_trash + bid_on_trash if options[:validate_trash]
-    invalid_list += general_alt_won_without_bid if options[:validate_general_alts]
-    invalid_list
-  end
-
-  def self.character_missing
-    where('drops.character_id is null')
-  end
-
-  def self.mismatched_loot_types
-    joins(:item).where('drops.loot_type_id <> items.loot_type_id')
-  end
-
-  def self.need_on_trash
-    joins(:item => :loot_type).where(['drops.loot_method = ? and loot_types.default_loot_method = ?', 'n', 't'])
-  end
-
-  def self.random_on_trash
-    joins(:item => :loot_type).where(['drops.loot_method = ? and loot_types.default_loot_method = ?', 'r', 't'])
-  end
-
-  def self.bid_on_trash
-    joins(:item => :loot_type).where(['drops.loot_method = ? and loot_types.default_loot_method = ?', 'b', 't'])
-  end
-
-  def self.trash_for_non_trash
-    joins(:item => :loot_type).where(['drops.loot_method = ? and loot_types.default_loot_method <> ?', 't', 't'])
-  end
-
-  def self.guild_bank_for_non_guild_bank
-    joins(:item => :loot_type).where(['drops.loot_method = ? and loot_types.default_loot_method <> ?', 'g', 'g'])
-  end
-
-  def self.guild_bank_bad_assignment
-    joins(:item => :loot_type).where(['drops.loot_method not in (?, ?) and loot_types.default_loot_method = ?', 'r', 'g', 'g'])
-  end
-
-  def self.main_won_without_need
-    joins(:character => {:player => {:characters => :character_types}}).where('drops.loot_method not in (?)', %w{n g t}).where(['(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?', 'm'])
-  end
-
-  def self.raid_alt_won_without_random
-    joins(:character => {:player => {:characters => :character_types}}).where('drops.loot_method not in (?)', %w{r g t}).where(['(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?', 'r'])
-  end
-
-  def self.general_alt_won_without_bid
-    joins(:character => {:player => {:characters => :character_types}}).where('drops.loot_method not in (?)', %w{b g t}).where(['(select ct2.char_type from character_types ct2 where ct2.character_id = drops.character_id and ct2.effective_date = ((select max(ct3.effective_date) from character_types ct3 where ct3.character_id = drops.character_id and ct3.effective_date <= drops.drop_time))) = ?', 'g'])
-  end
-
-  def self.old_invalidly_assigned
-    all.to_a.select { |d| !d.invalid_reason.nil? }
-  end
-
-  def self.with_default_loot_method(default_loot_method)
-    joins(:item => :loot_type).where(['loot_types.default_loot_method = ?', default_loot_method])
-  end
-
-  def self.needed
-    won_by('n')
-  end
-
-  def self.won_by(loot_method)
-    where(:loot_method => loot_method)
-  end
-
-  def self.for_wrong_class
-    where('(select c.archetype_id from characters c where c.id = drops.character_id) ' +
-              'not in (select ai.archetype_id from archetypes_items ai where ai.item_id = drops.item_id)')
   end
 
   def to_xml(options = {})

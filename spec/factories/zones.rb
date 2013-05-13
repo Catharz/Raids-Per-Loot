@@ -5,5 +5,5 @@ FactoryGirl.define do
 
   factory :zone do |f|
     f.name { generate(:zone_name) }
-    end
+  end
 end
