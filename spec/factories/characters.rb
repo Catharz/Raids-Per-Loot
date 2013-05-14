@@ -8,6 +8,7 @@ FactoryGirl.define do
     f.name { generate(:character_name) }
     f.char_type 'm'
     f.archetype { |a| a.association(:archetype) }
+    f.external_data { |a| a.association(:external_data) }
   end
 
   factory :invalid_character, parent: :character do |f|
