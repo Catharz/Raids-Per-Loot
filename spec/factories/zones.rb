@@ -5,5 +5,6 @@ FactoryGirl.define do
 
   factory :zone do |f|
     f.name { generate(:zone_name) }
+    f.difficulty { |a| a.association(:difficulty) }
   end
 end
