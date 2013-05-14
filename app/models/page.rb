@@ -24,6 +24,6 @@ class Page < ActiveRecord::Base
   end
 
   def invalidate_page_cache
-    Page.all.touch
+    Page.all.each { |page| page.touch unless page.eql? self }
   end
 end

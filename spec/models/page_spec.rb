@@ -37,4 +37,57 @@ describe Page do
       page.redirection.should eq 'None'
     end
   end
+
+  describe '#invalidate_page_cache' do
+    it 'touches all but the current page' do
+      page1 = FactoryGirl.create(:page, admin: true)
+      page2 = FactoryGirl.create(:page, parent: page1, admin: false)
+      page3 = FactoryGirl.create(:page, parent: page1, admin: true)
+      page4 = FactoryGirl.create(:page, parent: page1, admin: false)
+
+      Page.should_receive(:all).and_return([page1, page2, page3, page4])
+      page2.should_receive(:touch)
+      page3.should_receive(:touch)
+      page4.should_receive(:touch)
+
+      page1.invalidate_page_cache
+    end
+  end
+
+  context 'scopes' do
+    describe '#find_main' do
+      it 'finds all pages without parents' do
+        page1 = FactoryGirl.create(:page, admin: true)
+        FactoryGirl.create(:page, parent: page1, admin: true)
+
+        Page.find_main.should eq [page1]
+      end
+
+      it 'sorts by position' do
+        page1 = FactoryGirl.create(:page, admin: true, position: 3)
+        page2 = FactoryGirl.create(:page, admin: false, position: 2)
+
+        Page.find_main.should eq [page2, page1]
+      end
+    end
+
+    describe '#find_main_public' do
+      it 'finds non-admin pages without parents' do
+        page1 = FactoryGirl.create(:page, admin: true)
+        page2 = FactoryGirl.create(:page, admin: false)
+        FactoryGirl.create(:page, parent: page1, admin: true)
+        FactoryGirl.create(:page, parent: page2, admin: false)
+
+        Page.find_main_public.should eq [page2]
+      end
+
+      it 'sorts by position' do
+        FactoryGirl.create(:page, admin: true, position: 3)
+        page2 = FactoryGirl.create(:page, admin: false, position: 2)
+        page3 = FactoryGirl.create(:page, admin: false, position: 1)
+
+        Page.find_main_public.should eq [page3, page2]
+      end
+    end
+  end
 end
