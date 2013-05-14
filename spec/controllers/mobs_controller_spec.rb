@@ -30,6 +30,32 @@ describe MobsController do
       get :index, :name => 'Tough Guy'
       assigns(:mobs).should eq([mob2])
     end
+
+    it 'renders xml' do
+      mob = FactoryGirl.create(:mob)
+
+      get :index, :format => :xml
+
+      response.content_type.should eq('application/xml')
+      response.body.should have_selector('mobs', :type => 'array') do |results|
+        results.should have_selector('mob') do |pr|
+          pr.should have_selector('id', type: 'integer', content: mob.id.to_s)
+          pr.should have_selector('name', content: mob.name)
+          pr.should have_selector('zone-id', type: 'integer', content: mob.zone_id.to_s)
+          pr.should have_selector('difficulty-id', type: 'integer', content: mob.difficulty_id.to_s)
+        end
+      end
+      response.body.should eq([mob].to_xml)
+    end
+
+    it 'renders json' do
+      mob = FactoryGirl.create(:mob)
+
+      get :index, :format => :json
+
+      response.content_type.should eq('application/json')
+      JSON.parse(response.body)[0].should eq JSON.parse(mob.to_json)
+    end
   end
 
   describe 'GET #option_list' do
@@ -52,6 +78,24 @@ describe MobsController do
     it 'renders the :show template' do
       get :show, id: FactoryGirl.create(:mob)
       response.should render_template :show
+    end
+
+    it 'renders xml' do
+      mob = FactoryGirl.create(:mob)
+
+      get :show, format: :xml, id: mob.id
+
+      response.content_type.should eq('application/xml')
+      response.body.should eq(mob.to_xml)
+    end
+
+    it 'renders json' do
+      mob = FactoryGirl.create(:mob)
+
+      get :show, format: :json, id: mob
+
+      response.content_type.should eq('application/json')
+      JSON.parse(response.body).should eq JSON.parse(mob.to_json)
     end
   end
 

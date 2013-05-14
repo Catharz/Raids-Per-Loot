@@ -15,9 +15,6 @@ class Mob < ActiveRecord::Base
   scope :by_zone, ->(zone_id) {
     zone_id ? where(:zone_id => zone_id) : scoped
   }
-  scope :by_zone_name, ->(zone_name) {
-    zone_name ? includes(:zone).where('zones.name = ?', zone_name) : scoped
-  }
   scope :by_name, ->(name) {
     name ? where(:name => name) : scoped
   }

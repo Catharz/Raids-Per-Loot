@@ -39,7 +39,7 @@ describe Mob do
     end
   end
 
-  describe 'difficulty_name' do
+  describe '#difficulty_name' do
     it 'should show the difficulty name when set' do
       hard = FactoryGirl.create(:difficulty, :name => 'Hard', :rating => 3)
       mob = FactoryGirl.create(:mob, :name => 'Hard Mob', :difficulty => hard)
@@ -48,7 +48,7 @@ describe Mob do
     end
   end
 
-  describe 'zone_name' do
+  describe '#zone_name' do
     it 'should return the zone name when set' do
       zone = FactoryGirl.create(:zone, name: 'Wherever')
       mob = FactoryGirl.create(:mob, name: 'Pinyata', zone_id: zone.id)
@@ -57,7 +57,7 @@ describe Mob do
     end
   end
 
-  describe 'first_killed' do
+  describe '#first_killed' do
     it 'should return the first drop date if drops exist' do
       zone = FactoryGirl.create(:zone, name: 'Wherever')
       mob = FactoryGirl.create(:mob, name: 'Pinyata', zone_id: zone.id)
@@ -82,7 +82,7 @@ describe Mob do
     end
   end
 
-  describe 'last_killed' do
+  describe '#last_killed' do
     it 'should return the last drop date if drops exist' do
       zone = FactoryGirl.create(:zone, name: 'Wherever')
       mob = FactoryGirl.create(:mob, name: 'Pinyata', zone_id: zone.id)
@@ -104,6 +104,23 @@ describe Mob do
       mob = FactoryGirl.create(:mob, name: 'Pinyata', zone_id: zone.id)
 
       mob.last_killed.should eq 'Never'
+    end
+  end
+
+  describe '#kills' do
+    it 'returns the number of times a mob has been killed' do
+      zone = FactoryGirl.create(:zone)
+      mob = FactoryGirl.create(:mob, zone: zone)
+
+      first_instance = FactoryGirl.create(:instance, start_time: DateTime.parse('2012-01-31 18:00'), zone: zone)
+      second_instance = FactoryGirl.create(:instance, start_time: DateTime.parse('2012-02-28 18:00'), zone: zone)
+      third_instance = FactoryGirl.create(:instance, start_time: DateTime.parse('2012-03-31 18:00'), zone: zone)
+
+      FactoryGirl.create(:drop, instance: first_instance, mob: mob, drop_time: DateTime.parse('31/01/2012'), zone: zone)
+      FactoryGirl.create(:drop, instance: second_instance, mob: mob, drop_time: DateTime.parse('28/02/2012'), zone: zone)
+      FactoryGirl.create(:drop, instance: third_instance, mob: mob, drop_time: DateTime.parse('31/03/2012'), zone: zone)
+
+      mob.kills.should eq 3
     end
   end
 end
