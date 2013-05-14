@@ -9,28 +9,26 @@
       %th Item Classes
       %th Loot Method
       %th Drop Time
-      %th Log Line
       %th Invalid Reason
       %th
       %th
   %tbody
     - @drops.each do |drop|
-      %tr{:id => "drop_#{drop.id}", :class => "item_#{drop.item.id}", "data-drop_id" => drop.id}
+      %tr{:id => "drop_#{drop.id}", :class => "item_#{drop.item.id}", 'data-drop_id' => drop.id}
         - item = drop.item
-        %td= drop.character ? drop.character_name : "Unknown"
-        %td= drop.character and drop.character.archetype ? drop.character.archetype.name : "Unknown"
-        %td= drop.loot_type ? drop.loot_type_name : "Unknown"
+        %td= drop.character ? drop.character_name : ''
+        %td= drop.character ? drop.character.archetype_name : ''
+        %td= drop.loot_type ? drop.loot_type_name : ''
         - if item
-          %td= item.loot_type ? item.loot_type.name : "Unknown"
-          %td= link_to item.name, item, {:class => "itemPopupTrigger", :id => item.id}
+          %td= item.loot_type ? item.loot_type_name : ''
+          %td= link_to item.name, item, {:class => 'itemPopupTrigger', :id => item.id}
           %td= consolidate_archetypes(item.archetypes)
         - else
-          %td Unknown
-          %td Unknown
-          %td Unknown
+          %td
+          %td
+          %td
         %td= drop.loot_method_name
         %td= drop.drop_time
-        %td= drop.log_line
         %td= drop.invalid_reason
         %td= link_to 'Edit Drop', edit_drop_path(drop), :remote => true, class: 'table-button'
         %td= link_to 'Edit Item', edit_item_path(item, :params => {:drop_id => drop.id}), :remote => true, class: 'table-button'
