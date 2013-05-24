@@ -7,6 +7,8 @@ class CharacterType < ActiveRecord::Base
 
   delegate :name, to: :character, prefix: :character, allow_nil: true
   delegate :player_name, to: :character
+  delegate :first_raid, to: :character, allow_nil: true
+  delegate :last_raid, to: :character, allow_nil: true
 
   scope :none, where(:id => nil).where('id IS NOT ?', nil)
   scope :by_character, ->(character_id = nil) {
@@ -24,10 +26,10 @@ class CharacterType < ActiveRecord::Base
   end
 
   def character_first_raid_date
-    character and character.first_raid ? character.first_raid.raid_date : 'Never'
+    character.first_raid ? character.first_raid.raid_date : 'Never'
   end
 
   def character_last_raid_date
-    character and character.last_raid ? character.last_raid.raid_date : 'Never'
+    character.last_raid ? character.last_raid.raid_date : 'Never'
   end
 end
