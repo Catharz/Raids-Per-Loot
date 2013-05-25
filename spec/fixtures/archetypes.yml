@@ -1,0 +1,247 @@
+---
+fighter:
+  id: '1'
+  name: Fighter
+  created_at: '2011-12-28 09:53:36.751118'
+  updated_at: '2011-12-28 09:53:36.751118'
+  parent_id: !!null 
+brawler:
+  id: '2'
+  name: Brawler
+  created_at: '2011-12-28 09:53:36.762876'
+  updated_at: '2011-12-28 09:53:36.762876'
+  parent_id: '1'
+crusader:
+  id: '5'
+  name: Crusader
+  created_at: '2011-12-28 09:53:36.779459'
+  updated_at: '2011-12-28 09:53:36.779459'
+  parent_id: '1'
+warrior:
+  id: '8'
+  name: Warrior
+  created_at: '2011-12-28 09:53:36.795264'
+  updated_at: '2011-12-28 09:53:36.795264'
+  parent_id: '1'
+mage:
+  id: '11'
+  name: Mage
+  created_at: '2011-12-28 09:53:36.817706'
+  updated_at: '2011-12-28 09:53:36.817706'
+  parent_id: !!null 
+enchanter:
+  id: '12'
+  name: Enchanter
+  created_at: '2011-12-28 09:53:36.821981'
+  updated_at: '2011-12-28 09:53:36.821981'
+  parent_id: '11'
+soercerer:
+  id: '15'
+  name: Sorcerer
+  created_at: '2011-12-28 09:53:36.839018'
+  updated_at: '2011-12-28 09:53:36.839018'
+  parent_id: '11'
+summoner:
+  id: '18'
+  name: Summoner
+  created_at: '2011-12-28 09:53:36.856569'
+  updated_at: '2011-12-28 09:53:36.856569'
+  parent_id: '11'
+priest:
+  id: '21'
+  name: Priest
+  created_at: '2011-12-28 09:53:36.878286'
+  updated_at: '2011-12-28 09:53:36.878286'
+  parent_id: !!null 
+cleric:
+  id: '22'
+  name: Cleric
+  created_at: '2011-12-28 09:53:36.882434'
+  updated_at: '2011-12-28 09:53:36.882434'
+  parent_id: '21'
+druid:
+  id: '25'
+  name: Druid
+  created_at: '2011-12-28 09:53:36.899154'
+  updated_at: '2011-12-28 09:53:36.899154'
+  parent_id: '21'
+shaman:
+  id: '28'
+  name: Shaman
+  created_at: '2011-12-28 09:53:36.916389'
+  updated_at: '2011-12-28 09:53:36.916389'
+  parent_id: '21'
+scout:
+  id: '31'
+  name: Scout
+  created_at: '2011-12-28 09:53:36.939818'
+  updated_at: '2011-12-28 09:53:36.939818'
+  parent_id: !!null 
+bard:
+  id: '33'
+  name: Bard
+  created_at: '2011-12-28 09:53:36.949881'
+  updated_at: '2011-12-28 09:53:36.949881'
+  parent_id: '31'
+predator:
+  id: '36'
+  name: Predator
+  created_at: '2011-12-28 09:53:36.968205'
+  updated_at: '2011-12-28 09:53:36.968205'
+  parent_id: '31'
+rogue:
+  id: '39'
+  name: Rogue
+  created_at: '2011-12-28 09:53:36.986761'
+  updated_at: '2011-12-28 09:53:36.986761'
+  parent_id: '31'
+guardian:
+  id: '10'
+  name: Guardian
+  created_at: '2011-12-28 09:53:36.806725'
+  updated_at: '2012-12-17 04:17:18.434432'
+  parent_id: '8'
+shadowknight:
+  id: '7'
+  name: Shadowknight
+  created_at: '2011-12-28 09:53:36.789353'
+  updated_at: '2013-04-17 09:07:28.111353'
+  parent_id: '5'
+monk:
+  id: '4'
+  name: Monk
+  created_at: '2011-12-28 09:53:36.773515'
+  updated_at: '2013-05-24 12:05:45.284884'
+  parent_id: '2'
+brigand:
+  id: '40'
+  name: Brigand
+  created_at: '2011-12-28 09:53:36.99179'
+  updated_at: '2013-05-23 09:01:39.051603'
+  parent_id: '39'
+necromancer:
+  id: '20'
+  name: Necromancer
+  created_at: '2011-12-28 09:53:36.866837'
+  updated_at: '2013-05-24 10:09:21.076995'
+  parent_id: '18'
+warlock:
+  id: '16'
+  name: Warlock
+  created_at: '2011-12-28 09:53:36.843672'
+  updated_at: '2013-05-23 11:43:01.391868'
+  parent_id: '15'
+dirge:
+  id: '34'
+  name: Dirge
+  created_at: '2011-12-28 09:53:36.954696'
+  updated_at: '2013-05-23 14:47:20.010403'
+  parent_id: '33'
+ranger:
+  id: '38'
+  name: Ranger
+  created_at: '2011-12-28 09:53:36.980502'
+  updated_at: '2013-05-23 22:55:04.032292'
+  parent_id: '36'
+bruiser:
+  id: '3'
+  name: Bruiser
+  created_at: '2011-12-28 09:53:36.767622'
+  updated_at: '2013-05-23 06:15:13.517044'
+  parent_id: '2'
+assassin:
+  id: '37'
+  name: Assassin
+  created_at: '2011-12-28 09:53:36.972872'
+  updated_at: '2013-05-24 10:59:02.275816'
+  parent_id: '36'
+illusionist:
+  id: '14'
+  name: Illusionist
+  created_at: '2011-12-28 09:53:36.832844'
+  updated_at: '2013-05-24 10:59:31.691276'
+  parent_id: '12'
+paladin:
+  id: '6'
+  name: Paladin
+  created_at: '2011-12-28 09:53:36.783238'
+  updated_at: '2013-05-24 11:00:10.355408'
+  parent_id: '5'
+conjuror:
+  id: '19'
+  name: Conjuror
+  created_at: '2011-12-28 09:53:36.86084'
+  updated_at: '2013-05-24 11:00:19.083613'
+  parent_id: '18'
+mystic:
+  id: '30'
+  name: Mystic
+  created_at: '2011-12-28 09:53:36.92773'
+  updated_at: '2013-05-24 11:00:29.075245'
+  parent_id: '28'
+defiler:
+  id: '29'
+  name: Defiler
+  created_at: '2011-12-28 09:53:36.921518'
+  updated_at: '2013-05-24 11:00:38.370997'
+  parent_id: '28'
+swashbuckler:
+  id: '41'
+  name: Swashbuckler
+  created_at: '2011-12-28 09:53:36.997899'
+  updated_at: '2013-05-24 11:00:47.939583'
+  parent_id: '39'
+templar:
+  id: '24'
+  name: Templar
+  created_at: '2011-12-28 09:53:36.89322'
+  updated_at: '2013-05-24 11:01:15.726399'
+  parent_id: '22'
+wizard:
+  id: '17'
+  name: Wizard
+  created_at: '2011-12-28 09:53:36.850142'
+  updated_at: '2013-05-24 11:01:47.891537'
+  parent_id: '15'
+inquisitor:
+  id: '23'
+  name: Inquisitor
+  created_at: '2011-12-28 09:53:36.887029'
+  updated_at: '2013-05-24 11:01:57.917306'
+  parent_id: '22'
+troubador:
+  id: '35'
+  name: Troubador
+  created_at: '2011-12-28 09:53:36.961993'
+  updated_at: '2013-05-24 11:02:10.850953'
+  parent_id: '33'
+berserker:
+  id: '9'
+  name: Berserker
+  created_at: '2011-12-28 09:53:36.79983'
+  updated_at: '2013-05-24 11:02:21.403788'
+  parent_id: '8'
+coercer:
+  id: '13'
+  name: Coercer
+  created_at: '2011-12-28 09:53:36.826557'
+  updated_at: '2013-05-24 11:02:34.881428'
+  parent_id: '12'
+warden:
+  id: '27'
+  name: Warden
+  created_at: '2011-12-28 09:53:36.910215'
+  updated_at: '2013-05-24 11:31:04.538794'
+  parent_id: '25'
+fury:
+  id: '26'
+  name: Fury
+  created_at: '2011-12-28 09:53:36.903999'
+  updated_at: '2013-05-24 12:04:48.910126'
+  parent_id: '25'
+beastlord:
+  id: '32'
+  name: Beastlord
+  created_at: '2011-12-28 09:53:36.944586'
+  updated_at: '2013-05-23 09:00:46.462858'
+  parent_id: '31'

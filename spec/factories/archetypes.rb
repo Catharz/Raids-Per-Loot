@@ -5,5 +5,6 @@ FactoryGirl.define do
 
   factory :archetype do |f|
     f.name { generate(:archetype_name) }
+    f.parent_id nil
   end
 end

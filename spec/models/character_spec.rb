@@ -3,10 +3,7 @@ require 'character_spec_helper'
 
 describe Character do
   include CharacterSpecHelper
-
-  before(:each) do
-    @character = FactoryGirl.create(:character, valid_character_attributes)
-  end
+  fixtures :archetypes
 
   context 'associations' do
     it { should belong_to(:player) }
@@ -61,11 +58,114 @@ describe Character do
   context 'instance methods' do
     describe '#loot_rate' do
       it 'should calculate to two decimal places' do
+        character = FactoryGirl.create(:character, valid_character_attributes)
         num_raids = 37
         num_items = 5
 
-        loot_rate = @character.calculate_loot_rate(num_raids, num_items)
+        loot_rate = character.calculate_loot_rate(num_raids, num_items)
         loot_rate.should == 6.17
+      end
+    end
+
+    context 'player character types' do
+      before(:each) do
+        @player = FactoryGirl.create(:player)
+        @main = FactoryGirl.create(:character, char_type: 'm', player: @player)
+        @raid_alt = FactoryGirl.create(:character, char_type: 'r', player: @player)
+        @gen_alt1 = FactoryGirl.create(:character, char_type: 'g', player: @player)
+        @gen_alt2 = FactoryGirl.create(:character, char_type: 'g', player: @player)
+      end
+
+      describe 'main_character' do
+        context 'with no player' do
+          it 'is nil if not the main character' do
+            char = FactoryGirl.create(:character, char_type: 'g')
+            char.should_receive(:player).and_return(nil)
+
+            char.main_character.should be_nil
+          end
+
+          it 'is itself if the main character' do
+            char = FactoryGirl.create(:character, char_type: 'm')
+
+            char.main_character.should eq char
+          end
+        end
+
+        it 'works when asking the main character' do
+          @main.main_character.should eq @main
+        end
+
+        it 'works when asking the raid alternate' do
+          @raid_alt.main_character.should eq @main
+        end
+
+        it 'works when asking any of the general alternates' do
+          @gen_alt1.main_character.should eq @main
+          @gen_alt2.main_character.should eq @main
+        end
+      end
+
+      describe 'raid_alternate' do
+        context 'with no player' do
+          it 'is nil if not the raid alternate' do
+            char = FactoryGirl.create(:character, char_type: 'm')
+            char.should_receive(:player).and_return(nil)
+
+            char.raid_alternate.should be_nil
+          end
+
+          it 'is itself if the raid alternate' do
+            char = FactoryGirl.create(:character, char_type: 'r')
+            char.should_receive(:player).and_return(nil)
+
+            char.raid_alternate.should eq char
+          end
+        end
+
+        it 'works when asking the main character' do
+          @main.raid_alternate.should eq @raid_alt
+        end
+
+        it 'works when asking the raid alternate' do
+          @raid_alt.raid_alternate.should eq @raid_alt
+        end
+
+        it 'works when asking any of the general alternates' do
+          @gen_alt1.raid_alternate.should eq @raid_alt
+          @gen_alt2.raid_alternate.should eq @raid_alt
+        end
+      end
+
+      describe 'general_alternates' do
+        context 'with no player' do
+          it 'is empty if not a general alternate' do
+            char = FactoryGirl.create(:character, char_type: 'm')
+            char.should_receive(:player).and_return(nil)
+
+            char.general_alternates.should eq []
+          end
+
+          it 'is itself if a general alternate' do
+            char = FactoryGirl.create(:character, char_type: 'g')
+            char.should_receive(:player).and_return(nil)
+
+            char.general_alternates.should eq [char]
+          end
+        end
+
+        it 'works when asking the main character' do
+          @main.general_alternates.should match_array [@gen_alt1, @gen_alt2]
+        end
+
+        it 'works when asking the raid alternate' do
+          @raid_alt.general_alternates.should match_array [@gen_alt1, @gen_alt2]
+        end
+
+        it 'works when asking any of the general alternates' do
+          @gen_alt1.general_alternates.should match_array [@gen_alt1, @gen_alt2]
+          @gen_alt2.general_alternates.should match_array [@gen_alt1, @gen_alt2]
+        end
       end
     end
 
@@ -92,9 +192,7 @@ describe Character do
 
     context '#archetype_root' do
       it 'should show the root archetype name when it has one' do
-        fighter = FactoryGirl.create(:archetype, name: 'Fighter')
-        brawler = FactoryGirl.create(:archetype, name: 'Brawler', parent_id: fighter.id)
-        character = FactoryGirl.create(:character, valid_character_attributes.merge!(name: 'brawler', archetype_id: brawler.id))
+        character = FactoryGirl.create(:character, archetype: Archetype.find_by_name('Monk'))
 
         character.archetype_root.should eq 'Fighter'
       end
@@ -103,6 +201,71 @@ describe Character do
         unknown = Character.new
 
         unknown.archetype_root.should eq 'Unknown'
+      end
+    end
+  end
+
+  context 'scopes' do
+    before(:each) do
+      @fighter = Archetype.find_by_name('Fighter')
+      @brawler = Archetype.find_by_name('Brawler')
+      @bruiser = Archetype.find_by_name('Bruiser')
+      @monk = Archetype.find_by_name('Monk')
+      @paladin = Archetype.find_by_name('Paladin')
+
+      @player1 = FactoryGirl.create(:player)
+      @player2 = FactoryGirl.create(:player)
+      @rhubarb = FactoryGirl.create(:character, name: 'Rhubarb', player: @player1, archetype: @bruiser)
+      @strawberry = FactoryGirl.create(:character, name: 'Strawberry', player: @player2, archetype: @monk)
+      @blueberry = FactoryGirl.create(:character, name: 'Blueberry', player: @player2, archetype: @paladin)
+    end
+
+
+    describe 'by_name' do
+      it 'finds all characters by default' do
+        Character.by_name(nil).should match_array [@rhubarb, @strawberry, @blueberry]
+      end
+
+      it 'finds characters by name' do
+        Character.by_name('Rhubarb').should eq [@rhubarb]
+      end
+    end
+
+    describe 'by_instance' do
+      it 'finds all characters by default' do
+        Character.by_instance(nil).should match_array [@rhubarb, @strawberry, @blueberry]
+      end
+
+      it 'finds characters who raided a particular instance' do
+        instance = FactoryGirl.create(:instance)
+
+        FactoryGirl.create(:character_instance, character_id: @strawberry.id, instance_id: instance.id)
+
+        Character.by_instance(instance.id).should eq [@strawberry]
+      end
+    end
+
+    describe 'by_player' do
+      it 'finds all by default' do
+        Character.by_player(nil).should match_array [@rhubarb, @strawberry, @blueberry]
+      end
+
+      it 'finds characters belonging to a specify player' do
+        Character.by_player(@player2.id).should match_array [@strawberry, @blueberry]
+      end
+    end
+
+    describe 'find_by_archetype' do
+      it 'finds just the monk' do
+        Character.find_by_archetype(@monk).should eq [@strawberry]
+      end
+
+      it 'finds the brawlers' do
+        Character.find_by_archetype(@brawler).should match_array [@rhubarb, @strawberry]
+      end
+
+      it 'finds all the fighters' do
+        Character.find_by_archetype(@fighter).should match_array [@rhubarb, @strawberry, @blueberry]
       end
     end
   end
