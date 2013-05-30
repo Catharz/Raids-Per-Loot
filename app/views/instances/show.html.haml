@@ -1,42 +1,4 @@
-#tabBook
-  %ul
-    %li= link_to "Details", "#details"
-    %li= link_to "Players", "#players"
-    %li= link_to "Characters", "#characters"
-    %li= link_to "Kills", "#kills"
-    %li= link_to "Drops", "#drops"
-
-  #details
-    %p
-      %strong Zone:
-      = @instance.zone.name
-    %p
-      %strong Start time:
-      = @instance.start_time
-    %p
-      %strong Players:
-      = @instance.players.count
-    %p
-      %strong Characters:
-      = @instance.characters.count
-    %p
-      %strong Kills:
-      = @instance.kills.count
-    %p
-      %strong Drops:
-      = @instance.drops.count
-
-  #players
-    = render 'tabs/players', :"@player_list" => @instance.players
-
-  #characters
-    = render 'tabs/characters', :"@character_list" => @instance.characters
-
-  #kills
-    = render 'tabs/mobs', :"@mob_list" => @instance.kills
-
-  #drops
-    = render 'tabs/drops', :"@drop_list" => @instance.drops
+= render 'details'
 
 = link_to 'Edit', edit_instance_path(@instance)
 |

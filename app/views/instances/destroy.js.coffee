@@ -1,0 +1,5 @@
+oTable = $('#instancesTable').dataTable()
+aPos = oTable.fnGetPosition( document.getElementById("instance_<%= @instance.id %>") )
+oTable.fnDeleteRow(aPos)
+oTable.fnDraw()
+$("#notice").empty().append("Instance was successfully deleted.")

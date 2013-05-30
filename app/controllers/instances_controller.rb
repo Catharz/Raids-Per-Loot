@@ -37,6 +37,7 @@ class InstancesController < ApplicationController
       format.html # show.html.erb
       format.json { render :json => @instance }
       format.xml  { render :xml => @instance.to_xml(:include => [:characters => [:player], :drops => [:mob, :zone, :character, :item]]) }
+      format.js
     end
   end
 
