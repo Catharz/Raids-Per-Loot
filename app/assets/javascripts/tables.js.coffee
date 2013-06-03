@@ -40,6 +40,11 @@ jQuery ->
     ]
     "aaSorting": [[2,'desc']]
 
+  $('#guildAchievementsTable').dataTable
+    "bJQueryUI": true
+    "sPaginationType": "full_numbers"
+    "aaSorting": [[0,'desc']]
+
   $('#adjustmentsTable').dataTable
     "bJQueryUI": true
     "sPaginationType": "full_numbers"

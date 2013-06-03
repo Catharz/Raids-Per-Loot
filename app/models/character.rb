@@ -7,7 +7,7 @@ class Character < ActiveRecord::Base
   belongs_to :archetype, :inverse_of => :characters, :touch => true
 
   has_many :drops, :inverse_of => :character
-  has_many :character_instances, :inverse_of => :character
+  has_many :character_instances, :inverse_of => :character, dependent: :destroy
   has_many :character_types, :inverse_of => :character, :dependent => :destroy
 
   has_one :last_switch, :class_name => 'CharacterType', :order => 'updated_at desc'

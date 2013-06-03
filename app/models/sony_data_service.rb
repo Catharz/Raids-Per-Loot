@@ -141,7 +141,49 @@ class SonyDataService
     end
   end
 
+  def character_list(format = 'json', params = '&c:show=member_list')
+    if internet_connection?
+      members_url = "/#{format}/get/eq2/guild/?name=#{APP_CONFIG['guild_name']}&world=#{APP_CONFIG['eq2_server']}#{params}".gsub(' ', '%20')
+      SOEData.get(members_url)['guild_list'][0]['member_list'].map { |m| m['name'] }.sort!
+    else
+      []
+    end
+  end
+
+  def guild_achievements(format = 'json')
+    if internet_connection?
+      data = guild_data(format, '&c:show=achievement_list')
+      achievement_list = data['guild_list'][0]['achievement_list']
+      achievement_list.collect { |a| resolve_achievement_data(format, a) }
+    else
+      []
+    end
+  end
+
   private
+  def resolve_achievement_data(format = 'json', value = {})
+    if value['id']
+      url = "/#{format}/get/eq2/achievement/#{value['id']}"
+      data = SOEData.get(url)
+      value.merge! data['achievement_list'][0]
+    end
+  end
+
+  def guild_data(format = 'json', params = '')
+    url = "/#{format}/get/eq2/guild/?name=#{APP_CONFIG['guild_name']}&world=#{APP_CONFIG['eq2_server']}#{params}".gsub(' ', '%20')
+    SOEData.get(url)
+  end
+
+  def download_guild_achievements(format = 'json')
+    if internet_connection?
+      params = '&c:resolve=achievements(name,desc,subcategory,isguildachievement)'
+      character_achievements_url = "/s:#{APP_CONFIG['soe_query_id']}/#{format}/get/eq2/character/?guild.name=#{APP_CONFIG['guild_name']}&locationdata.world=#{APP_CONFIG['eq2_server']}#{params}".gsub(' ', '%20')
+      @guild_achievements ||= SOEData.get(character_achievements_url)
+    else
+      {}
+    end
+  end
+
   def archetype_roots
     @archetype_roots ||= Archetype.root_list
   end

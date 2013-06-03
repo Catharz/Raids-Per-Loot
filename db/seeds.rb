@@ -40,6 +40,9 @@ def create_default_pages
   home_page.children.create(:name => 'link_list', :title => 'Links', :navlabel => 'Links',
                             :position => 1, :admin => false, :redirect => true,
                             :controller_name => 'links', :action_name => 'list', :body => '.')
+  home_page.children.create(name: 'guild_achievements', title: 'Guild Achievements', navlabel: 'Guild Achievements',
+                            position: 2, admin: false, redirect: true,
+                            controller_name: 'statistics', action_name: 'guild_achievements', body: '.')
 
   # Raiding Page and Sub Pages
   raiding_page = Page.create(:name => 'raiding', :title => 'Raiding', :navlabel => 'Raiding',

@@ -3,7 +3,7 @@ class Player < ActiveRecord::Base
 
   belongs_to :rank, :inverse_of => :players, :touch => true
 
-  has_many :characters, :inverse_of => :player
+  has_many :characters, :inverse_of => :player, dependent: :destroy
 
   has_many :character_instances, :through => :characters
   has_many :player_raids, inverse_of: :player

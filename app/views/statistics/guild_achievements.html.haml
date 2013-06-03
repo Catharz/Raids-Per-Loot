@@ -1,0 +1,15 @@
+- require 'active_support/time_with_zone'
+%table#guildAchievementsTable
+  %thead
+    %tr
+      %th Achieved
+      %th Description
+      %th Category
+      %th Sub-Category
+  %tbody
+    - @achievements.each do |achievement|
+      %tr
+        %td= Time.zone.at(achievement['completedtimestamp'])
+        %td= achievement['desc']
+        %td= achievement['category']
+        %td= achievement['subcategory']

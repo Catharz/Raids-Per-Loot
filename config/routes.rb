@@ -92,6 +92,8 @@ RaidsPerLoot::Application.routes.draw do
     end
   end
 
+  get '/statistics/guild_achievements', controller: 'statistics', action: 'guild_achievements'
+
   resource :session, :only => [:new, :create, :destroy]
 
   match 'signup' => 'users#new', :as => :signup

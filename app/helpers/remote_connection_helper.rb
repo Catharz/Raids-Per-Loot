@@ -12,10 +12,10 @@ module RemoteConnectionHelper
   def connected?
     begin
       # Always return false if we're testing'
-      if ENV["RAILS_ENV"].eql? "test"
+      if ENV['RAILS_ENV'].eql? 'test'
         false
       else
-        true if open("http://www.google.com/")
+        true if open('http://www.google.com/')
       end
     rescue
       false
