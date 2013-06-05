@@ -1,0 +1,5 @@
+oTable = $('#dataTable').dataTable()
+aPos = oTable.fnGetPosition( document.getElementById("difficulty_<%= @difficulty.id %>") )
+oTable.fnDeleteRow(aPos)
+oTable.fnDraw()
+$("#notice").empty().append("Difficulty was successfully deleted.")

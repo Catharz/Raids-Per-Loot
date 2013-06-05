@@ -18,6 +18,7 @@ class DifficultiesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @difficulty }
+      format.js
     end
   end
 
@@ -29,6 +30,7 @@ class DifficultiesController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @difficulty }
+      format.js
     end
   end
 
@@ -45,7 +47,7 @@ class DifficultiesController < ApplicationController
     respond_to do |format|
       if @difficulty.save
         format.html { redirect_to @difficulty, notice: 'Difficulty was successfully created.' }
-        format.json { render json: @difficulty, status: :created, location: @difficulty }
+        format.json { render json: @difficulty.to_json, status: :created, location: @difficulty }
       else
         format.html { render action: "new" }
         format.json { render json: @difficulty.errors, status: :unprocessable_entity }
@@ -61,7 +63,7 @@ class DifficultiesController < ApplicationController
     respond_to do |format|
       if @difficulty.update_attributes(params[:difficulty])
         format.html { redirect_to @difficulty, notice: 'Difficulty was successfully updated.' }
-        format.json { head :ok }
+        format.json { render json: @difficulty }
       else
         format.html { render action: "edit" }
         format.json { render json: @difficulty.errors, status: :unprocessable_entity }
@@ -78,6 +80,7 @@ class DifficultiesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to difficulties_url }
       format.json { head :ok }
+      format.js
     end
   end
 end

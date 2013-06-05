@@ -10,13 +10,13 @@
       %th
   %tbody
     - @difficulties.each do |difficulty|
-      %tr
+      %tr{id: "difficulty_#{difficulty.id}"}
         %td= difficulty.name
         %td= difficulty.rating
         %td= difficulty.zones.count
         %td= difficulty.mobs.count
-        %td= link_to 'Show', difficulty, class: 'table-button'
-        %td= link_to 'Edit', edit_difficulty_path(difficulty), class: 'table-button'
-        %td= link_to 'Destroy', difficulty, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
+        %td= link_to 'Show', difficulty, class: 'table-button', remote: true
+        %td= link_to 'Edit', edit_difficulty_path(difficulty), class: 'table-button', remote: true
+        %td= link_to 'Destroy', difficulty, :confirm => 'Are you sure?', :method => :delete, class: 'table-button', remote: true
 %br
-= link_to 'New Difficulty', new_difficulty_path, class: 'button'
+= link_to 'New Difficulty', new_difficulty_path, class: 'button', remote: true

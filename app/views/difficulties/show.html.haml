@@ -1,9 +1,4 @@
-%p
-  %strong Name:
-  = @difficulty.name
-%p
-  %strong Rating:
-  = @difficulty.rating
+= render 'details'
 
 = link_to 'Edit', edit_difficulty_path(@difficulty)
 \|
