@@ -45,8 +45,8 @@ Feature: Manage players
       | zone 3 | mob 3 | Fred   | Barny     | item 3 | Armour    | eq2_item_id 3 | 2011-09-19 20:15:00 +1000 | n           |
       | zone 4 | mob 4 | Fred   | Barny     | item 4 | Weapon    | eq2_item_id 4 | 2011-09-18 20:00:00 +1000 | n           |
     Then I should see the following players:
-      | Name | Rank | First Raid | Last Raid  | # Raids | # Instances | Armour Rate | Jewellery Rate | Weapon Rate |
-      | Fred | Main | 2012-01-01 | 2012-01-01 | 1       | 2           | 0.33        | 1.0            | 0.33        |
+      | Name | Rank | First Raid | Last Raid  | Armour Rate | Jewellery Rate | Weapon Rate |
+      | Fred | Main | 2012-01-01 | 2012-01-01 | 0.33        | 1.0            | 0.33        |
 
   @ranks
   @loot_types
@@ -64,8 +64,8 @@ Feature: Manage players
       | zone 3 | mob 3 | Fred   | Barny     | item 3 | Armour    | eq2_item_id 3 | 2011-09-19 20:15:00 +1000 | n           |
       | zone 4 | mob 4 | Fred   | Barny     | item 4 | Weapon    | eq2_item_id 4 | 2011-09-18 20:00:00 +1000 | n           |
     Then I should see the following players:
-      | Name | Rank | First Raid | Last Raid  | # Raids | # Instances | Armour Rate | Jewellery Rate | Weapon Rate |
-      | Fred | Main | 2012-01-02 | 2012-01-02 | 3       | 3           | 1.0         | 3.0            | 1.0         |
+      | Name | Rank | First Raid | Last Raid  | Armour Rate | Jewellery Rate | Weapon Rate |
+      | Fred | Main | 2012-01-02 | 2012-01-02 | 1.0         | 3.0            | 1.0         |
 
   @ranks
   @loot_types
@@ -83,8 +83,8 @@ Feature: Manage players
       | zone 3 | mob 3 | Fred   | Barny     | item 3 | Armour    | eq2_item_id 3 | 2011-09-19 20:15:00 +1000 | n           |
       | zone 4 | mob 4 | Fred   | Barny     | item 4 | Weapon    | eq2_item_id 4 | 2011-09-18 20:00:00 +1000 | n           |
     Then I should see the following players:
-      | Name | Rank | First Raid | Last Raid  | # Raids | # Instances | Armour Rate | Jewellery Rate | Weapon Rate |
-      | Fred | Main | 2012-01-02 | 2012-01-02 | 1       | 3           | 0.2         | 1.0            | 0.33        |
+      | Name | Rank | First Raid | Last Raid  | Armour Rate | Jewellery Rate | Weapon Rate |
+      | Fred | Main | 2012-01-02 | 2012-01-02 | 0.2         | 1.0            | 0.33        |
 
   @ranks
   @loot_types
@@ -102,8 +102,8 @@ Feature: Manage players
       | zone 3 | mob 3 | Fred   | Barny     | item 3 | Armour    | eq2_item_id 3 | 2011-09-19 20:15:00 +1000 | n           |
       | zone 4 | mob 4 | Fred   | Barny     | item 4 | Weapon    | eq2_item_id 4 | 2011-09-18 20:00:00 +1000 | n           |
     Then I should see the following players:
-      | Name | Rank | First Raid | Last Raid  | # Raids | # Instances | Armour Rate | Jewellery Rate | Weapon Rate |
-      | Fred | Main | 2012-01-02 | 2012-01-02 | 1       | 3           | 0.33        | 0.33           | 0.33        |
+      | Name | Rank | First Raid | Last Raid  | Armour Rate | Jewellery Rate | Weapon Rate |
+      | Fred | Main | 2012-01-02 | 2012-01-02 | 0.33        | 0.33           | 0.33        |
 
   @ranks
   @loot_types

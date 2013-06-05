@@ -7,33 +7,28 @@
       %th Base Class
       %th First Raid
       %th Last Raid
-      %th # Raids
-      %th # Instances
       %th Armour Rate
       %th Jewellery Rate
       %th Weapon Rate
       %th
       %th
       %th
+      %th
   %tbody
     - @characters.each do |character|
-      - if character.char_type.eql? @char_type or @char_type.eql? "all"
-        %tr{:data => {:armour => character.armour_count, :jewellery => character.jewellery_count, :weapon => character.weapon_count}}
+      - if character.char_type.eql? @char_type or @char_type.eql? 'all'
+        %tr{id: "character_#{character.id}_#{@char_type}", data: attendance_stats(character)}
           - cache character do
-            %td{:id => "character_#{character.id}"}= link_to character.name, character_path(character), :remote => true
-            - if character.main_character
-              %td{:id => "character_#{character.main_character.id}"}= link_to character.main_character.name, character_path(character.main_character), :remote => true
-            - else
-              %td Unknown
+            %td{id: character.html_id}= character.path(remote: true)
+            %td{id: character.main_character.html_id}= character.main_character.path(remote: true)
             %td= character.archetype_name
             %td= character.archetype_root
             %td= character.first_raid_date
             %td= character.last_raid_date
-            %td{:align => "right"}= character.raids_count
-            %td{:align => "right"}= character.instances_count
-            %td.lootRateTrigger{:id => character.id,:align => "right"}= character.armour_rate
-            %td.lootRateTrigger{:id => character.id,:align => "right"}= character.jewellery_rate
-            %td.lootRateTrigger{:id => character.id,:align => "right"}= character.weapon_rate
-            %td= link_to 'Edit', edit_character_path(character), class: 'table-button'
+            %td{:id => character.id}= number_with_precision(character.armour_rate, precision: 2)
+            %td{:id => character.id}= number_with_precision(character.jewellery_rate, precision: 2)
+            %td{:id => character.id}= number_with_precision(character.weapon_rate, precision: 2)
+            %td= link_to 'Show', character, remote: true, class: 'table-button'
+            %td= link_to 'Edit', edit_character_path(character), remote: true, class: 'table-button'
             %td= link_to 'Update', fetch_data_character_path(character), :confirm => 'Are you sure?', class: 'table-button'
-            %td= link_to 'Destroy', character, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
+            %td= link_to 'Destroy', character, :confirm => 'Are you sure?', :method => :delete, remote: true, class: 'table-button'

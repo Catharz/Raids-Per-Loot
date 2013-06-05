@@ -9,18 +9,13 @@
       %th Health
       %th Power
       %th Crit
+      %th Adornments
       %th Crit Bonus
       %th Potency
-      %th Adornments
-      %th White
-      %th Yellow
-      %th Red
-      %th Green
-      %th Blue
   %tbody
     - @characters.each do |character|
-      - if character['char_type'].eql? @char_type or @char_type.eql? "all"
-        %tr
+      - if character['char_type'].eql? @char_type or @char_type.eql? 'all'
+        %tr{:id => "character_#{character['rpl_id']}", data: adornment_data(character)}
           - if character['rpl_id'].present?
             %td{:id => "character_#{character['rpl_id']}"}= link_to character['name'], character_path(:id => character['rpl_id']), :remote => true
           - else
@@ -29,32 +24,22 @@
             - stats = character['stats']
             %td= character['type']['class']
             %td= character['type']['base_class']
-            %td{:align => "right"}= character['type']['level']
-            %td{:align => "right"}= character['alternateadvancements']['spentpoints'] + character['alternateadvancements']['availablepoints']
-            %td{:align => "right", :class => "#{health_rating(stats['health']['max'], character['type']['base_class'])}"}= stats['health']['max']
-            %td{:align => "right"}= stats['power']['max']
-            %td{:align => "right", :class => "#{crit_rating(stats['combat']['critchance'])}"}= number_with_precision(stats['combat']['critchance'], :precision => 2)
-            %td{:align => "right"}= number_with_precision(stats['combat']['critbonus'], :precision => 2)
-            %td{:align => "right"}= number_with_precision(stats['combat']['basemodifier'], :precision => 2)
-            %td{:align => "right", :class => "#{adornment_rating(adornment_pct(character))}"}= number_with_precision(adornment_pct(character), :precision => 2)
-            %td= adornment_stats(character, 'white')
-            %td= adornment_stats(character, 'yellow')
-            %td= adornment_stats(character, 'red')
-            %td= adornment_stats(character, 'green')
-            %td= adornment_stats(character, 'blue')
+            %td.numeric= character['type']['level']
+            %td.numeric= character['alternateadvancements']['spentpoints'] + character['alternateadvancements']['availablepoints']
+            %td.numeric{:class => "#{health_rating(stats['health']['max'], character['type']['base_class'])}"}= stats['health']['max']
+            %td.numeric= stats['power']['max']
+            %td.numeric{:class => "#{crit_rating(stats['combat']['critchance'])}"}= number_with_precision(stats['combat']['critchance'], :precision => 2)
+            %td.adornmentsTrigger.numeric{:class => "#{adornment_rating(adornment_pct(character))}"}= number_with_precision(adornment_pct(character), :precision => 2)
+            %td.numeric= number_with_precision(stats['combat']['critbonus'], :precision => 2)
+            %td.numeric= number_with_precision(stats['combat']['basemodifier'], :precision => 2)
           - else
             %td Unknown
             %td Unknown
-            %td{:align => "right"} 0
-            %td{:align => "right"} 0
-            %td{:align => "right"} 0
-            %td{:align => "right"} 0
-            %td{:align => "right"} 0.00
-            %td{:align => "right"} 0.00
-            %td{:align => "right"} 0.00
-            %td{:align => "right"} 0.00
-            %td 0 / 0
-            %td 0 / 0
-            %td 0 / 0
-            %td 0 / 0
-            %td 0 / 0
+            %td.numeric 0
+            %td.numeric 0
+            %td.numeric 0
+            %td.numeric 0
+            %td.numeric 0.00
+            %td.numeric 0.00
+            %td.numeric 0.00
+            %td.numeric 0.00

@@ -90,26 +90,6 @@ jQuery ->
     hideTimer = setTimeout ->
       container.css "display", "none", hideDelay
 
-  $(".playerLootRateTrigger").live "mouseover", ->
-    currentID = @id
-    return  if currentID is ""
-
-    clearTimeout hideTimer  if hideTimer
-
-    pos = $(this).offset()
-    width = $(this).width()
-
-    container.css
-      left: (pos.left + width) + "px"
-      top: (pos.top - 5) + "px"
-
-    data = $(this).parent().data()
-    $("#popupContent").empty()
-    $("#popupContent").append "<p>Armour: " + data.armour +
-      "</br>Jewellery: " + data.jewellery +
-      "</br>Weapons: " + data.weapon + "</p>"
-    container.css "display", "block"
-
   $(".lootRateTrigger").live "mouseout", ->
     clearTimeout hideTimer  if hideTimer
     hideTimer = setTimeout ->
@@ -117,7 +97,7 @@ jQuery ->
 
   $(".lootRateTrigger").live "mouseover", ->
     currentID = @id
-    return  if currentID is ""
+    return if currentID is ""
 
     clearTimeout hideTimer  if hideTimer
 
@@ -130,20 +110,48 @@ jQuery ->
 
     data = $(this).parent().data()
     $("#popupContent").empty()
-    $("#popupContent").append "<div class='popupResult'>Armour: " + data.armour +
-    "</br>Jewellery: " + data.jewellery +
-    "</br>Weapons: " + data.weapon + "</class>"
-    container.css "display", "block"
+    $("#popupContent").append "<div class='popupResult'>" +
+    "Raids: " + data.raids + "</br>" +
+    "Instances: " + data.instances + "</br></br>" +
+    "Armour: " + data.armour + "</br>" +
+    "Jewellery: " + data.jewellery + "</br>" +
+    "Weapons: " + data.weapon + "</div>"
+    container.css
+      display: "block"
 
-  $(".lootRateTrigger").live "mouseout", ->
+  $(".adornmentsTrigger").live "mouseout", ->
     clearTimeout hideTimer  if hideTimer
     hideTimer = setTimeout ->
       container.css "display", "none", hideDelay
 
-  $("#popupContainer").mouseover ->
+  $(".adornmentsTrigger").live "mouseover", ->
+    currentID = @parentElement.id
+    return if currentID is ""
+
     clearTimeout hideTimer  if hideTimer
 
+    pos = $(this).offset()
+    width = $(this).width()
+
+    container.css
+      left: (pos.left + width) + "px"
+      top: (pos.top - 5) + "px"
+
+    data = $(this).parent().data()
+    $("#popupContent").empty()
+    $("#popupContent").append "<div class='popupResult'>" +
+    "White: " + data.white_adornments + "</br>" +
+    "Yellow: " + data.yellow_adornments + "</br>" +
+    "Red: " + data.red_adornments + "</br>" +
+    "Green: " + data.green_adornments + "</br>" +
+    "Blue: " + data.blue_adornments + "</div>"
+    container.css
+      display: "block"
+
+  $("#popupContainer").mouseover ->
+    clearTimeout hideTimer if hideTimer
+
   $("#popupContainer").mouseout ->
-    clearTimeout hideTimer  if hideTimer
+    clearTimeout hideTimer if hideTimer
     hideTimer = setTimeout ->
       container.css "display", "none", hideDelay

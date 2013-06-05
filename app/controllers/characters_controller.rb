@@ -43,8 +43,7 @@ class CharactersController < ApplicationController
     @characters = Character \
       .by_player(params[:player_id]) \
       .by_instance(params[:instance_id]) \
-      .by_name(params[:name]) \
-      .eager_load(:character_types, :player, :archetype, :character_instances => {:instance => :raid})
+      .by_name(params[:name])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -62,7 +61,7 @@ class CharactersController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.js  # show.js.coffee
+      format.js # show.js.coffee
       format.json { render json: @character }
       format.xml { render :xml => @character.to_xml(:include => [:instances, :drops]) }
     end
@@ -84,6 +83,7 @@ class CharactersController < ApplicationController
       format.html # new.html.erb
       format.json { render json: @character }
       format.xml { render :xml => @character }
+      format.js
     end
   end
 
@@ -100,7 +100,13 @@ class CharactersController < ApplicationController
     respond_to do |format|
       if @character.save
         format.html { redirect_to @character, notice: 'Character was successfully created.' }
-        format.json { render json: @character, status: :created, location: @character }
+        format.json {
+          render json: @character.to_json(
+              methods: [:archetype_name, :main_character, :archetype_root,
+                        :first_raid_date, :last_raid_date, :armour_rate,
+                        :jewellery_rate, :weapon_rate]
+          ), status: :created, location: @character
+        }
         format.xml { render xml: @character, status: :created, location: @character }
       else
         format.html { render action: "new" }
@@ -118,7 +124,9 @@ class CharactersController < ApplicationController
     respond_to do |format|
       if @character.update_attributes(params[:character])
         format.html { redirect_to @character, notice: 'Character was successfully updated.' }
-        format.json { head :ok }
+        format.json { render :json => @character.to_json(methods: [:archetype_name, :main_character, :archetype_root,
+                                                                   :first_raid_date, :last_raid_date, :armour_rate,
+                                                                   :jewellery_rate, :weapon_rate]), :notice => 'Character was successfully updated.' }
         format.xml { head :ok }
       else
         format.html { render action: "edit" }
@@ -138,6 +146,7 @@ class CharactersController < ApplicationController
       format.html { redirect_to characters_url }
       format.json { head :ok }
       format.xml { head :ok }
+      format.js
     end
   end
 end

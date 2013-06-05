@@ -37,11 +37,11 @@ class Player < ActiveRecord::Base
   }
 
   def main_character(at_time = nil)
-    characters_of_type('m', at_time).first
+    characters_of_type('m', at_time).first || NullCharacter.new
   end
 
   def raid_alternate(at_time = nil)
-    characters_of_type('r', at_time).first
+    characters_of_type('r', at_time).first || NullCharacter.new
   end
 
   def general_alternates(at_time = nil)

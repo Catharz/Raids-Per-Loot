@@ -158,3 +158,26 @@ textarea.popup {
 .table-button {
   font-size: .7em !important;
 }
+
+.numeric {
+  text-align: right !important;
+}
+
+.centered {
+  text-align: center !important;
+}
+
+.stats-left {
+  float: left;
+  width: 120px;
+  padding:1em;
+}
+
+.stats-right {
+  float: left;
+  padding:1em;
+}
+
+.clear {
+  clear: both;
+}

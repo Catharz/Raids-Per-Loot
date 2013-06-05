@@ -5,8 +5,6 @@
       %th Rank
       %th First Raid
       %th Last Raid
-      %th # Raids
-      %th # Instances
       %th Armour Rate
       %th Jewellery Rate
       %th Weapon Rate
@@ -16,16 +14,14 @@
   %tbody
     - @players.each do |player|
       - cache player do
-        %tr{:data => {:armour => player.armour_count, :jewellery => player.jewellery_count, :weapon => player.weapon_count}}
+        %tr{data: attendance_stats(player)}
           %td= player.name
           %td= player.rank_name
           %td= player.first_raid_date
           %td= player.last_raid_date
-          %td{:align => "right"}= player.raids_count
-          %td{:align => "right"}= player.instances_count
-          %td.lootRateTrigger{:id => player.id,:align => "right"}= player.armour_rate
-          %td.lootRateTrigger{:id => player.id,:align => "right"}= player.jewellery_rate
-          %td.lootRateTrigger{:id => player.id,:align => "right"}= player.weapon_rate
+          %td{id: player.id}= player.armour_rate
+          %td{id: player.id}= player.jewellery_rate
+          %td{id: player.id}= player.weapon_rate
           %td= link_to 'Show', player, class: 'table-button'
           %td= link_to 'Edit', edit_player_path(player), class: 'table-button'
           %td= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'

@@ -1,22 +1,22 @@
 #tabBook
   %ul
-    %li= link_to "Raid Mains", "#raid_mains"
-    %li= link_to "Raid Alts", "#raid_alts"
-    %li= link_to "General Alts", "#general_alts"
-    %li= link_to "All", "#all"
+    %li= link_to 'Raid Mains', '#raid_mains'
+    %li= link_to 'Raid Alts', '#raid_alts'
+    %li= link_to 'General Alts', '#general_alts'
+    %li= link_to 'All', '#all'
 
   #raid_mains
-    = render 'index_tab', :"@characters" => @characters, :"@char_type" => 'm'
+    = render 'index_tab', :'@characters' => @characters, :'@char_type' => 'm'
 
   #raid_alts
-    = render 'index_tab', :"@characters" => @characters, :"@char_type" => 'r'
+    = render 'index_tab', :'@characters' => @characters, :'@char_type' => 'r'
 
   #general_alts
-    = render 'index_tab', :"@characters" => @characters, :"@char_type" => 'g'
+    = render 'index_tab', :'@characters' => @characters, :'@char_type' => 'g'
 
   #all
-    = render 'index_tab', :"@characters" => @characters, :"@char_type" => 'all'
+    = render 'index_tab', :'@characters' => @characters, :'@char_type' => 'all'
 %br/
-= link_to 'New Character', new_character_path, class: 'button'
+= link_to 'New Character', new_character_path, class: 'button', remote: true
 %nobr
 = link_to 'Download CSV', '/characters.csv', class: 'button'

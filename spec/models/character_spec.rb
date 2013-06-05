@@ -78,11 +78,11 @@ describe Character do
 
       describe 'main_character' do
         context 'with no player' do
-          it 'is nil if not the main character' do
+          it 'is a null character if not the main character' do
             char = FactoryGirl.create(:character, char_type: 'g')
             char.should_receive(:player).and_return(nil)
 
-            char.main_character.should be_nil
+            char.main_character.should be_a NullCharacter
           end
 
           it 'is itself if the main character' do
@@ -108,11 +108,11 @@ describe Character do
 
       describe 'raid_alternate' do
         context 'with no player' do
-          it 'is nil if not the raid alternate' do
+          it 'is a null character if not the raid alternate' do
             char = FactoryGirl.create(:character, char_type: 'm')
             char.should_receive(:player).and_return(nil)
 
-            char.raid_alternate.should be_nil
+            char.raid_alternate.should be_a NullCharacter
           end
 
           it 'is itself if the raid alternate' do

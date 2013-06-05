@@ -3,6 +3,9 @@ require 'csv'
 class Character < ActiveRecord::Base
   include RemoteConnectionHelper, PointsCalculationHelper, CharactersHelper
 
+  include ActionView::Helpers::UrlHelper
+  delegate :url_helpers, to: 'Rails.application.routes'
+
   belongs_to :player, :inverse_of => :characters, :touch => true
   belongs_to :archetype, :inverse_of => :characters, :touch => true
 
@@ -42,11 +45,19 @@ class Character < ActiveRecord::Base
     Character.includes(:archetype).where('archetype_id IN (?)', archetype.descendants([archetype]).collect { |a| a.id }.uniq )
   }
 
+  def path(options = {})
+    link_to name, url_helpers.character_path(self), options
+  end
+
+  def html_id
+    "character_#{self.id}"
+  end
+
   def main_character(at_time = nil)
     if player
       player.main_character(at_time)
     else
-      char_type == 'm' ? self : nil
+      char_type == 'm' ? self : NullCharacter.new
     end
   end
 
@@ -54,7 +65,7 @@ class Character < ActiveRecord::Base
     if player
       player.raid_alternate(at_time)
     else
-      char_type == 'r' ? self : nil
+      char_type == 'r' ? self : NullCharacter.new
     end
   end
 

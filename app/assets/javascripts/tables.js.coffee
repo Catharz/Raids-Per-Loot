@@ -72,11 +72,10 @@ jQuery ->
       {"bSearchable": true, "bVisible": false},  # Base Class
       {"sType": "date"},    # First Raid
       {"sType": "date"},    # Last Raid
-      {"sType": "numeric"}, # No. Raids
-      {"sType": "numeric"}, # No. Instances
-      {"sType": "numeric"}, # Armour Rate
-      {"sType": "numeric"}, # Jewellery Rate
-      {"sType": "numeric"}, # Weapon Rate
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Armour Rate
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Jewellery Rate
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Weapon Rate
+      null,                 # Show Link
       null,                 # Edit Link
       null,                 # Update Link
       null                  # Destroy Link
@@ -95,11 +94,10 @@ jQuery ->
       {"bSearchable": true, "bVisible": false},  # Base Class
       {"sType": "date"},    # First Raid
       {"sType": "date"},    # Last Raid
-      {"sType": "numeric"}, # No. Raids
-      {"sType": "numeric"}, # No. Instances
-      {"sType": "numeric"}, # Armour Rate
-      {"sType": "numeric"}, # Jewellery Rate
-      {"sType": "numeric"}, # Weapon Rate
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Armour Rate
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Jewellery Rate
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Weapon Rate
+      null,                 # Show Link
       null,                 # Edit Link
       null,                 # Update Link
       null                  # Destroy Link
@@ -118,11 +116,10 @@ jQuery ->
       {"bSearchable": true, "bVisible": false},  # Base Class
       {"sType": "date"},    # First Raid
       {"sType": "date"},    # Last Raid
-      {"sType": "numeric"}, # No. Raids
-      {"sType": "numeric"}, # No. Instances
-      {"sType": "numeric"}, # Armour Rate
-      {"sType": "numeric"}, # Jewellery Rate
-      {"sType": "numeric"}, # Weapon Rate
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Armour Rate
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Jewellery Rate
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Weapon Rate
+      null,                 # Show Link
       null,                 # Edit Link
       null,                 # Update Link
       null                  # Destroy Link
@@ -141,11 +138,10 @@ jQuery ->
       {"bSearchable": true, "bVisible": false},  # Base Class
       {"sType": "date"},    # First Raid
       {"sType": "date"},    # Last Raid
-      {"sType": "numeric"}, # No. Raids
-      {"sType": "numeric"}, # No. Instances
-      {"sType": "numeric"}, # Armour Rate
-      {"sType": "numeric"}, # Jewellery Rate
-      {"sType": "numeric"}, # Weapon Rate
+      {"sType": "numeric", "sClass": "numeric"}, # Armour Rate
+      {"sType": "numeric", "sClass": "numeric"}, # Jewellery Rate
+      {"sType": "numeric", "sClass": "numeric"}, # Weapon Rate
+      null,                 # Show Link
       null,                 # Edit Link
       null,                 # Update Link
       null                  # Destroy Link
@@ -168,12 +164,7 @@ jQuery ->
       {"sType": "numeric"}, # Crit
       {"sType": "numeric"}, # Crit Bonus
       {"sType": "numeric"}, # Potency
-      {"sType": "numeric"}, # Adornments
-      null,                 # White Adornments
-      null,                 # Yellow Adornments
-      null,                 # Red Adornments
-      null,                 # Green Adornments
-      null                  # Blue Adornments
+      {"sType": "numeric"} # Adornments
     ]
     "aaSorting": [[0,'asc']]
 
@@ -191,14 +182,9 @@ jQuery ->
       {"sType": "numeric"}, # Health
       {"sType": "numeric"}, # Power
       {"sType": "numeric"}, # Crit
-      {"sType": "numeric"}, # Crit Bonus
-      {"sType": "numeric"}, # Potency
       {"sType": "numeric"}, # Adornments
-      null,                 # White Adornments
-      null,                 # Yellow Adornments
-      null,                 # Red Adornments
-      null,                 # Green Adornments
-      null                  # Blue Adornments
+      {"sType": "numeric"}, # Crit Bonus
+      {"sType": "numeric"}  # Potency
     ]
     "aaSorting": [[0,'asc']]
 
@@ -216,14 +202,9 @@ jQuery ->
       {"sType": "numeric"}, # Health
       {"sType": "numeric"}, # Power
       {"sType": "numeric"}, # Crit
-      {"sType": "numeric"}, # Crit Bonus
-      {"sType": "numeric"}, # Potency
       {"sType": "numeric"}, # Adornments
-      null,                 # White Adornments
-      null,                 # Yellow Adornments
-      null,                 # Red Adornments
-      null,                 # Green Adornments
-      null                  # Blue Adornments
+      {"sType": "numeric"}, # Crit Bonus
+      {"sType": "numeric"}  # Potency
     ]
     "aaSorting": [[0,'asc']]
 
@@ -241,14 +222,9 @@ jQuery ->
       {"sType": "numeric"}, # Health
       {"sType": "numeric"}, # Power
       {"sType": "numeric"}, # Crit
-      {"sType": "numeric"}, # Crit Bonus
-      {"sType": "numeric"}, # Potency
       {"sType": "numeric"}, # Adornments
-      null,                 # White Adornments
-      null,                 # Yellow Adornments
-      null,                 # Red Adornments
-      null,                 # Green Adornments
-      null                  # Blue Adornments
+      {"sType": "numeric"}, # Crit Bonus
+      {"sType": "numeric"}  # Potency
     ]
     "aaSorting": [[0,'asc']]
 
@@ -330,11 +306,9 @@ jQuery ->
       null,                   # Rank
       { "sType": "date" },    # First Raid
       { "sType": "date" },    # Last Raid
-      { "sType": "numeric" }, # No. Raids
-      { "sType": "numeric" }, # No. Instances
-      { "sType": "numeric" }, # Armour Rate
-      { "sType": "numeric" }, # Jewellery Rate
-      { "sType": "numeric" }, # Weapon Rate
+      { "sType": "numeric", "sClass": "lootRateTrigger numeric" }, # Armour Rate
+      { "sType": "numeric", "sClass": "lootRateTrigger numeric" }, # Jewellery Rate
+      { "sType": "numeric", "sClass": "lootRateTrigger numeric" }, # Weapon Rate
       null,                   # Show Link
       null,                   # Edit Link
       null                    # Destroy Link

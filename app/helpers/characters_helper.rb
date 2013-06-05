@@ -73,6 +73,26 @@ module CharactersHelper
     end
   end
 
+  def adornment_data(character)
+    {
+        white_adornments: adornment_stats(character, 'white'),
+        yellow_adornments: adornment_stats(character, 'yellow'),
+        red_adornments: adornment_stats(character, 'red'),
+        green_adornments: adornment_stats(character, 'green'),
+        blue_adornments: adornment_stats(character, 'blue')
+    }
+  end
+
+  def attendance_stats(character)
+    {
+        raids: character.raids_count,
+        instances: character.instances_count,
+        armour: character.armour_count,
+        jewellery: character.jewellery_count,
+        weapon: character.weapon_count
+    }
+  end
+
   def adornment_stats(character, color = nil)
     possible_adornments, total_adornments = count_adornments(character, color)
     "#{total_adornments} / #{possible_adornments}"

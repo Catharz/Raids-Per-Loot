@@ -28,11 +28,6 @@ describe "characters/statistics.html.haml" do
     rendered.should contain "Crit Bonus"
     rendered.should contain "Potency"
     rendered.should contain "Adornments"
-    rendered.should contain "White"
-    rendered.should contain "Yellow"
-    rendered.should contain "Red"
-    rendered.should contain "Green"
-    rendered.should contain "Blue"
   end
 
   it "should render the characters names" do
@@ -183,7 +178,7 @@ describe "characters/statistics.html.haml" do
     rendered.should contain "33.33"
   end
 
-  it "should render the characters adornment counts" do
+  it "contains the characters adornment counts" do
     wilma = valid_soe_attributes('name' => 'Wilma', 'equipmentslot_list' => [
         {'item' =>
              {'adornment_list' => [
@@ -208,8 +203,8 @@ describe "characters/statistics.html.haml" do
     assign(:characters, [wilma])
     render
 
-    rendered.should contain "1 / 5"
-    rendered.should contain "2 / 3"
-    rendered.should contain "1 / 2"
+    rendered.should have_selector('tr', :'data-white_adornments' => '1 / 5')
+    rendered.should have_selector('tr', :'data-yellow_adornments' => '2 / 3')
+    rendered.should have_selector('tr', :'data-red_adornments' => '1 / 2')
   end
 end

@@ -1,80 +1,84 @@
 #subTabBook
   %ul
-    %li= link_to "General", "#general"
-    %li= link_to "Offensive", "#offensive"
-    %li= link_to "Defensive", "#defensive"
-    %li= link_to "Casting", "#casting"
-    %li= link_to "Melee Weapon", "#melee_weapon"
-    %li= link_to "Spell Weapon", "#spell_weapon"
-    %li= link_to "Savagery", "#savagery"
-    %li= link_to "Player Vs Player", "#pvp"
-    %li= link_to "Trade Skill", "#trade_skill"
+    %li= link_to 'General', '#general'
+    %li= link_to 'Offensive', '#offensive'
+    %li= link_to 'Defensive', '#defensive'
+    %li= link_to 'Casting', '#casting'
+    %li= link_to 'Melee Weapon', '#melee_weapon'
+    %li= link_to 'Spell Weapon', '#spell_weapon'
+    %li= link_to 'Savagery', '#savagery'
+    %li= link_to 'Player Vs Player', '#pvp'
+    %li= link_to 'Trade Skill', '#trade_skill'
 
   #general
-    %p
-      %strong Health:
-      %br/
-      Max:
-      = @data.stats.health.max
-      %br/
-      Regen:
-      = @data.stats.health.regen
-      %br/
-    %p
-      %strong Power:
-      %br/
-      Max:
-      = @data.stats.power.max
-      %br/
-      Regen:
-      = @data.stats.power.regen
-      %br/
-    %p
-      %strong Agility:
-      %br/
-      Base:
-      = @data.stats.agi.base
-      %br/
-      Effective:
-      = @data.stats.agi.effective
-    %p
-      %strong Intelligence:
-      %br/
-      Base:
-      = @data.stats.int.base
-      %br/
-      Effective:
-      = @data.stats.int.effective
-    %p
-      %strong Stamina:
-      %br/
-      Base:
-      = @data.stats.sta.base
-      %br/
-      Effective:
-      = @data.stats.sta.effective
-    %p
-      %strong Strength:
-      %br/
-      Base:
-      = @data.stats.str.base
-      %br/
-      Effective:
-      = @data.stats.str.effective
-    %p
-      %strong Wisdom:
-      %br/
-      Base:
-      = @data.stats.wis.base
-      %br/
-      Effective:
-      = @data.stats.wis.effective
-    %p
-      %strong Run Speed:
-      = @data.stats.runspeed
-      %br/
-      %strong Personal Status:
-      = @data.stats.personal_status_points
+    .stats-left
+      %p
+        %strong Health:
+        %br/
+        Max:
+        = @data.stats.health.max
+        %br/
+        Regen:
+        = @data.stats.health.regen
+        %br/
+      %p
+        %strong Power:
+        %br/
+        Max:
+        = @data.stats.power.max
+        %br/
+        Regen:
+        = @data.stats.power.regen
+        %br/
+    .stats-left
+      %p
+        %strong Agility:
+        %br/
+        Base:
+        = @data.stats.agi.base
+        %br/
+        Effective:
+        = @data.stats.agi.effective
+      %p
+        %strong Intelligence:
+        %br/
+        Base:
+        = @data.stats.int.base
+        %br/
+        Effective:
+        = @data.stats.int.effective
+      %p
+        %strong Stamina:
+        %br/
+        Base:
+        = @data.stats.sta.base
+        %br/
+        Effective:
+        = @data.stats.sta.effective
+      %p
+        %strong Strength:
+        %br/
+        Base:
+        = @data.stats.str.base
+        %br/
+        Effective:
+        = @data.stats.str.effective
+      %p
+        %strong Wisdom:
+        %br/
+        Base:
+        = @data.stats.wis.base
+        %br/
+        Effective:
+        = @data.stats.wis.effective
+    .stats-right
+      %p
+        %strong Run Speed:
+        = @data.stats.runspeed
+      %p
+        %strong Personal Status:
+        = @data.stats.personal_status_points
+    .clear
 
   #offensive
     %p
@@ -110,6 +114,7 @@
       %br/
       %strong Strikethrough:
       = @data.stats.combat.strikethrough
+    .clear
 
   #defensive
     %p
@@ -130,6 +135,7 @@
       %br/
       %strong Parry:
       = @data.stats.defense.parry
+    .clear
 
   #casting
     %p
@@ -150,6 +156,7 @@
       %br/
       %strong Spell Time Reuse Spell Only:
       = @data.stats.ability.spelltimereusespellonly
+    .clear
 
   #melee_weapon
     %p
@@ -176,6 +183,7 @@
       %br/
       Delay:
       = @data.stats.weapon.rangeddelay
+    .clear
 
   #spell_weapon
     %p
@@ -193,6 +201,7 @@
       %br/
       %strong Flurry:
       = @data.stats.combat.spellweaponflurry
+    .clear
 
   #savagery
     %p
@@ -210,6 +219,8 @@
       %br/
       %strong Max Level:
       = @data.stats.combat.maxsavagerylevel
+    .clear
+
 
   #pvp
     %p
@@ -221,6 +232,7 @@
       %br/
       %strong Toughness:
       = @data.stats.combat.pvptoughness
+    .clear
 
   #trade_skill
     %p
@@ -253,3 +265,4 @@
       %br/
       %strong Success Modifier:
       = @data.stats.tradeskill.successmod
+    .clear

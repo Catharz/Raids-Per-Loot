@@ -1,7 +1,7 @@
 $("#popup").dialog
   autoOpen: true
-  height: 800
-  width: 1200
+  height: 700
+  width: 1100
   modal: true
   resizable: true
   title: '<%= @character.name %>'
@@ -32,5 +32,5 @@ $("#popup").dialog
       "bStateSave": true
       "sPaginationType": "full_numbers"
       "aaSorting": [[0,'desc']]
-    $("#subTabBook").tabs()
     $("#popup #tabBook").tabs()
+    $("#subTabBook").tabs()
