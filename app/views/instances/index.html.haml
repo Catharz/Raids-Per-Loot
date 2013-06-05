@@ -24,4 +24,4 @@
         %td= link_to 'Edit', edit_instance_path(instance), remote: true, class: 'table-button'
         %td= link_to 'Destroy', instance, :confirm => 'Are you sure?', :method => :delete, remote: true, class: 'table-button'
 %br/
-= link_to 'New Instance', new_instance_path, class: 'button'
+= link_to 'New Instance', new_instance_path, class: 'button', remote: true

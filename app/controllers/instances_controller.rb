@@ -44,12 +44,13 @@ class InstancesController < ApplicationController
   # GET /instances/new
   # GET /instances/new.json
   def new
-    @instance = Instance.new
+    @instance = Instance.new(raid: Raid.last, start_time: Raid.last.raid_date + 20.hours)
 
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @instance }
       format.xml  { render :xml => @instance }
+      format.js
     end
   end
 
@@ -66,7 +67,7 @@ class InstancesController < ApplicationController
     respond_to do |format|
       if @instance.save
         format.html { redirect_to @instance, :notice => 'Instance was successfully created.' }
-        format.json { render :json => @instance, :status => :created, :location => @instance }
+        format.json { render :json => @instance.to_json(methods: [:zone_name, :kills, :players, :characters, :drops]), :status => :created, :location => @instance }
         format.xml  { render :xml => @instance, :status => :created, :location => @instance }
       else
         format.html { render :action => "new" }
@@ -84,7 +85,7 @@ class InstancesController < ApplicationController
     respond_to do |format|
       if @instance.update_attributes(params[:instance])
         format.html { redirect_to @instance, :notice => 'Instance was successfully updated.' }
-        format.json { head :ok }
+        format.json { render :json => @instance.to_json(methods: [:zone_name, :kills, :players, :characters, :drops]) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -104,6 +105,7 @@ class InstancesController < ApplicationController
       format.html { redirect_to instances_url }
       format.json { head :ok }
       format.xml  { head :ok }
+      format.js
     end
   end
 end

@@ -6,14 +6,13 @@ updateInstance = (instance) ->
   oTable.fnUpdate(instance.players.length, aPos, 2)
   oTable.fnUpdate(instance.characters.length, aPos, 3)
   oTable.fnUpdate(instance.kills.length, aPos, 4)
-  oTable.fnUpdate(instance.kills.length, aPos, 5)
-  oTable.fnUpdate(instance.drops.length, aPos, 6)
+  oTable.fnUpdate(instance.drops.length, aPos, 5)
   oTable.fnDraw()
 
 $("#popup").dialog
   autoOpen: true
-  width: 1100
-  height: 600
+  width: 500
+  height: 460
   modal: true
   resizable: false
   title: 'Edit Instance'
@@ -22,6 +21,7 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/instances/<%= @instance.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
+        debugger
         if (xhr.status == 200)
           updateInstance(data.instance)
           $("#notice").empty().append("Instance was successfully updated.")
