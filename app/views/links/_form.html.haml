@@ -18,9 +18,9 @@
   .field
     = f.label :description
     %br/
-    = f.text_area :description
+    = f.text_area :description, class: 'popup'
   .field
-    %strong Category
+    = f.label :category
     %br/
     = f.collection_select :link_category_ids, LinkCategory.all(:order => 'title'), :id, :title, {}, :multiple => true
   .actions

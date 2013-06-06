@@ -9,12 +9,12 @@
       %th
   %tbody
     - @links.each do |link|
-      %tr
+      %tr{id: "link_#{link.id}"}
         %td= link.url
         %td= link.title
         %td= link.description
-        %td= link_to 'Show', link, class: 'table-button'
-        %td= link_to 'Edit', edit_link_path(link), class: 'table-button'
-        %td= link_to 'Destroy', link, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
+        %td= link_to 'Show', link, class: 'table-button', remote: true
+        %td= link_to 'Edit', edit_link_path(link), class: 'table-button', remote: true
+        %td= link_to 'Destroy', link, :confirm => 'Are you sure?', :method => :delete, class: 'table-button', remote: true
 %br/
-= link_to 'New Link', new_link_path, class: 'button'
+= link_to 'New Link', new_link_path, class: 'button', remote: true

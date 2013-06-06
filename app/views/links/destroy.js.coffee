@@ -1,0 +1,5 @@
+oTable = $('#dataTable').dataTable()
+aPos = oTable.fnGetPosition( document.getElementById("link_<%= @link.id %>") )
+oTable.fnDeleteRow(aPos)
+oTable.fnDraw()
+$("#notice").empty().append("Link was successfully deleted.")
