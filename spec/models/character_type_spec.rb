@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CharacterType do
   context 'validations' do
-    it { should validate_presence_of(:character_id) }
+    it { should validate_presence_of(:character) }
     it { should validate_presence_of(:char_type) }
     it { should validate_presence_of(:effective_date) }
 
@@ -45,14 +45,14 @@ describe CharacterType do
     end
 
     describe 'character_first_raid_date' do
-      it 'returns "Never" when the character has not raided' do
+      it 'returns nil when the character has not raided' do
         character = FactoryGirl.create(:character)
         ct = FactoryGirl.create(:character_type, character_id: character.id)
 
         character.should_receive(:first_raid).and_return(nil)
         ct.should_receive(:character).and_return(character)
 
-        ct.character_first_raid_date.should eq 'Never'
+        ct.character_first_raid_date.should be_nil
       end
 
       it 'returns the date of the first raid if they have raided' do
@@ -68,14 +68,14 @@ describe CharacterType do
     end
 
     describe 'character_last_raid_date' do
-      it 'returns "Never" when the character has not raided' do
+      it 'returns nil when the character has not raided' do
         character = FactoryGirl.create(:character)
         ct = FactoryGirl.create(:character_type, character_id: character.id)
 
         character.should_receive(:last_raid).and_return nil
         ct.should_receive(:character).and_return(character)
 
-        ct.character_last_raid_date.should eq 'Never'
+        ct.character_last_raid_date.should be_nil
       end
 
       it 'returns the date of the last raid if they have raided' do

@@ -13,7 +13,6 @@
       %th
       %th
       %th
-      %th
   %tbody
     - @characters.each do |character|
       - if character.char_type.eql? @char_type or @char_type.eql? 'all'
@@ -28,7 +27,6 @@
             %td{:id => character.id}= number_with_precision(character.armour_rate, precision: 2)
             %td{:id => character.id}= number_with_precision(character.jewellery_rate, precision: 2)
             %td{:id => character.id}= number_with_precision(character.weapon_rate, precision: 2)
-            %td= link_to 'Show', character, remote: true, class: 'table-button'
             %td= link_to 'Edit', edit_character_path(character), remote: true, class: 'table-button'
             %td= link_to 'Update', fetch_data_character_path(character), :confirm => 'Are you sure?', class: 'table-button'
             %td= link_to 'Destroy', character, :confirm => 'Are you sure?', :method => :delete, remote: true, class: 'table-button'

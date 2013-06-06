@@ -10,8 +10,9 @@ describe CharacterTypesController do
   describe 'GET #index' do
     it 'populates a collection of character_types' do
       character_type = FactoryGirl.create(:character_type)
+      character = character_type.character
       get :index
-      assigns(:character_types).should eq([character_type])
+      assigns(:character_types).should =~ character.character_types
     end
 
     it 'renders the :index view' do
@@ -49,7 +50,8 @@ describe CharacterTypesController do
 
   describe 'GET edit' do
     it 'assigns the requested character_type as @character_type' do
-      character_type = CharacterType.create! FactoryGirl.attributes_for(:character_type)
+      character = FactoryGirl.create(:character)
+      character_type = CharacterType.create! FactoryGirl.attributes_for(:character_type).merge!(character: character)
       get :edit, :id => character_type.id.to_s
       assigns(:character_type).should eq(character_type)
     end
@@ -58,13 +60,15 @@ describe CharacterTypesController do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves the new character_type' do
+        character = FactoryGirl.create(:character)
         expect {
-          post :create, character_type: FactoryGirl.attributes_for(:character_type)
+          post :create, character_type: FactoryGirl.attributes_for(:character_type, character_id: character.id)
         }.to change(CharacterType, :count).by(1)
       end
 
       it 'redirects to the new character_type' do
-        post :create, character_type: FactoryGirl.attributes_for(:character_type)
+        character = FactoryGirl.create(:character)
+        post :create, character_type: FactoryGirl.attributes_for(:character_type, character_id: character.id)
         response.should redirect_to CharacterType.last
       end
     end
@@ -85,26 +89,31 @@ describe CharacterTypesController do
 
   describe 'PUT #update' do
     before(:each) do
-      @character_type = FactoryGirl.create(:character_type, char_type: 'r', effective_date: Time.now)
+      @character = FactoryGirl.create(:character)
+      @character_type = FactoryGirl.create(:character_type, char_type: 'r', character_id: @character.id)
     end
 
     context 'valid attributes' do
       it 'located the requested @character_type' do
-        put :update, id: @character_type, character_type: FactoryGirl.attributes_for(:character_type)
+        put :update, id: @character_type, character_type: FactoryGirl.attributes_for(:character_type, character_id: @character.id)
         assigns(:character_type).should eq (@character_type)
       end
 
       it "changes @character_type's attributes" do
-        effective = Date.parse("01/01/2013")
+        effective = Date.parse('2013-01-01')
         put :update, id: @character_type,
-            character_type: FactoryGirl.attributes_for(:character_type, char_type: 'r', effective_date: effective)
+            character_type: FactoryGirl.attributes_for(:character_type,
+                                                       char_type: 'r',
+                                                       effective_date: effective,
+                                                       character_id: @character.id)
         @character_type.reload
         @character_type.char_type.should eq('r')
         @character_type.effective_date.should eq(effective)
       end
 
       it 'redirects to the updated @character_type' do
-        put :update, id: @character_type, character_type: FactoryGirl.attributes_for(:character_type)
+        put :update, id: @character_type, character_type: FactoryGirl.attributes_for(:character_type,
+                                                                                     character_id: @character.id)
         response.should redirect_to @character_type
       end
     end

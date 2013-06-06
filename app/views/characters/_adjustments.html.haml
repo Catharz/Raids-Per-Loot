@@ -1,8 +1,6 @@
-%table#adjustmentsTable
+%table#dataTable_desc
   %thead
     %tr
-      %th Relationship
-      %th Player / Character
       %th Adjustment date
       %th Adjustment type
       %th Amount
@@ -14,8 +12,6 @@
     - @adjustments.each do |adjustment|
       - cache adjustment do
         %tr{id: "adjustment_#{adjustment.id}"}
-          %td= adjustment.adjustable_type
-          %td= adjustment.adjusted_name
           %td= adjustment.adjustment_date
           %td= adjustment.adjustment_type
           %td= adjustment.amount

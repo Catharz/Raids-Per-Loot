@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :character_type do |f|
-    f.character_id 1
+    f.character { |a| a.association(:character) }
     f.char_type 'm'
     f.effective_date Date.parse('01/01/2012')
     f.normal_penalty 0
@@ -8,7 +8,7 @@ FactoryGirl.define do
   end
 
   factory :invalid_character_type, parent: :character_type do |f|
-    f.character_id nil
+    f.character nil
     f.char_type 'f'
     f.effective_date nil
     f.normal_penalty nil

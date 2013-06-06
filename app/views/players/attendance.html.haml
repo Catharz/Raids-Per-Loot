@@ -15,12 +15,12 @@
     - @players.each do |player|
       %tr
         %td= link_to player.name, player
-        %td= player.first_raid ? player.first_raid.raid_date : "Never"
-        %td= player.last_raid ? player.last_raid.raid_date : "Never"
-        %td{:align => "right"}= player.raids_count
-        %td{:align => "right"}= number_with_precision(player.attendance, :precision => 2)
-        %td{:align => "right"}= number_with_precision(player.attendance(start: 1.year.ago), :precision => 2)
-        %td{:align => "right"}= number_with_precision(player.attendance(start: 9.months.ago), :precision => 2)
-        %td{:align => "right"}= number_with_precision(player.attendance(start: 6.months.ago), :precision => 2)
-        %td{:align => "right"}= number_with_precision(player.attendance(start: 3.months.ago), :precision => 2)
-        %td{:align => "right"}= number_with_precision(player.attendance(start: 1.month.ago), :precision => 2)
+        %td= player.first_raid ? player.first_raid.raid_date : nil
+        %td= player.last_raid ? player.last_raid.raid_date : nil
+        %td= player.raids_count
+        %td= number_with_precision(player.attendance, precision: 2)
+        %td= number_with_precision(player.attendance(start: 1.year.ago), precision: 2)
+        %td= number_with_precision(player.attendance(start: 9.months.ago), precision: 2)
+        %td= number_with_precision(player.attendance(start: 6.months.ago), precision: 2)
+        %td= number_with_precision(player.attendance(start: 3.months.ago), precision: 2)
+        %td= number_with_precision(player.attendance(start: 1.month.ago), precision: 2)

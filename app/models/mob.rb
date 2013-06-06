@@ -24,11 +24,11 @@ class Mob < ActiveRecord::Base
   end
 
   def last_killed
-    last_drop ? last_drop.drop_time.strftime('%Y-%m-%d') : 'Never'
+    last_drop ? last_drop.drop_time : nil
   end
 
   def first_killed
-    first_drop ? first_drop.drop_time.strftime('%Y-%m-%d') : 'Never'
+    first_drop ? first_drop.drop_time : nil
   end
 
   def is_progression?

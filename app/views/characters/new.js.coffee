@@ -11,12 +11,11 @@ insertCharacter = (character, char_type) ->
     characterPath(character.main_character.character),
     character.archetype_name,
     character.archetype_root,
-    'Never',
-    'Never',
+    '',
+    '',
     '0.00',
     '0.00',
     '0.00',
-    "<a href='/characters/#{character.id}' data-remote='true' class='table-button'>Show</a>",
     "<a href='/characters/#{character.id}/edit' data-remote='true' class='table-button'>Edit</a>",
     "<a href='/characters/#{character.id}/fetch_data' class='table-button'>Update</a>",
     "<a href='/characters/#{character.id}' data-confirm='Are you sure?' data-method='delete' rel='nofollow' data-remote='true' class='table-button'>Destroy</a>"
@@ -30,7 +29,6 @@ insertCharacter = (character, char_type) ->
   aNode.setAttribute('data-jewellery', 0)
   $(".table-button").button()
   oTable.fnDraw()
-  #TODO: Get jQuery.ready to call the popup methods
 
 $("#popup").dialog
   autoOpen: true

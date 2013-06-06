@@ -4,7 +4,7 @@ jQuery.extend jQuery.fn.dataTableExt.oSort,
       frDatea = $.trim(a).split(" ")
       frTimea = frDatea[1].split(":")
       frDatea2 = frDatea[0].split("-")
-      x = (frDatea2[0] + frDatea2[1] + frDatea2[2] + frTimea[0] + frTimea[1] + frTimea[2]) * 1
+      x = (frDatea2[0] + frDatea2[1] + frDatea2[2] + frTimea[0] + frTimea[1] + frTimea[2])
     else
       x = 10000000000000 # = l'an 1000 ...
     x
@@ -17,10 +17,15 @@ jQuery.extend jQuery.fn.dataTableExt.oSort,
 
 jQuery ->
   # Default DataTable
-
   $('#dataTable').dataTable
     "bJQueryUI": true
     "sPaginationType": "full_numbers"
+
+  # Default DataTable, reverse sorted by first column
+  $('#dataTable_desc').dataTable
+    "bJQueryUI": true
+    "sPaginationType": "full_numbers"
+    "aaSorting": [[0,'desc']]
 
   $('#characterTypesTable').dataTable
     "bJQueryUI": true
@@ -32,33 +37,29 @@ jQuery ->
       {"sType": "date"},    # First Raid
       {"sType": "date"},    # Last Raid
       null,                 # Character Type
-      {"sType": "numeric"}, # Normal Wait
-      {"sType": "numeric"}, # Progression Wait
+      {"sType": "numeric", "sClass": "numeric" }, # Normal Wait
+      {"sType": "numeric", "sClass": "numeric" }, # Progression Wait
       null,                 # Show
       null,                 # Edit
       null                  # Destroy
     ]
     "aaSorting": [[2,'desc']]
 
-  $('#guildAchievementsTable').dataTable
-    "bJQueryUI": true
-    "sPaginationType": "full_numbers"
-    "aaSorting": [[0,'desc']]
-
   $('#adjustmentsTable').dataTable
     "bJQueryUI": true
     "sPaginationType": "full_numbers"
+    "aoColumns": [
+      null, # Relationsip
+      null, # Adjusted Name
+      {"sType": "date"}, # Adjustment Date
+      null, # Adjustment Type
+      {"sType": "numeric", "sClass": "numeric"}, # Amount
+      null, # Reason
+      null, # Show
+      null, # Edit
+      null  # Destroy
+    ]
     "aaSorting": [[1,'asc'], [2, 'desc']]
-
-  $('#characterAdjustmentsTable').dataTable
-    "bJQueryUI": true
-    "sPaginationType": "full_numbers"
-    "aaSorting": [[0,'desc']]
-
-  $('#playerAdjustmentsTable').dataTable
-    "bJQueryUI": true
-    "sPaginationType": "full_numbers"
-    "aaSorting": [[0,'desc']]
 
   $('#charactersTable_m').dataTable
     "bJQueryUI": true
@@ -70,12 +71,11 @@ jQuery ->
       null, # Main
       null, # Class
       {"bSearchable": true, "bVisible": false},  # Base Class
-      {"sType": "date"},    # First Raid
-      {"sType": "date"},    # Last Raid
+      {"sType": "date", "sClass": "nowrap"},    # First Raid
+      {"sType": "date", "sClass": "nowrap"},    # Last Raid
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Armour Rate
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Jewellery Rate
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Weapon Rate
-      null,                 # Show Link
       null,                 # Edit Link
       null,                 # Update Link
       null                  # Destroy Link
@@ -92,12 +92,11 @@ jQuery ->
       null, # Main
       null, # Class
       {"bSearchable": true, "bVisible": false},  # Base Class
-      {"sType": "date"},    # First Raid
-      {"sType": "date"},    # Last Raid
+      {"sType": "date", "sClass": "nowrap"},    # First Raid
+      {"sType": "date", "sClass": "nowrap"},    # Last Raid
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Armour Rate
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Jewellery Rate
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Weapon Rate
-      null,                 # Show Link
       null,                 # Edit Link
       null,                 # Update Link
       null                  # Destroy Link
@@ -114,12 +113,11 @@ jQuery ->
       null, # Main
       null, # Class
       {"bSearchable": true, "bVisible": false},  # Base Class
-      {"sType": "date"},    # First Raid
-      {"sType": "date"},    # Last Raid
+      {"sType": "date", "sClass": "nowrap"},    # First Raid
+      {"sType": "date", "sClass": "nowrap"},    # Last Raid
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Armour Rate
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Jewellery Rate
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Weapon Rate
-      null,                 # Show Link
       null,                 # Edit Link
       null,                 # Update Link
       null                  # Destroy Link
@@ -136,12 +134,11 @@ jQuery ->
       null, # Main
       null, # Class
       {"bSearchable": true, "bVisible": false},  # Base Class
-      {"sType": "date"},    # First Raid
-      {"sType": "date"},    # Last Raid
+      {"sType": "date", "sClass": "nowrap"},    # First Raid
+      {"sType": "date", "sClass": "nowrap"},    # Last Raid
       {"sType": "numeric", "sClass": "numeric"}, # Armour Rate
       {"sType": "numeric", "sClass": "numeric"}, # Jewellery Rate
       {"sType": "numeric", "sClass": "numeric"}, # Weapon Rate
-      null,                 # Show Link
       null,                 # Edit Link
       null,                 # Update Link
       null                  # Destroy Link
@@ -157,14 +154,14 @@ jQuery ->
       null, # Name
       null, # Class
       {"bSearchable": true, "bVisible": false},  # Base Class
-      {"sType": "numeric"}, # Level
-      {"sType": "numeric"}, # AAs
-      {"sType": "numeric"}, # Health
-      {"sType": "numeric"}, # Power
-      {"sType": "numeric"}, # Crit
-      {"sType": "numeric"}, # Crit Bonus
-      {"sType": "numeric"}, # Potency
-      {"sType": "numeric"} # Adornments
+      {"sType": "numeric", "sClass": "numeric" }, # Level
+      {"sType": "numeric", "sClass": "numeric" }, # AAs
+      {"sType": "numeric", "sClass": "numeric" }, # Health
+      {"sType": "numeric", "sClass": "numeric" }, # Power
+      {"sType": "numeric", "sClass": "numeric" }, # Crit
+      {"sType": "numeric", "sClass": "numeric adornmentsTrigger" }, # Adornments
+      {"sType": "numeric", "sClass": "numeric" }, # Crit Bonus
+      {"sType": "numeric", "sClass": "numeric" }  # Potency
     ]
     "aaSorting": [[0,'asc']]
 
@@ -177,14 +174,14 @@ jQuery ->
       null, # Name
       null, # Class
       {"bSearchable": true, "bVisible": false},  # Base Class
-      {"sType": "numeric"}, # Level
-      {"sType": "numeric"}, # AAs
-      {"sType": "numeric"}, # Health
-      {"sType": "numeric"}, # Power
-      {"sType": "numeric"}, # Crit
-      {"sType": "numeric"}, # Adornments
-      {"sType": "numeric"}, # Crit Bonus
-      {"sType": "numeric"}  # Potency
+      {"sType": "numeric", "sClass": "numeric" }, # Level
+      {"sType": "numeric", "sClass": "numeric" }, # AAs
+      {"sType": "numeric", "sClass": "numeric" }, # Health
+      {"sType": "numeric", "sClass": "numeric" }, # Power
+      {"sType": "numeric", "sClass": "numeric" }, # Crit
+      {"sType": "numeric", "sClass": "numeric adornmentsTrigger" }, # Adornments
+      {"sType": "numeric", "sClass": "numeric" }, # Crit Bonus
+      {"sType": "numeric", "sClass": "numeric" }  # Potency
     ]
     "aaSorting": [[0,'asc']]
 
@@ -197,14 +194,14 @@ jQuery ->
       null, # Name
       null, # Class
       {"bSearchable": true, "bVisible": false},  # Base Class
-      {"sType": "numeric"}, # Level
-      {"sType": "numeric"}, # AAs
-      {"sType": "numeric"}, # Health
-      {"sType": "numeric"}, # Power
-      {"sType": "numeric"}, # Crit
-      {"sType": "numeric"}, # Adornments
-      {"sType": "numeric"}, # Crit Bonus
-      {"sType": "numeric"}  # Potency
+      {"sType": "numeric", "sClass": "numeric" }, # Level
+      {"sType": "numeric", "sClass": "numeric" }, # AAs
+      {"sType": "numeric", "sClass": "numeric" }, # Health
+      {"sType": "numeric", "sClass": "numeric" }, # Power
+      {"sType": "numeric", "sClass": "numeric" }, # Crit
+      {"sType": "numeric", "sClass": "numeric adornmentsTrigger" }, # Adornments
+      {"sType": "numeric", "sClass": "numeric" }, # Crit Bonus
+      {"sType": "numeric", "sClass": "numeric" }  # Potency
     ]
     "aaSorting": [[0,'asc']]
 
@@ -217,16 +214,30 @@ jQuery ->
       null, # Name
       null, # Class
       {"bSearchable": true, "bVisible": false},  # Base Class
-      {"sType": "numeric"}, # Level
-      {"sType": "numeric"}, # AAs
-      {"sType": "numeric"}, # Health
-      {"sType": "numeric"}, # Power
-      {"sType": "numeric"}, # Crit
-      {"sType": "numeric"}, # Adornments
-      {"sType": "numeric"}, # Crit Bonus
-      {"sType": "numeric"}  # Potency
+      {"sType": "numeric", "sClass": "numeric" }, # Level
+      {"sType": "numeric", "sClass": "numeric" }, # AAs
+      {"sType": "numeric", "sClass": "numeric" }, # Health
+      {"sType": "numeric", "sClass": "numeric" }, # Power
+      {"sType": "numeric", "sClass": "numeric" }, # Crit
+      {"sType": "numeric", "sClass": "numeric adornmentsTrigger" }, # Adornments
+      {"sType": "numeric", "sClass": "numeric" }, # Crit Bonus
+      {"sType": "numeric", "sClass": "numeric" }  # Potency
     ]
     "aaSorting": [[0,'asc']]
+
+  $('#difficultiesTable').dataTable
+    "bJQueryUI": true
+    "sPaginationType":"full_numbers"
+    "aoColumns": [
+      null, # Name
+      {"sType": "numeric"}, # Rating
+      {"sType": "numeric"}, # Zones
+      {"sType": "numeric"}, # Mobs
+      null, # Show
+      null, # Edit
+      null  # Destroy
+    ]
+    "aaSorting": [[1,'asc']]
 
   $('#dropsTable').dataTable
     "bJQueryUI": true
@@ -256,13 +267,24 @@ jQuery ->
       {"sType": "date-time"}, # Drop Time
       null, # Invalid Reason
       null, # Edit Drop
-      null, # Edit Item
+      null  # Edit Item
     ]
     "aaSorting": [[7,'desc']]
 
   $('#instancesTable').dataTable
     "bJQueryUI": true
     "sPaginationType":"full_numbers"
+    "aoColumns": [
+      null, # Zone Name
+      { "sType": "date-time" },    # Raid Date
+      { "sType": "numeric", "sClass": "numeric" }, # players
+      { "sType": "numeric", "sClass": "numeric" }, # characters
+      { "sType": "numeric", "sClass": "numeric" }, # kills
+      { "sType": "numeric", "sClass": "numeric" }, # drops
+      null,                   # Show Link
+      null,                   # Edit Link
+      null                    # Destroy Link
+    ]
     "aaSorting": [[1,'desc']]
 
   $('#itemsTable').dataTable
@@ -277,6 +299,23 @@ jQuery ->
     "fnDrawCallback": ( oSettings ) ->
       $(".table-button").button()
 
+  $('#mobsTable').dataTable
+    "bJQueryUI": true
+    "sPaginationType":"full_numbers"
+    "aoColumns": [
+      null, # Name
+      null, # Alias
+      null, # Zone Name
+      null, # Difficulty
+      { "sType": "numeric", "sClass": "numeric" }, # kills
+      { "sType": "date-time" },    # First Killed
+      { "sType": "date-time" },    # Last Killed
+      null, # Progression
+      null,                   # Show Link
+      null,                   # Edit Link
+      null                    # Destroy Link
+    ]
+
   $('#playersAttendanceTable').dataTable
     "bJQueryUI": true,
     "bStateSave": true
@@ -286,13 +325,13 @@ jQuery ->
       null,                   # Name
       { "sType": "date" },    # First Raid
       { "sType": "date" },    # Last Raid
-      { "sType": "numeric" }, # No. Raids
-      { "sType": "numeric" }, # Total Attendance
-      { "sType": "numeric" }, # 1 Year Attendance
-      { "sType": "numeric" }, # 9 Months Attendance
-      { "sType": "numeric" }, # 6 Months Attendance
-      { "sType": "numeric" }, # 3 Months Attendance
-      { "sType": "numeric" } # 1 Month Attendance
+      { "sType": "numeric", "sClass": "numeric" }, # No. Raids
+      { "sType": "numeric", "sClass": "numeric" }, # Total Attendance
+      { "sType": "numeric", "sClass": "numeric" }, # 1 Year Attendance
+      { "sType": "numeric", "sClass": "numeric" }, # 9 Months Attendance
+      { "sType": "numeric", "sClass": "numeric" }, # 6 Months Attendance
+      { "sType": "numeric", "sClass": "numeric" }, # 3 Months Attendance
+      { "sType": "numeric", "sClass": "numeric" } # 1 Month Attendance
     ]
     "aaSorting": [[0,'asc']]
 
@@ -318,12 +357,54 @@ jQuery ->
   $('#raidsTable').dataTable
     "bJQueryUI": true
     "sPaginationType":"full_numbers"
+    "aoColumns": [
+      { "sType": "date" },    # Raid Date
+      null,                  # Raid Type
+      { "sType": "numeric", "sClass": "numeric" }, # instances
+      { "sType": "numeric", "sClass": "numeric" }, # players
+      { "sType": "numeric", "sClass": "numeric" }, # characters
+      { "sType": "numeric", "sClass": "numeric" }, # kills
+      { "sType": "numeric", "sClass": "numeric" }, # drops
+      null,                   # Show Link
+      null,                   # Edit Link
+      null                    # Destroy Link
+    ]
     "aaSorting": [[0,'desc']]
+
+  $('#raidTypesTable').dataTable
+    "bJQueryUI": true
+    "sPaginationType":"full_numbers"
+    "aoColumns": [
+      null, # Name
+      null, # Raid Counted
+      {"sType": "numeric", "sClass": "numeric"}, # Raid Points
+      null, # Loot Counted
+      {"sType": "numeric", "sClass": "numeric"}, # Loot Cost
+      null, # Show
+      null, # Edit
+      null  # Destroy
+    ]
 
   $('#ranksTable').dataTable
     "bJQueryUI": true
     "sPaginationType":"full_numbers"
     "aaSorting": [[1,'asc']]
+
+  $('#zonesTable').dataTable
+    "bJQueryUI": true
+    "sPaginationType":"full_numbers"
+    "aoColumns": [
+      null, # Zone Name
+      null, # Mobs
+      null, # Difficulty
+      { "sType": "numeric", "sClass": "numeric" }, # times run
+      { "sType": "date" },    # First Run
+      { "sType": "date" },    # Last Run
+      null, # Progression
+      null,                   # Show Link
+      null,                   # Edit Link
+      null                    # Destroy Link
+    ]
 
   # DataTables for Tabs on other pages
 
@@ -333,18 +414,18 @@ jQuery ->
     "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
-      null,                   #  Name
+      { "sClass": "characterPopupTrigger" }, #  Name
       null,                   #  Main
       null,                   #  Rank
       null,                   #  Class
       null,                   #  Base Class
       { "sType": "date" },    #  First Raid
       { "sType": "date" },    #  Last Raid
-      { "sType": "numeric" }, #  No. Raids
-      { "sType": "numeric" }, #  No. Instances
-      { "sType": "numeric" }, #  Armour Rate 
-      { "sType": "numeric" }, #  Jewellery Rate 
-      { "sType": "numeric" }  #  Weapon Rate
+      { "sType": "numeric", "sClass": "numeric" }, #  No. Raids
+      { "sType": "numeric", "sClass": "numeric" }, #  No. Instances
+      { "sType": "numeric", "sClass": "numeric" }, #  Armour Rate
+      { "sType": "numeric", "sClass": "numeric" }, #  Jewellery Rate
+      { "sType": "numeric", "sClass": "numeric" }  #  Weapon Rate
     ]
 
   $('#dropsTabTable').dataTable
@@ -384,8 +465,8 @@ jQuery ->
       { "sType": "date" },    #  Last Raid
       { "sType": "numeric" }, #  No. Raids
       { "sType": "numeric" }, #  No. Instances
-      { "sType": "numeric" }, #  Armour Rate   
-      { "sType": "numeric" }, #  Jewellery Rate   
-      { "sType": "numeric" }  #  Weapon Rate   
+      { "sType": "numeric" }, #  Armour Rate
+      { "sType": "numeric" }, #  Jewellery Rate
+      { "sType": "numeric" }  #  Weapon Rate
     ]
     "aaSorting": [[0,'asc']]

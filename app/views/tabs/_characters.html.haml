@@ -16,19 +16,15 @@
   %tbody
     - @character_list.each do |character|
       %tr
-        %td.characterPopupTrigger{:id => character.id}= link_to character.name, character
-        %td
-          - if character.main_character
-            = link_to character.main_character.name, character.main_character
-          - else
-            Unknown
+        %td{:id => character.id}= link_to character.name, character
+        %td= character.main_character.name
         %td= char_type_name(character.char_type)
-        %td= character.archetype ? character.archetype.name : "Unknown"
-        %td= character.archetype ? character.archetype.root.name : "Unknown"
-        %td= character.first_raid ? character.first_raid.raid_date : "Never"
-        %td= character.last_raid ? character.last_raid.raid_date : "Never"
-        %td{:align => "right"}= character.raids_count
-        %td{:align => "right"}= character.instances_count
-        %td{:align => "right"}= character.armour_rate
-        %td{:align => "right"}= character.jewellery_rate
-        %td{:align => "right"}= character.weapon_rate
+        %td= character.archetype_name
+        %td= character.archetype_root
+        %td= character.first_raid_date
+        %td= character.last_raid_date
+        %td= character.raids_count
+        %td= character.instances_count
+        %td= character.armour_rate
+        %td= character.jewellery_rate
+        %td= character.weapon_rate

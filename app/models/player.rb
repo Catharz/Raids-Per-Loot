@@ -10,7 +10,7 @@ class Player < ActiveRecord::Base
   has_many :raids, :through => :player_raids, :uniq => true
   has_many :instances, :through => :raids, :uniq => true
   has_many :drops, :through => :characters
-  has_many :items, :through => :drops, :conditions => ["drops.loot_method = ?", "n"]
+  has_many :items, :through => :drops, :conditions => ['drops.loot_method = ?', 'n']
 
   has_many :adjustments, :as => :adjustable
 
@@ -66,17 +66,17 @@ class Player < ActiveRecord::Base
     # a builder instance is provided when to_xml is called on a collection of instructors,
     # in which case you would not want to have <?xml ...?> added to each item
     to_xml_opts.merge!(options.slice(:builder, :skip_instruct))
-    to_xml_opts[:root] ||= "player"
+    to_xml_opts[:root] ||= 'player'
     self.attributes.to_xml(to_xml_opts)
   end
 
   def to_csv
     CSV.generate_line(
         [self.name,
-         self.rank ? self.rank.name : "Unknown",
-         self.main_character ? self.main_character.name : "Unknown",
-         self.first_raid ? self.first_raid.raid_date : "Never",
-         self.last_raid ? self.last_raid.raid_date : "Never",
+         self.rank ? self.rank.name : 'Unknown',
+         self.main_character ? self.main_character.name : 'Unknown',
+         self.first_raid ? self.first_raid.raid_date : nil,
+         self.last_raid ? self.last_raid.raid_date : nil,
          self.raids_count,
          self.instances_count,
          self.armour_rate,

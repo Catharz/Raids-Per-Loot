@@ -67,18 +67,18 @@ describe Mob do
       second_instance = FactoryGirl.create(:instance, start_time: DateTime.parse('2012-02-28 18:00'))
       third_instance = FactoryGirl.create(:instance, start_time: DateTime.parse('2012-03-31 18:00'))
 
-      FactoryGirl.create(:drop, instance_id: first_instance.id, mob_id: mob.id, drop_time: DateTime.parse('31/01/2012'), zone_id: zone.id, character_id: character.id, item_id: item.id)
-      FactoryGirl.create(:drop, instance_id: second_instance.id, mob_id: mob.id, drop_time: DateTime.parse('28/02/2012'), zone_id: zone.id, character_id: character.id, item_id: item.id)
-      FactoryGirl.create(:drop, instance_id: third_instance.id, mob_id: mob.id, drop_time: DateTime.parse('31/03/2012'), zone_id: zone.id, character_id: character.id, item_id: item.id)
+      FactoryGirl.create(:drop, instance_id: first_instance.id, mob_id: mob.id, drop_time: DateTime.parse('31/01/2012 18:00'), zone_id: zone.id, character_id: character.id, item_id: item.id)
+      FactoryGirl.create(:drop, instance_id: second_instance.id, mob_id: mob.id, drop_time: DateTime.parse('28/02/2012 18:00'), zone_id: zone.id, character_id: character.id, item_id: item.id)
+      FactoryGirl.create(:drop, instance_id: third_instance.id, mob_id: mob.id, drop_time: DateTime.parse('31/03/2012 18:00'), zone_id: zone.id, character_id: character.id, item_id: item.id)
 
-      mob.first_killed.should eq '2012-01-31'
+      mob.first_killed.should eq DateTime.parse('31/01/2012 18:00')
     end
 
-    it 'should return Never if no drops exist' do
+    it 'should return nil if no drops exist' do
       zone = FactoryGirl.create(:zone, name: 'Wherever')
       mob = FactoryGirl.create(:mob, name: 'Pinyata', zone_id: zone.id)
 
-      mob.first_killed.should eq 'Never'
+      mob.first_killed.should be_nil
     end
   end
 
@@ -92,18 +92,18 @@ describe Mob do
       second_instance = FactoryGirl.create(:instance, start_time: DateTime.parse('2012-02-28 18:00'))
       third_instance = FactoryGirl.create(:instance, start_time: DateTime.parse('2012-03-31 18:00'))
 
-      FactoryGirl.create(:drop, instance_id: first_instance.id, mob_id: mob.id, drop_time: DateTime.parse('31/01/2012'), zone_id: zone.id, character_id: character.id, item_id: item.id)
-      FactoryGirl.create(:drop, instance_id: second_instance.id, mob_id: mob.id, drop_time: DateTime.parse('28/02/2012'), zone_id: zone.id, character_id: character.id, item_id: item.id)
-      FactoryGirl.create(:drop, instance_id: third_instance.id, mob_id: mob.id, drop_time: DateTime.parse('31/03/2012'), zone_id: zone.id, character_id: character.id, item_id: item.id)
+      FactoryGirl.create(:drop, instance_id: first_instance.id, mob_id: mob.id, drop_time: DateTime.parse('31/01/2012 18:00'), zone_id: zone.id, character_id: character.id, item_id: item.id)
+      FactoryGirl.create(:drop, instance_id: second_instance.id, mob_id: mob.id, drop_time: DateTime.parse('28/02/2012 18:00'), zone_id: zone.id, character_id: character.id, item_id: item.id)
+      FactoryGirl.create(:drop, instance_id: third_instance.id, mob_id: mob.id, drop_time: DateTime.parse('31/03/2012 18:00'), zone_id: zone.id, character_id: character.id, item_id: item.id)
 
-      mob.last_killed.should eq '2012-03-31'
+      mob.last_killed.should eq DateTime.parse('31/03/2012 18:00')
     end
 
-    it 'should return Never if no drops exist' do
+    it 'should return be nil if no drops exist' do
       zone = FactoryGirl.create(:zone, name: 'Wherever')
       mob = FactoryGirl.create(:mob, name: 'Pinyata', zone_id: zone.id)
 
-      mob.last_killed.should eq 'Never'
+      mob.last_killed.should be_nil
     end
   end
 

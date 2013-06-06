@@ -2,11 +2,11 @@ class CharacterType < ActiveRecord::Base
   include CharactersHelper
   belongs_to :character, :inverse_of => :character_types
 
-  validates_presence_of :character_id, :char_type, :effective_date
+  validates_presence_of :character, :char_type, :effective_date
   validates_format_of :char_type, :with => /g|m|r/ # General Alt, Raid Main, Raid Alt
 
   delegate :name, to: :character, prefix: :character, allow_nil: true
-  delegate :player_name, to: :character
+  delegate :player_name, to: :character, allow_nil: true
   delegate :first_raid, to: :character, allow_nil: true
   delegate :last_raid, to: :character, allow_nil: true
 
@@ -26,10 +26,10 @@ class CharacterType < ActiveRecord::Base
   end
 
   def character_first_raid_date
-    character.first_raid ? character.first_raid.raid_date : 'Never'
+    character.first_raid ? character.first_raid.raid_date : nil
   end
 
   def character_last_raid_date
-    character.last_raid ? character.last_raid.raid_date : 'Never'
+    character.last_raid ? character.last_raid.raid_date : nil
   end
 end

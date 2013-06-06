@@ -24,11 +24,11 @@ class Zone < ActiveRecord::Base
   }
 
   def first_run
-    first_instance ? first_instance.start_time.to_date : 'Never'
+    first_instance ? first_instance.start_time.to_date : nil
   end
 
   def last_run
-    last_instance ? last_instance.start_time.to_date : 'Never'
+    last_instance ? last_instance.start_time.to_date : nil
   end
 
   def is_progression?
