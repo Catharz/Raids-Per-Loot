@@ -18,4 +18,3 @@
 //= require tables
 //= require popup
 //= require tabs
-//= require_self
