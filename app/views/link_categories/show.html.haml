@@ -1,9 +1,5 @@
-%p
-  %strong Title:
-  = @link_category.title
-%p
-  %strong Description:
-  = @link_category.description
+= render 'details'
+
 = link_to 'Edit', edit_link_category_path(@link_category)
 |
 \#{link_to 'Back', link_categories_path}
