@@ -15,6 +15,11 @@ class Character < ActiveRecord::Base
 
   has_one :last_switch, :class_name => 'CharacterType', :order => 'updated_at desc'
 
+  has_many :characters, through: :player
+  has_one :current_main, through: :player
+  has_one :current_raid_alternate, through: :player
+  has_many :current_general_alternates, through: :player
+
   has_many :items, :through => :drops, :conditions => ['drops.loot_method = ?', 'n']
   has_many :instances, :through => :character_instances
   has_many :raids, :through => :instances, :uniq => true
@@ -30,6 +35,10 @@ class Character < ActiveRecord::Base
 
   delegate :name, to: :player, prefix: :player, allow_nil: true
   delegate :name, to: :archetype, prefix: :archetype, allow_nil: true
+  delegate :name, to: :current_main, prefix: :current_main, allow_nil: true
+  delegate :name, to: :current_raid_alternate, prefix: :current_raid_alternate, allow_nil: true
+  delegate :raid_date, to: :first_raid, prefix: :first, allow_nil: true
+  delegate :raid_date, to: :last_raid, prefix: :last, allow_nil: true
 
   scope :by_name, ->(name) {
     name ? where(:name => name) : scoped
@@ -43,6 +52,9 @@ class Character < ActiveRecord::Base
   }
   scope :find_by_archetype, ->(archetype) {
     Character.includes(:archetype).where('archetype_id IN (?)', archetype.descendants([archetype]).collect { |a| a.id }.uniq )
+  }
+  scope :by_char_type, ->(char_type) {
+    char_type ? Character.where(char_type: char_type) : scoped
   }
 
   def path(options = {})

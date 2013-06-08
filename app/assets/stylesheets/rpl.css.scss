@@ -193,3 +193,18 @@ select#instance_character_ids {
 td.nowrap {
   white-space: nowrap;
 }
+
+table.slider {
+  table-layout: fixed;
+  width: 360px !important;
+}
+
+
+td.slider {
+  width: 320px !important;
+  overflow: hidden;
+}
+
+div#aa_slider {
+  width: 310px !important;
+}

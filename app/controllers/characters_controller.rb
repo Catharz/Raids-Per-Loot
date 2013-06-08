@@ -2,6 +2,9 @@ class CharactersController < ApplicationController
   before_filter :login_required, :except => [:index, :show, :info, :statistics]
   before_filter :set_pagetitle
 
+  caches_action :statistics
+  caches_action :info
+
   def set_pagetitle
     @pagetitle = 'Characters'
   end
@@ -40,15 +43,17 @@ class CharactersController < ApplicationController
   # GET /characters
   # GET /characters.json
   def index
-    @characters = Character \
-      .by_player(params[:player_id]) \
-      .by_instance(params[:instance_id]) \
-      .by_name(params[:name])
+    unless respond_to? :json
+      @characters = Character.scoped
+      @characters = @characters.by_player(params[:player_id]) if params[:player_id]
+      @characters = @characters.by_instance(params[:instance_id]) if params[:instance_id]
+      @characters = @characters.by_name(params[:name]) if params[:name]
+    end
 
     respond_to do |format|
       format.html # index.html.erb
       format.csv { render csv: @characters }
-      format.json { render json: @characters }
+      format.json { render json: CharactersDatatable.new(view_context) }
       format.xml { render :xml => @characters.to_xml }
     end
   end
@@ -57,12 +62,12 @@ class CharactersController < ApplicationController
   # GET /characters/1.json
   def show
     @character = Character.find(params[:id])
-    @character_types = @character.character_types.order("effective_date desc")
+    @character_types = @character.character_types.order('effective_date desc')
 
     respond_to do |format|
       format.html # show.html.erb
       format.js # show.js.coffee
-      format.json { render json: @character }
+      format.json { render json: @character.to_json(methods: [:player_name]) }
       format.xml { render :xml => @character.to_xml(:include => [:instances, :drops]) }
     end
   end
@@ -81,7 +86,7 @@ class CharactersController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @character }
+      format.json { render json: @character.to_json(methods: [:player_name]) }
       format.xml { render :xml => @character }
       format.js
     end
@@ -103,8 +108,8 @@ class CharactersController < ApplicationController
         format.json {
           render json: @character.to_json(
               methods: [:archetype_name, :main_character, :archetype_root,
-                        :first_raid_date, :last_raid_date, :armour_rate,
-                        :jewellery_rate, :weapon_rate]
+                        :player_name, :first_raid_date, :last_raid_date,
+                        :armour_rate, :jewellery_rate, :weapon_rate]
           ), status: :created, location: @character
         }
         format.xml { render xml: @character, status: :created, location: @character }
@@ -121,12 +126,15 @@ class CharactersController < ApplicationController
   def update
     @character = Character.find(params[:id])
 
+    expire_action action: :info
+    expire_action action: :statistics
+
     respond_to do |format|
       if @character.update_attributes(params[:character])
         format.html { redirect_to @character, notice: 'Character was successfully updated.' }
         format.json { render :json => @character.to_json(methods: [:archetype_name, :main_character, :archetype_root,
-                                                                   :first_raid_date, :last_raid_date, :armour_rate,
-                                                                   :jewellery_rate, :weapon_rate]), :notice => 'Character was successfully updated.' }
+                                                                   :player_name, :first_raid_date, :last_raid_date,
+                                                                   :armour_rate, :jewellery_rate, :weapon_rate]), :notice => 'Character was successfully updated.' }
         format.xml { head :ok }
       else
         format.html { render action: "edit" }

@@ -8,6 +8,7 @@ class Archetype < ActiveRecord::Base
 
   delegate :name, to: :root, prefix: :root, allow_nil: true
   delegate :name, to: :parent, prefix: :parent, allow_nil: true
+  delegate :name, to: :root, prefix: :root
 
   validates_presence_of :name
   validates_uniqueness_of :name

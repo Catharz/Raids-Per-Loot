@@ -85,11 +85,11 @@ module CharactersHelper
 
   def attendance_stats(character)
     {
-        raids: character.raids_count,
-        instances: character.instances_count,
+        raids: character.raid_count,
+        instances: character.instance_count,
         armour: character.armour_count,
         jewellery: character.jewellery_count,
-        weapon: character.weapon_count
+        weapons: character.weapon_count
     }
   end
 

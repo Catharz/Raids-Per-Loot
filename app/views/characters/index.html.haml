@@ -16,6 +16,7 @@
 
   #all
     = render 'index_tab', :'@characters' => @characters, :'@char_type' => 'all'
+
 %br/
 = link_to 'New Character', new_character_path, class: 'button', remote: true
 %nobr

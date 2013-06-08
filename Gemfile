@@ -47,6 +47,7 @@ gem 'therubyracer'
 
 # Use unicorn as the web server
 # gem 'unicorn'
+gem 'thin'
 
 gem 'bullet', :group => :development
 

@@ -13,12 +13,11 @@
 - if @data
   #character{:json_data => @data.to_json }
     - if @data.respond_to? :alternateadvancements
-      %table
+      %table.slider
         %tr
           %td
             AAs:
-          %td
-            #aa_slider{:style => "width:320px"}
-          %td
-            = precede "&nbsp;".html_safe * 3 do
-              = "#{@data.alternateadvancements.spentpoints + @data.alternateadvancements.availablepoints} / 320"
+          %td.slider
+            #aa_slider
+          %td.numeric{style: 'width:80px'}
+            = "#{@data.alternateadvancements.spentpoints + @data.alternateadvancements.availablepoints} / 320"

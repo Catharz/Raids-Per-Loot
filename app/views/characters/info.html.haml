@@ -7,6 +7,13 @@
   Instances:
   = @character.instances.count
   %br/
+  First Raid:
+  = @character.first_raid_date
+  %br/
+  Last Raid:
+  = @character.last_raid_date
+  %br/
+  %br/
   - @data = HashParser.new(@character.external_data.data.with_indifferent_access)
   Health:
   = @data.stats.health.max
@@ -15,12 +22,12 @@
   = @data.stats.power.max
   %br/
   Critical Chance:
-  = @data.stats.combat.critchance
+  = number_with_precision(@data.stats.combat.critchance, precision: 2)
   %br/
   Potency:
-  = @data.stats.combat.basemodifier
+  = number_with_precision(@data.stats.combat.basemodifier, precision: 2)
   %br/
   Critical Bonus:
-  = @data.stats.combat.critbonus
+  = number_with_precision(@data.stats.combat.critbonus, precision: 2)
   %br/
   = render 'soe_data', :"@data" => @data

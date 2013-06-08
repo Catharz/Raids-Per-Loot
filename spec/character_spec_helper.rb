@@ -48,7 +48,13 @@ module CharacterSpecHelper
       rank = mock_model(Rank, :name => "#{character_name} Rank")
       archetype = mock_model(Archetype, :name => "#{character_name} Archetype")
       player = mock_model(Player, :name => character_name, :rank => rank)
-      character_list << mock_model(Character, :name => character_name, :player => player, :archetype => archetype, :char_type => "m")
+      character_list << mock_model(Character,
+                                   name: character_name,
+                                   player: player,
+                                   archetype: archetype,
+                                   char_type: 'm',
+                                   first_raid_date: '2012-01-01',
+                                   last_raid_date: '2013-02-31')
     end
     character_list
   end

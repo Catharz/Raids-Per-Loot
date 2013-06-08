@@ -1,10 +1,7 @@
-oTable = $("#charactersTable_<%= @character.char_type %>").dataTable()
-aPos = oTable.fnGetPosition( document.getElementById("character_<%= @character.id %>_<%= @character.char_type %>") )
-oTable.fnDeleteRow(aPos)
+redrawTable = (char_type) ->
+  oTable = $("#charactersTable_#{char_type}").dataTable()
+  oTable.fnDraw()
 
-oTable = $("#charactersTable_all").dataTable()
-aPos = oTable.fnGetPosition( document.getElementById("character_<%= @character.id %>_all") )
-oTable.fnDeleteRow(aPos)
-
-oTable.fnDraw()
+redrawTable("<%= @character.char_type %>")
+redrawTable('all')
 $("#notice").empty().append("Character was successfully deleted.")

@@ -67,12 +67,14 @@ jQuery ->
     "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
-      null, # Name
-      null, # Main
+      {"sClass": "characterPopupTrigger"}, # Name
+      {"sClass": "characterPopupTrigger"}, # Main
+      null, # Player
       null, # Class
-      {"bSearchable": true, "bVisible": false},  # Base Class
-      {"sType": "date", "sClass": "nowrap"},    # First Raid
-      {"sType": "date", "sClass": "nowrap"},    # Last Raid
+      {"sType": "date"}, # First Raid
+      {"sType": "date"}, # Last Raid
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Raids
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Instances
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Armour Rate
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Jewellery Rate
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Weapon Rate
@@ -81,6 +83,18 @@ jQuery ->
       null                  # Destroy Link
     ]
     "aaSorting": [[0,'asc']]
+    "bProcessing": true
+    "bServerSide": true
+    "sAjaxSource": $('#charactersTable_m').data('source')
+    "fnDrawCallback": ( oSettings ) ->
+      $(".table-button").button()
+    "fnRowCallback": ( nRow, aData, iDisplayIndex ) ->
+      nRow.setAttribute('data-raids', aData.data.raids)
+      nRow.setAttribute('data-instances', aData.data.instances)
+      nRow.setAttribute('data-armour', aData.data.armour)
+      nRow.setAttribute('data-jewellery', aData.data.jewellery)
+      nRow.setAttribute('data-weapons', aData.data.weapons)
+
 
   $('#charactersTable_r').dataTable
     "bJQueryUI": true
@@ -88,12 +102,14 @@ jQuery ->
     "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
-      null, # Name
-      null, # Main
+      { "sClass": "characterPopupTrigger" }, # Name
+      { "sClass": "characterPopupTrigger" }, # Main
+      null, # Player
       null, # Class
-      {"bSearchable": true, "bVisible": false},  # Base Class
-      {"sType": "date", "sClass": "nowrap"},    # First Raid
-      {"sType": "date", "sClass": "nowrap"},    # Last Raid
+      {"sType": "date"}, # First Raid
+      {"sType": "date"}, # Last Raid
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Raids
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Instances
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Armour Rate
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Jewellery Rate
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Weapon Rate
@@ -102,6 +118,17 @@ jQuery ->
       null                  # Destroy Link
     ]
     "aaSorting": [[0,'asc']]
+    "bProcessing": true
+    "bServerSide": true
+    "sAjaxSource": $('#charactersTable_r').data('source')
+    "fnDrawCallback": ( oSettings ) ->
+      $(".table-button").button()
+    "fnRowCallback": ( nRow, aData, iDisplayIndex ) ->
+      nRow.setAttribute('data-raids', aData.data.raids)
+      nRow.setAttribute('data-instances', aData.data.instances)
+      nRow.setAttribute('data-armour', aData.data.armour)
+      nRow.setAttribute('data-jewellery', aData.data.jewellery)
+      nRow.setAttribute('data-weapons', aData.data.weapons)
 
   $('#charactersTable_g').dataTable
     "bJQueryUI": true
@@ -109,12 +136,14 @@ jQuery ->
     "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
-      null, # Name
-      null, # Main
+      {"sClass": "characterPopupTrigger"}, # Name
+      {"sClass": "characterPopupTrigger"}, # Main
+      null, # Player
       null, # Class
-      {"bSearchable": true, "bVisible": false},  # Base Class
-      {"sType": "date", "sClass": "nowrap"},    # First Raid
-      {"sType": "date", "sClass": "nowrap"},    # Last Raid
+      {"sType": "date"}, # First Raid
+      {"sType": "date"}, # Last Raid
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Raids
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Instances
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Armour Rate
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Jewellery Rate
       {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Weapon Rate
@@ -123,6 +152,17 @@ jQuery ->
       null                  # Destroy Link
     ]
     "aaSorting": [[0,'asc']]
+    "bProcessing": true
+    "bServerSide": true
+    "sAjaxSource": $('#charactersTable_g').data('source')
+    "fnDrawCallback": ( oSettings ) ->
+      $(".table-button").button()
+    "fnRowCallback": ( nRow, aData, iDisplayIndex ) ->
+      nRow.setAttribute('data-raids', aData.data.raids)
+      nRow.setAttribute('data-instances', aData.data.instances)
+      nRow.setAttribute('data-armour', aData.data.armour)
+      nRow.setAttribute('data-jewellery', aData.data.jewellery)
+      nRow.setAttribute('data-weapons', aData.data.weapons)
 
   $('#charactersTable_all').dataTable
     "bJQueryUI": true
@@ -130,20 +170,33 @@ jQuery ->
     "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
-      null, # Name
-      null, # Main
+      {"sClass": "characterPopupTrigger"}, # Name
+      {"sClass": "characterPopupTrigger"}, # Main
+      null, # Player
       null, # Class
-      {"bSearchable": true, "bVisible": false},  # Base Class
-      {"sType": "date", "sClass": "nowrap"},    # First Raid
-      {"sType": "date", "sClass": "nowrap"},    # Last Raid
-      {"sType": "numeric", "sClass": "numeric"}, # Armour Rate
-      {"sType": "numeric", "sClass": "numeric"}, # Jewellery Rate
-      {"sType": "numeric", "sClass": "numeric"}, # Weapon Rate
+      {"sType": "date"}, # First Raid
+      {"sType": "date"}, # Last Raid
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Raids
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Instances
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Armour Rate
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Jewellery Rate
+      {"sType": "numeric", "sClass": "numeric lootRateTrigger"}, # Weapon Rate
       null,                 # Edit Link
       null,                 # Update Link
       null                  # Destroy Link
     ]
     "aaSorting": [[0,'asc']]
+    "bProcessing": true
+    "bServerSide": true
+    "sAjaxSource": $('#charactersTable_all').data('source')
+    "fnDrawCallback": ( oSettings ) ->
+      $(".table-button").button()
+    "fnRowCallback": ( nRow, aData, iDisplayIndex ) ->
+      nRow.setAttribute('data-raids', aData.data.raids)
+      nRow.setAttribute('data-instances', aData.data.instances)
+      nRow.setAttribute('data-armour', aData.data.armour)
+      nRow.setAttribute('data-jewellery', aData.data.jewellery)
+      nRow.setAttribute('data-weapons', aData.data.weapons)
 
   $('#characterStatsTable_m').dataTable
     "bJQueryUI": true
@@ -446,10 +499,10 @@ jQuery ->
     "iCookieDuration": 600
     "sPaginationType": "full_numbers"
     "aoColumns": [
-      null, #  Name 
-      null, #  Loot Type 
-      null, #  Slots 
-      null  #  Classes 
+      null, #  Name
+      null, #  Loot Type
+      null, #  Slots
+      null  #  Classes
     ]
     "aaSorting": [[0,'asc']]
 

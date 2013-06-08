@@ -14,6 +14,10 @@ class Player < ActiveRecord::Base
 
   has_many :adjustments, :as => :adjustable
 
+  has_one :current_main, class_name: 'Character', conditions: ['characters.char_type = ?', 'm']
+  has_one :current_raid_alternate, class_name: 'Character', conditions: ['characters.char_type = ?', 'r']
+  has_many :current_general_alternates, class_name: 'Character', conditions: ['characters.char_type = ?', 'g']
+
   validates_presence_of :name
   validates_presence_of :rank_id
   validates_uniqueness_of :name
