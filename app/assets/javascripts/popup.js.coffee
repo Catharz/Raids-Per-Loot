@@ -97,7 +97,6 @@ jQuery ->
         container.css "display", "none", hideDelay
 
     $(".lootRateTrigger").live "mouseover", ->
-      debugger
       rowNode = this.parentElement
       firstColumn = $('td a', $(rowNode))[0]
       currentID = firstColumn['id']
