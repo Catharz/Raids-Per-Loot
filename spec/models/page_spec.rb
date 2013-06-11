@@ -1,6 +1,21 @@
 require 'spec_helper'
 
 describe Page do
+
+  describe '#to_url' do
+    it 'uses the name by default' do
+      page = FactoryGirl.create(:page, name: 'somewhere')
+
+      page.to_url.should eq "<a href='/somewhere'>Page Label 1</a>"
+    end
+
+    it 'handles redirects' do
+      page = FactoryGirl.create(:page, redirect: true, controller_name: 'wilma', action_name: 'fred')
+
+      page.to_url.should eq "<a href='/wilma/fred'>Page Label 1</a>"
+    end
+  end
+
   describe '#parent_navlabel' do
     it 'should return the navlabel when it has a parent' do
       parent = FactoryGirl.create(:page, name: 'Parent', title: 'Parent', navlabel: 'Parent', body: '.')

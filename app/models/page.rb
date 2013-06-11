@@ -15,6 +15,11 @@ class Page < ActiveRecord::Base
     where(parent_id: nil, admin: false).order(:position)
   }
 
+  def to_url
+    url = redirect ? "#{controller_name}/#{action_name}" : name
+    "<a href='/#{url}'>#{navlabel}</a>"
+  end
+
   def is_admin?
     admin? ? 'Yes' : 'No'
   end
