@@ -7,14 +7,14 @@ module ApplicationHelper
     "Couldn't find item details for item: #{eq2_item_id}"
   end
 
-  def build_tree(pages)
-    html = "<ul>"
-    pages.sort{|a,b| a.position <=> b.position}.each do |page|
-      url = page.redirect ? "#{page.controller_name}/#{page.action_name}" : page.name
-      html = "#{html}<li><a href='/#{url}'>#{page.navlabel}</a>"
+  def menu(parent_page = nil, pages = Page.includes(:parent).order('parent_id nulls first'))
+    html = '<ul>'
 
-      html = page.children.empty? ? "#{html}</li>" : "#{html}#{build_tree(page.children)}</li>"
+    pages.select { |p| parent_page.eql? p.parent}.sort{|a,b| a.position <=> b.position}.each do |page|
+      html << "<li>#{page.to_url}"
+      html << menu(page, pages) unless pages.select { |p| page.eql? p.parent}.empty?
+      html << '</li>'
     end
-    "#{html}</ul>"
+    html << '</ul>'
   end
 end

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   sequence :page_name do |n|
-    "Page #{n}"
+    "page_name_#{n}"
   end
 
   sequence :page_title do |n|

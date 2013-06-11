@@ -6,13 +6,13 @@ describe Page do
     it 'uses the name by default' do
       page = FactoryGirl.create(:page, name: 'somewhere')
 
-      page.to_url.should eq "<a href='/somewhere'>Page Label 1</a>"
+      page.to_url.should eq "<a href='/somewhere'>#{page.navlabel}</a>"
     end
 
     it 'handles redirects' do
       page = FactoryGirl.create(:page, redirect: true, controller_name: 'wilma', action_name: 'fred')
 
-      page.to_url.should eq "<a href='/wilma/fred'>Page Label 1</a>"
+      page.to_url.should eq "<a href='/wilma/fred'>#{page.navlabel}</a>"
     end
   end
 
