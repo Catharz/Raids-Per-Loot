@@ -21,7 +21,7 @@ class PlayersController < ApplicationController
   def index
     @players = Player.of_rank(params[:rank_id]).by_instance(params[:instance_id]) \
       .order("players.name") \
-      .eager_load(:rank, :characters => {:character_instances => {:instance => :raid}})
+      .includes(:rank)
 
     respond_to do |format|
       format.html # index.html.erb
