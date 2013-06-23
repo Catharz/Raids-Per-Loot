@@ -2,8 +2,6 @@
 rails_root  = ENV['RAILS_ROOT'] || '/home/deploy/app/current'
 
 %w{6379}.each do |port|
-  God.log_file  = "#{rails_root}/log/god.log"
-  God.log_level = :info
   God.watch do |w|
     w.name = 'redis-server'
     w.interval = 30.seconds
