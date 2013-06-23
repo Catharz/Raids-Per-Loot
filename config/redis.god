@@ -10,6 +10,8 @@ rails_root  = ENV['RAILS_ROOT'] || '/home/deploy/app/current'
     w.restart = "/etc/init.d/redis_#{port} restart"
     w.start_grace = 10.seconds
     w.restart_grace = 10.seconds
+    w.log      = "#{rails_root}/log/redis_scheduler.log"
+    w.err_log  = "#{rails_root}/log/redis_scheduler_error.log"
 
     w.start_if do |start|
       start.condition(:process_running) do |c|

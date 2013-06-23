@@ -10,6 +10,8 @@ num_workers.times do |num|
     w.interval = 30.seconds
     w.env      = {'QUEUE'=>"critical,high,low", 'RAILS_ENV'=>rails_env}
     w.start    = "/usr/bin/rake -f #{rails_root}/Rakefile environment resque:work"
+    w.log      = "#{rails_root}/log/resque_scheduler.log"
+    w.err_log  = "#{rails_root}/log/resque_scheduler_error.log"
 
     if rails_env == 'production'
       w.uid = 'deploy'
