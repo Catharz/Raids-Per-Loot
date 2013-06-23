@@ -13,10 +13,10 @@ num_workers.times do |num|
     w.log      = "#{rails_root}/log/resque_scheduler.log"
     w.err_log  = "#{rails_root}/log/resque_scheduler_error.log"
 
-    if rails_env == 'production'
-      w.uid = 'deploy'
-      w.gid = 'deploy'
-    end
+    #if rails_env == 'production'
+    #  w.uid = 'deploy'
+    #  w.gid = 'deploy'
+    #end
 
     # restart if memory gets too high
     w.transition(:up, :restart) do |on|
