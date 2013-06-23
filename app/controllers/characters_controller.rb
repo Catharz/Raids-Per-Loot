@@ -22,11 +22,8 @@ class CharactersController < ApplicationController
   def fetch_data
     @character = Character.find(params[:id])
 
-    if SonyDataService.new.fetch_character_details(@character)
-      flash[:notice] = 'Character details have been updated.'
-    else
-      flash[:notice] = 'Character details could not be updated.'
-    end
+    Resque.enqueue(SonyCharacterUpdater, @character.id)
+    flash[:notice] = 'Character details are being updated.'
     redirect_to @character
   end
 

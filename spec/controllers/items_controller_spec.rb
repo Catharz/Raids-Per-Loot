@@ -27,8 +27,9 @@ describe ItemsController do
 
   describe 'POST fetch_all_data' do
     it 'calls SonyDataService.fetch_items_data' do
-      SonyDataService.any_instance.should_receive(:fetch_items_data).with([], true)
-      post :fetch_all_data, :delayed => true
+      item = Item.create! valid_attributes
+      Resque.should_receive(:enqueue).with(SonyItemUpdater, item.id)
+      post :fetch_all_data
     end
 
     it 'redirects to the admin view' do
@@ -44,15 +45,15 @@ describe ItemsController do
       assigns(:item).should eq(item)
     end
 
-    it 'calls item.fetch_soe_item_details' do
+    it 'uses Resque' do
       item = FactoryGirl.create(:item)
-      Item.any_instance.should_receive(:fetch_soe_item_details).and_return(false)
+      Resque.should_receive(:enqueue).with(SonyItemUpdater, item.id)
       post :fetch_data, :id => item.id
     end
 
     it 'redirects to the item' do
       item = FactoryGirl.create(:item)
-      Item.any_instance.should_receive(:fetch_soe_item_details).and_return(true)
+      Resque.should_receive(:enqueue).with(SonyItemUpdater, item.id)
       post :fetch_data, :id => item.id
       response.should redirect_to(item)
     end

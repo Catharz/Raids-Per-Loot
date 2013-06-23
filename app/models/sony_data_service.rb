@@ -2,9 +2,10 @@ class SonyDataService
   include RemoteConnectionHelper
 
   attr_internal_reader :requester_id, :guild_name, :server_name
+  MIN_LEVEL = 92
+  MAX_LEVEL = 95
 
   def initialize
-    @requester_id = APP_CONFIG['soe_query_id']
     @guild_name = APP_CONFIG['guild_name']
     @server_name = APP_CONFIG['eq2_server']
   end
@@ -27,14 +28,8 @@ class SonyDataService
     updates
   end
 
-  def update_character_details(characters, params)
-    characters.each do |character|
-      if params[:delayed]
-        Delayed::Job.enqueue(CharacterDetailsJob.new(character))
-      else
-        fetch_soe_character_details(character)
-      end
-    end
+  def update_character_details(characters)
+    characters.each { |character| Resque.enqueue(SonyCharacterUpdater, character.id)}
   end
 
   def update_player_list
@@ -44,8 +39,7 @@ class SonyDataService
     updates = 0
     character_list = guild_details[:guild_list][0][:member_list]
     rank_list = guild_details[:guild_list][0][:rank_list]
-    rank_list.keep_if { |rank| !(['Officer alt', 'Officer alt ', 'Alternate'].include? rank[:name].chomp) }
-    character_list.keep_if { |soe_char| soe_char[:type] and soe_char[:type][:level] >= MIN_LEVEL and soe_char[:type][:level] <= MAX_LEVEL }
+    rank_list.keep_if { |rank| !(['Officer alt', 'Officer alt', 'Alternate'].include? rank[:name].chomp) }
     character_list.keep_if do |soe_char|
       soe_char[:guild] and soe_char[:guild][:rank] and rank_list.map {|rank| rank[:id]}.include? soe_char[:guild][:rank]
     end
@@ -60,31 +54,11 @@ class SonyDataService
     updates
   end
 
-  def fetch_character_details(character)
+  def character_statistics(format = 'json')
     if internet_connection?
-      json_data = soe_character_data('json')
-      character_details = json_data ? json_data['character_list'][0] : HashWithIndifferentAccess.new
-
-      if character_details.nil? or character_details.empty?
-        false
-      else
-        unless character.archetype and character.archetype.name.eql? character_details['type']['class']
-          character.update_attribute(:archetype, Archetype.find_by_name(character_details['type']['class']))
-        end
-        character.build_external_data(:data => character_details)
-        character.external_data.save
-        true
-      end
-    else
-      true
-    end
-  end
-
-  def character_statistics(format = "json")
-    if internet_connection?
-      url = "/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/guild/?c:limit=1&name=#{APP_CONFIG["guild_name"]}&world=#{APP_CONFIG["eq2_server"]}&c:resolve=members(type,stats,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,equipmentslot_list.item.id,equipmentslot_list.item.adornment_list)".gsub(" ", "%20")
+      url = "/#{format}/get/eq2/guild/?c:limit=1&name=#{APP_CONFIG['guild_name']}&world=#{APP_CONFIG['eq2_server']}&c:resolve=members(type,stats,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,equipmentslot_list.item.id,equipmentslot_list.item.adornment_list)".gsub(' ', '%20')
       guild = SOEData.get(url)
-      characters = guild["guild_list"].empty? ? [] : guild["guild_list"][0]["member_list"]
+      characters = guild['guild_list'].empty? ? [] : guild['guild_list'][0]['member_list']
 
       characters.each do |character|
         rpl_char = Character.find_by_name(character['name'])
@@ -111,13 +85,29 @@ class SonyDataService
     end
   end
 
+  def character_data(character_name, format = 'json')
+    SOEData.get("/#{format}/get/eq2/character/?name.first=#{character_name}&locationdata.world=#{APP_CONFIG['eq2_server']}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,resists,skills,spell_list,stats,guild.name")
+  end
+
+  def item_data(eq2_item_id, format='json')
+    item_id = eq2_item_id.to_i
+    if item_id < 0
+      item_id = item_id + 2 ** 32
+    end
+    json_data = SOEData.get("/#{format}/get/eq2/item/?id=#{item_id}&c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list")
+    json_data['item_list'][0]
+  end
+
+  def combat_statistics(character_name, format = 'json')
+    SOEData.get("/#{format}/get/eq2/character/?name.first=#{character_name}&locationdata.world=#{APP_CONFIG['eq2_server']}&c:limit=500&c:show=name,stats,type,alternateadvancements.spentpoints,alternateadvancements.availablepoints")
+  end
+
   def resolve_duplicate_items
-    duplicates = Item.group(:name, :eq2_item_id).having(['count(items.id) > 1']).count
+    duplicates = Item.group(:eq2_item_id).having(['count(items.id) > 1']).count
     duplicates.each do |k, v|
-      item_name = k[0]
-      eq2_item_id = k[1]
+      eq2_item_id = k
       count = v
-      duplicate_list = Item.where(:name => item_name).order(:id)
+      duplicate_list = Item.where(eq2_item_id: eq2_item_id).order(:id)
       keep = duplicate_list[0]
       duplicate_list.each do |item|
         unless item.eql? keep
@@ -128,17 +118,7 @@ class SonyDataService
         end
       end
     end
-    (Item.group(:name, :eq2_item_id).having(['count(items.id) > 1']).count).empty?
-  end
-
-  def fetch_items_data(items, delayed)
-    items.each do |item|
-      if delayed
-        Delayed::Job.enqueue(ItemDetailsJob.new(item))
-      else
-        item.fetch_soe_item_details
-      end
-    end
+    (Item.group(:eq2_item_id).having(['count(items.id) > 1']).count).empty?
   end
 
   def character_list(format = 'json', params = '&c:show=member_list')
@@ -174,27 +154,13 @@ class SonyDataService
     SOEData.get(url)
   end
 
-  def download_guild_achievements(format = 'json')
-    if internet_connection?
-      params = '&c:resolve=achievements(name,desc,subcategory,isguildachievement)'
-      character_achievements_url = "/s:#{APP_CONFIG['soe_query_id']}/#{format}/get/eq2/character/?guild.name=#{APP_CONFIG['guild_name']}&locationdata.world=#{APP_CONFIG['eq2_server']}#{params}".gsub(' ', '%20')
-      @guild_achievements ||= SOEData.get(character_achievements_url)
-    else
-      {}
-    end
-  end
-
   def archetype_roots
     @archetype_roots ||= Archetype.root_list
   end
 
-  def character_data(format = "json")
-    SOEData.get("/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/character/?name.first=#{name}&locationdata.world=#{APP_CONFIG["eq2_server"]}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,resists,skills,spell_list,stats,guild.name")
-  end
-
-  def download_guild_characters(format = "json", params = "")
+  def download_guild_characters(format = 'json', params = '')
     if internet_connection?
-      guild_details_url = "/s:#{APP_CONFIG["soe_query_id"]}/#{format}/get/eq2/guild/?name=#{APP_CONFIG["guild_name"]}&world=#{APP_CONFIG["eq2_server"]}#{params}".gsub(" ", "%20")
+      guild_details_url = "/#{format}/get/eq2/guild/?name=#{APP_CONFIG['guild_name']}&world=#{APP_CONFIG['eq2_server']}#{params}".gsub(' ', '%20')
       @guild_details ||= SOEData.get(guild_details_url)
     else
       {}

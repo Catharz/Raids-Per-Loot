@@ -12,12 +12,13 @@ class AdminController < ApplicationController
   end
 
   def fix_trash_drops
-    incorrect_trash_drops = Item.fix_trash_drops
+    incorrect_trash_drops = Item.of_type('Trash').includes(:drops).where('drops.loot_method <> ?', 't').count
 
-    if incorrect_trash_drops > 0
-      flash.notice = 'There were no trash drops to fix'
+    if incorrect_trash_drops == 0
+      flash.notice = 'There are no trash drops to fix'
     else
-      flash.notice = "Set #{incorrect_trash_drops} drops of trash items to the correct loot method"
+      Resque.enqueue(TrashDropFixer)
+      flash.notice = "Queued job to set #{incorrect_trash_drops} drops of trash items to the correct loot method"
     end
 
     redirect_to '/admin'
@@ -47,7 +48,7 @@ class AdminController < ApplicationController
 
   def update_character_details
     characters = Character.order(:name)
-    SonyDataService.new.update_character_details(characters, params)
+    SonyDataService.new.update_character_details(characters)
 
     flash[:notice] = 'Characters have been successfully updated.'
     redirect_to admin_url

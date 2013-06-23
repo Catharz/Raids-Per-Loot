@@ -1,0 +1,101 @@
+item_list:
+- _extended:
+    discovered:
+      charid: 1335735728813
+      id: 311
+      timestamp: 1301086084
+      world_list:
+      - {charid: 459562313674, id: 101, timestamp: 1303935565}
+      - {charid: 442382512878, id: 206, timestamp: 1301452087}
+      - {charid: 450972552444, id: 104, timestamp: 1301283043}
+      - {charid: 455267346120, id: 108, timestamp: 1303781704}
+      - {charid: 438087619411, id: 105, timestamp: 1307161097}
+      - {charid: 515397275360, id: 120, timestamp: 1303353934}
+      - {charid: 2168961442691, id: 505, timestamp: 1318105122}
+      - {charid: 442382522303, id: 103, timestamp: 1308141431}
+      - {charid: 867584493155, id: 202, timestamp: 1310091652}
+      - {charid: 1722282300704, id: 401, timestamp: 1303311533}
+      - {charid: 468152778176, id: 203, timestamp: 1302835864}
+      - {charid: 1297080520146, id: 302, timestamp: 1313358458}
+      - {charid: 1335735728813, id: 311, timestamp: 1301086084}
+      - {charid: 1340030262761, id: 312, timestamp: 1301512361}
+  adornment_list:
+  - description: {}
+    name: Pure Viciousness
+  classifications: {}
+  description: {}
+  displayname: Pure Viciousness
+  displayname_lower: pure viciousness
+  effect_list:
+  - {description: 'When Equipped:', indentation: 0}
+  - {description: 'On a critical spell hit this spell may cast Pure Viciousness on
+      caster.  Lasts for 15.0 seconds.  Triggers about 1.8 times per minute. ', indentation: 1}
+  - {description: Increases AGI of caster by 200.0, indentation: 2}
+  - {description: Increases Attack Speed of caster by 40.0, indentation: 2}
+  - {description: Increases Damage Per Second of caster by 55.0, indentation: 2}
+  - {description: Must not be engaged in pvp combat, indentation: 2}
+  - {description: Cannot be modified except by direct means, indentation: 2}
+  - {description: This effect will not stack with itself if adorned on multiple items.,
+    indentation: 1}
+  - {description: 'On a critical combat hit this spell may cast Pure Viciousness on
+      caster.  Lasts for 15.0 seconds.  Triggers about 1.8 times per minute. ', indentation: 1}
+  - {description: Increases AGI of caster by 200.0, indentation: 2}
+  - {description: Increases Attack Speed of caster by 40.0, indentation: 2}
+  - {description: Increases Damage Per Second of caster by 55.0, indentation: 2}
+  - {description: Must not be engaged in pvp combat, indentation: 2}
+  - {description: Cannot be modified except by direct means, indentation: 2}
+  flags:
+    artiface: {value: 0}
+    attunable: {value: 0}
+    harvestable: {value: 0}
+    heirloom: {value: 1}
+    indestructible: {value: 0}
+    lore: {value: 0}
+    lore-equip: {value: 0}
+    nodestroy: {value: 0}
+    norent: {value: 0}
+    notrade: {value: 0}
+    notrasmute: {value: 0}
+    novalue: {value: 0}
+    nozone: {value: 0}
+    ornate: {value: 0}
+    stacklore: {value: 0}
+  gamelink: \aITEM 70848758 956390065:Pure Viciousness\/a
+  iconid: 3880
+  id: 70848758
+  individual_drop: 0
+  itemlevel: 90
+  last_update: 1371728653.0677071
+  leveltouse: 90
+  maxstacksize: 20
+  modifiers: {}
+  player_studio_creator: ''
+  setbonus_list: []
+  slot_list: []
+  tier: FABLED
+  tierid: 10
+  ts: 1371728653.0677071
+  type: Item
+  typeid: 13
+  typeinfo:
+    classes:
+      assassin: {displayname: Assassin, id: 24, level: 90}
+      beastlord: {displayname: Beastlord, id: 25, level: 90}
+      brigand: {displayname: Brigand, id: 20, level: 90}
+      dirge: {displayname: Dirge, id: 22, level: 90}
+      ranger: {displayname: Ranger, id: 23, level: 90}
+      swashbuckler: {displayname: Swashbuckler, id: 19, level: 90}
+      troubador: {displayname: Troubador, id: 21, level: 90}
+    color: red
+    duration: 0.0
+    name: adornment
+    placementflag_list: []
+    slot_list:
+    - {displayname: Ranged, id: 16, name: ranged}
+    - {displayname: Waist, id: 18, name: waist}
+    - {displayname: Cloak, id: 19, name: cloak}
+    - {displayname: Charm, id: 20, name: activate1}
+limit: 1
+min_ts: 1371728653.0677071
+returned: 1
+seconds: 0.043843984603881836

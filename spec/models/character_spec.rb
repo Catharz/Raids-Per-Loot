@@ -67,6 +67,38 @@ describe Character do
       end
     end
 
+    describe '#path' do
+      it 'returns a url to the character' do
+        character = FactoryGirl.create(:character)
+
+        character.path.should eq "<a href=\"/characters/#{character.id}\">#{character.name}</a>"
+      end
+
+      it 'allows providing options' do
+        character = FactoryGirl.create(:character)
+
+        character.path(format: 'json').should eq "<a href=\"/characters/#{character.id}\" format=\"json\">#{character.name}</a>"
+      end
+    end
+
+    describe '#html_id' do
+      it 'returns a unique id for each character' do
+        char1 = FactoryGirl.create(:character)
+        char2 = FactoryGirl.create(:character)
+
+        char1.html_id.should eq "character_#{char1.id}"
+        char2.html_id.should eq "character_#{char2.id}"
+      end
+    end
+
+    describe '#fetch_soe_character_details' do
+      it 'uses Resque and the SonyCharacterUpdater' do
+        character = FactoryGirl.create(:character)
+        Resque.should_receive(:enqueue).with(SonyCharacterUpdater, character.id)
+        character.fetch_soe_character_details
+      end
+    end
+
     context 'player character types' do
       before(:each) do
         @player = FactoryGirl.create(:player)
@@ -215,11 +247,10 @@ describe Character do
 
       @player1 = FactoryGirl.create(:player)
       @player2 = FactoryGirl.create(:player)
-      @rhubarb = FactoryGirl.create(:character, name: 'Rhubarb', player: @player1, archetype: @bruiser)
-      @strawberry = FactoryGirl.create(:character, name: 'Strawberry', player: @player2, archetype: @monk)
-      @blueberry = FactoryGirl.create(:character, name: 'Blueberry', player: @player2, archetype: @paladin)
+      @rhubarb = FactoryGirl.create(:character, name: 'Rhubarb', char_type: 'm', player: @player1, archetype: @bruiser)
+      @strawberry = FactoryGirl.create(:character, name: 'Strawberry', char_type: 'm', player: @player2, archetype: @monk)
+      @blueberry = FactoryGirl.create(:character, name: 'Blueberry', char_type: 'g', player: @player2, archetype: @paladin)
     end
-
 
     describe 'by_name' do
       it 'finds all characters by default' do
@@ -228,6 +259,16 @@ describe Character do
 
       it 'finds characters by name' do
         Character.by_name('Rhubarb').should eq [@rhubarb]
+      end
+    end
+
+    describe 'by_char_type' do
+      it 'finds all character by default' do
+        Character.by_char_type(nil).should match_array [@rhubarb, @strawberry, @blueberry]
+      end
+
+      it 'finds characters by character Type' do
+        Character.by_char_type('g').should eq [@blueberry]
       end
     end
 

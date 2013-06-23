@@ -1,16 +1,11 @@
-require 'delayed_job'
-
 class ItemsController < ApplicationController
   before_filter :login_required, :except => [:index, :show, :info]
 
   def fetch_all_data
     items = Item.order(:name)
-    SonyDataService.new.fetch_items_data(items, params[:delayed])
-    if params[:delayed]
-      flash[:notice] = "Items are being updated."
-    else
-      flash[:notice] = "Items have been updated."
-    end
+    items.each { |item| Resque.enqueue(SonyItemUpdater, item.id) }
+    #SonyDataService.new.fetch_items_data(items)
+    flash[:notice] = 'Items are being updated.'
 
     redirect_to '/admin'
   end
@@ -18,11 +13,8 @@ class ItemsController < ApplicationController
   def fetch_data
     @item = Item.find(params[:id])
 
-    if @item.fetch_soe_item_details
-      flash[:notice] = "Item details have been updated."
-    else
-      flash[:notice] = "Could not update item details."
-    end
+    Resque.enqueue(SonyItemUpdater, @item.id)
+    flash[:notice] = 'Item details are being updated.'
     redirect_to @item
   end
 
@@ -45,7 +37,7 @@ class ItemsController < ApplicationController
   # GET /items/1
   # GET /items/1.json
   def show
-    @item = Item.where('id = ? or eq2_item_id = ?', params[:id], params[:id]).first
+    @item = Item.where('items.id = ? or items.eq2_item_id = ?', params[:id], params[:id]).first
 
     respond_to do |format|
       format.html # show.html.erb

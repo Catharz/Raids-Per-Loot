@@ -16,6 +16,7 @@ Spork.prefork do
         add_group 'Observers', 'app/observers'
         add_group 'DataTables', 'app/datatables'
         add_group 'Validators', 'app/validators'
+        add_group 'Workers', 'app/workers'
         add_group 'Changed' do |source_file|
           `git status --untracked=all --porcelain`.split("\n").detect do |status_and_filename|
             _, filename = status_and_filename.split(' ', 2)

@@ -19,23 +19,23 @@ describe CharactersController do
 
   describe 'POST #fetch_data' do
     it 'assigns the requested character to @character' do
-      @character = FactoryGirl.create(:character)
-      post :fetch_data, id: @character
-      assigns(:character).should eq(@character)
+      character = FactoryGirl.create(:character)
+      post :fetch_data, id: character
+      assigns(:character).should eq(character)
     end
 
     it 'calls SonyDataService.fetch_soe_character_details for the character' do
-      @character = FactoryGirl.create(:character)
-      SonyDataService.any_instance.should_receive(:fetch_character_details).with(@character).and_return(true)
+      character = FactoryGirl.create(:character)
+      Resque.should_receive(:enqueue).with(SonyCharacterUpdater, character.id)
 
-      post :fetch_data, id: @character
+      post :fetch_data, id: character
     end
 
     it 'redirects to the updated @character' do
-      @character = FactoryGirl.create(:character)
-      SonyDataService.any_instance.should_receive(:fetch_character_details).with(@character).and_return(false)
-      post :fetch_data, id: @character
-      response.should redirect_to @character
+      character = FactoryGirl.create(:character)
+      Resque.should_receive(:enqueue).with(SonyCharacterUpdater, character.id)
+      post :fetch_data, id: character
+      response.should redirect_to character
     end
   end
 
@@ -174,6 +174,11 @@ describe CharactersController do
         post :create, character: FactoryGirl.attributes_for(:character)
         response.should redirect_to Character.last
       end
+
+      it 'responds to JSON' do
+        post :create, character: FactoryGirl.attributes_for(:character), format: 'json'
+        response.response_code.should eq 201
+      end
     end
 
     context 'with invalid attributes' do
@@ -213,6 +218,37 @@ describe CharactersController do
       it 'redirects to the updated @character' do
         put :update, id: @character, character: @character.attributes
         response.should redirect_to @character
+      end
+
+      context 'JSON response' do
+        it 'responds to JSON' do
+          put :update, id: @character, character:
+              @character.attributes.merge!({name: 'Bam Bam', char_type: 'r'}), format: 'json'
+
+          response.response_code.should == 200
+        end
+
+        context 'extra methods' do
+          it 'returns all the normal methods' do
+            method_list = [:archetype_name, :archetype_root, :player_name, :first_raid_date,
+                       :last_raid_date, :armour_rate, :jewellery_rate, :weapon_rate]
+            method_list.each_with_index do |method, index|
+              put :update, id: @character, character:
+                  @character.attributes.merge!({name: "Update #{index}"}), format: 'json'
+
+              result = JSON.parse(response.body).with_indifferent_access
+              result[:character][method].should eq @character.send(method)
+            end
+          end
+
+          it 'returns the main character' do
+            put :update, id: @character, character:
+                @character.attributes.merge!({name: 'Bam Bam', char_type: 'r'}), format: 'json'
+
+            result = JSON.parse(response.body).with_indifferent_access
+            result[:character][:main_character].should eq JSON.parse(@character.main_character.to_json)
+          end
+        end
       end
     end
 

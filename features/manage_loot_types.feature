@@ -38,6 +38,7 @@ Feature: Manage loot_types
       | zone_name 1 | mob_name 1 | character_name 1 | item_name 1 | Armour    | eq2_item_id 1 | 2011-09-21 20:45:00 +1000 | n           |
       | zone_name 2 | mob_name 2 | character_name 2 | item_name 2 | Body Drop | eq2_item_id 2 | 2011-09-20 20:30:00 +1000 | n           |
     When I change the default loot method of Body Drop to Trash
+    And the loot type items updater is run
     And I view the drops page
     And I wait until the table is rendered
     Then I should see the following drops:

@@ -1,0 +1,71 @@
+item_list:
+- _extended:
+    discovered:
+      charid: 450972480916
+      id: 104
+      timestamp: 1301465708
+      world_list:
+      - {charid: 433792333711, id: 101, timestamp: 1303184815}
+      - {charid: 884764322111, id: 206, timestamp: 1302142476}
+      - {charid: 455266807689, id: 108, timestamp: 1306207279}
+      - {charid: 450972480916, id: 104, timestamp: 1301465708}
+      - {charid: 442382451590, id: 103, timestamp: 1308838309}
+      - {charid: 515397604904, id: 120, timestamp: 1303266371}
+      - {charid: 459562129803, id: 105, timestamp: 1305859701}
+      - {charid: 2168961446086, id: 505, timestamp: 1316296053}
+      - {charid: 880469385384, id: 202, timestamp: 1304046770}
+      - {charid: 1722282243136, id: 401, timestamp: 1303311116}
+      - {charid: 468152686411, id: 203, timestamp: 1302658305}
+      - {charid: 1297080619087, id: 302, timestamp: 1315428481}
+      - {charid: 1335735907444, id: 311, timestamp: 1301603388}
+      - {charid: 1340031039944, id: 312, timestamp: 1301863317}
+  classifications: {}
+  description: Cruor pulses through this armor.
+  displayname: Cruor-Forged Leggings
+  displayname_lower: cruor-forged leggings
+  flags:
+    artiface: {value: 0}
+    attunable: {value: 0}
+    harvestable: {value: 0}
+    heirloom: {value: 1}
+    indestructible: {value: 0}
+    lore: {value: 1}
+    lore-equip: {value: 0}
+    nodestroy: {value: 0}
+    norent: {value: 0}
+    notrade: {value: 0}
+    notrasmute: {value: 0}
+    novalue: {value: 1}
+    nozone: {value: 0}
+    ornate: {value: 0}
+    stacklore: {value: 0}
+  gamelink: \aITEM -701608277 2094635047:Cruor-Forged Leggings\/a
+  iconid: 1402
+  id: 3593359019
+  individual_drop: 0
+  itemlevel: 80
+  last_update: 1371731839.6342571
+  leveltouse: 0
+  maxstacksize: 1
+  modifiers: {}
+  player_studio_creator: ''
+  setbonus_list: []
+  slot_list: []
+  tier: FABLED
+  tierid: 10
+  ts: 1371731839.6342571
+  type: Item
+  typeid: 17
+  typeinfo:
+    item_list:
+    - {displayname: Augur's Depopulating Leggings, id: 1211255312}
+    - {displayname: Beguiler's Depopulating Leggings, id: 1349811862}
+    - {displayname: Elementalist's Depopulating Leggings, id: 181718804}
+    - {displayname: Invoker's Depopulating Leggings, id: 2780800926}
+    - {displayname: Occultist's Depopulating Leggings, id: 747969006}
+    - {displayname: Thaumaturge's Depopulating Leggings, id: 3095662241}
+    name: itempattern
+limit: 1
+min_ts: 1371731839.6342571
+returned: 1
+seconds: 0.78379392623901367

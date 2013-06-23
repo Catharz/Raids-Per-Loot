@@ -1,0 +1,67 @@
+item_list:
+- _extended:
+    discovered:
+      charid: 455267366578
+      id: 104
+      timestamp: 1301895857
+      world_list:
+      - {charid: 433792430583, id: 101, timestamp: 1303871427}
+      - {charid: 884764253215, id: 206, timestamp: 1301964042}
+      - {charid: 455267346120, id: 108, timestamp: 1303781662}
+      - {charid: 438087619411, id: 105, timestamp: 1307161088}
+      - {charid: 515397275360, id: 120, timestamp: 1303353928}
+      - {charid: 2168961442691, id: 505, timestamp: 1318105084}
+      - {charid: 442382522303, id: 103, timestamp: 1308141357}
+      - {charid: 455267366578, id: 104, timestamp: 1301895857}
+      - {charid: 867584493155, id: 202, timestamp: 1310091635}
+      - {charid: 1722282300704, id: 401, timestamp: 1303311510}
+      - {charid: 468152778176, id: 203, timestamp: 1302835721}
+      - {charid: 1297080520146, id: 302, timestamp: 1313358337}
+      - {charid: 1335735507377, id: 311, timestamp: 1302889206}
+      - {charid: 1340030243830, id: 312, timestamp: 1302206543}
+  classifications: {}
+  description: A shard cast off from the Fortress of Drunder.  It appears to have
+    been imbued with an ancient power!
+  displayname: 'War Rune: Pure Viciousness'
+  displayname_lower: 'war rune: pure viciousness'
+  flags:
+    artiface: {value: 0}
+    attunable: {value: 0}
+    harvestable: {value: 0}
+    heirloom: {value: 0}
+    indestructible: {value: 0}
+    lore: {value: 0}
+    lore-equip: {value: 0}
+    nodestroy: {value: 0}
+    norent: {value: 0}
+    notrade: {value: 1}
+    notrasmute: {value: 0}
+    novalue: {value: 1}
+    nozone: {value: 0}
+    ornate: {value: 0}
+    stacklore: {value: 0}
+  gamelink: '\aITEM -26804704 -636160862:War Rune: Pure Viciousness\/a'
+  iconid: 3819
+  id: 4268162592
+  individual_drop: 0
+  itemlevel: 90
+  last_update: 1371732022.8788731
+  leveltouse: 0
+  maxstacksize: 1
+  modifiers: {}
+  player_studio_creator: ''
+  setbonus_list: []
+  slot_list: []
+  tier: FABLED
+  tierid: 9
+  ts: 1371732022.8788731
+  type: Item
+  typeid: 17
+  typeinfo:
+    item_list:
+    - {displayname: Pure Viciousness, id: 70848758}
+    name: itempattern
+limit: 1
+min_ts: 1371732022.8788731
+returned: 1
+seconds: 0.3695838451385498

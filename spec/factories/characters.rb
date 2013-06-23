@@ -1,6 +1,6 @@
 FactoryGirl.define do
   sequence :character_name do |n|
-    "Character #{n}"
+    "Character_#{n}"
   end
 
   factory :character do |f|

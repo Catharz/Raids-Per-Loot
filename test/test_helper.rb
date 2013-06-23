@@ -6,6 +6,7 @@ if %w{yes true on}.include? ENV['COVERAGE']
       add_filter 'vendor'
       add_group 'Observers', 'app/observers'
       add_group 'DataTables', 'app/datatables'
+      add_group 'Workers', 'app/workers'
       add_group 'Changed' do |source_file|
         `git status --untracked=all --porcelain`.split("\n").detect do |status_and_filename|
           _, filename = status_and_filename.split(' ', 2)

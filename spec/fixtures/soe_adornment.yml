@@ -1,0 +1,116 @@
+item_list:
+- _extended:
+    discovered:
+      charid: 446679324458
+      id: 104
+      timestamp: 1353206335
+      world_list:
+      - {charid: 446679324458, id: 104, timestamp: 1353206335}
+      - {charid: 1722281960672, id: 401, timestamp: 1353765415}
+      - {charid: 463857251376, id: 108, timestamp: 1353877368}
+      - {charid: 2168961348356, id: 505, timestamp: 1354076380}
+      - {charid: 1292786988530, id: 301, timestamp: 1354211676}
+      - {charid: 884765713043, id: 206, timestamp: 1354537167}
+      - {charid: 438087424468, id: 105, timestamp: 1354683743}
+      - {charid: 880469224184, id: 202, timestamp: 1354901171}
+      - {charid: 442382398647, id: 103, timestamp: 1354975220}
+      - {charid: 1335735675239, id: 311, timestamp: 1354990766}
+      - {charid: 515398238478, id: 120, timestamp: 1355062746}
+      - {charid: 871878802581, id: 203, timestamp: 1355187561}
+      - {charid: 1297080945517, id: 302, timestamp: 1355270628}
+      - {charid: 1340030274426, id: 312, timestamp: 1355387638}
+      - {charid: 876174082056, id: 303, timestamp: 1355788477}
+      - {charid: 884764387563, id: 101, timestamp: 1355886612}
+  adornment_list:
+  - description: {}
+    name: Virulent Wrath
+  classifications: {}
+  description: {}
+  displayname: Virulent Wrath
+  displayname_lower: virulent wrath
+  effect_list:
+  - {description: 'When Equipped:', indentation: 0}
+  - {description: 'On any combat or spell hit this spell may cast Virulent Wrath on
+      target of attack.  Triggers about 2.2 times per minute. ', indentation: 1}
+  - {description: Increases threat priority of target by 1 position, indentation: 2}
+  - {description: Inflicts 9242 - 10215 mental damage on target, indentation: 2}
+  - {description: Must not be engaged in pvp combat, indentation: 2}
+  - {description: Cannot be modified except by direct means, indentation: 2}
+  - {description: This effect will not stack with similar effects., indentation: 1}
+  - {description: Must not be engaged in pvp combat, indentation: 1}
+  - {description: Cannot be modified except by direct means, indentation: 1}
+  flags:
+    artiface: {value: 0}
+    attunable: {value: 0}
+    harvestable: {value: 0}
+    heirloom: {value: 1}
+    indestructible: {value: 0}
+    lore: {value: 0}
+    lore-equip: {value: 0}
+    nodestroy: {value: 0}
+    norent: {value: 0}
+    notrade: {value: 0}
+    notrasmute: {value: 0}
+    novalue: {value: 0}
+    nozone: {value: 0}
+    ornate: {value: 0}
+    stacklore: {value: 0}
+  gamelink: \aITEM 1107683652 838917038:Virulent Wrath\/a
+  iconid: 3880
+  id: 1107683652
+  individual_drop: 0
+  itemlevel: 95
+  last_update: 1371731118.5396349
+  leveltouse: 92
+  maxstacksize: 20
+  modifiers: {}
+  player_studio_creator: ''
+  setbonus_list: []
+  slot_list: []
+  tier: FABLED
+  tierid: 10
+  ts: 1371731118.5396349
+  type: Item
+  typeid: 13
+  typeinfo:
+    classes:
+      assassin: {displayname: Assassin, id: 24, level: 92}
+      beastlord: {displayname: Beastlord, id: 25, level: 92}
+      berserker: {displayname: Berserker, id: 2, level: 92}
+      brigand: {displayname: Brigand, id: 20, level: 92}
+      bruiser: {displayname: Bruiser, id: 4, level: 92}
+      coercer: {displayname: Coercer, id: 16, level: 92}
+      conjuror: {displayname: Conjuror, id: 17, level: 92}
+      defiler: {displayname: Defiler, id: 12, level: 92}
+      dirge: {displayname: Dirge, id: 22, level: 92}
+      fury: {displayname: Fury, id: 10, level: 92}
+      guardian: {displayname: Guardian, id: 1, level: 92}
+      illusionist: {displayname: Illusionist, id: 15, level: 92}
+      inquisitor: {displayname: Inquisitor, id: 8, level: 92}
+      monk: {displayname: Monk, id: 3, level: 92}
+      mystic: {displayname: Mystic, id: 11, level: 92}
+      necromancer: {displayname: Necromancer, id: 18, level: 92}
+      paladin: {displayname: Paladin, id: 6, level: 92}
+      ranger: {displayname: Ranger, id: 23, level: 92}
+      shadowknight: {displayname: Shadowknight, id: 5, level: 92}
+      swashbuckler: {displayname: Swashbuckler, id: 19, level: 92}
+      templar: {displayname: Templar, id: 7, level: 92}
+      troubador: {displayname: Troubador, id: 21, level: 92}
+      warden: {displayname: Warden, id: 9, level: 92}
+      warlock: {displayname: Warlock, id: 14, level: 92}
+      wizard: {displayname: Wizard, id: 13, level: 92}
+    color: red
+    duration: 0.0
+    name: adornment
+    placementflag_list: []
+    slot_list:
+    - {displayname: Primary, id: 0, name: primary}
+    - {displayname: Secondary, id: 1, name: secondary}
+    - {displayname: Ranged, id: 16, name: ranged}
+    - {displayname: Waist, id: 18, name: waist}
+    - {displayname: Cloak, id: 19, name: cloak}
+    - {displayname: Charm, id: 20, name: activate1}
+limit: 1
+min_ts: 1371731118.5396349
+returned: 1
+seconds: 0.015226125717163086

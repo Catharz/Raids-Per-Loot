@@ -97,17 +97,8 @@ class Character < ActiveRecord::Base
     end
   end
 
-  def soe_character_data(format = 'json')
-    #TODO: Refactor this out and get it into a central class or gem for dealing with Sony Data
-    @soe_data ||= SOEData.get("/s:#{APP_CONFIG['soe_query_id']}/#{format}/get/eq2/character/?name.first=#{name}&locationdata.world=#{APP_CONFIG['eq2_server']}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,resists,skills,spell_list,stats,guild.name")
-  end
-
-  def character_combat_statistics(format = 'json')
-    @stats ||= SOEData.get("/s:#{APP_CONFIG['soe_query_id']}/#{format}/get/eq2/character/?name.first=#{name}&locationdata.world=#{APP_CONFIG['eq2_server']}&c:limit=500&c:show=name,stats,type,alternateadvancements.spentpoints,alternateadvancements.availablepoints")
-  end
-
   def fetch_soe_character_details
-    SonyDataService.new.fetch_character_details(self)
+    Resque.enqueue(SonyCharacterUpdater, self.id)
   end
 
   def rank_at_time(time)

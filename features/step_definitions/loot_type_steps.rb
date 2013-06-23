@@ -31,3 +31,7 @@ When /^I change the default loot method of (.+) to (.+)$/ do |loot_type_name, de
   select(default_loot_method, from: "loot_type_default_loot_method")
   click_button "Update Loot type"
 end
+
+When(/^the loot type items updater is run$/) do
+  LootType.all.each { |loot_type| LootTypeItemsUpdater.perform(loot_type.id) }
+end

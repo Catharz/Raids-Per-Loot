@@ -112,3 +112,7 @@ end
 When /^I select "([^"]*)" as the drop's Instance$/ do |instance_description|
   select instance_description, :from => "drop_instance_id"
 end
+
+When(/^the drop post processor is run$/) do
+  Drop.all.each { |drop| DropPostProcessor.perform(drop.id) }
+end

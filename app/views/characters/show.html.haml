@@ -1,6 +1,6 @@
 = render 'details'
 %br/
-= link_to 'Update Details', fetch_data_character_path(@character)
+= link_to 'Update Details', fetch_data_character_path(@character), method: 'post'
 \|
 = link_to 'Edit', edit_character_path(@character)
 \|

@@ -18,14 +18,16 @@ describe AdminController do
   context 'item clean-up actions' do
     describe 'POST #fix_trash_drops' do
       it 'calls Item.fix_trash_drops' do
-        Item.should_receive(:fix_trash_drops).and_return(1)
+        trash = FactoryGirl.create(:loot_type, name: 'Trash')
+        item = FactoryGirl.create(:item, loot_type: trash)
+        FactoryGirl.create(:drop, item: item, loot_method: 'n')
+
+        Resque.should_receive(:enqueue).with(TrashDropFixer)
 
         post :fix_trash_drops
       end
 
       it 'redirects to /admin when done' do
-        Item.should_receive(:fix_trash_drops).and_return(0)
-
         post :fix_trash_drops
 
         response.should redirect_to '/admin'

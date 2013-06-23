@@ -118,6 +118,12 @@ RaidsPerLoot::Application.routes.draw do
   post '/viewer/set_page_body/:id', :controller => 'viewer', :action => 'set_page_body'
   get '/viewer/get_unformatted_text/:id', :controller => 'viewer', :action => 'get_unformatted_text'
 
+  #namespace :admin do
+  #  constraints CanAccessResque do
+  #    mount Resque::Server, at: 'resque'
+  #  end
+  #end
+
   #resources :users do
   #  member do
   #    put :suspend

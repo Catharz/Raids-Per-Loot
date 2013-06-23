@@ -44,6 +44,7 @@ Feature: Manage players
       | zone 2 | mob 2 | Fred   | Barny     | item 2 | Weapon    | eq2_item_id 2 | 2011-09-20 20:30:00 +1000 | n           |
       | zone 3 | mob 3 | Fred   | Barny     | item 3 | Armour    | eq2_item_id 3 | 2011-09-19 20:15:00 +1000 | n           |
       | zone 4 | mob 4 | Fred   | Barny     | item 4 | Weapon    | eq2_item_id 4 | 2011-09-18 20:00:00 +1000 | n           |
+    When the drop post processor is run
     Then I should see the following players:
       | Name | Rank | First Raid | Last Raid  | Armour Rate | Jewellery Rate | Weapon Rate |
       | Fred | Main | 2012-01-01 | 2012-01-01 | 0.33        | 1.0            | 0.33        |
@@ -63,6 +64,7 @@ Feature: Manage players
       | zone 2 | mob 2 | Fred   | Barny     | item 2 | Weapon    | eq2_item_id 2 | 2011-09-20 20:30:00 +1000 | n           |
       | zone 3 | mob 3 | Fred   | Barny     | item 3 | Armour    | eq2_item_id 3 | 2011-09-19 20:15:00 +1000 | n           |
       | zone 4 | mob 4 | Fred   | Barny     | item 4 | Weapon    | eq2_item_id 4 | 2011-09-18 20:00:00 +1000 | n           |
+    When the drop post processor is run
     Then I should see the following players:
       | Name | Rank | First Raid | Last Raid  | Armour Rate | Jewellery Rate | Weapon Rate |
       | Fred | Main | 2012-01-02 | 2012-01-02 | 1.0         | 3.0            | 1.0         |
@@ -82,6 +84,7 @@ Feature: Manage players
       | zone 2 | mob 2 | Fred   | Barny     | item 2 | Weapon    | eq2_item_id 2 | 2011-09-20 20:30:00 +1000 | n           |
       | zone 3 | mob 3 | Fred   | Barny     | item 3 | Armour    | eq2_item_id 3 | 2011-09-19 20:15:00 +1000 | n           |
       | zone 4 | mob 4 | Fred   | Barny     | item 4 | Weapon    | eq2_item_id 4 | 2011-09-18 20:00:00 +1000 | n           |
+    When the drop post processor is run
     Then I should see the following players:
       | Name | Rank | First Raid | Last Raid  | Armour Rate | Jewellery Rate | Weapon Rate |
       | Fred | Main | 2012-01-02 | 2012-01-02 | 0.2         | 1.0            | 0.33        |
@@ -101,6 +104,7 @@ Feature: Manage players
       | zone 2 | mob 2 | Fred   | Barny     | item 2 | Weapon    | eq2_item_id 2 | 2011-09-20 20:30:00 +1000 | n           |
       | zone 3 | mob 3 | Fred   | Barny     | item 3 | Armour    | eq2_item_id 3 | 2011-09-19 20:15:00 +1000 | n           |
       | zone 4 | mob 4 | Fred   | Barny     | item 4 | Weapon    | eq2_item_id 4 | 2011-09-18 20:00:00 +1000 | n           |
+    When the drop post processor is run
     Then I should see the following players:
       | Name | Rank | First Raid | Last Raid  | Armour Rate | Jewellery Rate | Weapon Rate |
       | Fred | Main | 2012-01-02 | 2012-01-02 | 0.33        | 0.33           | 0.33        |

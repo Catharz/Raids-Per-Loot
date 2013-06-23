@@ -1,14 +1,11 @@
 development:
   guild_name: Southern Cross
   eq2_server: Unrest
-  soe_query_id: catharzdoshu@yahoo.com.au
 
 test:
   guild_name: Southern Cross
   eq2_server: Unrest
-  soe_query_id: catharzdoshu@yahoo.com.au
 
 production:
   guild_name: Southern Cross
   eq2_server: Unrest
-  soe_query_id: southerncross.heroku.com

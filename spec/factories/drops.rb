@@ -5,10 +5,11 @@ FactoryGirl.define do
 
   factory :drop do |f|
     f.instance { |a| a.association(:instance) }
-    f.zone  { |a| a.association(:zone) }
-    f.mob  { |a| a.association(:mob) }
+    f.zone { |a| a.association(:zone) }
+    f.mob { |a| a.association(:mob) }
     f.character  { |a| a.association(:character) }
-    f.item  { |a| a.association(:item) }
+    f.item { |a| a.association(:item) }
+    f.loot_type { |a| a.association(:loot_type) }
     f.loot_method 'n'
     f.drop_time { |a| a.association(:instance).start_time }
     f.log_line { generate(:log_line) }
