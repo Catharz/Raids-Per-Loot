@@ -9,6 +9,9 @@
     w.start_grace = 10.seconds
     w.restart_grace = 10.seconds
 
+    w.log_file  = "#{RAILS_ROOT}/log/god_redis_#{port}.log"
+    w.log_level = :info
+
     w.start_if do |start|
       start.condition(:process_running) do |c|
         c.interval = 5.seconds

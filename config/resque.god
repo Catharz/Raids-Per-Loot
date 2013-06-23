@@ -11,6 +11,9 @@ num_workers.times do |num|
     w.env      = {'QUEUE'=>"critical,high,low", 'RAILS_ENV'=>rails_env}
     w.start    = "/usr/bin/rake -f #{rails_root}/Rakefile environment resque:work"
 
+    w.log_file  = "#{RAILS_ROOT}/log/god_resque_#{num}.log"
+    w.log_level = :info
+
     if rails_env == 'production'
       w.uid = 'deploy'
       w.gid = 'deploy'
