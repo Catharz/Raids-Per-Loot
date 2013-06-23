@@ -2,6 +2,9 @@ rails_env   = ENV['RAILS_ENV']  || 'production'
 rails_root  = ENV['RAILS_ROOT'] || '/home/deploy/app/current'
 num_workers = rails_env == 'production' ? 5 : 2
 
+God.log_file  = "#{rails_root}/log/god.log"
+God.log_level = :info
+
 num_workers.times do |num|
   God.watch do |w|
     w.dir      = "#{rails_root}"
@@ -10,9 +13,6 @@ num_workers.times do |num|
     w.interval = 30.seconds
     w.env      = {'QUEUE'=>"critical,high,low", 'RAILS_ENV'=>rails_env}
     w.start    = "/usr/bin/rake -f #{rails_root}/Rakefile environment resque:work"
-
-    w.log_file  = "#{rails_root}/log/god_resque_#{num}.log"
-    w.log_level = :info
 
     if rails_env == 'production'
       w.uid = 'deploy'
