@@ -1,22 +1,17 @@
-rails_env   = ENV['RAILS_ENV']  || 'production'
-rails_root  = ENV['RAILS_ROOT'] || '/home/deploy/app/current'
+rails_env = ENV['RAILS_ENV'] || 'production'
+rails_root = ENV['RAILS_ROOT'] || '/home/deploy/app/current'
 num_workers = rails_env == 'production' ? 5 : 2
 
 num_workers.times do |num|
   God.watch do |w|
-    w.dir      = "#{rails_root}"
-    w.name     = "resque-#{num}"
-    w.group    = 'resque'
+    w.dir = "#{rails_root}"
+    w.name = "resque-#{num}"
+    w.group = 'resque'
     w.interval = 30.seconds
-    w.env      = {'QUEUE'=>"critical,high,low", 'RAILS_ENV'=>rails_env}
-    w.start    = "/usr/bin/rake -f #{rails_root}/Rakefile environment resque:work"
-    w.log      = "#{rails_root}/log/resque_scheduler.log"
-    w.err_log  = "#{rails_root}/log/resque_scheduler_error.log"
-
-    #if rails_env == 'production'
-    #  w.uid = 'deploy'
-    #  w.gid = 'deploy'
-    #end
+    w.env = {'QUEUE' => "critical,high,low", 'RAILS_ENV' => rails_env}
+    w.start = "/usr/bin/rake -f #{rails_root}/Rakefile environment resque:work"
+    w.log = "#{rails_root}/log/resque_scheduler.log"
+    w.err_log = "#{rails_root}/log/resque_scheduler_error.log"
 
     # restart if memory gets too high
     w.transition(:up, :restart) do |on|
@@ -27,7 +22,7 @@ num_workers.times do |num|
     end
 
     # determine the state on startup
-    w.transition(:init, { true => :up, false => :start }) do |on|
+    w.transition(:init, {true => :up, false => :start}) do |on|
       on.condition(:process_running) do |c|
         c.running = true
       end
@@ -54,17 +49,5 @@ num_workers.times do |num|
         c.running = false
       end
     end
-
-    #w.lifecycle do |on|
-    #  on.condition(:flapping) do |c|
-    #    c.to_state = [:start, :restart]
-    #    c.times = 5
-    #    c.within = 5.minutes
-    #    c.transition = :unmonitored
-    #    c.retry_in = 10.minutes
-    #    c.retry_times = 5
-    #    #c.retry_within 2.hours
-    #  end
-    #end
   end
 end
