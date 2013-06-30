@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
-  before_filter :login_required, :except => [:index, :show, :info, :statistics]
+  before_filter :login_required, :except => [:index, :show, :info, :statistics, :attendance]
   before_filter :set_pagetitle
 
   caches_action :statistics
@@ -17,6 +17,16 @@ class CharactersController < ApplicationController
       options += "<option value='#{character.id}'>#{character.name}</option>"
     end
     render :text => options, :layout => false
+  end
+
+  def attendance
+    @characters = Character.order(:name)
+    @characters.sort! { |a,b| b.attendance <=> a.attendance}.select! { |c| c.attendance >= 10.0}
+
+    respond_to do |format|
+      format.html # attendance.html.erb
+      format.json { render json: @characters, methods: [:player_name, :archetype_name, :archetype_root_name, :attendance] }
+    end
   end
 
   def fetch_data

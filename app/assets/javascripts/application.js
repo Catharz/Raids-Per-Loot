@@ -18,3 +18,5 @@
 //= require popup
 //= require tables
 //= require tabs
+//= require d3.v3
+//= require charts

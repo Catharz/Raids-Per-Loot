@@ -17,6 +17,70 @@ describe CharactersController do
     end
   end
 
+  describe 'GET #attendance' do
+    it 'should populate a list of characters' do
+      character1 = FactoryGirl.create(:character)
+      character2 = FactoryGirl.create(:character)
+      character1.should_receive(:attendance).twice.times.and_return(90.0)
+      character2.should_receive(:attendance).twice.times.and_return(80.0)
+      characters = [character1, character2]
+      Character.should_receive(:order).with(:name).and_return(characters)
+
+      get :attendance
+
+      assigns(:characters).should match_array [character1, character2]
+    end
+
+    it 'responds with JSON' do
+      character1 = FactoryGirl.create(:character)
+      character2 = FactoryGirl.create(:character)
+      character1.should_receive(:attendance).at_least(3).times.and_return(100.0)
+      character2.should_receive(:attendance).at_least(3).times.and_return(100.0)
+      characters = [character1, character2]
+      Character.should_receive(:order).with(:name).and_return(characters)
+
+      get :attendance, format: :json
+
+      result = JSON.parse(response.body)
+      result.should eq [JSON.parse(character1.to_json(
+                                       methods: [:player_name, :archetype_name, :archetype_root_name, :attendance])),
+                        JSON.parse(character2.to_json(
+                                       methods: [:player_name, :archetype_name, :archetype_root_name, :attendance]))]
+    end
+
+    it 'only returns characters with more than 10% attendance' do
+      character1 = FactoryGirl.create(:character)
+      character2 = FactoryGirl.create(:character)
+      character1.should_receive(:attendance).twice.times.and_return(7.06)
+      character2.should_receive(:attendance).at_least(3).times.and_return(10.9)
+      characters = [character1, character2]
+      Character.should_receive(:order).with(:name).and_return(characters)
+
+      get :attendance, format: :json
+
+      result = JSON.parse(response.body)
+      result.should eq [JSON.parse(character2.to_json(
+                                       methods: [:player_name, :archetype_name, :archetype_root_name, :attendance]))]
+    end
+
+    it 'lists characters with higher attendance first' do
+      character1 = FactoryGirl.create(:character)
+      character2 = FactoryGirl.create(:character)
+      character1.should_receive(:attendance).at_least(3).times.and_return(90.0)
+      character2.should_receive(:attendance).at_least(3).times.and_return(100.0)
+      characters = [character1, character2]
+      Character.should_receive(:order).with(:name).and_return(characters)
+
+      get :attendance, format: :json
+
+      result = JSON.parse(response.body)
+      result.should eq [JSON.parse(character2.to_json(
+                                       methods: [:player_name, :archetype_name, :archetype_root_name, :attendance])),
+                        JSON.parse(character1.to_json(
+                                       methods: [:player_name, :archetype_name, :archetype_root_name, :attendance]))]
+    end
+  end
+
   describe 'POST #fetch_data' do
     it 'assigns the requested character to @character' do
       character = FactoryGirl.create(:character)
