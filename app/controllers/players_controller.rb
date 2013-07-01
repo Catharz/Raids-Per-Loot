@@ -1,5 +1,5 @@
 class PlayersController < ApplicationController
-  before_filter :login_required, :except => [:index, :show, :attendance]
+  before_filter :login_required, :except => [:index, :show, :attendance, :statistics]
   before_filter :set_pagetitle
 
   def set_pagetitle
@@ -14,6 +14,15 @@ class PlayersController < ApplicationController
       options += "<option value='#{player.id}'>#{player.name}</option>"
     end
     render :text => options, :layout => false
+  end
+
+  # GET /players/statistics
+  # GET /players/statistics.json
+  def statistics
+    @players = Player.by_instance(params[:instance_id]).
+        includes([:current_main, :current_raid_alternate]).
+        order('players.name')
+    @players.reject! { |p| p.last_raid.nil? or p.last_raid.raid_date < 3.months.ago.to_date }
   end
 
   # GET /players

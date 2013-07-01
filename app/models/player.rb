@@ -27,6 +27,8 @@ class Player < ActiveRecord::Base
                                 :allow_destroy => true,
                                 :reject_if => :all_blank
 
+  delegate :name, to: :current_main, prefix: :main, allow_nil: true
+  delegate :name, to: :current_raid_alternate, prefix: :raid_alternate, allow_nil: true
   delegate :name, to: :rank, prefix: :rank, allow_nil: true
 
   scope :with_name_like, ->(name) {

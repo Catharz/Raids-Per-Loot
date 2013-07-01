@@ -9,12 +9,12 @@ describe PlayersController do
   end
 
   def valid_attributes(options = {})
-    {:name => "Me",
+    {:name => 'Me',
     :rank_id => @main_rank.id}.merge!(options)
   end
 
-  describe "GET option_list" do
-    it "sorts the players by name" do
+  describe 'GET option_list' do
+    it 'sorts the players by name' do
       player1 = Player.create!(:name => "Player C", :rank_id => @main_rank.id)
       player2 = Player.create!(:name => "Player B", :rank_id => @main_rank.id)
       player3 = Player.create!(:name => "Player A", :rank_id => @main_rank.id)
@@ -23,6 +23,45 @@ describe PlayersController do
 
       response.body.should == "<option value='#{player3.id}'>Player A</option><option value='#{player2.id}'>Player B</option><option value='#{player1.id}'>Player C</option>"
       assigns(:players).should eq([player3, player2, player1])
+    end
+  end
+
+  describe 'GET statistics' do
+    it 'sorts the players by name' do
+      player1 = FactoryGirl.create(:player, :name => 'Player C')
+      player2 = FactoryGirl.create(:player, :name => 'Player B')
+      player3 = FactoryGirl.create(:player, :name => 'Player A')
+
+      last_raid = FactoryGirl.create(:raid, raid_date: 1.month.ago.to_date)
+      FactoryGirl.create(:player_raid, player: player1, raid: last_raid)
+      FactoryGirl.create(:player_raid, player: player2, raid: last_raid)
+      FactoryGirl.create(:player_raid, player: player3, raid: last_raid)
+
+      get :statistics
+
+      assigns(:players).should eq([player3, player2, player1])
+    end
+
+    it 'only lists players who have raided in the last 3 months' do
+      player1 = FactoryGirl.create(:player, :name => 'Player C')
+      player2 = FactoryGirl.create(:player, :name => 'Player B')
+      player3 = FactoryGirl.create(:player, :name => 'Player A')
+
+      last_raid = FactoryGirl.create(:raid, raid_date: 1.month.ago.to_date)
+      prior_raid = FactoryGirl.create(:raid, raid_date: 6.months.ago.to_date)
+      FactoryGirl.create(:player_raid, player: player1, raid: last_raid)
+      FactoryGirl.create(:player_raid, player: player2, raid: prior_raid)
+      FactoryGirl.create(:player_raid, player: player3, raid: last_raid)
+
+      get :statistics
+
+      assigns(:players).should eq([player3, player1])
+    end
+
+    it 'renders the statistics template' do
+      get :statistics
+
+      response.should have_rendered :statistics
     end
   end
 

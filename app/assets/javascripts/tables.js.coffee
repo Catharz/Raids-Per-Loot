@@ -17,6 +17,10 @@ jQuery.extend jQuery.fn.dataTableExt.oSort,
 
 jQuery ->
   # Default DataTable
+  $('.dataTable').dataTable
+    "bJQueryUI": true
+    "sPaginationType": "full_numbers"
+
   $('#dataTable').dataTable
     "bJQueryUI": true
     "sPaginationType": "full_numbers"
