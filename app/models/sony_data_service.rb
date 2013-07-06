@@ -79,7 +79,7 @@ class SonyDataService
     if rpl_char
       character['char_type'] = rpl_char.char_type
       character['rpl_id'] = rpl_char.id
-      base_class = rpl_char.archetype ? archetype_roots[rpl_char.archetype.name] : nil
+      base_class = rpl_char.archetype ? Archetype.root_list[rpl_char.archetype.name] : nil
     else
       character['rank'] = 'Unknown'
       base_class = nil
@@ -90,7 +90,7 @@ class SonyDataService
   def get_base_class(character)
     archetype_name = character.fetch('type', {}).fetch('class', 'Unknown')
     return archetype_name if archetype_name.eql? 'Unknown'
-    archetype_roots[archetype_name]
+    Archetype.root_list[archetype_name]
   end
 
   def character_data(character_name, format = 'json')
@@ -166,10 +166,6 @@ class SonyDataService
   def guild_data(format = 'json', params = '')
     url = "/#{format}/get/eq2/guild/?name=#{APP_CONFIG['guild_name']}&world=#{APP_CONFIG['eq2_server']}#{params}".gsub(' ', '%20')
     SOEData.get(url)
-  end
-
-  def archetype_roots
-    @archetype_roots ||= Archetype.root_list
   end
 
   def download_guild_characters(format = 'json', params = '')

@@ -5,6 +5,10 @@ describe LootTypeItemsUpdater do
   let( :trash_loot_type ) { FactoryGirl.create(:loot_type, :name => 'Trash Drop', :default_loot_method => 't') }
   let( :bank_loot_type ) { FactoryGirl.create(:loot_type, :name => 'Banked Item', :default_loot_method => 'g') }
 
+  after(:each) do
+    Resque.queues.each { |queue_name| Resque.remove_queue queue_name }
+  end
+
   describe '#perform' do
     describe 'updates items to that loot type' do
       it 'sets the drop loot_method to trash if the loot type is trash' do

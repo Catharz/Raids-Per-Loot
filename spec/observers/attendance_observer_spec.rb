@@ -3,6 +3,7 @@ require 'character_spec_helper'
 
 describe AttendanceObserver do
   include CharacterSpecHelper
+  subject { AttendanceObserver.instance }
 
   it "updates the number of character raids" do
     character = Character.create(valid_character_attributes(:name => "char 1"))
@@ -14,6 +15,7 @@ describe AttendanceObserver do
                                :start_time => raid.raid_date + 18.hours)
     CharacterInstance.create(:instance => instance, :character => character)
 
+    subject.before_save(character)
     character.raids_count.should eq(1)
   end
 
@@ -31,6 +33,7 @@ describe AttendanceObserver do
     CharacterInstance.create(:instance => instance1, :character => character)
     CharacterInstance.create(:instance => instance2, :character => character)
 
+    subject.before_save(character)
     character.instances_count.should eq(2)
   end
 end

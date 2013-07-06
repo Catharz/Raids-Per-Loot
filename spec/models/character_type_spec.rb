@@ -16,6 +16,7 @@ describe CharacterType do
 
     it 'is created for a new character' do
       char1 = FactoryGirl.create(:character)
+      CharacterObserver.instance.after_create(char1)
 
       char_types = CharacterType.all
       char_types.should eq char1.character_types

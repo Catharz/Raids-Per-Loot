@@ -4,6 +4,10 @@ describe SonyCharacterUpdater do
   subject { SonyCharacterUpdater }
   let(:character) { FactoryGirl.create(:character) }
 
+  after(:each) do
+    Resque.queues.each { |queue_name| Resque.remove_queue queue_name }
+  end
+
   describe '#perform' do
     it 'raises an exception if there is no internet connect' do
       subject.should_receive(:internet_connection?).and_return(false)
@@ -27,7 +31,7 @@ describe SonyCharacterUpdater do
       Character.should_receive(:find).and_return(character)
       SonyDataService.any_instance.
           should_receive(:character_data).with(character.name, 'json').
-          and_return({:character_list => [{}]}.with_indifferent_access)
+          and_return({}.with_indifferent_access)
 
       expect {
         subject.perform(character.id)
@@ -35,7 +39,7 @@ describe SonyCharacterUpdater do
     end
 
     context 'updating data' do
-      let(:monk_character_data) { {:character_list => [{type: {'class' => 'Monk'}}]}.with_indifferent_access }
+      let(:monk_character_data) { {type: {'class' => 'Monk'}}.with_indifferent_access }
       let(:monk) { Archetype.find_by_name('Monk') }
       let(:bruiser) { Archetype.find_by_name('Bruiser') }
 
@@ -72,7 +76,7 @@ describe SonyCharacterUpdater do
             and_return(monk_character_data)
 
         character.should_receive(:update_attribute).with(:archetype, monk)
-        character.should_receive(:build_external_data).with({:data=>{"character_list"=>[{"type"=>{"class"=>"Monk"}}]}})
+        character.should_receive(:build_external_data).with({:data=>{"type"=>{"class"=>"Monk"}}})
         character.external_data.should_receive(:save)
 
         subject.perform(character.id)

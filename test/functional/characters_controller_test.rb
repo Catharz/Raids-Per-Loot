@@ -40,14 +40,6 @@ class CharactersControllerTest < ActionController::TestCase
     assert_redirected_to character_path(assigns(:character))
   end
 
-  test "should create character type for new character" do
-    assert_difference('CharacterType.count') do
-      post :create, :character => {:name => "New Character", :char_type => "g", :player_id => @player.id}
-    end
-
-    assert_redirected_to character_path(assigns(:character))
-  end
-
   test "it should require a character type" do
     assert_no_difference('Character.count') do
       post :create, :character => {:name => "New Character"}
@@ -79,19 +71,10 @@ class CharactersControllerTest < ActionController::TestCase
     assert_redirected_to character_path(assigns(:character))
   end
 
-  #TODO: Need a better test than this, and move it into rspec
   test "should require a player when editing a character" do
     @character.player_id = nil
     put :update, id: @character.to_param, character: @character.attributes
     assert_response :success
-  end
-
-  test "should create character type for updated character" do
-    assert_difference('CharacterType.count') do
-      put :update, id: @character.to_param, character: @character.attributes.merge({:char_type => 'r'})
-    end
-
-    assert_redirected_to character_path(assigns(:character))
   end
 
   test "should destroy character" do

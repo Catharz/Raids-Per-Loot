@@ -52,6 +52,10 @@ describe SonyItemUpdater do
   let(:cruor_forged_pattern) { { type: 'Item', name: 'Cruor-Forged Leggings' }.with_indifferent_access }
   let(:warborne_pattern) { { type: 'Item', name: 'Warborne Leggings' }.with_indifferent_access }
 
+  after(:each) do
+    Resque.queues.each { |queue_name| Resque.remove_queue queue_name }
+  end
+
   describe '#perform' do
     it 'raises an exception if there is no internet connect' do
       item = FactoryGirl.create(:item, loot_type: unknown)

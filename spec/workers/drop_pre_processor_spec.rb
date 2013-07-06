@@ -3,6 +3,10 @@ require 'spec_helper'
 describe DropPreProcessor do
   subject { DropPreProcessor }
 
+  after(:each) do
+    Resque.queues.each { |queue_name| Resque.remove_queue queue_name }
+  end
+
   describe '#perform' do
     it 'sets the drops loot_type to the items loot_type' do
       bank_loot_type = FactoryGirl.create(:loot_type, name: 'Bank', default_loot_method: 'g')

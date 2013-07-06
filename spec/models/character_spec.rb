@@ -55,7 +55,7 @@ describe Character do
     it { should allow_value('r').for(:char_type) }
   end
 
-  context 'instance methods' do
+  context 'instance method' do
     describe '#loot_rate' do
       it 'should calculate to two decimal places' do
         character = FactoryGirl.create(:character, valid_character_attributes)
@@ -99,13 +99,16 @@ describe Character do
       end
     end
 
-    context 'player character types' do
+    context 'player character type' do
       before(:each) do
         @player = FactoryGirl.create(:player)
         @main = FactoryGirl.create(:character, char_type: 'm', player: @player)
         @raid_alt = FactoryGirl.create(:character, char_type: 'r', player: @player)
         @gen_alt1 = FactoryGirl.create(:character, char_type: 'g', player: @player)
         @gen_alt2 = FactoryGirl.create(:character, char_type: 'g', player: @player)
+        [@main, @raid_alt, @gen_alt1, @gen_alt2].each do |char|
+          FactoryGirl.create(:character_type, character: char, char_type: char.char_type)
+        end
       end
 
       describe 'main_character' do
@@ -119,6 +122,7 @@ describe Character do
 
           it 'is itself if the main character' do
             char = FactoryGirl.create(:character, char_type: 'm')
+            FactoryGirl.create(:character_type, character: char, char_type: 'm')
 
             char.main_character.should eq char
           end

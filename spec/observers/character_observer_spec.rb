@@ -3,51 +3,35 @@ require 'character_spec_helper'
 
 describe CharacterObserver do
   include CharacterSpecHelper
+  subject { CharacterObserver.instance }
 
-  describe 'creating a new character' do
-    before do
-      @character = nil
-      @creating_character = lambda do
-        @character = Character.create(valid_character_attributes(:name => 'char 1', :char_type => 'm'))
-        violated "#{@character.errors.full_messages.to_sentence}" if @character.new_record?
-      end
-    end
+  before(:each) do
+    @character = FactoryGirl.create(:character, char_type: 'm')
+    @character_type = FactoryGirl.create(:character_type, character: @character, char_type: 'm')
+    @character.should_receive(:last_switch).at_least(0).times.and_return(@character_type)
+    Resque.should_receive(:enqueue).at_least(1).times.with(SonyCharacterUpdater, @character.id)
+  end
 
+  describe 'after_create' do
     it 'stores a character_type for new characters' do
-      Resque.should_receive(:enqueue).twice
-      @creating_character.should change(CharacterType, :count).by(1)
+      subject.should_receive(:save_new_char_type).with(@character)
+
+      subject.after_create(@character)
     end
   end
 
-  describe 'updating an existing character' do
-    before do
-      @character = Character.create(valid_character_attributes(:name => 'char 2', :char_type => 'm'))
-      @changing_char_type = lambda do
-        @character.char_type = 'r'
-        @character.save
-        violated "#{@character.errors.full_messages.to_sentence}" unless @character.valid?
-      end
-      @changing_character_name = lambda do
-        @character.name = 'char 3'
-        @character.save
-        violated "#{@character.errors.full_messages.to_sentence}" unless @character.valid?
-      end
-    end
-
+  describe 'after_save' do
     it 'stores an updated character_type when the char_type changes' do
-      Resque.should_receive(:enqueue).with(SonyCharacterUpdater, @character.id)
-      @changing_char_type.should change(CharacterType, :count).by(1)
-      @character.reload
-      @character.last_switch.should_not be_nil
-      @character.last_switch.char_type.should == 'r'
+      subject.should_receive(:save_new_char_type).with(@character)
+      @character.char_type = 'r'
+
+      subject.after_save(@character)
     end
 
     it "doesn't store an updated character_type when the char_type doesn't change" do
-      Resque.should_receive(:enqueue).with(SonyCharacterUpdater, @character.id)
-      @changing_character_name.should_not change(CharacterType, :count)
-      @character.reload
-      @character.last_switch.should_not be_nil
-      @character.last_switch.char_type.should == 'm'
+      subject.should_not_receive(:save_new_char_type)
+
+      subject.after_save(@character)
     end
   end
 end

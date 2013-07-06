@@ -34,7 +34,8 @@ module RaidsPerLoot
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
 
     # HACK, HACK, HACK!!!  Observers break CI
-    unless File.basename($0) == 'rake' && (ARGV.include?('db:migrate') || ARGV.include?('db:schema:load'))
+    unless File.basename($0) == 'rake' && (ARGV.include?('db:migrate') || ARGV.include?('db:schema:load')  ||
+        ARGV.include?('test') || ARGV.include?('spec') || ARGV.include?('cucumber'))
       config.active_record.observers = :character_observer, :drop_observer, :attendance_observer, :loot_type_observer, :item_observer
     end
 

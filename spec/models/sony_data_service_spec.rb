@@ -128,15 +128,15 @@ describe SonyDataService do
       SOEData.should_receive(:get).and_return(guild_details)
 
       subject.character_statistics.reject { |c| c[:rank] == 'Unknown' }.
-          collect{ |c| c[:name][:first] }.
-          should match_array Character.all.collect{|c| c.name }
+          collect { |c| c[:name][:first] }.
+          should match_array Character.all.collect { |c| c.name }
     end
 
     it 'sets the base class to Unknown if there is no type information' do
       small_guild_list = {guild_list: [member_list: [{name: {first: 'Sam'}, guild: {rank: 0}}],
-          rank_list: [{id: 0, name: 'Guild Leader'},{id: 1, name: 'Officer'},{id: 2, name: 'Officer alt'},
-              {id: 3, name: 'The Honored'},{id: 4, name: 'The Loyal'},{id: 5, name: 'Member'},
-              {id: 6, name: 'Alternate'},{id: 7, name: 'Recruit'}]]}.with_indifferent_access
+                                       rank_list: [{id: 0, name: 'Guild Leader'}, {id: 1, name: 'Officer'}, {id: 2, name: 'Officer alt'},
+                                                   {id: 3, name: 'The Honored'}, {id: 4, name: 'The Loyal'}, {id: 5, name: 'Member'},
+                                                   {id: 6, name: 'Alternate'}, {id: 7, name: 'Recruit'}]]}.with_indifferent_access
       subject.should_receive(:internet_connection?).and_return(true)
       SOEData.should_receive(:get).and_return(small_guild_list)
 
@@ -183,23 +183,31 @@ describe SonyDataService do
       SOEData.should_receive(:get).with('/json/get/eq2/character/?name.first=Fred&locationdata.world=Unrest&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,resists,skills,spell_list,stats,guild.name,equipmentslot_list.item.id,equipmentslot_list.item.adornment_list').and_return({})
       subject.character_data('Fred')
     end
+
+    it 'gets the base class from the database if required' do
+      FactoryGirl.create(:character, name: 'Jahjah', archetype: Archetype.find_by_name('Monk'))
+      data = {character_list: [{name: {first: 'Jahjah'}, type: {}, guild: {rank: 0}}]}.with_indifferent_access
+      SOEData.should_receive(:get).with('/json/get/eq2/character/?name.first=Jahjah&locationdata.world=Unrest&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,resists,skills,spell_list,stats,guild.name,equipmentslot_list.item.id,equipmentslot_list.item.adornment_list').and_return(data)
+
+      subject.character_data('Jahjah')['type']['base_class'].should eq 'Fighter'
+    end
   end
 
   describe '#item_data' do
     it 'uses SOEData to retrieve the data' do
-      dummy_item_list = { item_list: %w{Blah} }.with_indifferent_access
+      dummy_item_list = {item_list: %w{Blah}}.with_indifferent_access
       SOEData.should_receive(:get).and_return(dummy_item_list)
       subject.item_data(1234).should eq 'Blah'
     end
 
     it 'converts the id to base 2 if it is negative' do
-      dummy_item_list = { item_list: %w{Blah} }.with_indifferent_access
+      dummy_item_list = {item_list: %w{Blah}}.with_indifferent_access
       SOEData.should_receive(:get).with('/xml/get/eq2/item/?id=4294966062&c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list').and_return(dummy_item_list)
       subject.item_data(-1234, 'xml').should eq 'Blah'
     end
 
     it 'uses json by default' do
-      dummy_item_list = { item_list: %w{Blah} }.with_indifferent_access
+      dummy_item_list = {item_list: %w{Blah}}.with_indifferent_access
       SOEData.should_receive(:get).with('/json/get/eq2/item/?id=4294966062&c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list').and_return(dummy_item_list)
       subject.item_data(-1234).should eq 'Blah'
     end
@@ -293,7 +301,7 @@ describe SonyDataService do
       empty_achievements_list = {guild_list: [achievement_list: []]}.with_indifferent_access
       subject.should_receive(:internet_connection?).and_return(true)
       subject.should_receive(:guild_data).with('xml', '&c:show=achievement_list').
-        and_return(empty_achievements_list)
+          and_return(empty_achievements_list)
       subject.guild_achievements('xml')
     end
 

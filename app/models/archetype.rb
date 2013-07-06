@@ -1,5 +1,5 @@
 class Archetype < ActiveRecord::Base
-  acts_as_tree :order => "name"
+  acts_as_tree :order => 'name'
 
   has_many :characters, :inverse_of => :archetype
 
@@ -9,6 +9,8 @@ class Archetype < ActiveRecord::Base
   delegate :name, to: :root, prefix: :root, allow_nil: true
   delegate :name, to: :parent, prefix: :parent, allow_nil: true
   delegate :name, to: :root, prefix: :root
+
+  after_commit :invalidate_caches
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -26,17 +28,12 @@ class Archetype < ActiveRecord::Base
     child_archetypes.not_parent_archetypes.order(:name)
   }
 
-  def self.root_names
-    root_name_list = []
-    self.roots.each { |a| root_name_list << a.name }
-    root_name_list << 'Unknown'
-    root_name_list
-  end
-
   def self.root_list
-    roots = {}
-    Archetype.order(:name).each.map { |archetype| roots.merge! archetype.name => archetype.root.name }
-    roots
+    @archetype_roots = Rails.cache.fetch('archetype_roots') do
+      roots = {}
+      Archetype.order(:name).each.map { |archetype| roots.merge! archetype.name => archetype.root.name }
+      roots
+    end
   end
 
   def family
@@ -48,18 +45,13 @@ class Archetype < ActiveRecord::Base
   end
 
   def potential_parents
-    Archetype.order(:name) - self.descendants([self])
+    @potential_parents = Rails.cache.fetch('potential_parents') do
+      Archetype.order(:name) - self.descendants([self])
+    end
   end
 
-  def to_xml(options = {})
-    to_xml_opts = {}
-    # a builder instance is provided when to_xml is called on a collection of instructors,
-    # in which case you would not want to have <?xml ...?> added to each item
-    to_xml_opts.merge!(options.slice(:builder, :skip_instruct))
-    to_xml_opts[:root] ||= "archetype"
-    xml_attributes = self.attributes
-    xml_attributes["players"] = self.players
-    xml_attributes["items"] = self.items
-    xml_attributes.to_xml(to_xml_opts)
+  def invalidate_caches
+    Rails.cache.delete('potential_parents')
+    Rails.cache.delete('archetype_roots')
   end
 end

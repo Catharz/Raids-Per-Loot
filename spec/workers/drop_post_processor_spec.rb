@@ -3,6 +3,10 @@ require 'spec_helper'
 describe DropPostProcessor do
   subject { DropPostProcessor }
 
+  after(:each) do
+    Resque.queues.each { |queue_name| Resque.remove_queue queue_name }
+  end
+
   describe '#perform' do
     it 'recalculates the loot rate for the character' do
       character = FactoryGirl.create(:character)
