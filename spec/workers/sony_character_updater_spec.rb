@@ -77,7 +77,7 @@ describe SonyCharacterUpdater do
 
         character.should_receive(:update_attribute).with(:archetype, monk)
         external_data = mock(ExternalData)
-        character.should_receive(:external_data).twice.and_return(external_data)
+        character.should_receive(:external_data).exactly(3).times.and_return(external_data)
         external_data.should_receive(:data=).with({"type"=>{"class"=>"Monk"}})
         external_data.should_receive(:save)
 
