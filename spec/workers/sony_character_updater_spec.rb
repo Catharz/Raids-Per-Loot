@@ -46,7 +46,7 @@ describe SonyCharacterUpdater do
       it 'does not update the character unnecessarily' do
         subject.should_receive(:internet_connection?).and_return(true)
         Character.should_receive(:find).and_return(character)
-        character.should_receive(:archetype).and_return(monk)
+        character.should_receive(:archetype_name).and_return('Monk')
         SonyDataService.any_instance.
             should_receive(:character_data).with(character.name, 'json').
             and_return(monk_character_data)
@@ -58,7 +58,7 @@ describe SonyCharacterUpdater do
       it 'updates the characters archetype when necessary' do
         subject.should_receive(:internet_connection?).and_return(true)
         Character.should_receive(:find).and_return(character)
-        character.should_receive(:archetype).and_return(bruiser)
+        character.should_receive(:archetype_name).and_return('Bruiser')
         SonyDataService.any_instance.
             should_receive(:character_data).with(character.name, 'json').
             and_return(monk_character_data)
@@ -70,14 +70,16 @@ describe SonyCharacterUpdater do
       it 'saves the data to external data' do
         subject.should_receive(:internet_connection?).and_return(true)
         Character.should_receive(:find).and_return(character)
-        character.should_receive(:archetype).and_return(bruiser)
+        character.should_receive(:archetype_name).and_return('Bruiser')
         SonyDataService.any_instance.
             should_receive(:character_data).with(character.name, 'json').
             and_return(monk_character_data)
 
         character.should_receive(:update_attribute).with(:archetype, monk)
-        character.should_receive(:build_external_data).with({:data=>{"type"=>{"class"=>"Monk"}}})
-        character.external_data.should_receive(:save)
+        external_data = mock(ExternalData)
+        character.should_receive(:external_data).twice.and_return(external_data)
+        external_data.should_receive(:data=).with({"type"=>{"class"=>"Monk"}})
+        external_data.should_receive(:save)
 
         subject.perform(character.id)
       end

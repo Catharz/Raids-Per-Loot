@@ -17,8 +17,7 @@ class SonyCharacterUpdater
         character.update_attribute(:archetype, Archetype.find_by_name(archetype_name))
       end
 
-      character.external_data.delete
-      character.build_external_data(data: character_details)
+      character.external_data.data = character_details
       character.external_data.save
     end
   end
