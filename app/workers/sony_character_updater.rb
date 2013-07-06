@@ -18,11 +18,11 @@ class SonyCharacterUpdater
       end
 
       if character.external_data.nil?
-        character.external_data.build(data: character_details)
+        character.external_data = character.build_external_data(data: character_details)
       else
         character.external_data.data = character_details
+        character.external_data.save
       end
-      character.external_data.save
     end
   end
 end

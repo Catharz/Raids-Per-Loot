@@ -83,6 +83,23 @@ describe SonyCharacterUpdater do
 
         subject.perform(character.id)
       end
+
+      it 'build external data when it is nil' do
+        subject.should_receive(:internet_connection?).and_return(true)
+        Character.should_receive(:find).and_return(character)
+        character.should_receive(:archetype_name).and_return('Bruiser')
+        SonyDataService.any_instance.
+            should_receive(:character_data).with(character.name, 'json').
+            and_return(monk_character_data)
+
+        character.should_receive(:update_attribute).with(:archetype, monk)
+        external_data = mock(ExternalData)
+        character.should_receive(:external_data).and_return(nil)
+        character.should_receive(:build_external_data).with(data: {"type"=>{"class"=>"Monk"}}).and_return(external_data)
+        character.should_receive(:external_data=).with(external_data)
+
+        subject.perform(character.id)
+      end
     end
   end
 end

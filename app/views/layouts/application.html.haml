@@ -36,7 +36,7 @@
         %p Raids Per Loot - #{@page.navlabel}
     #smoothmenu1.ddsmoothmenu
       - cache Page.order('updated_at desc').first do
-        = menu.html_safe
+        = menu_html
       %ul
         - if logged_in?
           %li= link_to 'Log Out', logout_path
