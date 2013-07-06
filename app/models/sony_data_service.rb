@@ -18,7 +18,7 @@ class SonyDataService
     character_list = guild_details[:guild_list][0][:member_list]
     character_list.keep_if { |soe_char| soe_char[:type] and soe_char[:type][:level] >= MIN_LEVEL and soe_char[:type][:level] <= MAX_LEVEL }
     character_list.each do |soe_char|
-      character = Character.find_or_create_by_name(soe_char[:name])
+      character = Character.find_or_create_by_name(soe_char[:name][:first])
       unless character.persisted?
         updates += 1
         character.char_type = 'g'
@@ -44,10 +44,10 @@ class SonyDataService
       soe_char[:guild] and soe_char[:guild][:rank] and rank_list.map {|rank| rank[:id]}.include? soe_char[:guild][:rank]
     end
     character_list.each do |soe_char|
-      player = Player.find_by_name(soe_char[:name])
+      player = Player.find_by_name(soe_char[:name][:first])
       if player.nil?
         updates += 1
-        player = Player.create(name: soe_char[:name], rank_id: Rank.find_by_name('Main').id)
+        player = Player.create(name: soe_char[:name][:first], rank_id: Rank.find_by_name('Main').id)
         player.save!
       end
     end
@@ -60,24 +60,13 @@ class SonyDataService
       guild = SOEData.get(url)
       characters = guild['guild_list'].empty? ? [] : guild['guild_list'][0]['member_list']
 
+      return [] if characters.empty?
+
       characters.each do |character|
-        rpl_char = Character.find_by_name(character['name'])
-        if rpl_char
-          character['char_type'] = rpl_char.char_type
-          character['rpl_id'] = rpl_char.id
-          base_class = rpl_char.archetype ? archetype_roots[rpl_char.archetype.name] : nil
-        else
-          character['rank'] = 'Unknown'
+        unless character.empty?
+          character['type'] ||= {}.with_indifferent_access
+          character['type']['base_class'] = get_database_details(character) || get_base_class(character)
         end
-        base_class ||=
-            if character.has_key? 'type'
-              archetype_roots[character['type']['class']]
-            else
-              'Unknown'
-            end
-        character['type'] = Hash.new unless character.has_key? 'type'
-        base_class ||= 'Unknown'
-        character['type']['base_class'] = base_class
       end
       characters
     else
@@ -85,8 +74,32 @@ class SonyDataService
     end
   end
 
+  def get_database_details(character)
+    rpl_char = Character.find_by_name(character.fetch('name', {}).fetch('first', 'Unknown'))
+    if rpl_char
+      character['char_type'] = rpl_char.char_type
+      character['rpl_id'] = rpl_char.id
+      base_class = rpl_char.archetype ? archetype_roots[rpl_char.archetype.name] : nil
+    else
+      character['rank'] = 'Unknown'
+      base_class = nil
+    end
+    base_class
+  end
+
+  def get_base_class(character)
+    archetype_name = character.fetch('type', {}).fetch('class', 'Unknown')
+    return archetype_name if archetype_name.eql? 'Unknown'
+    archetype_roots[archetype_name]
+  end
+
   def character_data(character_name, format = 'json')
-    SOEData.get("/#{format}/get/eq2/character/?name.first=#{character_name}&locationdata.world=#{APP_CONFIG['eq2_server']}&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,resists,skills,spell_list,stats,guild.name")
+    data = SOEData.get("/#{format}/get/eq2/character/?name.first=#{character_name}&locationdata.world=#{APP_CONFIG['eq2_server']}&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,resists,skills,spell_list,stats,guild.name,equipmentslot_list.item.id,equipmentslot_list.item.adornment_list")
+    return {} if data['character_list'].nil? or data['character_list'].empty?
+    character = data['character_list'].first
+    character['type'] ||= {}
+    character['type']['base_class'] = get_database_details(character) || get_base_class(character)
+    character
   end
 
   def item_data(eq2_item_id, format='json')
@@ -124,7 +137,8 @@ class SonyDataService
   def character_list(format = 'json', params = '&c:show=member_list')
     if internet_connection?
       members_url = "/#{format}/get/eq2/guild/?name=#{APP_CONFIG['guild_name']}&world=#{APP_CONFIG['eq2_server']}#{params}".gsub(' ', '%20')
-      SOEData.get(members_url)['guild_list'][0]['member_list'].map { |m| m['name'] }.sort!
+      guild_details = SOEData.get(members_url)
+      guild_details['guild_list'][0]['member_list'].map { |m| m['name']['first'] }.sort!
     else
       []
     end

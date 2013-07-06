@@ -1,7 +1,7 @@
 include RemoteConnectionHelper
 
 class SonyItemUpdater
-  @queue = :sony_data_service
+  @queue = :sony_item_updater
 
   def self.perform(item_id)
     item = Item.find(item_id)

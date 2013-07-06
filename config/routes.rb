@@ -52,6 +52,7 @@ RaidsPerLoot::Application.routes.draw do
     member do
       get :info
       post :fetch_data
+      post :update_data
     end
     collection do
       get :option_list

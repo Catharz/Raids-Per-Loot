@@ -1,23 +1,51 @@
 require 'spec_helper'
 
-describe "players/statistics.html.haml" do
+describe 'players/statistics.html.haml' do
   fixtures :users
 
   before(:each) do
-    main_rank = stub_model(Rank, :name => 'Main')
     scout = stub_model(Archetype, :name => 'Scout')
     fighter = stub_model(Archetype, :name => 'Fighter')
     priest = stub_model(Archetype, :name => 'Priest')
     mage = stub_model(Archetype, :name => 'Mage')
 
-    scout_player = stub_model(Player, :name => 'Scout Main', :rank_id => main_rank.id)
-    fighter_player = stub_model(Player, :name => 'Fighter Main', :rank_id => main_rank.id)
-    priest_player = stub_model(Player, :name => 'Priest Alternate', :rank_id => main_rank.id)
-    mage_player = stub_model(Player, :name => 'Mage Alternate', :rank_id => main_rank.id)
+    scout_character = stub_model(Character,
+                                 name: 'Scout Main',
+                                 archetype_name: 'Scout',
+                                 armour_rate: 1.23,
+                                 weapon_rate: 2.34,
+                                 jewellery_rate: 3.45,
+                                 archetype: scout)
+    priest_character = stub_model(Character,
+                                  name: 'Priest Alternate',
+                                  archetype_name: 'Priest',
+                                  armour_rate: 3.21,
+                                  weapon_rate: 4.32,
+                                  jewellery_rate: 5.43,
+                                  archetype: priest)
+    player1 = stub_model(Player, name: 'Player One', main_name: 'Scout Main')
+    player1.should_receive(:current_main).and_return(scout_character)
+    player1.should_receive(:current_raid_alternate).twice.and_return(priest_character)
 
-    assign(:players, [scout_player, fighter_player, priest_player, mage_player])
-    assign(:archetypes, [fighter, priest, mage, scout])
-    assign(:ranks, [main_rank])
+    fighter_character = stub_model(Character,
+                                   name: 'Fighter Main',
+                                   archetype_name: 'Fighter',
+                                   armour_rate: 4.56,
+                                   weapon_rate: 5.67,
+                                   jewellery_rate: 6.78,
+                                   archetype: fighter)
+    mage_character = stub_model(Character,
+                                name: 'Mage Alternate',
+                                archetype_name: 'Mage',
+                                armour_rate: 6.54,
+                                weapon_rate: 7.65,
+                                jewellery_rate: 8.76,
+                                archetype: mage)
+    player2 = stub_model(Player, name: 'Player One', main_name: 'Fighter Main')
+    player2.should_receive(:current_main).and_return(fighter_character)
+    player2.should_receive(:current_raid_alternate).twice.and_return(mage_character)
+
+    assign(:players, [player1, player2])
   end
 
   it 'shows tabs for raid mains and raid alts' do

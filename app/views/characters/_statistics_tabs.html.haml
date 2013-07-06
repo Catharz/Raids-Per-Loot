@@ -14,32 +14,16 @@
       %th Potency
   %tbody
     - @characters.each do |character|
-      - if character['char_type'].eql? @char_type or @char_type.eql? 'all'
-        %tr{:id => "character_#{character['rpl_id']}", data: adornment_data(character)}
-          - if character['rpl_id'].present?
-            %td{:id => "character_#{character['rpl_id']}"}= link_to character['name'], character_path(:id => character['rpl_id']), :remote => true
-          - else
-            %td= character['name']
-          - if character['type'] and character['stats']
-            - stats = character['stats']
-            %td= character['type']['class']
-            %td= character['type']['base_class']
-            %td= character['type']['level']
-            %td= character['alternateadvancements']['spentpoints'] + character['alternateadvancements']['availablepoints']
-            %td{:class => "#{health_rating(stats['health']['max'], character['type']['base_class'])}"}= stats['health']['max']
-            %td= stats['power']['max']
-            %td{:class => "#{crit_rating(stats['combat']['critchance'])}"}= number_with_precision(stats['combat']['critchance'], :precision => 2)
-            %td{:class => "#{adornment_rating(adornment_pct(character))}"}= number_with_precision(adornment_pct(character), :precision => 2)
-            %td= number_with_precision(stats['combat']['critbonus'], :precision => 2)
-            %td= number_with_precision(stats['combat']['basemodifier'], :precision => 2)
-          - else
-            %td Unknown
-            %td Unknown
-            %td 0
-            %td 0
-            %td 0
-            %td 0
-            %td 0.00
-            %td 0.00
-            %td 0.00
-            %td 0.00
+      - if character.char_type.eql? @char_type or @char_type.eql? 'all'
+        %tr{:id => "character_#{character.id}", data: character.adornment_data}
+          %td{:id => "character_#{character.id}"}= link_to character.name, character_path(character), :remote => true
+          %td= character.archetype_name
+          %td= character.archetype_root
+          %td= character.level
+          %td= character.alternate_advancement_points
+          %td{:class => "#{character.health_rating}"}= character.health
+          %td= character.power
+          %td{:class => "#{character.crit_rating}"}= number_with_precision(character.critical_chance, :precision => 2)
+          %td{:class => "#{character.adornment_rating}"}= number_with_precision(character.adornment_pct, :precision => 2)
+          %td= number_with_precision(character.crit_bonus, :precision => 2)
+          %td= number_with_precision(character.potency, :precision => 2)

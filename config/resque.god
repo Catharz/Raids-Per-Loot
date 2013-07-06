@@ -1,3 +1,4 @@
+#NOTE: You must set these values when running in development
 rails_env = ENV['RAILS_ENV'] || 'production'
 rails_root = ENV['RAILS_ROOT'] || '/home/deploy/app/current'
 num_workers = rails_env == 'production' ? 5 : 2
@@ -8,10 +9,11 @@ num_workers.times do |num|
     w.name = "resque-#{num}"
     w.group = 'resque'
     w.interval = 30.seconds
-    w.env = {'QUEUE' => "critical,high,low", 'RAILS_ENV' => rails_env}
+    w.env = {'QUEUE' => "*", 'RAILS_ENV' => rails_env, 'PIDFILE' => w.pid_file}
     w.start = "/usr/bin/rake -f #{rails_root}/Rakefile environment resque:work"
     w.log = "#{rails_root}/log/resque_scheduler.log"
     w.err_log = "#{rails_root}/log/resque_scheduler_error.log"
+    w.pid_file = "#{rails_root}/tmp/pids/#{w.name}.pid"
 
     # restart if memory gets too high
     w.transition(:up, :restart) do |on|

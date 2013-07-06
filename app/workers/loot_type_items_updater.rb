@@ -1,5 +1,5 @@
 class LootTypeItemsUpdater
-  @queue = :data_updates
+  @queue = :loot_type_item_updater
 
   def self.perform(loot_type_id)
     loot_type = LootType.find(loot_type_id)

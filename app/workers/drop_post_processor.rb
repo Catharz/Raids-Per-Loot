@@ -1,5 +1,5 @@
 class DropPostProcessor
-  @queue = :data_updates
+  @queue = :drop_post_processor
 
   def self.perform(drop_id)
     drop = Drop.find(drop_id)

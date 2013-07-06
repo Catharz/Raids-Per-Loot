@@ -42,7 +42,7 @@ describe PlayersController do
       assigns(:players).should eq([player3, player2, player1])
     end
 
-    it 'only lists players who have raided in the last 3 months' do
+    it 'normally lists players who have raided in the last 3 months' do
       player1 = FactoryGirl.create(:player, :name => 'Player C')
       player2 = FactoryGirl.create(:player, :name => 'Player B')
       player3 = FactoryGirl.create(:player, :name => 'Player A')
@@ -56,6 +56,23 @@ describe PlayersController do
       get :statistics
 
       assigns(:players).should eq([player3, player1])
+    end
+
+
+    it 'lists all players if requested' do
+      player1 = FactoryGirl.create(:player, :name => 'Player C')
+      player2 = FactoryGirl.create(:player, :name => 'Player B')
+      player3 = FactoryGirl.create(:player, :name => 'Player A')
+
+      last_raid = FactoryGirl.create(:raid, raid_date: 1.month.ago.to_date)
+      prior_raid = FactoryGirl.create(:raid, raid_date: 6.months.ago.to_date)
+      FactoryGirl.create(:player_raid, player: player1, raid: last_raid)
+      FactoryGirl.create(:player_raid, player: player2, raid: prior_raid)
+      FactoryGirl.create(:player_raid, player: player3, raid: last_raid)
+
+      get :statistics, show_all: true
+
+      assigns(:players).should eq([player3, player2, player1])
     end
 
     it 'renders the statistics template' do

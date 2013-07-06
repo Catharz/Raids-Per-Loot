@@ -104,9 +104,10 @@ describe CharactersController do
   end
 
   describe 'GET #statistics' do
-    it 'calls SonyDataService.character_statistics' do
-      SonyDataService.any_instance.should_receive(:character_statistics)
+    it 'populates a collection of characters' do
+      character = FactoryGirl.create(:character)
       get :statistics
+      assigns(:characters).should eq([character])
     end
 
     it 'renders the statistics view' do
@@ -256,6 +257,27 @@ describe CharactersController do
         post :create, character: FactoryGirl.attributes_for(:invalid_character)
         response.should render_template :new
       end
+    end
+  end
+
+  describe 'POST #update_data' do
+    before(:each) do
+      request.env['HTTP_REFERER'] = 'previous_page'
+    end
+
+    it 'uses the SonyCharacterUpdater' do
+      char1 = FactoryGirl.create(:character)
+      SonyCharacterUpdater.should_receive(:perform).with(char1.id.to_s)
+
+      post :update_data, id: char1.id
+    end
+
+    it 'redirects to the previous page' do
+      char1 = FactoryGirl.create(:character)
+      SonyCharacterUpdater.should_receive(:perform).with(char1.id.to_s)
+
+      post :update_data, id: char1.id
+      response.should redirect_to 'previous_page'
     end
   end
 

@@ -1,26 +1,28 @@
 require 'spec_helper'
 
 describe SonyDataService do
+  fixtures :archetypes
+
   subject { SonyDataService.new }
   let(:guild_details) { {guild_list: [
       member_list: [
-          {name: 'France', guild: {rank: 0}, type: {level: 90}},
-          {name: 'Francis', guild: {rank: 0}, type: {level: 95}},
-          {name: 'Franky', guild: {rank: 1}, type: {level: 92}},
-          {name: 'Franko', guild: {rank: 1}, type: {level: 90}},
-          {name: 'Freddy', guild: {rank: 2}, type: {level: 90}},
-          {name: 'Freda', guild: {rank: 2}, type: {level: 95}},
-          {name: 'Freddo', guild: {rank: 3}, type: {level: 96}},
-          {name: 'Frodo', guild: {rank: 3}, type: {level: 95}},
-          {name: 'Grace', guild: {rank: 4}, type: {level: 95}},
-          {name: 'Gracie', guild: {rank: 4}, type: {level: 96}},
-          {name: 'Grendle', guild: {rank: 5}, type: {level: 95}},
-          {name: 'Gretta', guild: {rank: 5}, type: {level: 96}},
-          {name: 'Harry', guild: {rank: 6}, type: {level: 96}},
-          {name: 'Harriette', guild: {rank: 6}, type: {level: 95}},
-          {name: 'Henry', guild: {rank: 7}, type: {level: 93}},
-          {name: 'Henrique', guild: {rank: 7}, type: {level: 90}},
-          {name: 'Heratio', guild: {rank: 8}}
+          {name: {first: 'France'}, guild: {rank: 0}, type: {level: 90}},
+          {name: {first: 'Francis'}, guild: {rank: 0}, type: {level: 95}},
+          {name: {first: 'Franky'}, guild: {rank: 1}, type: {level: 92}},
+          {name: {first: 'Franko'}, guild: {rank: 1}, type: {level: 90}},
+          {name: {first: 'Freddy'}, guild: {rank: 2}, type: {level: 90}},
+          {name: {first: 'Freda'}, guild: {rank: 2}, type: {level: 95}},
+          {name: {first: 'Freddo'}, guild: {rank: 3}, type: {level: 96}},
+          {name: {first: 'Frodo'}, guild: {rank: 3}, type: {level: 95}},
+          {name: {first: 'Grace'}, guild: {rank: 4}, type: {level: 95}},
+          {name: {first: 'Gracie'}, guild: {rank: 4}, type: {level: 96}},
+          {name: {first: 'Grendle'}, guild: {rank: 5}, type: {level: 95}},
+          {name: {first: 'Gretta'}, guild: {rank: 5}, type: {level: 96}},
+          {name: {first: 'Harry'}, guild: {rank: 6}, type: {level: 96}},
+          {name: {first: 'Harriette'}, guild: {rank: 6}, type: {level: 95}},
+          {name: {first: 'Henry'}, guild: {rank: 7}, type: {level: 93}},
+          {name: {first: 'Henrique'}, guild: {rank: 7}, type: {level: 90}},
+          {name: {first: 'Heratio'}, guild: {rank: 8}}
       ],
       rank_list: [
           {id: 0, name: 'Guild Leader'},
@@ -33,6 +35,16 @@ describe SonyDataService do
           {id: 7, name: 'Recruit'}
       ]]}.with_indifferent_access
   }
+
+  describe '#get_base_class' do
+    it 'sets the base class to Unknown if the hash is empty' do
+      subject.get_base_class({}).should eq 'Unknown'
+    end
+
+    it 'queries calls archetypes_roots to find it' do
+      subject.get_base_class({type: {class: 'Monk'}}.with_indifferent_access).should eq 'Fighter'
+    end
+  end
 
   describe '#update_character_list' do
     it 'should return -1 if no details are available' do
@@ -115,12 +127,13 @@ describe SonyDataService do
       subject.should_receive(:internet_connection?).and_return(true)
       SOEData.should_receive(:get).and_return(guild_details)
 
-      subject.character_statistics.reject { |c| c[:rank] == 'Unknown' }.collect{ |c| c[:name] }.
-          should match_array Character.all.collect{|c| c.name}
+      subject.character_statistics.reject { |c| c[:rank] == 'Unknown' }.
+          collect{ |c| c[:name][:first] }.
+          should match_array Character.all.collect{|c| c.name }
     end
 
     it 'sets the base class to Unknown if there is no type information' do
-      small_guild_list = {guild_list: [member_list: [{name: 'Sam', guild: {rank: 0}}],
+      small_guild_list = {guild_list: [member_list: [{name: {first: 'Sam'}, guild: {rank: 0}}],
           rank_list: [{id: 0, name: 'Guild Leader'},{id: 1, name: 'Officer'},{id: 2, name: 'Officer alt'},
               {id: 3, name: 'The Honored'},{id: 4, name: 'The Loyal'},{id: 5, name: 'Member'},
               {id: 6, name: 'Alternate'},{id: 7, name: 'Recruit'}]]}.with_indifferent_access
@@ -135,7 +148,7 @@ describe SonyDataService do
         subject.should_receive(:internet_connection?).and_return(true)
         SOEData.should_receive(:get).and_return(guild_details)
 
-        stats = subject.character_statistics.select { |c| c[:char_type].present? }.collect { |c| [c[:name], c[:char_type]] }
+        stats = subject.character_statistics.select { |c| c[:char_type].present? }.collect { |c| [c[:name][:first], c[:char_type]] }
         stats.should match_array Character.all.collect { |c| [c.name, c.char_type] }
         stats.should_not eq []
       end
@@ -144,7 +157,7 @@ describe SonyDataService do
         subject.should_receive(:internet_connection?).and_return(true)
         SOEData.should_receive(:get).and_return(guild_details)
 
-        stats = subject.character_statistics.select { |c| c[:rpl_id].present? }.collect { |c| [c[:name], c[:rpl_id]] }
+        stats = subject.character_statistics.select { |c| c[:rpl_id].present? }.collect { |c| [c[:name][:first], c[:rpl_id]] }
         stats.should match_array Character.all.collect { |c| [c.name, c.id] }
         stats.should_not eq []
       end
@@ -153,7 +166,7 @@ describe SonyDataService do
         subject.should_receive(:internet_connection?).and_return(true)
         SOEData.should_receive(:get).and_return(guild_details)
 
-        stats = subject.character_statistics.select { |c| c[:type][:base_class] != 'Unknown' }.collect { |c| [c[:name], c[:type][:base_class]] }
+        stats = subject.character_statistics.select { |c| c[:type][:base_class] != 'Unknown' }.collect { |c| [c[:name][:first], c[:type][:base_class]] }
         stats.should match_array Character.all.collect { |c| [c.name, c.archetype_root] }
         stats.should_not eq []
       end
@@ -162,12 +175,12 @@ describe SonyDataService do
 
   describe '#character_data' do
     it 'queries the character data with the server and character name' do
-      SOEData.should_receive(:get).with('/xml/get/eq2/character/?name.first=Fred&locationdata.world=Unrest&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,resists,skills,spell_list,stats,guild.name')
+      SOEData.should_receive(:get).with('/xml/get/eq2/character/?name.first=Fred&locationdata.world=Unrest&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,resists,skills,spell_list,stats,guild.name,equipmentslot_list.item.id,equipmentslot_list.item.adornment_list').and_return({})
       subject.character_data('Fred', 'xml')
     end
 
     it 'queries using json by default' do
-      SOEData.should_receive(:get).with('/json/get/eq2/character/?name.first=Fred&locationdata.world=Unrest&c:limit=500&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,resists,skills,spell_list,stats,guild.name')
+      SOEData.should_receive(:get).with('/json/get/eq2/character/?name.first=Fred&locationdata.world=Unrest&c:show=name.first,name.last,quests.complete,collections.complete,level,alternateadvancements.spentpoints,alternateadvancements.availablepoints,type,resists,skills,spell_list,stats,guild.name,equipmentslot_list.item.id,equipmentslot_list.item.adornment_list').and_return({})
       subject.character_data('Fred')
     end
   end

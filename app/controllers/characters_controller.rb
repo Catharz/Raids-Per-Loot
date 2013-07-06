@@ -37,8 +37,14 @@ class CharactersController < ApplicationController
     redirect_to @character
   end
 
+  def update_data
+    SonyCharacterUpdater.perform(params[:id])
+    flash[:notice] = 'Character details are being updated.'
+    redirect_to :back
+  end
+
   def statistics
-    @characters = SonyDataService.new.character_statistics
+    @characters = Character.joins(:external_data, :archetype)
 
     respond_to do |format|
       format.html # statistics.html.erb

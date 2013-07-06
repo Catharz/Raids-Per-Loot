@@ -1,5 +1,5 @@
 class TrashDropFixer
-  @queue = :data_updates
+  @queue = :trash_drop_fixer
 
   def self.perform
     Item.of_type('Trash').includes(:drops).where('drops.loot_method <> ?', 't').each do |item|

@@ -9,17 +9,22 @@
         %tr
           %th Player
           %th Character
+          %th Class
           %th Armour Rate
           %th Weapon Rate
           %th Jewellery Rate
+          %th
       %tbody
         - @players.select{|p| !p.main_name.nil? }.each do |player|
+          - character = player.current_main
           %tr
             %td= player.name
-            %td= player.main_name
-            %td= player.current_main.armour_rate
-            %td= player.current_main.weapon_rate
-            %td= player.current_main.jewellery_rate
+            %td{:class => "#{character.overall_rating}"}= character.name
+            %td= character.archetype_name
+            %td= number_with_precision(character.armour_rate, :precision => 2)
+            %td= number_with_precision(character.weapon_rate, :precision => 2)
+            %td= number_with_precision(character.jewellery_rate, :precision => 2)
+            %td= link_to 'Update', update_data_character_path(character), method: 'post', class: 'table-button'
 
   #raid_alts
     %table.dataTable
@@ -27,15 +32,19 @@
         %tr
           %th Player
           %th Character
+          %th Class
           %th Armour Rate
           %th Weapon Rate
           %th Jewellery Rate
+          %th
       %tbody
         - @players.select{|p| !p.raid_alternate_name.nil? }.each do |player|
+          - character = player.current_raid_alternate
           %tr
             %td= player.name
-            %td= player.raid_alternate_name
-            %td= player.current_raid_alternate.armour_rate
-            %td= player.current_raid_alternate.weapon_rate
-            %td= player.current_raid_alternate.jewellery_rate
-
+            %td{:class => "#{character.overall_rating}"}= character.name
+            %td= character.archetype_name
+            %td= number_with_precision(character.armour_rate, :precision => 2)
+            %td= number_with_precision(character.weapon_rate, :precision => 2)
+            %td= number_with_precision(character.jewellery_rate, :precision => 2)
+            %td= link_to 'Update', update_data_character_path(character), method: 'post', class: 'table-button'

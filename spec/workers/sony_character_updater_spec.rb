@@ -42,7 +42,7 @@ describe SonyCharacterUpdater do
       it 'does not update the character unnecessarily' do
         subject.should_receive(:internet_connection?).and_return(true)
         Character.should_receive(:find).and_return(character)
-        character.should_receive(:archetype).twice.and_return(monk)
+        character.should_receive(:archetype).and_return(monk)
         SonyDataService.any_instance.
             should_receive(:character_data).with(character.name, 'json').
             and_return(monk_character_data)
@@ -54,7 +54,7 @@ describe SonyCharacterUpdater do
       it 'updates the characters archetype when necessary' do
         subject.should_receive(:internet_connection?).and_return(true)
         Character.should_receive(:find).and_return(character)
-        character.should_receive(:archetype).twice.and_return(bruiser)
+        character.should_receive(:archetype).and_return(bruiser)
         SonyDataService.any_instance.
             should_receive(:character_data).with(character.name, 'json').
             and_return(monk_character_data)
@@ -66,13 +66,13 @@ describe SonyCharacterUpdater do
       it 'saves the data to external data' do
         subject.should_receive(:internet_connection?).and_return(true)
         Character.should_receive(:find).and_return(character)
-        character.should_receive(:archetype).twice.and_return(bruiser)
+        character.should_receive(:archetype).and_return(bruiser)
         SonyDataService.any_instance.
             should_receive(:character_data).with(character.name, 'json').
             and_return(monk_character_data)
 
         character.should_receive(:update_attribute).with(:archetype, monk)
-        character.should_receive(:build_external_data).with(data: monk_character_data['character_list'][0])
+        character.should_receive(:build_external_data).with({:data=>{"character_list"=>[{"type"=>{"class"=>"Monk"}}]}})
         character.external_data.should_receive(:save)
 
         subject.perform(character.id)
