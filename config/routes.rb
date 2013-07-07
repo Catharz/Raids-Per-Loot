@@ -37,7 +37,6 @@ RaidsPerLoot::Application.routes.draw do
     collection do
       get :option_list
       get :attendance
-      get :statistics
     end
   end
   resources :player_raids
@@ -55,6 +54,7 @@ RaidsPerLoot::Application.routes.draw do
       post :update_data
     end
     collection do
+      get :loot
       get :option_list
       get :statistics
       get :attendance

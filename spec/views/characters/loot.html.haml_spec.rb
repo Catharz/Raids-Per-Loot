@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'players/statistics.html.haml' do
+describe 'characters/loot.html.haml' do
   fixtures :users
 
   before(:each) do
@@ -17,7 +17,8 @@ describe 'players/statistics.html.haml' do
                                  weapon_rate: 2.34,
                                  jewellery_rate: 3.45,
                                  archetype: scout,
-                                 player: player1)
+                                 player: player1,
+                                 char_type: 'm')
     priest_character = stub_model(Character,
                                   name: 'Priest Alternate',
                                   archetype_name: 'Priest',
@@ -25,9 +26,8 @@ describe 'players/statistics.html.haml' do
                                   weapon_rate: 4.32,
                                   jewellery_rate: 5.43,
                                   archetype: priest,
-                                  player: player1)
-    player1.should_receive(:current_main).twice.and_return(scout_character)
-    player1.should_receive(:current_raid_alternate).twice.and_return(priest_character)
+                                  player: player1,
+                                  char_type: 'r')
 
     player2 = stub_model(Player, name: 'Player One', main_name: 'Fighter Main')
     fighter_character = stub_model(Character,
@@ -37,7 +37,8 @@ describe 'players/statistics.html.haml' do
                                    weapon_rate: 5.67,
                                    jewellery_rate: 6.78,
                                    archetype: fighter,
-                                   player: player2)
+                                   player: player2,
+                                   char_type: 'm')
     mage_character = stub_model(Character,
                                 name: 'Mage Alternate',
                                 archetype_name: 'Mage',
@@ -45,11 +46,10 @@ describe 'players/statistics.html.haml' do
                                 weapon_rate: 7.65,
                                 jewellery_rate: 8.76,
                                 archetype: mage,
-                                player: player2)
-    player2.should_receive(:current_main).twice.and_return(fighter_character)
-    player2.should_receive(:current_raid_alternate).twice.and_return(mage_character)
+                                player: player2,
+                                char_type: 'r')
 
-    assign(:players, [player1, player2])
+    assign(:characters, [fighter_character, mage_character, priest_character, scout_character])
   end
 
   it 'shows tabs for raid mains and raid alts' do

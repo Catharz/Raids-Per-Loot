@@ -116,6 +116,62 @@ describe CharactersController do
     end
   end
 
+  describe 'GET #loot' do
+    it 'sorts the characters by name' do
+      character1 = FactoryGirl.create(:character, :name => 'Character C')
+      character2 = FactoryGirl.create(:character, :name => 'Character B')
+      character3 = FactoryGirl.create(:character, :name => 'Character A')
+
+      last_raid = FactoryGirl.create(:raid, raid_date: 1.month.ago.to_date)
+      FactoryGirl.create(:player_raid, player: character1.player, raid: last_raid)
+      FactoryGirl.create(:player_raid, player: character2.player, raid: last_raid)
+      FactoryGirl.create(:player_raid, player: character3.player, raid: last_raid)
+
+      get :loot
+
+      assigns(:characters).should eq([character3, character2, character1])
+    end
+
+    it 'normally lists characters who have raided in the last 3 months' do
+      character1 = FactoryGirl.create(:character, :name => 'Character C')
+      character2 = FactoryGirl.create(:character, :name => 'Character B')
+      character3 = FactoryGirl.create(:character, :name => 'Character A')
+
+      last_raid = FactoryGirl.create(:raid, raid_date: 1.month.ago.to_date)
+      prior_raid = FactoryGirl.create(:raid, raid_date: 6.months.ago.to_date)
+      FactoryGirl.create(:player_raid, player: character1.player, raid: last_raid)
+      FactoryGirl.create(:player_raid, player: character2.player, raid: prior_raid)
+      FactoryGirl.create(:player_raid, player: character3.player, raid: last_raid)
+
+      get :loot
+
+      assigns(:characters).should eq([character3, character1])
+    end
+
+
+    it 'lists all characters if requested' do
+      character1 = FactoryGirl.create(:character, :name => 'Character C')
+      character2 = FactoryGirl.create(:character, :name => 'Character B')
+      character3 = FactoryGirl.create(:character, :name => 'Character A')
+
+      last_raid = FactoryGirl.create(:raid, raid_date: 1.month.ago.to_date)
+      prior_raid = FactoryGirl.create(:raid, raid_date: 6.months.ago.to_date)
+      FactoryGirl.create(:player_raid, player: character1.player, raid: last_raid)
+      FactoryGirl.create(:player_raid, player: character2.player, raid: prior_raid)
+      FactoryGirl.create(:player_raid, player: character3.player, raid: last_raid)
+
+      get :loot, show_all: true
+
+      assigns(:characters).should eq([character3, character2, character1])
+    end
+
+    it 'renders the loot template' do
+      get :loot
+
+      response.should have_rendered :loot
+    end
+  end
+
   describe 'GET #index' do
     it 'populates a collection of characters' do
       character = FactoryGirl.create(:character)

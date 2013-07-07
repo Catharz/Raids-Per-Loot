@@ -16,19 +16,6 @@ class PlayersController < ApplicationController
     render :text => options, :layout => false
   end
 
-  # GET /players/statistics
-  # GET /players/statistics.json
-  def statistics
-    show_all = params.fetch('show_all', false)
-    @players = Player.by_instance(params[:instance_id]).
-        includes([:current_main =>
-                      [:external_data, :archetype],
-                  :current_raid_alternate =>
-                      [:external_data, :archetype]]).
-        order('players.name')
-    @players.reject! { |p| p.last_raid.nil? or p.last_raid.raid_date < 3.months.ago.to_date } unless show_all
-  end
-
   # GET /players
   # GET /players.json
   def index
