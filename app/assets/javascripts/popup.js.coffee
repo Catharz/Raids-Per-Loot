@@ -55,8 +55,9 @@ jQuery ->
         ajaxCall.abort()
         ajaxCall = null
 
-      currentID = this.children[0].id
-      return  if currentID is ""
+      data = $(this).parent().data()
+      currentID = data.character_id
+      return  if currentID is undefined
 
       clearTimeout hideTimer  if hideTimer
 
@@ -71,7 +72,7 @@ jQuery ->
 
       ajaxCall = $.ajax(
         type: "GET"
-        url: "characters/" + currentID + "/info"
+        url: "/characters/" + currentID + "/info"
         beforeSend: ->
           $("#popupContent").prepend "<p class=\"loading-text\">Loading character details...</p>"
 
@@ -96,11 +97,15 @@ jQuery ->
       hideTimer = setTimeout ->
         container.css "display", "none", hideDelay
 
+    $(".playerLootRateTrigger").live "mouseout", ->
+      clearTimeout hideTimer  if hideTimer
+      hideTimer = setTimeout ->
+        container.css "display", "none", hideDelay
+
     $(".lootRateTrigger").live "mouseover", ->
-      rowNode = this.parentElement
-      firstColumn = $('td a', $(rowNode))[0]
-      currentID = firstColumn['id']
-      return if currentID is ""
+      data = $(this).parent().data()
+      currentID = data.character_id
+      return  if currentID is undefined
 
       clearTimeout hideTimer  if hideTimer
 
@@ -111,14 +116,46 @@ jQuery ->
         left: (pos.left + width) + "px"
         top: (pos.top - 5) + "px"
 
+      $("#popupContent").empty()
+      $("#popupContent").append "<div class='popupResult'>" +
+      "Raids (Player): " + data.player_raids + "</br>" +
+      "Raids (Character): " + data.raids + "</br>" +
+      "Instances: " + data.instances + "</br></br>" +
+      "Armour: " + data.armour + "</br>" +
+      "Jewellery: " + data.jewellery + "</br>" +
+      "Weapons: " + data.weapons + "</br>" +
+      "Attuned: " + data.attuned + "</br></br>" +
+      "Adornments: " + data.weapons + "</br>" +
+      "Dislodgers: " + data.weapons + "</br></br>" +
+      "Mounts: " + data.weapons + "</div>"
+      container.css
+        display: "block"
+
+    $(".playerLootRateTrigger").live "mouseover", ->
       data = $(this).parent().data()
+      currentID = data.player_id
+      return  if currentID is undefined
+
+      clearTimeout hideTimer  if hideTimer
+
+      pos = $(this).offset()
+      width = $(this).width()
+
+      container.css
+        left: (pos.left + width) + "px"
+        top: (pos.top - 5) + "px"
+
       $("#popupContent").empty()
       $("#popupContent").append "<div class='popupResult'>" +
       "Raids: " + data.raids + "</br>" +
       "Instances: " + data.instances + "</br></br>" +
       "Armour: " + data.armour + "</br>" +
       "Jewellery: " + data.jewellery + "</br>" +
-      "Weapons: " + data.weapons + "</div>"
+      "Weapons: " + data.weapons + "</br>" +
+      "Attuned: " + data.attuned + "</br></br>" +
+      "Adornments: " + data.weapons + "</br>" +
+      "Dislodgers: " + data.weapons + "</br></br>" +
+      "Mounts: " + data.weapons + "</div>"
       container.css
         display: "block"
 

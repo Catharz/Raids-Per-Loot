@@ -93,11 +93,21 @@ jQuery ->
     "fnDrawCallback": ( oSettings ) ->
       $(".table-button").button()
     "fnRowCallback": ( nRow, aData, iDisplayIndex ) ->
-      nRow.setAttribute('data-raids', aData.data.raids)
-      nRow.setAttribute('data-instances', aData.data.instances)
-      nRow.setAttribute('data-armour', aData.data.armour)
-      nRow.setAttribute('data-jewellery', aData.data.jewellery)
-      nRow.setAttribute('data-weapons', aData.data.weapons)
+      nRow.setAttribute 'data-player_raids', aData.data.player_raids
+      nRow.setAttribute 'data-raids', aData.data.raids
+      nRow.setAttribute 'data-instances', aData.data.instances
+      nRow.setAttribute 'data-armour', aData.data.armour
+      nRow.setAttribute 'data-jewellery', aData.data.jewellery
+      nRow.setAttribute 'data-weapons', aData.data.weapons
+      nRow.setAttribute 'data-attuned', aData.data.attuned
+      nRow.setAttribute 'data-adornment', aData.data.adornment
+      nRow.setAttribute 'data-dislodgers', aData.data.dislodgers
+      nRow.setAttribute 'data-mounts', aData.data.mounts
+      nRow.setAttribute 'data-character_id', aData.data.character_id
+      nRow.setAttribute 'data-health', aData.data.health
+      nRow.setAttribute 'data-power', aData.data.power
+      nRow.setAttribute 'data-critical_chance', aData.data.critical_chance
+      nRow.setAttribute 'data-adornment_percentage', aData.data.adornment_percentage
 
 
   $('#charactersTable_r').dataTable
@@ -128,11 +138,21 @@ jQuery ->
     "fnDrawCallback": ( oSettings ) ->
       $(".table-button").button()
     "fnRowCallback": ( nRow, aData, iDisplayIndex ) ->
-      nRow.setAttribute('data-raids', aData.data.raids)
-      nRow.setAttribute('data-instances', aData.data.instances)
-      nRow.setAttribute('data-armour', aData.data.armour)
-      nRow.setAttribute('data-jewellery', aData.data.jewellery)
-      nRow.setAttribute('data-weapons', aData.data.weapons)
+      nRow.setAttribute 'data-player_raids', aData.data.player_raids
+      nRow.setAttribute 'data-raids', aData.data.raids
+      nRow.setAttribute 'data-instances', aData.data.instances
+      nRow.setAttribute 'data-armour', aData.data.armour
+      nRow.setAttribute 'data-jewellery', aData.data.jewellery
+      nRow.setAttribute 'data-weapons', aData.data.weapons
+      nRow.setAttribute 'data-attuned', aData.data.attuned
+      nRow.setAttribute 'data-adornment', aData.data.adornment
+      nRow.setAttribute 'data-dislodgers', aData.data.dislodgers
+      nRow.setAttribute 'data-mounts', aData.data.mounts
+      nRow.setAttribute 'data-character_id', aData.data.character_id
+      nRow.setAttribute 'data-health', aData.data.health
+      nRow.setAttribute 'data-power', aData.data.power
+      nRow.setAttribute 'data-critical_chance', aData.data.critical_chance
+      nRow.setAttribute 'data-adornment_percentage', aData.data.adornment_percentage
 
   $('#charactersTable_g').dataTable
     "bJQueryUI": true
@@ -162,11 +182,21 @@ jQuery ->
     "fnDrawCallback": ( oSettings ) ->
       $(".table-button").button()
     "fnRowCallback": ( nRow, aData, iDisplayIndex ) ->
-      nRow.setAttribute('data-raids', aData.data.raids)
-      nRow.setAttribute('data-instances', aData.data.instances)
-      nRow.setAttribute('data-armour', aData.data.armour)
-      nRow.setAttribute('data-jewellery', aData.data.jewellery)
-      nRow.setAttribute('data-weapons', aData.data.weapons)
+      nRow.setAttribute 'data-player_raids', aData.data.player_raids
+      nRow.setAttribute 'data-raids', aData.data.raids
+      nRow.setAttribute 'data-instances', aData.data.instances
+      nRow.setAttribute 'data-armour', aData.data.armour
+      nRow.setAttribute 'data-jewellery', aData.data.jewellery
+      nRow.setAttribute 'data-weapons', aData.data.weapons
+      nRow.setAttribute 'data-attuned', aData.data.attuned
+      nRow.setAttribute 'data-adornment', aData.data.adornment
+      nRow.setAttribute 'data-dislodgers', aData.data.dislodgers
+      nRow.setAttribute 'data-mounts', aData.data.mounts
+      nRow.setAttribute 'data-character_id', aData.data.character_id
+      nRow.setAttribute 'data-health', aData.data.health
+      nRow.setAttribute 'data-power', aData.data.power
+      nRow.setAttribute 'data-critical_chance', aData.data.critical_chance
+      nRow.setAttribute 'data-adornment_percentage', aData.data.adornment_percentage
 
   $('#charactersTable_all').dataTable
     "bJQueryUI": true
@@ -196,11 +226,40 @@ jQuery ->
     "fnDrawCallback": ( oSettings ) ->
       $(".table-button").button()
     "fnRowCallback": ( nRow, aData, iDisplayIndex ) ->
-      nRow.setAttribute('data-raids', aData.data.raids)
-      nRow.setAttribute('data-instances', aData.data.instances)
-      nRow.setAttribute('data-armour', aData.data.armour)
-      nRow.setAttribute('data-jewellery', aData.data.jewellery)
-      nRow.setAttribute('data-weapons', aData.data.weapons)
+      nRow.setAttribute 'data-player_raids', aData.data.player_raids
+      nRow.setAttribute 'data-raids', aData.data.raids
+      nRow.setAttribute 'data-instances', aData.data.instances
+      nRow.setAttribute 'data-armour', aData.data.armour
+      nRow.setAttribute 'data-jewellery', aData.data.jewellery
+      nRow.setAttribute 'data-weapons', aData.data.weapons
+      nRow.setAttribute 'data-attuned', aData.data.attuned
+      nRow.setAttribute 'data-adornment', aData.data.adornment
+      nRow.setAttribute 'data-dislodgers', aData.data.dislodgers
+      nRow.setAttribute 'data-mounts', aData.data.mounts
+      nRow.setAttribute 'data-character_id', aData.data.character_id
+      nRow.setAttribute 'data-health', aData.data.health
+      nRow.setAttribute 'data-power', aData.data.power
+      nRow.setAttribute 'data-critical_chance', aData.data.critical_chance
+      nRow.setAttribute 'data-adornment_percentage', aData.data.adornment_percentage
+
+  $('.charactersLootTable').dataTable
+    "bJQueryUI": true
+    "sPaginationType":"full_numbers"
+    "aoColumns": [
+      null, # Player
+      null, # Name
+      null, # Class
+    {"bSearchable": true, "bVisible": false},  # Base Class
+    {"sType": "numeric", "sClass": "numeric" }, # Armour Rate
+    {"sType": "numeric", "sClass": "numeric" }, # Weapon Rate
+    {"sType": "numeric", "sClass": "numeric" }, # Jewellery Rate
+    {"sType": "numeric", "sClass": "numeric" }, # Attuned Rate
+    {"sType": "numeric", "sClass": "numeric" }, # Adornment Rate
+    {"sType": "numeric", "sClass": "numeric" }, # dislodger Rate
+    {"sType": "numeric", "sClass": "numeric" }, # Mount Rate
+    null # Update button
+    ]
+    "aaSorting": [[1,'asc']]
 
   $('#characterStatsTable_m').dataTable
     "bJQueryUI": true
@@ -216,7 +275,7 @@ jQuery ->
       {"sType": "numeric", "sClass": "numeric" }, # Health
       {"sType": "numeric", "sClass": "numeric" }, # Power
       {"sType": "numeric", "sClass": "numeric" }, # Crit
-      {"sType": "numeric", "sClass": "numeric adornmentsTrigger" }, # Adornments
+      {"sType": "numeric", "sClass": "numeric" }, # Adornments
       {"sType": "numeric", "sClass": "numeric" }, # Crit Bonus
       {"sType": "numeric", "sClass": "numeric" }  # Potency
     ]
@@ -402,9 +461,9 @@ jQuery ->
       null,                   # Rank
       { "sType": "date" },    # First Raid
       { "sType": "date" },    # Last Raid
-      { "sType": "numeric", "sClass": "lootRateTrigger numeric" }, # Armour Rate
-      { "sType": "numeric", "sClass": "lootRateTrigger numeric" }, # Jewellery Rate
-      { "sType": "numeric", "sClass": "lootRateTrigger numeric" }, # Weapon Rate
+      { "sType": "numeric", "sClass": "numeric" }, # Armour Rate
+      { "sType": "numeric", "sClass": "numeric" }, # Jewellery Rate
+      { "sType": "numeric", "sClass": "numeric" }, # Weapon Rate
       null,                   # Show Link
       null,                   # Edit Link
       null                    # Destroy Link

@@ -3,21 +3,18 @@
     $("#aa_slider").slider "option", "value", value
 
   jQuery ->
-    json = $("#character").attr("json_data")
-    character = JSON.parse(json)
+    alternate_advancement_points = $("#character").attr("alternate_advancement_points")
     $("#aa_slider").slider
-      value: (character.alternateadvancements.spentpoints + character.alternateadvancements.availablepoints)
+      value: alternate_advancement_points
       min: 0
       max: 320
       disabled: true
-- if @data
-  #character{:json_data => @data.to_json }
-    - if @data.respond_to? :alternateadvancements
-      %table.slider
-        %tr
-          %td
-            AAs:
-          %td.slider
-            #aa_slider
-          %td.numeric{style: 'width:80px'}
-            = "#{@data.alternateadvancements.spentpoints + @data.alternateadvancements.availablepoints} / 320"
+#character{:alternate_advancement_points => @alternate_advancement_points }
+  %table.slider
+    %tr
+      %td
+        AAs:
+      %td.slider
+        #aa_slider
+      %td.numeric{style: 'width:80px'}
+        = "#{@alternate_advancement_points} / 320"

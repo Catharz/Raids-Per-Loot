@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121220062855) do
+ActiveRecord::Schema.define(:version => 20130707020502) do
 
   create_table "adjustments", :force => true do |t|
     t.date     "adjustment_date"
@@ -70,11 +70,21 @@ ActiveRecord::Schema.define(:version => 20121220062855) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "char_type"
-    t.integer  "instances_count", :default => 0
-    t.integer  "raids_count",     :default => 0
-    t.float    "armour_rate",     :default => 0.0
-    t.float    "jewellery_rate",  :default => 0.0
-    t.float    "weapon_rate",     :default => 0.0
+    t.integer  "instances_count",  :default => 0
+    t.integer  "raids_count",      :default => 0
+    t.float    "armour_rate",      :default => 0.0
+    t.float    "jewellery_rate",   :default => 0.0
+    t.float    "weapon_rate",      :default => 0.0
+    t.integer  "armour_count",     :default => 0
+    t.integer  "jewellery_count",  :default => 0
+    t.integer  "weapons_count",    :default => 0
+    t.integer  "adornments_count", :default => 0
+    t.integer  "dislodgers_count", :default => 0
+    t.integer  "mounts_count",     :default => 0
+    t.float    "adornment_rate",   :default => 0.0
+    t.float    "dislodger_rate",   :default => 0.0
+    t.float    "mount_rate",       :default => 0.0
+    t.float    "attuned_rate",     :default => 0.0
   end
 
   add_index "characters", ["archetype_id"], :name => "index_characters_on_archetype_id"
@@ -248,11 +258,21 @@ ActiveRecord::Schema.define(:version => 20121220062855) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "rank_id"
-    t.integer  "instances_count", :default => 0
-    t.integer  "raids_count",     :default => 0
-    t.float    "armour_rate",     :default => 0.0
-    t.float    "jewellery_rate",  :default => 0.0
-    t.float    "weapon_rate",     :default => 0.0
+    t.integer  "instances_count",  :default => 0
+    t.integer  "raids_count",      :default => 0
+    t.float    "armour_rate",      :default => 0.0
+    t.float    "jewellery_rate",   :default => 0.0
+    t.float    "weapon_rate",      :default => 0.0
+    t.integer  "armour_count",     :default => 0
+    t.integer  "jewellery_count",  :default => 0
+    t.integer  "weapons_count",    :default => 0
+    t.integer  "adornments_count", :default => 0
+    t.integer  "dislodgers_count", :default => 0
+    t.integer  "mounts_count",     :default => 0
+    t.float    "adornment_rate",   :default => 0.0
+    t.float    "dislodger_rate",   :default => 0.0
+    t.float    "mount_rate",       :default => 0.0
+    t.float    "attuned_rate",     :default => 0.0
   end
 
   add_index "players", ["rank_id"], :name => "index_players_on_rank_id"

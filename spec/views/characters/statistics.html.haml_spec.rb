@@ -127,8 +127,8 @@ describe 'characters/statistics.html.haml' do
 
     context 'adornments' do
       it 'renders the percentages' do
-        char1.should_receive(:adornment_pct).exactly(6).times.and_return(50.00)
-        char2.should_receive(:adornment_pct).exactly(6).times.and_return(33.33)
+        char1.should_receive(:adornment_pct).at_least(1).times.and_return(50.00)
+        char2.should_receive(:adornment_pct).at_least(1).times.and_return(33.33)
         render
 
         rendered.should contain '50.00'

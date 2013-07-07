@@ -30,6 +30,5 @@ class Page < ActiveRecord::Base
 
   def invalidate_page_cache
     Page.all.each { |page| page.touch unless page.eql? self }
-    Rails.cache.delete('menu_html')
   end
 end

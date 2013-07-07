@@ -1,0 +1,30 @@
+%table.charactersLootTable
+  %thead
+    %tr
+      %th Player
+      %th Character
+      %th Class
+      %th Base Class
+      %th Armour
+      %th Weapon
+      %th Jewellery
+      %th Attuned
+      %th Adornments
+      %th Dislodgers
+      %th Mounts
+      %th
+  %tbody
+    - @characters.each do |character|
+      %tr{id: "character_#{character.id}_#{character.char_type}", data: character.character_row_data }
+        %td= character.player_name
+        %td{:class => "#{character.overall_rating} characterPopupTrigger"}= character.name
+        %td= character.archetype_name
+        %td= character.archetype_root
+        %td.lootRateTrigger= number_with_precision(character.armour_rate, :precision => 2)
+        %td.lootRateTrigger= number_with_precision(character.weapon_rate, :precision => 2)
+        %td.lootRateTrigger= number_with_precision(character.jewellery_rate, :precision => 2)
+        %td.lootRateTrigger= number_with_precision(character.attuned_rate, :precision => 2)
+        %td.lootRateTrigger= number_with_precision(character.adornment_rate, :precision => 2)
+        %td.lootRateTrigger= number_with_precision(character.dislodger_rate, :precision => 2)
+        %td.lootRateTrigger= number_with_precision(character.mount_rate, :precision => 2)
+        %td= link_to 'Update', update_data_character_path(character), method: 'post', class: 'table-button'

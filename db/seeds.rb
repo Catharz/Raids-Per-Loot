@@ -95,15 +95,16 @@ def create_default_pages
 end
 
 def create_default_loot_types
-  loot_types = [{name: "Armour", default_loot_method: "n"},
-                {name: "Jewellery", default_loot_method: "n"},
-                {name: "Weapon", default_loot_method: "n"},
-                {name: "Adornment", default_loot_method: "r"},
-                {name: "Spell", default_loot_method: "g"},
-                {name: "Trash", default_loot_method: "t"},
-                {name: "Mount", default_loot_method: "n"},
-                {name: "Unknown", default_loot_method: "t"},
-                {name: "Trade Skill Component", default_loot_method: "g"}]
+  loot_types = [{name: 'Adornment', default_loot_method: 'n'},
+                {name: 'Armour', default_loot_method: 'n'},
+                {name: 'Dislodger', default_loot_method: 'n'},
+                {name: 'Jewellery', default_loot_method: 'n'},
+                {name: 'Mount', default_loot_method: 'n'},
+                {name: 'Spell', default_loot_method: 'g'},
+                {name: 'Trade Skill Component', default_loot_method: 'g'},
+                {name: 'Trash', default_loot_method: 't'},
+                {name: 'Unknown', default_loot_method: 't'},
+                {name: 'Weapon', default_loot_method: 'n'}]
   LootType.create!(loot_types)
 end
 

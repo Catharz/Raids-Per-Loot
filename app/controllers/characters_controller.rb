@@ -44,7 +44,7 @@ class CharactersController < ApplicationController
   end
 
   def statistics
-    @characters = Character.joins(:external_data, :archetype)
+    @characters = Character.joins(:archetype).includes(:external_data)
 
     respond_to do |format|
       format.html # statistics.html.erb

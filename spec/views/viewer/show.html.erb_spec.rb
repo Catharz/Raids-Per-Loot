@@ -1,14 +1,9 @@
 require 'spec_helper'
 
-describe "viewer/show.html.erb" do
-  fixtures :users
-
-  before(:each) do
-    login_as users(:quentin)
-  end
-
-  it "renders the page contents" do
-    assign(:page, stub_model(Page, :name => "home", :title => "Home", :navlabel => "Home", :body => "Hello World!"))
+describe 'viewer/show.html.erb' do
+  it 'renders the page contents' do
+    view.should_receive(:logged_in?).and_return(false)
+    assign(:page, stub_model(Page, :name => 'home', :title => 'Home', :navlabel => 'Home', :body => 'Hello World!'))
 
     render
 

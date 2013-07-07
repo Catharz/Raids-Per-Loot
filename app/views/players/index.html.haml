@@ -14,14 +14,14 @@
   %tbody
     - @players.each do |player|
       - cache player do
-        %tr{data: attendance_stats(player)}
+        %tr{data: player_row_data(player)}
           %td= player.name
           %td= player.rank_name
           %td= player.first_raid_date
           %td= player.last_raid_date
-          %td{id: player.id}= player.armour_rate
-          %td{id: player.id}= player.jewellery_rate
-          %td{id: player.id}= player.weapon_rate
+          %td.playerLootRateTrigger{id: player.id}= player.armour_rate
+          %td.playerLootRateTrigger{id: player.id}= player.jewellery_rate
+          %td.playerLootRateTrigger{id: player.id}= player.weapon_rate
           %td= link_to 'Show', player, class: 'table-button'
           %td= link_to 'Edit', edit_player_path(player), class: 'table-button'
           %td= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'

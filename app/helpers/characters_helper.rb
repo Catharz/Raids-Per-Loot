@@ -126,13 +126,23 @@ module CharactersHelper
     }
   end
 
-  def attendance_stats(character)
+  def character_row_data(character = self)
     {
-        raids: character.raid_count,
+        player_raids: character.raid_count({}, true),
+        raids: character.raid_count({}, false),
         instances: character.instance_count,
-        armour: character.armour_count,
-        jewellery: character.jewellery_count,
-        weapons: character.weapon_count
+        armour: character.armour_item_count,
+        jewellery: character.jewellery_item_count,
+        weapons: character.weapon_item_count,
+        attuned: character.armour_item_count + character.jewellery_item_count + character.weapon_item_count,
+        adornment: character.adornment_item_count,
+        dislodgers: character.dislodger_item_count,
+        mounts: character.mount_item_count,
+        character_id: character.id,
+        health: character.health,
+        power: character.power,
+        critical_chance: character.critical_chance,
+        adornment_percentage: character.adornment_pct
     }
   end
 

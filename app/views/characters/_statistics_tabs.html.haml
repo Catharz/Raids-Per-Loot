@@ -15,8 +15,8 @@
   %tbody
     - @characters.each do |character|
       - if character.char_type.eql? @char_type or @char_type.eql? 'all'
-        %tr{:id => "character_#{character.id}", data: character.adornment_data}
-          %td{:id => "character_#{character.id}"}= link_to character.name, character_path(character), :remote => true
+        %tr{data: character.adornment_data}
+          %td= link_to character.name, character_path(character), :remote => true
           %td= character.archetype_name
           %td= character.archetype_root
           %td= character.level
@@ -24,6 +24,6 @@
           %td{:class => "#{character.health_rating}"}= character.health
           %td= character.power
           %td{:class => "#{character.crit_rating}"}= number_with_precision(character.critical_chance, :precision => 2)
-          %td{:class => "#{character.adornment_rating}"}= number_with_precision(character.adornment_pct, :precision => 2)
+          %td{:class => "#{character.adornment_rating} adornmentsTrigger"}= number_with_precision(character.adornment_pct, :precision => 2)
           %td= number_with_precision(character.crit_bonus, :precision => 2)
           %td= number_with_precision(character.potency, :precision => 2)

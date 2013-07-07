@@ -91,7 +91,7 @@ class Character < ActiveRecord::Base
 
   def archetype_root
     if archetype
-      archetype.root ? archetype.root.name : 'Unknown'
+      archetype.root_name || 'Unknown'
     else
       'Unknown'
     end

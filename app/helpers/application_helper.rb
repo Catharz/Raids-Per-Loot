@@ -7,12 +7,6 @@ module ApplicationHelper
     "Couldn't find item details for item: #{eq2_item_id}"
   end
 
-  def menu_html
-    @menu_html = Rails.cache.fetch('menu_html') do
-      menu.html_safe
-    end
-  end
-
   def menu(parent_page = nil, pages = Page.includes(:parent).order('parent_id nulls first'))
     html = '<ul>'
 
