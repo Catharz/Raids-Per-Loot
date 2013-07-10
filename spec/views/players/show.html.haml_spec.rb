@@ -9,15 +9,6 @@ describe "players/show.html.haml" do
 
     @player = assign(:player, stub_model(Player, :name => "Name"))
 
-    raid = stub_model(Raid, :raid_date => Date.parse("01/01/2011"))
-
-    zone_1 = stub_model(Zone, :name => "Wherever")
-    zone_2 = stub_model(Zone, :name => "Wherever Next")
-    instance_1 = stub_model(Instance, :raid => raid, :start_time => DateTime.parse("01/01/2011 18:00"))
-    instance_1.zone = zone_1
-    instance_2 = stub_model(Instance, :raid => raid, :start_time => DateTime.parse("01/01/2011 20:05"))
-    instance_2.zone = zone_2
-
     armour = stub_model(LootType, :name => "Armour", :default_loot_method => 'n')
     armour_item = stub_model(Item, :name => "Phat BP", :eq2_item_id => "1234", :loot_type_id => armour.id)
     armour_item.stub!(:loot_type).and_return(armour)
@@ -44,8 +35,8 @@ describe "players/show.html.haml" do
     weapon_drop.stub!(:item).and_return(weapon_item)
 
     @player.stub!(:characters).and_return([])
-    @player.stub!(:raids).and_return([raid])
-    @player.stub!(:instances).and_return([instance_1, instance_2])
+    @player.stub!(:raids_count).and_return(1)
+    @player.stub!(:instances_count).and_return(2)
     @player.stub!(:drops).and_return([armour_drop, weapon_drop])
     @player.stub!(:adjustments).and_return([])
     @player.stub!(:armour_rate).and_return(2.0)

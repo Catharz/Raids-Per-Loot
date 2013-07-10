@@ -7,6 +7,8 @@ class Character < ActiveRecord::Base
   delegate :url_helpers, to: 'Rails.application.routes'
 
   belongs_to :player, :inverse_of => :characters, :touch => true
+  accepts_nested_attributes_for :player, reject_if: :all_blank, update_only: true
+
   belongs_to :archetype, :inverse_of => :characters, :touch => true
 
   has_many :drops, :inverse_of => :character

@@ -22,15 +22,14 @@ Given /^the following drops:$/ do |drops|
     item ||= Item.create(:name => drop[:item], :eq2_item_id => drop[:eq2_item_id], :loot_type => loot_type)
 
     rank = Rank.find_or_create_by_name("Main")
-    player = Player.find_by_name(drop[:player])
-    player ||= Player.create(:name => drop[:player], :rank => rank)
+    player = Player.find_by_name(drop[:character])
+    player ||= Player.create(:name => drop[:character], :rank => rank)
 
     archetype = Archetype.find_or_create_by_name("Scout")
     character = Character.find_by_name(drop[:character])
     character ||= Character.create(:name => drop[:character], :player => player, :archetype => archetype, :char_type => "m")
 
-    observer = DropObserver.instance
-    drop = Drop.create!(
+    Drop.create!(
         :instance_id => instance.id,
         :zone_id => zone.id,
         :mob_id => mob.id,
@@ -39,7 +38,6 @@ Given /^the following drops:$/ do |drops|
         :loot_method => drop[:loot_method],
         :character_id => character.id,
         :drop_time => drop[:drop_time])
-    observer.after_save(drop)
   end
 end
 
@@ -111,8 +109,4 @@ end
 
 When /^I select "([^"]*)" as the drop's Instance$/ do |instance_description|
   select instance_description, :from => "drop_instance_id"
-end
-
-When(/^the drop post processor is run$/) do
-  Drop.all.each { |drop| DropPostProcessor.perform(drop.id) }
 end

@@ -42,12 +42,13 @@ class PlayersController < ApplicationController
 # GET /players/1
 # GET /players/1.json
   def show
-    @player = Player.includes(:drops => :instance).find(params[:id])
+    @player = Player.includes(:drops).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @player.to_json(methods: [:armour_count, :jewellery_count, :weapon_count]) }
       format.xml { render :xml => @player.to_xml(:include => [:instances, :drops]) }
+      format.js
     end
   end
 
@@ -60,6 +61,7 @@ class PlayersController < ApplicationController
       format.html # new.html.erb
       format.json { render :json => @player }
       format.xml { render :xml => @player }
+      format.js
     end
   end
 
@@ -76,7 +78,10 @@ class PlayersController < ApplicationController
     respond_to do |format|
       if @player.save
         format.html { redirect_to @player, :notice => 'Player was successfully created.' }
-        format.json { render :json => @player, :status => :created, :location => @player }
+        format.json {
+          render json: @player.to_json(
+              methods: [:rank_name, :first_raid_date, :last_raid_date, :current_main, :current_raid_alternate]
+          ), status: :created, location: @player }
         format.xml { render :xml => @player, :status => :created, :location => @player }
       else
         format.html { render :action => "new" }
@@ -94,7 +99,9 @@ class PlayersController < ApplicationController
     respond_to do |format|
       if @player.update_attributes(params[:player])
         format.html { redirect_to @player, :notice => 'Player was successfully updated.' }
-        format.json { head :ok }
+        format.json { render json: @player.to_json(
+            methods: [:rank_name, :first_raid_date, :last_raid_date, :current_main, :current_raid_alternate]
+        ), location: @player}
         format.xml { head :ok }
       else
         format.html { render :action => "edit" }
@@ -114,6 +121,7 @@ class PlayersController < ApplicationController
       format.html { redirect_to players_url }
       format.json { head :ok }
       format.xml { head :ok }
+      format.js
     end
   end
 end

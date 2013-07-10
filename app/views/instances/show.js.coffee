@@ -15,7 +15,6 @@ $("#popup").dialog
       "sPaginationType": "full_numbers"
     $('#playersTabTable').dataTable
       "bJQueryUI": true
-      "bStateSave": true
       "sPaginationType":"full_numbers"
       "aoColumns": [
         null,                   #  Name
@@ -31,7 +30,6 @@ $("#popup").dialog
       "aaSorting": [[0,'asc']]
     $('#charactersTabTable').dataTable
       "bJQueryUI": true
-      "bStateSave": true
       "sPaginationType":"full_numbers"
       "aoColumns": [
         null,                   #  Name
@@ -49,8 +47,6 @@ $("#popup").dialog
       ]
     $('#dropsTabTable').dataTable
       "bJQueryUI": true
-      "bStateSave": true
-      "iCookieDuration": 600
       "sPaginationType":"full_numbers"
       "aaSorting": [[3,'desc']]
     $(".actions").empty()

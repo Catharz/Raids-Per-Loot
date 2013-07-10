@@ -67,9 +67,9 @@ jQuery ->
 
   $('#charactersTable_m').dataTable
     "bJQueryUI": true
+    "sPaginationType":"full_numbers"
     "bStateSave": true
     "iCookieDuration": 600
-    "sPaginationType":"full_numbers"
     "aoColumns": [
       {"sClass": "characterPopupTrigger"}, # Name
       {"sClass": "characterPopupTrigger"}, # Main
@@ -112,9 +112,9 @@ jQuery ->
 
   $('#charactersTable_r').dataTable
     "bJQueryUI": true
+    "sPaginationType":"full_numbers"
     "bStateSave": true
     "iCookieDuration": 600
-    "sPaginationType":"full_numbers"
     "aoColumns": [
       { "sClass": "characterPopupTrigger" }, # Name
       { "sClass": "characterPopupTrigger" }, # Main
@@ -156,9 +156,9 @@ jQuery ->
 
   $('#charactersTable_g').dataTable
     "bJQueryUI": true
+    "sPaginationType":"full_numbers"
     "bStateSave": true
     "iCookieDuration": 600
-    "sPaginationType":"full_numbers"
     "aoColumns": [
       {"sClass": "characterPopupTrigger"}, # Name
       {"sClass": "characterPopupTrigger"}, # Main
@@ -200,8 +200,6 @@ jQuery ->
 
   $('#charactersTable_all').dataTable
     "bJQueryUI": true
-    "bStateSave": true
-    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       {"sClass": "characterPopupTrigger"}, # Name
@@ -242,9 +240,11 @@ jQuery ->
       nRow.setAttribute 'data-critical_chance', aData.data.critical_chance
       nRow.setAttribute 'data-adornment_percentage', aData.data.adornment_percentage
 
-  $('.charactersLootTable').dataTable
+  $('#charactersLootTable_m').dataTable
     "bJQueryUI": true
-    "sPaginationType":"full_numbers"
+    "bPaginate": false
+    "sScrollY": "200px"
+    "sScrollX": "200px"
     "aoColumns": [
       null, # Player
       null, # Name
@@ -257,14 +257,37 @@ jQuery ->
     {"sType": "numeric", "sClass": "numeric" }, # Adornment Rate
     {"sType": "numeric", "sClass": "numeric" }, # dislodger Rate
     {"sType": "numeric", "sClass": "numeric" }, # Mount Rate
-    null # Update button
+    null, # Update button
+    null, # Edit Character button
+    null # Edit Player button
+    ]
+    "aaSorting": [[1,'asc']]
+
+  $('#charactersLootTable_r').dataTable
+    "bJQueryUI": true
+    "bPaginate": false
+    "sScrollY": "200px"
+    "sScrollX": "200px"
+    "aoColumns": [
+      null, # Player
+      null, # Name
+      null, # Class
+    {"bSearchable": true, "bVisible": false},  # Base Class
+    {"sType": "numeric", "sClass": "numeric" }, # Armour Rate
+    {"sType": "numeric", "sClass": "numeric" }, # Weapon Rate
+    {"sType": "numeric", "sClass": "numeric" }, # Jewellery Rate
+    {"sType": "numeric", "sClass": "numeric" }, # Attuned Rate
+    {"sType": "numeric", "sClass": "numeric" }, # Adornment Rate
+    {"sType": "numeric", "sClass": "numeric" }, # dislodger Rate
+    {"sType": "numeric", "sClass": "numeric" }, # Mount Rate
+      null, # Update button
+      null, # Edit Character button
+      null # Edit Player button
     ]
     "aaSorting": [[1,'asc']]
 
   $('#characterStatsTable_m').dataTable
     "bJQueryUI": true
-    "bStateSave": true
-    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Name
@@ -283,8 +306,6 @@ jQuery ->
 
   $('#characterStatsTable_r').dataTable
     "bJQueryUI": true
-    "bStateSave": true
-    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Name
@@ -303,8 +324,6 @@ jQuery ->
 
   $('#characterStatsTable_g').dataTable
     "bJQueryUI": true
-    "bStateSave": true
-    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Name
@@ -323,8 +342,6 @@ jQuery ->
 
   $('#characterStatsTable_all').dataTable
     "bJQueryUI": true
-    "bStateSave": true
-    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Name
@@ -369,8 +386,6 @@ jQuery ->
 
   $('#invalidDropsTable').dataTable
     "bJQueryUI": true
-    "bStateSave": true
-    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null, # Character Name
@@ -434,8 +449,6 @@ jQuery ->
 
   $('#playersAttendanceTable').dataTable
     "bJQueryUI": true,
-    "bStateSave": true
-    "iCookieDuration": 600
     "sPaginationType":"full_numbers",
     "aoColumns": [
       null,                   # Name
@@ -453,8 +466,6 @@ jQuery ->
 
   $('#playersTable').dataTable
     "bJQueryUI": true,
-    "bStateSave": true
-    "iCookieDuration": 600
     "sPaginationType":"full_numbers",
     "aoColumns": [
       null,                   # Name
@@ -526,8 +537,6 @@ jQuery ->
 
   $('#charactersTabTable').dataTable
     "bJQueryUI": true
-    "bStateSave": true
-    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       { "sClass": "characterPopupTrigger" }, #  Name
@@ -546,8 +555,6 @@ jQuery ->
 
   $('#dropsTabTable').dataTable
     "bJQueryUI": true
-    "bStateSave": true
-    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aaSorting": [[3,'desc']]
 
@@ -558,8 +565,6 @@ jQuery ->
 
   $('#itemsTabTable').dataTable
     "bJQueryUI": true
-    "bStateSave": true
-    "iCookieDuration": 600
     "sPaginationType": "full_numbers"
     "aoColumns": [
       null, #  Name
@@ -571,8 +576,6 @@ jQuery ->
 
   $('#playersTabTable').dataTable
     "bJQueryUI": true
-    "bStateSave": true
-    "iCookieDuration": 600
     "sPaginationType":"full_numbers"
     "aoColumns": [
       null,                   #  Name
@@ -586,3 +589,19 @@ jQuery ->
       { "sType": "numeric" }  #  Weapon Rate
     ]
     "aaSorting": [[0,'asc']]
+
+hideColumn = (table, iCol) ->
+  if $(table).dataTable.length > 0
+    oTable = $(table).dataTable
+    oTable.fnSetColumnVis iCol, false
+
+showColumn = (table, iCol) ->
+  if $(table).dataTable.length > 0
+    oTable = $(table).dataTable
+    oTable.fnSetColumnVis iCol, true
+
+columnVisible = (table, iCol) ->
+  if $(table).dataTable.length > 0
+    oTable = $(table).dataTable
+    oTable.fnSettings().aoColumns[iCol].bVisible
+

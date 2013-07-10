@@ -1,6 +1,8 @@
 class Player < ActiveRecord::Base
   include PointsCalculationHelper
 
+  before_save :recalculate
+
   belongs_to :rank, :inverse_of => :players, :touch => true
 
   has_many :characters, :inverse_of => :player, dependent: :destroy
@@ -65,6 +67,10 @@ class Player < ActiveRecord::Base
       characters.build
     end
     self
+  end
+
+  def recalculate
+    recalculate_loot_rates(self.raids_count)
   end
 
   def to_xml(options = {})

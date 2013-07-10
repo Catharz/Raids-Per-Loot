@@ -160,11 +160,11 @@ class CharactersController < ApplicationController
       if @character.update_attributes(params[:character])
         format.html { redirect_to @character, notice: 'Character was successfully updated.' }
         format.json { render :json => @character.to_json(methods: [:archetype_name, :main_character, :archetype_root,
-                                                                   :player_name, :first_raid_date, :last_raid_date,
-                                                                   :armour_rate, :jewellery_rate, :weapon_rate]), :notice => 'Character was successfully updated.' }
+                                                                   :player_name, :first_raid_date, :last_raid_date]),
+                             :notice => 'Character was successfully updated.' }
         format.xml { head :ok }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @character.errors, status: :unprocessable_entity }
         format.xml { render xml: @character.errors, status: :unprocessable_entity }
       end

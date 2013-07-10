@@ -22,6 +22,7 @@ class Drop < ActiveRecord::Base
   delegate :name, to: :mob, prefix: :mob
   delegate :name, to: :item, prefix: :item
   delegate :eq2_item_id, to: :item
+  delegate :player, to: :character, allow_nil: true
   delegate :name, to: :character, prefix: :character, allow_nil: true
   delegate :name, to: :loot_type, prefix: :loot_type, allow_nil: true
   delegate :archetype_name, to: :character, prefix: :character, allow_nil: true

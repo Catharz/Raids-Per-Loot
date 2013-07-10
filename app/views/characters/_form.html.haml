@@ -18,5 +18,23 @@
   .field
     %strong Character Type:
     = char_type_select(f, :char_type)
+  .field
+    %strong Armour:
+    = f.number_field :armour_count
+  .field
+    %strong Weapons:
+    = f.number_field :weapons_count
+  .field
+    %strong Jewellery:
+    = f.number_field :jewellery_count
+  .field
+    %strong Adornments:
+    = f.number_field :adornments_count
+  .field
+    %strong Dislodgers:
+    = f.number_field :dislodgers_count
+  .field
+    %strong Mounts:
+    = f.number_field :mounts_count, class: 'numeric'
   .actions
-    = f.submit 'Create', :id => "btnCreate"
+    = f.submit 'Create', :id => 'btnCreate'

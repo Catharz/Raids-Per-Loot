@@ -21,17 +21,4 @@ describe "players/edit.html.haml" do
       assert_select "input#player_name", :name => "player[name]"
     end
   end
-
-  it "should list all the players characters" do
-    render
-
-    assert_select "form" do
-      assert_select "input#player_characters_attributes_0_name",
-                    :name => "player[characters_attributes][0][name]",
-                    :value => "Character 1"
-      assert_select "input#player_characters_attributes_1_name",
-                    :name => "player[characters_attributes][1][name]",
-                    :value => "Character 2"
-    end
-  end
 end

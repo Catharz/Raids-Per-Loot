@@ -4,7 +4,7 @@
     %li= link_to 'Raid Alts', '#raid_alts'
 
   #raid_mains
-    = render 'character_loot', :'@characters' => @characters.select { |c| c.char_type.eql? 'm' }
+    = render 'loot_tab', :'@characters' => @characters, :'@char_type' => 'm'
 
   #raid_alts
-    = render 'character_loot', :'@characters' => @characters.select { |c| c.char_type.eql? 'r' }
+    = render 'loot_tab', :'@characters' => @characters, :'@char_type' => 'r'

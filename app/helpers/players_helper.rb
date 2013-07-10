@@ -2,15 +2,15 @@ module PlayersHelper
   def player_row_data(player = self)
     {
 
-        raids: player.raid_count({}, false),
-        instances: player.instance_count,
-        armour: player.armour_item_count,
-        jewellery: player.jewellery_item_count,
-        weapons: player.weapon_item_count,
-        attuned: player.armour_item_count + player.jewellery_item_count + player.weapon_item_count,
-        adornment: player.adornment_item_count,
-        dislodgers: player.dislodger_item_count,
-        mounts: player.mount_item_count,
+        raids: player.raids_count,
+        instances: player.instances_count,
+        armour: player.armour_count,
+        jewellery: player.jewellery_count,
+        weapons: player.weapons_count,
+        attuned: player.armour_count + player.jewellery_count + player.weapons_count,
+        adornment: player.adornments_count,
+        dislodgers: player.dislodgers_count,
+        mounts: player.mounts_count,
         player_id: player.id
     }
   end

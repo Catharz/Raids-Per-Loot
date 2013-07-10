@@ -14,7 +14,7 @@
   %tbody
     - @players.each do |player|
       - cache player do
-        %tr{data: player_row_data(player)}
+        %tr{id: "player_#{player.id}", data: player_row_data(player)}
           %td= player.name
           %td= player.rank_name
           %td= player.first_raid_date
@@ -22,10 +22,10 @@
           %td.playerLootRateTrigger{id: player.id}= player.armour_rate
           %td.playerLootRateTrigger{id: player.id}= player.jewellery_rate
           %td.playerLootRateTrigger{id: player.id}= player.weapon_rate
-          %td= link_to 'Show', player, class: 'table-button'
-          %td= link_to 'Edit', edit_player_path(player), class: 'table-button'
-          %td= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
+          %td= link_to 'Show', player, class: 'table-button', remote: true
+          %td= link_to 'Edit', edit_player_path(player), class: 'table-button', remote: true
+          %td= link_to 'Destroy', player, :confirm => 'Are you sure?', :method => :delete, class: 'table-button', remote: true
 %br/
-= link_to 'New Player', new_player_path, class: 'button'
+= link_to 'New Player', new_player_path, class: 'button', remote: true
 %nobr
 = link_to 'Download CSV', '/players.csv', class: 'button'

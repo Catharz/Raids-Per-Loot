@@ -1,4 +1,4 @@
-= nested_form_for @player do |f|
+= form_for @player do |f|
   - if @player.errors.any?
     #error_explanation
       %h2
@@ -8,28 +8,16 @@
         - @player.errors.full_messages.each do |msg|
           %li= msg
   .field
-    = f.label :name
-    %br/
+    %strong Name:
     = f.text_field :name
   .field
-    = f.label :rank_id
-    %br/
+    %strong Rank:
     = f.collection_select(:rank_id, Rank.all, :id, :name, :include_blank => true)
-    %br/
-    %br/
-    %strong Characters
-    %br/
-    - @base_archetypes ||= Archetype.base_archetypes
-    = f.fields_for :characters do |character_form|
-      = character_form.text_field :name
-      = character_form.collection_select(:archetype_id, @base_archetypes, :id, :name, :include_blank => true)
-      = character_form.radio_button :char_type, "m"
-      = character_form.label "Main"
-      = character_form.radio_button :char_type, "r"
-      = character_form.label "Raid Alternate"
-      = character_form.radio_button :char_type, "g"
-      = character_form.label "General Alternate"
-      = character_form.link_to_remove "Remove"
-    = f.link_to_add "Add", :characters
+  .field
+    %strong Raids:
+    = f.number_field :raids_count
+  .field
+    %strong Instances:
+    = f.number_field :instances_count
   .actions
-  = f.submit
+    = f.submit 'Create', :id => 'btnCreate'

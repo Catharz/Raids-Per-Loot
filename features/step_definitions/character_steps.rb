@@ -22,11 +22,11 @@ Given /^the following characters:$/ do |characters|
     player.rank = Rank.find_or_create_by_name('Main')
     player.save
 
-    character = Character.find_or_initialize_by_name(char[:name])
-    character.player_id = player.id
-    character.char_type = char[:char_type]
-    character.save
+    char.delete 'player'
+    char['player_id'] = player.id
+    char['char_type'] ||= 'm'
   end
+  Character.create!(characters.hashes)
 end
 
 When /^I delete the (\d+)(?:st|nd|rd|th) character$/ do |pos|

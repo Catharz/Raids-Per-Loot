@@ -6,15 +6,16 @@ module PointsCalculationHelper
     raid_count(range).to_f / Raid.for_period(range).count.to_f * 100.00
   end
 
-  def recalculate_loot_rates
-    self.armour_rate = loot_rate('Armour')
-    self.jewellery_rate = loot_rate('Jewellery')
-    self.weapon_rate = loot_rate('Weapon')
-    self.attuned_rate = loot_rate('Attuned')
-    self.adornment_rate = loot_rate('Adornment')
-    self.dislodger_rate = loot_rate('Dislodger')
-    self.mount_rate = loot_rate('Mount')
-    self.save
+  def recalculate_loot_rates(raids_attended)
+    return if @inside_callback
+    @inside_callback = true
+    self.armour_rate = calculate_loot_rate(raids_attended, self.armour_count)
+    self.jewellery_rate = calculate_loot_rate(raids_attended, self.jewellery_count)
+    self.weapon_rate = calculate_loot_rate(raids_attended, self.weapons_count)
+    self.attuned_rate = calculate_loot_rate(raids_attended, self.armour_count + self.jewellery_count + self.weapons_count)
+    self.adornment_rate = calculate_loot_rate(raids_attended, self.adornments_count)
+    self.dislodger_rate = calculate_loot_rate(raids_attended, self.dislodgers_count)
+    self.mount_rate = calculate_loot_rate(raids_attended, self.mounts_count)
   end
 
   def raid_count(range = {start:  nil, end: nil}, aggregate_up = true)
@@ -25,49 +26,6 @@ module PointsCalculationHelper
       self.raids.for_period(range).uniq.count +
           self.adjustments.for_period(range).by_adjustment_type('Raids').sum(:amount)
     end
-  end
-
-  def instance_count
-    self.instances.count +
-        self.adjustments.by_adjustment_type("Instances").sum(:amount)
-  end
-
-  def item_count(loot_type)
-    self.items.of_type(loot_type).count +
-        self.adjustments.by_adjustment_type(loot_type).sum(:amount)
-  end
-
-  def armour_item_count
-    self.item_count('Armour')
-  end
-
-  def jewellery_item_count
-    self.item_count('Jewellery')
-  end
-
-  def weapon_item_count
-    self.item_count('Weapon')
-  end
-
-  def adornment_item_count
-    self.item_count('Adornment')
-  end
-
-  def dislodger_item_count
-    self.item_count('Dislodger')
-  end
-
-  def mount_item_count
-    self.item_count('Mount')
-  end
-
-  def loot_rate(loot_type, count_player = true)
-    if loot_type == 'Attuned'
-      items_count = item_count('Armour') + item_count('Jewellery') + item_count('Weapons')
-    else
-      items_count = item_count(loot_type)
-    end
-    calculate_loot_rate(raid_count({}, count_player), items_count)
   end
 
   def calculate_loot_rate(event_count, item_count)

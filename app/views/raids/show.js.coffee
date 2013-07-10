@@ -19,7 +19,6 @@ $("#popup").dialog
       "aaSorting": [[2,'desc']]
     $('#playersTabTable').dataTable
       "bJQueryUI": true
-      "bStateSave": true
       "sPaginationType":"full_numbers"
       "aoColumns": [
         null,                   #  Name
@@ -35,7 +34,6 @@ $("#popup").dialog
       "aaSorting": [[0,'asc']]
     $('#charactersTabTable').dataTable
       "bJQueryUI": true
-      "bStateSave": true
       "sPaginationType":"full_numbers"
       "aoColumns": [
         null,                   #  Name
@@ -53,7 +51,6 @@ $("#popup").dialog
       ]
     $('#dropsTabTable').dataTable
       "bJQueryUI": true
-      "bStateSave": true
       "sPaginationType":"full_numbers"
       "aaSorting": [[3,'desc']]
     $(".actions").empty()

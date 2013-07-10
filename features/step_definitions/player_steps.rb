@@ -82,3 +82,11 @@ When /^I view the players page for (.+)$/ do |player_name|
   player = Player.find_by_name(player_name)
   visit player_path player
 end
+
+When(/^I enter (.*) as the player's name$/) do |player_name|
+  fill_in 'player_name', with: player_name
+end
+
+When(/^I select (.*) as the player's rank$/) do |rank_name|
+  select rank_name, from: 'player_rank_id'
+end

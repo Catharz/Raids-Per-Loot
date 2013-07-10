@@ -6,7 +6,6 @@ class DropObserver < ActiveRecord::Observer
   end
 
   def after_save(drop)
-    Resque.enqueue(DropPostProcessor, drop.id)
     Resque.enqueue(SonyItemUpdater, drop.item.id) if drop.item
   end
 end

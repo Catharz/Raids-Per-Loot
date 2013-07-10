@@ -1,11 +1,27 @@
-redrawTable = (char_type) ->
-  oTable = $("#charactersTable_#{char_type}").dataTable()
-  oTable.fnDraw()
+redrawTable = (character) ->
+  if $("#charactersTable_#{character.char_type}").dataTable().length > 0
+    oTable = $("#charactersTable_#{character.char_type}").dataTable()
+    oTable.fnDraw()
+  if $("#charactersLootTable_#{character.char_type}").dataTable().length > 0
+    oTable = $("#charactersLootTable_#{character.char_type}").dataTable()
+    aPos = oTable.fnGetPosition( document.getElementById("character_#{character.id}_#{character.char_type}") )
+    oTable.fnUpdate(character.player_name, aPos, 0)
+    oTable.fnUpdate(character.name, aPos, 1)
+    oTable.fnUpdate(character.archetype_name, aPos, 2)
+    oTable.fnUpdate(character.archetype_root, aPos, 3)
+    oTable.fnUpdate(character.armour_rate, aPos, 4)
+    oTable.fnUpdate(character.weapon_rate, aPos, 5)
+    oTable.fnUpdate(character.jewellery_rate, aPos, 6)
+    oTable.fnUpdate(character.attuned_rate, aPos, 7)
+    oTable.fnUpdate(character.adornment_rate, aPos, 8)
+    oTable.fnUpdate(character.dislodger_rate, aPos, 9)
+    oTable.fnUpdate(character.mount_rate, aPos, 10)
+    oTable.fnDraw()
 
 $("#popup").dialog
   autoOpen: true
-  width: 350
-  height: 250
+  width: 450
+  height: 470
   modal: true
   resizable: false
   title: 'Edit Character'
@@ -14,9 +30,8 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/characters/<%= @character.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        console.log xhr.status
         if (xhr.status == 200)
-          redrawTable(data.character.char_type)
+          redrawTable(data.character)
           redrawTable('all')
           $("#notice").empty().append("Character was successfully updated.")
           $("#popup").dialog "close"
