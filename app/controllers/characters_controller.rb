@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
-  before_filter :login_required, :except => [:index, :show, :info, :statistics, :attendance]
+  before_filter :login_required, :except => [:index, :show, :info, :statistics, :attendance, :loot]
   before_filter :set_pagetitle
 
   caches_action :statistics
