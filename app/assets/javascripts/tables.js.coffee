@@ -254,9 +254,9 @@ jQuery ->
     {"sType": "numeric", "sClass": "numeric" }, # Weapon Rate
     {"sType": "numeric", "sClass": "numeric" }, # Jewellery Rate
     {"sType": "numeric", "sClass": "numeric" }, # Attuned Rate
-    {"sType": "numeric", "sClass": "numeric" }, # Adornment Rate
-    {"sType": "numeric", "sClass": "numeric" }, # dislodger Rate
-    {"sType": "numeric", "sClass": "numeric" }, # Mount Rate
+    {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # Adornment Rate
+    {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # dislodger Rate
+    {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # Mount Rate
     null, # Update button
     null, # Edit Character button
     null # Edit Player button
@@ -277,9 +277,9 @@ jQuery ->
     {"sType": "numeric", "sClass": "numeric" }, # Weapon Rate
     {"sType": "numeric", "sClass": "numeric" }, # Jewellery Rate
     {"sType": "numeric", "sClass": "numeric" }, # Attuned Rate
-    {"sType": "numeric", "sClass": "numeric" }, # Adornment Rate
-    {"sType": "numeric", "sClass": "numeric" }, # dislodger Rate
-    {"sType": "numeric", "sClass": "numeric" }, # Mount Rate
+    {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # Adornment Rate
+    {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # dislodger Rate
+    {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # Mount Rate
       null, # Update button
       null, # Edit Character button
       null # Edit Player button
@@ -589,19 +589,3 @@ jQuery ->
       { "sType": "numeric" }  #  Weapon Rate
     ]
     "aaSorting": [[0,'asc']]
-
-hideColumn = (table, iCol) ->
-  if $(table).dataTable.length > 0
-    oTable = $(table).dataTable
-    oTable.fnSetColumnVis iCol, false
-
-showColumn = (table, iCol) ->
-  if $(table).dataTable.length > 0
-    oTable = $(table).dataTable
-    oTable.fnSetColumnVis iCol, true
-
-columnVisible = (table, iCol) ->
-  if $(table).dataTable.length > 0
-    oTable = $(table).dataTable
-    oTable.fnSettings().aoColumns[iCol].bVisible
-

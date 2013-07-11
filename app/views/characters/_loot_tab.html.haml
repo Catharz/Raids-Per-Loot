@@ -1,3 +1,15 @@
+.button-set
+  = show_hide_button 'Player', '0', "charactersLootTable_#{@char_type}", true
+  = show_hide_button 'Character', '1', "charactersLootTable_#{@char_type}", true
+  = show_hide_button 'Class', '2', "charactersLootTable_#{@char_type}", true
+  = show_hide_button 'Base Class', '3', "charactersLootTable_#{@char_type}", false
+  = show_hide_button 'Armour', '4', "charactersLootTable_#{@char_type}", true
+  = show_hide_button 'Weapons', '5', "charactersLootTable_#{@char_type}", true
+  = show_hide_button 'Jewellery', '6', "charactersLootTable_#{@char_type}", true
+  = show_hide_button 'Average', '7', "charactersLootTable_#{@char_type}", true
+  = show_hide_button 'Adornments', '8', "charactersLootTable_#{@char_type}", false
+  = show_hide_button 'Dislodgers', '9', "charactersLootTable_#{@char_type}", false
+  = show_hide_button 'Mounts', '10', "charactersLootTable_#{@char_type}", false
 %table{:id => "charactersLootTable_#{@char_type}"}
   %thead
     %tr
@@ -8,7 +20,7 @@
       %th Armour
       %th Weapon
       %th Jewellery
-      %th Attuned
+      %th Average
       %th Adornments
       %th Dislodgers
       %th Mounts

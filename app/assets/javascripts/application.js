@@ -18,3 +18,17 @@
 //= require popup
 //= require tables
 //= require tabs
+
+function hideShowColumn( button, table, iCol )
+{
+    var oTable = $(table).dataTable();
+    var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
+    oTable.fnSetColumnVis( iCol, bVis ? false : true );
+    var buttonText = $(button).text();
+    if (bVis) {
+        buttonText = buttonText.replace(/Hide (.*)/, "Show \$1");
+    } else {
+        buttonText = buttonText.replace(/Show (.*)/, "Hide \$1");
+    }
+    $(button).button('option', 'label', buttonText);
+}
