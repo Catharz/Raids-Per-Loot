@@ -6,6 +6,8 @@ class Character < ActiveRecord::Base
   include ActionView::Helpers::UrlHelper
   delegate :url_helpers, to: 'Rails.application.routes'
 
+  before_save :update_loot_rates
+
   belongs_to :player, :inverse_of => :characters, :touch => true
   accepts_nested_attributes_for :player, reject_if: :all_blank, update_only: true
 
@@ -36,6 +38,7 @@ class Character < ActiveRecord::Base
   validates_format_of :char_type, :with => /g|m|r/ # General Alt, Main, Raid Alt
 
   delegate :name, to: :player, prefix: :player, allow_nil: true
+  delegate :raids_count, to: :player, prefix: :player, allow_nil: true
   delegate :name, to: :archetype, prefix: :archetype, allow_nil: true
   delegate :name, to: :current_main, prefix: :current_main, allow_nil: true
   delegate :name, to: :current_raid_alternate, prefix: :current_raid_alternate, allow_nil: true
@@ -105,6 +108,11 @@ class Character < ActiveRecord::Base
 
   def rank_at_time(time)
     character_types.where('character_types.effective_date <= ?', time).order(:effective_date).last.char_type
+  end
+
+  # This is done from the player, as it will update all the characters using update_column
+  def update_loot_rates
+    recalculate_loot_rates(player_raids_count)
   end
 
   def to_csv

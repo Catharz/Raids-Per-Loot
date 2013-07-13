@@ -1,10 +1,6 @@
 class CharacterObserver < ActiveRecord::Observer
   observe :character
 
-  def before_save(character)
-    character.recalculate_loot_rates(character.player.raids_count) if character.player
-  end
-
   def after_create(character)
     save_new_char_type character
     Resque.enqueue(SonyCharacterUpdater, character.id)

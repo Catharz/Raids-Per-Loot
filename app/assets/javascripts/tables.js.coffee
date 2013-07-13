@@ -243,7 +243,7 @@ jQuery ->
   $('#charactersLootTable_m').dataTable
     "bJQueryUI": true
     "bPaginate": false
-    "sScrollY": "200px"
+    "sScrollY": ($(window).height() - 400)
     "sScrollX": "200px"
     "aoColumns": [
       null, # Player
@@ -266,7 +266,7 @@ jQuery ->
   $('#charactersLootTable_r').dataTable
     "bJQueryUI": true
     "bPaginate": false
-    "sScrollY": "200px"
+    "sScrollY": ($(window).height() - 400)
     "sScrollX": "200px"
     "aoColumns": [
       null, # Player

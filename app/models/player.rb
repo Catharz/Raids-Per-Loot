@@ -1,7 +1,7 @@
 class Player < ActiveRecord::Base
   include PointsCalculationHelper
 
-  before_save :recalculate
+  before_save :update_loot_rates
 
   belongs_to :rank, :inverse_of => :players, :touch => true
 
@@ -69,8 +69,21 @@ class Player < ActiveRecord::Base
     self
   end
 
-  def recalculate
-    recalculate_loot_rates(self.raids_count)
+  def update_loot_rates
+    totals = characters.select(
+        'sum(armour_count) as armour, ' +
+            'sum(weapons_count) as weapons, ' +
+            'sum(jewellery_count) as jewellery, ' +
+            'sum(adornments_count) as adornments, ' +
+            'sum(dislodgers_count) as dislodgers, ' +
+            'sum(mounts_count) as mounts').first.attributes.with_indifferent_access
+    self.armour_count = totals[:armour].to_i
+    self.weapons_count = totals[:weapons].to_i
+    self.jewellery_count = totals[:jewellery].to_i
+    self.adornments_count = totals[:adornments].to_i
+    self.dislodgers_count = totals[:dislodgers].to_i
+    self.mounts_count = totals[:mounts].to_i
+    recalculate_loot_rates(raids_count)
   end
 
   def to_xml(options = {})

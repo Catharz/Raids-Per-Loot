@@ -6,7 +6,7 @@ module PointsCalculationHelper
     raid_count(range).to_f / Raid.for_period(range).count.to_f * 100.00
   end
 
-  def recalculate_loot_rates(raids_attended)
+  def recalculate_loot_rates(raids_attended = 0)
     return if @inside_callback
     @inside_callback = true
     self.armour_rate = calculate_loot_rate(raids_attended, self.armour_count)
@@ -29,6 +29,7 @@ module PointsCalculationHelper
   end
 
   def calculate_loot_rate(event_count, item_count)
+    return 0 if event_count.nil? or item_count.nil?
     (Float(event_count) / (Float(item_count) + 1.0) * 100.00).round / 100.00
   end
 
