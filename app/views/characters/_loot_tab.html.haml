@@ -4,8 +4,8 @@
   = show_hide_button 'Class', '2', "charactersLootTable_#{@char_type}", true
   = show_hide_button 'Base Class', '3', "charactersLootTable_#{@char_type}", false
   = show_hide_button 'Armour', '4', "charactersLootTable_#{@char_type}", true
-  = show_hide_button 'Weapons', '5', "charactersLootTable_#{@char_type}", true
   = show_hide_button 'Jewellery', '6', "charactersLootTable_#{@char_type}", true
+  = show_hide_button 'Weapons', '5', "charactersLootTable_#{@char_type}", true
   = show_hide_button 'Average', '7', "charactersLootTable_#{@char_type}", true
   = show_hide_button 'Adornments', '8', "charactersLootTable_#{@char_type}", false
   = show_hide_button 'Dislodgers', '9', "charactersLootTable_#{@char_type}", false
@@ -18,8 +18,8 @@
       %th Class
       %th Base Class
       %th Armour
-      %th Weapon
       %th Jewellery
+      %th Weapon
       %th Average
       %th Adornments
       %th Dislodgers
@@ -36,8 +36,8 @@
           %td= character.archetype_name
           %td= character.archetype_root
           %td.lootRateTrigger= number_with_precision(character.armour_rate, :precision => 2)
-          %td.lootRateTrigger= number_with_precision(character.weapon_rate, :precision => 2)
           %td.lootRateTrigger= number_with_precision(character.jewellery_rate, :precision => 2)
+          %td.lootRateTrigger= number_with_precision(character.weapon_rate, :precision => 2)
           %td.lootRateTrigger= number_with_precision(character.attuned_rate, :precision => 2)
           %td.lootRateTrigger= number_with_precision(character.adornment_rate, :precision => 2)
           %td.lootRateTrigger= number_with_precision(character.dislodger_rate, :precision => 2)

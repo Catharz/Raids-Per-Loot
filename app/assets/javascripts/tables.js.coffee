@@ -251,8 +251,8 @@ jQuery ->
       null, # Class
     {"bSearchable": true, "bVisible": false},  # Base Class
     {"sType": "numeric", "sClass": "numeric" }, # Armour Rate
-    {"sType": "numeric", "sClass": "numeric" }, # Weapon Rate
     {"sType": "numeric", "sClass": "numeric" }, # Jewellery Rate
+    {"sType": "numeric", "sClass": "numeric" }, # Weapon Rate
     {"sType": "numeric", "sClass": "numeric" }, # Attuned Rate
     {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # Adornment Rate
     {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # dislodger Rate
@@ -274,8 +274,8 @@ jQuery ->
       null, # Class
     {"bSearchable": true, "bVisible": false},  # Base Class
     {"sType": "numeric", "sClass": "numeric" }, # Armour Rate
-    {"sType": "numeric", "sClass": "numeric" }, # Weapon Rate
     {"sType": "numeric", "sClass": "numeric" }, # Jewellery Rate
+    {"sType": "numeric", "sClass": "numeric" }, # Weapon Rate
     {"sType": "numeric", "sClass": "numeric" }, # Attuned Rate
     {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # Adornment Rate
     {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # dislodger Rate
