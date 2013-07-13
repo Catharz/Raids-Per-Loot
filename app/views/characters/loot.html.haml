@@ -1,3 +1,38 @@
+:coffeescript
+  jQuery ->
+    $.fn.dataTableExt.afnFiltering.push (oSettings, aData, iDataIndex) ->
+        checked = false
+        switch aData[3]
+          when "Fighter"
+            checked = $("#fighter").is(":checked")
+          when "Scout"
+            checked = $("#scout").is(":checked")
+          when "Mage"
+            checked = $("#mage").is(":checked")
+          when "Priest"
+            checked = $("#priest").is(":checked")
+          else
+            checked = true
+        checked
+
+      mainsTable = $("#charactersLootTable_m").dataTable()
+      $(".archetype").on "click", (e) ->
+        mainsTable.fnDraw()
+
+      altsTable = $("#charactersLootTable_r").dataTable()
+      $(".archetype").on "click", (e) ->
+        altsTable.fnDraw()
+
+#archetype_selection
+  Fighter
+  = check_box_tag 'fighter', 'fighter', 'checked', class: 'archetype'
+  Scout
+  = check_box_tag 'scout', 'scout', 'checked', class: 'archetype'
+  Mage
+  = check_box_tag 'mage', 'mage', 'checked', class: 'archetype'
+  Priest
+  = check_box_tag 'priest', 'priest', 'checked', class: 'archetype'
+
 #tabBook
   %ul
     %li= link_to 'Raid Mains', '#raid_mains'
