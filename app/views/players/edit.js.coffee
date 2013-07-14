@@ -43,9 +43,11 @@ $('#popup').dialog
               if (xhr.status == 200)
                 updateCharacter(data.character)
           if $('#charactersLootTable_r').dataTable().length > 0
-            $.post "/characters/#{data.player.current_raid_alternate.character.id}.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-              if (xhr.status == 200)
-                updateCharacter(data.character)
+            debugger;
+            unless data.player.current_raid_alternate == null
+              $.post "/characters/#{data.player.current_raid_alternate.character.id}.json", $("#popup form").serializeArray(), (data, text, xhr) ->
+                if (xhr.status == 200)
+                  updateCharacter(data.character)
           $('#notice').empty().append('Player was successfully updated.')
           $('#popup').dialog 'close'
   open: ->
