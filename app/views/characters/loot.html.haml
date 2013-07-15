@@ -34,6 +34,7 @@
       $(".activity").on "click", (e) ->
         altsTable.fnDraw()
 
+.clear
 .toolbar
   .left
     Active
@@ -52,7 +53,7 @@
     = check_box_tag 'mage', 'mage', 'checked', class: 'archetype'
     Priests
     = check_box_tag 'priest', 'priest', 'checked', class: 'archetype'
-
+.clear
 #tabBook
   %ul
     %li= link_to 'Raid Mains', '#raid_mains'
