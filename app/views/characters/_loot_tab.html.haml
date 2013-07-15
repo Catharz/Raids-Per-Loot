@@ -1,19 +1,21 @@
 .button-set
   = show_hide_button 'Player', '0', "charactersLootTable_#{@char_type}", true
-  = show_hide_button 'Character', '1', "charactersLootTable_#{@char_type}", true
-  = show_hide_button 'Class', '2', "charactersLootTable_#{@char_type}", true
-  = show_hide_button 'Base Class', '3', "charactersLootTable_#{@char_type}", false
-  = show_hide_button 'Armour', '4', "charactersLootTable_#{@char_type}", true
+  = show_hide_button 'Active', '1', "charactersLootTable_#{@char_type}", false
+  = show_hide_button 'Character', '2', "charactersLootTable_#{@char_type}", true
+  = show_hide_button 'Class', '3', "charactersLootTable_#{@char_type}", true
+  = show_hide_button 'Base Class', '4', "charactersLootTable_#{@char_type}", false
+  = show_hide_button 'Armour', '5', "charactersLootTable_#{@char_type}", true
   = show_hide_button 'Jewellery', '6', "charactersLootTable_#{@char_type}", true
-  = show_hide_button 'Weapons', '5', "charactersLootTable_#{@char_type}", true
-  = show_hide_button 'Average', '7', "charactersLootTable_#{@char_type}", true
-  = show_hide_button 'Adornments', '8', "charactersLootTable_#{@char_type}", false
-  = show_hide_button 'Dislodgers', '9', "charactersLootTable_#{@char_type}", false
-  = show_hide_button 'Mounts', '10', "charactersLootTable_#{@char_type}", false
+  = show_hide_button 'Weapons', '7', "charactersLootTable_#{@char_type}", true
+  = show_hide_button 'Average', '8', "charactersLootTable_#{@char_type}", true
+  = show_hide_button 'Adornments', '9', "charactersLootTable_#{@char_type}", false
+  = show_hide_button 'Dislodgers', '10', "charactersLootTable_#{@char_type}", false
+  = show_hide_button 'Mounts', '11', "charactersLootTable_#{@char_type}", false
 %table{:id => "charactersLootTable_#{@char_type}"}
   %thead
     %tr
       %th Player
+      %th Active
       %th Character
       %th Class
       %th Base Class
@@ -32,6 +34,7 @@
       - if character.char_type.eql? @char_type
         %tr{id: "character_#{character.id}_#{character.char_type}", data: character.character_row_data }
           %td= character.player_name
+          %td= character.active ? 'Yes' : 'No'
           %td{:class => "#{character.overall_rating} characterPopupTrigger"}= character.name
           %td= character.archetype_name
           %td= character.archetype_root

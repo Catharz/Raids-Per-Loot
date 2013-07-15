@@ -6,5 +6,6 @@ FactoryGirl.define do
   factory :player do |f|
     f.name { generate(:player_name) }
     f.rank { |a| a.association(:rank) }
+    f.active true
   end
 end

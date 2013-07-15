@@ -1,37 +1,57 @@
 :coffeescript
   jQuery ->
     $.fn.dataTableExt.afnFiltering.push (oSettings, aData, iDataIndex) ->
-        checked = false
-        switch aData[3]
+        visible = false
+        switch aData[4]
           when "Fighter"
-            checked = $("#fighter").is(":checked")
+            visible = $("#fighter").is(":checked")
           when "Scout"
-            checked = $("#scout").is(":checked")
+            visible = $("#scout").is(":checked")
           when "Mage"
-            checked = $("#mage").is(":checked")
+            visible = $("#mage").is(":checked")
           when "Priest"
-            checked = $("#priest").is(":checked")
+            visible = $("#priest").is(":checked")
           else
-            checked = true
-        checked
+            visible = true
+
+        if visible
+          if !$("#display_all").is(":checked")
+            if $("#display_active").is(":checked")
+              visible = aData[1] == 'Yes'
+            else if $("#display_inactive").is(":checked")
+              visible = aData[1] == 'No'
+        visible
 
       mainsTable = $("#charactersLootTable_m").dataTable()
       $(".archetype").on "click", (e) ->
+        mainsTable.fnDraw()
+      $(".activity").on "click", (e) ->
         mainsTable.fnDraw()
 
       altsTable = $("#charactersLootTable_r").dataTable()
       $(".archetype").on "click", (e) ->
         altsTable.fnDraw()
+      $(".activity").on "click", (e) ->
+        altsTable.fnDraw()
 
-#archetype_selection
-  Fighter
-  = check_box_tag 'fighter', 'fighter', 'checked', class: 'archetype'
-  Scout
-  = check_box_tag 'scout', 'scout', 'checked', class: 'archetype'
-  Mage
-  = check_box_tag 'mage', 'mage', 'checked', class: 'archetype'
-  Priest
-  = check_box_tag 'priest', 'priest', 'checked', class: 'archetype'
+.toolbar
+  .left
+    Active
+    = radio_button_tag 'display', 'active', true, class: 'activity'
+    Inactive
+    = radio_button_tag 'display', 'inactive', false, class: 'activity'
+    All
+    = radio_button_tag 'display', 'all', false, class: 'activity'
+
+  .right
+    Fighters
+    = check_box_tag 'fighter', 'fighter', 'checked', class: 'archetype'
+    Scouts
+    = check_box_tag 'scout', 'scout', 'checked', class: 'archetype'
+    Mages
+    = check_box_tag 'mage', 'mage', 'checked', class: 'archetype'
+    Priests
+    = check_box_tag 'priest', 'priest', 'checked', class: 'archetype'
 
 #tabBook
   %ul

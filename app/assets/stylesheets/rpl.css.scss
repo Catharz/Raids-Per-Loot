@@ -175,6 +175,16 @@ select#instance_character_ids {
   text-align: center !important;
 }
 
+.toolbar {
+  overflow: auto;
+  .left {
+    float: left;
+  }
+  .right {
+    float: right;
+  }
+}
+
 .stats-left {
   float: left;
   width: 120px;

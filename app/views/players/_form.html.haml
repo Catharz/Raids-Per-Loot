@@ -19,5 +19,8 @@
   .field
     %strong Instances:
     = f.number_field :instances_count
+  .field
+    %strong Active:
+    = f.check_box :active
   .actions
     = f.submit 'Create', :id => 'btnCreate'

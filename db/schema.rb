@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130707020502) do
+ActiveRecord::Schema.define(:version => 20130714214939) do
 
   create_table "adjustments", :force => true do |t|
     t.date     "adjustment_date"
@@ -273,6 +273,7 @@ ActiveRecord::Schema.define(:version => 20130707020502) do
     t.float    "dislodger_rate",   :default => 0.0
     t.float    "mount_rate",       :default => 0.0
     t.float    "attuned_rate",     :default => 0.0
+    t.boolean  "active",           :default => true
   end
 
   add_index "players", ["rank_id"], :name => "index_players_on_rank_id"

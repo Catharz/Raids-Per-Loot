@@ -118,49 +118,13 @@ describe CharactersController do
 
   describe 'GET #loot' do
     it 'sorts the characters by name' do
-      character1 = FactoryGirl.create(:character, :name => 'Character C')
-      character2 = FactoryGirl.create(:character, :name => 'Character B')
-      character3 = FactoryGirl.create(:character, :name => 'Character A')
-
-      last_raid = FactoryGirl.create(:raid, raid_date: 1.month.ago.to_date)
-      FactoryGirl.create(:player_raid, player: character1.player, raid: last_raid)
-      FactoryGirl.create(:player_raid, player: character2.player, raid: last_raid)
-      FactoryGirl.create(:player_raid, player: character3.player, raid: last_raid)
+      active_player = FactoryGirl.create(:player, active: true)
+      inactive_player = FactoryGirl.create(:player, active: false)
+      character1 = FactoryGirl.create(:character, :name => 'Character C', player: active_player)
+      character2 = FactoryGirl.create(:character, :name => 'Character B', player: inactive_player)
+      character3 = FactoryGirl.create(:character, :name => 'Character A', player: active_player)
 
       get :loot
-
-      assigns(:characters).should eq([character3, character2, character1])
-    end
-
-    it 'normally lists characters who have raided in the last 3 months' do
-      character1 = FactoryGirl.create(:character, :name => 'Character C')
-      character2 = FactoryGirl.create(:character, :name => 'Character B')
-      character3 = FactoryGirl.create(:character, :name => 'Character A')
-
-      last_raid = FactoryGirl.create(:raid, raid_date: 1.month.ago.to_date)
-      prior_raid = FactoryGirl.create(:raid, raid_date: 6.months.ago.to_date)
-      FactoryGirl.create(:player_raid, player: character1.player, raid: last_raid)
-      FactoryGirl.create(:player_raid, player: character2.player, raid: prior_raid)
-      FactoryGirl.create(:player_raid, player: character3.player, raid: last_raid)
-
-      get :loot
-
-      assigns(:characters).should eq([character3, character1])
-    end
-
-
-    it 'lists all characters if requested' do
-      character1 = FactoryGirl.create(:character, :name => 'Character C')
-      character2 = FactoryGirl.create(:character, :name => 'Character B')
-      character3 = FactoryGirl.create(:character, :name => 'Character A')
-
-      last_raid = FactoryGirl.create(:raid, raid_date: 1.month.ago.to_date)
-      prior_raid = FactoryGirl.create(:raid, raid_date: 6.months.ago.to_date)
-      FactoryGirl.create(:player_raid, player: character1.player, raid: last_raid)
-      FactoryGirl.create(:player_raid, player: character2.player, raid: prior_raid)
-      FactoryGirl.create(:player_raid, player: character3.player, raid: last_raid)
-
-      get :loot, show_all: true
 
       assigns(:characters).should eq([character3, character2, character1])
     end

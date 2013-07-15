@@ -247,6 +247,7 @@ jQuery ->
     "sScrollX": "200px"
     "aoColumns": [
       null, # Player
+    {"bSearchable": true, "bVisible": false},  # Active
       null, # Name
       null, # Class
     {"bSearchable": true, "bVisible": false},  # Base Class
@@ -270,6 +271,7 @@ jQuery ->
     "sScrollX": "200px"
     "aoColumns": [
       null, # Player
+    {"bSearchable": true, "bVisible": false},  # Active
       null, # Name
       null, # Class
     {"bSearchable": true, "bVisible": false},  # Base Class

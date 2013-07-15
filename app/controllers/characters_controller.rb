@@ -46,15 +46,10 @@ class CharactersController < ApplicationController
   # GET /characters/loot
   # GET /characters/loot.json
   def loot
-    show_all = params.fetch('show_all', false)
-    @characters = Character.by_instance(params[:instance_id]).where(char_type: %w{m r}).
+    @characters = Character.by_instance(params[:instance_id]).
+        where(char_type: %w{m r}).
         includes(:player, :external_data, :archetype).
         order('characters.name')
-    @characters.reject! do |c|
-      c.player.nil? or
-          c.player.last_raid.nil? or
-          c.player.last_raid.raid_date < 3.months.ago.to_date
-    end unless show_all
   end
 
   def statistics

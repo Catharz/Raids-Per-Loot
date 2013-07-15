@@ -44,6 +44,7 @@ class Character < ActiveRecord::Base
   delegate :name, to: :current_raid_alternate, prefix: :current_raid_alternate, allow_nil: true
   delegate :raid_date, to: :first_raid, prefix: :first, allow_nil: true
   delegate :raid_date, to: :last_raid, prefix: :last, allow_nil: true
+  delegate :active, to: :player
 
   scope :by_name, ->(name) {
     name ? where(:name => name) : scoped
