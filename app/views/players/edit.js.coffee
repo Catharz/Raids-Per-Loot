@@ -10,10 +10,14 @@ updatePlayer = (player) ->
   oTable.fnUpdate(player.weapon_rate.toFixed(2), aPos, 6)
   oTable.fnDraw()
 
+yesNo = (value) ->
+  if value then "Yes" else "No"
+
 updateCharacter = (character) ->
   oTable = $("#charactersLootTable_#{character.char_type}").dataTable()
   aPos = oTable.fnGetPosition( document.getElementById("character_#{character.id}_#{character.char_type}") )
   oTable.fnUpdate(character.player_name, aPos, 0)
+  oTable.fnUpdate(yesNo(character.player_active), aPos, 1)
   oTable.fnUpdate(character.armour_rate.toFixed(2), aPos, 4)
   oTable.fnUpdate(character.jewellery_rate.toFixed(2), aPos, 5)
   oTable.fnUpdate(character.weapon_rate.toFixed(2), aPos, 6)

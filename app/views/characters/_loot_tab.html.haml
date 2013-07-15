@@ -34,7 +34,7 @@
       - if character.char_type.eql? @char_type
         %tr{id: "character_#{character.id}_#{character.char_type}", data: character.character_row_data }
           %td= character.player_name
-          %td= character.active ? 'Yes' : 'No'
+          %td= character.player_active ? 'Yes' : 'No'
           %td{:class => "#{character.overall_rating} characterPopupTrigger"}= character.name
           %td= character.archetype_name
           %td= character.archetype_root
