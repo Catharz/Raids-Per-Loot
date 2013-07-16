@@ -1,5 +1,7 @@
 RaidsPerLoot::Application.routes.draw do
 
+  resources :comments
+
   resources :raid_types
 
   resources :raids do

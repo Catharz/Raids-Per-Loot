@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130714214939) do
+ActiveRecord::Schema.define(:version => 20130715210235) do
 
   create_table "adjustments", :force => true do |t|
     t.date     "adjustment_date"
@@ -89,6 +89,15 @@ ActiveRecord::Schema.define(:version => 20130714214939) do
 
   add_index "characters", ["archetype_id"], :name => "index_characters_on_archetype_id"
   add_index "characters", ["player_id"], :name => "index_characters_on_player_id"
+
+  create_table "comments", :force => true do |t|
+    t.date     "comment_date"
+    t.integer  "commented_id"
+    t.string   "commented_type"
+    t.text     "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0

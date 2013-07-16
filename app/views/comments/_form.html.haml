@@ -1,0 +1,23 @@
+= form_for @comment do |f|
+  -if @comment.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@comment.errors.count, 'error')} prohibited this comment from being saved:"
+      %ul
+        - @comment.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    %strong Commented On:
+    = f.select(:commented_type, %w{Character Player}, :include_blank => true)
+  .field#commented_field
+    %strong= @comment.type_label
+    - unless @comment.commented_entities.empty?
+      = f.collection_select(:commented_id, @comment.commented_entities, :id, :name)
+  .field
+    %strong Comment Date:
+    = f.text_field :comment_date, id: 'datepicker'
+  .field
+    %strong Comment:
+    = f.text_area :comment
+  .actions
+    = f.submit 'Save'

@@ -29,10 +29,6 @@ class AdjustmentsController < ApplicationController
   def new
     @adjustment = Adjustment.new(adjustable_id: params[:adjustable_id], adjustable_type: params[:adjustable_type])
 
-    @list = []
-    @list << eval("#{params[:adjustable_type]}.order(:name)") if params[:adjustment_type].present?
-    @selected = ""
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @adjustment }

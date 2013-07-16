@@ -14,7 +14,8 @@ class Player < ActiveRecord::Base
   has_many :drops, :through => :characters
   has_many :items, :through => :drops, :conditions => ['drops.loot_method = ?', 'n']
 
-  has_many :adjustments, :as => :adjustable
+  has_many :adjustments, as: :adjustable
+  has_many :comments, as: :commented, dependent: :destroy
 
   has_one :current_main, class_name: 'Character', conditions: ['characters.char_type = ?', 'm']
   has_one :current_raid_alternate, class_name: 'Character', conditions: ['characters.char_type = ?', 'r']
@@ -33,9 +34,6 @@ class Player < ActiveRecord::Base
   delegate :name, to: :current_raid_alternate, prefix: :raid_alternate, allow_nil: true
   delegate :name, to: :rank, prefix: :rank, allow_nil: true
 
-  scope :with_name_like, ->(name) {
-    name ? where('players.name LIKE ?', "%#{name}%") : scoped
-  }
   scope :of_rank, ->(rank_id) {
     rank_id ? where(:rank_id => rank_id) : scoped
   }
@@ -60,13 +58,6 @@ class Player < ActiveRecord::Base
     results = characters.eager_load(:character_types).where(['character_types.char_type = ?', char_type])
     results = results.where(['character_types.effective_date <= ?', at_time]) if at_time
     results.order('character_types.effective_date desc')
-  end
-
-  def with_new_characters(n = 1)
-    n.times do
-      characters.build
-    end
-    self
   end
 
   def update_loot_rates

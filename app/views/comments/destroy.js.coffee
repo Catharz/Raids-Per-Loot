@@ -1,0 +1,5 @@
+oTable = $('#commentsTable').dataTable()
+aPos = oTable.fnGetPosition( document.getElementById("comment_<%= @comment.id %>") )
+oTable.fnDeleteRow(aPos)
+oTable.fnDraw()
+$("#notice").empty().append("Comment was successfully deleted.")

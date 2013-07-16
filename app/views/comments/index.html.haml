@@ -1,0 +1,22 @@
+%table#commentsTable
+  %thead
+    %tr
+      %th Type
+      %th For
+      %th Date
+      %th Comment
+      %th
+      %th
+      %th
+  %tbody
+    - @comments.each do |comment|
+      %tr{id: "comment_#{comment.id}"}
+        %td= comment.commented_type
+        %td= comment.commented_name
+        %td= comment.comment_date
+        %td= comment.comment
+        %td= link_to 'Show', comment, remote: true, class: 'table-button'
+        %td= link_to 'Edit', edit_comment_path(comment), remote: true, class: 'table-button'
+        %td= link_to 'Destroy', comment, :confirm => 'Are you sure?', method: :delete, remote: true, class: 'table-button'
+%br
+= link_to 'New Comment', new_comment_path, class: 'button', remote: true

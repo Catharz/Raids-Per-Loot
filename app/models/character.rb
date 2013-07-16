@@ -30,6 +30,7 @@ class Character < ActiveRecord::Base
 
   has_many :adjustments, :as => :adjustable, :dependent => :destroy
   has_one :external_data, :as => :retrievable, :dependent => :destroy
+  has_many :comments, as: :commented, dependent: :destroy
 
   validates_presence_of :name
   validates_presence_of :player, :archetype, :char_type, :on => :update

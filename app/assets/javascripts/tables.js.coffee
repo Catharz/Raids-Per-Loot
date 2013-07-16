@@ -360,6 +360,20 @@ jQuery ->
     ]
     "aaSorting": [[0,'asc']]
 
+  $('#commentsTable').dataTable
+    "bJQueryUI": true
+    "sPaginationType": "full_numbers"
+    "aoColumns": [
+      null, # Type
+      null, # For
+    {"sType": "date"}, # Comment Date
+      null, # Comment
+      null, # Show
+      null, # Edit
+      null  # Destroy
+    ]
+    "aaSorting": [[1,'asc'], [2, 'desc']]
+
   $('#difficultiesTable').dataTable
     "bJQueryUI": true
     "sPaginationType":"full_numbers"
