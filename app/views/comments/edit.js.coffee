@@ -10,6 +10,7 @@ updateComment = (comment) ->
 $("#popup").dialog
   autoOpen: true
   width: 450
+  height: 640
   modal: true
   resizable: false
   title: 'Edit Comment'

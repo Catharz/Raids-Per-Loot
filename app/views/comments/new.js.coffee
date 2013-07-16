@@ -16,7 +16,7 @@ insertComment = (comment) ->
 
 $("#popup").dialog
   autoOpen: true
-  height: 600
+  height: 640
   width: 450
   modal: true
   resizable: false
