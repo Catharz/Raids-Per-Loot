@@ -98,12 +98,12 @@ class ServicesController < ApplicationController
         @authhash[:name] = omniauth['info']['name'] ? omniauth['info']['name'] : ''
         @authhash[:uid] = omniauth['uid'] ? omniauth['uid'] : ''
         @authhash[:provider] = omniauth['provider'] ? omniauth['provider'] : ''
-      elsif ['yahoo', 'twitter', 'myopenid', 'open_id'].index(service_route) != nil
+      elsif ['twitter', 'myopenid', 'open_id'].index(service_route) != nil
         omniauth['user_info']['email'] ? @authhash[:email] =  omniauth['user_info']['email'] : @authhash[:email] = ''
         omniauth['user_info']['name'] ? @authhash[:name] =  omniauth['user_info']['name'] : @authhash[:name] = ''
         omniauth['uid'] ? @authhash[:uid] = omniauth['uid'].to_s : @authhash[:uid] = ''
         omniauth['provider'] ? @authhash[:provider] = omniauth['provider'] : @authhash[:provider] = ''
-      elsif service_route == 'developer'
+      elsif %w{yahoo developer}.include? service_route
         @authhash[:email] = omniauth['info']['email'] ? omniauth['info']['email'] : ''
         @authhash[:name] = omniauth['info']['name'] ? omniauth['info']['name'] : ''
         @authhash[:uid] = omniauth['uid'] ? omniauth['uid'] : ''

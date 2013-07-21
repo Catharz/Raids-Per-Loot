@@ -7,12 +7,12 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   provider :developer unless Rails.env.production?
 
   # providers with id/secret, you need to sign up for their services (see below) and enter the parameters here
-  provider :facebook, 'APP_ID', 'APP_SECRET'
+  #provider :facebook, 'APP_ID', 'APP_SECRET'
   #provider :twitter, 'CONSUMER_KEY', 'CONSUMER_SECRET'
   #provider :github, 'CLIENT ID', 'SECRET'
 
   # generic openid
-  provider :openid, :store => OpenID::Store::Filesystem.new('./tmp'), :name => 'openid'
+  #provider :openid, :store => OpenID::Store::Filesystem.new('./tmp'), :name => 'openid'
 
   # dedicated openid
   provider :openid, :store => OpenID::Store::Filesystem.new('./tmp'), :name => 'google', :identifier => 'https://www.google.com/accounts/o8/id'
@@ -21,7 +21,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 
   provider :openid, :store => OpenID::Store::Filesystem.new('./tmp'), :name => 'yahoo', :identifier => 'yahoo.com'
   #provider :openid, OpenID::Store::Filesystem.new('./tmp'), :name => 'aol', :identifier => 'openid.aol.com'
-  provider :openid, :store => OpenID::Store::Filesystem.new('./tmp'), :name => 'myopenid', :identifier => 'myopenid.com'
+  #provider :openid, :store => OpenID::Store::Filesystem.new('./tmp'), :name => 'myopenid', :identifier => 'myopenid.com'
 
   # Sign-up urls for Facebook, Twitter, and Github
   # https://developers.facebook.com/setup
