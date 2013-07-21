@@ -2,8 +2,13 @@
 #
 # This class handles the calculation of points for characters and players.
 module PointsCalculationHelper
-  def attendance(range = {start:  nil, end: nil})
-    raid_count(range).to_f / Raid.for_period(range).count.to_f * 100.00
+  def attendance_for_period(range = {start:  nil, end: nil}, aggregate_up = true)
+    raid_count(range, aggregate_up).to_f / Raid.for_period(range).count.to_f * 100.00
+  end
+
+  def attendance
+    return 0.00 if Raid.count == 0
+    raids_count.to_f / Raid.count.to_f * 100.00
   end
 
   def recalculate_loot_rates(raids_attended = 0)

@@ -18,9 +18,9 @@
         %td= player.first_raid ? player.first_raid.raid_date : nil
         %td= player.last_raid ? player.last_raid.raid_date : nil
         %td= player.raids_count
-        %td= number_with_precision(player.attendance, precision: 2)
-        %td= number_with_precision(player.attendance(start: 1.year.ago), precision: 2)
-        %td= number_with_precision(player.attendance(start: 9.months.ago), precision: 2)
-        %td= number_with_precision(player.attendance(start: 6.months.ago), precision: 2)
-        %td= number_with_precision(player.attendance(start: 3.months.ago), precision: 2)
-        %td= number_with_precision(player.attendance(start: 1.month.ago), precision: 2)
+        %td= number_with_precision(player.attendance_for_period, precision: 2)
+        %td= number_with_precision(player.attendance_for_period(start: 1.year.ago), precision: 2)
+        %td= number_with_precision(player.attendance_for_period(start: 9.months.ago), precision: 2)
+        %td= number_with_precision(player.attendance_for_period(start: 6.months.ago), precision: 2)
+        %td= number_with_precision(player.attendance_for_period(start: 3.months.ago), precision: 2)
+        %td= number_with_precision(player.attendance_for_period(start: 1.month.ago), precision: 2)
