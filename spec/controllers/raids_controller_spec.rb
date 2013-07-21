@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe RaidsController do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
-    login_as :quentin
+    login_as :admin
 
     @progression = RaidType.create(name: 'Progression')
   end

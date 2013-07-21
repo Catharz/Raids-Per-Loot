@@ -1,9 +1,9 @@
 class PlayersController < ApplicationController
-  before_filter :login_required, :except => [:index, :show, :attendance, :statistics]
+  before_filter :authenticate_user!, :except => [:index, :show, :attendance]
   before_filter :set_pagetitle
 
   def set_pagetitle
-    @pagetitle = "Players"
+    @pagetitle = 'Players'
   end
 
   def option_list

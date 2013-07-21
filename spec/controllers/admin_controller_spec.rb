@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe AdminController do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
-    login_as :quentin
+    login_as :admin
   end
 
   describe 'GET #show' do

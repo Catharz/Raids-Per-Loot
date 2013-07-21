@@ -2,15 +2,11 @@
   - if @user.errors.any?
     #error_explanation
       %h2
-        = pluralize(@user.errors.count, "error")
+        = pluralize(@user.errors.count, 'error')
         prohibited this user from being saved:
       %ul
         - @user.errors.full_messages.each do |msg|
           %li= msg
-  .field
-    = f.label :login
-    %br/
-    = f.text_field :login
   .field
     = f.label :name
     %br/
@@ -19,13 +15,12 @@
     = f.label :email
     %br/
     = f.text_field :email
+  -#- if current_user.role? :admin
   .field
-    = f.label :password
-    %br/
-    = f.password_field :password
-  .field
-    = f.label :password_confirmation
-    %br/
-    = f.password_field :password_confirmation
+    = label_tag 'role'
+    - for role in User::ROLES
+      = check_box_tag 'user[roles][]', role, @user.roles.include?(role)
+      = h role.humanize
+  = hidden_field_tag 'user[roles][]'
   .actions
     = f.submit

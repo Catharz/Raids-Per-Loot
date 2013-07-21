@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe InstancesController do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
-    login_as :quentin
+    login_as :admin
 
     @raid_date = Date.new(2012, 11, 20)
     @progression = FactoryGirl.create(:raid_type, name: 'Progression')

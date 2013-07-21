@@ -2,10 +2,10 @@ require 'spec_helper'
 require 'date'
 
 describe "players/show.html.haml" do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
-    login_as users(:quentin)
+    login_as :admin
 
     @player = assign(:player, stub_model(Player, :name => "Name"))
 

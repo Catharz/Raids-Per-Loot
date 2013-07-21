@@ -1,0 +1,89 @@
+%ul
+  %li
+    %a{:href => '/home'} Home
+    %ul
+      %li
+        %a{:href => '/links/list'} Links
+      %li
+        %a{:href => '/statistics/guild_achievements'} Guild Achievements
+  %li
+    %a{:href => '/raids'} Raids
+    %ul
+      %li
+        %a{:href => '/instances'} Instances
+      %li
+        %a{:href => '/zones'} Zones
+      %li
+        %a{:href => '/mobs'} Mobs
+  %li
+    %a{:href => '/players'} Players
+    %ul
+      %li
+        %a{:href => '/players/attendance'} Attendance
+      %li
+        %a{:href => '/characters'} Characters
+        %ul
+          %li
+            %a{:href => '/characters/attendance'} Attendance
+          %li
+            %a{:href => '/characters/statistics'} Statistics
+  %li
+    %a{:href => '/characters/loot'} Loot
+    %ul
+      %li
+        %a{:href => '/drops'} Drops
+      %li
+        %a{:href => '/items'} Items
+  - if current_user and current_user.role? :admin
+    %li
+      %a{:href => '/admin'} Admin
+      %ul
+        %li
+          %a{:href => '/adjustments'} Adjustments
+        %li
+          %a{:href => '/drops/invalid'} Invalidly Assigned Drops
+        %li
+          %a{:href => '#'} Reference Data
+          %ul
+            %li
+              %a{:href => '/archetypes'} Character Classes
+            %li
+              %a{:href => '/character_types'} Character Types
+            %li
+              %a{:href => '/difficulties'} Difficulties
+            %li
+              %a{:href => '/links'} Links
+            %li
+              %a{:href => '/loot_types'} Loot Types
+            %li
+              %a{:href => '/slots'} Item Slots
+            %li
+              %a{:href => '/link_categories'} Link Categories
+            %li
+              %a{:href => '/ranks'} Player Ranks
+            %li
+              %a{:href => '/raid_types'} Raid Types
+            %li
+              %a{:href => '/users'} Users
+  - if user_signed_in?
+    %li= link_to 'Settings', services_path
+    %li
+      %a{:href => '/signout'} Log Out
+  - else
+    %li
+      %a{:href => '/signin'} Sign in
+      %ul
+        - if Rails.env.production?
+          %li
+            %a{:href => '/auth/facebook'} Facebook
+          %li
+            %a{:href => '/auth/google'} Google
+          %li
+            %a{:href => '/auth/yahoo'} Yahoo
+          %li
+            %a{:href => '/auth/myopenid'} MyOpenID
+          %li
+            %a{:href => '/auth/open_id'} Other OpenID
+        - else
+          %li
+            %a{:href => '/auth/developer'} OmniAuth Developer

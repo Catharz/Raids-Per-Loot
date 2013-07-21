@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe RanksController do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
-    login_as :quentin
+    login_as :admin
   end
 
   def valid_attributes

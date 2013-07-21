@@ -2,23 +2,28 @@
 #INSERT INTO "users" VALUES(2,'guest','Guest User','guest@sample.com','976507e888e23613fc650cf230c4c78b6f05e9e5','94a65b3ae4824e99a310d93b31c541d361e8238f','2011-09-30 04:25:41.899386','2011-09-30 04:25:41.899386',NULL,NULL);
 
 Given /^I am logged in as a user$/ do
-  current_user = User.find_by_login('guest')
+  current_user = User.find_by_name('admin')
   unless current_user
-    current_user = User.create!(:name => 'Guest User',
-                                :login => 'guest',
-                                :email => 'guest@sample.com',
-                                :password => 'changeme',
-                                :password_confirmation => 'changeme',
-                                :crypted_password => '976507e888e23613fc650cf230c4c78b6f05e9e5',
-                                :salt => '94a65b3ae4824e99a310d93b31c541d361e8238f',
+    current_user = User.create!(:name => 'admin',
+                                :email => 'admin@example.com',
+                                :roles_mask => 16,
                                 :created_at => '2011-09-30 04:25:41.899386')
     current_user.save
   end
+  user_service = current_user.services.first
+  if user_service.nil?
+    user_service = current_user.services.create(user_id: current_user.id,
+                                                provider: 'developer',
+                                                uid: current_user.email,
+                                                uname: current_user.name,
+                                                uemail: current_user.email)
+    user_service.save
+  end
 
-  visit '/login'
-  fill_in "login", :with => current_user.login
-  fill_in "password", :with => current_user.password
-  click_button "Log in"
-  assert !User.find_by_login("guest").nil?
-  assert :logged_in?
+  visit '/auth/developer'
+  fill_in 'name', :with => current_user.name
+  fill_in 'email', :with => current_user.email
+  click_button 'Sign In'
+  assert !User.find_by_name('admin').nil?
+  assert :user_signed_in?
 end

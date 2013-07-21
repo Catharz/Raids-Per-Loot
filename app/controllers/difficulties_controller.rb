@@ -1,4 +1,11 @@
 class DifficultiesController < ApplicationController
+  before_filter :authenticate_user!, :except => [:index, :show]
+  before_filter :set_pagetitle
+
+  def set_pagetitle
+    @pagetitle = 'Difficulties'
+  end
+
   # GET /difficulties
   # GET /difficulties.json
   def index

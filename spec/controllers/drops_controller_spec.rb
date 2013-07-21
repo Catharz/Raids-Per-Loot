@@ -3,11 +3,11 @@ require 'drop_spec_helper'
 
 describe DropsController do
   include DropSpecHelper
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
     # Need to be logged in
-    login_as :quentin
+    login_as :admin
     @drop_details = create_drop_dependencies
   end
 

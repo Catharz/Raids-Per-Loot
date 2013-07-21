@@ -1,5 +1,10 @@
 class MobsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :authenticate_user!, :except => [:index, :show]
+  before_filter :set_pagetitle
+
+  def set_pagetitle
+    @pagetitle = 'Raid Mobs'
+  end
 
   def option_list
     @mobs = Mob.by_zone(params[:zone_id]).order(:name)

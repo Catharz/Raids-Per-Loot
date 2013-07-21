@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe "players/edit.html.haml" do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
-    login_as :quentin
+    login_as :admin
     @player = assign(:player, stub_model(Player,
       :name => "MyString"
     ))

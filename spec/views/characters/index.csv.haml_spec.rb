@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe "characters/index.csv.haml" do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
-    login_as users(:quentin)
+    login_as :admin
 
     main_rank = stub_model(Rank, :name => "Main")
     scout = stub_model(Archetype, :name => "Scout")

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "link_categories/index.html.erb" do
   before(:each) do
-#    login_as :quentin
+#    login_as :admin
     assign(:link_categories, [
       stub_model(LinkCategory,
         :title => "Title",

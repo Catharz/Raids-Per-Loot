@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe CharacterInstancesController do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
-    login_as :quentin
+    login_as :admin
 
     @char1 = FactoryGirl.create(:character, name: 'character 1')
     @char2 = FactoryGirl.create(:character, name: 'character 2')

@@ -1,5 +1,10 @@
 class CharacterInstancesController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :authenticate_user!, :except => [:index, :show]
+  before_filter :set_pagetitle
+
+  def set_pagetitle
+    @pagetitle = 'Instances'
+  end
 
   # GET /character_instances.json
   def index
