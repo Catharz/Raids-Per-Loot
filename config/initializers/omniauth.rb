@@ -4,6 +4,11 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   # you need a store for OpenID; (if you deploy on heroku you need Filesystem.new('./tmp') instead of Filesystem.new('/tmp'))
   require 'openid/store/filesystem'
 
+  # load certificates
+  require 'openid/fetchers'
+  OpenID.fetcher.ca_file = "#{Rails.root}/config/ca-bundle.crt"
+
+  # allow logging in using developer mode if not in production
   provider :developer unless Rails.env.production?
 
   # providers with id/secret, you need to sign up for their services (see below) and enter the parameters here
