@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe "instances/index.html.haml" do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
-    login_as users(:quentin)
+    login_as :admin
     raid = assign(:raid, stub_model(Raid, :raid_date => Date.parse("2012-01-01")))
     zone1 = assign(:zone, stub_model(Zone, :name => 'Here'))
     zone2 = assign(:zone, stub_model(Zone, :name => 'There'))

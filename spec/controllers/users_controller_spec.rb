@@ -1,57 +1,10 @@
 require 'spec_helper'
 
 describe UsersController do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
-    login_as :quentin
-  end
-
-  def create_user(options = {})
-    post :create, :user => { :login => 'quire', :email => 'quire@example.com',
-                             :password => 'quire69', :password_confirmation => 'quire69' }.merge(options)
-  end
-
-  describe 'signing up' do
-    it 'allows signup' do
-      lambda do
-        create_user
-        response.should be_redirect
-      end.should change(User, :count).by(1)
-    end
-
-    it 'requires login on signup' do
-      lambda do
-        create_user(:login => nil)
-        assigns[:user].errors.get(:login).should_not be_nil
-        response.should be_success
-      end.should_not change(User, :count)
-    end
-
-    it 'requires password on signup' do
-      lambda do
-        create_user(:password => nil)
-        assigns[:user].errors.get(:password).should_not be_nil
-        response.should be_success
-      end.should_not change(User, :count)
-    end
-
-    it 'requires password confirmation on signup' do
-      lambda do
-        create_user(:password_confirmation => nil)
-        assigns[:user].errors.get(:password_confirmation).should_not be_nil
-        response.should be_success
-      end.should_not change(User, :count)
-    end
-
-    it 'requires email on signup' do
-      lambda do
-        create_user(:email => nil)
-        assigns[:user].errors.get(:email).should_not be_nil
-        response.should be_success
-      end.should_not change(User, :count)
-    end
-
+    login_as :admin
   end
 
   describe 'route recognition and generation' do
@@ -172,9 +125,9 @@ describe UsersController do
           assigns(:user).should be_persisted
         end
 
-        it 'redirects to the home page' do
+        it 'redirects to the created user' do
           post :create, :user => FactoryGirl.attributes_for(:user)
-          response.should redirect_to('/')
+          response.should redirect_to(User.last)
         end
       end
 

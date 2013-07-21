@@ -28,25 +28,6 @@ describe ViewerController do
 
       assigns(:pagetitle).should eq(p1.title)
     end
-
-    it 'assigns child pages to @subpages' do
-      parent = FactoryGirl.create(:page)
-      p1 = FactoryGirl.create(:page, position: 1, parent_id: parent.id)
-      p2 = FactoryGirl.create(:page, position: 2, parent_id: parent.id)
-      p3 = FactoryGirl.create(:page, position: 3, parent_id: parent.id)
-
-      get :show, name: parent.name
-
-      assigns(:subpages).should eq([p1, p2, p3])
-    end
-
-    it 'calls login_required if an admin page' do
-      p1 = FactoryGirl.create(:page, admin: true)
-
-      controller.should_receive(:login_required).twice
-
-      get :show, name: p1.name
-    end
   end
 
   describe 'POST set_page_body' do

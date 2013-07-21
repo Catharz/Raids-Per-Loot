@@ -42,6 +42,7 @@ Spork.prefork do
   # order to ease the transition to Capybara we set the default here. If you'd
   # prefer to use XPath just remove this line and adjust any selectors in your
   # steps to use the XPath syntax.
+  Capybara.default_host = 'http://example.org'
   Capybara.default_selector = :css
 
   Capybara.server_boot_timeout = 50

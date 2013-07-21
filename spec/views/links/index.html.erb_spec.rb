@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe "links/index.html.erb" do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
-    login_as users(:quentin)
+    login_as :admin
     category1 = stub_model(LinkCategory, :title => "Blah 1", :description => "Blah Blah 1")
     category2 = stub_model(LinkCategory, :title => "Blah 2", :description => "Blah Blah 2")
     assign(:links, [

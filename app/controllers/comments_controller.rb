@@ -1,5 +1,10 @@
 class CommentsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :authenticate_user!, :except => [:index, :show]
+  before_filter :set_pagetitle
+
+  def set_pagetitle
+    @pagetitle = 'Comments'
+  end
 
   # GET /comments
   # GET /comments.json

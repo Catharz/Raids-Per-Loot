@@ -3,11 +3,7 @@ class ViewerController < ApplicationController
 
   def show
     @page = Page.find_by_name(params[:name])
-    if @page
-      @subpages = page_children(@page)
-      @pagetitle = @page.title
-      login_required if @page.admin?
-    end
+    @pagetitle = @page.title unless @page.nil?
   end
 
   def set_page_body

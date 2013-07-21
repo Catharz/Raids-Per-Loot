@@ -1,15 +1,13 @@
 %p
-  %strong Login:
-  = h @user.login
-%p
   %strong Name:
   = h @user.name
 %p
   %strong Email:
   = h @user.email
 %p
-  %strong Password:
-  [secret]
+  %strong Roles:
+  = @user.roles.map(&:humanize).join(', ')
+
 = link_to 'Edit', edit_user_path(@user)
 |
 \#{link_to 'Back', users_path}

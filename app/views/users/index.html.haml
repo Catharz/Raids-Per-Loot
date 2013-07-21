@@ -1,9 +1,9 @@
 %table#dataTable
   %thead
     %tr
-      %th Login
       %th Name
       %th Email
+      %th Roles
       %th
       %th
       %th
@@ -11,11 +11,11 @@
     - @users.each do |user|
       - cache user do
         %tr
-          %td= user.login
           %td= user.name
           %td= user.email
+          %td= user.roles.map(&:humanize).join(', ')
           %td= link_to 'Show', user, class: 'table-button'
           %td= link_to 'Edit', edit_user_path(user), class: 'table-button'
-          %td= link_to 'Delete', user, :confirm => "Are you sure you want to delete '#{user.login}'?", :method => :delete, class: 'table-button'
+          %td= link_to 'Delete', user, :confirm => "Are you sure you want to delete '#{user.name}'?", :method => :delete, class: 'table-button'
 %br/
 = link_to 'New User', new_user_path, class: 'button'

@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe AdjustmentsController do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
     # Need to be logged in
-    login_as :quentin
+    login_as :admin
   end
 
   def valid_attributes

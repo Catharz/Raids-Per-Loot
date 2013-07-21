@@ -1,5 +1,10 @@
 class ZonesController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :authenticate_user!, :except => [:index, :show, :option_list]
+  before_filter :set_pagetitle
+
+  def set_pagetitle
+    @pagetitle = 'Raid Zones'
+  end
 
   def option_list
     instance = params[:instance_id] ? Instance.find(params[:instance_id]) : nil

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130715210235) do
+ActiveRecord::Schema.define(:version => 20130721005519) do
 
   create_table "adjustments", :force => true do |t|
     t.date     "adjustment_date"
@@ -311,6 +311,16 @@ ActiveRecord::Schema.define(:version => 20130715210235) do
     t.datetime "updated_at"
   end
 
+  create_table "services", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "uname"
+    t.string   "uemail"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "slots", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -318,20 +328,12 @@ ActiveRecord::Schema.define(:version => 20130715210235) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "login",                     :limit => 40
-    t.string   "name",                      :limit => 100, :default => ""
-    t.string   "email",                     :limit => 100
-    t.string   "crypted_password",          :limit => 40
-    t.string   "salt",                      :limit => 40
+    t.string   "name",       :limit => 100, :default => ""
+    t.string   "email",      :limit => 100
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "remember_token",            :limit => 40
-    t.datetime "remember_token_expires_at"
-    t.datetime "activated_at"
-    t.string   "activation_code",           :limit => 40
+    t.integer  "roles_mask",                :default => 16
   end
-
-  add_index "users", ["login"], :name => "index_users_on_login", :unique => true
 
   create_table "zones", :force => true do |t|
     t.string   "name"

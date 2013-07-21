@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe "drops/index.html.erb" do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
-    login_as users(:quentin)
+    login_as :admin
 
     zone = stub_model(Zone, :name => "Zone Name")
     assign(:zones, [zone])

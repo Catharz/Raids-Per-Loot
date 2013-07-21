@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'characters/loot.html.haml' do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
     scout = stub_model(Archetype, :name => 'Scout')

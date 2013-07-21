@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe 'player_raids/index.html.haml' do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
-    login_as users(:quentin)
+    login_as :admin
 
     pr1 = stub_model(PlayerRaid, player_name: 'Fred', raid_description: '2013-02-28 (Normal)', attended: true, punctual: false, status: 'a')
     pr2 = stub_model(PlayerRaid, player_name: 'Barney', raid_description: '2013-02-28 (Normal)', attended: true, punctual: false, status: 'b')

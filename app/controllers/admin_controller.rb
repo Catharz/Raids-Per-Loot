@@ -1,11 +1,16 @@
 class AdminController < ApplicationController
   include RemoteConnectionHelper
-  before_filter :login_required
+  before_filter :authenticate_user!
+  before_filter :set_pagetitle
+
+  def set_pagetitle
+    @pagetitle = 'Administration'
+  end
+
   MIN_LEVEL = 90
   MAX_LEVEL = 95
 
   def show
-
     respond_to do |format|
       format.html # show.html.erb
     end
