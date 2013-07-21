@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe CommentsController do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
     # Need to be logged in
-    login_as :quentin
+    login_as :admin
   end
 
   describe 'GET index' do

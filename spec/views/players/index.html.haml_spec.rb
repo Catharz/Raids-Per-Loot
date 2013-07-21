@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe 'players/index.html.haml' do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
-    login_as users(:quentin)
+    login_as :admin
 
     main_rank = stub_model(Rank, :name => 'Main')
     scout_player = stub_model(Player, :name => 'Scout Main', :rank_id => main_rank.id)

@@ -35,13 +35,7 @@
       - else
         %p Raids Per Loot - #{@page.navlabel}
     #smoothmenu1.ddsmoothmenu
-      - cache Page.order('updated_at desc').first do
-        = menu.html_safe
-      %ul
-        - if logged_in?
-          %li= link_to 'Log Out', logout_path
-        - else
-          %li= link_to 'Log In', login_path
+      = render 'layouts/menu'
     %br
     - unless @page.nil?
       - unless @page.ancestors.empty?
@@ -51,7 +45,7 @@
               = link_to h(page.navlabel), view_page_path(page.name)
               \&gt;
               = @page.navlabel
-    #content
+    #content.clear
       %p#notice= flash[:notice]
       = yield
     #footer

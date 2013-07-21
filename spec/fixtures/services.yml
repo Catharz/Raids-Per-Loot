@@ -1,0 +1,46 @@
+---
+services_001:
+  id: '1'
+  user_id: '1'
+  provider: developer
+  uid: admin@example.com
+  uname: admin
+  uemail: admin@example.com
+  created_at: '2013-07-21 01:16:16.281201'
+  updated_at: '2013-07-21 01:16:16.281201'
+services_002:
+  id: '2'
+  user_id: '2'
+  provider: developer
+  uid: raidleader@example.com
+  uname: raid leader
+  uemail: raidleader@example.com
+  created_at: '2013-07-21 01:18:47.750499'
+  updated_at: '2013-07-21 01:18:47.750499'
+services_003:
+  id: '3'
+  user_id: '3'
+  provider: developer
+  uid: officer@example.com
+  uname: officer
+  uemail: officer@example.com
+  created_at: '2013-07-21 01:22:11.165899'
+  updated_at: '2013-07-21 01:22:11.165899'
+services_004:
+  id: '4'
+  user_id: '4'
+  provider: developer
+  uid: raider@example.com
+  uname: raider
+  uemail: raider@example.com
+  created_at: '2013-07-21 01:25:19.304267'
+  updated_at: '2013-07-21 01:25:19.304267'
+services_005:
+  id: '5'
+  user_id: '5'
+  provider: developer
+  uid: guest@example.com
+  uname: guest
+  uemail: guest@example.com
+  created_at: '2013-07-21 01:28:00.105211'
+  updated_at: '2013-07-21 01:28:00.105211'

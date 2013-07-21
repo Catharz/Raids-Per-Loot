@@ -1,7 +1,7 @@
 - if !@page.nil?
   - cache @page do
     %p#page_text= @page.body.html_safe
-  - if logged_in?
+  - if user_signed_in?
     %a#edit{:href => "#"} Edit This Page
     :javascript
       new Ajax.InPlaceEditor(

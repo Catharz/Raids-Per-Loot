@@ -1,10 +1,14 @@
 class ItemsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show, :info]
+  before_filter :authenticate_user!, :except => [:index, :show, :info]
+  before_filter :set_pagetitle
+
+  def set_pagetitle
+    @pagetitle = 'Items'
+  end
 
   def fetch_all_data
     items = Item.order(:name)
     items.each { |item| Resque.enqueue(SonyItemUpdater, item.id) }
-    #SonyDataService.new.fetch_items_data(items)
     flash[:notice] = 'Items are being updated.'
 
     redirect_to '/admin'

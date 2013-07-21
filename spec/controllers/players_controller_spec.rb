@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe PlayersController do
-  fixtures :users
+  fixtures :users, :services
 
   before(:each) do
-    login_as :quentin
+    login_as :admin
     @main_rank ||= FactoryGirl.create(:rank, :name => "Main")
   end
 
