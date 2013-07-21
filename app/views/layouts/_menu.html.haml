@@ -73,17 +73,10 @@
     %li
       %a{:href => '/signin'} Sign in
       %ul
-        - if Rails.env.production?
-          %li
-            %a{:href => '/auth/facebook'} Facebook
-          %li
-            %a{:href => '/auth/google'} Google
-          %li
-            %a{:href => '/auth/yahoo'} Yahoo
-          %li
-            %a{:href => '/auth/myopenid'} MyOpenID
-          %li
-            %a{:href => '/auth/open_id'} Other OpenID
-        - else
+        %li
+          %a{:href => '/auth/google'} Google
+        %li
+          %a{:href => '/auth/yahoo'} Yahoo
+        - unless Rails.env.production?
           %li
             %a{:href => '/auth/developer'} OmniAuth Developer
