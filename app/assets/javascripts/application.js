@@ -20,11 +20,10 @@
 //= require tables
 //= require tabs
 
-function hideShowColumn( button, table, iCol )
-{
+function hideShowColumn(button, table, iCol) {
     var oTable = $(table).dataTable();
     var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
-    oTable.fnSetColumnVis( iCol, bVis ? false : true );
+    oTable.fnSetColumnVis(iCol, bVis ? false : true);
     var buttonText = $(button).text();
     if (bVis) {
         buttonText = buttonText.replace(/Hide (.*)/, "Show \$1");
@@ -34,11 +33,14 @@ function hideShowColumn( button, table, iCol )
     $(button).button('option', 'label', buttonText);
 }
 
-function displayFlash(flash, message)
-{
+function displayFlash(flash, message) {
     var divId = '#' + flash;
     if ($(divId).length === 0) {
         $('#content').prepend('<div id=' + flash + '/>');
     }
-    return $(divId).empty().append(message);
+    $(divId).empty().append('<p style="float:right;">' +
+        '<a href="#" onclick="$(\'' + divId + '\').fadeOut(); return false;">X</a></p>' +
+        '<p>' + message + '</p>' +
+        '<div class="clear"></div>');
+    return true;
 }

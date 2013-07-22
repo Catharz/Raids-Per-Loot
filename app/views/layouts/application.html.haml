@@ -48,7 +48,7 @@
     #content.clear
       - flash.each do |key, msg|
         %div{id: key}
-          %p{style: 'float:right; float:bottom;'}= link_to_function 'X', "$('##{key}').fadeOut();"
+          %p{style: 'float:right;'}= link_to_function 'X', "$('##{key}').fadeOut();"
           %p= msg
           .clear
       = yield
