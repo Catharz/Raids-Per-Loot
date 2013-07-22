@@ -22,7 +22,7 @@ $("#popup").dialog
       $.post "/character_types/<%= @character_type.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 200)
           updateCharacterType(data.character_type)
-          $("#notice").empty().append("Character type updated successfully")
+          displayFlash('notice', 'Character type updated successfully')
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript( render('form') ) %>"

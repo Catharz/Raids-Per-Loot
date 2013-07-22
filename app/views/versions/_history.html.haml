@@ -1,0 +1,16 @@
+%table#historyTable
+  %thead
+    %tr
+      %th Item
+      %th Type
+      %th When
+      %th Who
+      %th Changes
+  %tbody
+    - @versions.each do |version|
+      %tr
+        %td= version.item.name
+        %td= version.item_type
+        %td= version.created_at
+        %td= version.whodunnit
+        %td= render 'changes', :"@changes" => changes(version.item.previous_version, version.item)

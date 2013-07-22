@@ -25,6 +25,7 @@ gem 'omniauth-steam'
 gem 'omniauth-openid'
 gem 'omniauth-yahoo'
 gem 'cancan'
+gem 'paper_trail'
 
 gem 'crack'
 gem 'httparty'

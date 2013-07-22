@@ -33,7 +33,7 @@ $("#popup").dialog
         if (xhr.status == 200)
           redrawTable(data.character)
           redrawTable('all')
-          $("#notice").empty().append("Character was successfully updated.")
+          displayFlash('notice', 'Character was successfully updated.')
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
