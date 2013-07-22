@@ -27,7 +27,7 @@ $("#popup").dialog
       $.post "/difficulties.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 201)
           insertDifficulty(data.difficulty)
-          $("#notice").empty().append("Difficulty was successfully created.")
+          displayFlash('notice', 'Difficulty was successfully created.')
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"

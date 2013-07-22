@@ -29,7 +29,7 @@ $("#popup").dialog
       $.post "/drops/<%= @drop.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 200)
           updateInvalidDrop(data.drop)
-          $("#notice").empty().append("Drop updated successfully")
+          displayFlash('notice', 'Drop updated successfully')
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('dialog_form')) %>"

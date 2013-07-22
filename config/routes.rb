@@ -1,5 +1,8 @@
 RaidsPerLoot::Application.routes.draw do
 
+  # Audit Trail
+  get '/versions/index'
+
   # Omniauth pure
   match "/signin" => "services#signin"
   match "/signout" => "services#signout"

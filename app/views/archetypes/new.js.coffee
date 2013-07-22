@@ -26,7 +26,7 @@ $("#popup").dialog
       $.post "/archetypes.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 201)
           insertArchetype(data.archetype)
-          $("#notice").empty().append("Archetype was successfully created.")
+          displayFlash('notice', 'Archetype was successfully created.')
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"

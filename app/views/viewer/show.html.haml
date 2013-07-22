@@ -2,16 +2,12 @@
   - cache @page do
     %p#page_text= @page.body.html_safe
   - if user_signed_in?
-    %a#edit{:href => "#"} Edit This Page
-    :javascript
-      new Ajax.InPlaceEditor(
-      '#page_text',
-      '/viewer/set_page_body/#{@page.id}',
-      {
-      rows:10,
-      cols:80,
-      externalControl:'edit',
-      externalControlOnly:true,
-      loadTextURL:'/viewer/get_unformatted_text/#{@page.id}'
-      }
-      )
+    :coffeescript
+      jQuery ->
+        $("#page_text").editable "/viewer/set_page_body/#{@page.id}",
+          loadurl: "/viewer/get_unformatted_text/#{@page.id}"
+          type: "textarea"
+          submit: "OK"
+          rows: 20
+          cols: 80
+          tooltip: "Click to edit..."

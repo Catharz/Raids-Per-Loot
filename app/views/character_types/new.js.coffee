@@ -32,7 +32,7 @@ $("#popup").dialog
       $.post "/character_types.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 201)
           insertCharacterType(data.character_type)
-          $("#notice").empty().append("Character_type was successfully created.")
+          displayFlash('notice', 'Character_type was successfully created.')
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"

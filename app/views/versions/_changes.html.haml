@@ -1,0 +1,11 @@
+%table
+  %thead
+    %th Value
+    %th From
+    %th To
+  %tbody
+    - @changes.each do |change|
+      %tr
+        %td= change[:key]
+        %td= change[:old]
+        %td= change[:new]
