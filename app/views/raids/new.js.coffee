@@ -32,7 +32,7 @@ $("#popup").dialog
       $.post "/raids.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 201)
           insertRaid(data.raid)
-          $("#notice").empty().append("Raid was successfully created.")
+          displayFlash('notice', 'Raid was successfully created.')
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"

@@ -30,7 +30,7 @@ $("#popup").dialog
       $.post "/instances.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 201)
           insertInstance(data.instance)
-          $("#notice").empty().append("Instance was successfully created.")
+          displayFlash('notice', 'Instance was successfully created.')
           $("#popup").dialog "close"
         else
           alert("Errors occurred while saving this Instance\n#{xhr.message}" )

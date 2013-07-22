@@ -15,12 +15,12 @@
     = f.label :email
     %br/
     = f.text_field :email
-  -#- if current_user.role? :admin
-  .field
-    = label_tag 'role'
-    - for role in User::ROLES
-      = check_box_tag 'user[roles][]', role, @user.roles.include?(role)
-      = h role.humanize
-  = hidden_field_tag 'user[roles][]'
+  - if current_user and current_user.role? :admin
+    .field
+      = label_tag 'role'
+      - for role in User::ROLES
+        = check_box_tag 'user[roles][]', role, @user.roles.include?(role)
+        = h role.humanize
+    = hidden_field_tag 'user[roles][]'
   .actions
     = f.submit

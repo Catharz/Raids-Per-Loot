@@ -4,4 +4,4 @@ redrawTable = (char_type) ->
 
 redrawTable("<%= @character.char_type %>")
 redrawTable('all')
-$("#notice").empty().append("Character was successfully deleted.")
+displayFlash('notice', 'Character was successfully deleted.')

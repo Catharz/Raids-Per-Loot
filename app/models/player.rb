@@ -1,5 +1,6 @@
 class Player < ActiveRecord::Base
   include PointsCalculationHelper
+  has_paper_trail
 
   before_save :update_loot_rates
 

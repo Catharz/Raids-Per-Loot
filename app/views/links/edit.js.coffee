@@ -20,7 +20,7 @@ $("#popup").dialog
       $.post "/links/<%= @link.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 200)
           updateLink(data.link)
-          $("#notice").empty().append("Link was successfully updated.")
+          displayFlash('notice', 'Link was successfully updated.')
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"

@@ -19,7 +19,7 @@ $("#popup").dialog
       $.post "/link_categories/<%= @link_category.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 200)
           updateLinkCategory(data.link_category)
-          $("#notice").empty().append("Link category was successfully updated.")
+          displayFlash('notice', 'Link category was successfully updated.')
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"

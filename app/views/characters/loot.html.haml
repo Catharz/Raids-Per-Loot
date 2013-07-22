@@ -1,6 +1,8 @@
 :coffeescript
   jQuery ->
     $.fn.dataTableExt.afnFiltering.push (oSettings, aData, iDataIndex) ->
+        return true if 'historyTable' == oSettings.nTable.id
+
         visible = false
         switch aData[4]
           when "Fighter"
@@ -64,3 +66,6 @@
 
   #raid_alts
     = render 'loot_tab', :'@characters' => @characters, :'@char_type' => 'r'
+.clear
+%br
+= link_to 'History', '/versions/index', class: 'button', remote: true
