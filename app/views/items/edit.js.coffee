@@ -34,7 +34,7 @@ $("#popup").dialog
       $.post "/items/<%= @item.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 200)
           updateInvalidDropItem(data.item)
-          $("#notice").empty().append("Item updated successfully")
+          displayFlash('notice', 'Item updated successfully')
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('dialog_form')) %>"

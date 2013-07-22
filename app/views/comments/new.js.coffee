@@ -28,7 +28,7 @@ $("#popup").dialog
       $.post "/comments.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 201)
           insertComment(data.comment)
-          $("#notice").empty().append("Comment was successfully created.")
+          displayFlash('notice', 'Comment was successfully created.')
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"

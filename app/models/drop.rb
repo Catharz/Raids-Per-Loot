@@ -2,6 +2,8 @@ require 'drop_assignment_validator'
 
 class Drop < ActiveRecord::Base
   include LootMethodHelper
+  has_paper_trail
+
   belongs_to :instance, :inverse_of => :drops, :touch => true
   belongs_to :zone, :inverse_of => :drops, :touch => true
   belongs_to :mob, :inverse_of => :drops, :touch => true

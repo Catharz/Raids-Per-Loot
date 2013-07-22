@@ -24,7 +24,7 @@ $("#popup").dialog
         debugger
         if (xhr.status == 200)
           updateInstance(data.instance)
-          $("#notice").empty().append("Instance was successfully updated.")
+          displayFlash('notice', 'Instance was successfully updated.')
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"

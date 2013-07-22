@@ -24,7 +24,7 @@ $("#popup").dialog
       $.post "/raids/<%= @raid.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 200)
           updateRaid(data.raid)
-          $("#notice").empty().append("Raid was successfully updated.")
+          displayFlash('notice', 'Raid was successfully updated.')
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"

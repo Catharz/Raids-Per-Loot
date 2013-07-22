@@ -26,7 +26,7 @@ $("#popup").dialog
       $.post "/link_categories.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 201)
           insertLinkCategory(data.link_category)
-          $("#notice").empty().append("Link Category was successfully created.")
+          displayFlash('notice', 'Link Category was successfully created.')
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"

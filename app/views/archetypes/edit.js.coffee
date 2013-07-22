@@ -19,7 +19,7 @@ $("#popup").dialog
       $.post "/archetypes/<%= @archetype.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         if (xhr.status == 200)
           updateArchetype(data.archetype)
-          $("#notice").empty().append("Class was successfully updated.")
+          displayFlash('notice', 'Class was successfully updated.')
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"

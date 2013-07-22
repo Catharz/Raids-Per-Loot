@@ -46,7 +46,11 @@
               \&gt;
               = @page.navlabel
     #content.clear
-      %p#notice= flash[:notice]
+      - flash.each do |key, msg|
+        %div{id: key}
+          %p{style: 'float:right; float:bottom;'}= link_to_function 'X', "$('##{key}').fadeOut();"
+          %p= msg
+          .clear
       = yield
     #footer
       %p Raids Per Loot

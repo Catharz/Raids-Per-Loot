@@ -4,6 +4,7 @@ class SonyCharacterUpdater
   @queue = :sony_character_updater
 
   def self.perform(character_id)
+    Character.paper_trail_off
     character = Character.find(character_id)
     raise Exception, 'Internet connection unavailable.' unless internet_connection?
 
@@ -24,5 +25,6 @@ class SonyCharacterUpdater
         character.external_data.save
       end
     end
+    Character.paper_trail_on
   end
 end

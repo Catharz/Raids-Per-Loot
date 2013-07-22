@@ -2,6 +2,7 @@ require 'csv'
 
 class Character < ActiveRecord::Base
   include RemoteConnectionHelper, PointsCalculationHelper, CharactersHelper
+  has_paper_trail
 
   include ActionView::Helpers::UrlHelper
   delegate :url_helpers, to: 'Rails.application.routes'

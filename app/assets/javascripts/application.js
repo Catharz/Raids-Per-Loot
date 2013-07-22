@@ -10,6 +10,7 @@
 //= require jquery.dataTables
 //= require ddsmoothmenu
 //= require jquery_nested_form
+//= require jquery.jeditable
 //= require cocoon
 //= require menus
 //= require datepickers
@@ -31,4 +32,13 @@ function hideShowColumn( button, table, iCol )
         buttonText = buttonText.replace(/Show (.*)/, "Hide \$1");
     }
     $(button).button('option', 'label', buttonText);
+}
+
+function displayFlash(flash, message)
+{
+    var divId = '#' + flash;
+    if ($(divId).length === 0) {
+        $('#content').prepend('<div id=' + flash + '/>');
+    }
+    return $(divId).empty().append(message);
 }
