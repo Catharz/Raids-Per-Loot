@@ -10,6 +10,13 @@ RaidsPerLoot::Application.routes.draw do
   match '/auth/:service/callback' => 'services#create'
   match '/auth/failure' => 'services#failure'
 
+  namespace :admin do
+    constraints(lambda { |req| !req.session[:user_id].blank? and
+        Ability.new(User.find(req.session[:user_id])).can? :manage, Resque}) do
+      mount Resque::Server, at: 'resque'
+    end
+  end
+
   resources :services, :only => [:index, :create, :destroy] do
     collection do
       get 'signin'
