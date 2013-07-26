@@ -1,0 +1,33 @@
+= form_tag :controller => 'player_characters', :action => 'update' do
+  -if @player_character.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@player_character.errors.count, 'error')} prohibited this Player and Character from being saved:"
+      %ul
+        - @player_character.errors.full_messages.each do |msg|
+          %li= msg
+
+  #player_characters_edit
+    %p
+      = label_tag 'Active:'
+      = check_box_tag 'active', true, @player_character.active
+    %p
+      = label_tag 'Raids:'
+      = number_field_tag :raids_count, @player_character.raids_count, class: 'number'
+    %p
+      = label_tag 'Armour:'
+      = number_field_tag :armour_count, @player_character.armour_count, class: 'number'
+    %p
+      = label_tag 'Jewellery:'
+      = number_field_tag :jewellery_count, @player_character.jewellery_count, class: 'number'
+    %p
+      = label_tag 'Weapons:'
+      = number_field_tag :weapons_count, @player_character.weapons_count, class: 'number'
+    %p
+      = label_tag 'Adornments:'
+      = number_field_tag :adornments_count, @player_character.adornments_count, class: 'number'
+    %p
+      = label_tag 'Dislodgers:'
+      = number_field_tag :dislodgers_count, @player_character.dislodgers_count, class: 'number'
+    %p
+      = label_tag 'Mounts:'
+      = number_field_tag :mounts_count, @player_character.mounts_count, class: 'number'

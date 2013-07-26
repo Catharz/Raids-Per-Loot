@@ -27,6 +27,9 @@ RaidsPerLoot::Application.routes.draw do
     end
   end
 
+  get '/player_characters/:id/edit', controller: 'player_characters', action: 'edit'
+  post '/player_characters/:id', controller: 'player_characters', action: 'update'
+
   resources :comments
 
   resources :raid_types

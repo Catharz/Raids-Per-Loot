@@ -1,6 +1,11 @@
 module CharactersHelper
+
   def char_type_select(form, field)
-    form.select(field, [{:id => 'm', :text => 'Raid Main'}, {:id => 'r', :text => 'Raid Alternate'}, {:id => 'g', :text => 'General Alternate'}].collect {|ct| [ ct[:text], ct[:id] ] })
+    form.select(field, character_type_options)
+  end
+
+  def character_type_options
+    [{:id => 'm', :text => 'Raid Main'}, {:id => 'r', :text => 'Raid Alternate'}, {:id => 'g', :text => 'General Alternate'}].collect {|ct| [ ct[:text], ct[:id] ] }
   end
 
   def char_type_name(char_type)
@@ -135,7 +140,7 @@ module CharactersHelper
         jewellery: character.jewellery_count,
         weapons: character.weapons_count,
         attuned: character.armour_count + character.jewellery_count + character.weapons_count,
-        adornment: character.adornments_count,
+        adornments: character.adornments_count,
         dislodgers: character.dislodgers_count,
         mounts: character.mounts_count,
         character_id: character.id,

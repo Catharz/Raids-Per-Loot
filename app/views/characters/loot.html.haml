@@ -36,6 +36,8 @@
       $(".activity").on "click", (e) ->
         altsTable.fnDraw()
 
+    $("#display_active").click()
+
 .clear
 .toolbar
   .left
@@ -56,7 +58,7 @@
     Priests
     = check_box_tag 'priest', 'priest', 'checked', class: 'archetype'
 .clear
-#tabBook
+#character_loot_tabs
   %ul
     %li= link_to 'Raid Mains', '#raid_mains'
     %li= link_to 'Raid Alts', '#raid_alts'

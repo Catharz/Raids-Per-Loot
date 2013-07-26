@@ -12,5 +12,7 @@ $("#popup").dialog
     $("#popup").html "<%= escape_javascript(render('history')) %>"
     $('#historyTable').dataTable
       "bJQueryUI": true
-      "sPaginationType": "full_numbers"
+      "bPaginate": false
+      "sScrollY": "370px"
+      "sScrollX": "1160px"
       "aaSorting": [[2,'desc']]

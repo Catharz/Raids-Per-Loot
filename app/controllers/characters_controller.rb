@@ -21,7 +21,7 @@ class CharactersController < ApplicationController
 
   def attendance
     @characters = Character.order(:name)
-    @characters.sort! { |a,b| b.attendance <=> a.attendance}.select! { |c| c.attendance >= 10.0}
+    @characters.sort! { |a, b| b.attendance <=> a.attendance }.select! { |c| c.attendance >= 10.0 }
 
     respond_to do |format|
       format.html # attendance.html.erb
@@ -89,7 +89,7 @@ class CharactersController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.js # show.js.coffee
-      format.json { render json: @character.to_json(methods: [:player_name]) }
+      format.json { render json: @character.to_json(methods: [:player_name, :player_raids_count, :player_active]) }
       format.xml { render :xml => @character.to_xml(:include => [:instances, :drops]) }
     end
   end
@@ -154,8 +154,11 @@ class CharactersController < ApplicationController
     respond_to do |format|
       if @character.update_attributes(params[:character])
         format.html { redirect_to @character, notice: 'Character was successfully updated.' }
-        format.json { render :json => @character.to_json(methods: [:archetype_name, :main_character, :archetype_root,
-                                                                   :player_name, :first_raid_date, :last_raid_date]),
+        format.json { render :json => @character.to_json(methods: [:archetype_name, :archetype_root,
+                                                                   :main_character, :raid_alternate,
+                                                                   :first_raid_date, :last_raid_date,
+                                                                   :player_name, :player_raids_count,
+                                                                   :player_active]),
                              :notice => 'Character was successfully updated.' }
         format.xml { head :ok }
       else

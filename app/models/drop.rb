@@ -147,6 +147,10 @@ class Drop < ActiveRecord::Base
     xml_attributes.to_xml(to_xml_opts)
   end
 
+  def to_s
+    "#{item_name} looted by #{character_name} on #{drop_time} in #{zone_name}"
+  end
+
   protected
   def relationships_exist
     errors.add(:instance_id, "doesn't exist") unless Instance.exists?(instance_id)

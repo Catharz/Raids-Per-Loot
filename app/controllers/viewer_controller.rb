@@ -1,6 +1,4 @@
 class ViewerController < ApplicationController
-  in_place_edit_for :page, :body
-
   def show
     @page = Page.find_by_name(params[:name])
     @pagetitle = @page.title unless @page.nil?

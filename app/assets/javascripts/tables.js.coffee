@@ -243,8 +243,8 @@ jQuery ->
   $('#charactersLootTable_m').dataTable
     "bJQueryUI": true
     "bPaginate": false
-    "sScrollY": ($(window).height() - 400)
-    "sScrollX": "200px"
+    "sScrollY": ($(window).height() - 480)
+    "sScrollX": ($(window).width() - 80)
     "aoColumns": [
       null, # Player
     {"bSearchable": true, "bVisible": false},  # Active
@@ -259,16 +259,15 @@ jQuery ->
     {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # dislodger Rate
     {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # Mount Rate
     null, # Update button
-    null, # Edit Character button
-    null # Edit Player button
+    null # Edit Player Character button
     ]
     "aaSorting": [[1,'asc']]
 
   $('#charactersLootTable_r').dataTable
     "bJQueryUI": true
     "bPaginate": false
-    "sScrollY": ($(window).height() - 400)
-    "sScrollX": "200px"
+    "sScrollY": ($(window).height() - 480)
+    "sScrollX": ($(window).width() - 80)
     "aoColumns": [
       null, # Player
     {"bSearchable": true, "bVisible": false},  # Active
@@ -283,8 +282,7 @@ jQuery ->
     {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # dislodger Rate
     {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # Mount Rate
       null, # Update button
-      null, # Edit Character button
-      null # Edit Player button
+      null # Edit Player Character button
     ]
     "aaSorting": [[1,'asc']]
 

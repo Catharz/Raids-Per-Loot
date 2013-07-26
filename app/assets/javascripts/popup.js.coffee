@@ -125,9 +125,9 @@ jQuery ->
       "Jewellery: " + data.jewellery + "</br>" +
       "Weapons: " + data.weapons + "</br>" +
       "Attuned: " + data.attuned + "</br></br>" +
-      "Adornments: " + data.weapons + "</br>" +
-      "Dislodgers: " + data.weapons + "</br></br>" +
-      "Mounts: " + data.weapons + "</div>"
+      "Adornments: " + data.adornments + "</br>" +
+      "Dislodgers: " + data.dislodgers + "</br></br>" +
+      "Mounts: " + data.mounts + "</div>"
       container.css
         display: "block"
 

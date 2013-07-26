@@ -28,7 +28,6 @@
       %th Mounts
       %th
       %th
-      %th
   %tbody
     - @characters.each do |character|
       - if character.char_type.eql? @char_type
@@ -46,5 +45,4 @@
           %td.lootRateTrigger= number_with_precision(character.dislodger_rate, :precision => 2)
           %td.lootRateTrigger= number_with_precision(character.mount_rate, :precision => 2)
           %td= link_to 'Update', update_data_character_path(character), method: 'post', class: 'table-button'
-          %td= link_to 'Edit Character', edit_character_path(character), remote: true, class: 'table-button'
-          %td= link_to 'Edit Player', edit_player_path(character.player), remote: true, class: 'table-button'
+          %td= link_to 'Edit', "/player_characters/#{character.id}/edit", remote: true, class: 'table-button'

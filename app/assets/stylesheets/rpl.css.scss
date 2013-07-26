@@ -121,6 +121,27 @@ body {
   font-size: 12px;
 }
 
+div#player_characters_edit {
+  p {
+    position: relative;
+  }
+
+  label {
+    font-weight: bold;
+    position: absolute;
+    width: 100px;
+    left: 0;
+    top: 2px;
+    text-align: right;
+  }
+
+  input {
+    position: relative;
+    left: 110px;
+    width: 60px;
+  }
+}
+
 #breadcrumb {
   height: 25px;
   font-size: 10px;
@@ -173,6 +194,10 @@ select#instance_character_ids {
 
 .centered {
   text-align: center !important;
+}
+
+.align_right {
+  float: right;
 }
 
 .toolbar {

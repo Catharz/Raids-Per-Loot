@@ -20,17 +20,19 @@
 //= require tables
 //= require tabs
 
-function hideShowColumn(button, table, iCol) {
+function hideShowColumn(button_name, table, iCol) {
     var oTable = $(table).dataTable();
     var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
     oTable.fnSetColumnVis(iCol, bVis ? false : true);
-    var buttonText = $(button).text();
+    var button = $(button_name)
     if (bVis) {
-        buttonText = buttonText.replace(/Hide (.*)/, "Show \$1");
+        button.removeClass('ui-state-default')
+        button.addClass('ui-state-disabled')
     } else {
-        buttonText = buttonText.replace(/Show (.*)/, "Hide \$1");
+        button.removeClass('ui-state-disabled')
+        button.addClass('ui-state-default')
     }
-    $(button).button('option', 'label', buttonText);
+    button('option', 'label', buttonText);
 }
 
 function displayFlash(flash, message) {

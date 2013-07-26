@@ -78,6 +78,10 @@ class Player < ActiveRecord::Base
     recalculate_loot_rates(raids_count)
   end
 
+  def to_s
+    "#{name} (#{rank_name})"
+  end
+
   def to_xml(options = {})
     to_xml_opts = {}
     # a builder instance is provided when to_xml is called on a collection of instructors,

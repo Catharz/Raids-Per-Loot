@@ -118,6 +118,10 @@ class Character < ActiveRecord::Base
     recalculate_loot_rates(player_raids_count)
   end
 
+  def to_s
+    "#{name} (#{archetype_name})"
+  end
+
   def to_csv
     CSV.generate_line(
         [self.name,

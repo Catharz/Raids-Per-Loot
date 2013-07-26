@@ -37,9 +37,9 @@ gem 'json'
 gem 'RedCloth'
 gem 'jquery-rails'
 
-gem 'in_place_editing'
 gem 'will_paginate'
 gem 'acts_as_tree'
+gem 'virtus'
 
 # Gems used only for assets and not required
 # in production environments by default.
