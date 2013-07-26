@@ -24,15 +24,15 @@ function hideShowColumn(button_name, table, iCol) {
     var oTable = $(table).dataTable();
     var bVis = oTable.fnSettings().aoColumns[iCol].bVisible;
     oTable.fnSetColumnVis(iCol, bVis ? false : true);
-    var button = $(button_name)
+    var button = $(button_name);
     if (bVis) {
-        button.removeClass('ui-state-default')
-        button.addClass('ui-state-disabled')
+        button.removeClass('ui-state-default');
+        button.addClass('ui-state-disabled');
     } else {
-        button.removeClass('ui-state-disabled')
-        button.addClass('ui-state-default')
+        button.removeClass('ui-state-disabled');
+        button.addClass('ui-state-default');
     }
-    button('option', 'label', buttonText);
+    return true;
 }
 
 function displayFlash(flash, message) {

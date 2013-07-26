@@ -21,7 +21,6 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/instances/<%= @instance.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        debugger
         if (xhr.status == 200)
           updateInstance(data.instance)
           displayFlash('notice', 'Instance was successfully updated.')
