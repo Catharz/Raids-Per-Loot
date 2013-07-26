@@ -244,7 +244,7 @@ jQuery ->
     "bJQueryUI": true
     "bPaginate": false
     "sScrollY": ($(window).height() - 480)
-    "sScrollX": ($(window).width() - 80)
+    "sScrollX": ($(window).width() - 100)
     "aoColumns": [
       null, # Player
     {"bSearchable": true, "bVisible": false},  # Active
@@ -267,7 +267,7 @@ jQuery ->
     "bJQueryUI": true
     "bPaginate": false
     "sScrollY": ($(window).height() - 480)
-    "sScrollX": ($(window).width() - 80)
+    "sScrollX": ($(window).width() - 100)
     "aoColumns": [
       null, # Player
     {"bSearchable": true, "bVisible": false},  # Active

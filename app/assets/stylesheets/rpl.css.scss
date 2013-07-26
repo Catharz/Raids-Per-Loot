@@ -126,18 +126,24 @@ div#player_characters_edit {
     position: relative;
   }
 
-  label {
+  label.header {
     font-weight: bold;
     position: absolute;
-    width: 100px;
+    width: 120px;
     left: 0;
     top: 2px;
     text-align: right;
   }
 
+  label.info {
+    position: relative;
+    left: 130px;
+    width: 60px;
+  }
+
   input {
     position: relative;
-    left: 110px;
+    left: 130px;
     width: 60px;
   }
 }

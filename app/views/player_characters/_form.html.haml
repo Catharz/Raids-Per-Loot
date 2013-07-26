@@ -6,28 +6,35 @@
         - @player_character.errors.full_messages.each do |msg|
           %li= msg
 
+
   #player_characters_edit
     %p
-      = label_tag 'Active:'
+      = label_tag 'Player:', nil, class: 'header'
+      = label_tag @player_character.player.name, nil, class: 'info'
+    %p
+      = label_tag 'Character:', nil, class: 'header'
+      = label_tag @player_character.character.name, nil, class: 'info'
+    %p
+      = label_tag 'Active:', nil, class: 'header'
       = check_box_tag 'active', true, @player_character.active
     %p
-      = label_tag 'Raids:'
+      = label_tag 'Raids:', nil, class: 'header'
       = number_field_tag :raids_count, @player_character.raids_count, class: 'number'
     %p
-      = label_tag 'Armour:'
+      = label_tag 'Armour:', nil, class: 'header'
       = number_field_tag :armour_count, @player_character.armour_count, class: 'number'
     %p
-      = label_tag 'Jewellery:'
+      = label_tag 'Jewellery:', nil, class: 'header'
       = number_field_tag :jewellery_count, @player_character.jewellery_count, class: 'number'
     %p
-      = label_tag 'Weapons:'
+      = label_tag 'Weapons:', nil, class: 'header'
       = number_field_tag :weapons_count, @player_character.weapons_count, class: 'number'
     %p
-      = label_tag 'Adornments:'
+      = label_tag 'Adornments:', nil, class: 'header'
       = number_field_tag :adornments_count, @player_character.adornments_count, class: 'number'
     %p
-      = label_tag 'Dislodgers:'
+      = label_tag 'Dislodgers:', nil, class: 'header'
       = number_field_tag :dislodgers_count, @player_character.dislodgers_count, class: 'number'
     %p
-      = label_tag 'Mounts:'
+      = label_tag 'Mounts:', nil, class: 'header'
       = number_field_tag :mounts_count, @player_character.mounts_count, class: 'number'
