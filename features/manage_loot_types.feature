@@ -14,14 +14,14 @@ Feature: Manage loot_types
     And I should see "Loot type was successfully created"
 
   Scenario: Delete loot_type
-    Given the following loot_types:
+    Given I have the following loot types:
       | name   |
       | name 1 |
       | name 2 |
       | name 3 |
       | name 4 |
-    When I delete the 3rd loot_type
-    Then I should see the following loot_types:
+    When I delete the name 3 loot type
+    Then I should see the following loot types:
       | Name   |
       | name 1 |
       | name 2 |
@@ -29,7 +29,7 @@ Feature: Manage loot_types
 
   @javascript
   Scenario: Changing the default loot method
-    Given the following loot_types:
+    Given I have the following loot types:
       | name      | default_loot_method |
       | Armour    | n                   |
       | Body Drop | n                   |

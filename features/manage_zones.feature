@@ -22,7 +22,7 @@ Feature: Manage zones
       |name 2|Normal    |
       |name 3|Hard      |
       |name 4|Normal    |
-    When I delete the 3rd zone
+    When I delete the name 3 zone
     Then I should see the following zones:
       |Name|
       |name 1|

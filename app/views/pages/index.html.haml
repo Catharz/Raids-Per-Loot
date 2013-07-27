@@ -14,7 +14,7 @@
       %th
   %tbody
     - @pages.each do |page|
-      %tr
+      %tr{id: "page_#{page.id}"}
         %td= page.name
         %td= page.title
         %td= page.navlabel

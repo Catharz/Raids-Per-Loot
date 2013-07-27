@@ -9,7 +9,7 @@
   %tbody
     - @ranks.each do |rank|
       - cache rank do
-        %tr
+        %tr{id: "rank_#{rank.id}"}
           %td= rank.name
           %td= rank.priority
           %td= link_to 'Show', rank, class: 'table-button'

@@ -5,10 +5,11 @@ Given /^the following raids:$/ do |raids|
   end
 end
 
-When /^I delete the (\d+)(?:st|nd|rd|th) raid$/ do |pos|
+When /^I delete the raid on (.+)$/ do |raid_date|
+  raid = Raid.find_by_raid_date(Date.parse(raid_date))
   visit raids_path
-  within("table tr:nth-child(#{pos.to_i})") do
-    click_link "Destroy"
+  within("tr#raid_#{raid.id}") do
+    click_link 'Destroy'
   end
 end
 

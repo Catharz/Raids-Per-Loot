@@ -2,10 +2,11 @@ Given /^the following slots:$/ do |slots|
   Slot.create!(slots.hashes)
 end
 
-When /^I delete the (\d+)(?:st|nd|rd|th) slot$/ do |pos|
+When /^I delete the (.+) slot$/ do |name|
+  slot = Slot.find_by_name(name)
   visit slots_path
-  within("table tr:nth-child(#{pos.to_i})") do
-    click_link "Destroy"
+  within("tr#slot_#{slot.id}") do
+    click_link 'Destroy'
   end
 end
 

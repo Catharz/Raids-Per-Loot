@@ -25,7 +25,7 @@ Feature: Manage players
       | name 2 |
       | name 3 |
       | name 4 |
-    When I delete the 3rd player
+    When I delete the player named name 3
     Then I should see the following players:
       | Name   |
       | name 1 |

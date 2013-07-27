@@ -18,13 +18,13 @@ Feature: Manage links
     And I should see "Link was successfully created"
 
   Scenario: Delete link
-    Given the following links:
+    Given I have the following links:
       |url|title|description|
       |url 1|title 1|description 1|
       |url 2|title 2|description 2|
       |url 3|title 3|description 3|
       |url 4|title 4|description 4|
-    When I delete the 3rd link
+    When I delete the link to url 3
     Then I should see the following links:
       |Url|Title|Description|
       |url 1|title 1|description 1|

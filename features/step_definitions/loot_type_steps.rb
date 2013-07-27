@@ -4,7 +4,7 @@ Before('@loot_types') do
   }
 end
 
-Given /^the following loot_types:$/ do |loot_types|
+Given /^I have the following loot types:$/ do |loot_types|
   LootType.create!(loot_types.hashes)
 end
 
@@ -12,14 +12,15 @@ Given /^I have a loot type named (.+)$/ do |loot_type|
   LootType.create!(:name => loot_type)
 end
 
-When /^I delete the (\d+)(?:st|nd|rd|th) loot_type$/ do |pos|
+When /^I delete the (.+) loot type$/ do |name|
+  loot_type = LootType.find_by_name(name)
   visit loot_types_path
-  within("table tr:nth-child(#{pos.to_i})") do
-    click_link "Destroy"
+  within("tr#loot_type_#{loot_type.id}") do
+    click_link 'Destroy'
   end
 end
 
-Then /^I should see the following loot_types:$/ do |expected_loot_types_table|
+Then /^I should see the following loot types:$/ do |expected_loot_types_table|
   rows = find("table").all('tr')
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
   expected_loot_types_table.diff!(table)

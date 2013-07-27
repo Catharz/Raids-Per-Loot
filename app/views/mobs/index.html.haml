@@ -15,7 +15,7 @@
   %tbody
     - @mobs.each do |mob|
       - cache mob do
-        %tr
+        %tr{id: "mob_#{mob.id}"}
           %td= mob.name
           %td= mob.alias
           %td= mob.zone_name

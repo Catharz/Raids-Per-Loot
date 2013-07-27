@@ -14,7 +14,7 @@
   %tbody
     - @zones.each do |zone|
       - cache zone do
-        %tr
+        %tr{id: "zone_#{zone.id}"}
           %td= zone.name
           %td= link_to 'Mobs', zone_mobs_path(zone), class: 'table-button'
           %td= zone.difficulty_name

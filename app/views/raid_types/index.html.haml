@@ -11,7 +11,7 @@
       %th
   %tbody
     - @raid_types.each do |raid_type|
-      %tr
+      %tr{id: "raid_type_#{raid_type.id}"}
         %td= raid_type.name
         %td= raid_type.raid_counted
         %td= raid_type.raid_points
