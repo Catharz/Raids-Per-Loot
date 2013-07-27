@@ -20,13 +20,13 @@ Feature: Manage pages
     And I should see "Page was successfully created"
 
   Scenario: Delete page
-    Given the following pages:
+    Given I have the following pages:
       | name   | title   | navlabel   | body   | admin |
       | name 1 | title 1 | navlabel 1 | body 1 | true  |
       | name 2 | title 2 | navlabel 2 | body 2 | false |
       | name 3 | title 3 | navlabel 3 | body 3 | false |
       | name 4 | title 4 | navlabel 4 | body 4 | true  |
-    When I delete the 3rd page
+    When I delete the name 3 page
     Then I should see the following pages:
       | Name   | Title   | Nav Label  | Body          | Admin? |
       | name 1 | title 1 | navlabel 1 | <p>body 1</p> | Yes    |

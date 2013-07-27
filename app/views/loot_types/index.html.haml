@@ -9,7 +9,7 @@
   %tbody
     - @loot_types.each do |loot_type|
       - cache loot_type do
-        %tr
+        %tr{id: "loot_type_#{loot_type.id}"}
           %td= loot_type.name
           %td= loot_method_description loot_type.default_loot_method
           %td= link_to 'Show', loot_type, class: 'table-button'

@@ -23,13 +23,13 @@ Feature: Manage mobs
     And I should see "Mob was successfully created"
 
   Scenario: Delete mob
-    Given the following mobs:
+    Given I have the following mobs:
       |zone_name  |name  |alias  |difficulty|
       |zone_name 1|name 1|alias 1|Easy      |
       |zone_name 2|name 2|alias 2|Normal    |
       |zone_name 3|name 3|alias 3|Hard      |
       |zone_name 4|name 4|alias 4|Easy      |
-    When I delete the 3rd mob
+    When I delete the mob name 3
     Then I should see the following mobs:
       |Zone|Name|Alias|
       |zone_name 1|name 1|alias 1|

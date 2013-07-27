@@ -11,7 +11,7 @@
       %th
   %tbody
     - @player_raids.each do |player_raid|
-      %tr
+      %tr{id: "player_raid_#{player_raid.id}"}
         %td= player_raid.raid_description
         %td= player_raid.player_name
         %td= player_raid.signed_up

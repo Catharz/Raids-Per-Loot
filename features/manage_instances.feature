@@ -31,7 +31,7 @@ Feature: Manage instances
       | 2011-09-21 20:00:00 | There          |
       | 2011-09-23 20:00:00 | Everywhere     |
       | 2011-09-24 20:00:00 | Somewhere Else |
-    When I delete the 3rd instance
+    When I delete the last instance in Everywhere
     Then I should see the following instances:
       | Start time                | Zone           |
       | 2011-09-18 20:00:00 +1000 | Here           |

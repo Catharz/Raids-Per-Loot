@@ -28,7 +28,7 @@ Feature: Manage Raid types
       | Normal      | true         | 1.0         | true         | 1.0       |
       | Pickup      | false        | 0.0         | false        | 0.0       |
       | Trash       | false        | 0.5         | false        | 0.0       |
-    When I delete the 3rd raid type
+    When I delete the Pickup raid type
     Then I should see the following raid types:
       | Name        | Raid counted | Raid points | Loot counted | Loot cost |
       | Progression | true         | 2.0         | true         | 2.0       |

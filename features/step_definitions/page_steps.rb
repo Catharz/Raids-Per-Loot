@@ -1,10 +1,11 @@
-Given /^the following pages:$/ do |pages|
+Given /^I have the following pages:$/ do |pages|
   Page.create!(pages.hashes)
 end
 
-When /^I delete the (\d+)(?:st|nd|rd|th) page$/ do |pos|
+When /^I delete the (.+) page$/ do |name|
+  page = Page.find_by_name(name)
   visit pages_path
-  within("table tr:nth-child(#{pos.to_i})") do
+  within("tr#page_#{page.id}") do
     click_link "Destroy"
   end
 end

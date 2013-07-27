@@ -14,10 +14,11 @@ Given /^the following zones:$/ do |zones|
   Zone.all
 end
 
-When /^I delete the (\d+)(?:st|nd|rd|th) zone$/ do |pos|
+When /^I delete the (.+) zone$/ do |name|
+  zone = Zone.find_by_name(name)
   visit zones_path
-  within("table tr:nth-child(#{pos.to_i})") do
-    click_link "Destroy"
+  within("tr#zone_#{zone.id}") do
+    click_link 'Destroy'
   end
 end
 

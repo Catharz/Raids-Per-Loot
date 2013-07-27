@@ -23,10 +23,13 @@ Given /^the following player_raids:$/ do |player_raids|
   end
 end
 
-When /^I delete the (\d+)(?:st|nd|rd|th) player_raid$/ do |pos|
+When /^I delete the player raid for (.+) on (.+)$/ do |name, date|
+  player = Player.find_by_name(name)
+  raid = Raid.find_by_raid_date(Date.parse(date))
+  player_raid = PlayerRaid.find_by_player_id_and_raid_id(player.id, raid.id)
   visit player_raids_path
-  within("table tbody tr:nth-child(#{pos.to_i})") do
-    click_link "Destroy"
+  within("#player_raid_#{player_raid.id}") do
+    click_link 'Destroy'
   end
 end
 

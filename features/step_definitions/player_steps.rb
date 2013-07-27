@@ -11,10 +11,11 @@ Given /^the following players:$/ do |players|
   Player.create!(players.hashes)
 end
 
-When /^I delete the (\d+)(?:st|nd|rd|th) player$/ do |pos|
+When /^I delete the player named (.+)$/ do |name|
+  player = Player.find_by_name(name)
   visit players_path
-  within("table tbody tr:nth-child(#{pos.to_i})") do
-    click_link "Destroy"
+  within("#player_#{player.id}") do
+    click_link 'Destroy'
   end
 end
 

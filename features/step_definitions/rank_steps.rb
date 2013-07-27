@@ -8,10 +8,11 @@ Given /^the following ranks:$/ do |ranks|
   Rank.create!(ranks.hashes)
 end
 
-When /^I delete the (\d+)(?:st|nd|rd|th) rank$/ do |pos|
+When /^I delete the (.+) rank$/ do |name|
+  rank = Rank.find_by_name(name)
   visit ranks_path
-  within("table tr:nth-child(#{pos.to_i})") do
-    click_link "Destroy"
+  within("tr#rank_#{rank.id}") do
+    click_link 'Destroy'
   end
 end
 
