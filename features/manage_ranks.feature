@@ -2,7 +2,7 @@ Feature: Manage ranks
   In order to hand out loot fairly
   The raid leader
   wants to be able to have player ranks
-  
+
   Background: Logged In
     Given I am logged in as a user
 
@@ -17,14 +17,14 @@ Feature: Manage ranks
 
   Scenario: Delete rank
     Given the following ranks:
-      |name|priority|
-      |name 1|1|
-      |name 2|2|
-      |name 3|3|
-      |name 4|4|
-    When I delete the 3rd rank
+      | name   | priority |
+      | name 1 | 1        |
+      | name 2 | 2        |
+      | name 3 | 3        |
+      | name 4 | 4        |
+    When I delete the name 3 rank
     Then I should see the following ranks:
-      |Name|Priority|
-      |name 1|1|
-      |name 2|2|
-      |name 4|4|
+      | Name   | Priority |
+      | name 1 | 1        |
+      | name 2 | 2        |
+      | name 4 | 4        |

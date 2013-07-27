@@ -28,7 +28,7 @@ Feature: Manage raids
       | 2011-09-21 |
       | 2011-09-23 |
       | 2011-09-24 |
-    When I delete the 3rd raid
+    When I delete the raid on 2011-09-23
     Then I should see the following raids:
       | Raid date  |
       | 2011-09-18 |

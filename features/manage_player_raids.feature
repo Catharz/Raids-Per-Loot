@@ -30,7 +30,7 @@ Feature: Manage player_raids
       | 2012-09-18 | Progression | player 2 | true      | true     | b      |
       | 2012-09-21 | Progression | player 1 | true      | true     | b      |
       | 2012-09-21 | Progression | player 2 | true      | true     | a      |
-    When I delete the 3rd player_raid
+    When I delete the player raid for player 1 on 2012-09-21
     Then I should see the following player_raids:
       | Raid                     | Player   | Signed Up | Punctual | Status   |
       | 2012-09-18 (Progression) | player 1 | true      | true     | Attended |

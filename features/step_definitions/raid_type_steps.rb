@@ -2,10 +2,11 @@ Given /^the following raid types:$/ do |raid_types|
   RaidType.create!(raid_types.hashes)
 end
 
-When /^I delete the (\d+)(?:st|nd|rd|th) raid type$/ do |pos|
+When /^I delete the (.+) raid type$/ do |name|
+  raid_type = RaidType.find_by_name(name)
   visit raid_types_path
-  within("table tr:nth-child(#{pos.to_i})") do
-    click_link "Destroy"
+  within("#raid_type_#{raid_type.id}") do
+    click_link 'Destroy'
   end
 end
 

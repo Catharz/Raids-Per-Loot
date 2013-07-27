@@ -11,10 +11,14 @@ Given /^the following instances:$/ do |instances|
   end
 end
 
-When /^I delete the (\d+)(?:st|nd|rd|th) instance$/ do |pos|
+When /^I delete the last instance in (.+)$/ do |zone_name|
   visit instances_path
-  within("table#instancesTable tbody tr:nth-child(#{pos.to_i})") do
-    click_link "Destroy"
+  zone = Zone.find_by_name(zone_name)
+  instance = Instance.where(zone_id: zone.id).last
+  unless instance.nil?
+    within("tr#instance_#{instance.id}") do
+      click_link 'Destroy'
+    end
   end
 end
 

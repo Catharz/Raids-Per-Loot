@@ -20,7 +20,7 @@ Feature: Manage slots
       |name 2|
       |name 3|
       |name 4|
-    When I delete the 3rd slot
+    When I delete the name 3 slot
     Then I should see the following slots:
       |Name|
       |name 1|

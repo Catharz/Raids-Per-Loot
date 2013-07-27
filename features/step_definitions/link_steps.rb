@@ -1,11 +1,12 @@
-Given /^the following links:$/ do |links|
+Given /^I have the following links:$/ do |links|
   Link.create!(links.hashes)
 end
 
-When /^I delete the (\d+)(?:st|nd|rd|th) link$/ do |pos|
+When /^I delete the link to (.+)$/ do |url|
+  url = Link.find_by_url(url)
   visit links_path
-  within("table tr:nth-child(#{pos.to_i})") do
-    click_link "Destroy"
+  within("tr#link_#{url.id}") do
+    click_link 'Destroy'
   end
 end
 

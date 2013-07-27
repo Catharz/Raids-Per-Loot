@@ -16,14 +16,14 @@ Feature: Manage link_categories
     And I should see "Link category was successfully created"
 
   Scenario: Delete link_category
-    Given the following link_categories:
+    Given I have the following link categories:
       |title|description|
       |title 1|description 1|
       |title 2|description 2|
       |title 3|description 3|
       |title 4|description 4|
-    When I delete the 3rd link_category
-    Then I should see the following link_categories:
+    When I delete the link category title 3
+    Then I should see the following link categories:
       |Title|Description|
       |title 1|description 1|
       |title 2|description 2|
