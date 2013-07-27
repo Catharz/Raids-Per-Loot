@@ -61,6 +61,10 @@ gem 'thin'
 
 gem 'bullet', :group => :development
 
+group :production do
+  gem 'passenger'
+end
+
 #START:dev_and_test_gems
 group :test, :development do
   # Pretty printed test output
@@ -100,7 +104,7 @@ group :test, :development do
   #gem "taps"
 
   #Deploy with Capistrano
-  gem 'rvm-capistrano'
+  gem 'capistrano'
 
 	# To use debugger
 	#gem 'ruby-debug'
