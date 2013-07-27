@@ -58,12 +58,10 @@ gem 'therubyracer'
 # Use unicorn as the web server
 # gem 'unicorn'
 gem 'thin'
+gem 'passenger'
 
 gem 'bullet', :group => :development
 
-group :production do
-  gem 'passenger'
-end
 
 #START:dev_and_test_gems
 group :test, :development do
