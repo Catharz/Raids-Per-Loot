@@ -89,7 +89,11 @@ class CharactersController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.js # show.js.coffee
-      format.json { render json: @character.to_json(methods: [:player_name, :player_raids_count, :player_active]) }
+      format.json { render json: @character.to_json(methods: [:player_name,
+                                                              :player_raids_count,
+                                                              :player_active,
+                                                              :player_switches_count,
+                                                              :player_switch_rate]) }
       format.xml { render :xml => @character.to_xml(:include => [:instances, :drops]) }
     end
   end
@@ -158,6 +162,7 @@ class CharactersController < ApplicationController
                                                                    :main_character, :raid_alternate,
                                                                    :first_raid_date, :last_raid_date,
                                                                    :player_name, :player_raids_count,
+                                                                   :player_switches_count, :player_switch_rate,
                                                                    :player_active]),
                              :notice => 'Character was successfully updated.' }
         format.xml { head :ok }

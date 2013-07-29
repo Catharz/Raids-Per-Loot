@@ -6,24 +6,22 @@ require 'spork'
 
 Spork.prefork do
   if %w{yes true on}.include? ENV['COVERAGE']
-    #unless ENV['DRB']
-      require 'simplecov'
-      SimpleCov.start 'rails' do
-        add_filter 'spec'
-        add_filter 'vendor'
-        add_group 'Observers', 'app/observers'
-        add_group 'DataTables', 'app/datatables'
-        add_group 'Validators', 'app/validators'
-        add_group 'Workers', 'app/workers'
-        add_group 'Changed' do |source_file|
-          `git status --untracked=all --porcelain`.split("\n").detect do |status_and_filename|
-            _, filename = status_and_filename.split(' ', 2)
-            source_file.filename.ends_with?(filename)
-          end
+    require 'simplecov'
+    SimpleCov.start 'rails' do
+      add_filter 'spec'
+      add_filter 'vendor'
+      add_group 'Observers', 'app/observers'
+      add_group 'DataTables', 'app/datatables'
+      add_group 'Validators', 'app/validators'
+      add_group 'Workers', 'app/workers'
+      add_group 'Changed' do |source_file|
+        `git status --untracked=all --porcelain`.split("\n").detect do |status_and_filename|
+          _, filename = status_and_filename.split(' ', 2)
+          source_file.filename.ends_with?(filename)
         end
       end
-      puts 'Running RSpec with Coverage'
-    #end
+    end
+    puts 'Running RSpec with Coverage'
   end
 
   # Loading more in this block will cause your tests to run faster. However,
@@ -52,6 +50,7 @@ Spork.prefork do
   #end
 
   RSpec.configure do |config|
+    config.fail_fast = %w{yes true on}.include? ENV['FAIL_FAST']
 
     # ## Mock Framework
     #

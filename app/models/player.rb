@@ -102,7 +102,11 @@ class Player < ActiveRecord::Base
          self.instances_count,
          self.armour_rate,
          self.jewellery_rate,
-         self.weapon_rate
+         self.weapon_rate,
+         self.adornment_rate,
+         self.dislodger_rate,
+         self.mount_rate,
+         self.switch_rate
         ])
   end
 end

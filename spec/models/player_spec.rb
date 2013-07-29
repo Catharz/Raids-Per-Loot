@@ -21,7 +21,7 @@ describe Player do
 
         csv.should match('Fred')
         csv.should match('Main')
-        csv.split(',').count.should == 10
+        csv.split(',').count.should == 14
       end
     end
 

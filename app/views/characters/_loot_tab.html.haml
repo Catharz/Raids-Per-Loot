@@ -11,6 +11,7 @@
   = show_hide_button 'Adornments', '9', "charactersLootTable_#{@char_type}", false
   = show_hide_button 'Dislodgers', '10', "charactersLootTable_#{@char_type}", false
   = show_hide_button 'Mounts', '11', "charactersLootTable_#{@char_type}", false
+  = show_hide_button 'Switches', '12', "charactersLootTable_#{@char_type}", false
 %table{:id => "charactersLootTable_#{@char_type}"}
   %thead
     %tr
@@ -26,6 +27,7 @@
       %th Adornments
       %th Dislodgers
       %th Mounts
+      %th Switches
       %th
       %th
   %tbody
@@ -44,5 +46,6 @@
           %td.lootRateTrigger= number_with_precision(character.adornment_rate, :precision => 2)
           %td.lootRateTrigger= number_with_precision(character.dislodger_rate, :precision => 2)
           %td.lootRateTrigger= number_with_precision(character.mount_rate, :precision => 2)
+          %td.lootRateTrigger= number_with_precision(character.player_switch_rate, :precision => 2)
           %td= link_to 'Update', update_data_character_path(character), method: 'post', class: 'table-button'
           %td= link_to 'Edit', "/player_characters/#{character.id}/edit", remote: true, class: 'table-button'

@@ -96,11 +96,12 @@ jQuery ->
       nRow.setAttribute 'data-player_raids', aData.data.player_raids
       nRow.setAttribute 'data-raids', aData.data.raids
       nRow.setAttribute 'data-instances', aData.data.instances
+      nRow.setAttribute 'data-switches', aData.data.switches
       nRow.setAttribute 'data-armour', aData.data.armour
       nRow.setAttribute 'data-jewellery', aData.data.jewellery
       nRow.setAttribute 'data-weapons', aData.data.weapons
       nRow.setAttribute 'data-attuned', aData.data.attuned
-      nRow.setAttribute 'data-adornment', aData.data.adornment
+      nRow.setAttribute 'data-adornments', aData.data.adornments
       nRow.setAttribute 'data-dislodgers', aData.data.dislodgers
       nRow.setAttribute 'data-mounts', aData.data.mounts
       nRow.setAttribute 'data-character_id', aData.data.character_id
@@ -141,11 +142,12 @@ jQuery ->
       nRow.setAttribute 'data-player_raids', aData.data.player_raids
       nRow.setAttribute 'data-raids', aData.data.raids
       nRow.setAttribute 'data-instances', aData.data.instances
+      nRow.setAttribute 'data-switches', aData.data.switches
       nRow.setAttribute 'data-armour', aData.data.armour
       nRow.setAttribute 'data-jewellery', aData.data.jewellery
       nRow.setAttribute 'data-weapons', aData.data.weapons
       nRow.setAttribute 'data-attuned', aData.data.attuned
-      nRow.setAttribute 'data-adornment', aData.data.adornment
+      nRow.setAttribute 'data-adornments', aData.data.adornments
       nRow.setAttribute 'data-dislodgers', aData.data.dislodgers
       nRow.setAttribute 'data-mounts', aData.data.mounts
       nRow.setAttribute 'data-character_id', aData.data.character_id
@@ -185,11 +187,12 @@ jQuery ->
       nRow.setAttribute 'data-player_raids', aData.data.player_raids
       nRow.setAttribute 'data-raids', aData.data.raids
       nRow.setAttribute 'data-instances', aData.data.instances
+      nRow.setAttribute 'data-switches', aData.data.switches
       nRow.setAttribute 'data-armour', aData.data.armour
       nRow.setAttribute 'data-jewellery', aData.data.jewellery
       nRow.setAttribute 'data-weapons', aData.data.weapons
       nRow.setAttribute 'data-attuned', aData.data.attuned
-      nRow.setAttribute 'data-adornment', aData.data.adornment
+      nRow.setAttribute 'data-adornments', aData.data.adornments
       nRow.setAttribute 'data-dislodgers', aData.data.dislodgers
       nRow.setAttribute 'data-mounts', aData.data.mounts
       nRow.setAttribute 'data-character_id', aData.data.character_id
@@ -258,6 +261,7 @@ jQuery ->
     {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # Adornment Rate
     {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # dislodger Rate
     {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # Mount Rate
+    {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # Switch Rate
     null, # Update button
     null # Edit Player Character button
     ]
@@ -281,6 +285,7 @@ jQuery ->
     {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # Adornment Rate
     {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # dislodger Rate
     {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # Mount Rate
+    {"sType": "numeric", "sClass": "numeric", "bVisible": false }, # Switch Rate
       null, # Update button
       null # Edit Player Character button
     ]

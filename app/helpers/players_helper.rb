@@ -11,6 +11,7 @@ module PlayersHelper
         adornment: player.adornments_count,
         dislodgers: player.dislodgers_count,
         mounts: player.mounts_count,
+        switches: player.switches_count,
         player_id: player.id
     }
   end

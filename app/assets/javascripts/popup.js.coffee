@@ -120,7 +120,8 @@ jQuery ->
       $("#popupContent").append "<div class='popupResult'>" +
       "Raids (Player): " + data.player_raids + "</br>" +
       "Raids (Character): " + data.raids + "</br>" +
-      "Instances: " + data.instances + "</br></br>" +
+      "Instances: " + data.instances + "</br>" +
+      "Switches: " + data.switches + "</br></br>" +
       "Armour: " + data.armour + "</br>" +
       "Jewellery: " + data.jewellery + "</br>" +
       "Weapons: " + data.weapons + "</br>" +
@@ -148,6 +149,7 @@ jQuery ->
       $("#popupContent").empty()
       $("#popupContent").append "<div class='popupResult'>" +
       "Raids: " + data.raids + "</br>" +
+      "Switches: " + data.switches + "</br>" +
       "Instances: " + data.instances + "</br></br>" +
       "Armour: " + data.armour + "</br>" +
       "Jewellery: " + data.jewellery + "</br>" +
