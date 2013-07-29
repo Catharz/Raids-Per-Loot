@@ -11,26 +11,28 @@ updateCharacterDataAttributes = (character) ->
   rowData.adornments = character.adornments_count
   rowData.dislodgers = character.dislodgers_count
   rowData.mounts = character.mounts_count
+  rowData.switches = character.player_switches_count
   true
 
 updateCharacter = (character) ->
   oTable = $("#charactersLootTable_#{character.char_type}").dataTable()
   aPos = oTable.fnGetPosition( document.getElementById("character_#{character.id}_#{character.char_type}") )
   oTable.fnUpdate(yesNo(character.player_active), aPos, 1)
-  oTable.fnUpdate(character.armour_rate.toFixed(2), aPos, 4)
-  oTable.fnUpdate(character.jewellery_rate.toFixed(2), aPos, 5)
-  oTable.fnUpdate(character.weapon_rate.toFixed(2), aPos, 6)
-  oTable.fnUpdate(character.attuned_rate.toFixed(2), aPos, 7)
-  oTable.fnUpdate(character.adornment_rate.toFixed(2), aPos, 8)
-  oTable.fnUpdate(character.dislodger_rate.toFixed(2), aPos, 9)
-  oTable.fnUpdate(character.mount_rate.toFixed(2), aPos, 10)
+  oTable.fnUpdate(character.armour_rate.toFixed(2), aPos, 5)
+  oTable.fnUpdate(character.jewellery_rate.toFixed(2), aPos, 6)
+  oTable.fnUpdate(character.weapon_rate.toFixed(2), aPos, 7)
+  oTable.fnUpdate(character.attuned_rate.toFixed(2), aPos, 8)
+  oTable.fnUpdate(character.adornment_rate.toFixed(2), aPos, 9)
+  oTable.fnUpdate(character.dislodger_rate.toFixed(2), aPos, 10)
+  oTable.fnUpdate(character.mount_rate.toFixed(2), aPos, 11)
+  oTable.fnUpdate(character.player_switch_rate.toFixed(2), aPos, 12)
   updateCharacterDataAttributes(character)
   oTable.fnDraw()
 
 $('#popup').dialog
   autoOpen: true
   width: 280
-  height: 440
+  height: 460
   modal: true
   resizable: false
   title: "Editing Loot Stats"

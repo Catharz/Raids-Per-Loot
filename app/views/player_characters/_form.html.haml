@@ -21,6 +21,9 @@
       = label_tag 'Raids:', nil, class: 'header'
       = number_field_tag :raids_count, @player_character.raids_count, class: 'number'
     %p
+      = label_tag 'Switches:', nil, class: 'header'
+      = number_field_tag :switches_count, @player_character.switches_count, class: 'number'
+    %p
       = label_tag 'Armour:', nil, class: 'header'
       = number_field_tag :armour_count, @player_character.armour_count, class: 'number'
     %p

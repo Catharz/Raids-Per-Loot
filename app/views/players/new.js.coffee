@@ -20,7 +20,7 @@ insertPlayer = (player) ->
 $("#popup").dialog
   autoOpen: true
   width: 380
-  height: 300
+  height: 320
   modal: true
   resizable: false
   title: 'New Player'

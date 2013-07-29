@@ -12,6 +12,7 @@
       %th Adornments
       %th Dislodgers
       %th Mounts
+      %th Switches
       %th
   %tbody
     - @characters.each do |character|
@@ -27,4 +28,5 @@
         %td.lootRateTrigger= number_with_precision(character.adornment_rate, :precision => 2)
         %td.lootRateTrigger= number_with_precision(character.dislodger_rate, :precision => 2)
         %td.lootRateTrigger= number_with_precision(character.mount_rate, :precision => 2)
+        %td.lootRateTrigger= number_with_precision(character.player_switch_rate, :precision => 2)
         %td= link_to 'Update', update_data_character_path(character), method: 'post', class: 'table-button'

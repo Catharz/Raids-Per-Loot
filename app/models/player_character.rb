@@ -21,6 +21,7 @@ class PlayerCharacter
   attribute :adornments_count, Integer
   attribute :dislodgers_count, Integer
   attribute :mounts_count, Integer
+  attribute :switches_count, Integer
 
   validates :raids_count, presence: true
   validates :armour_count, presence: true
@@ -29,6 +30,7 @@ class PlayerCharacter
   validates :adornments_count, presence: true
   validates :dislodgers_count, presence: true
   validates :mounts_count, presence: true
+  validates :switches_count, presence: true
 
   def initialize(character_id)
     @character = Character.find(character_id)
@@ -38,6 +40,7 @@ class PlayerCharacter
 
     @active = @player.active
     @raids_count = @player.raids_count
+    @switches_count = @player.switches_count
     @armour_count = @character.armour_count
     @jewellery_count = @character.jewellery_count
     @weapons_count = @character.weapons_count
@@ -53,6 +56,7 @@ class PlayerCharacter
   def update_attributes(attributes)
     @active = attributes[:active]
     @raids_count = attributes[:raids_count]
+    @switches_count = attributes[:switches_count]
     @armour_count = attributes[:armour_count]
     @jewellery_count = attributes[:jewellery_count]
     @weapons_count = attributes[:weapons_count]
@@ -74,10 +78,7 @@ class PlayerCharacter
   private
 
   def persist!
-    # We use update attribute on the player
-    #@player.update_attribute(:active, active)
-    #@player.update_attribute(:raids_count, raids_count)
-    @player.update_attributes(active: active, raids_count: raids_count)
+    @player.update_attributes(active: active, raids_count: raids_count, switches_count: switches_count)
     @character.update_attributes(armour_count: armour_count,
                                  jewellery_count: jewellery_count,
                                  weapons_count: weapons_count,

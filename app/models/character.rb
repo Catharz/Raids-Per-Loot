@@ -47,6 +47,8 @@ class Character < ActiveRecord::Base
   delegate :raid_date, to: :first_raid, prefix: :first, allow_nil: true
   delegate :raid_date, to: :last_raid, prefix: :last, allow_nil: true
   delegate :active, to: :player, prefix: :player, allow_nil: true
+  delegate :switches_count, to: :player, prefix: :player, allow_nil: true
+  delegate :switch_rate, to: :player, prefix: :player, allow_nil: true
 
   scope :by_name, ->(name) {
     name ? where(:name => name) : scoped
@@ -126,15 +128,23 @@ class Character < ActiveRecord::Base
     CSV.generate_line(
         [self.name,
          char_type_name(self.char_type),
-         self.main_character ? self.main_character.name : 'Unknown',
-         self.archetype ? self.archetype.name : 'Unknown',
-         self.first_raid ? self.first_raid.raid_date : 'Never',
-         self.last_raid ? self.last_raid.raid_date : 'Never',
+         self.current_main_name,
+         self.archetype_name,
+         self.first_raid_date,
+         self.last_raid_date,
          self.raids_count,
          self.instances_count,
          self.armour_rate,
          self.jewellery_rate,
-         self.weapon_rate
+         self.weapon_rate,
+         self.adornments_count,
+         self.adornment_rate,
+         self.dislodgers_count,
+         self.dislodger_rate,
+         self.mounts_count,
+         self.mount_rate,
+         self.player_switches_count,
+         self.player_switch_rate
         ])
   end
 end
