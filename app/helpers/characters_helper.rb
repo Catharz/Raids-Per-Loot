@@ -143,6 +143,7 @@ module CharactersHelper
         adornments: character.adornments_count,
         dislodgers: character.dislodgers_count,
         mounts: character.mounts_count,
+        switches: character.player_switches_count,
         character_id: character.id,
         health: character.health,
         power: character.power,

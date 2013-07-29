@@ -21,6 +21,9 @@ module PointsCalculationHelper
     self.adornment_rate = calculate_loot_rate(raids_attended, self.adornments_count)
     self.dislodger_rate = calculate_loot_rate(raids_attended, self.dislodgers_count)
     self.mount_rate = calculate_loot_rate(raids_attended, self.mounts_count)
+    if self.respond_to? :switches_count
+      self.switch_rate = calculate_loot_rate(raids_attended, self.switches_count)
+    end
   end
 
   def raid_count(range = {start:  nil, end: nil}, aggregate_up = true)
@@ -34,7 +37,7 @@ module PointsCalculationHelper
   end
 
   def calculate_loot_rate(event_count, item_count)
-    return 0 if event_count.nil? or item_count.nil?
+    return 0.0 if event_count.nil? or item_count.nil?
     (Float(event_count) / (Float(item_count) + 1.0) * 100.00).round / 100.00
   end
 

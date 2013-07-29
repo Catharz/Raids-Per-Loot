@@ -207,11 +207,11 @@ describe Character do
 
     describe '#to_csv' do
       it 'should return csv' do
-        csv = FactoryGirl.create(:character, valid_character_attributes.merge!(:name => 'CSV')).to_csv
+        csv = FactoryGirl.create(:character, name: 'CSV').to_csv
 
         csv.should match('CSV')
         csv.should match('Raid Main')
-        csv.split(',').count.should == 11
+        csv.split(',').count.should == 19
       end
     end
 
