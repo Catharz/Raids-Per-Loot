@@ -22,6 +22,8 @@ class PlayerCharacter
   attribute :dislodgers_count, Integer
   attribute :mounts_count, Integer
   attribute :switches_count, Integer
+  attribute :confirmed_rating, String
+  attribute :confirmed_date, Date
 
   validates :raids_count, presence: true
   validates :armour_count, presence: true
@@ -31,6 +33,9 @@ class PlayerCharacter
   validates :dislodgers_count, presence: true
   validates :mounts_count, presence: true
   validates :switches_count, presence: true
+  validate do |player_character|
+    player_character.must_have_rating_with_date
+  end
 
   def initialize(character_id)
     @character = Character.find(character_id)
@@ -47,6 +52,9 @@ class PlayerCharacter
     @adornments_count = @character.adornments_count
     @dislodgers_count = @character.dislodgers_count
     @mounts_count = @character.mounts_count
+
+    @confirmed_rating = @character.confirmed_rating
+    @confirmed_date = @character.confirmed_date
   end
 
   def persisted?
@@ -63,6 +71,8 @@ class PlayerCharacter
     @adornments_count = attributes[:adornments_count]
     @dislodgers_count = attributes[:dislodgers_count]
     @mounts_count = attributes[:mounts_count]
+    @confirmed_rating = attributes[:confirmed_rating]
+    @confirmed_date = attributes[:confirmed_date]
     save
   end
 
@@ -75,6 +85,12 @@ class PlayerCharacter
     end
   end
 
+  def must_have_rating_with_date
+    return if confirmed_date.nil? and confirmed_rating.nil?
+    return if !confirmed_date.nil? and !confirmed_rating.nil?
+    errors.add(:base, 'Must have a rating and a date')
+  end
+
   private
 
   def persist!
@@ -84,6 +100,8 @@ class PlayerCharacter
                                  weapons_count: weapons_count,
                                  adornments_count: adornments_count,
                                  dislodgers_count: dislodgers_count,
-                                 mounts_count: mounts_count)
+                                 mounts_count: mounts_count,
+                                 confirmed_rating: confirmed_rating,
+                                 confirmed_date: confirmed_date)
   end
 end

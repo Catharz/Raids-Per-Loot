@@ -145,11 +145,11 @@ describe 'characters/statistics.html.haml' do
 
         render
 
-        rendered.should have_selector('tr', :'data-blue_adornments' => '1 / 3')
-        rendered.should have_selector('tr', :'data-white_adornments' => '1 / 5')
-        rendered.should have_selector('tr', :'data-yellow_adornments' => '2 / 3')
-        rendered.should have_selector('tr', :'data-red_adornments' => '1 / 2')
-        rendered.should have_selector('tr', :'data-green_adornments' => '3 / 3')
+        rendered.should have_selector('tr', :'data-blue-adornments' => '1 / 3')
+        rendered.should have_selector('tr', :'data-white-adornments' => '1 / 5')
+        rendered.should have_selector('tr', :'data-yellow-adornments' => '2 / 3')
+        rendered.should have_selector('tr', :'data-red-adornments' => '1 / 2')
+        rendered.should have_selector('tr', :'data-green-adornments' => '3 / 3')
       end
     end
   end

@@ -252,6 +252,7 @@ jQuery ->
       null, # Player
     {"bSearchable": true, "bVisible": false},  # Active
       null, # Name
+    {"bSearchable": true, "bVisible": false},  # Stats Confirmed
       null, # Class
     {"bSearchable": true, "bVisible": false},  # Base Class
     {"sType": "numeric", "sClass": "numeric" }, # Armour Rate
@@ -276,6 +277,7 @@ jQuery ->
       null, # Player
     {"bSearchable": true, "bVisible": false},  # Active
       null, # Name
+    {"bSearchable": true, "bVisible": false},  # Confirmed Stats
       null, # Class
     {"bSearchable": true, "bVisible": false},  # Base Class
     {"sType": "numeric", "sClass": "numeric" }, # Armour Rate

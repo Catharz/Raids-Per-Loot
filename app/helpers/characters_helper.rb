@@ -8,6 +8,27 @@ module CharactersHelper
     [{:id => 'm', :text => 'Raid Main'}, {:id => 'r', :text => 'Raid Alternate'}, {:id => 'g', :text => 'General Alternate'}].collect {|ct| [ ct[:text], ct[:id] ] }
   end
 
+  def confirmed_rating_select(form, field)
+    form.select(field, confirmed_rating_options, include_blank: true)
+  end
+
+  def confirmed_rating_options
+    [{:id => 'unsatisfactory', :text => 'Unsatisfactory'},
+     {:id => 'minimum', :text => 'Minimum'},
+     {:id => 'optimal', :text => 'Optimal'}].collect {|ct| [ ct[:text], ct[:id] ] }
+  end
+
+  def confirmed_rating_name(rating)
+    case rating
+      when 'o' then
+        'Optimal'
+      when 'm' then
+        'Minimum'
+      else
+        'Unsatisfactory'
+    end
+  end
+
   def char_type_name(char_type)
     case char_type
       when 'm' then
