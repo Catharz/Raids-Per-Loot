@@ -73,7 +73,7 @@ module DropSpecHelper
   def add_drop(character, item_name, loot_type_name)
     loot_type = mock_model(LootType, :name => loot_type_name)
     item = mock_model(Item, valid_item_attributes.merge!(:eq2_item_id => "123", :name => item_name))
-    character.stub!(:drops).and_return([mock_model(Drop, valid_drop_attributes.merge!(:loot_type_id => loot_type.id, :item_id => item.id))])
+    character.stub(:drops).and_return([mock_model(Drop, valid_drop_attributes.merge!(:loot_type_id => loot_type.id, :item_id => item.id))])
   end
 
   def create_drops(character, drop_counts = {})
@@ -89,14 +89,14 @@ module DropSpecHelper
           item = mock_model(Item, :eq2_item_id => "#{character.name} #{loot_type_name} item #{n}", :name => "#{character.name} #{loot_type_name} item #{n}", :loot_type => loot_type)
 
           drop = mock_model(Drop, valid_drop_attributes)
-          drop.stub!(:raid).and_return(create_raid)
-          drop.stub!(:zone).and_return(zone)
-          drop.stub!(:mob).and_return(mob)
-          drop.stub!(:instance).and_return(create_instances([drop.raid], [drop.zone]))
-          drop.stub!(:loot_type).and_return(create_loot_type("Armour"))
-          drop.stub!(:character).and_return(character)
-          drop.stub!(:item).and_return(item)
-          drop.stub!(:loot_method_name).and_return("Need")
+          drop.stub(:raid).and_return(create_raid)
+          drop.stub(:zone).and_return(zone)
+          drop.stub(:mob).and_return(mob)
+          drop.stub(:instance).and_return(create_instances([drop.raid], [drop.zone]))
+          drop.stub(:loot_type).and_return(create_loot_type("Armour"))
+          drop.stub(:character).and_return(character)
+          drop.stub(:item).and_return(item)
+          drop.stub(:loot_method_name).and_return("Need")
 
           drop_list << drop
         end

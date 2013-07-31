@@ -135,7 +135,7 @@ describe CharacterType do
 
     describe 'by_character_and_date' do
       it 'reuses by_character and as_at' do
-        character = mock(Character)
+        character = double(Character)
         date = 3.weeks.ago
         CharacterType.should_receive(:by_character).with(character).and_return(CharacterType.scoped)
         CharacterType.should_receive(:as_at).with(date)

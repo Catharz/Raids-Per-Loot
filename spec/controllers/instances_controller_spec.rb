@@ -1,6 +1,8 @@
 require 'spec_helper'
+require 'authentication_spec_helper'
 
 describe InstancesController do
+  include AuthenticationSpecHelper
   fixtures :users, :services
 
   before(:each) do

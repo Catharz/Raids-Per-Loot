@@ -35,11 +35,7 @@ Spork.prefork do
   require 'rspec/rails'
   require 'rspec/autorun'
   require 'shoulda/matchers'
-  require 'authentication_spec_helper'
   require 'omniauth'
-
-  # Use the authentication spec helper to handle logins
-  include AuthenticationSpecHelper
 
   # Requires supporting ruby files with custom matchers and macros, etc,
   # in spec/support/ and its subdirectories.

@@ -13,8 +13,8 @@ module AttendanceSpecHelper
     attendees = attendance[:attendees]
 
     attendees.each do |character|
-      character.stub!(:raids).and_return(raid_list)
-      character.stub!(:instances).and_return(instance_list)
+      character.stub(:raids).and_return(raid_list)
+      character.stub(:instances).and_return(instance_list)
     end
   end
 end

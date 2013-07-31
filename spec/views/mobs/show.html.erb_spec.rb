@@ -11,8 +11,8 @@ describe "mobs/show.html.erb" do
                                    :strategy => "MyText",
                                    :difficulty => easy
     ))
-    @mob.stub!(:items).and_return([])
-    @mob.stub!(:drops).and_return([])
+    @mob.stub(:items).and_return([])
+    @mob.stub(:drops).and_return([])
   end
 
   it "renders headings" do

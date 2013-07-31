@@ -29,7 +29,7 @@ describe 'players/attendance.html.haml' do
         PlayerRaid.create(raid: raid, player: player )
       end
     end
-    player.stub!(:raids_count).and_return(PlayerRaid.count)
+    player.stub(:raids_count).and_return(PlayerRaid.count)
   end
 
   after(:each) do
