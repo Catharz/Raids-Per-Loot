@@ -8,22 +8,23 @@ redrawTable = (character) ->
     oTable.fnUpdate(character.player_name, aPos, 0)
     oTable.fnUpdate(yesNo(character.player_active), aPos, 1)
     oTable.fnUpdate(character.name, aPos, 2)
-    oTable.fnUpdate(character.archetype_name, aPos, 3)
-    oTable.fnUpdate(character.archetype_root, aPos, 4)
-    oTable.fnUpdate(character.armour_rate.toFixed(2), aPos, 5)
-    oTable.fnUpdate(character.jewellery_rate.toFixed(2), aPos, 6)
-    oTable.fnUpdate(character.weapon_rate.toFixed(2), aPos, 7)
-    oTable.fnUpdate(character.attuned_rate.toFixed(2), aPos, 8)
-    oTable.fnUpdate(character.adornment_rate.toFixed(2), aPos, 9)
-    oTable.fnUpdate(character.dislodger_rate.toFixed(2), aPos, 10)
-    oTable.fnUpdate(character.mount_rate.toFixed(2), aPos, 11)
-    oTable.fnUpdate(character.switch_rate.toFixed(2), aPos, 12)
+    oTable.fnUpdate(character.confirmed_date, aPos, 3)
+    oTable.fnUpdate(character.archetype_name, aPos, 4)
+    oTable.fnUpdate(character.archetype_root, aPos, 5)
+    oTable.fnUpdate(character.armour_rate.toFixed(2), aPos, 6)
+    oTable.fnUpdate(character.jewellery_rate.toFixed(2), aPos, 7)
+    oTable.fnUpdate(character.weapon_rate.toFixed(2), aPos, 8)
+    oTable.fnUpdate(character.attuned_rate.toFixed(2), aPos, 9)
+    oTable.fnUpdate(character.adornment_rate.toFixed(2), aPos, 10)
+    oTable.fnUpdate(character.dislodger_rate.toFixed(2), aPos, 11)
+    oTable.fnUpdate(character.mount_rate.toFixed(2), aPos, 12)
+    oTable.fnUpdate(character.switch_rate.toFixed(2), aPos, 13)
     oTable.fnDraw()
 
 $("#popup").dialog
   autoOpen: true
-  width: 450
-  height: 470
+  width: 400
+  height: 520
   modal: true
   resizable: false
   title: 'Edit Character'
@@ -39,4 +40,6 @@ $("#popup").dialog
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
+    $(".datepicker").datepicker
+      dateFormat: 'yy-mm-dd'
     $(".actions").empty()

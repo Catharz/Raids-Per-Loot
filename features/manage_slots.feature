@@ -10,8 +10,8 @@ Feature: Manage slots
     Given I am on the new slot page
     When I fill in "Name" with "name 1"
     And I press "Create"
-    Then I should see "name 1"
-    And I should see "Slot was successfully created"
+    Then I should see the slot named: name 1
+    And I should see the notice message: Slot was successfully created
 
   Scenario: Delete slot
     Given the following slots:

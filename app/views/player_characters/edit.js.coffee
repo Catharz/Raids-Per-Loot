@@ -18,6 +18,7 @@ updateCharacter = (character) ->
   oTable = $("#charactersLootTable_#{character.char_type}").dataTable()
   aPos = oTable.fnGetPosition( document.getElementById("character_#{character.id}_#{character.char_type}") )
   oTable.fnUpdate(yesNo(character.player_active), aPos, 1)
+  oTable.fnUpdate(character.confirmed_date, aPos, 3)
   oTable.fnUpdate(character.armour_rate.toFixed(2), aPos, 5)
   oTable.fnUpdate(character.jewellery_rate.toFixed(2), aPos, 6)
   oTable.fnUpdate(character.weapon_rate.toFixed(2), aPos, 7)
@@ -31,8 +32,8 @@ updateCharacter = (character) ->
 
 $('#popup').dialog
   autoOpen: true
-  width: 280
-  height: 460
+  width: 380
+  height: 520
   modal: true
   resizable: false
   title: "Editing Loot Stats"
@@ -55,4 +56,6 @@ $('#popup').dialog
           $('#popup').dialog 'close'
   open: ->
     $('#popup').html "<%= escape_javascript(render('form')) %>"
+    $(".datepicker").datepicker
+      dateFormat: 'yy-mm-dd'
     $('.actions').empty()

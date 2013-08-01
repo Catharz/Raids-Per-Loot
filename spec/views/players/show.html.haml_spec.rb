@@ -1,7 +1,9 @@
 require 'spec_helper'
 require 'date'
+require 'authentication_spec_helper'
 
 describe "players/show.html.haml" do
+  include AuthenticationSpecHelper
   fixtures :users, :services
 
   before(:each) do
@@ -11,11 +13,11 @@ describe "players/show.html.haml" do
 
     armour = stub_model(LootType, :name => "Armour", :default_loot_method => 'n')
     armour_item = stub_model(Item, :name => "Phat BP", :eq2_item_id => "1234", :loot_type_id => armour.id)
-    armour_item.stub!(:loot_type).and_return(armour)
+    armour_item.stub(:loot_type).and_return(armour)
 
     weapon = stub_model(LootType, :name => "Weapon", :default_loot_method => 'n')
     weapon_item = stub_model(Item, :name => "Phat Sword", :eq2_item_id => "1235", :loot_type_id => weapon.id)
-    weapon_item.stub!(:loot_type).and_return(weapon)
+    weapon_item.stub(:loot_type).and_return(weapon)
 
     armour_drop = stub_model(Drop,
                              :zone_name => "Wherever",
@@ -24,7 +26,7 @@ describe "players/show.html.haml" do
                              :item_name => "Phat BP",
                              :eq2_item_id => "1234",
                              :loot_type => armour)
-    armour_drop.stub!(:item).and_return(armour_item)
+    armour_drop.stub(:item).and_return(armour_item)
     weapon_drop = stub_model(Drop,
                              :zone_name => "Wherever Next",
                              :mob_name => "Mob Name",
@@ -32,16 +34,16 @@ describe "players/show.html.haml" do
                              :item_name => "Phat Sword",
                              :eq2_item_id => "1235",
                              :loot_type => weapon)
-    weapon_drop.stub!(:item).and_return(weapon_item)
+    weapon_drop.stub(:item).and_return(weapon_item)
 
-    @player.stub!(:characters).and_return([])
-    @player.stub!(:raids_count).and_return(1)
-    @player.stub!(:instances_count).and_return(2)
-    @player.stub!(:drops).and_return([armour_drop, weapon_drop])
-    @player.stub!(:adjustments).and_return([])
-    @player.stub!(:armour_rate).and_return(2.0)
-    @player.stub!(:weapon_rate).and_return(3.6)
-    @player.stub!(:jewellery_rate).and_return(6.9)
+    @player.stub(:characters).and_return([])
+    @player.stub(:raids_count).and_return(1)
+    @player.stub(:instances_count).and_return(2)
+    @player.stub(:drops).and_return([armour_drop, weapon_drop])
+    @player.stub(:adjustments).and_return([])
+    @player.stub(:armour_rate).and_return(2.0)
+    @player.stub(:weapon_rate).and_return(3.6)
+    @player.stub(:jewellery_rate).and_return(6.9)
   end
 
   it "should list the separate sections" do

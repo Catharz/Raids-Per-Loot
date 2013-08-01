@@ -1,14 +1,20 @@
-:coffeescript
-  setAAs = (value) ->
-    $("#aa_slider").slider "option", "value", value
+:javascript
+  var setAAs;
 
-  jQuery ->
-    alternate_advancement_points = $("#character").attr("alternate_advancement_points")
-    $("#aa_slider").slider
-      value: alternate_advancement_points
-      min: 0
-      max: 320
+  setAAs = function(value) {
+    return $("#aa_slider").slider("option", "value", value);
+  };
+
+  jQuery(function() {
+    var alternate_advancement_points;
+    alternate_advancement_points = $("#character").attr("alternate_advancement_points");
+    return $("#aa_slider").slider({
+      value: alternate_advancement_points,
+      min: 0,
+      max: 320,
       disabled: true
+    });
+  });
 #character{:alternate_advancement_points => @alternate_advancement_points }
   %table.slider
     %tr

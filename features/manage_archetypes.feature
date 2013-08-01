@@ -12,4 +12,4 @@ Feature: Manage archetypes
     When I am editing the archetype named Brigand
     And I set the parent archetype to Rogue
     And I click Update Archetype
-    Then I should see "Archetype was successfully updated"
+    Then I should see the notice message: Archetype was successfully updated

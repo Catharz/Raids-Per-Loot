@@ -13,11 +13,11 @@ Feature: Manage pages
     And I fill in "Navlabel" with "navlabel 1"
     And I fill in "Body" with "body 1"
     And I press "Create"
-    Then I should see "name 1"
-    And I should see "title 1"
-    And I should see "navlabel 1"
-    And I should see "body 1"
-    And I should see "Page was successfully created"
+    Then I should see the page named: name 1
+    And I should see the page title: title 1
+    And I should see the page navigation label: navlabel 1
+    And I should see the page body: body 1
+    And I should see the notice message: Page was successfully created
 
   Scenario: Delete page
     Given I have the following pages:

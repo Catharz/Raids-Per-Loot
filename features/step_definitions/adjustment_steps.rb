@@ -4,19 +4,19 @@ When /^I select to adjust the (.+) named (.+)$/ do |entity_type, entity_name|
 end
 
 When /^I enter (.+) as the adjustment date$/ do |adjustment_date|
-  fill_in "adjustment[adjustment_date]", :with => adjustment_date
+  fill_in 'adjustment[adjustment_date]', :with => adjustment_date
 end
 
 When /^I select (.+) as the adjustment type$/ do |adjustment_type|
-  select adjustment_type, :from => "adjustment_adjustment_type"
+  select adjustment_type, :from => 'adjustment_adjustment_type'
 end
 
 When /^I select (\d+) as the adjusted amount$/ do |amount|
-  fill_in "adjustment[amount]", :with => amount
+  fill_in 'adjustment[amount]', :with => amount
 end
 
 When /^I save the adjustment$/ do
-  click_button("Save")
+  click_button('Save')
 end
 
 When /^the following adjustments:$/ do |adjustments|
@@ -37,14 +37,14 @@ When /^I edit the (\d+)(?:st|nd|rd|th) adjustment for the Player named (.+)$/ do
   player = Player.find_by_name(player_name)
   visit player_adjustments_path(player)
   within("table tbody tr:nth-child(#{pos.to_i})") do
-    click_link "Edit"
+    click_link 'Edit'
   end
 end
 
 When /^I change the adjustable entity to (.+)$/ do |adjustable_entity|
-  select adjustable_entity, :from => "adjustment_adjustable_type", :js => true
+  select adjustable_entity, :from => 'adjustment_adjustable_type'
 end
 
 When /^I change the adjusted entity to (.+)$/ do |entity_name|
-  select entity_name, :from => "adjustment_adjustable_id", :js => true
+  select entity_name, :from => 'adjustment_adjustable_id'
 end

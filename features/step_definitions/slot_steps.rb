@@ -15,3 +15,7 @@ Then /^I should see the following slots:$/ do |expected_slots_table|
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
   expected_slots_table.diff!(table)
 end
+
+Then /^I should see the slot named: (.+)$/ do |name|
+  expect(page).to have_css('p', text: name)
+end
