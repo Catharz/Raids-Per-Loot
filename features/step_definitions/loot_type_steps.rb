@@ -36,3 +36,7 @@ end
 When(/^the loot type items updater is run$/) do
   LootType.all.each { |loot_type| LootTypeItemsUpdater.perform(loot_type.id) }
 end
+
+Then /^I should see loot type named: (.+)$/ do |name|
+  expect(page).to have_css('p', text: name)
+end

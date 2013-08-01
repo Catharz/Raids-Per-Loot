@@ -27,3 +27,12 @@ Then /^I should see the following zones:$/ do |expected_zones_table|
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
   expected_zones_table.diff!(table)
 end
+
+
+Then /^I should see the zone named: (.+)$/ do |zone_name|
+  expect(page).to have_css('p', text: zone_name)
+end
+
+Then /^I should see the zone name: (.+)$/ do |zone_name|
+  expect(page).to have_css('p', text: zone_name)
+end

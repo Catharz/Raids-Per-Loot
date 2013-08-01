@@ -35,3 +35,7 @@ end
 When /^I select "([^"]*)" as the instance's Raid$/ do |raid_date|
   select raid_date, :from => 'instance_raid_id'
 end
+
+Then /^I should see the start time: (.*)$/ do |start_time|
+  expect(page).to have_css('p', text: start_time)
+end

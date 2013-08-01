@@ -30,21 +30,13 @@
   #popup{:title => 'Popup Dialog', :style => 'display:none'}
   #pagewrapper
     #header
-      - if @page.nil?
+      - if @pagetitle.nil?
         %p Raids Per Loot
       - else
-        %p Raids Per Loot - #{@page.navlabel}
+        %p Raids Per Loot - #{@pagetitle}
     #smoothmenu1.ddsmoothmenu
       = render 'layouts/menu'
     %br
-    - unless @page.nil?
-      - unless @page.ancestors.empty?
-        %p
-          #breadcrumb
-            - @page.ancestors.reverse.each do |page|
-              = link_to h(page.navlabel), view_page_path(page.name)
-              \&gt;
-              = @page.navlabel
     #content.clear
       - flash.each do |key, msg|
         %div{id: key}

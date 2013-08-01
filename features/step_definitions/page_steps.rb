@@ -15,3 +15,19 @@ Then /^I should see the following pages:$/ do |expected_pages_table|
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
   expected_pages_table.diff!(table)
 end
+
+Then /^I should see the page named: (.+)$/ do |name|
+  expect(page).to have_css('p', text: name)
+end
+
+Then /^I should see the page title: (.+)$/ do |title|
+  expect(page).to have_css('p', text: title)
+end
+
+Then /^I should see the page navigation label: (.+)$/ do |label|
+  expect(page).to have_css('p', text: label)
+end
+
+Then /^I should see the page body: (.*)$/ do |text|
+  expect(page).to have_css('p', text: text)
+end

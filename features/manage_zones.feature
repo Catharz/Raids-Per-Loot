@@ -12,8 +12,8 @@ Feature: Manage zones
     When I fill in "Name" with "name 1"
     And I select "Easy" from "zone_difficulty_id"
     And I press "Create"
-    Then I should see "name 1"
-    And I should see "Zone was successfully created"
+    Then I should see the zone named: name 1
+    And I should see the notice message: Zone was successfully created
 
   Scenario: Delete zone
     Given the following zones:

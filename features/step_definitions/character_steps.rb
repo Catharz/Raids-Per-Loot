@@ -38,8 +38,9 @@ end
 
 When /^I view the character (.+)'s details$/ do |name|
   visit characters_path
+  character = Character.find_by_name(name)
   within("table tbody") do
-    click_link name
+    click_link "char_#{character.id}_#{character.char_type}"
   end
 end
 
@@ -89,4 +90,16 @@ When /^player (.+) has a (.+) character named (.+)$/ do |player_name, character_
         end
     player.characters.create(:name => character_name, :char_type => char_type)
   end
+end
+
+Then(/^I should see the character named: (.*)$/) do |name|
+  expect(page).to have_css('div#details p', text: name)
+end
+
+Then(/^I should see the character class: (.*)$/) do |class_name|
+  expect(page).to have_css('div#details p', text: class_name)
+end
+
+Then(/^I should see the character type: (.+)$/) do |char_type|
+  expect(page).to have_css('div#details p', text: char_type)
 end

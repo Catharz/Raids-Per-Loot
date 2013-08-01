@@ -15,3 +15,11 @@ Then /^I should see the following link categories:$/ do |expected_link_categorie
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
   expected_link_categories_table.diff!(table)
 end
+
+Then /^I should see the link category titled: (.+)$/ do |title|
+  expect(page).to have_css('p', text: title)
+end
+
+Then /^I should see the link category description: (.+)$/ do |description|
+  expect(page).to have_css('p', text: description)
+end

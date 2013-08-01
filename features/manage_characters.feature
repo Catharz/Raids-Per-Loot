@@ -18,10 +18,10 @@ Feature: Manage characters
     And I select "Monk" as the characters class
     And I select "Main" as the character type
     And I save the character
-    Then I should see "name 1"
-    And I should see "Monk"
-    And I should see "Main"
-    And I should see "Character was successfully created"
+    Then I should see the character named: name 1
+    And I should see the character class: Monk
+    And I should see the character type: Main
+    And I should see the notice message: Character was successfully created
 
   Scenario: Showing a character with drops
     Given I have a Main character named Betty

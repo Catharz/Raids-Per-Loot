@@ -14,12 +14,12 @@ Feature: Manage Raid types
     And I uncheck "Loot counted"
     And I fill in "Loot cost" with "0.0"
     And I press "Create"
-    Then I should see "name 1"
-    And I should see "true"
-    And I should see "1.0"
-    And I should see "false"
-    And I should see "0.0"
-    And I should see "Raid type was successfully created"
+    Then I should see the raid type named: name 1
+    And I should see raid counted is set to: true
+    And I should see raid points are set to: 1.0
+    And I should see loot counted is set to: false
+    And I should see loot points are set to: 0.0
+    And I should see the notice message: Raid type was successfully created
 
   Scenario: Delete raid type
     Given the following raid types:

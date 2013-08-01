@@ -18,9 +18,9 @@ Feature: Manage mobs
     And I fill in "Strategy" with "strategy 1"
     And I select "Easy" from "mob_difficulty_id"
     And I press "Create"
-    Then I should see "name 1"
-    And I should see "strategy 1"
-    And I should see "Mob was successfully created"
+    Then I should see the mob named: name 1
+    And I should see the mob strategy: strategy 1
+    And I should see the notice message: Mob was successfully created
 
   Scenario: Delete mob
     Given I have the following mobs:

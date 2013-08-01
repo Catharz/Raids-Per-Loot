@@ -17,9 +17,9 @@ Feature: Manage raids
     When I enter 2011-09-19 as the raid date
     And I select Progression as the raid type
     And I press "Create"
-    Then I should see "2011-09-19"
-    And I should see "Progression"
-    And I should see "Raid was successfully created"
+    Then I should see the raid date: 2011-09-19
+    And I should see the raid type named: Progression
+    And I should see the notice message: Raid was successfully created
 
   Scenario: Delete raid
     Given the following raids:

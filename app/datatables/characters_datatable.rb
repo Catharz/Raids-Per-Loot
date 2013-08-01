@@ -24,7 +24,7 @@ class CharactersDatatable
       character = Character.find(char['id'].to_i)
       character_data = character_row_data(character)
       {
-          '0' => h(link_to character.name, character, :id => "#{character.id}", remote: true),
+          '0' => h(link_to character.name, character, :id => "char_#{character.id}_#{character.char_type}", remote: true),
           '1' => character.current_main ? h(link_to character.current_main_name, character.current_main, :id => "#{character.current_main.id}", remote: true) : nil,
           '2' => character.player ? h(link_to character.player_name, character.player) : nil,
           '3' => character.archetype_name,
