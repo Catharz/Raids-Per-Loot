@@ -91,3 +91,11 @@ end
 When(/^I select (.*) as the player's rank$/) do |rank_name|
   select rank_name, from: 'player_rank_id'
 end
+
+Then /^I should see the player named: (.+)$/ do |name|
+  expect(page).to have_css('p', text: name)
+end
+
+Then /^I should see the player rank: (.+)$/ do |rank|
+  expect(page).to have_css('p', text: rank)
+end

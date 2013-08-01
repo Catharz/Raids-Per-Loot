@@ -8,7 +8,7 @@ describe CharacterObserver do
   before(:each) do
     @character = FactoryGirl.create(:character, char_type: 'm')
     @character_type = FactoryGirl.create(:character_type, character: @character, char_type: 'm')
-    @character.should_receive(:last_switch).at_least(0).times.and_return(@character_type)
+    @character.stub(:last_switch).and_return(@character_type)
     Resque.should_receive(:enqueue).at_least(1).times.with(SonyCharacterUpdater, @character.id)
   end
 

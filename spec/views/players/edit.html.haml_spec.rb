@@ -1,6 +1,8 @@
 require 'spec_helper'
+require 'authentication_spec_helper'
 
 describe "players/edit.html.haml" do
+  include AuthenticationSpecHelper
   fixtures :users, :services
 
   before(:each) do

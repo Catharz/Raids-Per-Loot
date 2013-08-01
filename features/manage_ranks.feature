@@ -11,9 +11,9 @@ Feature: Manage ranks
     When I fill in "Name" with "name 1"
     And I fill in "Priority" with "1"
     And I press "Create"
-    Then I should see "name 1"
-    And I should see "1"
-    And I should see "Rank was successfully created"
+    Then I should see the rank named: name 1
+    And I should see the rank priority: 1
+    And I should see the notice message: Rank was successfully created
 
   Scenario: Delete rank
     Given the following ranks:

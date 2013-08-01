@@ -9,7 +9,6 @@
 //= require jquery_ujs
 //= require jquery.dataTables
 //= require ddsmoothmenu
-//= require jquery_nested_form
 //= require jquery.jeditable
 //= require cocoon
 //= require menus

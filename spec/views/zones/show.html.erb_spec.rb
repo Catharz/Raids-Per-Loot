@@ -10,10 +10,10 @@ describe "zones/show.html.erb" do
                                      :name => "Name",
                                      :difficulty => easy
     ))
-    @zone.stub!(:mobs).and_return([])
-    @zone.stub!(:instances).and_return([])
-    @zone.stub!(:items).and_return([])
-    @zone.stub!(:drops).and_return([])
+    @zone.stub(:mobs).and_return([])
+    @zone.stub(:instances).and_return([])
+    @zone.stub(:items).and_return([])
+    @zone.stub(:drops).and_return([])
   end
 
   it "renders headings" do

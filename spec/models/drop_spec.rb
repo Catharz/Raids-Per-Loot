@@ -61,8 +61,8 @@ describe Drop do
           FactoryGirl.create(:drop)
 
           expect {
-            Drop.select('drops.*').chat
-          }.to_not raise_exception ActiveModel::MissingAttributeError
+            Drop.select('drops.*').first.chat
+          }.to_not raise_exception
         end
       end
 
@@ -422,7 +422,7 @@ describe Drop do
   describe '#assignment_issues' do
     it 'uses a DropAssignmentsValidator' do
       drop = FactoryGirl.create(:drop)
-      validator = mock(DropAssignmentValidator)
+      validator = double(DropAssignmentValidator)
       DropAssignmentValidator.should_receive(:new).with(drop).and_return(validator)
       validator.should_receive(:validate)
 

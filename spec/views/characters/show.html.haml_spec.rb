@@ -21,13 +21,13 @@ describe "characters/show.html.haml" do
     character = assign(:character, character_list.first)
 
     drop_list = create_drops(character, "Armour" => 2, "Weapon" => 3, "Jewellery" => 1)
-    character.stub!(:drops).and_return(drop_list)
-    character.stub!(:adjustments).and_return([])
-    character.stub!(:armour_rate).and_return(2.0)
-    character.stub!(:weapon_rate).and_return(3.6)
-    character.stub!(:character_types).and_return([])
-    character.stub!(:jewellery_rate).and_return(6.9)
-    character.stub!(:archetype_name).and_return('Mage')
+    character.stub(:drops).and_return(drop_list)
+    character.stub(:adjustments).and_return([])
+    character.stub(:armour_rate).and_return(2.0)
+    character.stub(:weapon_rate).and_return(3.6)
+    character.stub(:character_types).and_return([])
+    character.stub(:jewellery_rate).and_return(6.9)
+    character.stub(:archetype_name).and_return('Mage')
     external_data =
         mock_model(ExternalData,
                    :retrievable_id => character.id,
@@ -96,7 +96,7 @@ describe "characters/show.html.haml" do
                                            secondarymindamage: 926},
                                   wis: {base: 20, effective: 272}}.with_indifferent_access
                    })
-    character.stub!(:external_data).and_return(external_data)
+    character.stub(:external_data).and_return(external_data)
 
     assign(:drop_list, character.drops)
     assign(:instance_list, character.instances)

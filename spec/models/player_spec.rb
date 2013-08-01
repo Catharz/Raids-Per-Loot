@@ -27,8 +27,8 @@ describe Player do
 
     describe '#attendance' do
       it 'should return all attendance by default' do
-        player.stub!(:raids_attended).and_return([1, 2, 3])
-        Raid.stub!(:for_period).and_return(4)
+        player.stub(:raids_attended).and_return([1, 2, 3])
+        Raid.stub(:for_period).and_return(4)
         player.should_receive(:attendance).and_return(75.00)
         player.attendance.should eq 75.00
       end

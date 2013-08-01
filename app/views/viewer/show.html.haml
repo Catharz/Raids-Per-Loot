@@ -2,12 +2,14 @@
   - cache @page do
     %p#page_text= @page.body.html_safe
   - if user_signed_in?
-    :coffeescript
-      jQuery ->
-        $("#page_text").editable "/viewer/set_page_body/#{@page.id}",
-          loadurl: "/viewer/get_unformatted_text/#{@page.id}"
-          type: "textarea"
-          submit: "OK"
-          rows: 20
-          cols: 80
+    :javascript
+      jQuery(function() {
+        return $("#page_text").editable("/viewer/set_page_body/" + this.page.id, {
+          loadurl: "/viewer/get_unformatted_text/" + this.page.id,
+          type: "textarea",
+          submit: "OK",
+          rows: 20,
+          cols: 80,
           tooltip: "Click to edit..."
+        });
+      });

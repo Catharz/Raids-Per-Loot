@@ -15,3 +15,15 @@ Then /^I should see the following links:$/ do |expected_links_table|
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
   expected_links_table.diff!(table)
 end
+
+Then /^I should see the link url: (.+)$/ do |url|
+  expect(page).to have_css('p', text: url)
+end
+
+Then /^I should see the link titled: (.+)$/ do |title|
+  expect(page).to have_css('p', text: title)
+end
+
+Then /^I should see the link description: (.+)$/ do |description|
+  expect(page).to have_css('p', text: description)
+end

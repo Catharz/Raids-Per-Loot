@@ -1,42 +1,55 @@
-:coffeescript
-  jQuery ->
-    $.fn.dataTableExt.afnFiltering.push (oSettings, aData, iDataIndex) ->
-        return true if 'historyTable' == oSettings.nTable.id
-
-        visible = false
-        switch aData[4]
-          when "Fighter"
-            visible = $("#fighter").is(":checked")
-          when "Scout"
-            visible = $("#scout").is(":checked")
-          when "Mage"
-            visible = $("#mage").is(":checked")
-          when "Priest"
-            visible = $("#priest").is(":checked")
-          else
-            visible = true
-
-        if visible
-          if !$("#display_all").is(":checked")
-            if $("#display_active").is(":checked")
-              visible = aData[1] == 'Yes'
-            else if $("#display_inactive").is(":checked")
-              visible = aData[1] == 'No'
-        visible
-
-      mainsTable = $("#charactersLootTable_m").dataTable()
-      $(".archetype").on "click", (e) ->
-        mainsTable.fnDraw()
-      $(".activity").on "click", (e) ->
-        mainsTable.fnDraw()
-
-      altsTable = $("#charactersLootTable_r").dataTable()
-      $(".archetype").on "click", (e) ->
-        altsTable.fnDraw()
-      $(".activity").on "click", (e) ->
-        altsTable.fnDraw()
-
-    $("#display_active").click()
+:javascript
+  jQuery(function() {
+    var altsTable, mainsTable;
+    $.fn.dataTableExt.afnFiltering.push(function(oSettings, aData, iDataIndex) {
+      var visible;
+      if ('historyTable' === oSettings.nTable.id) {
+        return true;
+      }
+      visible = false;
+      switch (aData[4]) {
+        case "Fighter":
+          visible = $("#fighter").is(":checked");
+          break;
+        case "Scout":
+          visible = $("#scout").is(":checked");
+          break;
+        case "Mage":
+          visible = $("#mage").is(":checked");
+          break;
+        case "Priest":
+          visible = $("#priest").is(":checked");
+          break;
+        default:
+          visible = true;
+      }
+      if (visible) {
+        if (!$("#display_all").is(":checked")) {
+          if ($("#display_active").is(":checked")) {
+            visible = aData[1] === 'Yes';
+          } else if ($("#display_inactive").is(":checked")) {
+            visible = aData[1] === 'No';
+          }
+        }
+      }
+      return visible;
+    });
+    mainsTable = $("#charactersLootTable_m").dataTable();
+    $(".archetype").on("click", function(e) {
+      return mainsTable.fnDraw();
+    });
+    $(".activity").on("click", function(e) {
+      return mainsTable.fnDraw();
+    });
+    altsTable = $("#charactersLootTable_r").dataTable();
+    $(".archetype").on("click", function(e) {
+      return altsTable.fnDraw();
+    });
+    $(".activity").on("click", function(e) {
+      return altsTable.fnDraw();
+    });
+    return $("#display_active").click();
+  });
 
 .clear
 .toolbar

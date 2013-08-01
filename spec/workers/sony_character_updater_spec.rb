@@ -76,7 +76,7 @@ describe SonyCharacterUpdater do
             and_return(monk_character_data)
 
         character.should_receive(:update_attribute).with(:archetype, monk)
-        external_data = mock(ExternalData)
+        external_data = double(ExternalData)
         character.should_receive(:external_data).exactly(3).times.and_return(external_data)
         external_data.should_receive(:data=).with({"type"=>{"class"=>"Monk"}})
         external_data.should_receive(:save)
@@ -93,7 +93,7 @@ describe SonyCharacterUpdater do
             and_return(monk_character_data)
 
         character.should_receive(:update_attribute).with(:archetype, monk)
-        external_data = mock(ExternalData)
+        external_data = double(ExternalData)
         character.should_receive(:external_data).and_return(nil)
         character.should_receive(:build_external_data).with(data: {"type"=>{"class"=>"Monk"}}).and_return(external_data)
         character.should_receive(:external_data=).with(external_data)

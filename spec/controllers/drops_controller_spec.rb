@@ -1,7 +1,9 @@
 require 'spec_helper'
 require 'drop_spec_helper'
+require 'authentication_spec_helper'
 
 describe DropsController do
+  include AuthenticationSpecHelper
   include DropSpecHelper
   fixtures :users, :services
 

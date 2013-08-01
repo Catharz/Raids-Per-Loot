@@ -8,11 +8,11 @@ describe "instances/show.html.haml" do
     @instance = assign(:instance,
                        stub_model(Instance, :raid => raid, :zone => zone,
                                              :start_time => DateTime.parse("2012-01-01T18:00+10:00")))
-    @instance.stub!(:instances).and_return([])
-    @instance.stub!(:kills).and_return([])
-    @instance.stub!(:players).and_return([])
-    @instance.stub!(:characters).and_return([])
-    @instance.stub!(:drops).and_return([])
+    @instance.stub(:instances).and_return([])
+    @instance.stub(:kills).and_return([])
+    @instance.stub(:players).and_return([])
+    @instance.stub(:characters).and_return([])
+    @instance.stub(:drops).and_return([])
   end
 
   it "renders basic stats for the instance" do

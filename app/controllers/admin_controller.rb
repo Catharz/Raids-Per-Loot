@@ -4,7 +4,7 @@ class AdminController < ApplicationController
   before_filter :set_pagetitle
 
   def set_pagetitle
-    @pagetitle = 'Administration'
+    @pagetitle = 'Welcome to the Admin page'
   end
 
   MIN_LEVEL = 90

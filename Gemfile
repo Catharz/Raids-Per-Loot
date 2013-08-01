@@ -8,7 +8,6 @@ gem 'rails', '3.1.12'
 gem 'pg'
 
 gem 'haml-rails'
-gem 'coffee-filter'
 gem 'ruby_parser'
 gem 'hpricot'
 gem 'escape_utils'
@@ -58,8 +57,7 @@ gem 'therubyracer'
 # Use unicorn as the web server
 # gem 'unicorn'
 gem 'thin'
-gem 'passenger'
-
+gem 'passenger', :group => :production
 gem 'bullet', :group => :development
 
 
@@ -72,6 +70,7 @@ group :test, :development do
   #START_HIGHLIGHT
   gem "database_cleaner"
   gem "selenium-client"
+  gem "selenium-webdriver"
   #END_HIGHLIGHT
 
 	gem "factory_girl_rails"
