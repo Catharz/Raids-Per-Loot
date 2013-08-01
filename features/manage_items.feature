@@ -12,10 +12,10 @@ Feature: Manage items
     And I fill in "Eq2 item" with "eq2_item_id 1"
     And I fill in "Info url" with "info_url 1"
     And I press "Create"
-    Then I should see "name 1"
-    And I should see "eq2_item_id 1"
-    And I should see "info_url 1"
-    And I should see "Item was successfully created"
+    Then I should see the item called: name 1
+    And I should see the item id: eq2_item_id 1
+    And I should see the item url: info_url 1
+    And I should see the notice message: Item was successfully created
 
   @javascript
   Scenario: Delete item

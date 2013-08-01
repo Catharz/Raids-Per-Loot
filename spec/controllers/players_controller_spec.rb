@@ -1,6 +1,8 @@
 require 'spec_helper'
+require 'authentication_spec_helper'
 
 describe PlayersController do
+  include AuthenticationSpecHelper
   fixtures :users, :services
 
   before(:each) do

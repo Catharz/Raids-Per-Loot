@@ -8,25 +8,25 @@
     %li= link_to "Drops", "#drops"
 
   #details
-    %p
+    %p#raid_date
       Raid date:
       = @raid.raid_date
-    %p
+    %p#raid_type_name
       Raid type:
       = @raid.raid_type_name
-    %p
+    %p#instances_count
       Instances:
       = @raid.instances.count
-    %p
+    %p#players_count
       Players:
       = @raid.players.count
-    %p
+    %p#characters_count
       Characters:
       = @raid.characters.count
-    %p
+    %p#kills_count
       Kills:
       = @raid.kills.count
-    %p
+    %p#drops_count
       Drops:
       = @raid.drops.count
 

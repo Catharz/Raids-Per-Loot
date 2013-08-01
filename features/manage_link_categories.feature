@@ -11,9 +11,9 @@ Feature: Manage link_categories
     When I fill in "Title" with "title 1"
     And I fill in "Description" with "description 1"
     And I press "Create"
-    Then I should see "title 1"
-    And I should see "description 1"
-    And I should see "Link category was successfully created"
+    Then I should see the link category titled: title 1
+    And I should see the link category description: description 1
+    And I should see the notice message: Link category was successfully created
 
   Scenario: Delete link_category
     Given I have the following link categories:

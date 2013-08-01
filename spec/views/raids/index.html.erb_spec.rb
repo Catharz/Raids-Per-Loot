@@ -1,7 +1,9 @@
 require 'spec_helper'
 require 'will_paginate/array'
+require 'authentication_spec_helper'
 
 describe 'raids/index.html.erb' do
+  include AuthenticationSpecHelper
   fixtures :users, :services
 
   before(:each) do

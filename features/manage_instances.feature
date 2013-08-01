@@ -18,10 +18,10 @@ Feature: Manage instances
     And I select "18/09/2011 20:00:00" as the "Start time" date and time
     And I select zone_name 1 as the instance's Zone
     And I press "Create"
-    Then I should see "2011-09-18"
-    And I should see "20:00:00"
-    And I should see "zone_name 1"
-    And I should see "Instance was successfully created"
+    Then I should see the raid date: 2011-09-18
+    And I should see the start time: 20:00:00
+    And I should see the zone name: zone_name 1
+    And I should see the notice message: Instance was successfully created
 
   #TODO Resolve the issue of MY time zone appearing in the tests
   Scenario: Delete instance

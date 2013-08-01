@@ -31,3 +31,11 @@ Then /^I should see the following mobs:$/ do |expected_mobs_table|
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
   expected_mobs_table.diff!(table)
 end
+
+Then /^I should see the mob named: (.+)$/ do |name|
+  expect(page).to have_css('p', text: name)
+end
+
+Then /^I should see the mob strategy: (.*)$/ do |strategy|
+  expect(page).to have_css('p', text: strategy)
+end

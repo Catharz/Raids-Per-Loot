@@ -21,3 +21,11 @@ Then /^I should see the following ranks:$/ do |expected_ranks_table|
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
   expected_ranks_table.diff!(table)
 end
+
+Then /^I should see the rank named: (.+)$/ do |name|
+  expect(page).to have_css('p', text: name)
+end
+
+Then /^I should see the rank priority: (.+)$/ do |priority|
+  expect(page).to have_css('p', text: priority)
+end

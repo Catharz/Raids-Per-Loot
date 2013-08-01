@@ -19,9 +19,9 @@ Feature: Manage player_raids
     When I select "player 1" as the player
     And I select "2012-09-18 (Progression)" as the raid
     And I press "Create"
-    Then I should see "player 1"
-    And I should see "2012-09-18 (Progression)"
-    And I should see "Player raid was successfully created"
+    Then I should see the player named: player 1
+    And I should see the raid description: 2012-09-18 (Progression)
+    And I should see the notice message: Player raid was successfully created
 
   Scenario: Delete player_raid
     Given the following player_raids:

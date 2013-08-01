@@ -13,9 +13,9 @@ Feature: Manage players
     When I enter name 1 as the player's name
     And I select Main as the player's rank
     And I press "Create"
-    Then I should see "name 1"
-    And I should see "Main"
-    And I should see "Player was successfully created"
+    Then I should see the player named: name 1
+    And I should see the player rank: Main
+    And I should see the notice message: Player was successfully created
 
   @ranks
   Scenario: Delete player

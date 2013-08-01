@@ -4,7 +4,8 @@ redrawTable = (char_type) ->
 
 $("#popup").dialog
   autoOpen: true
-  width: 350
+  width: 400
+  height: 520
   modal: true
   resizable: false
   title: 'New Character'
@@ -20,4 +21,6 @@ $("#popup").dialog
           $("#popup").dialog "close"
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
+    $(".datepicker").datepicker
+      dateFormat: 'yy-mm-dd'
     $(".actions").empty()

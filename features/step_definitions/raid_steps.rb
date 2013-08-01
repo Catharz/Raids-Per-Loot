@@ -30,3 +30,11 @@ end
 When /^I select (\w+) as the raid type$/ do |raid_type|
   select raid_type, from: "raid[raid_type_id]"
 end
+
+Then /^I should see the raid date: (.*)$/ do |raid_date|
+  expect(page).to have_css('p', text: raid_date)
+end
+
+Then /^I should see the raid description: (.*)$/ do |description|
+  expect(page).to have_css('p', text: description)
+end

@@ -10,8 +10,8 @@ Feature: Manage loot_types
     Given I am on the new loot_type page
     When I fill in "Name" with "name 1"
     And I press "Create"
-    Then I should see "name 1"
-    And I should see "Loot type was successfully created"
+    Then I should see loot type named: name 1
+    And I should see the notice message: Loot type was successfully created
 
   Scenario: Delete loot_type
     Given I have the following loot types:

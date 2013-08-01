@@ -20,3 +20,15 @@ Then /^I should see the following items:$/ do |expected_items_table|
   table = rows.map { |r| r.all('th,td').map { |c| c.text.strip} }
   expected_items_table.diff!(table)
 end
+
+Then /^I should see the item called: (.+)$/ do |item_name|
+  expect(page).to have_css('p', text: item_name)
+end
+
+Then /^I should see the item id: (.+)$/ do |item_id|
+  expect(page).to have_css('p', text: item_id)
+end
+
+Then /^I should see the item url: (.+)$/ do |url|
+  expect(page).to have_css('p', text: url)
+end

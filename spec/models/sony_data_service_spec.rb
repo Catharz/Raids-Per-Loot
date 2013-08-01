@@ -227,7 +227,7 @@ describe SonyDataService do
 
   describe '#resolve_duplicates' do
     it 'cleans up duplicate eq2 item ids' do
-      relation = mock(ActiveRecord::Relation)
+      relation = double(ActiveRecord::Relation)
       item1 = FactoryGirl.create(:item, name: 'duplicate item 1', eq2_item_id: 1234)
       item2 = FactoryGirl.create(:item, name: 'duplicate item 2', eq2_item_id: 1234)
 
@@ -237,7 +237,7 @@ describe SonyDataService do
     end
 
     it 'cleans up the drops associated with the duplicate item(s)' do
-      relation = mock(ActiveRecord::Relation)
+      relation = double(ActiveRecord::Relation)
       item1 = FactoryGirl.create(:item, name: 'duplicate item 1', eq2_item_id: 1234)
       item2 = FactoryGirl.create(:item, name: 'duplicate item 2', eq2_item_id: 1234)
       drops = Array.new(5) { |index| FactoryGirl.create(:drop, item: item2) }
@@ -253,7 +253,7 @@ describe SonyDataService do
     end
 
     it 'deletes the duplicate item(s)' do
-      relation = mock(ActiveRecord::Relation)
+      relation = double(ActiveRecord::Relation)
       item1 = FactoryGirl.create(:item, name: 'duplicate item 1', eq2_item_id: 1234)
       item2 = FactoryGirl.create(:item, name: 'duplicate item 2', eq2_item_id: 1234)
 

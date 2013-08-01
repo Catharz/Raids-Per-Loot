@@ -264,3 +264,15 @@ end
 Given(/^I wait until the table is rendered$/) do
   step 'I wait until tbody tr is visible'
 end
+
+Then(/^I should see the heading: (.*)$/) do |heading|
+  expect(page).to have_css('div#header', text: heading)
+end
+
+When(/^I should see a link titled: ([^"]*)$/) do |title|
+  expect(page).to have_css('a', text: title)
+end
+
+Then(/^I should see the notice message: (.*)$/) do |message|
+  expect(page).to have_css('div#notice', text: message)
+end
