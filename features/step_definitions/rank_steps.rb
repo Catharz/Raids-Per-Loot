@@ -23,9 +23,17 @@ Then /^I should see the following ranks:$/ do |expected_ranks_table|
 end
 
 Then /^I should see the rank named: (.+)$/ do |name|
-  expect(page).to have_css('p', text: name)
+  expect(page).to have_css('div.field span.data', text: name)
 end
 
 Then /^I should see the rank priority: (.+)$/ do |priority|
-  expect(page).to have_css('p', text: priority)
+  expect(page).to have_css('div.field span.data', text: priority)
+end
+
+When(/^I enter (.+) as the rank name$/) do |name|
+  fill_in 'rank_name', with: name
+end
+
+When(/^I enter (\d+) as the rank priority$/) do |priority|
+  fill_in 'rank_priority', with: priority
 end

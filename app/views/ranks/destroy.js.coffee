@@ -1,0 +1,5 @@
+oTable = $('#ranksTable').dataTable()
+aPos = oTable.fnGetPosition( document.getElementById("rank_<%= @rank.id %>") )
+oTable.fnDeleteRow(aPos)
+oTable.fnDraw()
+displayFlash('notice', 'Rank was successfully deleted.')

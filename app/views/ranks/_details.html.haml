@@ -1,0 +1,9 @@
+.form#ranks_form
+  .field
+    = label_tag 'Name:', nil, class: 'header'
+    %span.data
+      = @rank.name
+  .field
+    = label_tag 'Priority:', nil, class: 'header'
+    %span.data
+      = @rank.priority
