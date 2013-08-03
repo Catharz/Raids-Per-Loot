@@ -1,10 +1,10 @@
 $("#popup").dialog
   autoOpen: true
-  height: 430
-  width: 605
+  width: 320
+  height: 200
   modal: true
   resizable: false
-  title: 'Show Adjustment'
+  title: 'Show Rank'
   buttons:
     "Close": ->
       $("#popup").dialog "close"

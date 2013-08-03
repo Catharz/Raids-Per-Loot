@@ -65,17 +65,19 @@ describe DropsController do
                   'iTotalRecords' => 1,
                   'iTotalDisplayRecords' => 1,
                   'aaData' => [
-                      ['Armour',
-                       'Me',
-                       'Armour',
-                       'Wherever',
-                       'Whoever',
-                       '2012-01-04T01:00:00+11:00',
-                       'Trash',
-                       '<a href="/drops/' + drop.id.to_s + '" class="table-button">Show</a>',
-                       '<a href="/drops/' + drop.id.to_s + '/edit" class="table-button">Edit</a>',
-                       '<a href="/drops/' + drop.id.to_s + '" class="table-button" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>'
-                      ]
+                      {
+                          "0"=>'<a href="/items/' + drop.item_id.to_s + '" class="itemPopupTrigger">Armour</a>',
+                          "1"=>"Me",
+                          "2"=>"Armour",
+                          "3"=>"Wherever",
+                          "4"=>"Whoever",
+                          "5"=>"2012-01-04T01:00:00+11:00",
+                          "6"=>"Trash",
+                          "7"=>'<a href="/drops/' + drop.id.to_s + '" class="table-button">Show</a>',
+                          "8"=>'<a href="/drops/' + drop.id.to_s + '/edit" class="table-button">Edit</a>',
+                          "9"=>'<a href="/drops/' + drop.id.to_s + '" class="table-button" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>',
+                          "DT_RowId"=>drop.item.id
+                      }
                   ]
       }
 

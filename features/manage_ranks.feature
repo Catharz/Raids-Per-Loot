@@ -8,8 +8,8 @@ Feature: Manage ranks
 
   Scenario: Register new rank
     Given I am on the new rank page
-    When I fill in "Name" with "name 1"
-    And I fill in "Priority" with "1"
+    When I enter name 1 as the rank name
+    And I enter 1 as the rank priority
     And I press "Create"
     Then I should see the rank named: name 1
     And I should see the rank priority: 1

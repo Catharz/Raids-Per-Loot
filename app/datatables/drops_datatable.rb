@@ -18,18 +18,19 @@ class DropsDatatable
 
   def data
     drops.map do |drop|
-      [
-          drop.item_name,
-          drop.character_name,
-          drop.loot_type_name,
-          drop.zone_name,
-          drop.mob_name,
-          drop.drop_time,
-          drop.loot_method_name,
-          h(link_to 'Show', drop, class: 'table-button'),
-          h(link_to 'Edit', @view.edit_drop_path(drop), class: 'table-button'),
-          h(link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete, class: 'table-button')
-      ]
+      {
+          '0' => h(link_to drop.item_name, drop.item, class: 'itemPopupTrigger'),
+          '1' => drop.character_name,
+          '2' => drop.loot_type_name,
+          '3' => drop.zone_name,
+          '4' => drop.mob_name,
+          '5' => drop.drop_time,
+          '6' => drop.loot_method_name,
+          '7' => h(link_to 'Show', drop, class: 'table-button'),
+          '8' => h(link_to 'Edit', @view.edit_drop_path(drop), class: 'table-button'),
+          '9' => h(link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'),
+          'DT_RowId' => drop.item.id
+      }
     end
   end
 

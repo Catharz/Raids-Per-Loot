@@ -8,23 +8,28 @@ class RanksController < ApplicationController
 
   # GET /ranks
   # GET /ranks.xml
+  # GET /ranks.json
   def index
     @ranks = Rank.all
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @ranks.to_xml( :include => [:players] ) }
+      format.json { render json: @ranks }
     end
   end
 
   # GET /ranks/1
   # GET /ranks/1.xml
+  # GET /ranks/1.json
   def show
     @rank = Rank.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @rank.to_xml( :include => [:players] ) }
+      format.json { render json: @rank }
+      format.js
     end
   end
 
@@ -36,6 +41,8 @@ class RanksController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @rank }
+      format.json { render json: @rank }
+      format.js
     end
   end
 
@@ -46,6 +53,7 @@ class RanksController < ApplicationController
 
   # POST /ranks
   # POST /ranks.xml
+  # POST /ranks.json
   def create
     @rank = Rank.new(params[:rank])
 
@@ -53,15 +61,18 @@ class RanksController < ApplicationController
       if @rank.save
         format.html { redirect_to(@rank, :notice => 'Rank was successfully created.') }
         format.xml  { render :xml => @rank, :status => :created, :location => @rank }
+        format.json { render json: @rank.to_json, status: :created, location: @rank }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @rank.errors, :status => :unprocessable_entity }
+        format.json { render json: @rank.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # PUT /ranks/1
   # PUT /ranks/1.xml
+  # PUT /ranks/1.json
   def update
     @rank = Rank.find(params[:id])
 
@@ -69,15 +80,18 @@ class RanksController < ApplicationController
       if @rank.update_attributes(params[:rank])
         format.html { redirect_to(@rank, :notice => 'Rank was successfully updated.') }
         format.xml  { head :ok }
+        format.json { render :json => @rank.to_json, :notice => 'Rank was successfully updated.' }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @rank.errors, :status => :unprocessable_entity }
+        format.json { render json: @rank.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # DELETE /ranks/1
   # DELETE /ranks/1.xml
+  # DELETE /ranks/1.json
   def destroy
     @rank = Rank.find(params[:id])
     @rank.destroy
@@ -85,6 +99,8 @@ class RanksController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(ranks_url) }
       format.xml  { head :ok }
+      format.json { head :ok }
+      format.js
     end
   end
 end

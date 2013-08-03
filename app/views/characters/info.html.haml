@@ -1,7 +1,10 @@
 .characterPopupResult{:id => @character.id}
   %strong= @character.name
   %br/
-  Raids:
+  Raids (Player):
+  = @character.player_raids_count
+  %br/
+  Raids (Character):
   = @character.raids_count
   %br/
   Instances:
