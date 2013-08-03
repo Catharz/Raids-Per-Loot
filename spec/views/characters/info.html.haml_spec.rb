@@ -6,7 +6,8 @@ describe 'characters/info.html.haml' do
   before(:each) do
     character = assign(:character, FactoryGirl.create(:character, name: 'Fighter'))
 
-    character.should_receive(:raids_count).and_return(2)
+    character.should_receive(:player_raids_count).and_return(2)
+    character.should_receive(:raids_count).and_return(1)
     character.should_receive(:instances_count).and_return(6)
     character.should_receive(:health).and_return(50000)
     character.should_receive(:power).and_return(45000)
@@ -28,10 +29,16 @@ describe 'characters/info.html.haml' do
     rendered.should have_content 'Instances: 6'
   end
 
-  it 'should show the number of raids' do
+  it 'should show the number of player raids' do
     render
 
-    rendered.should have_content 'Raids: 2'
+    rendered.should have_content 'Raids (Player): 2'
+  end
+
+  it 'should show the number of character raids' do
+    render
+
+    rendered.should have_content 'Raids (Character): 1'
   end
 
   it 'should show the characters health' do

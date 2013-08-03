@@ -12,7 +12,7 @@ updateInstance = (instance) ->
 $("#popup").dialog
   autoOpen: true
   width: 500
-  height: 460
+  height: 480
   modal: true
   resizable: false
   title: 'Edit Instance'

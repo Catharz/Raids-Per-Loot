@@ -7,13 +7,15 @@
       %ul
         - @rank.errors.full_messages.each do |msg|
           %li= msg
-  .field
-    = f.label :name
-    %br/
-    = f.text_field :name
-  .field
-    = f.label :priority
-    %br/
-    = f.text_field :priority
-  .actions
-    = f.submit
+
+  .form#ranks_form
+    .field
+      = label_tag 'Name:', nil, class: 'header'
+      %span.data
+        = f.text_field :name, class: 'text data'
+    .field
+      = label_tag 'Priority:', nil, class: 'header'
+      %span.data
+        = f.number_field :priority, class: 'numeric data'
+    .actions
+      = f.submit

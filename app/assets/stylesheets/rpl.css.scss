@@ -121,7 +121,7 @@ body {
   font-size: 12px;
 }
 
-div#edit_form {
+div.form {
   div.field {
     position: relative;
   }
@@ -129,79 +129,59 @@ div#edit_form {
   label.header {
     font-weight: bold;
     position: absolute;
-    width: 150px;
     left: 0;
-    top: 2px;
-    text-align: right;
+    top: 0;
+    text-align: right !important;
   }
 
   input.text {
     position: relative;
-    left: 160px;
     width: 200px;
   }
 
   input.datepicker {
     position: relative;
-    left: 160px;
     width: 100px;
   }
 
   input.numeric {
     position: relative;
-    left: 160px;
     width: 60px;
     text-align: right !important;
   }
 
   select {
     position: relative;
+  }
+
+  span.data {
+    position: relative;
+  }
+}
+
+div#adjustments_form {
+  .header {
+    width: 150px;
+  }
+
+  span.data {
     left: 160px;
   }
 }
 
-div#player_characters_edit {
-  p {
-    position: relative;
+div#ranks_form {
+  .header {
+    width: 80px;
   }
 
-  label.header {
-    font-weight: bold;
-    position: absolute;
-    width: 140px;
-    left: 0;
-    top: 2px;
-    text-align: right;
+  span.data {
+    left: 90px;
   }
+}
 
-  label.info {
-    position: relative;
-    left: 150px;
-    width: 60px;
-  }
-
-  input[type='checkbox'] {
-    position: relative;
-    left: 150px;
-  }
-
-  input.numeric {
-    position: relative;
-    left: 150px;
-    width: 60px;
-    text-align: right !important;
-  }
-
-  input.datepicker {
-    position: relative;
-    left: 150px;
-    width: 100px;
-  }
-
-  select {
-    position: relative;
-    left: 150px;
-  }
+div#player_characters_form {
+  .header { width: 150px; }
+  span.data { left: 160px; }
 }
 
 #breadcrumb {

@@ -7,7 +7,7 @@
         return true;
       }
       visible = false;
-      switch (aData[4]) {
+      switch (aData[5]) {
         case "Fighter":
           visible = $("#fighter").is(":checked");
           break;
@@ -35,18 +35,16 @@
       return visible;
     });
     mainsTable = $("#charactersLootTable_m").dataTable();
-    $(".archetype").on("click", function(e) {
-      return mainsTable.fnDraw();
-    });
-    $(".activity").on("click", function(e) {
-      return mainsTable.fnDraw();
-    });
     altsTable = $("#charactersLootTable_r").dataTable();
-    $(".archetype").on("click", function(e) {
-      return altsTable.fnDraw();
+    $(document).on("click", ".archetype", function(e) {
+      mainsTable.fnDraw();
+      altsTable.fnDraw();
+      return true;
     });
-    $(".activity").on("click", function(e) {
-      return altsTable.fnDraw();
+    $(document).on("click", ".activity", function(e) {
+      mainsTable.fnDraw();
+      altsTable.fnDraw();
+      return true;
     });
     return $("#display_active").click();
   });

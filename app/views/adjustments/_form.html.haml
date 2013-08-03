@@ -6,24 +6,31 @@
         - @adjustment.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    %strong Adjustable Type:
-    = f.select(:adjustable_type, %w{Character Player}, :include_blank => true)
-  .field#adjustable_field
-    %strong= @adjustment.type_label
-    - unless @adjustment.adjustable_entities.empty?
-      = f.collection_select(:adjustable_id, @adjustment.adjustable_entities, :id, :name)
-  .field
-    %strong Adjustment Date:
-    = f.text_field :adjustment_date, id: "datepicker"
-  .field
-    %strong Adjustment Type:
-    = f.select(:adjustment_type, @adjustment.adjustment_types)
-  .field
-    %strong Amount:
-    = f.number_field :amount
-  .field
-    %strong Reason:
-    = f.text_area :reason, class: "popup"
-  .actions
-    = f.submit 'Save'
+  #adjustments_form.form
+    .field
+      = label_tag 'Adjustable Type:', nil, class: 'header'
+      %span.data
+        = f.select(:adjustable_type, %w{Character Player}, :include_blank => true)
+    .field#adjustable_field
+      = label_tag "#{@adjustment.type_label}:", nil, class: 'header'
+      %span.data
+        - unless @adjustment.adjustable_entities.empty?
+          = f.collection_select(:adjustable_id, @adjustment.adjustable_entities, :id, :name)
+    .field
+      = label_tag 'Adjustment Date:', nil, class: 'header'
+      %span.data
+        = f.text_field :adjustment_date, id: 'datepicker'
+    .field
+      = label_tag 'Adjustment Type:', nil, class: 'header'
+      %span.data
+        = f.select(:adjustment_type, @adjustment.adjustment_types)
+    .field
+      = label_tag 'Amount:', nil, class: 'header'
+      %span.data
+        = f.number_field :amount
+    .field
+      = label_tag 'Reason:', nil, class: 'header'
+      %span.data
+        = f.text_area :reason, class: 'popup'
+    .actions
+      = f.submit 'Save'
