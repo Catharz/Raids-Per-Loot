@@ -141,10 +141,11 @@ div.form {
 
   input.datepicker {
     position: relative;
+    width: 100px;
   }
 
   input.numeric {
-    position: absolute;
+    position: relative;
     width: 60px;
     text-align: right !important;
   }
@@ -153,14 +154,18 @@ div.form {
     position: relative;
   }
 
-  label.info {
+  span.data {
     position: relative;
-    width: 60px;
+  }
+}
+
+div#adjustments_form {
+  .header {
+    width: 150px;
   }
 
   span.data {
-    position: relative;
-    width: 60px;
+    left: 160px;
   }
 }
 
@@ -175,24 +180,8 @@ div#ranks_form {
 }
 
 div#player_characters_form {
-  .header {
-    width: 150px;
-  }
-
-  span.data {
-    left: 160px;
-
-    input {
-      position: relative;
-
-      .text { width: 200px; }
-      .datepicker { width: 100px; }
-      .numeric {
-        width: 60px;
-        text-align: right !important;
-      }
-    }
-  }
+  .header { width: 150px; }
+  span.data { left: 160px; }
 }
 
 #breadcrumb {

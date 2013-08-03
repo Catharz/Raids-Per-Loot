@@ -68,102 +68,102 @@ describe Drop do
 
       describe 'by_character' do
         it 'returns a full list by default' do
-          Drop.by_character(nil).order(:id).should eq [d1, d2]
+          Drop.by_character(nil).order(:id).should match_array [d1, d2]
         end
         it 'filters by character when provided an id' do
-          Drop.by_character(d2.character_id).should eq [d2]
+          Drop.by_character(d2.character_id).should match_array [d2]
         end
       end
 
       describe 'by_instance' do
         it 'returns a full list by default' do
-          Drop.by_instance(nil).order(:id).should eq [d1, d2]
+          Drop.by_instance(nil).order(:id).should match_array [d1, d2]
         end
         it 'filters by instance when provided an id' do
-          Drop.by_instance(d1.instance_id).should eq [d1]
+          Drop.by_instance(d1.instance_id).should match_array [d1]
         end
       end
 
       describe 'by_zone' do
         it 'returns a full list by default' do
-          Drop.by_zone(nil).order(:id).should eq [d1, d2]
+          Drop.by_zone(nil).order(:id).should match_array [d1, d2]
         end
         it 'filters by zone when provided an id' do
-          Drop.by_zone(d2.zone_id).should eq [d2]
+          Drop.by_zone(d2.zone_id).should match_array [d2]
         end
       end
 
       describe 'by_mob' do
         it 'returns a full list by default' do
-          Drop.by_mob(nil).order(:id).should eq [d1, d2]
+          Drop.by_mob(nil).order(:id).should match_array [d1, d2]
         end
         it 'filters by mob when provided an id' do
-          Drop.by_mob(d1.mob_id).should eq [d1]
+          Drop.by_mob(d1.mob_id).should match_array [d1]
         end
       end
 
       describe 'by_item' do
         it 'returns a full list by default' do
-          Drop.by_item(nil).order(:id).should eq [d1, d2]
+          Drop.by_item(nil).order(:id).should match_array [d1, d2]
         end
         it 'filters by item when provided an id' do
-          Drop.by_item(d2.item_id).should eq [d2]
+          Drop.by_item(d2.item_id).should match_array [d2]
         end
       end
 
       describe 'by_log_line' do
         it 'returns a full list by default' do
-          Drop.by_log_line(nil).order(:id).should eq [d1, d2]
+          Drop.by_log_line(nil).order(:id).should match_array [d1, d2]
         end
         it 'filters by log line when provided an id' do
-          Drop.by_log_line(d1.log_line).should eq [d1]
+          Drop.by_log_line(d1.log_line).should match_array [d1]
         end
       end
 
       describe 'by_eq2_item_id' do
         it 'returns a full list by default' do
-          Drop.by_eq2_item_id(nil).order(:id).should eq [d1, d2]
+          Drop.by_eq2_item_id(nil).order(:id).should match_array [d1, d2]
         end
         it 'filters by eq2 item id when provided an id' do
-          Drop.by_eq2_item_id(d2.eq2_item_id).should eq [d2]
+          Drop.by_eq2_item_id(d2.eq2_item_id).should match_array [d2]
         end
       end
 
       describe 'of_type' do
         it 'filters by loot type name' do
-          Drop.of_type(d1.loot_type_name).should eq [d1]
+          Drop.of_type(d1.loot_type_name).should match_array [d1]
         end
       end
 
       describe 'by_archetype' do
         it 'returns a full list by default' do
-          Drop.by_archetype(nil).order(:id).should eq [d1, d2]
+          Drop.by_archetype(nil).order(:id).should match_array [d1, d2]
         end
         it 'filters by archetype name' do
-          Drop.by_archetype(d1.character.archetype_name).should eq [d1]
+          Drop.by_archetype(d1.character.archetype_name).should match_array [d1]
         end
       end
 
       describe 'by_player' do
         it 'returns a full list by default' do
-          Drop.by_player(nil).order(:id).should eq [d1, d2]
+          Drop.by_player(nil).order(:id).should match_array [d1, d2]
         end
         it 'filters by player when provided an id' do
-          Drop.by_player(d2.character.player_id).should eq [d2]
+          Drop.by_player(d2.character.player_id).should match_array [d2]
         end
       end
 
       describe 'by_time' do
         it 'returns a full list by default' do
-          Drop.by_time(nil).order(:id).should eq [d1, d2]
+          Drop.by_time(nil).order(:id).should match_array [d1, d2]
         end
 
         it 'filters by a time string' do
-          Drop.by_time(d1.drop_time.to_s).should eq [d1]
+          Drop.by_time(d1.drop_time.to_s).should match_array [d1]
         end
 
         it 'filters by a time object' do
-          Drop.by_time(d2.drop_time).should eq [d2]
+          Drop.by_time(d2.drop_time).should match_array [d2]
         end
       end
 
@@ -171,13 +171,13 @@ describe Drop do
         it 'filters based on a string' do
           d3 = FactoryGirl.create(:drop, loot_method: 'r')
 
-          Drop.won_by('r').should eq [d3]
+          Drop.won_by('r').should match_array [d3]
         end
         it 'filters based on an array' do
           d3 = FactoryGirl.create(:drop, loot_method: 'r')
           d4 = FactoryGirl.create(:drop, loot_method: 'b')
 
-          Drop.won_by(%w{b r}).order(:id).should eq [d3, d4]
+          Drop.won_by(%w{b r}).order(:id).should match_array [d3, d4]
         end
       end
 
@@ -185,13 +185,13 @@ describe Drop do
         it 'filters based on a string' do
           d3 = FactoryGirl.create(:drop, loot_method: 'r')
 
-          Drop.not_won_by('n').should eq [d3]
+          Drop.not_won_by('n').should match_array [d3]
         end
         it 'filters based on an array' do
           FactoryGirl.create(:drop, loot_method: 'r')
           FactoryGirl.create(:drop, loot_method: 'b')
 
-          Drop.not_won_by(%w{b r}).order(:id).should eq [d1, d2]
+          Drop.not_won_by(%w{b r}).order(:id).should match_array [d1, d2]
         end
       end
 
@@ -205,7 +205,7 @@ describe Drop do
           FactoryGirl.create(:character_type, character: char1, char_type: 'r', effective_date: d3.drop_time - 1.hour)
           FactoryGirl.create(:character_type, character: char1, char_type: 'm', effective_date: d3.drop_time + 1.day)
 
-          Drop.by_character_type('r').should eq [d3]
+          Drop.by_character_type('r').should match_array [d3]
         end
         it 'filters based on a string' do
           FactoryGirl.create(:character_type, character: d1.character, char_type: 'm', effective_date: d1.drop_time - 1.day)
@@ -214,7 +214,7 @@ describe Drop do
           d3 = FactoryGirl.create(:drop, character: char1)
           FactoryGirl.create(:character_type, character: char1, char_type: 'g', effective_date: d3.drop_time - 1.day)
 
-          Drop.by_character_type('g').should eq [d3]
+          Drop.by_character_type('g').should match_array [d3]
         end
         it 'filters based on an array' do
           FactoryGirl.create(:character_type, character: d1.character, char_type: 'm', effective_date: d1.drop_time - 1.day)
@@ -226,7 +226,7 @@ describe Drop do
           FactoryGirl.create(:character_type, character: char1, char_type: 'g', effective_date: d3.drop_time - 1.day)
           FactoryGirl.create(:character_type, character: char2, char_type: 'r', effective_date: d4.drop_time - 1.day)
 
-          Drop.by_character_type(%w{g r}).order(:id).should eq [d3, d4]
+          Drop.by_character_type(%w{g r}).order(:id).should match_array [d3, d4]
         end
       end
 
@@ -239,7 +239,7 @@ describe Drop do
           d3 = FactoryGirl.create(:drop, item: recipe)
           d4 = FactoryGirl.create(:drop, item: body_drop)
 
-          Drop.with_default_loot_method(%w{g t}).should eq [d3, d4]
+          Drop.with_default_loot_method(%w{g t}).should match_array [d3, d4]
         end
 
         it 'filters based on the items loot type' do
@@ -247,7 +247,7 @@ describe Drop do
           recipe = FactoryGirl.create(:item, loot_type: ts)
           d3 = FactoryGirl.create(:drop, item: recipe)
 
-          Drop.with_default_loot_method('r').should eq [d3]
+          Drop.with_default_loot_method('r').should match_array [d3]
         end
       end
     end
@@ -259,7 +259,7 @@ describe Drop do
           recipe = FactoryGirl.create(:item)
           d3 = FactoryGirl.create(:drop, item: recipe, loot_type: ts)
 
-          Drop.mismatched_loot_types.should eq [d3]
+          Drop.mismatched_loot_types.should match_array [d3]
         end
       end
 
@@ -272,7 +272,7 @@ describe Drop do
           FactoryGirl.create(:archetypes_item, item: weapon, archetype: monk)
           d3 = FactoryGirl.create(:drop, item: weapon, character: main)
 
-          Drop.for_wrong_class.should eq [d3]
+          Drop.for_wrong_class.should match_array [d3]
         end
       end
 
@@ -282,7 +282,7 @@ describe Drop do
           d3 = FactoryGirl.create(:drop, character: ga)
           FactoryGirl.create(:character_type, character: ga, char_type: 'g')
 
-          Drop.invalid_need_assignment.should eq [d3]
+          Drop.invalid_need_assignment.should match_array [d3]
         end
       end
 
@@ -293,7 +293,7 @@ describe Drop do
           d3 = FactoryGirl.create(:drop, item: spell, loot_method: 'b')
           d4 = FactoryGirl.create(:drop, item: spell, loot_method: 'n')
 
-          Drop.invalid_guild_bank_assignment.order(:id).should eq [d3, d4]
+          Drop.invalid_guild_bank_assignment.order(:id).should match_array [d3, d4]
         end
       end
 
@@ -305,7 +305,7 @@ describe Drop do
           d4 = FactoryGirl.create(:drop, item: item, loot_method: 'b')
           d5 = FactoryGirl.create(:drop, item: item, loot_method: 'r')
 
-          Drop.invalid_trash_assignment.sort{ |a,b| a.id <=> b.id}.should eq [d3, d4, d5]
+          Drop.invalid_trash_assignment.sort{ |a,b| a.id <=> b.id}.should match_array [d3, d4, d5]
         end
 
         it 'identifies bid, need and random items won as trash' do
@@ -320,7 +320,7 @@ describe Drop do
           d4 = FactoryGirl.create(:drop, item: drake, loot_method: 't')
           d5 = FactoryGirl.create(:drop, item: smite, loot_method: 't')
 
-          Drop.invalid_trash_assignment.sort{ |a,b| a.id <=> b.id}.should eq [d3, d4, d5]
+          Drop.invalid_trash_assignment.sort{ |a,b| a.id <=> b.id}.should match_array [d3, d4, d5]
         end
       end
 
@@ -333,7 +333,7 @@ describe Drop do
           FactoryGirl.create(:archetypes_item, item: weapon, archetype: bruiser)
           d3 = FactoryGirl.create(:drop, item: weapon, character: main)
 
-          Drop.needed_for_wrong_class.should eq [d3]
+          Drop.needed_for_wrong_class.should match_array [d3]
         end
       end
 

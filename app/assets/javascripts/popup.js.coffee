@@ -9,12 +9,13 @@ jQuery ->
 
     $("body").append container
 
-    $(".itemPopupTrigger").live "mouseover", ->
+    $(document).on "mouseover", ".itemPopupTrigger", ->
       if ajaxCall
         ajaxCall.abort()
         ajaxCall = null
 
       currentID = @id
+      currentID = this.parentElement.parentElement.id if currentID is ""
       return  if currentID is ""
 
       clearTimeout hideTimer  if hideTimer
@@ -45,18 +46,18 @@ jQuery ->
       )
       container.css "display", "block"
 
-    $(".itemPopupTrigger").live "mouseout", ->
+    $(document).on "mouseout", ".itemPopupTrigger", ->
       clearTimeout hideTimer  if hideTimer
       hideTimer = setTimeout ->
         container.css "display", "none", hideDelay
 
-    $(".characterPopupTrigger").live "mouseover", ->
+    $(document).on "mouseover", ".characterPopupTrigger", ->
       if ajaxCall
         ajaxCall.abort()
         ajaxCall = null
 
       data = $(this).parent().data()
-      currentID = data.character_id
+      currentID = data.character_id || data.characterId
       return  if currentID is undefined
 
       clearTimeout hideTimer  if hideTimer
@@ -87,27 +88,28 @@ jQuery ->
       )
       container.css "display", "block"
 
-    $(".characterPopupTrigger").live "mouseout", ->
+    $(document).on "mouseout", ".characterPopupTrigger", ->
       clearTimeout hideTimer  if hideTimer
       hideTimer = setTimeout ->
         container.css "display", "none", hideDelay
 
-    $(".lootRateTrigger").live "mouseout", ->
+    $(document).on "mouseout", ".lootRateTrigger", ->
       clearTimeout hideTimer  if hideTimer
       hideTimer = setTimeout ->
         container.css "display", "none", hideDelay
 
-    $(".playerLootRateTrigger").live "mouseout", ->
+    $(document).on "mouseout", ".playerLootRateTrigger", ->
       clearTimeout hideTimer  if hideTimer
       hideTimer = setTimeout ->
         container.css "display", "none", hideDelay
 
-    $(".lootRateTrigger").live "mouseover", ->
+    $(document).on "mouseover", ".lootRateTrigger", ->
+
       data = $(this).parent().data()
-      currentID = data.character_id
-      return  if currentID is undefined
+      currentID = data.character_id || data.characterId
+      return if currentID is undefined
 
-      clearTimeout hideTimer  if hideTimer
+      clearTimeout hideTimer if hideTimer
 
       pos = $(this).offset()
       width = $(this).width()
@@ -116,25 +118,28 @@ jQuery ->
         left: (pos.left + width) + "px"
         top: (pos.top - 5) + "px"
 
-      $("#popupContent").empty()
-      $("#popupContent").append "<div class='popupResult'>" +
-      "Raids (Player): " + data.player_raids + "</br>" +
-      "Raids (Character): " + data.raids + "</br>" +
-      "Instances: " + data.instances + "</br>" +
-      "Switches: " + data.switches + "</br></br>" +
-      "Armour: " + data.armour + "</br>" +
-      "Jewellery: " + data.jewellery + "</br>" +
-      "Weapons: " + data.weapons + "</br>" +
-      "Attuned: " + data.attuned + "</br></br>" +
-      "Adornments: " + data.adornments + "</br>" +
-      "Dislodgers: " + data.dislodgers + "</br></br>" +
-      "Mounts: " + data.mounts + "</div>"
+      playerRaids = data.player_raids || data.playerRaids
+      popupContent = $("#popupContent")
+      popupContent.empty()
+      popupContent.append "<div class='popupResult'>"
+      popupContent.append "Raids (Player): " + playerRaids + "</br>"
+      popupContent.append "Raids (Character): " + data.raids + "</br>"
+      popupContent.append "Instances: " + data.instances + "</br>"
+      popupContent.append "Switches: " + data.switches + "</br></br>"
+      popupContent.append "Armour: " + data.armour + "</br>"
+      popupContent.append "Jewellery: " + data.jewellery + "</br>"
+      popupContent.append "Weapons: " + data.weapons + "</br>"
+      popupContent.append "Attuned: " + data.attuned + "</br></br>"
+      popupContent.append "Adornments: " + data.adornments + "</br>"
+      popupContent.append "Dislodgers: " + data.dislodgers + "</br></br>"
+      popupContent.append "Mounts: " + data.mounts + "</div>"
+
       container.css
         display: "block"
 
-    $(".playerLootRateTrigger").live "mouseover", ->
+    $(document).on "mouseover", ".playerLootRateTrigger", ->
       data = $(this).parent().data()
-      currentID = data.player_id
+      currentID = data.player_id || data.playerId
       return  if currentID is undefined
 
       clearTimeout hideTimer  if hideTimer
@@ -161,15 +166,12 @@ jQuery ->
       container.css
         display: "block"
 
-    $(".adornmentsTrigger").live "mouseout", ->
+    $(document).on "mouseout", ".adornmentsTrigger", ->
       clearTimeout hideTimer  if hideTimer
       hideTimer = setTimeout ->
         container.css "display", "none", hideDelay
 
-    $(".adornmentsTrigger").live "mouseover", ->
-      currentID = @parentElement.id
-      return if currentID is ""
-
+    $(document).on "mouseover", ".adornmentsTrigger", ->
       clearTimeout hideTimer  if hideTimer
 
       pos = $(this).offset()
@@ -182,11 +184,11 @@ jQuery ->
       data = $(this).parent().data()
       $("#popupContent").empty()
       $("#popupContent").append "<div class='popupResult'>" +
-      "White: " + data.white_adornments + "</br>" +
-      "Yellow: " + data.yellow_adornments + "</br>" +
-      "Red: " + data.red_adornments + "</br>" +
-      "Green: " + data.green_adornments + "</br>" +
-      "Blue: " + data.blue_adornments + "</div>"
+      "White: " + data.whiteAdornments + "</br>" +
+      "Yellow: " + data.yellowAdornments + "</br>" +
+      "Red: " + data.redAdornments + "</br>" +
+      "Green: " + data.greenAdornments + "</br>" +
+      "Blue: " + data.blueAdornments + "</div>"
       container.css
         display: "block"
 

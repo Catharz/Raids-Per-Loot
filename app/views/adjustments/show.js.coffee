@@ -1,6 +1,7 @@
 $("#popup").dialog
   autoOpen: true
-  width: 450
+  height: 430
+  width: 605
   modal: true
   resizable: false
   title: 'Show Adjustment'
