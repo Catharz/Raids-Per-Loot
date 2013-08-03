@@ -20,15 +20,16 @@ class ItemsDatatable
 
   def data
     items.map do |item|
-      [
-          item.name,
-          item.loot_type_name,
-          item.slot_names,
-          consolidate_archetypes(item.archetypes),
-          h(link_to 'Show', item, class: 'table-button'),
-          h(link_to 'Edit', @view.edit_item_path(item), class: 'table-button'),
-          h(link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete, class: 'table-button')
-      ]
+      {
+          '0' => h(link_to item.name, item, class: 'itemPopupTrigger'),
+          '1' => item.loot_type_name,
+          '2' => item.slot_names,
+          '3' => consolidate_archetypes(item.archetypes),
+          '4' => h(link_to 'Show', item, class: 'table-button'),
+          '5' => h(link_to 'Edit', @view.edit_item_path(item), class: 'table-button'),
+          '6' => h(link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'),
+          'DT_RowId' => item.id
+      }
     end
   end
 
@@ -36,7 +37,6 @@ class ItemsDatatable
     @items ||= fetch_items
   end
 
-  #TODO: Get some specs around the searching
   def fetch_items
     items = Item.by_name(params[:name]).by_eq2_item_id(params[:eq2_item_id]).by_loot_type(params[:loot_type_id]) \
       .eager_load(:loot_type, [:items_slots => :slot], [:archetypes_items => :archetype]) \

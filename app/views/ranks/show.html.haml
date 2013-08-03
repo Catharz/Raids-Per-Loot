@@ -1,9 +1,5 @@
-%p
-  %strong Name:
-  = @rank.name
-%p
-  %strong Priority:
-  = @rank.priority
+= render 'details'
+
 = link_to 'Edit', edit_rank_path(@rank)
 |
 \#{link_to 'Back', ranks_path}

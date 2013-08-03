@@ -22,7 +22,6 @@ class CharactersDatatable
   def data
       characters.paginate(page: page, per_page: per_page).map do |char|
       character = Character.find(char['id'].to_i)
-      character_data = character_row_data(character)
       {
           '0' => h(link_to character.name, character, :id => "char_#{character.id}_#{character.char_type}", remote: true),
           '1' => character.current_main ? h(link_to character.current_main_name, character.current_main, :id => "#{character.current_main.id}", remote: true) : nil,
@@ -39,7 +38,7 @@ class CharactersDatatable
           '12' => h(link_to 'Update', @view.fetch_data_character_path(character), :confirm => 'Are you sure?', class: 'table-button'),
           '13' => h(link_to 'Destroy', character, :confirm => 'Are you sure?', :method => :delete, remote: true, class: 'table-button'),
           'DT_RowId' => "character_#{character.id}_#{params[:char_type]}",
-          'data' => character_data
+          'data' => character.character_row_data
       }
     end
   end

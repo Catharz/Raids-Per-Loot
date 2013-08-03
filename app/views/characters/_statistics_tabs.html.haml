@@ -15,8 +15,8 @@
   %tbody
     - @characters.each do |character|
       - if character.char_type.eql? @char_type or @char_type.eql? 'all'
-        %tr{data: character.adornment_data}
-          %td= link_to character.name, character_path(character), :remote => true
+        %tr{data: character.adornment_data.merge!(character_id: character.id)}
+          %td.characterPopupTrigger= link_to character.name, character_path(character), :remote => true
           %td= character.archetype_name
           %td= character.archetype_root
           %td= character.level

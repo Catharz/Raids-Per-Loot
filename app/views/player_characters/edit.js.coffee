@@ -32,8 +32,8 @@ updateCharacter = (character) ->
 
 $('#popup').dialog
   autoOpen: true
-  width: 380
-  height: 520
+  width: 340
+  height: 550
   modal: true
   resizable: false
   title: "Editing Loot Stats"
