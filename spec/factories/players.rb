@@ -7,5 +7,6 @@ FactoryGirl.define do
     f.name { generate(:player_name) }
     f.rank { |a| a.association(:rank) }
     f.active true
+    f.raids_count 0
   end
 end
