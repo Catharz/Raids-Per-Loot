@@ -35,6 +35,7 @@ Spork.prefork do
   require 'rspec/rails'
   require 'rspec/autorun'
   require 'shoulda/matchers'
+  require "capybara/rspec"
   require 'omniauth'
 
   # Requires supporting ruby files with custom matchers and macros, etc,
