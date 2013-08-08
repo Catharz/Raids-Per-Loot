@@ -1,11 +1,27 @@
 require 'spec_helper'
 
-describe "LootTypes" do
-  describe "GET /loot_types" do
-    it "works! (now write some real specs)" do
-      # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
+describe 'LootTypes' do
+  describe 'GET /loot_types' do
+    it 'responds with success' do
       get loot_types_path
+
       response.status.should be(200)
+    end
+
+    it 'assigns the loot_types to @loot_types' do
+      loot_type = FactoryGirl.create(:loot_type)
+
+      get loot_types_path
+
+      assigns(:loot_types).should eq [loot_type]
+    end
+
+    it 'displays the loot_types name' do
+      loot_type = FactoryGirl.create(:loot_type)
+
+      visit loot_types_path
+
+      response.body.should include loot_type.name
     end
   end
 end

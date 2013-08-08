@@ -19,44 +19,44 @@
     .field
       = label_tag 'Active:', nil, class: 'header'
       %span.data
-        = check_box_tag 'active', true, @player_character.active
+        = check_box_tag 'active', true, @player_character.active, id: 'player_character_active', name: 'player_character[active]'
     .field
       = label_tag 'Raids:', nil, class: 'header'
       %span.data
-        = number_field_tag :raids_count, @player_character.raids_count, class: 'numeric'
+        = number_field_tag :raids_count, @player_character.raids_count, class: 'numeric', id: 'player_character_raids_count', name: 'player_character[raids_count]'
     .field
       = label_tag 'Switches:', nil, class: 'header'
       %span.data
-        = number_field_tag :switches_count, @player_character.switches_count, class: 'numeric'
+        = number_field_tag :switches_count, @player_character.switches_count, class: 'numeric', id: 'player_character_switches_count', name: 'player_character[switches_count]'
     .field
       = label_tag 'Confirmed Rating:', nil, class: 'header'
       %span.data
-        = select_tag(:confirmed_rating, options_for_select(confirmed_rating_options, @player_character.confirmed_rating), include_blank: true)
+        = select_tag(:confirmed_rating, options_for_select(confirmed_rating_options, @player_character.confirmed_rating), include_blank: true, id: 'player_character_confirmed_rating', name: 'player_character[confirmed_rating]')
     .field
       = label_tag 'Confirmed Date:', nil, class: 'header'
       %span.data
-        = text_field_tag :confirmed_date, @player_character.confirmed_date, class: 'datepicker'
+        = text_field_tag :confirmed_date, @player_character.confirmed_date, class: 'datepicker', id: 'player_character_confirmed_date', name: 'player_character[confirmed_date]'
     .field
       = label_tag 'Armour:', nil, class: 'header'
       %span.data
-        = number_field_tag :armour_count, @player_character.armour_count, class: 'numeric'
+        = number_field_tag :armour_count, @player_character.armour_count, class: 'numeric', id: 'player_character_armour_count', name: 'player_character[armour_count]'
     .field
       = label_tag 'Jewellery:', nil, class: 'header'
       %span.data
-        = number_field_tag :jewellery_count, @player_character.jewellery_count, class: 'numeric'
+        = number_field_tag :jewellery_count, @player_character.jewellery_count, class: 'numeric', id: 'player_character_jewellery_count', name: 'player_character[jewellery_count]'
     .field
       = label_tag 'Weapons:', nil, class: 'header'
       %span.data
-        = number_field_tag :weapons_count, @player_character.weapons_count, class: 'numeric'
+        = number_field_tag :weapons_count, @player_character.weapons_count, class: 'numeric', id: 'player_character_weapons_count', name: 'player_character[weapons_count]'
     .field
       = label_tag 'Adornments:', nil, class: 'header'
       %span.data
-        = number_field_tag :adornments_count, @player_character.adornments_count, class: 'numeric'
+        = number_field_tag :adornments_count, @player_character.adornments_count, class: 'numeric', id: 'player_character_adornments_count', name: 'player_character[adornments_count]'
     .field
       = label_tag 'Dislodgers:', nil, class: 'header'
       %span.data
-        = number_field_tag :dislodgers_count, @player_character.dislodgers_count, class: 'numeric'
+        = number_field_tag :dislodgers_count, @player_character.dislodgers_count, class: 'numeric', id: 'player_character_dislodgers_count', name: 'player_character[dislodgers_count]'
     .field
       = label_tag 'Mounts:', nil, class: 'header'
       %span.data
-        = number_field_tag :mounts_count, @player_character.mounts_count, class: 'numeric'
+        = number_field_tag :mounts_count, @player_character.mounts_count, class: 'numeric', id: 'player_character_mounts_count', name: 'player_character[mounts_count]'

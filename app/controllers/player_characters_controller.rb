@@ -7,8 +7,7 @@ class PlayerCharactersController < ApplicationController
     @player_character = PlayerCharacter.new(params[:id])
 
     respond_to do |format|
-      if @player_character.update_attributes(params)
-        format.html { redirect_to @player_character, notice: 'Loot Stats successfully updated.' }
+      if @player_character.update_attributes(params[:player_character])
         format.json { render :json => @player_character.to_json(methods: [
             :player,
             :character,
@@ -16,7 +15,6 @@ class PlayerCharactersController < ApplicationController
             :raid_alternate
         ]), :notice => 'Loot Stats successfully updated.' }
       else
-        format.html { render action: 'edit' }
         format.json { render json: @player_character.errors, status: :unprocessable_entity }
       end
     end
