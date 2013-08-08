@@ -4,7 +4,7 @@ module VersionsHelper
     if old_item.nil?
       differences = new_item.attributes
       differences.keys.reject { |k| excluded_columns.include? k }.each do |key|
-        changed_values << {key: new_item[key], old: nil, new: new_item[key]}
+        changed_values << {key: key, old: nil, new: new_item[key]}
       end
     else
       differences = old_item.attributes.diff(new_item.attributes)
