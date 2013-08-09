@@ -27,6 +27,7 @@ class LootTypesController < ApplicationController
       format.html # show.html.erb
       format.json { render :json => @loot_type }
       format.xml  { render :xml => @loot_type.to_xml( :include => [:items, :drops] ) }
+      format.js
     end
   end
 
@@ -38,6 +39,8 @@ class LootTypesController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @loot_type }
+      format.json { render :json => @loot_type.as_json(methods: [:default_loot_method_name]) }
+      format.js
     end
   end
 
@@ -55,9 +58,12 @@ class LootTypesController < ApplicationController
       if @loot_type.save
         format.html { redirect_to(@loot_type, :notice => 'Loot type was successfully created.') }
         format.xml  { render :xml => @loot_type, :status => :created, :location => @loot_type }
+        format.json { render :json => @loot_type.as_json(methods: [:default_loot_method_name]),
+                             :status => :created, :location => @loot_type }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @loot_type.errors, :status => :unprocessable_entity }
+        format.json { render :json => @loot_type.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -71,9 +77,12 @@ class LootTypesController < ApplicationController
       if @loot_type.update_attributes(params[:loot_type])
         format.html { redirect_to(@loot_type, :notice => 'Loot type was successfully updated.') }
         format.xml  { head :ok }
+        format.json { render :json => @loot_type.as_json(methods: [:default_loot_method_name]),
+                             :notice => 'Loot type was successfully updated.' }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @loot_type.errors, :status => :unprocessable_entity }
+        format.json { render :json => @loot_type.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -87,6 +96,8 @@ class LootTypesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(loot_types_url) }
       format.xml  { head :ok }
+      format.json { head :ok }
+      format.js
     end
   end
 end
