@@ -12,8 +12,8 @@
         %tr{id: "loot_type_#{loot_type.id}"}
           %td= loot_type.name
           %td= loot_method_description loot_type.default_loot_method
-          %td= link_to 'Show', loot_type, class: 'table-button'
-          %td= link_to 'Edit', edit_loot_type_path(loot_type), class: 'table-button'
-          %td= link_to 'Destroy', loot_type, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
+          %td= link_to 'Show', loot_type, class: 'table-button', remote: true
+          %td= link_to 'Edit', edit_loot_type_path(loot_type), class: 'table-button', remote: true
+          %td= link_to 'Destroy', loot_type, :confirm => 'Are you sure?', :method => :delete, class: 'table-button', remote: true
 %br/
-= link_to 'New Loot type', new_loot_type_path, class: 'button'
+= link_to 'New Loot type', new_loot_type_path, class: 'button', remote: true

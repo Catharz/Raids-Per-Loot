@@ -1,0 +1,5 @@
+oTable = $('#dataTable').dataTable()
+aPos = oTable.fnGetPosition( document.getElementById("loot_type_<%= @loot_type.id %>") )
+oTable.fnDeleteRow(aPos)
+oTable.fnDraw()
+displayFlash('notice', 'Loot type was successfully deleted.')

@@ -1,0 +1,28 @@
+#tabBook
+  %ul
+    %li= link_to 'Details', '#details'
+    %li= link_to 'Items', '#items'
+    %li= link_to 'Drops', '#drops'
+
+  #details
+    %p
+      %strong Zone:
+      = @mob.zone_name
+    %p
+      %strong Name:
+      = @mob.name
+    %p
+      %strong Alias:
+      = @mob.alias
+    %p
+      %strong Strategy:
+      = @mob.strategy
+    %p
+      %strong Progression:
+      = @mob.progression ? 'Yes' : 'No'
+
+  #items
+    = render 'tabs/items', :'@item_list' => @mob.items
+
+  #drops
+    = render 'tabs/drops', :'@drop_list' => @mob.drops

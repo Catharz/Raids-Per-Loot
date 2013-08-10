@@ -39,3 +39,23 @@ end
 Then /^I should see the mob strategy: (.*)$/ do |strategy|
   expect(page).to have_css('p', text: strategy)
 end
+
+When(/^I enter (.+) as the mob's name$/) do |name|
+  fill_in 'mob_name', with: name
+end
+
+When(/^I enter (.+) as the mob's alias$/) do |mob_alias|
+  fill_in 'mob_alias', with: mob_alias
+end
+
+When(/^I select (.+) as the mob's zone$/) do |zone_name|
+  select zone_name, from: 'mob_zone_id'
+end
+
+When(/^I enter (.+) as the mob's strategy$/) do |strategy|
+  fill_in 'mob_strategy', with: strategy
+end
+
+When(/^I select (.+) as the mob's difficulty$/) do |difficulty|
+  select difficulty, from: 'mob_difficulty_id'
+end
