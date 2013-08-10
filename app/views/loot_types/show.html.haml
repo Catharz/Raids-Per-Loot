@@ -1,9 +1,5 @@
-%p
-  %strong Name:
-  = @loot_type.name
-%p
-  %strong Default Loot Method:
-  = loot_method_description @loot_type.default_loot_method
+= render 'details'
+
 = link_to 'Edit', edit_loot_type_path(@loot_type)
 |
 \#{link_to 'Back', loot_types_path}

@@ -37,6 +37,7 @@ class MobsController < ApplicationController
       format.html # show.html.erb
       format.json { render :json => @mob }
       format.xml { render :xml => @mob.to_xml(:include => [:zone, :drops]) }
+      format.js
     end
   end
 
@@ -49,6 +50,7 @@ class MobsController < ApplicationController
       format.html # new.html.erb
       format.json { render :json => @mob }
       format.xml { render :xml => @mob }
+      format.js
     end
   end
 
@@ -65,7 +67,7 @@ class MobsController < ApplicationController
     respond_to do |format|
       if @mob.save
         format.html { redirect_to @mob, :notice => 'Mob was successfully created.' }
-        format.json { render :json => @mob, :status => :created, :location => @mob }
+        format.json { render :json => @mob.as_json(methods: [:difficulty_name, :kills, :first_killed, :last_killed, :progression, :zone_name]), :status => :created, :location => @mob }
         format.xml { render :xml => @mob, :status => :created, :location => @mob }
       else
         format.html { render :action => "new" }
@@ -83,7 +85,7 @@ class MobsController < ApplicationController
     respond_to do |format|
       if @mob.update_attributes(params[:mob])
         format.html { redirect_to @mob, :notice => 'Mob was successfully updated.' }
-        format.json { head :ok }
+        format.json { render :json => @mob.as_json(methods: [:difficulty_name, :kills, :first_killed, :last_killed, :progression, :zone_name]), :notice => 'Mob was successfully updated.' }
         format.xml { head :ok }
       else
         format.html { render :action => "edit" }
@@ -103,6 +105,7 @@ class MobsController < ApplicationController
       format.html { redirect_to mobs_url }
       format.json { head :ok }
       format.xml { head :ok }
+      format.js
     end
   end
 end

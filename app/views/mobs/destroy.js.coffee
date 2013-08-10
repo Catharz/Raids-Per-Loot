@@ -1,0 +1,5 @@
+oTable = $('#mobsTable').dataTable()
+aPos = oTable.fnGetPosition( document.getElementById("mob_<%= @mob.id %>") )
+oTable.fnDeleteRow(aPos)
+oTable.fnDraw()
+displayFlash('notice', 'Mob was successfully deleted.')

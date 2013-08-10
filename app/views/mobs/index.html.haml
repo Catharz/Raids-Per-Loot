@@ -24,8 +24,8 @@
           %td= mob.first_killed
           %td= mob.last_killed
           %td= mob.is_progression?
-          %td= link_to 'Show', mob, class: 'table-button'
-          %td= link_to 'Edit', edit_mob_path(mob), class: 'table-button'
-          %td= link_to 'Destroy', mob, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'
+          %td= link_to 'Show', mob, class: 'table-button', remote: true
+          %td= link_to 'Edit', edit_mob_path(mob), class: 'table-button', remote: true
+          %td= link_to 'Destroy', mob, :confirm => 'Are you sure?', :method => :delete, class: 'table-button', remote: true
 %br/
-= link_to 'New Mob', new_mob_path, class: 'button'
+= link_to 'New Mob', new_mob_path, class: 'button', remote: true

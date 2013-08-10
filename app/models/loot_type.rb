@@ -1,4 +1,5 @@
 class LootType < ActiveRecord::Base
+  include LootMethodHelper
   has_many :items, :inverse_of => :loot_type
   has_many :drops, :inverse_of => :loot_type
 
@@ -8,6 +9,10 @@ class LootType < ActiveRecord::Base
 
   def self.option_names
     where(:default_loot_method => 'n').order(:name).each.collect { |loot_type| loot_type.name }
+  end
+
+  def default_loot_method_name
+    loot_method_description default_loot_method
   end
 
   def to_xml(options = {})

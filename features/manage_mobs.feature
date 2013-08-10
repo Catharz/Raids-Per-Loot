@@ -12,11 +12,11 @@ Feature: Manage mobs
       |name|
       |zone_name 1|
     Given I am on the new mob page
-    When I fill in "Name" with "name 1"
-    And I select "zone_name 1" from "mob_zone_id"
-    And I fill in "Alias" with "alias 1"
-    And I fill in "Strategy" with "strategy 1"
-    And I select "Easy" from "mob_difficulty_id"
+    When I enter name 1 as the mob's name
+    And I enter alias 1 as the mob's alias
+    And I enter strategy 1 as the mob's strategy
+    And I select zone_name 1 as the mob's zone
+    And I select Easy as the mob's difficulty
     And I press "Create"
     Then I should see the mob named: name 1
     And I should see the mob strategy: strategy 1
