@@ -1,5 +1,5 @@
 Before('@ranks') do
-  ranks = YAML.load_file File.join(Rails.root, 'spec', 'fixtures', 'archetypes.yml')
+  ranks = YAML.load_file File.join(Rails.root, 'spec', 'fixtures', 'ranks.yml')
   ranks.each do |rank|
     Rank.create(rank[1])
   end

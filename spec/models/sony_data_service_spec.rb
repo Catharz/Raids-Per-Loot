@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe SonyDataService do
-  fixtures :archetypes
+  fixtures :archetypes, :ranks
 
   subject { SonyDataService.new }
   let(:guild_details) { {guild_list: [
@@ -100,7 +100,6 @@ describe SonyDataService do
 
     it 'only creates players of the appropriate ranks' do
       subject.should_receive(:download_guild_characters).and_return(guild_details)
-      FactoryGirl.create(:rank, name: 'Main')
       subject.update_player_list.should eq 12
       Player.all.collect { |p| p.name }.should match_array %w{France Francis Franky Franko Freddo Frodo Grace Gracie Grendle Gretta Henry Henrique}
     end

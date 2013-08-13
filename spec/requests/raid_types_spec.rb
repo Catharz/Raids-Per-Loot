@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'RaidTypes' do
+  fixtures :raid_types
   describe 'GET /raid_types' do
     it 'responds with success' do
       get raid_types_path
@@ -13,7 +14,7 @@ describe 'RaidTypes' do
 
       get raid_types_path
 
-      assigns(:raid_types).should eq [raid_type]
+      assigns(:raid_types).should include raid_type
     end
 
     it 'displays the raid_types name' do

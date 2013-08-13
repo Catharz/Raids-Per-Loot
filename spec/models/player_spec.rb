@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 describe Player do
-  let(:main) { FactoryGirl.create(:rank, name: 'Main') }
-  let(:player) { FactoryGirl.create(:player, name: 'Fred', rank: main) }
+  let(:player) { FactoryGirl.create(:player, name: 'Fred', rank: Rank.find_by_name('Main')) }
 
   describe 'player' do
     describe '#calculate_loot_rate' do
@@ -16,7 +15,7 @@ describe Player do
     end
 
     describe '#to_csv' do
-      it 'should have 10 columns' do
+      it 'should have 14 columns' do
         csv = player.to_csv
 
         csv.should match('Fred')

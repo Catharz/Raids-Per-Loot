@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe RaidType do
+  fixtures :raid_types
+
   context 'associations' do
     it { should have_many(:raids) }
     it { should have_many(:instances).through(:raids) }
@@ -11,16 +13,17 @@ describe RaidType do
   end
 
   context 'filter' do
-    let(:pickup) { FactoryGirl.create(:raid_type, name: 'Pickup') }
-    let(:progression) { FactoryGirl.create(:raid_type, name: 'Progression')}
+    let(:newbie) { FactoryGirl.create(:raid_type, name: 'Newbie') }
+    let(:fail_whale) { FactoryGirl.create(:raid_type, name: 'Fail Whale')}
 
     describe 'self #by_name' do
       it 'shows all by default' do
-        RaidType.by_name.should eq([pickup, progression])
+        RaidType.by_name.should include newbie
+        RaidType.by_name.should include fail_whale
       end
 
       it 'filters by name' do
-        RaidType.by_name('Pickup').should eq([pickup])
+        RaidType.by_name('Newbie').should eq([newbie])
       end
     end
   end

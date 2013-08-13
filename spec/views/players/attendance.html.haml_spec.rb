@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe 'players/attendance.html.haml' do
+  fixtures :ranks
 
-  let(:main) { Rank.create(name: 'Main') }
+  let(:main) { Rank.find_by_name('Main') }
   let(:player) { Player.create(name: 'Jenny', rank: main) }
 
   before(:each) do

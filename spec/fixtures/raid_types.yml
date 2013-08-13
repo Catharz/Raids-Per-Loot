@@ -1,0 +1,46 @@
+---
+raid_types_001:
+  id: '1'
+  name: Progression
+  raid_counted: t
+  raid_points: '1'
+  loot_counted: t
+  loot_cost: '1'
+  created_at: '2012-12-21 05:33:13.8396'
+  updated_at: '2012-12-21 05:33:13.8396'
+raid_types_002:
+  id: '2'
+  name: Normal
+  raid_counted: t
+  raid_points: '1'
+  loot_counted: t
+  loot_cost: '1'
+  created_at: '2012-12-21 05:33:13.860794'
+  updated_at: '2012-12-21 05:33:13.860794'
+raid_types_003:
+  id: '3'
+  name: Pickup
+  raid_counted: f
+  raid_points: '0'
+  loot_counted: f
+  loot_cost: '0'
+  created_at: '2012-12-21 05:33:13.865265'
+  updated_at: '2012-12-21 05:33:13.865265'
+raid_types_004:
+  id: '4'
+  name: Alternate
+  raid_counted: t
+  raid_points: '1'
+  loot_counted: t
+  loot_cost: '1'
+  created_at: '2012-12-21 05:33:13.951099'
+  updated_at: '2012-12-21 05:33:13.951099'
+raid_types_005:
+  id: '5'
+  name: Trash Clearing
+  raid_counted: f
+  raid_points: '0'
+  loot_counted: f
+  loot_cost: '0'
+  created_at: '2012-12-21 05:33:13.955272'
+  updated_at: '2012-12-21 05:33:13.955272'

@@ -13,7 +13,7 @@ describe 'Ranks' do
 
       get ranks_path
 
-      assigns(:ranks).should eq [rank]
+      assigns(:ranks).should include rank
     end
 
     it 'displays the ranks name' do

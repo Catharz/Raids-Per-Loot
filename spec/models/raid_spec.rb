@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe Raid do
-  let(:main) { FactoryGirl.create(:rank, name: 'Main') }
-  let(:player) { FactoryGirl.create(:player, name: 'Doofus', rank: main) }
-  let(:progression) { FactoryGirl.create(:raid_type, name: 'Progression') }
-  let(:first_raid) { FactoryGirl.create(:raid, raid_date: Date.today - 60.days, raid_type_id: progression.id) }
-  let(:second_raid) { FactoryGirl.create(:raid, raid_date: Date.today - 30.days, raid_type_id: progression.id) }
-  let(:third_raid) { FactoryGirl.create(:raid, raid_date: Date.today, raid_type_id: progression.id) }
+  fixtures :raid_types, :ranks
+  let(:progression) { RaidType.find_by_name('Progression') }
+  let(:player) { FactoryGirl.create(:player, name: 'Doofus', rank: Rank.find_by_name('Main')) }
+  let(:first_raid) { FactoryGirl.create(:raid, raid_date: Date.today - 60.days, raid_type: progression) }
+  let(:second_raid) { FactoryGirl.create(:raid, raid_date: Date.today - 30.days, raid_type: progression) }
+  let(:third_raid) { FactoryGirl.create(:raid, raid_date: Date.today, raid_type: progression) }
 
   context 'associations' do
     it { should belong_to(:raid_type) }
