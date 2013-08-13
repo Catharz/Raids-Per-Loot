@@ -67,6 +67,8 @@ module NavigationHelpers
     when /the new zone page/
       new_zone_path
 
+    when /the loot page/
+      '/characters/loot'
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

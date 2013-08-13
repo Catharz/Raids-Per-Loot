@@ -10,7 +10,6 @@ Feature: Manage characters
     And I have an archetype named Brawler with a parent named Fighter
     And I have an archetype named Monk with a parent named Brawler
 
-  @ranks
   Scenario: Register new character
     Given I am on the new character page
     When I select "Newbie" as the characters player

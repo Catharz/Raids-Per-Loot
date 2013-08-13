@@ -1,3 +1,10 @@
+Before('@archetypes') do
+  archetypes = YAML.load_file File.join(Rails.root, 'spec', 'fixtures', 'archetypes.yml')
+  archetypes.each do |archetype|
+    Archetype.create(archetype[1])
+  end
+end
+
 Given /^I have an archetype named (\w+)$/ do |archetype|
   Archetype.create(:name => archetype)
 end

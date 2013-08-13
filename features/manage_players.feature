@@ -17,7 +17,6 @@ Feature: Manage players
     And I should see the player rank: Main
     And I should see the notice message: Player was successfully created
 
-  @ranks
   Scenario: Delete player
     Given the following players:
       | name   |
@@ -32,7 +31,6 @@ Feature: Manage players
       | name 2 |
       | name 4 |
 
-  @ranks
   Scenario: Player's Loot Rates
     Given the following players:
       | name | raids_count |

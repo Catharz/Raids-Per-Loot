@@ -6,7 +6,6 @@ Feature: Manage Adjustments
   Background: Logged in
     Given I am logged in as a user
 
-  @ranks
   @javascript
   Scenario: Creating a Player Adjustment
     Given the following players:
@@ -28,7 +27,6 @@ Feature: Manage Adjustments
     And I should see "Raids"
     And I should see "23"
 
-  @ranks
   @javascript
   Scenario: Creating a Character Adjustment
     Given the following players:
@@ -50,7 +48,6 @@ Feature: Manage Adjustments
     And I should see "Instances"
     And I should see "32"
 
-  @ranks
   @javascript
   Scenario: Changing Adjusted Entity
     Given the following characters:

@@ -1,6 +1,7 @@
 Before('@ranks') do
-  ['Main', 'Raid Alternate', 'General Alternate', 'Non-Member', 'Associate'].each do |rank_name|
-    Rank.create(:name => rank_name)
+  ranks = YAML.load_file File.join(Rails.root, 'spec', 'fixtures', 'archetypes.yml')
+  ranks.each do |rank|
+    Rank.create(rank[1])
   end
 end
 

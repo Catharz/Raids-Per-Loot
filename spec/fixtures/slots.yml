@@ -1,0 +1,86 @@
+---
+slots_001:
+  id: '1'
+  name: Head
+  created_at: '2011-12-28 09:53:37.142933'
+  updated_at: '2011-12-28 09:53:37.142933'
+slots_002:
+  id: '2'
+  name: Chest
+  created_at: '2011-12-28 09:53:37.149969'
+  updated_at: '2011-12-28 09:53:37.149969'
+slots_003:
+  id: '3'
+  name: Shoulders
+  created_at: '2011-12-28 09:53:37.155115'
+  updated_at: '2011-12-28 09:53:37.155115'
+slots_004:
+  id: '4'
+  name: Forearms
+  created_at: '2011-12-28 09:53:37.16058'
+  updated_at: '2011-12-28 09:53:37.16058'
+slots_005:
+  id: '5'
+  name: Legs
+  created_at: '2011-12-28 09:53:37.165347'
+  updated_at: '2011-12-28 09:53:37.165347'
+slots_006:
+  id: '6'
+  name: Hands
+  created_at: '2011-12-28 09:53:37.171127'
+  updated_at: '2011-12-28 09:53:37.171127'
+slots_007:
+  id: '7'
+  name: Feet
+  created_at: '2011-12-28 09:53:37.175689'
+  updated_at: '2011-12-28 09:53:37.175689'
+slots_008:
+  id: '8'
+  name: Neck
+  created_at: '2011-12-28 09:53:37.180759'
+  updated_at: '2011-12-28 09:53:37.180759'
+slots_009:
+  id: '9'
+  name: Ear
+  created_at: '2011-12-28 09:53:37.185369'
+  updated_at: '2011-12-28 09:53:37.185369'
+slots_010:
+  id: '10'
+  name: Finger
+  created_at: '2011-12-28 09:53:37.189959'
+  updated_at: '2011-12-28 09:53:37.189959'
+slots_011:
+  id: '11'
+  name: Wrist
+  created_at: '2011-12-28 09:53:37.19502'
+  updated_at: '2011-12-28 09:53:37.19502'
+slots_012:
+  id: '12'
+  name: Charm
+  created_at: '2011-12-28 09:53:37.199749'
+  updated_at: '2011-12-28 09:53:37.199749'
+slots_013:
+  id: '13'
+  name: Ranged
+  created_at: '2011-12-28 09:53:37.204886'
+  updated_at: '2011-12-28 09:53:37.204886'
+slots_014:
+  id: '14'
+  name: Primary
+  created_at: '2011-12-28 09:53:37.210007'
+  updated_at: '2011-12-28 09:53:37.210007'
+slots_015:
+  id: '15'
+  name: Secondary
+  created_at: '2011-12-28 09:53:37.215313'
+  updated_at: '2011-12-28 09:53:37.215313'
+slots_016:
+  id: '16'
+  name: Waist
+  created_at: '2012-05-19 07:00:07.147115'
+  updated_at: '2012-05-19 07:00:07.147115'
+slots_017:
+  id: '17'
+  name: Cloak
+  created_at: '2012-05-19 07:00:11.372978'
+  updated_at: '2012-05-19 07:00:11.372978'
