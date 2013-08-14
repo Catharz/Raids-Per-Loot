@@ -26,11 +26,6 @@ class Player < ActiveRecord::Base
   validates_presence_of :rank_id
   validates_uniqueness_of :name
 
-  # Don't accept any blank characters
-  accepts_nested_attributes_for :characters,
-                                :allow_destroy => true,
-                                :reject_if => :all_blank
-
   delegate :name, to: :current_main, prefix: :main, allow_nil: true
   delegate :name, to: :current_raid_alternate, prefix: :raid_alternate, allow_nil: true
   delegate :name, to: :rank, prefix: :rank, allow_nil: true

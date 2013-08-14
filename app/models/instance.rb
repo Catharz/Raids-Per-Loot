@@ -11,10 +11,6 @@ class Instance < ActiveRecord::Base
 
   has_one :last_drop, :class_name => 'Drop', :order => 'created_at desc'
 
-  accepts_nested_attributes_for :character_instances, :reject_if => :all_blank, :allow_destroy => true
-  accepts_nested_attributes_for :drops, :reject_if => :all_blank, :allow_destroy => true
-  accepts_nested_attributes_for :raid, :zone
-
   validates_presence_of :raid, :zone, :start_time
   validates_uniqueness_of :start_time, :scope => [:raid_id, :zone_id]
 
