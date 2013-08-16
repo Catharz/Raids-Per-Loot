@@ -15,15 +15,14 @@ describe 'characters/show.html.haml' do
   let(:characters_data) { YAML.load_file File.join(Rails.root, 'spec', 'fixtures', 'soe', 'soe_characters.yml') }
   let(:armour) { mock_model(LootType, name: 'Armour') }
   let(:jewellery) { mock_model(LootType, name: 'Jewellery') }
+  let(:raids) { Array.new(2) { |n| mock_model(Raid, raid_date: Date.today + n.days )} }
+  let(:instances) { Array.new(3) { |n| mock_model(Instance, raid: raids[n % 2])} }
 
   before(:each) do
-    raids = Array.new(2) { |n| mock_model(Raid, raid_date: Date.today + n.days )}
     character.stub(:raids).and_return(raids)
     character.stub(:first_raid_date).and_return('2012-01-01')
     character.stub(:last_raid_date).and_return('2013-02-31')
-    instances = Array.new(3) { |n| mock_model(Instance, raid: raids[n % 2])}
     character.stub(:instances).and_return(instances)
-    #character_list = setup_characters(%w{Julie})
     character_list = [character]
     create_attendance(:num_raids => 2, :num_instances => 3, :attendees => character_list)
 

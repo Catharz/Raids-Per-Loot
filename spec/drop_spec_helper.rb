@@ -2,10 +2,9 @@ require 'item_spec_helper'
 require 'mob_spec_helper'
 require 'loot_type_spec_helper'
 require 'raid_spec_helper'
-require 'zone_spec_helper'
 
 module DropSpecHelper
-  include ItemSpecHelper, LootTypeSpecHelper, MobSpecHelper, RaidSpecHelper, ZoneSpecHelper
+  include ItemSpecHelper, LootTypeSpecHelper, MobSpecHelper, RaidSpecHelper
 
   # These items must exist or the Drop will not be valid
   def create_drop_dependencies
@@ -84,7 +83,7 @@ module DropSpecHelper
         loot_type = mock_model(LootType, name: loot_type_name)
         drops = (1..count).to_a
         drops.each do |n|
-          zone = create_zone
+          zone = mock_model(Zone, FactoryGirl.attributes_for(:zone))
           mob = create_mob(zone)
           item = mock_model(Item, :eq2_item_id => "#{character.name} #{loot_type_name} item #{n}", :name => "#{character.name} #{loot_type_name} item #{n}", :loot_type => loot_type)
 
