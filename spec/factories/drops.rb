@@ -11,7 +11,7 @@ FactoryGirl.define do
     f.item { |a| a.association(:item) }
     f.loot_type { |a| a.association(:loot_type) }
     f.loot_method 'n'
-    f.drop_time { |a| a.association(:instance).start_time }
+    f.drop_time DateTime.now
     f.log_line { generate(:log_line) }
     f.chat { 'blah, blah, blah' }
   end
