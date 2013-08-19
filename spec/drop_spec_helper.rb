@@ -26,7 +26,7 @@ module DropSpecHelper
     rank = FactoryGirl.create(:rank, :name => "Main")
     player = FactoryGirl.create(:player, :name => "Me", :rank_id => rank.id)
 
-    archetype = FactoryGirl.create(:archetype, :name => "Scout")
+    archetype = Archetype.find_by_name( "Scout")
     character = FactoryGirl.create(:character, :name => "Me", :player_id => player.id, :archetype_id => archetype.id, :char_type => "m")
 
     drop_time = DateTime.parse("03/01/2012 2:00PM")
