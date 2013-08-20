@@ -1,8 +1,6 @@
 require 'spec_helper'
-require 'character_spec_helper'
 
 describe CharacterObserver do
-  include CharacterSpecHelper
   subject { CharacterObserver.instance }
 
   before(:each) do

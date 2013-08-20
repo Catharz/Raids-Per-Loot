@@ -4,6 +4,12 @@ require 'drop_spec_helper'
 describe Drop do
   include DropSpecHelper
 
+  around do |example|
+    Timecop.freeze(DateTime.new(2013, 04, 01, 20, 15, 01))
+    example.run
+    Timecop.return
+  end
+
   let(:armour) { mock_model(LootType, name: 'Armour', default_loot_method: 'n') }
   let(:weapon) { mock_model(LootType, name: 'Weapon', default_loot_method: 'n') }
   let(:trade_skill) { mock_model(LootType, name: 'Trade Skill', default_loot_method: 'g') }

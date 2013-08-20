@@ -3,9 +3,9 @@ require 'drop_spec_helper'
 require 'authentication_spec_helper'
 
 describe DropsController do
+  fixtures :users, :services, :archetypes
   include AuthenticationSpecHelper
   include DropSpecHelper
-  fixtures :users, :services
 
   before(:each) do
     # Need to be logged in
@@ -15,7 +15,7 @@ describe DropsController do
 
   describe 'GET invalid' do
     it 'lists drops assigned to the wrong archetype' do
-      priest = FactoryGirl.create(:archetype, :name => 'Priest')
+      priest = Archetype.find_by_name('Fury')
       FactoryGirl.create(:archetypes_item, :archetype_id => priest.id, :item_id => @drop_details[:armour_item].id)
       drop = FactoryGirl.create(:drop, valid_attributes(:item_id => @drop_details[:armour_item].id, :loot_method => 'n'))
 
