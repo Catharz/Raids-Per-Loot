@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'attendance_spec_helper'
-require 'character_spec_helper'
 
 describe 'characters/info.html.haml' do
   before(:each) do

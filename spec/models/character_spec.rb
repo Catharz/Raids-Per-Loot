@@ -1,8 +1,6 @@
 require 'spec_helper'
-require 'character_spec_helper'
 
 describe Character do
-  include CharacterSpecHelper
   fixtures :archetypes
 
   context 'associations' do
@@ -58,7 +56,7 @@ describe Character do
   context 'instance method' do
     describe '#loot_rate' do
       it 'should calculate to two decimal places' do
-        character = FactoryGirl.create(:character, valid_character_attributes)
+        character = FactoryGirl.create(:character)
         num_raids = 37
         num_items = 5
 
@@ -216,7 +214,7 @@ describe Character do
     end
 
     it 'should give the char_type at a particular time' do
-      character = FactoryGirl.create(:character, valid_character_attributes.merge!(:name => 'switching to main'))
+      character = FactoryGirl.create(:character, name: 'switching to main')
       FactoryGirl.create(:character_type, :character_id => character.id, :char_type => 'g', :effective_date => Date.parse('01/01/2012'))
       FactoryGirl.create(:character_type, :character_id => character.id, :char_type => 'r', :effective_date => Date.parse('01/03/2012'))
       FactoryGirl.create(:character_type, :character_id => character.id, :char_type => 'm', :effective_date => Date.parse('01/06/2012'))

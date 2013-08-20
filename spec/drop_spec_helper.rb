@@ -2,10 +2,9 @@ require 'item_spec_helper'
 require 'mob_spec_helper'
 require 'loot_type_spec_helper'
 require 'raid_spec_helper'
-require 'zone_spec_helper'
 
 module DropSpecHelper
-  include ItemSpecHelper, LootTypeSpecHelper, MobSpecHelper, RaidSpecHelper, ZoneSpecHelper
+  include ItemSpecHelper, LootTypeSpecHelper, MobSpecHelper, RaidSpecHelper
 
   # These items must exist or the Drop will not be valid
   def create_drop_dependencies
@@ -27,7 +26,7 @@ module DropSpecHelper
     rank = FactoryGirl.create(:rank, :name => "Main")
     player = FactoryGirl.create(:player, :name => "Me", :rank_id => rank.id)
 
-    archetype = FactoryGirl.create(:archetype, :name => "Scout")
+    archetype = Archetype.find_by_name( "Scout")
     character = FactoryGirl.create(:character, :name => "Me", :player_id => player.id, :archetype_id => archetype.id, :char_type => "m")
 
     drop_time = DateTime.parse("03/01/2012 2:00PM")
@@ -58,22 +57,10 @@ module DropSpecHelper
      :drop_time => @drop_details[:drop_time]}.merge!(options)
   end
 
-  def valid_drop_attributes(options = {})
-    {:zone_id => 1,
-     :mob_id => 1,
-     :instance_id => 1,
-     :loot_type_id => 1,
-     :item_id => 1,
-     :character_id => 1,
-     :drop_time => DateTime.now,
-     :loot_method => "n"
-    }.merge!(options)
-  end
-
   def add_drop(character, item_name, loot_type_name)
     loot_type = mock_model(LootType, :name => loot_type_name)
     item = mock_model(Item, valid_item_attributes.merge!(:eq2_item_id => "123", :name => item_name))
-    character.stub(:drops).and_return([mock_model(Drop, valid_drop_attributes.merge!(:loot_type_id => loot_type.id, :item_id => item.id))])
+    character.stub(:drops).and_return([mock_model(Drop, FactoryGirl.attributes_for(:drop).merge!(:loot_type_id => loot_type.id, :item_id => item.id))])
   end
 
   def create_drops(character, drop_counts = {})
@@ -84,11 +71,11 @@ module DropSpecHelper
         loot_type = mock_model(LootType, name: loot_type_name)
         drops = (1..count).to_a
         drops.each do |n|
-          zone = create_zone
+          zone = mock_model(Zone, FactoryGirl.attributes_for(:zone))
           mob = create_mob(zone)
           item = mock_model(Item, :eq2_item_id => "#{character.name} #{loot_type_name} item #{n}", :name => "#{character.name} #{loot_type_name} item #{n}", :loot_type => loot_type)
 
-          drop = mock_model(Drop, valid_drop_attributes)
+          drop = mock_model(Drop, FactoryGirl.attributes_for(:drop))
           drop.stub(:raid).and_return(create_raid)
           drop.stub(:zone).and_return(zone)
           drop.stub(:mob).and_return(mob)
