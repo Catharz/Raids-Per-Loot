@@ -13,4 +13,4 @@
         %td= version.item_type
         %td= version.created_at
         %td= version.whodunnit
-        %td= render 'changes', :"@changes" => changes(version.item.previous_version, version.item)
+        %td= render 'changes', :"@changes" => changes(version)
