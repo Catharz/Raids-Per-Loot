@@ -89,14 +89,6 @@ describe Character do
       end
     end
 
-    describe '#fetch_soe_character_details' do
-      it 'uses Resque and the SonyCharacterUpdater' do
-        character = FactoryGirl.create(:character)
-        Resque.should_receive(:enqueue).with(SonyCharacterUpdater, character.id)
-        character.fetch_soe_character_details
-      end
-    end
-
     context 'player character type' do
       before(:each) do
         @player = FactoryGirl.create(:player)

@@ -36,6 +36,7 @@ class Character < ActiveRecord::Base
 
   validates_uniqueness_of :name
   validates_format_of :char_type, :with => /g|m|r/ # General Alt, Main, Raid Alt
+  validate :must_have_rating_with_date
 
   delegate :name, to: :player, prefix: :player, allow_nil: true
   delegate :raids_count, to: :player, prefix: :player, allow_nil: true
@@ -105,17 +106,27 @@ class Character < ActiveRecord::Base
     end
   end
 
-  def fetch_soe_character_details
-    Resque.enqueue(SonyCharacterUpdater, self.id)
-  end
-
   def rank_at_time(time)
     character_types.where('character_types.effective_date <= ?', time).order(:effective_date).last.char_type
   end
 
   # This is done from the player, as it will update all the characters using update_column
   def update_loot_rates
-    recalculate_loot_rates(player_raids_count)
+    self.armour_rate = calculate_loot_rate(player_raids_count, self.armour_count)
+    self.jewellery_rate = calculate_loot_rate(player_raids_count, self.jewellery_count)
+    self.weapon_rate = calculate_loot_rate(player_raids_count, self.weapons_count)
+    self.attuned_rate = calculate_loot_rate(player_raids_count, self.armour_count + self.jewellery_count + self.weapons_count)
+    self.adornment_rate = calculate_loot_rate(player_raids_count, self.adornments_count)
+    self.dislodger_rate = calculate_loot_rate(player_raids_count, self.dislodgers_count)
+    self.mount_rate = calculate_loot_rate(player_raids_count, self.mounts_count)
+  end
+
+  def must_have_rating_with_date
+    if confirmed_rating.nil? or confirmed_rating.blank?
+      errors.add(:base, 'Must select a rating if you enter a confirmed date') unless confirmed_date.nil?
+    else
+      errors.add(:base, 'Must enter a confirmed date if you select a confirmed rating') if confirmed_date.nil?
+    end
   end
 
   def to_s
