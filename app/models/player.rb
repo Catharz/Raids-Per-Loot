@@ -25,6 +25,7 @@ class Player < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :rank_id
   validates_uniqueness_of :name
+  validates :switches_count, presence: true
 
   delegate :name, to: :current_main, prefix: :main, allow_nil: true
   delegate :name, to: :current_raid_alternate, prefix: :raid_alternate, allow_nil: true

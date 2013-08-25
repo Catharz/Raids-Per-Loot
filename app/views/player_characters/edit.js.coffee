@@ -14,21 +14,22 @@ updateCharacterDataAttributes = (character) ->
   rowData.switches = character.player_switches_count
   true
 
-updateCharacter = (character) ->
+updatePCCharacter = (character) ->
   oTable = $("#charactersLootTable_#{character.char_type}").dataTable()
   aPos = oTable.fnGetPosition( document.getElementById("character_#{character.id}_#{character.char_type}") )
   oTable.fnUpdate(yesNo(character.player_active), aPos, 1)
   oTable.fnUpdate(character.confirmed_date, aPos, 3)
-  oTable.fnUpdate(character.armour_rate.toFixed(2), aPos, 5)
-  oTable.fnUpdate(character.jewellery_rate.toFixed(2), aPos, 6)
-  oTable.fnUpdate(character.weapon_rate.toFixed(2), aPos, 7)
-  oTable.fnUpdate(character.attuned_rate.toFixed(2), aPos, 8)
-  oTable.fnUpdate(character.adornment_rate.toFixed(2), aPos, 9)
-  oTable.fnUpdate(character.dislodger_rate.toFixed(2), aPos, 10)
-  oTable.fnUpdate(character.mount_rate.toFixed(2), aPos, 11)
-  oTable.fnUpdate(character.player_switch_rate.toFixed(2), aPos, 12)
+  oTable.fnUpdate(character.armour_rate.toFixed(2), aPos, 6)
+  oTable.fnUpdate(character.jewellery_rate.toFixed(2), aPos, 7)
+  oTable.fnUpdate(character.weapon_rate.toFixed(2), aPos, 8)
+  oTable.fnUpdate(character.attuned_rate.toFixed(2), aPos, 9)
+  oTable.fnUpdate(character.adornment_rate.toFixed(2), aPos, 10)
+  oTable.fnUpdate(character.dislodger_rate.toFixed(2), aPos, 11)
+  oTable.fnUpdate(character.mount_rate.toFixed(2), aPos, 12)
+  oTable.fnUpdate(character.player_switch_rate.toFixed(2), aPos, 13)
   updateCharacterDataAttributes(character)
   oTable.fnDraw()
+  true
 
 $('#popup').dialog
   autoOpen: true
@@ -41,19 +42,30 @@ $('#popup').dialog
     'Cancel': ->
       $('#popup').dialog 'close'
     'Save': ->
-      $.post "/player_characters/<%= @player_character.character.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
+      player = $("form.edit_player").serializeArray()
+      character = $("form.edit_character").serializeArray()
+
+      player_id = "<%= @player_character.player.id %>"
+      character_id = "<%= @player_character.character.id %>"
+      raid_main_id = "<%= @player_character.player.main_character.id %>"
+      raid_alt_id = "<%= @player_character.player.raid_alternate.id %>"
+
+      $.post "/players/#{player_id}.json", player, (data, text, xhr) ->
         if (xhr.status == 200)
-          if $('#charactersLootTable_m').dataTable().length > 0
-            $.get "/characters/#{data.main_character.character.id}.json", (data, text, xhr) ->
-              if (xhr.status == 200)
-                updateCharacter(data.character)
-          if $('#charactersLootTable_r').dataTable().length > 0
-            unless data.raid_alternate == null or data.raid_alternate.character == null
-              $.get "/characters/#{data.raid_alternate.character.id}.json", (data, text, xhr) ->
-                if (xhr.status == 200)
-                  updateCharacter(data.character)
-          $('#notice').empty().append('Loot Stats successfully updated.')
-          $('#popup').dialog 'close'
+          $.post "/characters/#{character_id}.json", character, (data, text, xhr) ->
+            if (xhr.status == 200)
+              if $('#charactersLootTable_m').dataTable().length > 0
+                $.get "/characters/#{raid_main_id}.json", (data, text, xhr) ->
+                  if (xhr.status == 200)
+                    updatePCCharacter(data.character)
+              if $('#charactersLootTable_r').dataTable().length > 0
+                unless raid_alt_id == null or raid_alt_id == ""
+                  $.get "/characters/#{raid_alt_id}.json", (data, text, xhr) ->
+                    if (xhr.status == 200)
+                      updatePCCharacter(data.character)
+              $('#notice').empty().append('Loot Stats successfully updated.')
+              $('#popup').dialog 'close'
+      true
   open: ->
     $('#popup').html "<%= escape_javascript(render('form')) %>"
     $(".datepicker").datepicker
