@@ -59,7 +59,7 @@ $('#popup').dialog
                   if (xhr.status == 200)
                     updatePCCharacter(data.character)
               if $('#charactersLootTable_r').dataTable().length > 0
-                unless raid_alt_id == null or raid_alt_id == ""
+                unless raid_alt_id == ""
                   $.get "/characters/#{raid_alt_id}.json", (data, text, xhr) ->
                     if (xhr.status == 200)
                       updatePCCharacter(data.character)

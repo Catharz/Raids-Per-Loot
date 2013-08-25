@@ -12,6 +12,12 @@ describe NullCharacter do
   end
 
   describe 'attributes' do
+    describe 'id' do
+      it 'is always nil' do
+        NullCharacter.new.id.should be_nil
+      end
+    end
+
     describe 'main_character' do
       it 'creates a null raid main' do
         NullCharacter.new.main_character.should be_a NullCharacter
@@ -32,8 +38,20 @@ describe NullCharacter do
       end
     end
 
-    it 'creates an empty list of general alternates' do
-      NullCharacter.new.general_alternates.should eq []
+    describe 'general_alternates' do
+      it 'is always empty' do
+        NullCharacter.new.general_alternates.should eq []
+      end
+    end
+
+    describe 'path' do
+      it 'always returns /' do
+        NullCharacter.new.path.should eq '/'
+      end
+
+      it 'ignores options' do
+        NullCharacter.new.path({id: 10000}).should eq '/'
+      end
     end
   end
 end
