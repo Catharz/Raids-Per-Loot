@@ -74,5 +74,5 @@ function parseErrors(errors) {
             }
         }
     }
-    return error_list.join("\n");
+    return error_list.join("</br>");
 }
