@@ -13,7 +13,7 @@ class CharacterTypesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @archetypes.to_json(methods: [:character_type_name, :player_name, :character_name, :character_first_raid_date, :character_last_raid_date]) }
+      format.json { render :json => @character_types.to_json(methods: [:character_type_name, :player_name, :character_name, :character_first_raid_date, :character_last_raid_date]) }
     end
   end
 

@@ -30,10 +30,11 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/character_types.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 201)
-          insertCharacterType(data.character_type)
-          displayFlash('notice', 'Character_type was successfully created.')
-          $("#popup").dialog "close"
+        insertCharacterType(data.character_type)
+        displayFlash('notice', 'Character_type was successfully created.')
+        $("#popup").dialog "close"
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
     $("#datepicker").datepicker
