@@ -25,10 +25,11 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/links.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 201)
-          insertLink(data.link)
-          displayFlash('notice', 'Link was successfully created.')
-          $("#popup").dialog "close"
+        insertLink(data.link)
+        displayFlash('notice', 'Link was successfully created.')
+        $("#popup").dialog "close"
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
     $(".actions").empty()
