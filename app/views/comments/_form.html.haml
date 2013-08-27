@@ -6,18 +6,25 @@
         - @comment.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    %strong Commented On:
-    = f.select(:commented_type, %w{Character Player}, :include_blank => true)
-  .field#commented_field
-    %strong= @comment.type_label
-    - unless @comment.commented_entities.empty?
-      = f.collection_select(:commented_id, @comment.commented_entities, :id, :name)
-  .field
-    %strong Comment Date:
-    = f.text_field :comment_date, id: 'datepicker'
-  .field
-    %strong Comment:
-    = f.text_area :comment
-  .actions
-    = f.submit 'Save'
+  #comments_form.form
+    .field
+      = label_tag 'Commented On:', nil, class: 'header'
+      %span.data
+        = f.select(:commented_type, %w{Character Player}, :include_blank => true)
+    .field#commented_field
+      = label_tag "#{@comment.type_label}", nil, class: 'header'
+      %span.data
+        - if @comment.commented_entities.empty?
+          = label_tag 'Please select comment target'
+        - else
+          = f.collection_select(:commented_id, @comment.commented_entities, :id, :name)
+    .field
+      = label_tag 'Date:', nil, class: 'header'
+      %span.data
+        = f.text_field :comment_date, id: 'datepicker'
+    .field
+      = label_tag 'Comment:', nil, class: 'header'
+      %span.data
+        = f.text_area :comment, class: 'popup'
+    .actions
+      = f.submit 'Save'

@@ -16,8 +16,8 @@ insertComment = (comment) ->
 
 $("#popup").dialog
   autoOpen: true
-  height: 640
-  width: 450
+  height: 360
+  width: 620
   modal: true
   resizable: false
   title: 'New Comment'
@@ -26,10 +26,11 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/comments.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 201)
-          insertComment(data.comment)
-          displayFlash('notice', 'Comment was successfully created.')
-          $("#popup").dialog "close"
+        insertComment(data.comment)
+        displayFlash('notice', 'Comment was successfully created.')
+        $("#popup").dialog "close"
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
     $(".actions").empty()
@@ -46,6 +47,6 @@ $("#popup").dialog
           options_url = "/characters/option_list"
 
         $("#commented_field").empty()
-        $("#commented_field").append "<strong>" + commented_type + ":</strong> "
-        $commenteds = $('<select id="comment_commented_id" name="comment[commented_id]"></select>').appendTo '#commented_field'
+        $("#commented_field").append '<label class="header" for="comment_commented_id">' + commented_type + ':</label><span class="data"></span>'
+        $commenteds = $('<select id="comment_commented_id" name="comment[commented_id]"></select>').appendTo '#commented_field span.data'
         $commenteds.load options_url
