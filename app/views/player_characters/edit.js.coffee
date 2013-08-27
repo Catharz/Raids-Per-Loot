@@ -51,20 +51,22 @@ $('#popup').dialog
       raid_alt_id = "<%= @player_character.player.raid_alternate.id %>"
 
       $.post "/players/#{player_id}.json", player, (data, text, xhr) ->
-        if (xhr.status == 200)
-          $.post "/characters/#{character_id}.json", character, (data, text, xhr) ->
-            if (xhr.status == 200)
-              if $('#charactersLootTable_m').dataTable().length > 0
-                $.get "/characters/#{raid_main_id}.json", (data, text, xhr) ->
-                  if (xhr.status == 200)
-                    updatePCCharacter(data.character)
-              if $('#charactersLootTable_r').dataTable().length > 0
-                unless raid_alt_id == ""
-                  $.get "/characters/#{raid_alt_id}.json", (data, text, xhr) ->
-                    if (xhr.status == 200)
-                      updatePCCharacter(data.character)
-              $('#notice').empty().append('Loot Stats successfully updated.')
-              $('#popup').dialog 'close'
+        $.post "/characters/#{character_id}.json", character, (data, text, xhr) ->
+          if $('#charactersLootTable_m').dataTable().length > 0
+            $.get "/characters/#{raid_main_id}.json", (data, text, xhr) ->
+              if (xhr.status == 200)
+                updatePCCharacter(data.character)
+          if $('#charactersLootTable_r').dataTable().length > 0
+            unless raid_alt_id == ""
+              $.get "/characters/#{raid_alt_id}.json", (data, text, xhr) ->
+                if (xhr.status == 200)
+                  updatePCCharacter(data.character)
+          $('#notice').empty().append('Loot Stats successfully updated.')
+          $('#popup').dialog 'close'
+        .fail (data, text, xhr) ->
+            displayFlash 'error', parseErrors(data.responseJSON)
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
       true
   open: ->
     $('#popup').html "<%= escape_javascript(render('form')) %>"

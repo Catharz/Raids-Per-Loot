@@ -29,10 +29,11 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/players.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 201)
-          insertPlayer(data.player)
-          displayFlash('notice', 'Player was successfully created.')
-          $("#popup").dialog "close"
+        insertPlayer(data.player)
+        displayFlash('notice', 'Player was successfully created.')
+        $("#popup").dialog "close"
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
     $(".actions").empty()

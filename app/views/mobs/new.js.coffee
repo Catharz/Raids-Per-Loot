@@ -33,10 +33,11 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/mobs.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 201)
-          insertMob(data.mob)
-          displayFlash('notice', 'Mob was successfully created.')
-          $("#popup").dialog "close"
+        insertMob(data.mob)
+        displayFlash('notice', 'Mob was successfully created.')
+        $("#popup").dialog "close"
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
     $(".actions").empty()

@@ -1,9 +1,13 @@
-%p
-  %strong= "#{@comment.commented_type}:"
-  = @comment.commented_name
-%p
-  %strong Date:
-  = @comment.comment_date
-%p
-  %strong Comment:
-  = @comment.comment
+#comments_form.form
+  .field
+    = label_tag "#{@comment.commented_type}:", nil, class: 'header'
+    %span.data
+      = @comment.commented_name
+  .field
+    = label_tag 'Date:', nil, class: 'header'
+    %span.data
+      = @comment.comment_date
+  .field
+    = label_tag 'Comment:', nil, class: 'header'
+    %span.data
+      = @comment.comment

@@ -16,10 +16,11 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/difficulties/<%= @difficulty.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 200)
-          updateDifficulty(data.difficulty)
-          displayFlash('notice', 'Difficulty was successfully updated.')
-          $("#popup").dialog "close"
+        updateDifficulty(data.difficulty)
+        displayFlash('notice', 'Difficulty was successfully updated.')
+        $("#popup").dialog "close"
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
     $(".actions").empty()

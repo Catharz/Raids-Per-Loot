@@ -123,9 +123,9 @@ class Character < ActiveRecord::Base
 
   def must_have_rating_with_date
     if confirmed_rating.nil? or confirmed_rating.blank?
-      errors.add(:base, 'Must select a rating if you enter a confirmed date') unless confirmed_date.nil?
+      errors.add(:confirmed_rating, 'Must select a rating if you enter a confirmed date') unless confirmed_date.nil?
     else
-      errors.add(:base, 'Must enter a confirmed date if you select a confirmed rating') if confirmed_date.nil?
+      errors.add(:confirmed_date, 'Must enter a confirmed date if you select a confirmed rating') if confirmed_date.nil?
     end
   end
 
