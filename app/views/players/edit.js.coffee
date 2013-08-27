@@ -10,27 +10,10 @@ updatePlayer = (player) ->
   oTable.fnUpdate(player.weapon_rate.toFixed(2), aPos, 6)
   oTable.fnDraw()
 
-yesNo = (value) ->
-  if value then "Yes" else "No"
-
-updateCharacter = (character) ->
-  oTable = $("#charactersLootTable_#{character.char_type}").dataTable()
-  aPos = oTable.fnGetPosition( document.getElementById("character_#{character.id}_#{character.char_type}") )
-  oTable.fnUpdate(character.player_name, aPos, 0)
-  oTable.fnUpdate(yesNo(character.player_active), aPos, 1)
-  oTable.fnUpdate(character.armour_rate.toFixed(2), aPos, 4)
-  oTable.fnUpdate(character.jewellery_rate.toFixed(2), aPos, 5)
-  oTable.fnUpdate(character.weapon_rate.toFixed(2), aPos, 6)
-  oTable.fnUpdate(character.attuned_rate.toFixed(2), aPos, 7)
-  oTable.fnUpdate(character.adornment_rate.toFixed(2), aPos, 8)
-  oTable.fnUpdate(character.dislodger_rate.toFixed(2), aPos, 9)
-  oTable.fnUpdate(character.mount_rate.toFixed(2), aPos, 10)
-  oTable.fnDraw()
-
 $('#popup').dialog
   autoOpen: true
   width: 380
-  height: 320
+  height: 330
   modal: true
   resizable: false
   title: 'Edit Player'
@@ -39,20 +22,11 @@ $('#popup').dialog
       $('#popup').dialog 'close'
     'Save': ->
       $.post "/players/<%= @player.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 200)
-          if $('#playersTable').dataTable().length > 0
-            updatePlayer(data.player)
-          if $('#charactersLootTable_m').dataTable().length > 0
-            $.post "/characters/#{data.player.current_main.character.id}.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-              if (xhr.status == 200)
-                updateCharacter(data.character)
-          if $('#charactersLootTable_r').dataTable().length > 0
-            unless data.player.current_raid_alternate == null
-              $.post "/characters/#{data.player.current_raid_alternate.character.id}.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-                if (xhr.status == 200)
-                  updateCharacter(data.character)
-          $('#notice').empty().append('Player was successfully updated.')
-          $('#popup').dialog 'close'
+        updatePlayer(data.player)
+        displayFlash 'notice', 'Player was successfully updated.'
+        $('#popup').dialog 'close'
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $('#popup').html "<%= escape_javascript(render('form')) %>"
     $('.actions').empty()

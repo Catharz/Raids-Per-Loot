@@ -6,42 +6,54 @@
         - @character.errors.full_messages.each do |msg|
           %li= msg
 
-  #edit_form
+  #characters_form.form
     .field
       = label_tag 'Player:', nil, class: 'header'
-      = f.collection_select(:player_id, Player.order(:name), :id, :name, :include_blank => true, :name => "Player")
+      %span.data
+        = f.collection_select(:player_id, Player.order(:name), :id, :name, :include_blank => true, :name => "Player")
     .field
       = label_tag 'Name:', nil, class: 'header'
-      = f.text_field :name, class: 'text'
+      %span.data
+        = f.text_field :name, class: 'text'
     .field
       = label_tag 'Class:', nil, class: 'header'
-      = f.collection_select(:archetype_id, Archetype.base_archetypes, :id, :name, :include_blank => true)
+      %span.data
+        = f.collection_select(:archetype_id, Archetype.base_archetypes, :id, :name, :include_blank => true)
     .field
       = label_tag 'Character Type:', nil, class: 'header'
-      = char_type_select(f, :char_type)
+      %span.data
+        = char_type_select(f, :char_type)
     .field
       = label_tag 'Confirmed Rating:', nil, class: 'header'
-      = confirmed_rating_select(f, :confirmed_rating)
+      %span.data
+        = confirmed_rating_select(f, :confirmed_rating)
     .field
       = label_tag 'Confirmed Date:', nil, class: 'header'
-      = f.text_field :confirmed_date, class: 'datepicker'
+      %span.data
+        = f.text_field :confirmed_date, class: 'datepicker'
     .field
       = label_tag 'Armour:', nil, class: 'header'
-      = f.number_field :armour_count, class: 'numeric'
+      %span.data
+        = f.number_field :armour_count, class: 'numeric'
     .field
       = label_tag 'Jewellery:', nil, class: 'header'
-      = f.number_field :jewellery_count, class: 'numeric'
+      %span.data
+        = f.number_field :jewellery_count, class: 'numeric'
     .field
       = label_tag 'Weapons:', nil, class: 'header'
-      = f.number_field :weapons_count, class: 'numeric'
+      %span.data
+        = f.number_field :weapons_count, class: 'numeric'
     .field
       = label_tag 'Adornments:', nil, class: 'header'
-      = f.number_field :adornments_count, class: 'numeric'
+      %span.data
+        = f.number_field :adornments_count, class: 'numeric'
     .field
       = label_tag 'Dislodgers:', nil, class: 'header'
-      = f.number_field :dislodgers_count, class: 'numeric'
+      %span.data
+        = f.number_field :dislodgers_count, class: 'numeric'
     .field
       = label_tag 'Mounts:', nil, class: 'header'
-      = f.number_field :mounts_count, class: 'numeric'
+      %span.data
+        = f.number_field :mounts_count, class: 'numeric'
     .actions
       = f.submit 'Create', :id => 'btnCreate'

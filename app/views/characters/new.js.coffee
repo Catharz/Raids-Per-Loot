@@ -14,11 +14,12 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/characters.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 201)
-          redrawTable(data.character.char_type)
-          redrawTable('all')
-          displayFlash('notice', 'Character was successfully created.')
-          $("#popup").dialog "close"
+        redrawTable(data.character.char_type)
+        redrawTable('all')
+        displayFlash('notice', 'Character was successfully created.')
+        $("#popup").dialog "close"
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
     $(".datepicker").datepicker
