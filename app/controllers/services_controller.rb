@@ -33,23 +33,7 @@ class ServicesController < ApplicationController
       session.delete :authhash
       redirect_to root_url
     else  # create account
-      @newuser = User.new
-      @newuser.name = session[:authhash][:name]
-      @newuser.email = session[:authhash][:email]
-      @newuser.services.build(:provider => session[:authhash][:provider], :uid => session[:authhash][:uid], :uname => session[:authhash][:name], :uemail => session[:authhash][:email])
-
-      if @newuser.save!
-        # signin existing user
-        # in the session his user id and the service id used for signing in is stored
-        session[:user_id] = @newuser.id
-        session[:service_id] = @newuser.services.first.id
-
-        flash[:notice] = 'Your account has been created and you have been signed in!'
-        redirect_to root_url
-      else
-        flash[:error] = 'This is embarrassing! There was an error while creating your account from which we were not able to recover.'
-        redirect_to root_url
-      end
+      create_account()
     end
   end
 
@@ -77,38 +61,8 @@ class ServicesController < ApplicationController
 
     # continue only if hash and parameter exist
     if omniauth and params[:service]
-
-      # map the returned hashes to our variables first - the hashes differs for every service
-
-      # create a new hash
-      @authhash = Hash.new
-
-      if service_route == 'facebook'
-        omniauth['extra']['user_hash']['email'] ? @authhash[:email] =  omniauth['extra']['user_hash']['email'] : @authhash[:email] = ''
-        omniauth['extra']['user_hash']['name'] ? @authhash[:name] =  omniauth['extra']['user_hash']['name'] : @authhash[:name] = ''
-        omniauth['extra']['user_hash']['id'] ?  @authhash[:uid] =  omniauth['extra']['user_hash']['id'].to_s : @authhash[:uid] = ''
-        omniauth['provider'] ? @authhash[:provider] = omniauth['provider'] : @authhash[:provider] = ''
-      elsif service_route == 'github'
-        omniauth['user_info']['email'] ? @authhash[:email] =  omniauth['user_info']['email'] : @authhash[:email] = ''
-        omniauth['user_info']['name'] ? @authhash[:name] =  omniauth['user_info']['name'] : @authhash[:name] = ''
-        omniauth['extra']['user_hash']['id'] ? @authhash[:uid] =  omniauth['extra']['user_hash']['id'].to_s : @authhash[:uid] = ''
-        omniauth['provider'] ? @authhash[:provider] =  omniauth['provider'] : @authhash[:provider] = ''
-      elsif service_route == 'google'
-        @authhash[:email] = omniauth['info']['email'] ? omniauth['info']['email'] : ''
-        @authhash[:name] = omniauth['info']['name'] ? omniauth['info']['name'] : ''
-        @authhash[:uid] = omniauth['uid'] ? omniauth['uid'] : ''
-        @authhash[:provider] = omniauth['provider'] ? omniauth['provider'] : ''
-      elsif ['twitter', 'myopenid', 'open_id'].index(service_route) != nil
-        omniauth['user_info']['email'] ? @authhash[:email] =  omniauth['user_info']['email'] : @authhash[:email] = ''
-        omniauth['user_info']['name'] ? @authhash[:name] =  omniauth['user_info']['name'] : @authhash[:name] = ''
-        omniauth['uid'] ? @authhash[:uid] = omniauth['uid'].to_s : @authhash[:uid] = ''
-        omniauth['provider'] ? @authhash[:provider] = omniauth['provider'] : @authhash[:provider] = ''
-      elsif %w{yahoo developer}.include? service_route
-        @authhash[:email] = omniauth['info']['email'] ? omniauth['info']['email'] : ''
-        @authhash[:name] = omniauth['info']['name'] ? omniauth['info']['name'] : ''
-        @authhash[:uid] = omniauth['uid'] ? omniauth['uid'] : ''
-        @authhash[:provider] = omniauth['provider'] ? omniauth['provider'] : ''
-      else
+      @authhash = populate_auth_hash(omniauth, service_route)
+      if @authhash.empty?
         # debug to output the hash that has been returned when adding new services
         render :text => omniauth.to_yaml
         return
@@ -158,4 +112,72 @@ class ServicesController < ApplicationController
     flash[:error] = 'There was an error at the remote authentication service. You have not been signed in.'
     redirect_to root_url
   end
+
+  private
+
+  def populate_auth_hash(omniauth, service_route)
+    # map the returned hashes to our variables first - the hashes differs for every service
+    return facebook_auth(omniauth) if service_route == 'facebook'
+    return github_auth(omniauth) if service_route == 'github'
+    return twitter_auth(omniauth) if %w{twitter myopenid open_id}.include? service_route
+    return google_auth(omniauth) if %w{google yahoo developer}.include? service_route
+    Hash.new
+  end
+
+  def facebook_auth(omniauth)
+    authhash = Hash.new
+    omniauth['extra']['user_hash']['email'] ? authhash[:email] = omniauth['extra']['user_hash']['email'] : authhash[:email] = ''
+    omniauth['extra']['user_hash']['name'] ? authhash[:name] = omniauth['extra']['user_hash']['name'] : authhash[:name] = ''
+    omniauth['extra']['user_hash']['id'] ? authhash[:uid] = omniauth['extra']['user_hash']['id'].to_s : authhash[:uid] = ''
+    omniauth['provider'] ? authhash[:provider] = omniauth['provider'] : authhash[:provider] = ''
+    authhash
+  end
+
+  def github_auth(omniauth)
+    authhash = Hash.new
+    omniauth['user_info']['email'] ? authhash[:email] = omniauth['user_info']['email'] : authhash[:email] = ''
+    omniauth['user_info']['name'] ? authhash[:name] = omniauth['user_info']['name'] : authhash[:name] = ''
+    omniauth['extra']['user_hash']['id'] ? authhash[:uid] = omniauth['extra']['user_hash']['id'].to_s : authhash[:uid] = ''
+    omniauth['provider'] ? authhash[:provider] = omniauth['provider'] : authhash[:provider] = ''
+    authhash
+  end
+
+  def twitter_auth(omniauth)
+    authhash = Hash.new
+    omniauth['user_info']['email'] ? authhash[:email] = omniauth['user_info']['email'] : authhash[:email] = ''
+    omniauth['user_info']['name'] ? authhash[:name] = omniauth['user_info']['name'] : authhash[:name] = ''
+    omniauth['uid'] ? authhash[:uid] = omniauth['uid'].to_s : authhash[:uid] = ''
+    omniauth['provider'] ? authhash[:provider] = omniauth['provider'] : authhash[:provider] = ''
+    authhash
+  end
+
+  def google_auth(omniauth)
+    authhash = Hash.new
+    authhash[:email] = omniauth['info']['email'] ? omniauth['info']['email'] : ''
+    authhash[:name] = omniauth['info']['name'] ? omniauth['info']['name'] : ''
+    authhash[:uid] = omniauth['uid'] ? omniauth['uid'] : ''
+    authhash[:provider] = omniauth['provider'] ? omniauth['provider'] : ''
+    authhash
+  end
+
+  def create_account
+    @newuser = User.new
+    @newuser.name = session[:authhash][:name]
+    @newuser.email = session[:authhash][:email]
+    @newuser.services.build(:provider => session[:authhash][:provider], :uid => session[:authhash][:uid], :uname => session[:authhash][:name], :uemail => session[:authhash][:email])
+
+    if @newuser.save!
+      # signin existing user
+      # in the session his user id and the service id used for signing in is stored
+      session[:user_id] = @newuser.id
+      session[:service_id] = @newuser.services.first.id
+
+      flash[:notice] = 'Your account has been created and you have been signed in!'
+      redirect_to root_url
+    else
+      flash[:error] = 'This is embarrassing! There was an error while creating your account from which we were not able to recover.'
+      redirect_to root_url
+    end
+  end
+
 end
