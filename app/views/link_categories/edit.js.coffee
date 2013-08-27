@@ -8,7 +8,7 @@ updateLinkCategory = (link_category) ->
 $("#popup").dialog
   autoOpen: true
   width: 460
-  height: 320
+  height: 340
   modal: true
   resizable: false
   title: 'Edit Link Category'
@@ -17,10 +17,11 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/link_categories/<%= @link_category.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 200)
-          updateLinkCategory(data.link_category)
-          displayFlash('notice', 'Link category was successfully updated.')
-          $("#popup").dialog "close"
+        updateLinkCategory(data.link_category)
+        displayFlash('notice', 'Link category was successfully updated.')
+        $("#popup").dialog "close"
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
     $(".actions").empty()
