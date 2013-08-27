@@ -17,10 +17,11 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/loot_types/<%= @loot_type.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 200)
-          updateLootType(data.loot_type)
-          displayFlash('notice', 'Loot Type was successfully updated.')
-          $("#popup").dialog "close"
+        updateLootType(data.loot_type)
+        displayFlash('notice', 'Loot Type was successfully updated.')
+        $("#popup").dialog "close"
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
     $(".actions").empty()

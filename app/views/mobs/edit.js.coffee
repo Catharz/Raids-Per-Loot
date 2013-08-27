@@ -26,10 +26,11 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/mobs/<%= @mob.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 200)
-          updateMob(data.mob)
-          displayFlash('notice', 'Mob was successfully updated.')
-          $("#popup").dialog "close"
+        updateMob(data.mob)
+        displayFlash('notice', 'Mob was successfully updated.')
+        $("#popup").dialog "close"
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
     $(".actions").empty()

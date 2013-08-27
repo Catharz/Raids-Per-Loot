@@ -17,10 +17,11 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/ranks/<%= @rank.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 200)
-          updateRank(data.rank)
-          displayFlash('notice', 'Rank was successfully updated.')
-          $("#popup").dialog "close"
+        updateRank(data.rank)
+        displayFlash('notice', 'Rank was successfully updated.')
+        $("#popup").dialog "close"
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
     $(".actions").empty()

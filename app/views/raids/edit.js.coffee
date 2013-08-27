@@ -22,10 +22,11 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/raids/<%= @raid.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 200)
-          updateRaid(data.raid)
-          displayFlash('notice', 'Raid was successfully updated.')
-          $("#popup").dialog "close"
+        updateRaid(data.raid)
+        displayFlash 'notice', 'Raid was successfully updated.'
+        $("#popup").dialog "close"
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
     $("#datepicker").datepicker
