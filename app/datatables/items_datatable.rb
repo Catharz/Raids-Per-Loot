@@ -1,3 +1,6 @@
+# ItemsDataTable handles searching, pagination
+# and formatting json output appropriately for use
+# in a server-side data table
 class ItemsDatatable
   include ArchetypesHelper
 

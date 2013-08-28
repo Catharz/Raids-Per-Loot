@@ -1,3 +1,6 @@
+# DropsDataTable handles searching, pagination
+# and formatting json output appropriately for use
+# in a server-side data table
 class DropsDatatable
   delegate :params, :h, :link_to, to: :@view
 

@@ -1,5 +1,8 @@
 require 'will_paginate/array'
 
+# CharactersDataTable handles searching, pagination
+# and formatting json output appropriately for use
+# in a server-side data table
 class CharactersDatatable
   include CharactersHelper
   delegate :params, :h, :link_to, to: :@view
