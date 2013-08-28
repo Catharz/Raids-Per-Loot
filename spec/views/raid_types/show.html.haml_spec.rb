@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe "raid_types/show" do
+describe 'raid_types/show' do
   before(:each) do
     @raid_type = assign(:raid_type, stub_model(RaidType,
-      :name => "Name",
+      :name => 'Impossible',
       :raid_counted => false,
       :raid_points => 1.5,
       :loot_counted => true,
@@ -11,10 +11,10 @@ describe "raid_types/show" do
     ))
   end
 
-  it "renders attributes in <p>" do
+  it 'renders attributes in <p>' do
     render
 
-    rendered.should match(/Name/)
+    rendered.should match(/Impossible/)
     rendered.should match(/false/)
     rendered.should match(/1.5/)
     rendered.should match(/true/)
