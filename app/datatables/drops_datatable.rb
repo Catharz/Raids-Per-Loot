@@ -1,3 +1,5 @@
+# @author Craig Read
+#
 # DropsDataTable handles searching, pagination
 # and formatting json output appropriately for use
 # in a server-side data table

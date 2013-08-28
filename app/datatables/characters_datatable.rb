@@ -1,5 +1,7 @@
 require 'will_paginate/array'
 
+# @author Craig Read
+#
 # CharactersDataTable handles searching, pagination
 # and formatting json output appropriately for use
 # in a server-side data table
