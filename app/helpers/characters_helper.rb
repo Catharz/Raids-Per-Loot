@@ -1,3 +1,5 @@
+# CharactersHelper provides helper methods for
+# the character related views.
 module CharactersHelper
 
   def char_type_select(form, field)

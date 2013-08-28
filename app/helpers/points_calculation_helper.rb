@@ -1,6 +1,6 @@
 # @author Craig Read
 #
-# This class handles the calculation of points for characters and players.
+# PointsCalculationHelper calculates points for characters and players.
 module PointsCalculationHelper
   def attendance_for_period(range = {start:  nil, end: nil}, aggregate_up = true)
     raid_count(range, aggregate_up).to_f / Raid.for_period(range).count.to_f * 100.00

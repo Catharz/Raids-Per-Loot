@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# RaidsHelper provides helper methods
+# for Raid related views.
 module RaidsHelper
   def raid_select(drop)
     if drop.instance and drop.instance.raid
