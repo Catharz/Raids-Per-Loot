@@ -1,3 +1,5 @@
+# @author Craig Read
+#
 # PlayersHelper provides helper methods for
 # the player related views.
 module PlayersHelper

@@ -1,5 +1,7 @@
 require 'open-uri'
 
+# @author Craig Read
+#
 # ApplicationHelper provides generic
 # view related helper methods
 module ApplicationHelper

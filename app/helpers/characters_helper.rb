@@ -1,3 +1,5 @@
+# @author Craig Read
+#
 # CharactersHelper provides helper methods for
 # the character related views.
 module CharactersHelper

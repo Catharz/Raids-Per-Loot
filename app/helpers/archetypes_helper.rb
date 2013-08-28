@@ -1,3 +1,5 @@
+# @author Craig Read
+#
 # ArchetypesHelper provides a utility function for consolidating
 # an array of archetypes up to their roots.
 #

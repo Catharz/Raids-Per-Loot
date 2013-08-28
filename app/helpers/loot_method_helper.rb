@@ -1,3 +1,5 @@
+# @author Craig Read
+#
 # LootMethodHelper provides helper methods for
 # selecting loot methods for drops.
 module LootMethodHelper
