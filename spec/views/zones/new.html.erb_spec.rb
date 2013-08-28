@@ -1,18 +1,18 @@
 require 'spec_helper'
 
-describe "zones/new.html.erb" do
+describe 'zones/new.html.erb' do
   before(:each) do
     assign(:zone, stub_model(Zone,
-      :name => "MyString"
+      :name => 'New Zone'
     ).as_new_record)
   end
 
-  it "renders new zone form" do
+  it 'renders new zone form' do
     render
 
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "form", :action => zones_path, :method => "post" do
-      assert_select "input#zone_name", :name => "zone[name]"
+    assert_select 'form', :action => zones_path, :method => 'post' do
+      assert_select 'input#zone_name', name: 'zone[name]'
+      assert_select 'select#zone_difficulty_id', name: 'zone[difficulty_id]'
     end
   end
 end
