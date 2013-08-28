@@ -1,3 +1,5 @@
+# @author Craig Read
+#
 # Controller for the Page Viewer.
 #
 # This controller manages the in-page-editing

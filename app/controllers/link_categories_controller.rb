@@ -1,3 +1,5 @@
+# @author Craig Read
+#
 # Controller for the LinkCategory views.
 #
 # json and js formatting options are available on actions

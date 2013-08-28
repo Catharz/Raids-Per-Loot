@@ -1,3 +1,5 @@
+# @author Craig Read
+#
 # Controller for the Guild Statistics view.
 #
 # This uses the SonyDataService to retrieve the

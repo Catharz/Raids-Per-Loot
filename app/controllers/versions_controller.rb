@@ -1,3 +1,5 @@
+# @author Craig Read
+#
 # Controller for the Version history view.
 #
 # only a js formatting option is provided, as the

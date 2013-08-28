@@ -1,3 +1,5 @@
+# @author Craig Read
+#
 # Controller for the OmniAuth Authentication Services.
 class ServicesController < ApplicationController
   protect_from_forgery :except => :create

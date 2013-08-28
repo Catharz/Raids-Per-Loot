@@ -1,3 +1,5 @@
+# @author Craig Read
+#
 # Application controller.
 #
 # Most of the code here is related to authentication,
