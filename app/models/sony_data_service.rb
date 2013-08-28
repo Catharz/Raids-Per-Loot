@@ -1,3 +1,8 @@
+# @author Craig Read
+#
+# SonyDataService provides a number of functions
+# for retrieving data about characters and items
+# from http://data.soe.com
 class SonyDataService
   include RemoteConnectionHelper
 

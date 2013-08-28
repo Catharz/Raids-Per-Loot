@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# Comment is a polymorphic association used to make comments against
+# to players and characters.
 class Comment < ActiveRecord::Base
   belongs_to :commented, :polymorphic => true
   delegate :name, to: :commented, prefix: :commented, allow_nil: true

@@ -1,3 +1,10 @@
+# @author Craig Read
+#
+# PlayerRaid resolves the many-to-many relationship
+# between a Player and the Raids they attend.
+# This also allows storage of attendance related
+# statistics, such as whether they signed up
+# or were punctual.
 class PlayerRaid < ActiveRecord::Base
   belongs_to :player, inverse_of: :player_raids, touch: true
   belongs_to :raid, inverse_of: :player_raids, touch: true

@@ -1,5 +1,9 @@
 require 'digest/sha1'
 
+# @author Craig Read
+#
+# User represents a user logging into the system
+# via one of the OmniAuth Services
 class User < ActiveRecord::Base
   has_many :services, dependent: :destroy
 

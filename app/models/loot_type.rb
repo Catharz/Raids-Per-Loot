@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# LootType represents a type of loot such as
+# Armour, Weapon, Jewellery, etc.
 class LootType < ActiveRecord::Base
   include LootMethodHelper
   has_many :items, :inverse_of => :loot_type

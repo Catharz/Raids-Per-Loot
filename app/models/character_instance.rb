@@ -1,3 +1,8 @@
+# @author Craig Read
+#
+# CharacterInstance resolves the many-to-many
+# relationship between Character and Instance,
+# while also adding the ability to define if
 class CharacterInstance < ActiveRecord::Base
   belongs_to :character, :inverse_of => :character_instances, :touch => true
   belongs_to :instance, :inverse_of => :character_instances, :touch => true

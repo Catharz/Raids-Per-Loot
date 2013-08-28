@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# Zone represents a raid zone that we can
+# go raiding in
 class Zone < ActiveRecord::Base
   belongs_to :difficulty, :inverse_of => :zones, :touch => true
 

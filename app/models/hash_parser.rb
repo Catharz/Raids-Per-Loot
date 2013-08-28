@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# ExternalData is used to store data for characters and
+# items from the Sony data service at http://data.soe.com
 class HashParser
   def initialize(hash)
     if hash.has_key? 'class'

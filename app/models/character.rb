@@ -1,5 +1,9 @@
 require 'csv'
 
+# @author Craig Read
+#
+# Character represents the Avatar a player
+# will play within a game and their statistics.
 class Character < ActiveRecord::Base
   include RemoteConnectionHelper, PointsCalculationHelper, CharactersHelper
   has_paper_trail
