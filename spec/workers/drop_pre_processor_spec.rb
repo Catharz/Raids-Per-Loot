@@ -9,7 +9,8 @@ describe DropPreProcessor do
 
   describe '#perform' do
     it 'sets the drops loot_type to the items loot_type' do
-      bank_loot_type = FactoryGirl.create(:loot_type, name: 'Bank', default_loot_method: 'g')
+      bank_loot_type = FactoryGirl.create(:loot_type, name: 'Bank',
+                                          default_loot_method: 'g')
       bank_item = FactoryGirl.create(:item, loot_type: bank_loot_type)
 
       drop = FactoryGirl.create(:drop)
