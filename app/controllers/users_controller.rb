@@ -1,3 +1,7 @@
+# Controller for the User views.
+#
+# json and js formatting options are available on actions
+# where ajax is used via jQueryUI popups.
 class UsersController < ApplicationController
   load_and_authorize_resource
   before_filter :set_pagetitle

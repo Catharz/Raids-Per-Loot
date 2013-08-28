@@ -1,3 +1,13 @@
+# Controller for the Character views.
+#
+# json and js formatting options are available on actions
+# where ajax is used via jQueryUI popups.
+#
+# xml formatting is provided on actions used by the ACT plug-in.
+# csv formatting is provided for a csv export of the character list.
+#
+# index uses the CharactersDataTable class which will handle
+# pagination, searching and rendering the drops.
 class CharactersController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show, :info, :statistics, :attendance, :loot]
   before_filter :set_pagetitle

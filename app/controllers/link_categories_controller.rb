@@ -1,3 +1,7 @@
+# Controller for the LinkCategory views.
+#
+# json and js formatting options are available on actions
+# where ajax is used via jQueryUI popups.
 class LinkCategoriesController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle

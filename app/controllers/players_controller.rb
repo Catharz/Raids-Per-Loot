@@ -1,3 +1,10 @@
+# Controller for the Player views.
+#
+# json and js formatting options are available on actions
+# where ajax is used via jQueryUI popups.
+#
+# xml formatting is provided on actions used by the ACT plug-in.
+# csv formatting is provided for a CSV export of the player list.
 class PlayersController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show, :attendance]
   before_filter :set_pagetitle

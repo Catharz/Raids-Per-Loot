@@ -1,3 +1,7 @@
+# Application controller.
+#
+# Most of the code here is related to authentication,
+# authorization or using paper_trail as an audit trail.
 class ApplicationController < ActionController::Base
   protect_from_forgery
 

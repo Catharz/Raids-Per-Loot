@@ -1,3 +1,7 @@
+# Controller for the Page Viewer.
+#
+# This controller manages the in-page-editing
+# functionality for user-defined pages.
 class ViewerController < ApplicationController
   def show
     @page = Page.find_by_name(params[:name])

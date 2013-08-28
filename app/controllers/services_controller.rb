@@ -1,3 +1,4 @@
+# Controller for the OmniAuth Authentication Services.
 class ServicesController < ApplicationController
   protect_from_forgery :except => :create
   before_filter :authenticate_user!, :except => [:create, :signin, :signup, :newaccount, :failure]
