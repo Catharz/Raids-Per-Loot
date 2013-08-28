@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# CharacterObserver manages updating character details
+# via Resque jobs, and saving the character type history
 class CharacterObserver < ActiveRecord::Observer
   observe :character
 
