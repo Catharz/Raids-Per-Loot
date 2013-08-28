@@ -1,19 +1,17 @@
-require 'factory_helper'
-
-Given /^I have a mob named (.+) from (.+)$/ do |mob, zone|
-  FactoryHelper.give_me_mob(zone, mob, 'Easy')
+Given /^I have a mob named (.+) from (.+)$/ do |mob_name, zone_name|
+  easy = Difficulty.find_by_name('Easy') || FactoryGirl.create(:difficulty, name: 'Easy')
+  zone = Zone.find_by_name(zone_name) || FactoryGirl.create(:zone, name: zone_name, difficulty: easy)
+  Mob.find_by_name_and_zone_id(mob_name, zone.id) ||
+      FactoryGirl.create(:mob, name: mob_name, zone: zone, difficulty: easy)
 end
 
 Given /^I have the following mobs:$/ do |mobs|
   mobs.hashes.each do |this_mob|
     difficulty = Difficulty.find_by_name(this_mob[:difficulty])
-    zone = FactoryHelper.give_me_zone(this_mob['zone_name'], difficulty.name)
+    zone = FactoryGirl.create(:zone, name: this_mob['zone_name'], difficulty: difficulty)
     this_mob.delete('zone_name')
     this_mob.delete('difficulty')
-    mob = Mob.create!(this_mob)
-    mob.difficulty = difficulty
-    mob.zone = zone
-    mob.save!
+    FactoryGirl.create(:mob, this_mob.merge!(difficulty_id: difficulty.id, zone_id: zone.id))
   end
   Mob.all
 end
