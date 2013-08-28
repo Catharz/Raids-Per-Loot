@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# DropAssignmentValidator validates a drop against
+# using rules covering the loot method and character type
 class DropAssignmentValidator
   def initialize(drop)
     @drop, @character, @item, @loot_type = drop, drop.character, drop.item, drop.loot_type
