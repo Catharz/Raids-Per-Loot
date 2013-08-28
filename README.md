@@ -5,7 +5,8 @@ Raids Per Loot
 
 The Raids Per Loot system has been created as a means to distribute loot in guilds lacking a consistent raid force.
 
-[Southern Cross](http://southerncross.guildportal.com), is one of those guilds.
+[Southern Cross](http://southerncrossguild.guildlaunch.com),
+is one of those guilds.
 
 As guild and raid leader, I wanted a loot system with the following characteristics:
 
