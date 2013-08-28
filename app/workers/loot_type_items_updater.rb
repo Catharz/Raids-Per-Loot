@@ -1,3 +1,9 @@
+# @author Craig Read
+#
+# LootTypeItemsUpdater manages setting the loot type
+# of drops when its null, and setting the loot method
+# of drops when the default loot method of the loot
+# type is trash or guild bank
 class LootTypeItemsUpdater
   @queue = :loot_type_item_updater
 

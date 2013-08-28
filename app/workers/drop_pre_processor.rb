@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# DropPreProcessor sets the loot type of a drop
+# based on its item
 class DropPreProcessor
   @queue = :drop_pre_processor
 

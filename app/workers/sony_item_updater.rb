@@ -1,5 +1,9 @@
 include RemoteConnectionHelper
 
+# @author Craig Read
+#
+# SonyItemUpdater manages retrieving item details
+# from http://data.soe.com and storing them in ExternalData
 class SonyItemUpdater
   @queue = :sony_item_updater
 

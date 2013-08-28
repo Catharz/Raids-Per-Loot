@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# TrashDropFixer manages updating the loot method of
+# drops of items of type 'Trash' to an appropriate value
 class TrashDropFixer
   @queue = :trash_drop_fixer
 
