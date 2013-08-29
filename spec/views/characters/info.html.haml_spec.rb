@@ -3,7 +3,8 @@ require 'attendance_spec_helper'
 
 describe 'characters/info.html.haml' do
   before(:each) do
-    character = assign(:character, FactoryGirl.create(:character, name: 'Fighter'))
+    character = assign(:character, FactoryGirl.create(:character,
+                                                      name: 'Fighter'))
 
     character.should_receive(:player_raids_count).and_return(2)
     character.should_receive(:raids_count).and_return(1)

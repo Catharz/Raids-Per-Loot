@@ -14,7 +14,7 @@ describe 'raids/index.html.erb' do
                  raid_date: Date.parse('01/01/2012') + n.days,
                  raid_type: prog)
     }
-    assign(:raids, raids.paginate(:page => 1, :per_page => 5))
+    assign(:raids, raids.paginate(page: 1, per_page: 5))
   end
 
   it 'renders a paginated list of raids' do

@@ -4,14 +4,14 @@ describe 'items/index.html.erb' do
   before(:each) do
     assign(:items, [
         stub_model(Item,
-                   :name => 'Item 1',
+                   name: 'Item 1',
                    :eq2_item_id => 'Eq2 Item-1',
-                   :info_url => 'Info Url 1'
+                   info_url: 'Info Url 1'
         ),
         stub_model(Item,
-                   :name => 'Item 2',
+                   name: 'Item 2',
                    :eq2_item_id => 'Eq2 Item-2',
-                   :info_url => 'Info Url 2'
+                   info_url: 'Info Url 2'
         )
     ])
   end

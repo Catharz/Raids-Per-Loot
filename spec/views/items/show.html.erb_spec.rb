@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe 'items/show.html.erb' do
   before(:each) do
-    weapon = stub_model(LootType, :name => 'Weapon')
+    weapon = stub_model(LootType, name: 'Weapon')
     @item = assign(:item, stub_model(Item,
-                                     :name => 'Name',
+                                     name: 'Name',
                                      :eq2_item_id => 'Eq2 Item',
-                                     :info_url => 'Info Url',
-                                     :loot_type => weapon
+                                     info_url: 'Info Url',
+                                     loot_type: weapon
     ))
   end
 
@@ -32,7 +32,7 @@ describe 'items/show.html.erb' do
   end
 
   it 'renders a list of archetypes that can use it' do
-    monk = stub_model(Archetype, :name => 'Monk')
+    monk = stub_model(Archetype, name: 'Monk')
     @item.archetypes << monk
     monk.items << @item
 
@@ -43,7 +43,7 @@ describe 'items/show.html.erb' do
   end
 
   it 'renders a list of slots it can be equipped in' do
-    wrist = stub_model(Slot, :name => 'Wrist')
+    wrist = stub_model(Slot, name: 'Wrist')
     @item.slots << wrist
     wrist.items << @item
 

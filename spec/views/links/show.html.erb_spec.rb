@@ -3,9 +3,9 @@ require 'spec_helper'
 describe 'links/show.html.erb' do
   before(:each) do
     @link = assign(:link, stub_model(Link,
-      :url => 'Url',
-      :title => 'Title',
-      :description => 'MyText'
+      url: 'Url',
+      title: 'Title',
+      description: 'MyText'
     ))
   end
 

@@ -3,8 +3,8 @@ require 'spec_helper'
 describe 'ranks/show.html.erb' do
   before(:each) do
     @rank = assign(:rank, stub_model(Rank,
-      :name => 'Officer',
-      :priority => 1
+      name: 'Officer',
+      priority: 1
     ))
   end
 

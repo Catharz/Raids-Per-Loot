@@ -4,10 +4,10 @@ describe 'slots/index.html.erb' do
   before(:each) do
     assign(:slots, [
       stub_model(Slot,
-        :name => 'Arm'
+        name: 'Arm'
       ),
       stub_model(Slot,
-        :name => 'Leg'
+        name: 'Leg'
       )
     ])
   end

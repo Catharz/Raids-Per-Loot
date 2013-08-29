@@ -11,7 +11,7 @@ describe 'raids/edit.html.erb' do
   it 'renders the edit raid form' do
     render
 
-    assert_select 'form', :action => raids_path(@raid), :method => 'post' do
+    assert_select 'form', action: raids_path(@raid), method: 'post' do
       assert_select 'input#datepicker', name: 'raid[raid_date]'
       assert_select 'select#raid_raid_type_id', name: 'raid[raid_type_id]'
     end

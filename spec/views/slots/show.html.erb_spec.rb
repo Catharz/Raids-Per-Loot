@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'slots/show.html.erb' do
   before(:each) do
     @slot = assign(:slot, stub_model(Slot,
-      :name => 'Wrist'
+      name: 'Wrist'
     ))
   end
 

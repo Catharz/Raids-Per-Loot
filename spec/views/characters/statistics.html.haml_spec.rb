@@ -94,8 +94,10 @@ describe 'characters/statistics.html.haml' do
     end
 
     it 'should render the characters critical chance' do
-      char1.should_receive(:critical_chance).at_least(2).times.and_return(293.05)
-      char2.should_receive(:critical_chance).at_least(2).times.and_return(285.01)
+      char1.should_receive(:critical_chance).at_least(2).
+          times.and_return(293.05)
+      char2.should_receive(:critical_chance).at_least(2).
+          times.and_return(285.01)
 
       render
 
@@ -134,20 +136,28 @@ describe 'characters/statistics.html.haml' do
       end
 
       it 'counts adornments' do
-        char1.should_receive(:count_adornments).with('blue').at_least(2).times.and_return([3, 1])
-        char1.should_receive(:count_adornments).with('white').at_least(2).times.and_return([5, 1])
-        char1.should_receive(:count_adornments).with('yellow').at_least(2).times.and_return([3, 2])
-        char1.should_receive(:count_adornments).with('red').at_least(2).times.and_return([2, 1])
-        char1.should_receive(:count_adornments).with('green').at_least(2).times.and_return([3, 3])
-        char1.should_receive(:count_adornments).with(nil).at_least(2).times.and_return([19, 9])
+        char1.should_receive(:count_adornments).with('blue').at_least(2).
+            times.and_return([3, 1])
+        char1.should_receive(:count_adornments).with('white').at_least(2).
+            times.and_return([5, 1])
+        char1.should_receive(:count_adornments).with('yellow').at_least(2).
+            times.and_return([3, 2])
+        char1.should_receive(:count_adornments).with('red').at_least(2).
+            times.and_return([2, 1])
+        char1.should_receive(:count_adornments).with('green').at_least(2).
+            times.and_return([3, 3])
+        char1.should_receive(:count_adornments).with(nil).at_least(2).
+            times.and_return([19, 9])
 
         render
 
         rendered.should have_selector('tr', :'data-blue-adornments' => '1 / 3')
         rendered.should have_selector('tr', :'data-white-adornments' => '1 / 5')
-        rendered.should have_selector('tr', :'data-yellow-adornments' => '2 / 3')
+        rendered.should have_selector('tr',
+                                      :'data-yellow-adornments' => '2 / 3')
         rendered.should have_selector('tr', :'data-red-adornments' => '1 / 2')
-        rendered.should have_selector('tr', :'data-green-adornments' => '3 / 3')
+        rendered.should have_selector('tr',
+                                      :'data-green-adornments' => '3 / 3')
       end
     end
   end

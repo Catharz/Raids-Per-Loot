@@ -3,11 +3,11 @@ require 'spec_helper'
 describe 'raid_types/show' do
   before(:each) do
     @raid_type = assign(:raid_type, stub_model(RaidType,
-      :name => 'Impossible',
-      :raid_counted => false,
-      :raid_points => 1.5,
-      :loot_counted => true,
-      :loot_cost => 2.5
+      name: 'Impossible',
+      raid_counted: false,
+      raid_points: 1.5,
+      loot_counted: true,
+      loot_cost: 2.5
     ))
   end
 

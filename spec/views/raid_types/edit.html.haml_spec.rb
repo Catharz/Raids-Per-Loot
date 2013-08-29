@@ -4,10 +4,10 @@ describe 'raid_types/edit' do
   before(:each) do
     @raid_type = assign(:raid_type, stub_model(RaidType,
                                                name: 'Pickup',
-                                               :raid_counted => false,
-                                               :raid_points => 1.5,
-                                               :loot_counted => true,
-                                               :loot_cost => 2.5
+                                               raid_counted: false,
+                                               raid_points: 1.5,
+                                               loot_counted: true,
+                                               loot_cost: 2.5
     ))
   end
 
