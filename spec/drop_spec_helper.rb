@@ -9,25 +9,25 @@ module DropSpecHelper
   # These items must exist or the Drop will not be valid
   def create_drop_dependencies
     progression = FactoryGirl.create(:raid_type, name: 'Progression')
-    raid = FactoryGirl.create(:raid, :raid_date => Date.parse("2012-01-03"), raid_type: progression)
-    instance = FactoryGirl.create(:instance, :raid_id => raid.id, :start_time => DateTime.parse("03/01/2012 1:00PM"))
-    zone = FactoryGirl.create(:zone, :name => "Wherever")
-    mob = FactoryGirl.create(:mob, :name => "Whoever", :zone_id => zone.id)
+    raid = FactoryGirl.create(:raid, raid_date: Date.parse("2012-01-03"), raid_type: progression)
+    instance = FactoryGirl.create(:instance, raid_id: raid.id, start_time: DateTime.parse("03/01/2012 1:00PM"))
+    zone = FactoryGirl.create(:zone, name: "Wherever")
+    mob = FactoryGirl.create(:mob, name: "Whoever", zone_id: zone.id)
 
-    armour = FactoryGirl.create(:loot_type, :name => "Armour", :default_loot_method => 'n')
-    spell = FactoryGirl.create(:loot_type, :name => "Spell", :default_loot_method => 'r')
-    trash = FactoryGirl.create(:loot_type, :name => "Trash", :default_loot_method => 't')
-    trade_skill = FactoryGirl.create(:loot_type, :name => "Trade Skill", :default_loot_method => 'g')
-    armour_item = FactoryGirl.create(:item, :name => "Armour", :eq2_item_id => "armour", :loot_type_id => armour.id)
-    spell_item = FactoryGirl.create(:item, :name => "Spell", :eq2_item_id => "spell", :loot_type_id => spell.id)
-    trash_item = FactoryGirl.create(:item, :name => "Trash", :eq2_item_id => "trash", :loot_type_id => trash.id)
-    trade_skill_item = FactoryGirl.create(:item, name: "Trade Skill Item", :loot_type_id => trade_skill.id)
+    armour = FactoryGirl.create(:loot_type, name: "Armour", default_loot_method: 'n')
+    spell = FactoryGirl.create(:loot_type, name: "Spell", default_loot_method: 'r')
+    trash = FactoryGirl.create(:loot_type, name: "Trash", default_loot_method: 't')
+    trade_skill = FactoryGirl.create(:loot_type, name: "Trade Skill", default_loot_method: 'g')
+    armour_item = FactoryGirl.create(:item, name: "Armour", :eq2_item_id => "armour", loot_type_id: armour.id)
+    spell_item = FactoryGirl.create(:item, name: "Spell", :eq2_item_id => "spell", loot_type_id: spell.id)
+    trash_item = FactoryGirl.create(:item, name: "Trash", :eq2_item_id => "trash", loot_type_id: trash.id)
+    trade_skill_item = FactoryGirl.create(:item, name: "Trade Skill Item", loot_type_id: trade_skill.id)
 
-    rank = FactoryGirl.create(:rank, :name => "Main")
-    player = FactoryGirl.create(:player, :name => "Me", :rank_id => rank.id)
+    rank = FactoryGirl.create(:rank, name: "Main")
+    player = FactoryGirl.create(:player, name: "Me", rank_id: rank.id)
 
     archetype = Archetype.find_by_name( "Scout")
-    character = FactoryGirl.create(:character, :name => "Me", :player_id => player.id, :archetype_id => archetype.id, :char_type => "m")
+    character = FactoryGirl.create(:character, name: "Me", player_id: player.id, archetype_id: archetype.id, char_type: "m")
 
     drop_time = DateTime.parse("03/01/2012 2:00PM")
 
@@ -46,21 +46,21 @@ module DropSpecHelper
 
   def valid_attributes(options = {})
     @drop_details ||= create_drop_dependencies
-    {:instance_id => @drop_details[:instance].id,
-     :zone_id => @drop_details[:zone].id,
-     :mob_id => @drop_details[:mob].id,
-     :item_id => @drop_details[:armour_item].id,
-     :loot_type_id => @drop_details[:armour_loot_type].id,
-     :character_id => @drop_details[:character].id,
-     :loot_method => 't',
-     :chat => 'blah blah blah',
-     :drop_time => @drop_details[:drop_time]}.merge!(options)
+    {instance_id: @drop_details[:instance].id,
+     zone_id: @drop_details[:zone].id,
+     mob_id: @drop_details[:mob].id,
+     item_id: @drop_details[:armour_item].id,
+     loot_type_id: @drop_details[:armour_loot_type].id,
+     character_id: @drop_details[:character].id,
+     loot_method: 't',
+     chat: 'blah blah blah',
+     drop_time: @drop_details[:drop_time]}.merge!(options)
   end
 
   def add_drop(character, item_name, loot_type_name)
-    loot_type = mock_model(LootType, :name => loot_type_name)
-    item = mock_model(Item, valid_item_attributes.merge!(:eq2_item_id => "123", :name => item_name))
-    character.stub(:drops).and_return([mock_model(Drop, FactoryGirl.attributes_for(:drop).merge!(:loot_type_id => loot_type.id, :item_id => item.id))])
+    loot_type = mock_model(LootType, name: loot_type_name)
+    item = mock_model(Item, valid_item_attributes.merge!(:eq2_item_id => "123", name: item_name))
+    character.stub(:drops).and_return([mock_model(Drop, FactoryGirl.attributes_for(:drop).merge!(loot_type_id: loot_type.id, item_id: item.id))])
   end
 
   def create_drops(character, drop_counts = {})
@@ -73,7 +73,7 @@ module DropSpecHelper
         drops.each do |n|
           zone = mock_model(Zone, FactoryGirl.attributes_for(:zone))
           mob = create_mob(zone)
-          item = mock_model(Item, :eq2_item_id => "#{character.name} #{loot_type_name} item #{n}", :name => "#{character.name} #{loot_type_name} item #{n}", :loot_type => loot_type)
+          item = mock_model(Item, :eq2_item_id => "#{character.name} #{loot_type_name} item #{n}", name: "#{character.name} #{loot_type_name} item #{n}", loot_type: loot_type)
 
           drop = mock_model(Drop, FactoryGirl.attributes_for(:drop))
           drop.stub(:raid).and_return(create_raid)

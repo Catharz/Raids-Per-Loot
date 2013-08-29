@@ -78,9 +78,9 @@ Spork.prefork do
 
   OmniAuth.config.test_mode = true
   OmniAuth.config.add_mock(:developer, {
-      :provider => 'developer',
-      :uid => '12345',
-      'info' => {:name => 'zapnap', :email => 'zapnap@example.org'}
+      provider: 'developer',
+      uid: '12345',
+      'info' => {name: 'zapnap', email: 'zapnap@example.org'}
   })
 
 end
