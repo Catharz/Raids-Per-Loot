@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe LootTypeItemsUpdater do
-  subject{ LootTypeItemsUpdater }
-  let( :trash_loot_type ) { FactoryGirl.create(:loot_type,
-                                               :name => 'Trash Drop',
-                                               :default_loot_method => 't') }
-  let( :bank_loot_type ) { FactoryGirl.create(:loot_type,
-                                              :name => 'Banked Item',
-                                              :default_loot_method => 'g') }
+  subject { LootTypeItemsUpdater }
+  let(:trash_loot_type) { FactoryGirl.create(:loot_type,
+                                             name: 'Trash Drop',
+                                             default_loot_method: 't') }
+  let(:bank_loot_type) { FactoryGirl.create(:loot_type,
+                                            name: 'Banked Item',
+                                            default_loot_method: 'g') }
 
   after(:each) do
     Resque.queues.each { |queue_name| Resque.remove_queue queue_name }
@@ -38,7 +38,7 @@ describe LootTypeItemsUpdater do
 
       it 'sets the loot_type of trash drops to trash if not already set' do
         trash_item = FactoryGirl.create(:item,
-                                        :name => 'Trash Item',
+                                        name: 'Trash Item',
                                         loot_type: trash_loot_type)
         trash_drop = FactoryGirl.create(:drop,
                                         loot_method: 'n',
@@ -53,10 +53,10 @@ describe LootTypeItemsUpdater do
 
       it 'sets the loot_type of bank drops to bank if not already set' do
         bank_item = FactoryGirl.create(:item,
-                                       :name => 'Bank Item',
+                                       name: 'Bank Item',
                                        loot_type: bank_loot_type)
         bank_drop = FactoryGirl.create(:drop,
-                                       :loot_method => 'n',
+                                       loot_method: 'n',
                                        item: bank_item,
                                        loot_type: trash_loot_type)
 
