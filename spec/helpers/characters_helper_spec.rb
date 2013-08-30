@@ -15,10 +15,19 @@ describe CharactersHelper do
               ]}
       ]}.with_indifferent_access
   }
-  let(:fighter) { FactoryGirl.create(:character, archetype: Archetype.find_by_name('Monk')) }
-  let(:mage) { FactoryGirl.create(:character, archetype: Archetype.find_by_name('Illusionist')) }
-  let(:priest) { FactoryGirl.create(:character, archetype: Archetype.find_by_name('Warden')) }
-  let(:scout) { FactoryGirl.create(:character, archetype: Archetype.find_by_name('Ranger')) }
+  let(:fighter) {
+    FactoryGirl.create(:character, archetype: Archetype.find_by_name('Monk'))
+  }
+  let(:mage) {
+    FactoryGirl.create(:character,
+                       archetype: Archetype.find_by_name('Illusionist'))
+  }
+  let(:priest) {
+    FactoryGirl.create(:character, archetype: Archetype.find_by_name('Warden'))
+  }
+  let(:scout) {
+    FactoryGirl.create(:character, archetype: Archetype.find_by_name('Ranger'))
+  }
 
   describe '#overall_rating' do
     it 'checks all of the other ratings' do

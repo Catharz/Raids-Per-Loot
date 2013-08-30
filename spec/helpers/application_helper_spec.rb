@@ -14,8 +14,10 @@ describe ApplicationHelper do
 
   describe 'menu' do
     it 'returns an unordered list' do
-      expected = "<ul><li>#{@p1.to_url}<ul><li>#{@p1a.to_url}</li><li>#{@p1b.to_url}</li></ul></li>"
-      expected << "<li>#{@p2.to_url}<ul><li>#{@p2a.to_url}</li><li>#{@p2b.to_url}</li></ul></li></ul>"
+      expected = "<ul><li>#{@p1.to_url}<ul><li>#{@p1a.to_url}</li>" +
+          "<li>#{@p1b.to_url}</li></ul></li>"
+      expected << "<li>#{@p2.to_url}<ul><li>#{@p2a.to_url}</li>" +
+          "<li>#{@p2b.to_url}</li></ul></li></ul>"
 
       menu.should eq expected
     end
