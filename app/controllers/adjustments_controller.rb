@@ -1,3 +1,9 @@
+# @author Craig Read
+#
+# Controller for the Adjustment views.
+#
+# json and js formatting options are available on actions
+# where ajax is used via jQueryUI popups.
 class AdjustmentsController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle
@@ -54,7 +60,8 @@ class AdjustmentsController < ApplicationController
     respond_to do |format|
       if @adjustment.save
         format.html { redirect_to @adjustment, notice: 'Adjustment was successfully created.' }
-        format.json { render json: @adjustment.to_json(methods: [:adjusted_name]), status: :created, location: @adjustment }
+        format.json { render json: @adjustment.to_json(methods: [:adjusted_name]),
+                             status: :created, location: @adjustment }
       else
         format.html { render action: "new" }
         format.json { render json: @adjustment.errors, status: :unprocessable_entity }
@@ -70,7 +77,8 @@ class AdjustmentsController < ApplicationController
     respond_to do |format|
       if @adjustment.update_attributes(params[:adjustment])
         format.html { redirect_to @adjustment, notice: 'Adjustment was successfully updated.' }
-        format.json { render :json => @adjustment.to_json(methods: [:adjusted_name]), :notice => 'Adjustment was successfully updated.' }
+        format.json { render :json => @adjustment.to_json(methods: [:adjusted_name]),
+                             :notice => 'Adjustment was successfully updated.' }
       else
         format.html { render action: "edit" }
         format.json { render json: @adjustment.errors, status: :unprocessable_entity }

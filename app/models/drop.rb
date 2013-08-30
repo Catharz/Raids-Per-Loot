@@ -1,5 +1,8 @@
 require 'drop_assignment_validator'
 
+# @author Craig Read
+#
+# Drop represents the instance of a character looting an item on a raid
 class Drop < ActiveRecord::Base
   include LootMethodHelper
   has_paper_trail

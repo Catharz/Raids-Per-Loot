@@ -1,5 +1,7 @@
 When /^I have a (.+) raid at "(.+)"$/ do |zone_name, raid_time|
-  FactoryHelper.give_me_instance(zone_name, raid_time)
+  zone = Zone.find_by_name(zone_name) || FactoryGirl.create(:zone, name: zone_name)
+  raid = Raid.find_by_raid_date(Date.parse(raid_time)) || FactoryGirl.create(:raid, raid_date: Date.parse(raid_time))
+  FactoryGirl.create(:instance, zone: zone, raid: raid, start_time: raid_time)
 end
 
 Given /^the following instances:$/ do |instances|

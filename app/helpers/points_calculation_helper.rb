@@ -1,6 +1,6 @@
 # @author Craig Read
 #
-# This class handles the calculation of points for characters and players.
+# PointsCalculationHelper calculates points for characters and players.
 module PointsCalculationHelper
   def attendance_for_period(range = {start:  nil, end: nil}, aggregate_up = true)
     raid_count(range, aggregate_up).to_f / Raid.for_period(range).count.to_f * 100.00
@@ -17,7 +17,8 @@ module PointsCalculationHelper
     self.armour_rate = calculate_loot_rate(raids_attended, self.armour_count)
     self.jewellery_rate = calculate_loot_rate(raids_attended, self.jewellery_count)
     self.weapon_rate = calculate_loot_rate(raids_attended, self.weapons_count)
-    self.attuned_rate = calculate_loot_rate(raids_attended, self.armour_count + self.jewellery_count + self.weapons_count)
+    self.attuned_rate = calculate_loot_rate(raids_attended,
+                                            self.armour_count + self.jewellery_count + self.weapons_count)
     self.adornment_rate = calculate_loot_rate(raids_attended, self.adornments_count)
     self.dislodger_rate = calculate_loot_rate(raids_attended, self.dislodgers_count)
     self.mount_rate = calculate_loot_rate(raids_attended, self.mounts_count)

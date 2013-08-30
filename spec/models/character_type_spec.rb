@@ -110,11 +110,14 @@ describe CharacterType do
       end
 
       it 'shows all by default' do
-        CharacterType.by_character.should match_array [@char1.character_types, @char2.character_types].flatten
+        CharacterType.by_character.
+            should match_array [@char1.character_types,
+                                @char2.character_types].flatten
       end
 
       it 'filters by character_id' do
-        CharacterType.by_character(@ct1.character_id).should match_array @char1.character_types
+        CharacterType.by_character(@ct1.character_id).
+            should match_array @char1.character_types
       end
     end
 
@@ -137,7 +140,8 @@ describe CharacterType do
       it 'reuses by_character and as_at' do
         character = double(Character)
         date = 3.weeks.ago
-        CharacterType.should_receive(:by_character).with(character).and_return(CharacterType.scoped)
+        CharacterType.should_receive(:by_character).
+            with(character).and_return(CharacterType.scoped)
         CharacterType.should_receive(:as_at).with(date)
 
         CharacterType.by_character_and_date(character, date)

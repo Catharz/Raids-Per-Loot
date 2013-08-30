@@ -15,7 +15,8 @@ describe 'Drops' do
     end
 
     it 'displays the headings' do
-      headings = ['Item Name', 'Character Name', 'Loot Type', 'Zone Name', 'Mob Name', 'Drop Time', 'Loot Method']
+      headings = ['Item Name', 'Character Name', 'Loot Type', 'Zone Name',
+                  'Mob Name', 'Drop Time', 'Loot Method']
 
       get drops_path
 

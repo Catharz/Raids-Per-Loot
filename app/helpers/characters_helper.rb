@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# CharactersHelper provides helper methods for
+# the character related views.
 module CharactersHelper
 
   def char_type_select(form, field)
@@ -5,7 +9,9 @@ module CharactersHelper
   end
 
   def character_type_options
-    [{:id => 'm', :text => 'Raid Main'}, {:id => 'r', :text => 'Raid Alternate'}, {:id => 'g', :text => 'General Alternate'}].collect {|ct| [ ct[:text], ct[:id] ] }
+    [{:id => 'm', :text => 'Raid Main'},
+     {:id => 'r', :text => 'Raid Alternate'},
+     {:id => 'g', :text => 'General Alternate'}].collect { |ct| [ct[:text], ct[:id]] }
   end
 
   def confirmed_rating_select(form, field)
@@ -15,29 +21,19 @@ module CharactersHelper
   def confirmed_rating_options
     [{:id => 'unsatisfactory', :text => 'Unsatisfactory'},
      {:id => 'minimum', :text => 'Minimum'},
-     {:id => 'optimal', :text => 'Optimal'}].collect {|ct| [ ct[:text], ct[:id] ] }
+     {:id => 'optimal', :text => 'Optimal'}].collect { |ct| [ct[:text], ct[:id]] }
   end
 
   def confirmed_rating_name(rating)
-    case rating
-      when 'o' then
-        'Optimal'
-      when 'm' then
-        'Minimum'
-      else
-        'Unsatisfactory'
-    end
+    return 'Optimal' if rating.eql? 'o'
+    return 'Minimum' if rating.eql? 'm'
+    'Unsatisfactory'
   end
 
   def char_type_name(char_type)
-    case char_type
-      when 'm' then
-        'Raid Main'
-      when 'r' then
-        'Raid Alternate'
-      else
-        'General Alternate'
-    end
+    return 'Raid Main' if char_type.eql? 'm'
+    return 'Raid Alternate' if char_type.eql? 'r'
+    'General Alternate'
   end
 
   def data
@@ -84,62 +80,33 @@ module CharactersHelper
   end
 
   def health_rating
-    case archetype_root
-      when 'Fighter'
-        if health.to_i >= 65000
-          'optimal'
-        else
-          if health.to_i >= 60000
-            'minimal'
-          else
-            'unsatisfactory'
-          end
-        end
-      when 'Priest'
-        if health.to_i >= 60000
-          'optimal'
-        else
-          if health.to_i >= 55000
-            'minimal'
-          else
-            'unsatisfactory'
-          end
-        end
-      else
-        if health.to_i >= 55000
-          'optimal'
-        else
-          if health.to_i >= 50000
-            'minimal'
-          else
-            'unsatisfactory'
-          end
-        end
-    end
+    return 'optimal' if health.to_i >= optimal_health(archetype_root)
+    return 'minimal' if health.to_i >= minimal_health(archetype_root)
+    'unsatisfactory'
+  end
+
+  def optimal_health(archetype)
+    return 65000 if archetype.eql? 'Fighter'
+    return 60000 if archetype.eql? 'Priest'
+    55000
+  end
+
+  def minimal_health(archetype)
+    return 60000 if archetype.eql? 'Fighter'
+    return 55000 if archetype.eql? 'Priest'
+    50000
   end
 
   def crit_rating
-    if critical_chance >= 420.0
-      'optimal'
-    else
-      if critical_chance >= 350.0
-        'minimal'
-      else
-        'unsatisfactory'
-      end
-    end
+    return 'optimal' if critical_chance >= 420.0
+    return 'minimal' if critical_chance >= 350.0
+    'unsatisfactory'
   end
 
   def adornment_rating
-    if adornment_pct >= 75.0
-      'optimal'
-    else
-      if adornment_pct >= 50.0
-        'minimal'
-      else
-        'unsatisfactory'
-      end
-    end
+    return 'optimal' if adornment_pct >= 75.0
+    return 'minimal' if adornment_pct >= 50.0
+    'unsatisfactory'
   end
 
   def adornment_data

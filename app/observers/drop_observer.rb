@@ -1,3 +1,8 @@
+# @author Craig Read
+#
+# DropObserver manages queueing Resque jobs
+# to download item details, and set the Drop
+# loot type to match its associated Item
 class DropObserver < ActiveRecord::Observer
   observe :drop
 

@@ -4,12 +4,12 @@ describe ViewerController do
 
   describe 'GET show' do
     it 'should be successful' do
-      get :show, :name => 'home'
+      get :show, name: 'home'
       response.should be_success
     end
 
     it 'renders the :show template' do
-      get :show, :name => 'home'
+      get :show, name: 'home'
       response.should render_template :show
     end
 

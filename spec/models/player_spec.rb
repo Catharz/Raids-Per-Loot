@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe Player do
-  let(:player) { FactoryGirl.create(:player, name: 'Fred', rank: Rank.find_by_name('Main')) }
+  let(:player) { FactoryGirl.create(:player,
+                                    name: 'Fred',
+                                    rank: Rank.find_by_name('Main')) }
 
   describe 'player' do
     describe '#calculate_loot_rate' do

@@ -1,17 +1,18 @@
 require 'spec_helper'
 
-describe "adjustments/show" do
+describe 'adjustments/show' do
   before(:each) do
-    @adjustment = assign(:adjustment, stub_model(Adjustment,
-      :adjustment_type => "Adjustment Type",
-      :amount => 1,
-      :reason => "MyText",
-      :adjusted_name => "Dino",
-      :adjustable_type => "Character"
-    ))
+    @adjustment = assign(:adjustment,
+                         stub_model(Adjustment,
+                                    adjustment_type: 'Adjustment Type',
+                                    amount: 1,
+                                    reason: 'My Reason',
+                                    adjusted_name: 'Dino',
+                                    adjustable_type: 'Character'
+                         ))
   end
 
-  it "renders the headings" do
+  it 'renders the headings' do
     render
 
     rendered.should match(/Adjustment type:/)
@@ -20,12 +21,12 @@ describe "adjustments/show" do
     rendered.should match(/Character:/)
   end
 
-  it "renders the data" do
+  it 'renders the data' do
     render
 
     rendered.should match(/Adjustment Type/)
     rendered.should match(/1/)
-    rendered.should match(/MyText/)
+    rendered.should match(/My Reason/)
     rendered.should match(/Dino/)
   end
 end

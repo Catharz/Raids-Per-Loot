@@ -1,3 +1,8 @@
+# @author Craig Read
+#
+# ItemObserver manages updating the loot_method
+# of associated Drops when the Item loot type is
+# set to trash
 class ItemObserver < ActiveRecord::Observer
   observe :item
 

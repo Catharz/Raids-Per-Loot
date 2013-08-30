@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# Page represents a user-defined page
+# within the site.
 class Page < ActiveRecord::Base
   acts_as_tree :order => "navlabel", counter_cache: true
   acts_as_textiled :body

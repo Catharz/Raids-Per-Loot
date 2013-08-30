@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# InstancesHelper provides a helper function for
+# presenting the mob names on the Instance views
 module InstancesHelper
   def mob_names(instance)
     names = []

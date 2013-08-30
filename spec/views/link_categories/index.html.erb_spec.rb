@@ -1,25 +1,24 @@
 require 'spec_helper'
 
-describe "link_categories/index.html.erb" do
+describe 'link_categories/index.html.erb' do
   before(:each) do
-#    login_as :admin
     assign(:link_categories, [
-      stub_model(LinkCategory,
-        :title => "Title",
-        :description => "MyText"
-      ),
-      stub_model(LinkCategory,
-        :title => "Title",
-        :description => "MyText"
-      )
+        stub_model(LinkCategory,
+                   title: 'Title',
+                   description: 'Description'
+        ),
+        stub_model(LinkCategory,
+                   title: 'Title',
+                   description: 'Description'
+        )
     ])
   end
 
-  it "renders a list of link_categories" do
+  it 'renders a list of link_categories' do
     render
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => "Title".to_s, :count => 2
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => "MyText".to_s, :count => 2
+
+    assert_select 'tr>td', text: 'Title'.to_s, count: 2
+
+    assert_select 'tr>td', text: 'Description'.to_s, count: 2
   end
 end

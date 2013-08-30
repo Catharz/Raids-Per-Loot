@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# Archetype represents the character archetype or class such as
+# Fighter, Mage, Priest, Scout and their descendants.
 class Archetype < ActiveRecord::Base
   acts_as_tree :order => 'name'
 

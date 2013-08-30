@@ -1,3 +1,9 @@
+# @author Craig Read
+#
+# PlayerCharacter is a composite representing
+# the Player and one of their Characters.
+# This is used to simplify editing loot statistics
+# for a particular player and character.
 class PlayerCharacter
   include Virtus
 

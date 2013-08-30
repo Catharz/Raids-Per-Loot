@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# CharacterType represents whether a character is
+# a raid main, raid alt or general alt over time.
 class CharacterType < ActiveRecord::Base
   include CharactersHelper
   belongs_to :character, :inverse_of => :character_types

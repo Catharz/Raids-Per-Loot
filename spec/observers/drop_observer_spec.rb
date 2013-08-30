@@ -5,8 +5,9 @@ describe DropObserver do
   let( :drop ) { mock_model(Drop) }
 
   describe '#after_save' do
-    it 'uses the DropPostProcessor and SonyItemUpdater to update the character and item' do
-      drop.should_receive(:item).at_least(2).times.and_return(mock_model(Item, :name => 'Sword'))
+    it 'uses DropPostProcessor and SonyItemUpdater perform updates' do
+      drop.should_receive(:item).at_least(2).times.
+          and_return(mock_model(Item, name: 'Sword'))
       Resque.should_receive(:enqueue).with(SonyItemUpdater, drop.item.id)
 
       subject.after_save(drop)

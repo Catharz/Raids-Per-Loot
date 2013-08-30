@@ -3,141 +3,139 @@ require 'authentication_spec_helper'
 
 describe ArchetypesController do
   include AuthenticationSpecHelper
-  fixtures :users, :services
+  fixtures :users, :services, :archetypes
 
   before(:each) do
     login_as :admin
   end
 
-  def valid_attributes
-    {:name => "Whatever"}
-  end
-
-  describe "GET index" do
-    it "assigns all archetypes as @archetypes" do
-      archetype = Archetype.create! valid_attributes
+  describe 'GET index' do
+    it 'assigns all archetypes as @archetypes' do
+      archetype = Archetype.create! FactoryGirl.attributes_for(:archetype)
       get :index
-      assigns(:archetypes).should eq([archetype])
+      assigns(:archetypes).should include archetype
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested archetype as @archetype" do
-      archetype = Archetype.create! valid_attributes
-      get :show, :id => archetype.id.to_s
+  describe 'GET show' do
+    it 'assigns the requested archetype as @archetype' do
+      archetype = Archetype.create! FactoryGirl.attributes_for(:archetype)
+      get :show, id: archetype.id.to_s
       assigns(:archetype).should eq(archetype)
     end
   end
 
-  describe "GET new" do
-    it "assigns a new archetype as @archetype" do
+  describe 'GET new' do
+    it 'assigns a new archetype as @archetype' do
       get :new
       assigns(:archetype).should be_a_new(Archetype)
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested archetype as @archetype" do
-      archetype = Archetype.create! valid_attributes
-      get :edit, :id => archetype.id.to_s
+  describe 'GET edit' do
+    it 'assigns the requested archetype as @archetype' do
+      archetype = Archetype.create! FactoryGirl.attributes_for(:archetype)
+      get :edit, id: archetype.id.to_s
       assigns(:archetype).should eq(archetype)
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Archetype" do
+  describe 'POST create' do
+    describe 'with valid params' do
+      it 'creates a new Archetype' do
         expect {
-          post :create, :archetype => valid_attributes
+          post :create, archetype: FactoryGirl.attributes_for(:archetype)
         }.to change(Archetype, :count).by(1)
       end
 
-      it "assigns a newly created archetype as @archetype" do
-        post :create, :archetype => valid_attributes
+      it 'assigns a newly created archetype as @archetype' do
+        post :create, archetype: FactoryGirl.attributes_for(:archetype)
         assigns(:archetype).should be_a(Archetype)
         assigns(:archetype).should be_persisted
       end
 
-      it "redirects to the created archetype" do
-        post :create, :archetype => valid_attributes
+      it 'redirects to the created archetype' do
+        post :create, archetype: FactoryGirl.attributes_for(:archetype)
         response.should redirect_to(Archetype.last)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved archetype as @archetype" do
+    describe 'with invalid params' do
+      it 'assigns a newly created but unsaved archetype as @archetype' do
         # Trigger the behavior that occurs when invalid params are submitted
         Archetype.any_instance.stub(:save).and_return(false)
-        post :create, :archetype => {}
+        post :create, archetype: {}
         assigns(:archetype).should be_a_new(Archetype)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Archetype.any_instance.stub(:save).and_return(false)
-        post :create, :archetype => {}
-        response.should render_template("new")
+        post :create, archetype: {}
+        response.should render_template('new')
       end
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested archetype" do
-        archetype = Archetype.create! valid_attributes
+  describe 'PUT update' do
+    describe 'with valid params' do
+      it 'updates the requested archetype' do
+        archetype = Archetype.create! FactoryGirl.attributes_for(:archetype)
         # Assuming there are no other archetypes in the database, this
         # specifies that the Archetype created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Archetype.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => archetype.id, :archetype => {'these' => 'params'}
+        Archetype.any_instance.should_receive(:update_attributes).
+            with({'these' => 'params'})
+        put :update, id: archetype.id, archetype: {'these' => 'params'}
       end
 
-      it "assigns the requested archetype as @archetype" do
-        archetype = Archetype.create! valid_attributes
-        put :update, :id => archetype.id, :archetype => valid_attributes
+      it 'assigns the requested archetype as @archetype' do
+        archetype = Archetype.create! FactoryGirl.attributes_for(:archetype)
+        put :update, id: archetype.id,
+            archetype: FactoryGirl.attributes_for(:archetype)
         assigns(:archetype).should eq(archetype)
       end
 
-      it "redirects to the archetype" do
-        archetype = Archetype.create! valid_attributes
-        put :update, :id => archetype.id, :archetype => valid_attributes
+      it 'redirects to the archetype' do
+        archetype = Archetype.create! FactoryGirl.attributes_for(:archetype)
+        put :update, id: archetype.id,
+            archetype: FactoryGirl.attributes_for(:archetype)
         response.should redirect_to(archetype)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the archetype as @archetype" do
-        archetype = Archetype.create! valid_attributes
+    describe 'with invalid params' do
+      it 'assigns the archetype as @archetype' do
+        archetype = Archetype.create! FactoryGirl.attributes_for(:archetype)
         # Trigger the behavior that occurs when invalid params are submitted
         Archetype.any_instance.stub(:save).and_return(false)
-        put :update, :id => archetype.id.to_s, :archetype => {}
+        put :update, id: archetype.id.to_s, archetype: {}
         assigns(:archetype).should eq(archetype)
       end
 
       it "re-renders the 'edit' template" do
-        archetype = Archetype.create! valid_attributes
+        archetype = Archetype.create! FactoryGirl.attributes_for(:archetype)
         # Trigger the behavior that occurs when invalid params are submitted
         Archetype.any_instance.stub(:save).and_return(false)
-        put :update, :id => archetype.id.to_s, :archetype => {}
-        response.should render_template("edit")
+        put :update, id: archetype.id.to_s, archetype: {}
+        response.should render_template('edit')
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested archetype" do
-      archetype = Archetype.create! valid_attributes
+  describe 'DELETE destroy' do
+    it 'destroys the requested archetype' do
+      archetype = Archetype.create! FactoryGirl.attributes_for(:archetype)
       expect {
-        delete :destroy, :id => archetype.id.to_s
+        delete :destroy, id: archetype.id.to_s
       }.to change(Archetype, :count).by(-1)
     end
 
-    it "redirects to the archetypes list" do
-      archetype = Archetype.create! valid_attributes
-      delete :destroy, :id => archetype.id.to_s
+    it 'redirects to the archetypes list' do
+      archetype = Archetype.create! FactoryGirl.attributes_for(:archetype)
+      delete :destroy, id: archetype.id.to_s
       response.should redirect_to(archetypes_url)
     end
   end
-
 end

@@ -1,3 +1,14 @@
+# @author Craig Read
+#
+# Controller for the Drop views.
+#
+# json and js formatting options are available on actions
+# where ajax is used via jQueryUI popups.
+#
+# xml formatting is provided on actions used by the ACT plug-in.
+#
+# index uses the DropsDataTable class which will handle
+# pagination, searching and rendering the drops.
 class DropsController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle
@@ -11,7 +22,14 @@ class DropsController < ApplicationController
   def index
     respond_to do |format|
       format.html # index.html.erb
-      format.xml { render :xml => Drop.select(:chat).by_eq2_item_id(params[:eq2_item_id]).by_time(params[:drop_time]).by_instance(params[:instance_id]).by_zone(params[:zone_id]).by_mob(params[:mob_id]).by_item(params[:item_id]).by_character(params[:character_id]) }
+      format.xml { render :xml => Drop.select(:chat).
+          by_eq2_item_id(params[:eq2_item_id]).
+          by_time(params[:drop_time]).
+          by_instance(params[:instance_id]).
+          by_zone(params[:zone_id]).
+          by_mob(params[:mob_id]).
+          by_item(params[:item_id]).
+          by_character(params[:character_id]) }
       format.json { render json: DropsDatatable.new(view_context) }
     end
   end

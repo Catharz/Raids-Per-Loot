@@ -1,5 +1,9 @@
 include RemoteConnectionHelper
 
+# @author Craig Read
+#
+# SonyCharacterUpdater manages retrieving character details
+# from http://data.soe.com and storing them in ExternalData
 class SonyCharacterUpdater
   @queue = :sony_character_updater
 

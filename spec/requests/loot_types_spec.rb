@@ -13,7 +13,7 @@ describe 'LootTypes' do
 
       get loot_types_path
 
-      assigns(:loot_types).should eq [loot_type]
+      assigns(:loot_types).should include loot_type
     end
 
     it 'displays the loot_types name' do

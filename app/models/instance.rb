@@ -1,3 +1,6 @@
+# @author Craig Read
+#
+# Instance represents a 'Zone' instance when raiding.
 class Instance < ActiveRecord::Base
   belongs_to :raid, inverse_of: :instances, touch: true
   belongs_to :zone, inverse_of: :instances, touch: true

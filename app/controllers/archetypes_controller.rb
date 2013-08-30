@@ -1,5 +1,13 @@
+# @author Craig Read
+#
+# Controller for the Archetype views.
+#
+# json and js formatting options are available on actions
+# where ajax is used via jQueryUI popups.
+#
+# xml formatting is provided on actions used by the ACT plug-in.
 class ArchetypesController < ApplicationController
-  before_filter :authenticate_user!, :except => [:index, :show]
+  before_filter :authenticate_user!, except: [:index, :show]
   before_filter :set_pagetitle
 
   def set_pagetitle
@@ -13,8 +21,8 @@ class ArchetypesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @archetypes.to_json(methods: [:parent_name, :root_name]) }
-      format.xml { render :xml => @archetypes }
+      format.json { render json: @archetypes.to_json(methods: [:parent_name, :root_name]) }
+      format.xml { render xml: @archetypes }
     end
   end
 
@@ -25,8 +33,8 @@ class ArchetypesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @archetype.to_json(methods: [:parent_name, :root_name]) }
-      format.xml { render :xml => @archetype }
+      format.json { render json: @archetype.to_json(methods: [:parent_name, :root_name]) }
+      format.xml { render xml: @archetype }
       format.js
     end
   end
@@ -55,10 +63,11 @@ class ArchetypesController < ApplicationController
 
     respond_to do |format|
       if @archetype.save
-        format.html { redirect_to @archetype, :notice => 'Archetype was successfully created.' }
-        format.json { render json: @archetype.to_json(methods: [:parent_name, :root_name]), status: :created, location: @archetype  }
+        format.html { redirect_to @archetype, notice: 'Archetype was successfully created.' }
+        format.json { render json: @archetype.to_json(methods: [:parent_name, :root_name]),
+                             status: :created, location: @archetype  }
       else
-        format.html { render :action => "new" }
+        format.html { render action: "new" }
         format.json { render json: @archetype.errors, status: :unprocessable_entity }
       end
     end
@@ -71,10 +80,11 @@ class ArchetypesController < ApplicationController
 
     respond_to do |format|
       if @archetype.update_attributes(params[:archetype])
-        format.html { redirect_to @archetype, :notice => 'Archetype was successfully updated.' }
-        format.json { render :json => @archetype.to_json(methods: [:parent_name, :root_name]), :notice => 'Archetype was successfully updated.' }
+        format.html { redirect_to @archetype, notice: 'Archetype was successfully updated.' }
+        format.json { render json: @archetype.to_json(methods: [:parent_name, :root_name]),
+                             notice: 'Archetype was successfully updated.' }
       else
-        format.html { render :action => "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @archetype.errors, status: :unprocessable_entity }
       end
     end

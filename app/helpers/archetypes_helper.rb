@@ -1,3 +1,9 @@
+# @author Craig Read
+#
+# ArchetypesHelper provides a utility function for consolidating
+# an array of archetypes up to their roots.
+#
+# e.g. ['Bruiser', 'Monk'] will become 'All Brawlers'
 module ArchetypesHelper
   def consolidate_archetypes(archetype_list)
     if archetype_list.empty?
