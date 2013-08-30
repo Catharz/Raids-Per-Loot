@@ -5,7 +5,7 @@
 # json and js formatting options are available on actions
 # where ajax is used via jQueryUI popups.
 class CharacterTypesController < ApplicationController
-  before_filter :authenticate_user!, :except => [:index, :show]
+  before_filter :authenticate_user!, except: [:index, :show]
   before_filter :set_pagetitle
 
   def set_pagetitle
@@ -19,7 +19,9 @@ class CharacterTypesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @character_types.to_json(methods: [:character_type_name, :player_name, :character_name, :character_first_raid_date, :character_last_raid_date]) }
+      format.json { render json: @character_types.to_json(methods: [:character_type_name, :player_name,
+                                                                    :character_name, :character_first_raid_date,
+                                                                    :character_last_raid_date]) }
     end
   end
 
@@ -30,7 +32,7 @@ class CharacterTypesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @character_type.to_json(:methods => [:character_type_name]) }
+      format.json { render json: @character_type.to_json(methods: [:character_type_name]) }
       format.js
     end
   end
@@ -60,9 +62,12 @@ class CharacterTypesController < ApplicationController
     respond_to do |format|
       if @character_type.save
         format.html { redirect_to @character_type, notice: 'Character type was successfully created.' }
-        format.json { render json: @character_type.to_json(methods: [:character_type_name, :player_name, :character_name, :character_first_raid_date, :character_last_raid_date]), status: :created, location: @character_type  }
+        format.json { render json: @character_type.to_json(methods: [:character_type_name, :player_name,
+                                                                     :character_name, :character_first_raid_date,
+                                                                     :character_last_raid_date]),
+                             status: :created, location: @character_type  }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @character_type.errors, status: :unprocessable_entity }
       end
     end
@@ -76,9 +81,12 @@ class CharacterTypesController < ApplicationController
     respond_to do |format|
       if @character_type.update_attributes(params[:character_type])
         format.html { redirect_to @character_type, notice: 'Character type was successfully updated.' }
-        format.json { render :json => @character_type.to_json(methods: [:character_type_name, :player_name, :character_name, :character_first_raid_date, :character_last_raid_date]), :notice => 'Character type successfully updated.' }
+        format.json { render json: @character_type.to_json(methods: [:character_type_name, :player_name,
+                                                                     :character_name, :character_first_raid_date,
+                                                                     :character_last_raid_date]),
+                             notice: 'Character type successfully updated.' }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @character_type.errors, status: :unprocessable_entity }
       end
     end

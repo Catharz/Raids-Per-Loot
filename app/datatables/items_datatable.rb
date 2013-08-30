@@ -49,7 +49,10 @@ class ItemsDatatable
     items = items.page(page).per_page(per_page)
 
     if params[:sSearch].present?
-      items = items.where("upper(items.name) like :search or upper(loot_types.name) like :search or upper(archetypes.name) like :search or upper(slots.name) like :search", search: "%#{params[:sSearch].upcase}%")
+      items = items.where('upper(items.name) like :search or ' +
+                              'upper(loot_types.name) like :search or ' +
+                              'upper(archetypes.name) like :search or ' +
+                              'upper(slots.name) like :search', search: "%#{params[:sSearch].upcase}%")
     end
     items
   end
@@ -76,6 +79,6 @@ class ItemsDatatable
   end
 
   def sort_direction
-    params[:sSortDir_0] == "desc" ? "desc" : "asc"
+    params[:sSortDir_0] == 'desc' ? 'desc' : 'asc'
   end
 end

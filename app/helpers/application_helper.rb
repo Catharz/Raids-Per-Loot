@@ -24,7 +24,9 @@ module ApplicationHelper
 
   def show_hide_button(column_name, column_number, table_name, visible)
     link_to_function "#{column_name}",
-                     'hideShowColumn("#btn_' + table_name + '_col_' + column_number + '", ' + table_name + ', ' + column_number + ')',
+                     'hideShowColumn("#btn_' +
+                         table_name + '_col_' + column_number + '", ' +
+                         table_name + ', ' + column_number + ')',
                      class: 'table-button', id: 'btn_' + table_name + '_col_' + column_number, checked: visible
   end
 end

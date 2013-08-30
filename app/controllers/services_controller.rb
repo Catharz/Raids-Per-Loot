@@ -78,11 +78,14 @@ class ServicesController < ApplicationController
         # if the user is currently signed in, he/she might want to add another account to signin
         if user_signed_in?
           if auth
-            flash[:notice] = 'Your account at ' + @authhash[:provider].capitalize + ' is already connected with this site.'
+            flash[:notice] = 'Your account at ' + @authhash[:provider].capitalize +
+                ' is already connected with this site.'
             redirect_to services_path
           else
-            current_user.services.create!(:provider => @authhash[:provider], :uid => @authhash[:uid], :uname => @authhash[:name], :uemail => @authhash[:email])
-            flash[:notice] = 'Your ' + @authhash[:provider].capitalize + ' account has been added for signing in at this site.'
+            current_user.services.create!(:provider => @authhash[:provider], :uid => @authhash[:uid],
+                                          :uname => @authhash[:name], :uemail => @authhash[:email])
+            flash[:notice] = 'Your ' + @authhash[:provider].capitalize +
+                ' account has been added for signing in at this site.'
             redirect_to services_path
           end
         else
@@ -95,17 +98,20 @@ class ServicesController < ApplicationController
             flash[:notice] = 'Signed in successfully via ' + @authhash[:provider].capitalize + '.'
             redirect_to root_url
           else
-            # this is a new user; show signup; @authhash is available to the view and stored in the sesssion for creation of a new user
+            # this is a new user; show signup; @authhash is available to the view
+            # and stored in the sesssion for creation of a new user
             session[:authhash] = @authhash
             render signup_services_path
           end
         end
       else
-        flash[:error] =  'Error while authenticating via ' + service_route + '/' + @authhash[:provider].capitalize + '. The service returned invalid data for the user id.'
+        flash[:error] =  'Error while authenticating via ' + service_route + '/' +
+            @authhash[:provider].capitalize + '. The service returned invalid data for the user id.'
         redirect_to signin_path
       end
     else
-      flash[:error] = 'Error while authenticating via ' + service_route.capitalize + '. The service did not return valid data.'
+      flash[:error] = 'Error while authenticating via ' + service_route.capitalize +
+          '. The service did not return valid data.'
       redirect_to signin_path
     end
   end
@@ -129,10 +135,14 @@ class ServicesController < ApplicationController
 
   def facebook_auth(omniauth)
     authhash = Hash.new
-    omniauth['extra']['user_hash']['email'] ? authhash[:email] = omniauth['extra']['user_hash']['email'] : authhash[:email] = ''
-    omniauth['extra']['user_hash']['name'] ? authhash[:name] = omniauth['extra']['user_hash']['name'] : authhash[:name] = ''
-    omniauth['extra']['user_hash']['id'] ? authhash[:uid] = omniauth['extra']['user_hash']['id'].to_s : authhash[:uid] = ''
-    omniauth['provider'] ? authhash[:provider] = omniauth['provider'] : authhash[:provider] = ''
+    omniauth['extra']['user_hash']['email'] ? authhash[:email] =
+        omniauth['extra']['user_hash']['email'] : authhash[:email] = ''
+    omniauth['extra']['user_hash']['name'] ? authhash[:name] =
+        omniauth['extra']['user_hash']['name'] : authhash[:name] = ''
+    omniauth['extra']['user_hash']['id'] ? authhash[:uid] =
+        omniauth['extra']['user_hash']['id'].to_s : authhash[:uid] = ''
+    omniauth['provider'] ? authhash[:provider] =
+        omniauth['provider'] : authhash[:provider] = ''
     authhash
   end
 
@@ -140,7 +150,8 @@ class ServicesController < ApplicationController
     authhash = Hash.new
     omniauth['user_info']['email'] ? authhash[:email] = omniauth['user_info']['email'] : authhash[:email] = ''
     omniauth['user_info']['name'] ? authhash[:name] = omniauth['user_info']['name'] : authhash[:name] = ''
-    omniauth['extra']['user_hash']['id'] ? authhash[:uid] = omniauth['extra']['user_hash']['id'].to_s : authhash[:uid] = ''
+    omniauth['extra']['user_hash']['id'] ? authhash[:uid] =
+        omniauth['extra']['user_hash']['id'].to_s : authhash[:uid] = ''
     omniauth['provider'] ? authhash[:provider] = omniauth['provider'] : authhash[:provider] = ''
     authhash
   end
@@ -167,7 +178,10 @@ class ServicesController < ApplicationController
     @newuser = User.new
     @newuser.name = session[:authhash][:name]
     @newuser.email = session[:authhash][:email]
-    @newuser.services.build(:provider => session[:authhash][:provider], :uid => session[:authhash][:uid], :uname => session[:authhash][:name], :uemail => session[:authhash][:email])
+    @newuser.services.build(:provider => session[:authhash][:provider],
+                            :uid => session[:authhash][:uid],
+                            :uname => session[:authhash][:name],
+                            :uemail => session[:authhash][:email])
 
     if @newuser.save!
       # signin existing user
@@ -178,9 +192,9 @@ class ServicesController < ApplicationController
       flash[:notice] = 'Your account has been created and you have been signed in!'
       redirect_to root_url
     else
-      flash[:error] = 'This is embarrassing! There was an error while creating your account from which we were not able to recover.'
+      flash[:error] = 'This is embarrassing! There was an error while creating your account from which ' +
+          'we were not able to recover.'
       redirect_to root_url
     end
   end
-
 end

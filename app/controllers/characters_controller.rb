@@ -11,7 +11,9 @@
 # index uses the CharactersDataTable class which will handle
 # pagination, searching and rendering the drops.
 class CharactersController < ApplicationController
-  before_filter :authenticate_user!, :except => [:index, :show, :info, :statistics, :attendance, :loot]
+  before_filter :authenticate_user!,
+                :except => [:index, :show, :info,
+                            :statistics, :attendance, :loot]
   before_filter :set_pagetitle
 
   caches_action :statistics
@@ -33,11 +35,15 @@ class CharactersController < ApplicationController
 
   def attendance
     @characters = Character.order(:name)
-    @characters.sort! { |a, b| b.attendance <=> a.attendance }.select! { |c| c.attendance >= 10.0 }
+    @characters.sort! { |a, b| b.attendance <=> a.attendance }.
+        select! { |c| c.attendance >= 10.0 }
 
     respond_to do |format|
       format.html # attendance.html.erb
-      format.json { render json: @characters, methods: [:player_name, :archetype_name, :archetype_root_name, :attendance] }
+      format.json { render json: @characters, methods: [:player_name,
+                                                        :archetype_name,
+                                                        :archetype_root_name,
+                                                        :attendance] }
     end
   end
 
@@ -77,12 +83,10 @@ class CharactersController < ApplicationController
   # GET /characters
   # GET /characters.json
   def index
-    unless respond_to? :json
-      @characters = Character.scoped
-      @characters = @characters.by_player(params[:player_id]) if params[:player_id]
-      @characters = @characters.by_instance(params[:instance_id]) if params[:instance_id]
-      @characters = @characters.by_name(params[:name]) if params[:name]
-    end
+    @characters = Character.
+        by_player(params[:player_id]).
+        by_instance(params[:instance_id]).
+        by_name(params[:name]) unless respond_to? :json
 
     respond_to do |format|
       format.html # index.html.erb
@@ -101,12 +105,14 @@ class CharactersController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.js # show.js.coffee
-      format.json { render json: @character.to_json(methods: [:player_name,
-                                                              :player_raids_count,
-                                                              :player_active,
-                                                              :player_switches_count,
-                                                              :player_switch_rate]) }
-      format.xml { render :xml => @character.to_xml(:include => [:instances, :drops]) }
+      format.json { render json: @character.
+          to_json(methods: [:player_name,
+                            :player_raids_count,
+                            :player_active,
+                            :player_switches_count,
+                            :player_switch_rate]) }
+      format.xml { render :xml => @character.
+          to_xml(:include => [:instances, :drops]) }
     end
   end
 
@@ -142,7 +148,9 @@ class CharactersController < ApplicationController
 
     respond_to do |format|
       if @character.save
-        format.html { redirect_to @character, notice: 'Character was successfully created.' }
+        format.html { redirect_to @character,
+                                  notice: 'Character was successfully created.'
+        }
         format.json {
           render json: @character.to_json(
               methods: [:archetype_name, :main_character, :archetype_root,
@@ -150,11 +158,15 @@ class CharactersController < ApplicationController
                         :armour_rate, :jewellery_rate, :weapon_rate]
           ), status: :created, location: @character
         }
-        format.xml { render xml: @character, status: :created, location: @character }
+        format.xml { render xml: @character,
+                            status: :created,
+                            location: @character }
       else
-        format.html { render action: "new" }
-        format.json { render json: @character.errors, status: :unprocessable_entity }
-        format.xml { render xml: @character.errors, status: :unprocessable_entity }
+        format.html { render action: 'new' }
+        format.json { render json: @character.errors,
+                             status: :unprocessable_entity }
+        format.xml { render xml: @character.errors,
+                            status: :unprocessable_entity }
       end
     end
   end
@@ -169,19 +181,24 @@ class CharactersController < ApplicationController
 
     respond_to do |format|
       if @character.update_attributes(params[:character])
-        format.html { redirect_to @character, notice: 'Character was successfully updated.' }
-        format.json { render :json => @character.to_json(methods: [:archetype_name, :archetype_root,
-                                                                   :main_character, :raid_alternate,
-                                                                   :first_raid_date, :last_raid_date,
-                                                                   :player_name, :player_raids_count,
-                                                                   :player_switches_count, :player_switch_rate,
-                                                                   :player_active]),
+        format.html { redirect_to @character,
+                                  notice: 'Character was successfully updated.'
+        }
+        format.json { render :json => @character.
+            to_json(methods: [:archetype_name, :archetype_root,
+                              :main_character, :raid_alternate,
+                              :first_raid_date, :last_raid_date,
+                              :player_name, :player_raids_count,
+                              :player_switches_count, :player_switch_rate,
+                              :player_active]),
                              :notice => 'Character was successfully updated.' }
         format.xml { head :ok }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @character.errors, status: :unprocessable_entity }
-        format.xml { render xml: @character.errors, status: :unprocessable_entity }
+        format.json { render json: @character.errors,
+                             status: :unprocessable_entity }
+        format.xml { render xml: @character.errors,
+                            status: :unprocessable_entity }
       end
     end
   end

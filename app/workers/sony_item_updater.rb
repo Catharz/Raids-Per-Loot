@@ -9,7 +9,9 @@ class SonyItemUpdater
 
   def self.perform(item_id)
     item = Item.find(item_id)
-    raise Exception, 'Internet connection unavailable.' unless internet_connection?
+    unless internet_connection?
+      raise Exception, 'Internet connection unavailable.'
+    end
 
     item_details = SonyDataService.new.item_data(item.eq2_item_id, 'json')
     if item_details
@@ -19,8 +21,9 @@ class SonyItemUpdater
           loot_type_name = 'Armour'
           save_archetypes(item, item_details)
           save_slots(item, item_details)
-          loot_type_name = 'Jewellery' unless
-              (%w{Neck Ear Finger Wrist Charm} & item_details['slot_list'].map { |slot| slot[:name] }).empty?
+          loot_type_name = 'Jewellery' unless (%w{Neck Ear Finger Wrist Charm} &
+              item_details['slot_list'].
+                  map { |slot| slot[:name] }).empty?
         when 'Weapon'
           save_archetypes(item, item_details)
           save_slots(item, item_details)
@@ -33,26 +36,38 @@ class SonyItemUpdater
           save_archetypes(item, item_details)
         else
           if item.name.match(/War Rune/)
-            actual_item_name = item.name.split(': ')[1].gsub(' ', '+')
-            loot_type_name = 'Adornment'
-            json_data = SOEData.get("/json/get/eq2/item/?displayname=#{actual_item_name}&c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list")
-            adornment_details = json_data['item_list'][0]
-            save_slots(item, adornment_details)
-            save_archetypes(item, adornment_details)
-            item_details = adornment_details
+            item_details, loot_type_name = get_war_rune_details(item)
           else
-            if item.name.match(/Gore-Imbued/) or item.name.match(/Cruor-Forged/) or item.name.match(/Warborne/)
+            if item.name.match(/Gore-Imbued/) or
+                item.name.match(/Cruor-Forged/) or
+                item.name.match(/Warborne/)
               loot_type_name = 'Armour'
             else
               loot_type_name = 'Trash'
             end
           end
       end
-      item.update_attribute(:loot_type, LootType.find_by_name(loot_type_name)) unless
-          item.loot_type_name.eql? loot_type_name
+      unless item.loot_type_name.eql? loot_type_name
+        item.update_attribute(:loot_type, LootType.find_by_name(loot_type_name))
+      end
       item.build_external_data(data: item_details)
       item.external_data.save
     end
+  end
+
+  def self.get_war_rune_details(item)
+    actual_item_name = item.name.split(': ')[1].gsub(' ', '+')
+    loot_type_name = 'Adornment'
+    params = [
+        "displayname=#{actual_item_name}",
+        'c:show=type,displayname,typeinfo.classes,typeinfo.slot_list,slot_list'
+    ]
+    json_data = SOEData.get("/json/get/eq2/item/?#{params.join('&')}")
+    adornment_details = json_data['item_list'][0]
+    save_slots(item, adornment_details)
+    save_archetypes(item, adornment_details)
+    item_details = adornment_details
+    return item_details, loot_type_name
   end
 
   private

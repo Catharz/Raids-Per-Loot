@@ -58,7 +58,11 @@ gem 'therubyracer'
 # gem 'unicorn'
 gem 'thin'
 gem 'passenger', :group => :production
-gem 'bullet', :group => :development
+
+group :development do
+  gem 'bullet'
+  gem 'pry-rails'
+end
 
 
 #START:dev_and_test_gems

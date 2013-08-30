@@ -75,7 +75,9 @@ class MobsController < ApplicationController
     respond_to do |format|
       if @mob.save
         format.html { redirect_to @mob, :notice => 'Mob was successfully created.' }
-        format.json { render :json => @mob.as_json(methods: [:difficulty_name, :kills, :first_killed, :last_killed, :progression, :zone_name]), :status => :created, :location => @mob }
+        format.json { render :json => @mob.as_json(methods: [:difficulty_name, :kills, :first_killed,
+                                                             :last_killed, :progression, :zone_name]),
+                             :status => :created, :location => @mob }
         format.xml { render :xml => @mob, :status => :created, :location => @mob }
       else
         format.html { render :action => "new" }
@@ -93,7 +95,9 @@ class MobsController < ApplicationController
     respond_to do |format|
       if @mob.update_attributes(params[:mob])
         format.html { redirect_to @mob, :notice => 'Mob was successfully updated.' }
-        format.json { render :json => @mob.as_json(methods: [:difficulty_name, :kills, :first_killed, :last_killed, :progression, :zone_name]), :notice => 'Mob was successfully updated.' }
+        format.json { render :json => @mob.as_json(methods: [:difficulty_name, :kills, :first_killed,
+                                                             :last_killed, :progression, :zone_name]),
+                             :notice => 'Mob was successfully updated.' }
         format.xml { head :ok }
       else
         format.html { render :action => "edit" }

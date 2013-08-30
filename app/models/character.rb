@@ -64,7 +64,8 @@ class Character < ActiveRecord::Base
     player_id ? where(:player_id => player_id) : scoped
   }
   scope :find_by_archetype, ->(archetype) {
-    Character.includes(:archetype).where('archetype_id IN (?)', archetype.descendants([archetype]).collect { |a| a.id }.uniq )
+    Character.includes(:archetype) \
+      .where('archetype_id IN (?)', archetype.descendants([archetype]).collect { |a| a.id }.uniq)
   }
   scope :by_char_type, ->(char_type) {
     char_type ? Character.where(char_type: char_type) : scoped
@@ -119,7 +120,8 @@ class Character < ActiveRecord::Base
     self.armour_rate = calculate_loot_rate(player_raids_count, self.armour_count)
     self.jewellery_rate = calculate_loot_rate(player_raids_count, self.jewellery_count)
     self.weapon_rate = calculate_loot_rate(player_raids_count, self.weapons_count)
-    self.attuned_rate = calculate_loot_rate(player_raids_count, self.armour_count + self.jewellery_count + self.weapons_count)
+    self.attuned_rate = calculate_loot_rate(player_raids_count,
+                                            self.armour_count + self.jewellery_count + self.weapons_count)
     self.adornment_rate = calculate_loot_rate(player_raids_count, self.adornments_count)
     self.dislodger_rate = calculate_loot_rate(player_raids_count, self.dislodgers_count)
     self.mount_rate = calculate_loot_rate(player_raids_count, self.mounts_count)
