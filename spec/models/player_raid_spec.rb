@@ -18,12 +18,22 @@ describe PlayerRaid do
     let(:progression) { FactoryGirl.create(:raid_type, name: 'Progression') }
     let(:player1) { FactoryGirl.create(:player) }
     let(:player2) { FactoryGirl.create(:player) }
-    let(:first_raid) { FactoryGirl.create(:raid, raid_date: Date.today - 60.days, raid_type_id: progression.id) }
-    let(:second_raid) { FactoryGirl.create(:raid, raid_date: Date.today - 30.days, raid_type_id: progression.id) }
+    let(:first_raid) { FactoryGirl.create(:raid,
+                                          raid_date: Date.today - 60.days,
+                                          raid_type_id: progression.id) }
+    let(:second_raid) { FactoryGirl.create(:raid,
+                                           raid_date: Date.today - 30.days,
+                                           raid_type_id: progression.id) }
 
-    let(:pr1) { FactoryGirl.create(:player_raid, player: player1, raid: first_raid) }
-    let(:pr2) { FactoryGirl.create(:player_raid, player: player1, raid: second_raid) }
-    let(:pr3) { FactoryGirl.create(:player_raid, player: player2, raid: second_raid) }
+    let(:pr1) { FactoryGirl.create(:player_raid,
+                                   player: player1,
+                                   raid: first_raid) }
+    let(:pr2) { FactoryGirl.create(:player_raid,
+                                   player: player1,
+                                   raid: second_raid) }
+    let(:pr3) { FactoryGirl.create(:player_raid,
+                                   player: player2,
+                                   raid: second_raid) }
 
     describe 'self#by_raid' do
       it 'should show all by default' do

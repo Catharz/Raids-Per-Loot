@@ -10,9 +10,12 @@ describe Drop do
     Timecop.return
   end
 
-  let(:armour) { mock_model(LootType, name: 'Armour', default_loot_method: 'n') }
-  let(:weapon) { mock_model(LootType, name: 'Weapon', default_loot_method: 'n') }
-  let(:trade_skill) { mock_model(LootType, name: 'Trade Skill', default_loot_method: 'g') }
+  let(:armour) { mock_model(LootType, name: 'Armour',
+                            default_loot_method: 'n') }
+  let(:weapon) { mock_model(LootType, name: 'Weapon',
+                            default_loot_method: 'n') }
+  let(:trade_skill) { mock_model(LootType, name: 'Trade Skill',
+                                 default_loot_method: 'g') }
   let(:spell) { mock_model(LootType, name: 'Spell', default_loot_method: 'g') }
   let(:trash) { mock_model(LootType, name: 'Trash', default_loot_method: 't') }
 
@@ -21,9 +24,12 @@ describe Drop do
   let(:priest) { mock_model(Player, name: 'Fred') }
 
   let(:player) { mock_model(Player, name: 'Fred') }
-  let(:raid_main) { mock_model(Character, name: 'Barny', player: player, char_type: 'm', archetype: fighter) }
-  let(:raid_alternate) { mock_model(Character, name: 'Betty', player: player, char_type: 'r', archetype: scout) }
-  let(:general_alternate) { mock_model(Character, name: 'Wilma', player: player, char_type: 'g', archetype: priest) }
+  let(:raid_main) { mock_model(Character, name: 'Barny', player: player,
+                               char_type: 'm', archetype: fighter) }
+  let(:raid_alternate) { mock_model(Character, name: 'Betty', player: player,
+                                    char_type: 'r', archetype: scout) }
+  let(:general_alternate) { mock_model(Character, name: 'Wilma', player: player,
+                                       char_type: 'g', archetype: priest) }
 
   context 'associations' do
     it { should belong_to :instance }
@@ -203,34 +209,52 @@ describe Drop do
 
       describe 'by_character_type' do
         it 'uses the last character type from before the drop' do
-          FactoryGirl.create(:character_type, character: d1.character, char_type: 'm', effective_date: d1.drop_time - 1.day)
-          FactoryGirl.create(:character_type, character: d2.character, char_type: 'm', effective_date: d2.drop_time - 1.day)
+          FactoryGirl.create(:character_type, character: d1.character,
+                             char_type: 'm',
+                             effective_date: d1.drop_time - 1.day)
+          FactoryGirl.create(:character_type, character: d2.character,
+                             char_type: 'm',
+                             effective_date: d2.drop_time - 1.day)
           char1 = FactoryGirl.create(:character, char_type: 'g')
           d3 = FactoryGirl.create(:drop, character: char1)
-          FactoryGirl.create(:character_type, character: char1, char_type: 'g', effective_date: d3.drop_time - 1.day)
-          FactoryGirl.create(:character_type, character: char1, char_type: 'r', effective_date: d3.drop_time - 1.hour)
-          FactoryGirl.create(:character_type, character: char1, char_type: 'm', effective_date: d3.drop_time + 1.day)
+          FactoryGirl.create(:character_type, character: char1, char_type: 'g',
+                             effective_date: d3.drop_time - 1.day)
+          FactoryGirl.create(:character_type, character: char1, char_type: 'r',
+                             effective_date: d3.drop_time - 1.hour)
+          FactoryGirl.create(:character_type, character: char1, char_type: 'm',
+                             effective_date: d3.drop_time + 1.day)
 
           Drop.by_character_type('r').should match_array [d3]
         end
         it 'filters based on a string' do
-          FactoryGirl.create(:character_type, character: d1.character, char_type: 'm', effective_date: d1.drop_time - 1.day)
-          FactoryGirl.create(:character_type, character: d2.character, char_type: 'm', effective_date: d2.drop_time - 1.day)
+          FactoryGirl.create(:character_type, character: d1.character,
+                             char_type: 'm',
+                             effective_date: d1.drop_time - 1.day)
+          FactoryGirl.create(:character_type, character: d2.character,
+                             char_type: 'm',
+                             effective_date: d2.drop_time - 1.day)
           char1 = FactoryGirl.create(:character, char_type: 'g')
           d3 = FactoryGirl.create(:drop, character: char1)
-          FactoryGirl.create(:character_type, character: char1, char_type: 'g', effective_date: d3.drop_time - 1.day)
+          FactoryGirl.create(:character_type, character: char1, char_type: 'g',
+                             effective_date: d3.drop_time - 1.day)
 
           Drop.by_character_type('g').should match_array [d3]
         end
         it 'filters based on an array' do
-          FactoryGirl.create(:character_type, character: d1.character, char_type: 'm', effective_date: d1.drop_time - 1.day)
-          FactoryGirl.create(:character_type, character: d2.character, char_type: 'm', effective_date: d2.drop_time - 1.day)
+          FactoryGirl.create(:character_type, character: d1.character,
+                             char_type: 'm',
+                             effective_date: d1.drop_time - 1.day)
+          FactoryGirl.create(:character_type, character: d2.character,
+                             char_type: 'm',
+                             effective_date: d2.drop_time - 1.day)
           char1 = FactoryGirl.create(:character, char_type: 'g')
           d3 = FactoryGirl.create(:drop, character: char1)
           char2 = FactoryGirl.create(:character, char_type: 'r')
           d4 = FactoryGirl.create(:drop, character: char2)
-          FactoryGirl.create(:character_type, character: char1, char_type: 'g', effective_date: d3.drop_time - 1.day)
-          FactoryGirl.create(:character_type, character: char2, char_type: 'r', effective_date: d4.drop_time - 1.day)
+          FactoryGirl.create(:character_type, character: char1, char_type: 'g',
+                             effective_date: d3.drop_time - 1.day)
+          FactoryGirl.create(:character_type, character: char2, char_type: 'r',
+                             effective_date: d4.drop_time - 1.day)
 
           Drop.by_character_type(%w{g r}).order(:id).should match_array [d3, d4]
         end
@@ -270,7 +294,7 @@ describe Drop do
       end
 
       describe 'for_wrong_class' do
-        it 'identifies drops whose items archetypes do not match the looters archetype' do
+        it "identifies drops where archetypes don't match" do
           monk = FactoryGirl.create(:archetype)
           bruiser = FactoryGirl.create(:archetype)
           main = FactoryGirl.create(:character, archetype: bruiser)
@@ -293,13 +317,14 @@ describe Drop do
       end
 
       describe 'invalid_guild_bank_assignment' do
-        it 'identifies guild bank item drops that were not won as trash or guild bank items' do
+        it 'identifies incorrectly assigned guild bank drops' do
           gb = FactoryGirl.create(:loot_type, default_loot_method: 'g')
           spell = FactoryGirl.create(:item, loot_type: gb)
           d3 = FactoryGirl.create(:drop, item: spell, loot_method: 'b')
           d4 = FactoryGirl.create(:drop, item: spell, loot_method: 'n')
 
-          Drop.invalid_guild_bank_assignment.order(:id).should match_array [d3, d4]
+          Drop.invalid_guild_bank_assignment.order(:id).
+              should match_array [d3, d4]
         end
       end
 
@@ -311,7 +336,8 @@ describe Drop do
           d4 = FactoryGirl.create(:drop, item: item, loot_method: 'b')
           d5 = FactoryGirl.create(:drop, item: item, loot_method: 'r')
 
-          Drop.invalid_trash_assignment.sort{ |a,b| a.id <=> b.id}.should match_array [d3, d4, d5]
+          Drop.invalid_trash_assignment.sort{ |a,b| a.id <=> b.id}.
+              should match_array [d3, d4, d5]
         end
 
         it 'identifies bid, need and random items won as trash' do
@@ -326,7 +352,8 @@ describe Drop do
           d4 = FactoryGirl.create(:drop, item: drake, loot_method: 't')
           d5 = FactoryGirl.create(:drop, item: smite, loot_method: 't')
 
-          Drop.invalid_trash_assignment.sort{ |a,b| a.id <=> b.id}.should match_array [d3, d4, d5]
+          Drop.invalid_trash_assignment.sort{ |a,b| a.id <=> b.id}.
+              should match_array [d3, d4, d5]
         end
       end
 
@@ -429,7 +456,8 @@ describe Drop do
     it 'uses a DropAssignmentsValidator' do
       drop = FactoryGirl.create(:drop)
       validator = double(DropAssignmentValidator)
-      DropAssignmentValidator.should_receive(:new).with(drop).and_return(validator)
+      DropAssignmentValidator.should_receive(:new).
+          with(drop).and_return(validator)
       validator.should_receive(:validate)
 
       drop.assignment_issues
@@ -439,7 +467,10 @@ describe Drop do
   describe '#invalid_reason' do
     it 'is empty when there are no assignment issues' do
       item = mock_model(Item, loot_type: armour)
-      drop = Drop.new(character: raid_main, item: item, loot_method: 'n', loot_type: weapon)
+      drop = Drop.new(character: raid_main,
+                      item: item,
+                      loot_method: 'n',
+                      loot_type: weapon)
       drop.should_receive(:assignment_issues).and_return([])
 
       drop.invalid_reason.should eq ''
@@ -447,8 +478,12 @@ describe Drop do
 
     it 'returns a comma separated list of assignment issues' do
       item = mock_model(Item, loot_type: armour)
-      drop = Drop.new(character: raid_main, item: item, loot_method: 'n', loot_type: weapon)
-      drop.should_receive(:assignment_issues).twice.and_return(['This is invalid!', 'This is invalid too!'])
+      drop = Drop.new(character: raid_main,
+                      item: item,
+                      loot_method: 'n',
+                      loot_type: weapon)
+      drop.should_receive(:assignment_issues).twice.
+          and_return(['This is invalid!', 'This is invalid too!'])
 
       drop.invalid_reason.should eq 'This is invalid!, This is invalid too!'
     end
@@ -457,7 +492,10 @@ describe Drop do
   describe '#correctly_assigned?' do
     it 'is true when assignment_issues is empty' do
       item = mock_model(Item, loot_type: armour)
-      drop = Drop.new(character: raid_main, item: item, loot_method: 'n', loot_type: weapon)
+      drop = Drop.new(character: raid_main,
+                      item: item,
+                      loot_method: 'n',
+                      loot_type: weapon)
       drop.should_receive(:assignment_issues).and_return([])
 
       drop.correctly_assigned?.should be_true
@@ -465,7 +503,8 @@ describe Drop do
 
     it 'is false when assignment_issues is not empty' do
       item = mock_model(Item, loot_type: armour)
-      drop = Drop.new(character: raid_main, item: item, loot_method: 'n', loot_type: weapon)
+      drop = Drop.new(character: raid_main, item: item,
+                      loot_method: 'n', loot_type: weapon)
       drop.should_receive(:assignment_issues).and_return(%w{Oops!})
 
       drop.correctly_assigned?.should be_false

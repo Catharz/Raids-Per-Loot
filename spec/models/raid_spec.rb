@@ -3,10 +3,17 @@ require 'spec_helper'
 describe Raid do
   fixtures :raid_types, :ranks
   let(:progression) { RaidType.find_by_name('Progression') }
-  let(:player) { FactoryGirl.create(:player, name: 'Doofus', rank: Rank.find_by_name('Main')) }
-  let(:first_raid) { FactoryGirl.create(:raid, raid_date: Date.today - 60.days, raid_type: progression) }
-  let(:second_raid) { FactoryGirl.create(:raid, raid_date: Date.today - 30.days, raid_type: progression) }
-  let(:third_raid) { FactoryGirl.create(:raid, raid_date: Date.today, raid_type: progression) }
+  let(:player) { FactoryGirl.create(:player, name: 'Doofus',
+                                    rank: Rank.find_by_name('Main')) }
+  let(:first_raid) { FactoryGirl.create(:raid,
+                                        raid_date: Date.today - 60.days,
+                                        raid_type: progression) }
+  let(:second_raid) { FactoryGirl.create(:raid,
+                                         raid_date: Date.today - 30.days,
+                                         raid_type: progression) }
+  let(:third_raid) { FactoryGirl.create(:raid,
+                                        raid_date: Date.today,
+                                        raid_type: progression) }
 
   context 'associations' do
     it { should belong_to(:raid_type) }
@@ -25,7 +32,9 @@ describe Raid do
 
   describe '#description' do
     it "should be in the format 'raid_date (raid_type.name)'" do
-      raid = FactoryGirl.create(:raid, raid_date: Date.parse('2013-02-28'), raid_type: progression)
+      raid = FactoryGirl.create(:raid,
+                                raid_date: Date.parse('2013-02-28'),
+                                raid_type: progression)
 
       raid.description.should eq('2013-02-28 (Progression)')
     end
@@ -61,26 +70,34 @@ describe Raid do
     end
 
     it 'should filter by start' do
-      Raid.for_period({start: Date.today - 40.days}).should eq [second_raid, third_raid]
+      Raid.for_period({start: Date.today - 40.days}).
+          should eq [second_raid, third_raid]
     end
 
     it 'should filter by end' do
-      Raid.for_period({end: Date.today - 20.days}).should eq [first_raid, second_raid]
+      Raid.for_period({end: Date.today - 20.days}).
+          should eq [first_raid, second_raid]
     end
 
     it 'should filter by start and end' do
-      Raid.for_period({start: Date.today - 40.days, end: Date.today - 20.days}).should eq [second_raid]
+      Raid.for_period({start: Date.today - 40.days, end: Date.today - 20.days}).
+          should eq [second_raid]
     end
   end
 
   describe '#benched_players' do
     it 'should list players with a status of b' do
-      FactoryGirl.create(:player_raid, raid_id: first_raid.id, player_id: player.id, status: 'b')
+      FactoryGirl.create(:player_raid,
+                         raid_id: first_raid.id,
+                         player_id: player.id,
+                         status: 'b')
       first_raid.benched_players.should eq [player]
     end
 
     it 'should not list players with a status of a' do
-      FactoryGirl.create(:player_raid, raid_id: second_raid.id, player_id: player.id)
+      FactoryGirl.create(:player_raid,
+                         raid_id: second_raid.id,
+                         player_id: player.id)
       second_raid.benched_players.should eq []
     end
   end

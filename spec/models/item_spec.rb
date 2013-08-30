@@ -11,7 +11,8 @@ describe Item do
   describe 'scopes' do
     describe 'of_type' do
       it 'finds all items by default' do
-        Item.of_type(nil).should match_array [armour_item, jewellery_item, weapon_item]
+        Item.of_type(nil).
+            should match_array [armour_item, jewellery_item, weapon_item]
       end
 
       it 'finds items by loot type name' do
@@ -21,7 +22,8 @@ describe Item do
 
     describe 'by_loot_type' do
       it 'finds all items by default' do
-        Item.by_loot_type(nil).should match_array [armour_item, jewellery_item, weapon_item]
+        Item.by_loot_type(nil).
+            should match_array [armour_item, jewellery_item, weapon_item]
       end
 
       it 'finds items by loot type id' do
@@ -31,7 +33,8 @@ describe Item do
 
     describe 'by_name' do
       it 'finds all items by default' do
-        Item.by_name(nil).should match_array [armour_item, jewellery_item, weapon_item]
+        Item.by_name(nil).
+            should match_array [armour_item, jewellery_item, weapon_item]
       end
 
       it 'finds items by item name' do
@@ -41,7 +44,8 @@ describe Item do
 
     describe 'by_eq2_item_id' do
       it 'finds all items by default' do
-        Item.by_eq2_item_id(nil).should match_array [armour_item, jewellery_item, weapon_item]
+        Item.by_eq2_item_id(nil).
+            should match_array [armour_item, jewellery_item, weapon_item]
       end
 
       it 'finds items by item name' do
@@ -84,7 +88,9 @@ describe Item do
         item = FactoryGirl.create(:item)
         item.should_receive(:internet_connection?).and_return(true)
 
-        Scraper.should_receive(:get).with("http://u.eq2wire.com/item/index/#{item.eq2_item_id}", '.itemd_detailwrap')
+        Scraper.should_receive(:get).
+            with("http://u.eq2wire.com/item/index/#{item.eq2_item_id}",
+                 '.itemd_detailwrap')
         item.eq2wire_data
       end
     end

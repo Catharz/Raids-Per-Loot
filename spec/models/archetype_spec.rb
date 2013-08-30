@@ -3,9 +3,11 @@ require 'spec_helper'
 describe Archetype do
   describe 'archetype' do
     before(:each) do
-      @grand_parent = FactoryGirl.create(:archetype, :name => 'Grand Parent')
-      @parent = FactoryGirl.create(:archetype, :name => 'Parent', :parent_id => @grand_parent.id)
-      @child = FactoryGirl.create(:archetype, :name => 'Child', :parent_id => @parent.id)
+      @grand_parent = FactoryGirl.create(:archetype, name: 'Grand Parent')
+      @parent = FactoryGirl.create(:archetype,
+                                   name: 'Parent', parent_id: @grand_parent.id)
+      @child = FactoryGirl.create(:archetype,
+                                  name: 'Child', parent_id: @parent.id)
     end
 
     describe 'root' do
@@ -52,7 +54,8 @@ describe Archetype do
       end
 
       it 'should return all its descendants' do
-        (@grand_parent.family & @grand_parent.descendants).should eq @grand_parent.descendants
+        (@grand_parent.family & @grand_parent.descendants).
+            should eq @grand_parent.descendants
       end
     end
 

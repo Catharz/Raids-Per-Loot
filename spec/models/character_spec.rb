@@ -67,15 +67,19 @@ describe Character do
 
     describe '#path' do
       it 'returns a url to the character' do
-        character = FactoryGirl.create(:character)
+        char = FactoryGirl.create(:character)
 
-        character.path.should eq "<a href=\"/characters/#{character.id}\">#{character.name}</a>"
+        char.path.should eq '<a href="/characters/' +
+                                char.id.to_s + '">' + char.name + '</a>'
       end
 
       it 'allows providing options' do
-        character = FactoryGirl.create(:character)
+        char = FactoryGirl.create(:character)
 
-        character.path(format: 'json').should eq "<a href=\"/characters/#{character.id}\" format=\"json\">#{character.name}</a>"
+        char.path(format: 'json').should eq '<a href="/characters/' +
+                                                char.id.to_s +
+                                                '" format="json">' +
+                                                char.name + '</a>'
       end
     end
 
@@ -93,11 +97,15 @@ describe Character do
       before(:each) do
         @player = FactoryGirl.create(:player)
         @main = FactoryGirl.create(:character, char_type: 'm', player: @player)
-        @raid_alt = FactoryGirl.create(:character, char_type: 'r', player: @player)
-        @gen_alt1 = FactoryGirl.create(:character, char_type: 'g', player: @player)
-        @gen_alt2 = FactoryGirl.create(:character, char_type: 'g', player: @player)
+        @raid_alt = FactoryGirl.create(:character, char_type: 'r',
+                                       player: @player)
+        @gen_alt1 = FactoryGirl.create(:character, char_type: 'g',
+                                       player: @player)
+        @gen_alt2 = FactoryGirl.create(:character, char_type: 'g',
+                                       player: @player)
         [@main, @raid_alt, @gen_alt1, @gen_alt2].each do |char|
-          FactoryGirl.create(:character_type, character: char, char_type: char.char_type)
+          FactoryGirl.create(:character_type, character: char,
+                             char_type: char.char_type)
         end
       end
 
@@ -207,9 +215,15 @@ describe Character do
 
     it 'should give the char_type at a particular time' do
       character = FactoryGirl.create(:character, name: 'switching to main')
-      FactoryGirl.create(:character_type, :character_id => character.id, :char_type => 'g', :effective_date => Date.parse('01/01/2012'))
-      FactoryGirl.create(:character_type, :character_id => character.id, :char_type => 'r', :effective_date => Date.parse('01/03/2012'))
-      FactoryGirl.create(:character_type, :character_id => character.id, :char_type => 'm', :effective_date => Date.parse('01/06/2012'))
+      FactoryGirl.create(:character_type, character_id: character.id,
+                         char_type: 'g',
+                         effective_date: Date.parse('01/01/2012'))
+      FactoryGirl.create(:character_type, character_id: character.id,
+                         char_type: 'r',
+                         effective_date: Date.parse('01/03/2012'))
+      FactoryGirl.create(:character_type, character_id: character.id,
+                         char_type: 'm',
+                         effective_date: Date.parse('01/06/2012'))
 
       character.rank_at_time(Date.parse('01/02/2012')).should eq 'g'
       character.rank_at_time(Date.parse('01/03/2012')).should eq 'r'
@@ -218,7 +232,9 @@ describe Character do
 
     context '#archetype_root' do
       it 'should show the root archetype name when it has one' do
-        character = FactoryGirl.create(:character, archetype: Archetype.find_by_name('Monk'))
+        character =
+            FactoryGirl.create(:character,
+                               archetype: Archetype.find_by_name('Monk'))
 
         character.archetype_root.should eq 'Fighter'
       end
@@ -241,14 +257,24 @@ describe Character do
 
       @player1 = FactoryGirl.create(:player)
       @player2 = FactoryGirl.create(:player)
-      @rhubarb = FactoryGirl.create(:character, name: 'Rhubarb', char_type: 'm', player: @player1, archetype: @bruiser)
-      @strawberry = FactoryGirl.create(:character, name: 'Strawberry', char_type: 'm', player: @player2, archetype: @monk)
-      @blueberry = FactoryGirl.create(:character, name: 'Blueberry', char_type: 'g', player: @player2, archetype: @paladin)
+      @rhubarb = FactoryGirl.create(:character, name: 'Rhubarb',
+                                    char_type: 'm',
+                                    player: @player1,
+                                    archetype: @bruiser)
+      @strawberry = FactoryGirl.create(:character, name: 'Strawberry',
+                                       char_type: 'm',
+                                       player: @player2,
+                                       archetype: @monk)
+      @blueberry = FactoryGirl.create(:character, name: 'Blueberry',
+                                      char_type: 'g',
+                                      player: @player2,
+                                      archetype: @paladin)
     end
 
     describe 'by_name' do
       it 'finds all characters by default' do
-        Character.by_name(nil).should match_array [@rhubarb, @strawberry, @blueberry]
+        Character.by_name(nil).
+            should match_array [@rhubarb, @strawberry, @blueberry]
       end
 
       it 'finds characters by name' do
@@ -258,7 +284,8 @@ describe Character do
 
     describe 'by_char_type' do
       it 'finds all character by default' do
-        Character.by_char_type(nil).should match_array [@rhubarb, @strawberry, @blueberry]
+        Character.by_char_type(nil).
+            should match_array [@rhubarb, @strawberry, @blueberry]
       end
 
       it 'finds characters by character Type' do
@@ -268,13 +295,16 @@ describe Character do
 
     describe 'by_instance' do
       it 'finds all characters by default' do
-        Character.by_instance(nil).should match_array [@rhubarb, @strawberry, @blueberry]
+        Character.by_instance(nil).
+            should match_array [@rhubarb, @strawberry, @blueberry]
       end
 
       it 'finds characters who raided a particular instance' do
         instance = FactoryGirl.create(:instance)
 
-        FactoryGirl.create(:character_instance, character_id: @strawberry.id, instance_id: instance.id)
+        FactoryGirl.create(:character_instance,
+                           character_id: @strawberry.id,
+                           instance_id: instance.id)
 
         Character.by_instance(instance.id).should eq [@strawberry]
       end
@@ -282,11 +312,13 @@ describe Character do
 
     describe 'by_player' do
       it 'finds all by default' do
-        Character.by_player(nil).should match_array [@rhubarb, @strawberry, @blueberry]
+        Character.by_player(nil).
+            should match_array [@rhubarb, @strawberry, @blueberry]
       end
 
       it 'finds characters belonging to a specify player' do
-        Character.by_player(@player2.id).should match_array [@strawberry, @blueberry]
+        Character.by_player(@player2.id).
+            should match_array [@strawberry, @blueberry]
       end
     end
 
@@ -296,11 +328,13 @@ describe Character do
       end
 
       it 'finds the brawlers' do
-        Character.find_by_archetype(@brawler).should match_array [@rhubarb, @strawberry]
+        Character.find_by_archetype(@brawler).
+            should match_array [@rhubarb, @strawberry]
       end
 
       it 'finds all the fighters' do
-        Character.find_by_archetype(@fighter).should match_array [@rhubarb, @strawberry, @blueberry]
+        Character.find_by_archetype(@fighter).
+            should match_array [@rhubarb, @strawberry, @blueberry]
       end
     end
   end

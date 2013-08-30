@@ -1,8 +1,10 @@
 require 'spec_helper'
 
 describe Instance do
-  let(:zone) { FactoryGirl.create(:zone, name: 'Wherever') }
-  let(:raid) { FactoryGirl.create(:raid, raid_date: DateTime.parse('2012-01-31'))}
+  let(:zone) { FactoryGirl.create(:zone,
+                                  name: 'Wherever') }
+  let(:raid) { FactoryGirl.create(:raid,
+                                  raid_date: DateTime.parse('2012-01-31'))}
 
   context 'associations' do
     it { should belong_to(:raid) }
