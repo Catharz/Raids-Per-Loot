@@ -101,7 +101,7 @@ describe InstancesController do
   describe "GET edit" do
     it 'assigns the requested item as @instance' do
       instance = Instance.create! valid_attributes
-      get :edit, :id => instance.id.to_s
+      get :edit, id: instance.id.to_s
       assigns(:instance).should eq(instance)
     end
   end

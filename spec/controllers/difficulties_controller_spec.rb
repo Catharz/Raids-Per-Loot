@@ -52,7 +52,7 @@ describe DifficultiesController do
   describe 'GET edit' do
     it 'assigns the requested difficulty as @difficulty' do
       difficulty = Difficulty.create! FactoryGirl.attributes_for(:difficulty)
-      get :edit, :id => difficulty.id.to_s
+      get :edit, id: difficulty.id.to_s
       assigns(:difficulty).should eq(difficulty)
     end
   end

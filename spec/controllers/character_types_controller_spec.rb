@@ -54,7 +54,7 @@ describe CharacterTypesController do
     it 'assigns the requested character_type as @character_type' do
       character = FactoryGirl.create(:character)
       character_type = CharacterType.create! FactoryGirl.attributes_for(:character_type).merge!(character: character)
-      get :edit, :id => character_type.id.to_s
+      get :edit, id: character_type.id.to_s
       assigns(:character_type).should eq(character_type)
     end
   end

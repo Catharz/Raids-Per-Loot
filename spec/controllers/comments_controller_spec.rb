@@ -28,7 +28,7 @@ describe CommentsController do
     it 'assigns the requested comment as @comment' do
       player = FactoryGirl.create(:player)
       comment = Comment.create! FactoryGirl.attributes_for(:comment, commented: player)
-      get :show, {:id => comment.to_param}
+      get :show, {id: comment.to_param}
       assigns(:comment).should eq(comment)
     end
 
@@ -53,13 +53,13 @@ describe CommentsController do
   describe 'GET edit' do
     it 'assigns the requested comment as @comment' do
       comment = FactoryGirl.create(:comment)
-      get :edit, {:id => comment.to_param}
+      get :edit, {id: comment.to_param}
       assigns(:comment).should eq(comment)
     end
 
     it 'renders the edit template' do
       comment = FactoryGirl.create(:comment)
-      get :edit, {:id => comment.to_param}
+      get :edit, {id: comment.to_param}
       response.should render_template 'edit'
     end
   end
@@ -69,20 +69,20 @@ describe CommentsController do
       it 'creates a new Comment' do
         expect {
           player = FactoryGirl.create(:player)
-          post :create, {:comment => FactoryGirl.attributes_for(:comment, commented_id: player.id)}
+          post :create, {comment: FactoryGirl.attributes_for(:comment, commented_id: player.id)}
         }.to change(Comment, :count).by(1)
       end
 
       it 'assigns a newly created comment as @comment' do
         player = FactoryGirl.create(:player)
-        post :create, {:comment => FactoryGirl.attributes_for(:comment, commented_id: player.id)}
+        post :create, {comment: FactoryGirl.attributes_for(:comment, commented_id: player.id)}
         assigns(:comment).should be_a(Comment)
         assigns(:comment).should be_persisted
       end
 
       it 'redirects to the created comment' do
         player = FactoryGirl.create(:player)
-        post :create, {:comment => FactoryGirl.attributes_for(:comment, commented_id: player.id)}
+        post :create, {comment: FactoryGirl.attributes_for(:comment, commented_id: player.id)}
         response.should redirect_to(Comment.last)
       end
     end
@@ -91,14 +91,14 @@ describe CommentsController do
       it 'assigns a newly created but unsaved comment as @comment' do
         # Trigger the behavior that occurs when invalid params are submitted
         Comment.any_instance.stub(:save).and_return(false)
-        post :create, {:comment => { 'comment_date' => 'invalid value' }}
+        post :create, {comment: { 'comment_date' => 'invalid value' }}
         assigns(:comment).should be_a_new(Comment)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Comment.any_instance.stub(:save).and_return(false)
-        post :create, {:comment => { 'comment_date' => 'invalid value' }}
+        post :create, {comment: { 'comment_date' => 'invalid value' }}
         response.should render_template('new')
       end
     end
@@ -122,7 +122,7 @@ describe CommentsController do
       end
 
       it 'assigns the requested comment as @comment' do
-        put :update, id: @comment, :comment => FactoryGirl.attributes_for(:comment)
+        put :update, id: @comment, comment: FactoryGirl.attributes_for(:comment)
         assigns(:comment).should eq(@comment)
       end
 
@@ -135,13 +135,13 @@ describe CommentsController do
     describe 'with invalid params' do
       it 'assigns the comment as @comment' do
         Comment.any_instance.stub(:save).and_return(false)
-        put :update, id: @comment, :comment => { 'comment_date' => nil }
+        put :update, id: @comment, comment: { 'comment_date' => nil }
         assigns(:comment).should eq(@comment)
       end
 
       it "re-renders the 'edit' template" do
         Comment.any_instance.stub(:save).and_return(false)
-        put :update, id: @comment, :comment => { 'comment_date' => 'invalid value' }
+        put :update, id: @comment, comment: { 'comment_date' => 'invalid value' }
         response.should render_template('edit')
       end
     end
@@ -152,14 +152,14 @@ describe CommentsController do
       player = FactoryGirl.create(:player)
       comment = Comment.create! FactoryGirl.attributes_for(:comment, commented: player)
       expect {
-        delete :destroy, {:id => comment.to_param}
+        delete :destroy, {id: comment.to_param}
       }.to change(Comment, :count).by(-1)
     end
 
     it 'redirects to the comments list' do
       player = FactoryGirl.create(:player)
       comment = Comment.create! FactoryGirl.attributes_for(:comment, commented: player)
-      delete :destroy, {:id => comment.to_param}
+      delete :destroy, {id: comment.to_param}
       response.should redirect_to(comments_url)
     end
   end

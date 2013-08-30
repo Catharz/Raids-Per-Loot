@@ -7,19 +7,19 @@ describe PlayersController do
 
   before(:each) do
     login_as :admin
-    @main_rank ||= FactoryGirl.create(:rank, :name => "Main")
+    @main_rank ||= FactoryGirl.create(:rank, name: "Main")
   end
 
   def valid_attributes(options = {})
-    {:name => 'Me',
-    :rank_id => @main_rank.id}.merge!(options)
+    {name: 'Me',
+    rank_id: @main_rank.id}.merge!(options)
   end
 
   describe 'GET option_list' do
     it 'sorts the players by name' do
-      player1 = Player.create!(:name => "Player C", :rank_id => @main_rank.id)
-      player2 = Player.create!(:name => "Player B", :rank_id => @main_rank.id)
-      player3 = Player.create!(:name => "Player A", :rank_id => @main_rank.id)
+      player1 = Player.create!(name: "Player C", rank_id: @main_rank.id)
+      player2 = Player.create!(name: "Player B", rank_id: @main_rank.id)
+      player3 = Player.create!(name: "Player A", rank_id: @main_rank.id)
 
       get :option_list
 
@@ -37,9 +37,9 @@ describe PlayersController do
 
     it "returns CSV" do
       jimmy = Player.create! valid_attributes
-      jenny = Player.create! valid_attributes.merge! :name => "Jenny"
+      jenny = Player.create! valid_attributes.merge! name: "Jenny"
 
-      get :index, :format => :csv
+      get :index, format: :csv
 
       assigns(:players).should include jimmy
       assigns(:players).should include jenny
@@ -63,7 +63,7 @@ describe PlayersController do
   describe "GET show" do
     it "assigns the requested player as @player" do
       player = Player.create! valid_attributes
-      get :show, :id => player.id.to_s
+      get :show, id: player.id.to_s
       assigns(:player).should eq(player)
     end
   end
@@ -78,7 +78,7 @@ describe PlayersController do
   describe "GET edit" do
     it "assigns the requested player as @player" do
       player = Player.create! valid_attributes
-      get :edit, :id => player.id.to_s
+      get :edit, id: player.id.to_s
       assigns(:player).should eq(player)
     end
   end
@@ -87,18 +87,18 @@ describe PlayersController do
     describe "with valid params" do
       it "creates a new Player" do
         expect {
-          post :create, :player => valid_attributes
+          post :create, player: valid_attributes
         }.to change(Player, :count).by(1)
       end
 
       it "assigns a newly created player as @player" do
-        post :create, :player => valid_attributes
+        post :create, player: valid_attributes
         assigns(:player).should be_a(Player)
         assigns(:player).should be_persisted
       end
 
       it "redirects to the created player" do
-        post :create, :player => valid_attributes
+        post :create, player: valid_attributes
         response.should redirect_to(Player.last)
       end
     end
@@ -107,14 +107,14 @@ describe PlayersController do
       it "assigns a newly created but unsaved player as @player" do
         # Trigger the behavior that occurs when invalid params are submitted
         Player.any_instance.stub(:save).and_return(false)
-        post :create, :player => {}
+        post :create, player: {}
         assigns(:player).should be_a_new(Player)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Player.any_instance.stub(:save).and_return(false)
-        post :create, :player => {}
+        post :create, player: {}
         response.should render_template("new")
       end
     end
@@ -129,18 +129,18 @@ describe PlayersController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Player.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => player.id, :player => {'these' => 'params'}
+        put :update, id: player.id, player: {'these' => 'params'}
       end
 
       it "assigns the requested player as @player" do
         player = Player.create! valid_attributes
-        put :update, :id => player.id, :player => valid_attributes
+        put :update, id: player.id, player: valid_attributes
         assigns(:player).should eq(player)
       end
 
       it "redirects to the player" do
         player = Player.create! valid_attributes
-        put :update, :id => player.id, :player => valid_attributes
+        put :update, id: player.id, player: valid_attributes
         response.should redirect_to(player)
       end
     end
@@ -150,7 +150,7 @@ describe PlayersController do
         player = Player.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Player.any_instance.stub(:save).and_return(false)
-        put :update, :id => player.id.to_s, :player => {}
+        put :update, id: player.id.to_s, player: {}
         assigns(:player).should eq(player)
       end
 
@@ -158,7 +158,7 @@ describe PlayersController do
         player = Player.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Player.any_instance.stub(:save).and_return(false)
-        put :update, :id => player.id.to_s, :player => {}
+        put :update, id: player.id.to_s, player: {}
         response.should render_template("edit")
       end
     end
@@ -168,13 +168,13 @@ describe PlayersController do
     it "destroys the requested player" do
       player = Player.create! valid_attributes
       expect {
-        delete :destroy, :id => player.id.to_s
+        delete :destroy, id: player.id.to_s
       }.to change(Player, :count).by(-1)
     end
 
     it "redirects to the players list" do
       player = Player.create! valid_attributes
-      delete :destroy, :id => player.id.to_s
+      delete :destroy, id: player.id.to_s
       response.should redirect_to(players_url)
     end
   end

@@ -10,10 +10,10 @@ describe PagesController do
   end
 
   def valid_attributes
-    {:name => "Home",
-     :title => "Home",
-     :navlabel => "Home",
-     :body => "Hello World!"}
+    {name: "Home",
+     title: "Home",
+     navlabel: "Home",
+     body: "Hello World!"}
   end
 
   describe "GET index" do
@@ -27,7 +27,7 @@ describe PagesController do
   describe "GET show" do
     it "assigns the requested page as @page" do
       page = Page.create! valid_attributes
-      get :show, :id => page.id.to_s
+      get :show, id: page.id.to_s
       assigns(:page).should eq(page)
     end
   end
@@ -42,7 +42,7 @@ describe PagesController do
   describe "GET edit" do
     it "assigns the requested page as @page" do
       page = Page.create! valid_attributes
-      get :edit, :id => page.id.to_s
+      get :edit, id: page.id.to_s
       assigns(:page).should eq(page)
     end
   end
@@ -51,18 +51,18 @@ describe PagesController do
     describe "with valid params" do
       it "creates a new Page" do
         expect {
-          post :create, :page => valid_attributes
+          post :create, page: valid_attributes
         }.to change(Page, :count).by(1)
       end
 
       it "assigns a newly created page as @page" do
-        post :create, :page => valid_attributes
+        post :create, page: valid_attributes
         assigns(:page).should be_a(Page)
         assigns(:page).should be_persisted
       end
 
       it "redirects to the created page" do
-        post :create, :page => valid_attributes
+        post :create, page: valid_attributes
         response.should redirect_to(Page.last)
       end
     end
@@ -71,14 +71,14 @@ describe PagesController do
       it "assigns a newly created but unsaved page as @page" do
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        post :create, :page => {}
+        post :create, page: {}
         assigns(:page).should be_a_new(Page)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        post :create, :page => {}
+        post :create, page: {}
         response.should render_template("new")
       end
     end
@@ -93,18 +93,18 @@ describe PagesController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Page.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => page.id, :page => {'these' => 'params'}
+        put :update, id: page.id, page: {'these' => 'params'}
       end
 
       it "assigns the requested page as @page" do
         page = Page.create! valid_attributes
-        put :update, :id => page.id, :page => valid_attributes
+        put :update, id: page.id, page: valid_attributes
         assigns(:page).should eq(page)
       end
 
       it "redirects to the page" do
         page = Page.create! valid_attributes
-        put :update, :id => page.id, :page => valid_attributes
+        put :update, id: page.id, page: valid_attributes
         response.should redirect_to(page)
       end
     end
@@ -114,7 +114,7 @@ describe PagesController do
         page = Page.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        put :update, :id => page.id.to_s, :page => {}
+        put :update, id: page.id.to_s, page: {}
         assigns(:page).should eq(page)
       end
 
@@ -122,7 +122,7 @@ describe PagesController do
         page = Page.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        put :update, :id => page.id.to_s, :page => {}
+        put :update, id: page.id.to_s, page: {}
         response.should render_template("edit")
       end
     end
@@ -132,13 +132,13 @@ describe PagesController do
     it "destroys the requested page" do
       page = Page.create! valid_attributes
       expect {
-        delete :destroy, :id => page.id.to_s
+        delete :destroy, id: page.id.to_s
       }.to change(Page, :count).by(-1)
     end
 
     it "redirects to the pages list" do
       page = Page.create! valid_attributes
-      delete :destroy, :id => page.id.to_s
+      delete :destroy, id: page.id.to_s
       response.should redirect_to(pages_url)
     end
   end

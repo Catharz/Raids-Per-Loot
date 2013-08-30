@@ -122,9 +122,9 @@ describe CharactersController do
     it 'sorts the characters by name' do
       active_player = FactoryGirl.create(:player, active: true)
       inactive_player = FactoryGirl.create(:player, active: false)
-      character1 = FactoryGirl.create(:character, :name => 'Character C', player: active_player)
-      character2 = FactoryGirl.create(:character, :name => 'Character B', player: inactive_player)
-      character3 = FactoryGirl.create(:character, :name => 'Character A', player: active_player)
+      character1 = FactoryGirl.create(:character, name: 'Character C', player: active_player)
+      character2 = FactoryGirl.create(:character, name: 'Character B', player: inactive_player)
+      character3 = FactoryGirl.create(:character, name: 'Character A', player: active_player)
 
       get :loot
 
@@ -154,7 +154,7 @@ describe CharactersController do
       character = FactoryGirl.create(:character)
       FactoryGirl.create(:character)
 
-      get :index, :player_id => character.player_id
+      get :index, player_id: character.player_id
       assigns(:characters).should eq([character])
     end
 
@@ -162,7 +162,7 @@ describe CharactersController do
       FactoryGirl.create(:character)
       jenny = FactoryGirl.create(:character, name: 'Jenny')
 
-      get :index, :name => 'Jenny'
+      get :index, name: 'Jenny'
       assigns(:characters).should eq([jenny])
     end
 
@@ -171,11 +171,11 @@ describe CharactersController do
       jenny = FactoryGirl.create(:character, name: 'Jenny')
       first_instance = FactoryGirl.create(:instance)
       second_instance = FactoryGirl.create(:instance)
-      FactoryGirl.create(:character_instance, :instance => first_instance, :character => jimmy)
-      FactoryGirl.create(:character_instance, :instance => first_instance, :character => jenny)
-      FactoryGirl.create(:character_instance, :instance => second_instance, :character => jimmy)
+      FactoryGirl.create(:character_instance, instance: first_instance, character: jimmy)
+      FactoryGirl.create(:character_instance, instance: first_instance, character: jenny)
+      FactoryGirl.create(:character_instance, instance: second_instance, character: jimmy)
 
-      get :index, :instance_id => second_instance.id
+      get :index, instance_id: second_instance.id
       assigns(:characters).should eq([jimmy])
     end
 
@@ -191,7 +191,7 @@ describe CharactersController do
       jimmy = FactoryGirl.create(:character, name: 'Jimmy')
       jenny = FactoryGirl.create(:character, name: 'Jenny')
 
-      get :index, :format => :csv
+      get :index, format: :csv
 
       assigns(:characters).should include jimmy
       assigns(:characters).should include jenny
@@ -223,7 +223,7 @@ describe CharactersController do
 
     it 'renders the :info template without the layout' do
       get :info, id: FactoryGirl.create(:character)
-      response.should render_template :info, :layout => false
+      response.should render_template :info, layout: false
     end
   end
 
@@ -244,7 +244,7 @@ describe CharactersController do
   describe 'GET edit' do
     it 'assigns the requested character as @character' do
       character = Character.create! FactoryGirl.attributes_for(:character)
-      get :edit, :id => character.id.to_s
+      get :edit, id: character.id.to_s
       assigns(:character).should eq(character)
     end
   end

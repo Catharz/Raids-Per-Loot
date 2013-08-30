@@ -10,7 +10,7 @@ describe LootTypesController do
   end
 
   def valid_attributes
-    {:name => "Can O' Whoop Ass"}
+    {name: "Can O' Whoop Ass"}
   end
 
   describe "GET index" do
@@ -24,7 +24,7 @@ describe LootTypesController do
   describe "GET show" do
     it "assigns the requested loot_type as @loot_type" do
       loot_type = LootType.create! valid_attributes
-      get :show, :id => loot_type.id.to_s
+      get :show, id: loot_type.id.to_s
       assigns(:loot_type).should eq(loot_type)
     end
   end
@@ -39,7 +39,7 @@ describe LootTypesController do
   describe "GET edit" do
     it "assigns the requested loot_type as @loot_type" do
       loot_type = LootType.create! valid_attributes
-      get :edit, :id => loot_type.id.to_s
+      get :edit, id: loot_type.id.to_s
       assigns(:loot_type).should eq(loot_type)
     end
   end
@@ -48,18 +48,18 @@ describe LootTypesController do
     describe "with valid params" do
       it "creates a new LootType" do
         expect {
-          post :create, :loot_type => valid_attributes
+          post :create, loot_type: valid_attributes
         }.to change(LootType, :count).by(1)
       end
 
       it "assigns a newly created loot_type as @loot_type" do
-        post :create, :loot_type => valid_attributes
+        post :create, loot_type: valid_attributes
         assigns(:loot_type).should be_a(LootType)
         assigns(:loot_type).should be_persisted
       end
 
       it "redirects to the created loot_type" do
-        post :create, :loot_type => valid_attributes
+        post :create, loot_type: valid_attributes
         response.should redirect_to(LootType.last)
       end
     end
@@ -68,14 +68,14 @@ describe LootTypesController do
       it "assigns a newly created but unsaved loot_type as @loot_type" do
         # Trigger the behavior that occurs when invalid params are submitted
         LootType.any_instance.stub(:save).and_return(false)
-        post :create, :loot_type => {}
+        post :create, loot_type: {}
         assigns(:loot_type).should be_a_new(LootType)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         LootType.any_instance.stub(:save).and_return(false)
-        post :create, :loot_type => {}
+        post :create, loot_type: {}
         response.should render_template("new")
       end
     end
@@ -90,18 +90,18 @@ describe LootTypesController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         LootType.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => loot_type.id, :loot_type => {'these' => 'params'}
+        put :update, id: loot_type.id, loot_type: {'these' => 'params'}
       end
 
       it "assigns the requested loot_type as @loot_type" do
         loot_type = LootType.create! valid_attributes
-        put :update, :id => loot_type.id, :loot_type => valid_attributes
+        put :update, id: loot_type.id, loot_type: valid_attributes
         assigns(:loot_type).should eq(loot_type)
       end
 
       it "redirects to the loot_type" do
         loot_type = LootType.create! valid_attributes
-        put :update, :id => loot_type.id, :loot_type => valid_attributes
+        put :update, id: loot_type.id, loot_type: valid_attributes
         response.should redirect_to(loot_type)
       end
     end
@@ -111,7 +111,7 @@ describe LootTypesController do
         loot_type = LootType.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         LootType.any_instance.stub(:save).and_return(false)
-        put :update, :id => loot_type.id.to_s, :loot_type => {}
+        put :update, id: loot_type.id.to_s, loot_type: {}
         assigns(:loot_type).should eq(loot_type)
       end
 
@@ -119,7 +119,7 @@ describe LootTypesController do
         loot_type = LootType.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         LootType.any_instance.stub(:save).and_return(false)
-        put :update, :id => loot_type.id.to_s, :loot_type => {}
+        put :update, id: loot_type.id.to_s, loot_type: {}
         response.should render_template("edit")
       end
     end
@@ -129,13 +129,13 @@ describe LootTypesController do
     it "destroys the requested loot_type" do
       loot_type = LootType.create! valid_attributes
       expect {
-        delete :destroy, :id => loot_type.id.to_s
+        delete :destroy, id: loot_type.id.to_s
       }.to change(LootType, :count).by(-1)
     end
 
     it "redirects to the loot_types list" do
       loot_type = LootType.create! valid_attributes
-      delete :destroy, :id => loot_type.id.to_s
+      delete :destroy, id: loot_type.id.to_s
       response.should redirect_to(loot_types_url)
     end
   end

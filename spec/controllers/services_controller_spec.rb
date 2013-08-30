@@ -396,7 +396,7 @@ describe ServicesController do
           request.env['omniauth.auth'] = @env
           services_list = double(ActiveRecord::Relation)
           User.any_instance.should_receive(:services).and_return(services_list)
-          services_list.should_receive(:create!).with({:provider => 'developer', :uid => '001', :uname => 'Fred', :uemail => 'fred@example.com'})
+          services_list.should_receive(:create!).with({provider: 'developer', uid: '001', uname: 'Fred', uemail: 'fred@example.com'})
           get :create, service: 'developer'
         end
 

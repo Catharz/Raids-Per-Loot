@@ -31,7 +31,7 @@ describe LinksController do
   describe "GET show" do
     it "assigns the requested link as @link" do
       link = Link.create! FactoryGirl.attributes_for(:link)
-      get :show, :id => link.id.to_s
+      get :show, id: link.id.to_s
       assigns(:link).should eq(link)
     end
   end
@@ -46,7 +46,7 @@ describe LinksController do
   describe "GET edit" do
     it "assigns the requested link as @link" do
       link = Link.create! FactoryGirl.attributes_for(:link)
-      get :edit, :id => link.id.to_s
+      get :edit, id: link.id.to_s
       assigns(:link).should eq(link)
     end
   end
@@ -55,18 +55,18 @@ describe LinksController do
     describe "with valid params" do
       it "creates a new Link" do
         expect {
-          post :create, :link => FactoryGirl.attributes_for(:link)
+          post :create, link: FactoryGirl.attributes_for(:link)
         }.to change(Link, :count).by(1)
       end
 
       it "assigns a newly created link as @link" do
-        post :create, :link => FactoryGirl.attributes_for(:link)
+        post :create, link: FactoryGirl.attributes_for(:link)
         assigns(:link).should be_a(Link)
         assigns(:link).should be_persisted
       end
 
       it "redirects to the created link" do
-        post :create, :link => FactoryGirl.attributes_for(:link)
+        post :create, link: FactoryGirl.attributes_for(:link)
         response.should redirect_to(Link.last)
       end
     end
@@ -75,14 +75,14 @@ describe LinksController do
       it "assigns a newly created but unsaved link as @link" do
         # Trigger the behavior that occurs when invalid params are submitted
         Link.any_instance.stub(:save).and_return(false)
-        post :create, :link => {}
+        post :create, link: {}
         assigns(:link).should be_a_new(Link)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Link.any_instance.stub(:save).and_return(false)
-        post :create, :link => {}
+        post :create, link: {}
         response.should render_template("new")
       end
     end
@@ -97,18 +97,18 @@ describe LinksController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Link.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => link.id, :link => {'these' => 'params'}
+        put :update, id: link.id, link: {'these' => 'params'}
       end
 
       it "assigns the requested link as @link" do
         link = Link.create! FactoryGirl.attributes_for(:link)
-        put :update, :id => link.id, :link => FactoryGirl.attributes_for(:link)
+        put :update, id: link.id, link: FactoryGirl.attributes_for(:link)
         assigns(:link).should eq(link)
       end
 
       it "redirects to the link" do
         link = Link.create! FactoryGirl.attributes_for(:link)
-        put :update, :id => link.id, :link => FactoryGirl.attributes_for(:link)
+        put :update, id: link.id, link: FactoryGirl.attributes_for(:link)
         response.should redirect_to(link)
       end
     end
@@ -118,7 +118,7 @@ describe LinksController do
         link = Link.create! FactoryGirl.attributes_for(:link)
         # Trigger the behavior that occurs when invalid params are submitted
         Link.any_instance.stub(:save).and_return(false)
-        put :update, :id => link.id.to_s, :link => {}
+        put :update, id: link.id.to_s, link: {}
         assigns(:link).should eq(link)
       end
 
@@ -126,7 +126,7 @@ describe LinksController do
         link = Link.create! FactoryGirl.attributes_for(:link)
         # Trigger the behavior that occurs when invalid params are submitted
         Link.any_instance.stub(:save).and_return(false)
-        put :update, :id => link.id.to_s, :link => {}
+        put :update, id: link.id.to_s, link: {}
         response.should render_template("edit")
       end
     end
@@ -136,13 +136,13 @@ describe LinksController do
     it "destroys the requested link" do
       link = Link.create! FactoryGirl.attributes_for(:link)
       expect {
-        delete :destroy, :id => link.id.to_s
+        delete :destroy, id: link.id.to_s
       }.to change(Link, :count).by(-1)
     end
 
     it "redirects to the links list" do
       link = Link.create! FactoryGirl.attributes_for(:link)
-      delete :destroy, :id => link.id.to_s
+      delete :destroy, id: link.id.to_s
       response.should redirect_to(links_url)
     end
   end

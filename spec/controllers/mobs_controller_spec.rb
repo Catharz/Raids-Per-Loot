@@ -18,28 +18,28 @@ describe MobsController do
 
     it 'filters by zone' do
       FactoryGirl.create(:mob)
-      zone2 = FactoryGirl.create(:zone, :name => 'Somewhere Even Nastier')
-      mob2 = FactoryGirl.create(:mob, :name => 'Tough Guy', :zone_id => zone2.id)
+      zone2 = FactoryGirl.create(:zone, name: 'Somewhere Even Nastier')
+      mob2 = FactoryGirl.create(:mob, name: 'Tough Guy', zone_id: zone2.id)
 
-      get :index, :zone_id => zone2.id
+      get :index, zone_id: zone2.id
       assigns(:mobs).should eq([mob2])
     end
 
     it 'filters by name' do
       FactoryGirl.create(:mob)
-      mob2 = FactoryGirl.create(:mob, :name => 'Tough Guy')
+      mob2 = FactoryGirl.create(:mob, name: 'Tough Guy')
 
-      get :index, :name => 'Tough Guy'
+      get :index, name: 'Tough Guy'
       assigns(:mobs).should eq([mob2])
     end
 
     it 'renders xml' do
       mob = FactoryGirl.create(:mob)
 
-      get :index, :format => :xml
+      get :index, format: :xml
 
       response.content_type.should eq('application/xml')
-      response.body.should have_selector('mobs', :type => 'array') do |results|
+      response.body.should have_selector('mobs', type: 'array') do |results|
         results.should have_selector('mob') do |pr|
           pr.should have_selector('id', type: 'integer', content: mob.id.to_s)
           pr.should have_selector('name', content: mob.name)
@@ -53,7 +53,7 @@ describe MobsController do
     it 'renders json' do
       mob = FactoryGirl.create(:mob)
 
-      get :index, :format => :json
+      get :index, format: :json
 
       response.content_type.should eq('application/json')
       JSON.parse(response.body)[0].should eq JSON.parse(mob.to_json)
@@ -74,7 +74,7 @@ describe MobsController do
   describe 'GET show' do
     it 'assigns the requested mob as @mob' do
       mob = FactoryGirl.create(:mob)
-      get :show, :id => mob
+      get :show, id: mob
       assigns(:mob).should eq(mob)
     end
     it 'renders the :show template' do
@@ -118,13 +118,13 @@ describe MobsController do
   describe 'GET edit' do
     it 'assigns the requested mob as @mob' do
       mob = FactoryGirl.create(:mob)
-      get :edit, :id => mob
+      get :edit, id: mob
       assigns(:mob).should eq(mob)
     end
 
     it 'renders the edit template' do
       mob = FactoryGirl.create(:mob)
-      get :edit, :id => mob
+      get :edit, id: mob
       response.should render_template :edit
     end
   end
@@ -133,18 +133,18 @@ describe MobsController do
     context 'with valid attributes' do
       it 'creates a new Mob' do
         expect {
-          post :create, :mob => FactoryGirl.attributes_for(:mob)
+          post :create, mob: FactoryGirl.attributes_for(:mob)
         }.to change(Mob, :count).by(1)
       end
 
       it 'assigns a newly created mob as @mob' do
-        post :create, :mob => FactoryGirl.attributes_for(:mob)
+        post :create, mob: FactoryGirl.attributes_for(:mob)
         assigns(:mob).should be_a(Mob)
         assigns(:mob).should be_persisted
       end
 
       it 'redirects to the new mob' do
-        post :create, :mob => FactoryGirl.attributes_for(:mob)
+        post :create, mob: FactoryGirl.attributes_for(:mob)
         response.should redirect_to(Mob.last)
       end
     end
@@ -213,12 +213,12 @@ describe MobsController do
 
     it 'deletes the mob' do
       expect {
-        delete :destroy, :id => @mob
+        delete :destroy, id: @mob
       }.to change(Mob, :count).by(-1)
     end
 
     it 'redirects mobs#index' do
-      delete :destroy, :id => @mob
+      delete :destroy, id: @mob
       response.should redirect_to mobs_url
     end
   end
