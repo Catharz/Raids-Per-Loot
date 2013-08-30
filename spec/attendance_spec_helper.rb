@@ -5,7 +5,9 @@ module AttendanceSpecHelper
   include RaidSpecHelper, InstanceSpecHelper
 
   def create_attendance(attendance)
-    zone_list = Array.new(attendance[:num_instances]) { |n| mock_model(Zone, FactoryGirl.attributes_for(:zone, name: "Zone #{n}")) }
+    zone_list = Array.new(attendance[:num_instances]) { |n|
+      mock_model(Zone, FactoryGirl.attributes_for(:zone, name: "Zone #{n}"))
+    }
 
     raid_list = create_raids(attendance[:num_raids])
     instance_list = create_instances(raid_list, zone_list)
