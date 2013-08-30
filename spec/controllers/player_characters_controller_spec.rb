@@ -14,7 +14,7 @@ describe PlayerCharactersController do
       player = FactoryGirl.create(:player)
       character = FactoryGirl.create(:character, player_id: player.id)
 
-      get :edit, :id => character.id, format: :js
+      get :edit, id: character.id, format: :js
 
       assigns(:player_character).character.should eq(character)
       assigns(:player_character).player.should eq(player)

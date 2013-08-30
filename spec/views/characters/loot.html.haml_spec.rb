@@ -4,10 +4,10 @@ describe 'characters/loot.html.haml' do
   fixtures :users, :services
 
   before(:each) do
-    scout = stub_model(Archetype, :name => 'Scout')
-    fighter = stub_model(Archetype, :name => 'Fighter')
-    priest = stub_model(Archetype, :name => 'Priest')
-    mage = stub_model(Archetype, :name => 'Mage')
+    scout = stub_model(Archetype, name: 'Scout')
+    fighter = stub_model(Archetype, name: 'Fighter')
+    priest = stub_model(Archetype, name: 'Priest')
+    mage = stub_model(Archetype, name: 'Mage')
 
     player1 = stub_model(Player, name: 'Player One', main_name: 'Scout Main')
     scout_character = stub_model(Character,
@@ -49,20 +49,23 @@ describe 'characters/loot.html.haml' do
                                 player: player2,
                                 char_type: 'r')
 
-    assign(:characters, [fighter_character, mage_character, priest_character, scout_character])
+    assign(:characters, [fighter_character,
+                         mage_character,
+                         priest_character,
+                         scout_character])
   end
 
   it 'shows tabs for raid mains and raid alts' do
     render
 
-    assert_select 'div#raid_mains', :count => 1
-    assert_select 'div#raid_alts', :count => 1
+    assert_select 'div#raid_mains', count: 1
+    assert_select 'div#raid_alts', count: 1
   end
 
   it 'should list main character names' do
     render
 
-    assert_select 'tr>td', :text => 'Scout Main'.to_s, :count => 1
-    assert_select 'tr>td', :text => 'Fighter Main'.to_s, :count => 1
+    assert_select 'tr>td', text: 'Scout Main'.to_s, count: 1
+    assert_select 'tr>td', text: 'Fighter Main'.to_s, count: 1
   end
 end

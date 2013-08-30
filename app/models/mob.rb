@@ -1,3 +1,6 @@
+# @author Craig Read
+#
+# Mob represents the in-game entities killed for loot
 class Mob < ActiveRecord::Base
   belongs_to :zone, :inverse_of => :mobs, :touch => true
   belongs_to :difficulty, :inverse_of => :mobs, :touch => true

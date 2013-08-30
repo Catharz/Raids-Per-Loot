@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# Service represents the OmniAuth service
+# provider such as Google, Facebook, etc
 class Service < ActiveRecord::Base
   belongs_to :user
 

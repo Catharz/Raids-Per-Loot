@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# Adjustment is a polymorphic association used to make adjustments
+# to player and character statistics.
 class Adjustment < ActiveRecord::Base
   belongs_to :adjustable, :polymorphic => true
   has_many :archetypes_items

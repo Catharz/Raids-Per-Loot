@@ -1,3 +1,6 @@
+# @author Craig Read
+#
+# Raid represents a day where a Raid is held.
 class Raid < ActiveRecord::Base
   belongs_to :raid_type, inverse_of: :raids
   has_many :instances, inverse_of: :raid, dependent: :destroy

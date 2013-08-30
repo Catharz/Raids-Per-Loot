@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe Adjustment do
+  fixtures :ranks
   before(:each) do
-    main = FactoryGirl.create(:rank, name: 'Main')
+    main = Rank.find_by_name('Main')
     @betty = FactoryGirl.create(:player, name: 'Betty', rank_id: main.id)
     @wilma = FactoryGirl.create(:player, name: 'Wilma', rank_id: main.id)
     @fred = FactoryGirl.create(:character, name: 'Fred', char_type: 'm')
@@ -34,7 +35,8 @@ describe Adjustment do
     end
 
     it 'should filter by start' do
-      Adjustment.for_period({start: Date.today - 40.days}).should eq [adj2, adj3]
+      Adjustment.for_period({start: Date.today - 40.days}).
+          should eq [adj2, adj3]
     end
 
     it 'should filter by end' do
@@ -42,7 +44,8 @@ describe Adjustment do
     end
 
     it 'should filter by start and end' do
-      Adjustment.for_period({start: Date.today - 40.days, end: Date.today - 20.days}).should eq [adj2]
+      Adjustment.for_period({start: Date.today - 40.days,
+                             end: Date.today - 20.days}).should eq [adj2]
     end
   end
 
@@ -94,41 +97,67 @@ describe Adjustment do
 
   describe 'self.by_adjustable_type' do
     it 'should filter by adjustable type' do
-      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Character', adjustable_id: @fred.id)
-      adj2 = FactoryGirl.create(:adjustment, adjustable_type: 'Character', adjustable_id: @fred.id)
-      adj3 = FactoryGirl.create(:adjustment, adjustable_type: 'Character', adjustable_id: @barny.id)
-      adj4 = FactoryGirl.create(:adjustment, adjustable_type: 'Player', adjustable_id: @betty.id)
-      adj5 = FactoryGirl.create(:adjustment, adjustable_type: 'Player', adjustable_id: @betty.id)
-      adj6 = FactoryGirl.create(:adjustment, adjustable_type: 'Player', adjustable_id: @wilma.id)
+      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Character',
+                                adjustable_id: @fred.id)
+      adj2 = FactoryGirl.create(:adjustment, adjustable_type: 'Character',
+                                adjustable_id: @fred.id)
+      adj3 = FactoryGirl.create(:adjustment, adjustable_type: 'Character',
+                                adjustable_id: @barny.id)
+      adj4 = FactoryGirl.create(:adjustment, adjustable_type: 'Player',
+                                adjustable_id: @betty.id)
+      adj5 = FactoryGirl.create(:adjustment, adjustable_type: 'Player',
+                                adjustable_id: @betty.id)
+      adj6 = FactoryGirl.create(:adjustment, adjustable_type: 'Player',
+                                adjustable_id: @wilma.id)
 
-      Adjustment.by_adjustable_type('Character').order(:id).should eq [adj1, adj2, adj3]
-      Adjustment.by_adjustable_type('Player').order(:id).should eq [adj4, adj5, adj6]
+      Adjustment.by_adjustable_type('Character').order(:id).
+          should eq [adj1, adj2, adj3]
+      Adjustment.by_adjustable_type('Player').order(:id).
+          should eq [adj4, adj5, adj6]
     end
   end
 
   describe 'self.by_adjustment_type' do
     it 'should filter by adjustment type' do
-      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Character', adjustment_type: 'Raids', adjustable_id: @fred.id)
-      adj2 = FactoryGirl.create(:adjustment, adjustable_type: 'Character', adjustment_type: 'Instances', adjustable_id: @fred.id)
-      adj3 = FactoryGirl.create(:adjustment, adjustable_type: 'Character', adjustment_type: 'Raids', adjustable_id: @barny.id)
-      adj4 = FactoryGirl.create(:adjustment, adjustable_type: 'Player', adjustment_type: 'Instances', adjustable_id: @betty.id)
-      adj5 = FactoryGirl.create(:adjustment, adjustable_type: 'Player', adjustment_type: 'Raids', adjustable_id: @betty.id)
-      adj6 = FactoryGirl.create(:adjustment, adjustable_type: 'Player', adjustment_type: 'Instances', adjustable_id: @wilma.id)
+      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Character',
+                                adjustment_type: 'Raids',
+                                adjustable_id: @fred.id)
+      adj2 = FactoryGirl.create(:adjustment, adjustable_type: 'Character',
+                                adjustment_type: 'Instances',
+                                adjustable_id: @fred.id)
+      adj3 = FactoryGirl.create(:adjustment, adjustable_type: 'Character',
+                                adjustment_type: 'Raids',
+                                adjustable_id: @barny.id)
+      adj4 = FactoryGirl.create(:adjustment, adjustable_type: 'Player',
+                                adjustment_type: 'Instances',
+                                adjustable_id: @betty.id)
+      adj5 = FactoryGirl.create(:adjustment, adjustable_type: 'Player',
+                                adjustment_type: 'Raids',
+                                adjustable_id: @betty.id)
+      adj6 = FactoryGirl.create(:adjustment, adjustable_type: 'Player',
+                                adjustment_type: 'Instances',
+                                adjustable_id: @wilma.id)
 
-      Adjustment.by_adjustment_type('Raids').order(:id).should eq [adj1, adj3, adj5]
-      Adjustment.by_adjustment_type('Instances').order(:id).should eq [adj2, adj4, adj6]
+      Adjustment.by_adjustment_type('Raids').order(:id).
+          should eq [adj1, adj3, adj5]
+      Adjustment.by_adjustment_type('Instances').order(:id).
+          should eq [adj2, adj4, adj6]
     end
   end
 
   describe 'name' do
     it 'returns the character name for a character adjustment' do
-      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Character', adjustment_type: 'Raids', adjustable_id: @fred.id)
+      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Character',
+                                adjustment_type: 'Raids',
+                                adjustable_id: @fred.id)
 
       adj1.adjusted_name.should eq 'Fred'
     end
 
     it 'returns the player name for a player adjustment' do
-      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Player', adjustment_type: 'Instances', adjustable_id: @betty.id)
+      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Player',
+                                adjustment_type: 'Instances',
+                                adjustable_id: @betty.id)
 
       adj1.adjusted_name.should eq 'Betty'
     end
@@ -145,13 +174,17 @@ describe Adjustment do
 
   describe 'type_label' do
     it 'should show Player for a player adjustment' do
-      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Player', adjustment_type: 'Instances', adjustable_id: @betty.id)
+      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Player',
+                                adjustment_type: 'Instances',
+                                adjustable_id: @betty.id)
 
       adj1.type_label.should eq 'Player:'
     end
 
     it 'should show Character for a character adjustment' do
-      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Character', adjustment_type: 'Raids', adjustable_id: @fred.id)
+      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Character',
+                                adjustment_type: 'Raids',
+                                adjustable_id: @fred.id)
 
       adj1.type_label.should eq 'Character:'
     end
@@ -165,13 +198,17 @@ describe Adjustment do
 
   describe 'adjustable_entities' do
     it 'should list players for a player adjustment type' do
-      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Character', adjustment_type: 'Raids', adjustable_id: @fred.id)
+      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Character',
+                                adjustment_type: 'Raids',
+                                adjustable_id: @fred.id)
 
       adj1.adjustable_entities.should eq [@barny, @fred]
     end
 
     it 'should list characters for a character adjustment type' do
-      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Player', adjustment_type: 'Instances', adjustable_id: @betty.id)
+      adj1 = FactoryGirl.create(:adjustment, adjustable_type: 'Player',
+                                adjustment_type: 'Instances',
+                                adjustable_id: @betty.id)
 
       adj1.adjustable_entities.order(:id).should include(@betty)
       adj1.adjustable_entities.order(:id).should include(@wilma)

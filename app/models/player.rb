@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# Player represents the Human controlling
+# the Character(s) they raid with
 class Player < ActiveRecord::Base
   include PointsCalculationHelper
   has_paper_trail

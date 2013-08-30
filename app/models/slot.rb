@@ -1,3 +1,8 @@
+# @author Craig Read
+#
+# Slot represents the slot an item can
+# be equipped in such as Primary (right-hand)
+# Secondary (left-hand), Ring, Wrist, Waist, etc
 class Slot < ActiveRecord::Base
   has_many :items_slots
   has_many :items, :through => :items_slots

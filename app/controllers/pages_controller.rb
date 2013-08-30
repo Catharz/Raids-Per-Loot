@@ -1,3 +1,9 @@
+# @author Craig Read
+#
+# Controller for the Page views.
+#
+# json and js formatting options are available on actions
+# where ajax is used via jQueryUI popups.
 class PagesController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle

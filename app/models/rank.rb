@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# Rank represents the rank of the player
+# or person playing a character
 class Rank < ActiveRecord::Base
   has_many :players, :inverse_of => :rank
 

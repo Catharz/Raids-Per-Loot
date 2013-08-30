@@ -10,7 +10,9 @@ describe InstancesController do
 
     @raid_date = Date.new(2012, 11, 20)
     @progression = FactoryGirl.create(:raid_type, name: 'Progression')
-    @raid = FactoryGirl.create(:raid, raid_date: @raid_date, raid_type: @progression)
+    @raid = FactoryGirl.create(:raid,
+                               raid_date: @raid_date,
+                               raid_type: @progression)
     @zone = FactoryGirl.create(:zone, name: 'Wherever')
   end
 
@@ -24,9 +26,13 @@ describe InstancesController do
       instance1 = FactoryGirl.create(:instance)
       instance2 = FactoryGirl.create(:instance)
       get :option_list
-      response.body.should eq("<option value='0'>Select Instance</option>" +
-                                  "<option value='#{instance1.id}'>#{instance1.zone_name} - #{instance1.start_time}</option>" +
-                                  "<option value='#{instance2.id}'>#{instance2.zone_name} - #{instance2.start_time}</option>")
+      response.body.should eq "<option value='0'>Select Instance</option>" +
+                                  "<option value='#{instance1.id}'>" +
+                                  "#{instance1.zone_name} - " +
+                                  "#{instance1.start_time}</option>" +
+                                  "<option value='#{instance2.id}'>" +
+                                  "#{instance2.zone_name} - " +
+                                  "#{instance2.start_time}</option>"
     end
   end
 
@@ -46,7 +52,9 @@ describe InstancesController do
       it 'by zone' do
         Instance.create(valid_attributes)
         zone2 = FactoryGirl.create(:zone, name: 'Somewhere Else')
-        instance2 = Instance.create(valid_attributes.merge!(start_time: @raid_date + 21.hours, zone_id: zone2.id))
+        instance2 = Instance.create(
+            valid_attributes.merge!(start_time: @raid_date + 21.hours,
+                                    zone_id: zone2.id))
 
         get :index, zone_id: zone2.id
         assigns(:instances).should eq [instance2]
@@ -54,7 +62,8 @@ describe InstancesController do
 
       it 'by start time' do
         Instance.create(valid_attributes)
-        instance2 = Instance.create(valid_attributes.merge!(start_time: @raid_date + 21.hours))
+        instance2 = Instance.create(
+            valid_attributes.merge!(start_time: @raid_date + 21.hours))
 
         get :index, start_time: DateTime.parse("2012-11-20 10:00:00")
         assigns(:instances).should eq [instance2]
@@ -62,8 +71,12 @@ describe InstancesController do
 
       it 'by raid' do
         Instance.create(valid_attributes)
-        raid2 = FactoryGirl.create(:raid, raid_date: Date.parse("2012-11-21"), raid_type: @progression)
-        instance2 = Instance.create(valid_attributes.merge!(start_time: raid2.raid_date + 21.hours, raid_id: raid2.id))
+        raid2 = FactoryGirl.create(:raid,
+                                   raid_date: Date.parse("2012-11-21"),
+                                   raid_type: @progression)
+        instance2 = Instance.create(
+            valid_attributes.merge!(start_time: raid2.raid_date + 21.hours,
+                                    raid_id: raid2.id))
 
         get :index, raid_id: raid2.id
         assigns(:instances).should eq [instance2]
@@ -101,7 +114,7 @@ describe InstancesController do
   describe "GET edit" do
     it 'assigns the requested item as @instance' do
       instance = Instance.create! valid_attributes
-      get :edit, :id => instance.id.to_s
+      get :edit, id: instance.id.to_s
       assigns(:instance).should eq(instance)
     end
   end
@@ -110,12 +123,14 @@ describe InstancesController do
     context 'with valid attributes' do
       it 'saves the new instance' do
         expect {
-          post :create, instance: FactoryGirl.build(:instance).attributes.symbolize_keys
+          post :create, instance: FactoryGirl.build(:instance).
+              attributes.symbolize_keys
         }.to change(Instance, :count).by(1)
       end
 
       it 'redirects to the new instance' do
-        post :create, instance: FactoryGirl.build(:instance).attributes.symbolize_keys
+        post :create, instance: FactoryGirl.build(:instance).
+            attributes.symbolize_keys
         response.should redirect_to Instance.last
       end
     end
@@ -141,36 +156,50 @@ describe InstancesController do
 
     context 'valid attributes' do
       it 'located the requested @instance' do
-        put :update, id: @instance, instance: FactoryGirl.attributes_for(:instance, start_time: Time.zone.parse('01/01/2012 18:00'))
+        put :update, id: @instance,
+            instance: FactoryGirl.
+                attributes_for(:instance,
+                               start_time: Time.zone.parse('01/01/2012 18:00'))
         assigns(:instance).should eq (@instance)
       end
 
       it "changes @instance's attributes" do
-        put :update, id: @instance, instance: FactoryGirl.build(:instance).attributes.symbolize_keys.merge(start_time: Time.zone.parse('01/01/2012 19:00'))
+        put :update, id: @instance,
+            instance: FactoryGirl.build(:instance).
+                attributes.symbolize_keys.
+                merge(start_time: Time.zone.parse('01/01/2012 19:00'))
         @instance.reload
         @instance.start_time.should eq(Time.zone.parse('01/01/2012 19:00'))
       end
 
       it 'redirects to the updated @instance' do
-        put :update, id: @instance, instance: FactoryGirl.build(:instance).attributes.symbolize_keys.merge(start_time: Time.zone.parse('01/01/2012 19:00'))
+        put :update, id: @instance,
+            instance: FactoryGirl.build(:instance).
+                attributes.symbolize_keys.
+                merge(start_time: Time.zone.parse('01/01/2012 19:00'))
         response.should redirect_to @instance
       end
     end
 
     context 'invalid attributes' do
       it 'locates the requested @instance' do
-        put :update, id: @instance, instance: FactoryGirl.attributes_for(:invalid_instance)
+        put :update, id: @instance,
+            instance: FactoryGirl.attributes_for(:invalid_instance)
         assigns(:instance).should eq (@instance)
       end
 
       it "does not change @instance's attributes" do
-        put :update, id: @instance, instance: FactoryGirl.build(:invalid_instance).attributes.symbolize_keys.merge(start_time: Time.zone.parse('01/01/2012 19:00'))
+        put :update, id: @instance,
+            instance: FactoryGirl.build(:invalid_instance).
+                attributes.symbolize_keys.
+                merge(start_time: Time.zone.parse('01/01/2012 19:00'))
         @instance.reload
         @instance.start_time.should_not eq(Time.zone.parse('01/01/2012 19:00'))
       end
 
       it 're-renders the :edit template' do
-        put :update, id: @instance, instance: FactoryGirl.attributes_for(:invalid_instance)
+        put :update, id: @instance,
+            instance: FactoryGirl.attributes_for(:invalid_instance)
         response.should render_template :edit
       end
     end

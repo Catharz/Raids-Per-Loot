@@ -15,7 +15,8 @@ Spork.prefork do
       add_group 'Validators', 'app/validators'
       add_group 'Workers', 'app/workers'
       add_group 'Changed' do |source_file|
-        `git status --untracked=all --porcelain`.split("\n").detect do |status_and_filename|
+        `git status --untracked=all --porcelain`.split("\n").
+            detect do |status_and_filename|
           _, filename = status_and_filename.split(' ', 2)
           source_file.filename.ends_with?(filename)
         end
@@ -51,7 +52,8 @@ Spork.prefork do
 
     # ## Mock Framework
     #
-    # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
+    # If you prefer to use mocha, flexmock or RR,
+    # uncomment the appropriate line:
     #
     # config.mock_with :mocha
     # config.mock_with :flexmock
@@ -78,9 +80,9 @@ Spork.prefork do
 
   OmniAuth.config.test_mode = true
   OmniAuth.config.add_mock(:developer, {
-      :provider => 'developer',
-      :uid => '12345',
-      'info' => {:name => 'zapnap', :email => 'zapnap@example.org'}
+      provider: 'developer',
+      uid: '12345',
+      'info' => {name: 'zapnap', email: 'zapnap@example.org'}
   })
 
 end

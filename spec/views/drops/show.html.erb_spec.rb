@@ -1,45 +1,51 @@
 require 'spec_helper'
 require 'authentication_spec_helper'
 
-describe "drops/show.html.erb" do
+describe 'drops/show.html.erb' do
   include AuthenticationSpecHelper
   fixtures :users, :services
 
   before(:each) do
     login_as :admin
 
-    zone = stub_model(Zone, :name => "This Zone")
+    zone = stub_model(Zone, name: 'This Zone')
     assign(:zones, [zone])
 
-    mob = stub_model(Mob, :zone => zone, :name => "This Mob")
+    mob = stub_model(Mob, zone: zone, name: 'This Mob')
     assign(:mobs, [mob])
 
-    character_one = stub_model(Character, :player_id => 1, :archetype_id => 1, :name => "Character One")
-    character_two = stub_model(Character, :player_id => 1, :archetype_id => 2, :name => "Character Two")
+    character_one = stub_model(Character, player_id: 1, archetype_id: 1,
+                               name: 'Character One')
+    character_two = stub_model(Character, player_id: 1, archetype_id: 2,
+                               name: 'Character Two')
     assign(:characters, [character_one, character_two])
 
-    loot_type_one = stub_model(LootType, :name => "Armour")
-    loot_type_two = stub_model(LootType, :name => "Jewellery")
+    loot_type_one = stub_model(LootType, name: 'Armour')
+    loot_type_two = stub_model(LootType, name: 'Jewellery')
     assign(:loot_types, [loot_type_one, loot_type_two])
 
-    item_one = stub_model(Item, :name => "Item One", :eq2_item_id => "eq2 item 1", :loot_type => loot_type_one)
-    item_two = stub_model(Item, :name => "Item Two", :eq2_item_id => "eq2 item 2", :loot_type => loot_type_two)
+    item_one = stub_model(Item, name: 'Item One', :eq2_item_id => 'eq2 item 1',
+                          loot_type: loot_type_one)
+    item_two = stub_model(Item, name: 'Item Two', :eq2_item_id => 'eq2 item 2',
+                          loot_type: loot_type_two)
     assign(:items, [item_one, item_two])
 
-    @drop = assign(:drop,
-                   stub_model(Drop,
-                              :zone => zone,
-                              :mob => mob,
-                              :character => character_one,
-                              :item => item_one,
-                              :loot_type => loot_type_one,
-                              :loot_method => "r",
-                              :chat => "blah, blah, blah",
-                              :log_line => "Barmy looted a can of whoop'ass from the shiney green dragon"
-                   ))
+    @drop = assign(
+        :drop,
+        stub_model(
+            Drop,
+            zone: zone,
+            mob: mob,
+            character: character_one,
+            item: item_one,
+            loot_type: loot_type_one,
+            loot_method: 'r',
+            chat: 'blah, blah, blah',
+            log_line: 'Barmy looted a nada from the shiny green dragon'
+        ))
   end
 
-  it "renders attributes in <p>" do
+  it 'renders attributes in <p>' do
     render
 
     rendered.should match(/This Zone/)
@@ -49,6 +55,6 @@ describe "drops/show.html.erb" do
     rendered.should match(/Random/)
     rendered.should match(/Armour/)
     rendered.should match(/blah, blah, blah/)
-    rendered.should match(/Barmy looted a can of whoop\'ass from the shiney green dragon/)
+    rendered.should match(/Barmy looted a nada from the shiny green dragon/)
   end
 end

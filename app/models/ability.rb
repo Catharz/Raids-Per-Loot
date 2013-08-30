@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# Ability defines the user access rights
+# for each user role
 class Ability
   include CanCan::Ability
 

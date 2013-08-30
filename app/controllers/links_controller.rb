@@ -1,3 +1,11 @@
+# @author Craig Read
+#
+# Controller for the Link views.
+#
+# json and js formatting options are available on actions
+# where ajax is used via jQueryUI popups.
+#
+# xml formatting is provided on actions used by the ACT plug-in.
 class LinksController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show, :list]
   before_filter :set_pagetitle

@@ -19,11 +19,14 @@ describe SonyCharacterUpdater do
     it 'raises an exception the character data is nil' do
       subject.should_receive(:internet_connection?).and_return(true)
       Character.should_receive(:find).and_return(character)
-      SonyDataService.any_instance.should_receive(:character_data).with(character.name, 'json').and_return(nil)
+      SonyDataService.any_instance.should_receive(:character_data).
+          with(character.name, 'json').and_return(nil)
 
       expect {
         subject.perform(character.id)
-      }.to raise_exception Exception, "Could not obtain character details for #{character.name}"
+      }.to raise_exception Exception,
+                           'Could not obtain character details for ' +
+                               character.name
     end
 
     it 'raises an exception the character data is empty' do
@@ -35,11 +38,14 @@ describe SonyCharacterUpdater do
 
       expect {
         subject.perform(character.id)
-      }.to raise_exception Exception, "Could not obtain character details for #{character.name}"
+      }.to raise_exception Exception,
+                           'Could not obtain character details for ' +
+                               character.name
     end
 
     context 'updating data' do
-      let(:monk_character_data) { {type: {'class' => 'Monk'}}.with_indifferent_access }
+      let(:monk_character_data) { {type: {'class' => 'Monk'}}.
+          with_indifferent_access }
       let(:monk) { Archetype.find_by_name('Monk') }
       let(:bruiser) { Archetype.find_by_name('Bruiser') }
 
@@ -77,8 +83,10 @@ describe SonyCharacterUpdater do
 
         character.should_receive(:update_attribute).with(:archetype, monk)
         external_data = double(ExternalData)
-        character.should_receive(:external_data).exactly(3).times.and_return(external_data)
-        external_data.should_receive(:data=).with({"type"=>{"class"=>"Monk"}})
+        character.should_receive(:external_data).exactly(3).
+            times.and_return(external_data)
+        external_data.should_receive(:data=).
+            with({"type" => {"class" => "Monk"}})
         external_data.should_receive(:save)
 
         subject.perform(character.id)
@@ -95,7 +103,9 @@ describe SonyCharacterUpdater do
         character.should_receive(:update_attribute).with(:archetype, monk)
         external_data = double(ExternalData)
         character.should_receive(:external_data).and_return(nil)
-        character.should_receive(:build_external_data).with(data: {"type"=>{"class"=>"Monk"}}).and_return(external_data)
+        character.should_receive(:build_external_data).
+            with(data: {"type" => {"class" => "Monk"}}).
+            and_return(external_data)
         character.should_receive(:external_data=).with(external_data)
 
         subject.perform(character.id)

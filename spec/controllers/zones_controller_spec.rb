@@ -10,7 +10,7 @@ describe ZonesController do
   end
 
   def valid_attributes
-    {:name => 'Wherever'}
+    {name: 'Wherever'}
   end
 
   describe 'GET #option_list' do
@@ -18,9 +18,10 @@ describe ZonesController do
       zone1 = FactoryGirl.create(:zone)
       zone2 = FactoryGirl.create(:zone)
       get :option_list
-      response.body.should eq("<option value='0'>Select Zone</option>" +
-                                  "<option value='#{zone1.id}'>#{zone1.name}</option>" +
-                                  "<option value='#{zone2.id}'>#{zone2.name}</option>")
+      response.body.
+          should eq("<option value='0'>Select Zone</option>" +
+                        "<option value='#{zone1.id}'>#{zone1.name}</option>" +
+                        "<option value='#{zone2.id}'>#{zone2.name}</option>")
     end
 
     it 'filters the list by instance_id' do
@@ -29,8 +30,9 @@ describe ZonesController do
       instance = FactoryGirl.create(:instance, zone_id: zone.id)
 
       get :option_list, instance_id: instance.id
-      response.body.should eq("<option value='0'>Select Zone</option>" +
-                                  "<option value='#{zone.id}'>#{zone.name}</option>")
+      response.body.
+          should eq("<option value='0'>Select Zone</option>" +
+                        "<option value='#{zone.id}'>#{zone.name}</option>")
     end
   end
 
@@ -44,23 +46,25 @@ describe ZonesController do
 
     it 'filters by name' do
       FactoryGirl.create(:zone, valid_attributes)
-      zone2 = FactoryGirl.create(:zone, {:name => 'The Farm'})
+      zone2 = FactoryGirl.create(:zone, {name: 'The Farm'})
 
-      get :index, :name => 'The Farm'
+      get :index, name: 'The Farm'
       assigns(:zones).should eq([zone2])
     end
 
     it 'renders xml' do
       zone = FactoryGirl.create(:zone)
 
-      get :index, :format => :xml
+      get :index, format: :xml
 
       response.content_type.should eq('application/xml')
-      response.body.should have_selector('zones', :type => 'array') do |results|
+      response.body.should have_selector('zones', type: 'array') do |results|
         results.should have_selector('zone') do |pr|
           pr.should have_selector('id', type: 'integer', content: zone.id.to_s)
           pr.should have_selector('name', content: zone.name)
-          pr.should have_selector('difficulty-id', type: 'integer', content: zone.difficulty_id.to_s)
+          pr.should have_selector('difficulty-id',
+                                  type: 'integer',
+                                  content: zone.difficulty_id.to_s)
         end
       end
       response.body.should eq([zone].to_xml)
@@ -69,7 +73,7 @@ describe ZonesController do
     it 'renders json' do
       zone = FactoryGirl.create(:zone)
 
-      get :index, :format => :json
+      get :index, format: :json
 
       response.content_type.should eq('application/json')
       JSON.parse(response.body)[0].should eq JSON.parse(zone.to_json)
@@ -79,7 +83,7 @@ describe ZonesController do
   describe 'GET show' do
     it 'assigns the requested zone as @zone' do
       zone = FactoryGirl.create(:zone, valid_attributes)
-      get :show, :id => zone.id.to_s
+      get :show, id: zone.id.to_s
       assigns(:zone).should eq(zone)
     end
 
@@ -112,7 +116,7 @@ describe ZonesController do
   describe 'GET edit' do
     it 'assigns the requested zone as @zone' do
       zone = FactoryGirl.create(:zone, valid_attributes)
-      get :edit, :id => zone.id.to_s
+      get :edit, id: zone.id.to_s
       assigns(:zone).should eq(zone)
     end
   end
@@ -121,18 +125,18 @@ describe ZonesController do
     describe 'with valid params' do
       it 'creates a new Zone' do
         expect {
-          post :create, :zone => valid_attributes
+          post :create, zone: valid_attributes
         }.to change(Zone, :count).by(1)
       end
 
       it 'assigns a newly created zone as @zone' do
-        post :create, :zone => valid_attributes
+        post :create, zone: valid_attributes
         assigns(:zone).should be_a(Zone)
         assigns(:zone).should be_persisted
       end
 
       it 'redirects to the created zone' do
-        post :create, :zone => valid_attributes
+        post :create, zone: valid_attributes
         response.should redirect_to(Zone.last)
       end
     end
@@ -141,14 +145,14 @@ describe ZonesController do
       it 'assigns a newly created but unsaved zone as @zone' do
         # Trigger the behavior that occurs when invalid params are submitted
         Zone.any_instance.stub(:save).and_return(false)
-        post :create, :zone => {}
+        post :create, zone: {}
         assigns(:zone).should be_a_new(Zone)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Zone.any_instance.stub(:save).and_return(false)
-        post :create, :zone => {}
+        post :create, zone: {}
         response.should render_template('new')
       end
     end
@@ -162,19 +166,20 @@ describe ZonesController do
         # specifies that the Zone created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Zone.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => zone.id, :zone => {'these' => 'params'}
+        Zone.any_instance.should_receive(:update_attributes).
+            with({'these' => 'params'})
+        put :update, id: zone.id, zone: {'these' => 'params'}
       end
 
       it 'assigns the requested zone as @zone' do
         zone = FactoryGirl.create(:zone, valid_attributes)
-        put :update, :id => zone.id, :zone => valid_attributes
+        put :update, id: zone.id, zone: valid_attributes
         assigns(:zone).should eq(zone)
       end
 
       it 'redirects to the zone' do
         zone = FactoryGirl.create(:zone, valid_attributes)
-        put :update, :id => zone.id, :zone => valid_attributes
+        put :update, id: zone.id, zone: valid_attributes
         response.should redirect_to(zone)
       end
     end
@@ -184,7 +189,7 @@ describe ZonesController do
         zone = FactoryGirl.create(:zone, valid_attributes)
         # Trigger the behavior that occurs when invalid params are submitted
         Zone.any_instance.stub(:save).and_return(false)
-        put :update, :id => zone.id.to_s, :zone => {}
+        put :update, id: zone.id.to_s, zone: {}
         assigns(:zone).should eq(zone)
       end
 
@@ -192,7 +197,7 @@ describe ZonesController do
         zone = FactoryGirl.create(:zone, valid_attributes)
         # Trigger the behavior that occurs when invalid params are submitted
         Zone.any_instance.stub(:save).and_return(false)
-        put :update, :id => zone.id.to_s, :zone => {}
+        put :update, id: zone.id.to_s, zone: {}
         response.should render_template('edit')
       end
     end
@@ -202,13 +207,13 @@ describe ZonesController do
     it 'destroys the requested zone' do
       zone = FactoryGirl.create(:zone, valid_attributes)
       expect {
-        delete :destroy, :id => zone.id.to_s
+        delete :destroy, id: zone.id.to_s
       }.to change(Zone, :count).by(-1)
     end
 
     it 'redirects to the zones list' do
       zone = FactoryGirl.create(:zone, valid_attributes)
-      delete :destroy, :id => zone.id.to_s
+      delete :destroy, id: zone.id.to_s
       response.should redirect_to(zones_url)
     end
   end

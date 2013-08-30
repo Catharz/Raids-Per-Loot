@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# NullCharacter is used to represent a relation
+# not having a character assigned
 class NullCharacter
   attr_reader :id, :name, :general_alternates
 

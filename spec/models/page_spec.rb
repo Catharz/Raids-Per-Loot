@@ -10,7 +10,9 @@ describe Page do
     end
 
     it 'handles redirects' do
-      page = FactoryGirl.create(:page, redirect: true, controller_name: 'wilma', action_name: 'fred')
+      page = FactoryGirl.create(:page, redirect: true,
+                                controller_name: 'wilma',
+                                action_name: 'fred')
 
       page.to_url.should eq "<a href='/wilma/fred'>#{page.navlabel}</a>"
     end
@@ -18,8 +20,11 @@ describe Page do
 
   describe '#parent_navlabel' do
     it 'should return the navlabel when it has a parent' do
-      parent = FactoryGirl.create(:page, name: 'Parent', title: 'Parent', navlabel: 'Parent', body: '.')
-      child = FactoryGirl.create(:page, name: 'Child', title: 'Child', navlabel: 'Child', body: '.', parent_id: parent.id)
+      parent = FactoryGirl.create(:page, name: 'Parent', title: 'Parent',
+                                  navlabel: 'Parent', body: '.')
+      child = FactoryGirl.create(:page, name: 'Child', title: 'Child',
+                                 navlabel: 'Child', body: '.',
+                                 parent_id: parent.id)
 
       child.parent_navlabel.should eq 'Parent'
     end
@@ -41,7 +46,9 @@ describe Page do
 
   describe '#redirection' do
     it 'should return controller/action when redirected' do
-      page = FactoryGirl.create(:page, redirect: true, controller_name: 'page', action_name: 'show')
+      page = FactoryGirl.create(:page, redirect: true,
+                                controller_name: 'page',
+                                action_name: 'show')
 
       page.redirection.should eq 'page/show'
     end

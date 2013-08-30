@@ -1,3 +1,8 @@
+# @author Craig Read
+#
+# RemoteConnectionHelper provides a means to
+# check if the system currently has internet
+# connectivity.
 module RemoteConnectionHelper
   def internet_connection?
     # Only check if it's nil

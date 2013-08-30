@@ -3,7 +3,7 @@ module MobSpecHelper
     mob_list = []
     mobs = (1..num_mobs).to_a
     mobs.each do |mob_num|
-      mob_list << mock_model(Mob, :zone => zone, :name => "Zone #{mob_num.to_s}")
+      mob_list << mock_model(Mob, zone: zone, name: "Zone #{mob_num.to_s}")
     end
     mob_list
   end

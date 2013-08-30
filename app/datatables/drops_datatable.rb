@@ -1,3 +1,8 @@
+# @author Craig Read
+#
+# DropsDataTable handles searching, pagination
+# and formatting json output appropriately for use
+# in a server-side data table
 class DropsDatatable
   delegate :params, :h, :link_to, to: :@view
 
@@ -19,7 +24,8 @@ class DropsDatatable
   def data
     drops.map do |drop|
       {
-          '0' => h(link_to drop.item_name, drop.item, class: 'itemPopupTrigger'),
+          '0' => h(link_to drop.item_name,
+                           drop.item, class: 'itemPopupTrigger'),
           '1' => drop.character_name,
           '2' => drop.loot_type_name,
           '3' => drop.zone_name,
@@ -27,8 +33,11 @@ class DropsDatatable
           '5' => drop.drop_time,
           '6' => drop.loot_method_name,
           '7' => h(link_to 'Show', drop, class: 'table-button'),
-          '8' => h(link_to 'Edit', @view.edit_drop_path(drop), class: 'table-button'),
-          '9' => h(link_to 'Destroy', drop, :confirm => 'Are you sure?', :method => :delete, class: 'table-button'),
+          '8' => h(link_to 'Edit', @view.edit_drop_path(drop),
+                           class: 'table-button'),
+          '9' => h(link_to 'Destroy', drop,
+                           :confirm => 'Are you sure?',
+                           :method => :delete, class: 'table-button'),
           'DT_RowId' => drop.item.id
       }
     end
@@ -39,15 +48,11 @@ class DropsDatatable
   end
 
   def fetch_drops
-    drops = Drop.by_eq2_item_id(params[:eq2_item_id]).by_time(params[:drop_time]).by_instance(params[:instance_id]).by_zone(params[:zone_id]).by_mob(params[:mob_id]) \
-      .by_player(params[:player_id]).by_character(params[:character_id]).by_item(params[:item_id]) \
-      .eager_load(:instance, :zone, :mob, :character, :item, :loot_type) \
+    drops = build_where(Drop.scoped)
+    drops = drops.eager_load(:instance, :zone, :mob,
+                             :character, :item, :loot_type) \
       .order("#{sort_column} #{sort_direction}")
-    drops = drops.page(page).per_page(per_page)
-    if params[:sSearch].present?
-      drops = drops.where("upper(zones.name) like :search or upper(mobs.name) like :search or upper(items.name) like :search or upper(characters.name) like :search or upper(loot_types.name) like :search", search: "%#{params[:sSearch].upcase}%")
-    end
-    drops
+    drops.page(page).per_page(per_page)
   end
 
   def page
@@ -64,7 +69,8 @@ class DropsDatatable
 
   def sort_column
     if params[:iSortCol_0].present?
-      columns = %w[items.name characters.name loot_types.name zones.name mobs.name drops.drop_time drops.loot_method]
+      columns = %w[items.name characters.name loot_types.name zones.name
+                   mobs.name drops.drop_time drops.loot_method]
       columns[params[:iSortCol_0].to_i]
     else
       'drops.drop_time'
@@ -77,5 +83,26 @@ class DropsDatatable
     else
       sort_column == 'drops.drop_time' ? 'desc' : 'asc'
     end
+  end
+
+  private
+
+  def build_where(drops_scope)
+    drops_scope.by_eq2_item_id(params[:eq2_item_id]) \
+      .by_time(params[:drop_time]).by_instance(params[:instance_id]) \
+      .by_zone(params[:zone_id]).by_mob(params[:mob_id]) \
+      .by_player(params[:player_id]).by_character(params[:character_id]) \
+      .by_item(params[:item_id])
+
+    if params[:sSearch].present?
+      drops_scope =
+          drops_scope.where('upper(zones.name) like :search or ' +
+                                'upper(mobs.name) like :search or ' +
+                                'upper(items.name) like :search or ' +
+                                'upper(characters.name) like :search or ' +
+                                'upper(loot_types.name) like :search',
+                            search: "%#{params[:sSearch].upcase}%")
+    end
+    drops_scope
   end
 end

@@ -1,5 +1,11 @@
+# @author Craig Read
+#
+# Controller for the Comment views.
+#
+# json and js formatting options are available on actions
+# where ajax is used via jQueryUI popups.
 class CommentsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:index, :show]
+  before_filter :authenticate_user!, except: [:index, :show]
   before_filter :set_pagetitle
 
   def set_pagetitle
@@ -70,7 +76,8 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.update_attributes(params[:comment])
         format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
-        format.json { render :json => @comment.to_json(methods: [:commented_name]), :notice => 'Comment was successfully updated.' }
+        format.json { render json: @comment.to_json(methods: [:commented_name]),
+                             notice: 'Comment was successfully updated.' }
       else
         format.html { render action: 'edit' }
         format.json { render json: @comment.errors, status: :unprocessable_entity }

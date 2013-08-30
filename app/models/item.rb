@@ -1,3 +1,7 @@
+# @author Craig Read
+#
+# Item represents an in-game item to be looted
+# on raids
 class Item < ActiveRecord::Base
   include RemoteConnectionHelper, ArchetypesHelper
 

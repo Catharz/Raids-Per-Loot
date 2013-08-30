@@ -1,3 +1,9 @@
+# @author Craig Read
+#
+# LootTypeItemsUpdater manages setting the loot type
+# of drops when its null, and setting the loot method
+# of drops when the default loot method of the loot
+# type is trash or guild bank
 class LootTypeItemsUpdater
   @queue = :loot_type_item_updater
 
@@ -11,7 +17,8 @@ class LootTypeItemsUpdater
     end
     if %w{t g}.include? loot_type.default_loot_method
       loot_type.drops.each do |drop|
-        drop.update_attribute(:loot_method, loot_type.default_loot_method) unless drop.loot_method.eql? loot_type.default_loot_method
+        drop.update_attribute(:loot_method, loot_type.default_loot_method) \
+          unless drop.loot_method.eql? loot_type.default_loot_method
       end
     end
   end

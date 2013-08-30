@@ -1,3 +1,9 @@
+# @author Craig Read
+#
+# Controller for the Administration view.
+#
+# Many of the actions here are background jobs
+# which are handled by Resque workers.
 class AdminController < ApplicationController
   include RemoteConnectionHelper
   before_filter :authenticate_user!
