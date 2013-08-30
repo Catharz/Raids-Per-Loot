@@ -8,41 +8,44 @@ module DropSpecHelper
 
   # These items must exist or the Drop will not be valid
   def create_drop_dependencies
-    progression = FactoryGirl.create(:raid_type, name: 'Progression')
-    raid = FactoryGirl.create(:raid, raid_date: Date.parse('2012-01-03'),
-                              raid_type: progression)
-    instance =
-        FactoryGirl.create(:instance, raid_id: raid.id,
-                           start_time: DateTime.parse('03/01/2012 1:00PM'))
-    zone = FactoryGirl.create(:zone, name: 'Wherever')
-    mob = FactoryGirl.create(:mob, name: 'Whoever', zone_id: zone.id)
+    raid_date = Date.parse('2012-01-03')
+    start_time = DateTime.parse('03/01/2012 13:00+11:00')
 
-    armour = FactoryGirl.create(:loot_type, name: 'Armour',
-                                default_loot_method: 'n')
-    spell = FactoryGirl.create(:loot_type, name: 'Spell',
-                               default_loot_method: 'r')
-    trash = FactoryGirl.create(:loot_type, name: 'Trash',
-                               default_loot_method: 't')
-    trade_skill = FactoryGirl.create(:loot_type, name: 'Trade Skill',
-                                     default_loot_method: 'g')
-    armour_item = FactoryGirl.create(:item, name: 'Armour',
-                                     eq2_item_id: 'armour',
-                                     loot_type_id: armour.id)
-    spell_item = FactoryGirl.create(:item, name: 'Spell', eq2_item_id: 'spell',
-                                    loot_type_id: spell.id)
-    trash_item = FactoryGirl.create(:item, name: 'Trash', eq2_item_id: 'trash',
-                                    loot_type_id: trash.id)
-    trade_skill_item = FactoryGirl.create(:item, name: 'Trade Skill Item',
-                                          loot_type_id: trade_skill.id)
+    progression = RaidType.find_by_name('Progression') ||
+        FactoryGirl.create(:raid_type, name: 'Progression')
 
-    rank = FactoryGirl.create(:rank, name: 'Main')
+    raid = Raid.
+        find_by_raid_date_and_raid_type_id(raid_date, progression.id) ||
+        FactoryGirl.create(:raid, raid_date: raid_date, raid_type: progression)
+
+    instance = Instance.
+        find_by_raid_id_and_start_time(raid.id, start_time) ||
+        FactoryGirl.create(:instance, raid_id: raid.id, start_time: start_time)
+
+    zone = Zone.find_by_name('Wherever') ||
+        FactoryGirl.create(:zone, name: 'Wherever')
+
+    mob = Mob.find_by_name_and_zone_id('Whoever', zone.id) ||
+        FactoryGirl.create(:mob, name: 'Whoever', zone_id: zone.id)
+
+    armour = LootType.find_by_name('Armour')
+    spell = LootType.find_by_name('Spell')
+    trash = LootType.find_by_name('Trash')
+    trade_skill = LootType.find_by_name('Trade Skill Component')
+
+    armour_item = FactoryGirl.create(:item, loot_type_id: armour.id)
+    spell_item = FactoryGirl.create(:item, loot_type_id: spell.id)
+    trash_item = FactoryGirl.create(:item, loot_type_id: trash.id)
+    trade_skill_item = FactoryGirl.create(:item, loot_type_id: trade_skill.id)
+
+    rank = Rank.find_by_name('Main')
     player = FactoryGirl.create(:player, name: 'Me', rank_id: rank.id)
 
     archetype = Archetype.find_by_name('Scout')
     character = FactoryGirl.create(:character, name: 'Me', player_id: player.id,
                                    archetype_id: archetype.id, char_type: 'm')
 
-    drop_time = DateTime.parse('03/01/2012 2:00PM')
+    drop_time = DateTime.parse('03/01/2012 14:00+11:00')
 
     {
         raid: raid, instance: instance,
@@ -68,16 +71,6 @@ module DropSpecHelper
      loot_method: 't',
      chat: 'blah blah blah',
      drop_time: @drop_details[:drop_time]}.merge!(options)
-  end
-
-  def add_drop(character, item_name, loot_type_name)
-    loot_type = mock_model(LootType, name: loot_type_name)
-    item = mock_model(Item, valid_item_attributes.merge!(eq2_item_id: '123',
-                                                         name: item_name))
-    character.stub(:drops).and_return(
-        [mock_model(Drop,
-                    FactoryGirl.attributes_for(:drop).
-                        merge!(loot_type_id: loot_type.id, item_id: item.id))])
   end
 
   def create_drops(character, drop_counts = {})
@@ -108,5 +101,35 @@ module DropSpecHelper
       drop_list << drops
     }
     drop_list.flatten
+  end
+
+  def drop_as_json(drop)
+    {'sEcho' => 0,
+     'iTotalRecords' => 1,
+     'iTotalDisplayRecords' => 1,
+     'aaData' => [
+         {
+             '0' => '<a href="/items/' + drop.item_id.to_s +
+                 '" class="itemPopupTrigger">' + drop.item_name + '</a>',
+             '1' => drop.character_name,
+             '2' => drop.loot_type_name,
+             '3' => drop.zone_name,
+             '4' => drop.mob_name,
+             '5' => '2013-12-25T18:00:00+11:00',
+             "6" => drop.loot_method_name,
+             '7' => '<a href="/drops/' +
+                 drop.id.to_s +
+                 '" class="table-button">Show</a>',
+             '8' => '<a href="/drops/' +
+                 drop.id.to_s +
+                 '/edit" class="table-button">Edit</a>',
+             '9' => '<a href="/drops/' +
+                 drop.id.to_s +
+                 '" class="table-button" data-confirm="Are you sure?" ' +
+                 'data-method="delete" rel="nofollow">Destroy</a>',
+             'DT_RowId' => drop.item.id
+         }
+     ]
+    }
   end
 end
