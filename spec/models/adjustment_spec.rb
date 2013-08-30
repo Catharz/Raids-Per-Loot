@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe Adjustment do
+  fixtures :ranks
   before(:each) do
-    main = FactoryGirl.create(:rank, name: 'Main')
+    main = Rank.find_by_name('Main')
     @betty = FactoryGirl.create(:player, name: 'Betty', rank_id: main.id)
     @wilma = FactoryGirl.create(:player, name: 'Wilma', rank_id: main.id)
     @fred = FactoryGirl.create(:character, name: 'Fred', char_type: 'm')

@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe TrashDropFixer do
+  fixtures :loot_types
   subject { TrashDropFixer }
 
   after(:each) do
@@ -9,7 +10,7 @@ describe TrashDropFixer do
 
   describe '#perform' do
     it 'updates the loot_method of drops of trash items' do
-      trash = FactoryGirl.create(:loot_type, name: 'Trash')
+      trash = LootType.find_by_name('Trash')
       item = FactoryGirl.create(:item, loot_type: trash)
       3.times { FactoryGirl.create(:drop, item: item, loot_method: 'n') }
 

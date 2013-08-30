@@ -31,7 +31,8 @@ describe ServicesController do
     end
 
     it 'deletes the service' do
-      other_service = @admin.services.create!(FactoryGirl.attributes_for(:service))
+      other_service = @admin.services.create!(FactoryGirl.
+                                                  attributes_for(:service))
       expect {
         delete :destroy, id: other_service
       }.to change(Service, :count).by(-1)
@@ -46,7 +47,8 @@ describe ServicesController do
       session[:service_id] = @admin.services.first.id
       delete :destroy, id: @admin.services.first
       response.should redirect_to services_url
-      flash[:error].should match 'You are currently signed in with this account!'
+      flash[:error].
+          should match 'You are currently signed in with this account!'
     end
   end
 
@@ -66,14 +68,20 @@ describe ServicesController do
 
     context 'when confirming creation' do
       it 'creates a user using the session auth hash' do
-        session[:authhash] = {name: 'Fred', email: 'fred@example.com', provider: 'provider', uid: 'fred'}
+        session[:authhash] = {name: 'Fred',
+                              email: 'fred@example.com',
+                              provider: 'provider',
+                              uid: 'fred'}
         expect {
           post :newaccount
         }.to change(User, :count).by(1)
       end
 
       it 'creates a service using the session auth hash' do
-        session[:authhash] = {name: 'Fred', email: 'fred@example.com', provider: 'provider', uid: 'fred'}
+        session[:authhash] = {name: 'Fred',
+                              email: 'fred@example.com',
+                              provider: 'provider',
+                              uid: 'fred'}
         expect {
           post :newaccount
         }.to change(Service, :count).by(1)
@@ -81,17 +89,26 @@ describe ServicesController do
 
       context 'with errors' do
         it 'redirects to the home page' do
-          session[:authhash] = {name: 'Fred', email: 'fred@example.com', provider: 'provider', uid: 'fred'}
+          session[:authhash] = {name: 'Fred',
+                                email: 'fred@example.com',
+                                provider: 'provider',
+                                uid: 'fred'}
           User.any_instance.should_receive(:save!).and_return(false)
           post :newaccount
           response.should redirect_to root_url
         end
 
         it 'displays an appropriate error message' do
-          session[:authhash] = {name: 'Fred', email: 'fred@example.com', provider: 'provider', uid: 'fred'}
+          session[:authhash] = {name: 'Fred',
+                                email: 'fred@example.com',
+                                provider: 'provider',
+                                uid: 'fred'}
           User.any_instance.should_receive(:save!).and_return(false)
           post :newaccount
-          flash[:error].should match 'This is embarrassing! There was an error while creating your account from which we were not able to recover.'
+          flash[:error].
+              should match 'This is embarrassing! There was an error while ' +
+                               'creating your account from which we were ' +
+                               'not able to recover.'
         end
       end
     end
@@ -125,7 +142,9 @@ describe ServicesController do
       before(:each) do
         @env = {
             'provider' => 'facebook',
-            'extra' => {'user_hash' => {'email' => 'fred@example.com', 'name' => 'Fred', 'id' => '001'}}
+            'extra' => {'user_hash' => {'email' => 'fred@example.com',
+                                        'name' => 'Fred',
+                                        'id' => '001'}}
         }
       end
 
@@ -318,7 +337,14 @@ describe ServicesController do
       it 'display the response as yaml' do
         request.env['omniauth.auth'] = @env
         get :create, service: 'myspace'
-        response.body.should eq "---\nprovider: myspace\nuid: '001'\nuser_info:\n  email: fred@example.com\n  name: Fred\n"
+        response.body.
+            should eq "---
+provider: myspace
+uid: '001'
+user_info:
+  email: fred@example.com
+  name: Fred
+"
       end
     end
 
@@ -341,7 +367,9 @@ describe ServicesController do
           login_as(:admin)
           request.env['omniauth.auth'] = @env
           get :create, service: 'developer'
-          flash[:notice].should match 'Your account at Developer is already connected with this site.'
+          flash[:notice].
+              should match 'Your account at Developer is already connected ' +
+                               'with this site.'
         end
 
         it 'redirects to the list of services' do
@@ -380,7 +408,10 @@ describe ServicesController do
         it 'displays an error message' do
           request.env['omniauth.auth'] = @env.merge!('uid' => '')
           get :create, service: 'developer'
-          flash[:error].should match 'Error while authenticating via developer/Developer. The service returned invalid data for the user id.'
+          flash[:error].
+              should match 'Error while authenticating via ' +
+                               'developer/Developer. The service returned ' +
+                               'invalid data for the user id.'
         end
 
         it 'redirects to the signin path' do
@@ -396,7 +427,11 @@ describe ServicesController do
           request.env['omniauth.auth'] = @env
           services_list = double(ActiveRecord::Relation)
           User.any_instance.should_receive(:services).and_return(services_list)
-          services_list.should_receive(:create!).with({provider: 'developer', uid: '001', uname: 'Fred', uemail: 'fred@example.com'})
+          services_list.should_receive(:create!).
+              with({provider: 'developer',
+                    uid: '001',
+                    uname: 'Fred',
+                    uemail: 'fred@example.com'})
           get :create, service: 'developer'
         end
 
@@ -404,7 +439,9 @@ describe ServicesController do
           login_as(:admin)
           request.env['omniauth.auth'] = @env
           get :create, service: 'developer'
-          flash[:notice].should match 'Your Developer account has been added for signing in at this site.'
+          flash[:notice].
+              should match 'Your Developer account has been added for ' +
+                               'signing in at this site.'
         end
 
         it 'redirects you to the services list' do
@@ -420,7 +457,9 @@ describe ServicesController do
       it 'displays an error message' do
         request.env['omniauth.auth'] = nil
         get :create, service: 'my service'
-        flash[:error].should match 'Error while authenticating via My service. The service did not return valid data.'
+        flash[:error].should match 'Error while authenticating via My ' +
+                                       'service. The service did not return ' +
+                                       'valid data.'
       end
 
       it 'redirects to the signin path' do
@@ -434,7 +473,9 @@ describe ServicesController do
   describe 'GET failure' do
     it 'displays an error message' do
       get :failure
-      flash[:error].should match 'There was an error at the remote authentication service. You have not been signed in.'
+      flash[:error].should match 'There was an error at the remote ' +
+                                     'authentication service. ' +
+                                     'You have not been signed in.'
     end
 
     it 'redirects to the home page' do

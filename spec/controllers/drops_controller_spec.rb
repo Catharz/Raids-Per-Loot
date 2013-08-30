@@ -3,7 +3,7 @@ require 'drop_spec_helper'
 require 'authentication_spec_helper'
 
 describe DropsController do
-  fixtures :users, :services, :archetypes
+  fixtures :users, :services, :archetypes, :loot_types, :ranks
   include AuthenticationSpecHelper
   include DropSpecHelper
 
@@ -16,8 +16,12 @@ describe DropsController do
   describe 'GET invalid' do
     it 'lists drops assigned to the wrong archetype' do
       priest = Archetype.find_by_name('Fury')
-      FactoryGirl.create(:archetypes_item, archetype_id: priest.id, item_id: @drop_details[:armour_item].id)
-      drop = FactoryGirl.create(:drop, valid_attributes(item_id: @drop_details[:armour_item].id, loot_method: 'n'))
+      FactoryGirl.create(:archetypes_item,
+                         archetype_id: priest.id,
+                         item_id: @drop_details[:armour_item].id)
+      drop = FactoryGirl.create(:drop,
+                                item_id: @drop_details[:armour_item].id,
+                                loot_method: 'n')
 
       get :invalid
 
@@ -25,7 +29,10 @@ describe DropsController do
     end
 
     it 'does not list trash drops' do
-      FactoryGirl.create(:drop, valid_attributes(item_id: @drop_details[:trash_item].id, loot_method: 't', loot_type_id: @drop_details[:loot_type_id]))
+      FactoryGirl.create(:drop,
+                         item_id: @drop_details[:trash_item].id,
+                         loot_method: 't',
+                         loot_type_id: @drop_details[:loot_type_id])
 
       get :invalid
 
@@ -33,7 +40,9 @@ describe DropsController do
     end
 
     it 'lists trash drops that were won via need' do
-      drop = FactoryGirl.create(:drop, valid_attributes(item_id: @drop_details[:trash_item].id, loot_method: 'n'))
+      drop = FactoryGirl.create(:drop,
+                                item_id: @drop_details[:trash_item].id,
+                                loot_method: 'n')
 
       get :invalid
 
@@ -41,7 +50,9 @@ describe DropsController do
     end
 
     it 'lists trash drops that were won via random' do
-      drop = FactoryGirl.create(:drop, valid_attributes(item_id: @drop_details[:trash_item].id, loot_method: 'r'))
+      drop = FactoryGirl.create(:drop,
+                                item_id: @drop_details[:trash_item].id,
+                                loot_method: 'r')
 
       get :invalid
 
@@ -49,7 +60,9 @@ describe DropsController do
     end
 
     it 'lists trash drops that were won via bid' do
-      drop = FactoryGirl.create(:drop, valid_attributes(item_id: @drop_details[:trash_item].id, loot_method: 'b'))
+      drop = FactoryGirl.create(:drop,
+                                item_id: @drop_details[:trash_item].id,
+                                loot_method: 'b')
 
       get :invalid
 
@@ -57,29 +70,12 @@ describe DropsController do
     end
   end
 
-  #TODO: Fix these tests, relying on my time zone is too brittle
   describe 'GET index' do
     it 'should render JSON' do
-      drop = FactoryGirl.create(:drop, valid_attributes)
-      expected = {'sEcho' => 0,
-                  'iTotalRecords' => 1,
-                  'iTotalDisplayRecords' => 1,
-                  'aaData' => [
-                      {
-                          "0"=>'<a href="/items/' + drop.item_id.to_s + '" class="itemPopupTrigger">Armour</a>',
-                          "1"=>"Me",
-                          "2"=>"Armour",
-                          "3"=>"Wherever",
-                          "4"=>"Whoever",
-                          "5"=>"2012-01-04T01:00:00+11:00",
-                          "6"=>"Trash",
-                          "7"=>'<a href="/drops/' + drop.id.to_s + '" class="table-button">Show</a>',
-                          "8"=>'<a href="/drops/' + drop.id.to_s + '/edit" class="table-button">Edit</a>',
-                          "9"=>'<a href="/drops/' + drop.id.to_s + '" class="table-button" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>',
-                          "DT_RowId"=>drop.item.id
-                      }
-                  ]
-      }
+      drop =
+          FactoryGirl.create :drop,
+                             drop_time: DateTime.parse('2013-12-25 18:00+11:00')
+      expected = drop_as_json(drop)
 
       get :index, format: :json
       actual = JSON.parse(response.body)
@@ -88,62 +84,101 @@ describe DropsController do
     end
 
     it 'should filter by instance when fetching xml' do
-      FactoryGirl.create(:drop, valid_attributes)
-      instance = FactoryGirl.create(:instance, raid_id: @drop_details[:raid].id, zone_id: @drop_details[:zone].id, start_time: DateTime.parse('03/01/2012 3:00PM'))
-      FactoryGirl.create(:drop, valid_attributes.merge!(instance_id: instance.id, drop_time: DateTime.parse('03/01/2012 3:00PM')))
+      FactoryGirl.create(:drop)
+      instance =
+          FactoryGirl.create(:instance,
+                             raid_id: @drop_details[:raid].id,
+                             zone_id: @drop_details[:zone].id,
+                             start_time: DateTime.parse('03/01/2012 3:00PM'))
+      FactoryGirl.create(:drop,
+                         instance_id: instance.id,
+                         drop_time: DateTime.parse('03/01/2012 3:00PM'))
 
       get :index, format: :xml, instance_id: instance.id
+
       response.should contain '2012-01-04T02:00:00+11:00'
       response.should_not contain '2012-01-04T01:00:00+11:00'
     end
 
     it 'should filter by drop time when fetching xml' do
-      FactoryGirl.create(:drop, valid_attributes)
-      instance = FactoryGirl.create(:instance, raid_id: @drop_details[:raid].id, zone_id: @drop_details[:zone].id, start_time: DateTime.parse('03/01/2012 3:00PM'))
-      FactoryGirl.create(:drop, valid_attributes.merge!(instance_id: instance.id, drop_time: DateTime.parse('03/01/2012 3:00PM')))
+      FactoryGirl.create(:drop)
+      instance =
+          FactoryGirl.create(:instance,
+                             raid_id: @drop_details[:raid].id,
+                             zone_id: @drop_details[:zone].id,
+                             start_time: DateTime.parse('03/01/2012 3:00PM'))
+      FactoryGirl.create(:drop,
+                         instance_id: instance.id,
+                         drop_time: DateTime.parse('03/01/2012 3:00PM'))
 
       get :index, format: :xml, drop_time: DateTime.parse('03/01/2012 3:00PM')
+
       response.should contain '2012-01-04T02:00:00+11:00'
       response.should_not contain '2012-01-04T01:00:00+11:00'
     end
 
     it 'should filter by zone when fetching xml' do
-      FactoryGirl.create(:drop, valid_attributes)
+      FactoryGirl.create(:drop)
       zone = FactoryGirl.create(:zone, name: 'Loot Lounge')
-      instance = FactoryGirl.create(:instance, raid_id: @drop_details[:raid].id, start_time: DateTime.parse('03/01/2012 3:00PM'), zone_id: zone.id)
-      FactoryGirl.create(:drop, valid_attributes.merge!(instance_id: instance.id, zone_id: zone.id, drop_time: DateTime.parse('03/01/2012 3:00PM')))
+      instance =
+          FactoryGirl.create(:instance,
+                             raid_id: @drop_details[:raid].id,
+                             start_time: DateTime.parse('03/01/2012 3:00PM'),
+                             zone_id: zone.id)
+      FactoryGirl.create(:drop,
+                         instance_id: instance.id,
+                         zone_id: zone.id,
+                         drop_time: DateTime.parse('03/01/2012 3:00PM'))
 
       get :index, format: :xml, zone_id: zone.id
+
       response.should contain '2012-01-04T02:00:00+11:00'
       response.should_not contain '2012-01-04T01:00:00+11:00'
     end
 
     it 'should filter by mob when fetching xml' do
-      FactoryGirl.create(:drop, valid_attributes)
-      mob = FactoryGirl.create(:mob, zone_id: @drop_details[:zone].id, name: 'Whack-a-mole')
-      FactoryGirl.create(:drop, valid_attributes.merge!(mob_id: mob.id, drop_time: DateTime.parse('03/01/2012 3:00PM')))
+      FactoryGirl.create(:drop)
+      mob = FactoryGirl.create(:mob,
+                               zone_id: @drop_details[:zone].id,
+                               name: 'Whack-a-mole')
+      FactoryGirl.create(:drop,
+                         mob_id: mob.id,
+                         drop_time: DateTime.parse('03/01/2012 3:00PM'))
 
       get :index, format: :xml, mob_id: mob.id
+
       response.should contain '2012-01-04T02:00:00+11:00'
       response.should_not contain '2012-01-04T01:00:00+11:00'
     end
 
     it 'should filter by item when fetching xml' do
-      FactoryGirl.create(:drop, valid_attributes)
-      item = FactoryGirl.create(:item, name: 'Letter Opener', :eq2_item_id => '1234')
-      FactoryGirl.create(:drop, valid_attributes.merge!(item_id: item.id, drop_time: DateTime.parse('03/01/2012 3:00PM')))
+      FactoryGirl.create(:drop)
+      item = FactoryGirl.create(:item, name: 'Letter Opener',
+                                :eq2_item_id => '1234')
+      FactoryGirl.create(:drop,
+                         item_id: item.id,
+                         drop_time: DateTime.parse('03/01/2012 3:00PM'))
 
       get :index, format: :xml, item_id: item.id
+
       response.should contain '2012-01-04T02:00:00+11:00'
       response.should_not contain '2012-01-04T01:00:00+11:00'
     end
 
     it 'should filter by character when fetching xml' do
-      FactoryGirl.create(:drop, valid_attributes)
-      character = FactoryGirl.create(:character, name: 'Them', player_id: @drop_details[:player_id], archetype_id: @drop_details[:archetype].id, char_type: 'm')
-      FactoryGirl.create(:drop, valid_attributes.merge!(character_id: character.id, drop_time: DateTime.parse('03/01/2012 3:00PM')))
+      FactoryGirl.create(:drop)
+      character =
+          FactoryGirl.create(:character,
+                             name: 'Them',
+                             player_id: @drop_details[:player_id],
+                             archetype_id: @drop_details[:archetype].id,
+                             char_type: 'm')
+      FactoryGirl.create(:drop,
+                         character_id: character.id,
+                         drop_time: DateTime.parse('03/01/2012 3:00PM'))
 
       get :index, format: :xml, character_id: character.id
+
       response.should contain '2012-01-04T02:00:00+11:00'
       response.should_not contain '2012-01-04T01:00:00+11:00'
     end
@@ -151,23 +186,23 @@ describe DropsController do
 
   describe 'GET show' do
     it 'assigns the requested drop as @drop' do
-      drop = FactoryGirl.create(:drop, valid_attributes)
+      drop = FactoryGirl.create(:drop)
       get :show, id: drop.id.to_s
       assigns(:drop).should eq(drop)
     end
 
     it 'renders JSON' do
-      drop = FactoryGirl.create(:drop, valid_attributes)
+      drop = FactoryGirl.create(:drop)
 
       get :show, format: :json, id: drop.id.to_s
       actual = JSON.parse(response.body)
 
       actual.should.eql? drop.to_json(
                              methods: [:loot_method_name,
-                                          :invalid_reason,
-                                          :character_name,
-                                          :character_archetype_name,
-                                          :loot_type_name])
+                                       :invalid_reason,
+                                       :character_name,
+                                       :character_archetype_name,
+                                       :loot_type_name])
     end
   end
 
@@ -180,7 +215,7 @@ describe DropsController do
 
   describe 'GET edit' do
     it 'assigns the requested drop as @drop' do
-      drop = FactoryGirl.create(:drop, valid_attributes)
+      drop = FactoryGirl.create(:drop)
       get :edit, id: drop.id.to_s
       assigns(:drop).should eq(drop)
     end
@@ -226,29 +261,30 @@ describe DropsController do
   describe 'PUT update' do
     describe 'with valid params' do
       it 'updates the requested drop' do
-        drop = FactoryGirl.create(:drop, valid_attributes)
+        drop = FactoryGirl.create(:drop)
         # Assuming there are no other drops in the database, this
         # specifies that the Drop created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Drop.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+        Drop.any_instance.should_receive(:update_attributes).
+            with({'these' => 'params'})
         put :update, id: drop.id, drop: {'these' => 'params'}
       end
 
       it 'assigns the requested drop as @drop' do
-        drop = FactoryGirl.create(:drop, valid_attributes)
+        drop = FactoryGirl.create(:drop)
         put :update, id: drop.id, drop: valid_attributes
         assigns(:drop).should eq(drop)
       end
 
       it 'redirects to the drop' do
-        drop = FactoryGirl.create(:drop, valid_attributes)
+        drop = FactoryGirl.create(:drop)
         put :update, id: drop.id, drop: valid_attributes
         response.should redirect_to(drop)
       end
 
       it 'responds with 303 if HTTP_REFERER is set' do
-        drop = FactoryGirl.create(:drop, valid_attributes)
+        drop = FactoryGirl.create(:drop)
         @request.env['HTTP_REFERER'] = admin_path
         put :update, id: drop.id, drop: valid_attributes
         response.status.should == 303
@@ -258,7 +294,7 @@ describe DropsController do
 
     describe 'with invalid params' do
       it 'assigns the drop as @drop' do
-        drop = FactoryGirl.create(:drop, valid_attributes)
+        drop = FactoryGirl.create(:drop)
         # Trigger the behavior that occurs when invalid params are submitted
         Drop.any_instance.stub(:save).and_return(false)
         put :update, id: drop.id.to_s, drop: {}
@@ -266,7 +302,7 @@ describe DropsController do
       end
 
       it "re-renders the 'edit' template" do
-        drop = FactoryGirl.create(:drop, valid_attributes)
+        drop = FactoryGirl.create(:drop)
         # Trigger the behavior that occurs when invalid params are submitted
         Drop.any_instance.stub(:save).and_return(false)
         put :update, id: drop.id.to_s, drop: {}
@@ -277,14 +313,14 @@ describe DropsController do
 
   describe 'DELETE destroy' do
     it 'destroys the requested drop' do
-      drop = FactoryGirl.create(:drop, valid_attributes)
+      drop = FactoryGirl.create(:drop)
       expect {
         delete :destroy, id: drop.id.to_s
       }.to change(Drop, :count).by(-1)
     end
 
     it 'redirects to the drops list' do
-      drop = FactoryGirl.create(:drop, valid_attributes)
+      drop = FactoryGirl.create(:drop)
       delete :destroy, id: drop.id.to_s
       response.should redirect_to(drops_url)
     end

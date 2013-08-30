@@ -1,9 +1,11 @@
 require 'spec_helper'
 
 describe Item do
-  let(:armour) { FactoryGirl.create(:loot_type, name: 'Armour' )}
-  let(:jewellery) { FactoryGirl.create(:loot_type, name: 'Jewellery' )}
-  let(:weapon) { FactoryGirl.create(:loot_type, name: 'Weapon' )}
+  fixtures :loot_types
+
+  let(:armour) { LootType.find_by_name('Armour' ) }
+  let(:jewellery) { LootType.find_by_name('Jewellery' ) }
+  let(:weapon) { LootType.find_by_name('Weapon' ) }
   let(:armour_item) { FactoryGirl.create(:item, loot_type: armour) }
   let(:jewellery_item) { FactoryGirl.create(:item, loot_type: jewellery) }
   let(:weapon_item) { FactoryGirl.create(:item, loot_type: weapon) }

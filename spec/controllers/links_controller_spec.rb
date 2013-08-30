@@ -19,7 +19,8 @@ describe LinksController do
 
   describe 'GET list' do
     it 'assigns all link categories as @link_categories' do
-      category = LinkCategory.create!(title: 'Link Category', description: 'Test')
+      category = LinkCategory.create!(title: 'Link Category',
+                                      description: 'Test')
       link = Link.create! FactoryGirl.attributes_for(:link)
       LinkCategoriesLink.create!(link: link, link_category: category)
 
@@ -96,7 +97,8 @@ describe LinksController do
         # specifies that the Link created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Link.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+        Link.any_instance.should_receive(:update_attributes).
+            with({'these' => 'params'})
         put :update, id: link.id, link: {'these' => 'params'}
       end
 
@@ -146,5 +148,4 @@ describe LinksController do
       response.should redirect_to(links_url)
     end
   end
-
 end

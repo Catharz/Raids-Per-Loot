@@ -65,7 +65,7 @@ describe LinkCategoriesController do
     end
 
     describe "with invalid params" do
-      it "assigns a newly created but unsaved link_category as @link_category" do
+      it "assigns a newly created link_category as @link_category" do
         # Trigger the behavior that occurs when invalid params are submitted
         LinkCategory.any_instance.stub(:save).and_return(false)
         post :create, link_category: {}
@@ -89,7 +89,8 @@ describe LinkCategoriesController do
         # specifies that the LinkCategory created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        LinkCategory.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+        LinkCategory.any_instance.should_receive(:update_attributes).
+            with({'these' => 'params'})
         put :update, id: link_category.id, link_category: {'these' => 'params'}
       end
 
@@ -139,5 +140,4 @@ describe LinkCategoriesController do
       response.should redirect_to(link_categories_url)
     end
   end
-
 end

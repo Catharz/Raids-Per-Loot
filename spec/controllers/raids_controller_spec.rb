@@ -111,7 +111,8 @@ describe RaidsController do
         # specifies that the Raid created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Raid.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+        Raid.any_instance.should_receive(:update_attributes).
+            with({'these' => 'params'})
         put :update, id: raid.id, raid: {'these' => 'params'}
       end
 

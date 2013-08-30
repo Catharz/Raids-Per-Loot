@@ -14,8 +14,11 @@ describe CharactersController do
       character1 = FactoryGirl.create(:character)
       character2 = FactoryGirl.create(:character)
       get :option_list
-      response.body.should eq("<option value='#{character1.id}'>#{character1.name}</option>" +
-                                  "<option value='#{character2.id}'>#{character2.name}</option>")
+      response.body.
+          should eq("<option value='#{character1.id}'>" +
+                        "#{character1.name}</option>" +
+                        "<option value='#{character2.id}'>" +
+                        "#{character2.name}</option>")
     end
   end
 
@@ -45,9 +48,15 @@ describe CharactersController do
 
       result = JSON.parse(response.body)
       result.should eq [JSON.parse(character1.to_json(
-                                       methods: [:player_name, :archetype_name, :archetype_root_name, :attendance])),
+                                       methods: [:player_name,
+                                                 :archetype_name,
+                                                 :archetype_root_name,
+                                                 :attendance])),
                         JSON.parse(character2.to_json(
-                                       methods: [:player_name, :archetype_name, :archetype_root_name, :attendance]))]
+                                       methods: [:player_name,
+                                                 :archetype_name,
+                                                 :archetype_root_name,
+                                                 :attendance]))]
     end
 
     it 'only returns characters with more than 10% attendance' do
@@ -62,7 +71,10 @@ describe CharactersController do
 
       result = JSON.parse(response.body)
       result.should eq [JSON.parse(character2.to_json(
-                                       methods: [:player_name, :archetype_name, :archetype_root_name, :attendance]))]
+                                       methods: [:player_name,
+                                                 :archetype_name,
+                                                 :archetype_root_name,
+                                                 :attendance]))]
     end
 
     it 'lists characters with higher attendance first' do
@@ -77,9 +89,15 @@ describe CharactersController do
 
       result = JSON.parse(response.body)
       result.should eq [JSON.parse(character2.to_json(
-                                       methods: [:player_name, :archetype_name, :archetype_root_name, :attendance])),
+                                       methods: [:player_name,
+                                                 :archetype_name,
+                                                 :archetype_root_name,
+                                                 :attendance])),
                         JSON.parse(character1.to_json(
-                                       methods: [:player_name, :archetype_name, :archetype_root_name, :attendance]))]
+                                       methods: [:player_name,
+                                                 :archetype_name,
+                                                 :archetype_root_name,
+                                                 :attendance]))]
     end
   end
 
@@ -122,9 +140,15 @@ describe CharactersController do
     it 'sorts the characters by name' do
       active_player = FactoryGirl.create(:player, active: true)
       inactive_player = FactoryGirl.create(:player, active: false)
-      character1 = FactoryGirl.create(:character, name: 'Character C', player: active_player)
-      character2 = FactoryGirl.create(:character, name: 'Character B', player: inactive_player)
-      character3 = FactoryGirl.create(:character, name: 'Character A', player: active_player)
+      character1 = FactoryGirl.create(:character,
+                                      name: 'Character C',
+                                      player: active_player)
+      character2 = FactoryGirl.create(:character,
+                                      name: 'Character B',
+                                      player: inactive_player)
+      character3 = FactoryGirl.create(:character,
+                                      name: 'Character A',
+                                      player: active_player)
 
       get :loot
 
@@ -171,17 +195,27 @@ describe CharactersController do
       jenny = FactoryGirl.create(:character, name: 'Jenny')
       first_instance = FactoryGirl.create(:instance)
       second_instance = FactoryGirl.create(:instance)
-      FactoryGirl.create(:character_instance, instance: first_instance, character: jimmy)
-      FactoryGirl.create(:character_instance, instance: first_instance, character: jenny)
-      FactoryGirl.create(:character_instance, instance: second_instance, character: jimmy)
+      FactoryGirl.create(:character_instance,
+                         instance: first_instance,
+                         character: jimmy)
+      FactoryGirl.create(:character_instance,
+                         instance: first_instance,
+                         character: jenny)
+      FactoryGirl.create(:character_instance,
+                         instance: second_instance,
+                         character: jimmy)
 
       get :index, instance_id: second_instance.id
       assigns(:characters).should eq([jimmy])
     end
 
     it 'filters by player' do
-      jack = FactoryGirl.create(:character, name: 'Jack', player: FactoryGirl.create(:player, name: 'Jack'))
-      jill = FactoryGirl.create(:character, name: 'Jill', player: FactoryGirl.create(:player, name: 'Jill'))
+      jack = FactoryGirl.create(:character, name: 'Jack',
+                                player: FactoryGirl.create(:player,
+                                                           name: 'Jack'))
+      jill = FactoryGirl.create(:character, name: 'Jill',
+                                player: FactoryGirl.create(:player,
+                                                           name: 'Jill'))
 
       get :index, player_id: jack.player_id
       assigns(:characters).should eq([jack])
@@ -263,7 +297,8 @@ describe CharactersController do
       end
 
       it 'responds to JSON' do
-        post :create, character: FactoryGirl.attributes_for(:character), format: 'json'
+        post :create,
+             character: FactoryGirl.attributes_for(:character), format: 'json'
         response.response_code.should eq 201
       end
     end
@@ -271,12 +306,14 @@ describe CharactersController do
     context 'with invalid attributes' do
       it 'does not save the new character' do
         expect {
-          post :create, character: FactoryGirl.attributes_for(:invalid_character)
+          post :create,
+               character: FactoryGirl.attributes_for(:invalid_character)
         }.to_not change(Character, :count)
       end
 
       it 're-renders the :new template' do
-        post :create, character: FactoryGirl.attributes_for(:invalid_character)
+        post :create,
+             character: FactoryGirl.attributes_for(:invalid_character)
         response.should render_template :new
       end
     end
@@ -307,17 +344,24 @@ describe CharactersController do
     before(:each) do
       @player = FactoryGirl.create(:player, name: 'Fred')
       @archetype = FactoryGirl.create(:archetype)
-      @character = FactoryGirl.create(:character, name: 'Fred', char_type: 'm', player: @player, archetype: @archetype)
+      @character = FactoryGirl.create(:character,
+                                      name: 'Fred',
+                                      char_type: 'm',
+                                      player: @player,
+                                      archetype: @archetype)
     end
 
     context 'valid attributes' do
       it 'located the requested @character' do
-        put :update, id: @character, character: FactoryGirl.attributes_for(:character)
+        put :update, id: @character,
+            character: FactoryGirl.attributes_for(:character)
         assigns(:character).should eq (@character)
       end
 
       it "changes @character's attributes" do
-        put :update, id: @character, character: @character.attributes.merge!({name: 'Barney', char_type: 'r'})
+        put :update, id: @character,
+            character: @character.attributes.merge!({name: 'Barney',
+                                                     char_type: 'r'})
         @character.reload
         @character.name.should eq('Barney')
         @character.char_type.should eq('r')
@@ -331,18 +375,21 @@ describe CharactersController do
       context 'JSON response' do
         it 'responds to JSON' do
           put :update, id: @character, character:
-              @character.attributes.merge!({name: 'Bam Bam', char_type: 'r'}), format: 'json'
+              @character.attributes.merge!({name: 'Bam Bam',
+                                            char_type: 'r'}), format: 'json'
 
           response.response_code.should == 200
         end
 
         context 'extra methods' do
           it 'returns all the normal methods' do
-            method_list = [:archetype_name, :archetype_root, :player_name, :first_raid_date,
-                       :last_raid_date, :armour_rate, :jewellery_rate, :weapon_rate]
+            method_list = [:archetype_name, :archetype_root, :player_name,
+                           :first_raid_date, :last_raid_date, :armour_rate,
+                           :jewellery_rate, :weapon_rate]
             method_list.each_with_index do |method, index|
-              put :update, id: @character, character:
-                  @character.attributes.merge!({name: "Update #{index}"}), format: 'json'
+              put :update, id: @character,
+                  character: @character.attributes.
+                      merge!({name: "Update #{index}"}), format: 'json'
 
               result = JSON.parse(response.body).with_indifferent_access
               result[:character][method].should eq @character.send(method)
@@ -351,10 +398,12 @@ describe CharactersController do
 
           it 'returns the main character' do
             put :update, id: @character, character:
-                @character.attributes.merge!({name: 'Bam Bam', char_type: 'r'}), format: 'json'
+                @character.attributes.merge!({name: 'Bam Bam',
+                                              char_type: 'r'}), format: 'json'
 
             result = JSON.parse(response.body).with_indifferent_access
-            result[:character][:main_character].should eq JSON.parse(@character.main_character.to_json)
+            result[:character][:main_character].
+                should eq JSON.parse(@character.main_character.to_json)
           end
         end
       end
@@ -362,19 +411,24 @@ describe CharactersController do
 
     context 'invalid attributes' do
       it 'locates the requested @character' do
-        put :update, id: @character, character: FactoryGirl.attributes_for(:invalid_character)
+        put :update, id: @character,
+            character: FactoryGirl.attributes_for(:invalid_character)
         assigns(:character).should eq (@character)
       end
 
       it "does not change @character's attributes" do
-        put :update, id: @character, character: FactoryGirl.attributes_for(:character, name: 'Whatever', char_type: nil)
+        put :update, id: @character,
+            character: FactoryGirl.attributes_for(:character,
+                                                  name: 'Whatever',
+                                                  char_type: nil)
         @character.reload
         @character.name.should_not eq('Whatever')
         @character.char_type.should eq('m')
       end
 
       it 're-renders the :edit template' do
-        put :update, id: @character, character: FactoryGirl.attributes_for(:invalid_character)
+        put :update, id: @character,
+            character: FactoryGirl.attributes_for(:invalid_character)
         response.should render_template :edit
       end
     end

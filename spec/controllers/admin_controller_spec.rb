@@ -3,7 +3,7 @@ require 'authentication_spec_helper'
 
 describe AdminController do
   include AuthenticationSpecHelper
-  fixtures :users, :services
+  fixtures :users, :services, :loot_types
 
   before(:each) do
     login_as :admin
@@ -20,7 +20,7 @@ describe AdminController do
   context 'item clean-up actions' do
     describe 'POST #fix_trash_drops' do
       it 'calls Item.fix_trash_drops' do
-        trash = FactoryGirl.create(:loot_type, name: 'Trash')
+        trash = LootType.find_by_name('Trash')
         item = FactoryGirl.create(:item, loot_type: trash)
         FactoryGirl.create(:drop, item: item, loot_method: 'n')
 
@@ -38,13 +38,17 @@ describe AdminController do
 
     describe 'POST #resolve_duplicate_items' do
       it 'calls SonyDataService.resolve_duplicate_items' do
-        SonyDataService.any_instance.should_receive(:resolve_duplicate_items).and_return(true)
+        SonyDataService.any_instance.
+            should_receive(:resolve_duplicate_items).
+            and_return(true)
 
         post :resolve_duplicate_items
       end
 
       it 'redirects to /admin when done' do
-        SonyDataService.any_instance.should_receive(:resolve_duplicate_items).and_return(false)
+        SonyDataService.any_instance.
+            should_receive(:resolve_duplicate_items).
+            and_return(false)
 
         post :resolve_duplicate_items
 
@@ -56,13 +60,17 @@ describe AdminController do
   context 'Sony Data API action' do
     describe 'POST #update_character_list' do
       it 'calls SonyDataService.new.update_character_list' do
-        SonyDataService.any_instance.should_receive(:update_character_list).and_return(0)
+        SonyDataService.any_instance.
+            should_receive(:update_character_list).
+            and_return(0)
 
         post :update_character_list
       end
 
       it 'redirects to /admin when done' do
-        SonyDataService.any_instance.should_receive(:update_character_list).and_return(-1)
+        SonyDataService.any_instance.
+            should_receive(:update_character_list).
+            and_return(-1)
 
         post :update_character_list
 
@@ -88,13 +96,15 @@ describe AdminController do
 
     describe 'POST #update_player_list' do
       it 'calls SonyDataService.new.update_player_list' do
-        SonyDataService.any_instance.should_receive(:update_player_list).and_return(0)
+        SonyDataService.any_instance.
+            should_receive(:update_player_list).and_return(0)
 
         post :update_player_list
       end
 
       it 'redirects to /admin when done' do
-        SonyDataService.any_instance.should_receive(:update_player_list).and_return(-1)
+        SonyDataService.any_instance.
+            should_receive(:update_player_list).and_return(-1)
 
         post :update_player_list
 

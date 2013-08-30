@@ -29,10 +29,13 @@ describe PlayerRaidsController do
       get :index, format: :xml
 
       response.content_type.should eq('application/xml')
-      response.body.should have_selector('player-raids', type: 'array') do |results|
+      response.body.
+          should have_selector('player-raids', type: 'array') do |results|
         results.should have_selector('player-raid') do |pr|
-          pr.should have_selector('raid-id', type: 'integer', content: player_raid.raid_id.to_s)
-          pr.should have_selector('player-id', type: 'integer', content: player_raid.player_id.to_s)
+          pr.should have_selector('raid-id', type: 'integer',
+                                  content: player_raid.raid_id.to_s)
+          pr.should have_selector('player-id', type: 'integer',
+                                  content: player_raid.player_id.to_s)
         end
       end
       response.body.should eq([player_raid].to_xml)
@@ -95,7 +98,9 @@ describe PlayerRaidsController do
 
   describe 'GET edit' do
     it 'assigns the requested player_raid as @player_raid' do
-      player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).attributes.symbolize_keys
+      player_raid =
+          PlayerRaid.create! FactoryGirl.build(:player_raid).
+                                 attributes.symbolize_keys
       get :edit, {id: player_raid.to_param}
       assigns(:player_raid).should eq(player_raid)
     end
@@ -105,18 +110,21 @@ describe PlayerRaidsController do
     describe 'with valid params' do
       it 'creates a new PlayerRaid' do
         expect {
-          post :create, {player_raid: FactoryGirl.build(:player_raid).attributes.symbolize_keys}
+          post :create, {player_raid: FactoryGirl.
+              build(:player_raid).attributes.symbolize_keys}
         }.to change(PlayerRaid, :count).by(1)
       end
 
       it 'assigns a newly created player_raid as @player_raid' do
-        post :create, {player_raid: FactoryGirl.build(:player_raid).attributes.symbolize_keys}
+        post :create, {player_raid: FactoryGirl.
+            build(:player_raid).attributes.symbolize_keys}
         assigns(:player_raid).should be_a(PlayerRaid)
         assigns(:player_raid).should be_persisted
       end
 
       it 'redirects to the created player_raid' do
-        post :create, {player_raid: FactoryGirl.build(:player_raid).attributes.symbolize_keys}
+        post :create, {player_raid: FactoryGirl.
+            build(:player_raid).attributes.symbolize_keys}
         response.should redirect_to(PlayerRaid.last)
       end
     end
@@ -139,34 +147,46 @@ describe PlayerRaidsController do
   describe 'PUT update' do
     describe 'with valid params' do
       it 'updates the requested player_raid' do
-        player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).attributes.symbolize_keys
-        PlayerRaid.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {id: player_raid.to_param, player_raid: {'these' => 'params'}}
+        player_raid =
+            PlayerRaid.create! FactoryGirl.build(:player_raid).
+                                   attributes.symbolize_keys
+        PlayerRaid.any_instance.should_receive(:update_attributes).
+            with({'these' => 'params'})
+        put :update, {id: player_raid.to_param,
+                      player_raid: {'these' => 'params'}}
       end
 
       it 'assigns the requested player_raid as @player_raid' do
-        player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).attributes.symbolize_keys
-        put :update, {id: player_raid.to_param, player_raid: FactoryGirl.build(:player_raid).attributes.symbolize_keys}
+        player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).
+                                             attributes.symbolize_keys
+        put :update, {id: player_raid.to_param,
+                      player_raid: FactoryGirl.build(:player_raid).
+                          attributes.symbolize_keys}
         assigns(:player_raid).should eq(player_raid)
       end
 
       it 'redirects to the player_raid' do
-        player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).attributes.symbolize_keys
-        put :update, {id: player_raid.to_param, player_raid: FactoryGirl.build(:player_raid).attributes.symbolize_keys}
+        player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).
+                                             attributes.symbolize_keys
+        put :update, {id: player_raid.to_param,
+                      player_raid: FactoryGirl.build(:player_raid).
+                          attributes.symbolize_keys}
         response.should redirect_to(player_raid)
       end
     end
 
     describe 'with invalid params' do
       it 'assigns the player_raid as @player_raid' do
-        player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).attributes.symbolize_keys
+        player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).
+                                             attributes.symbolize_keys
         PlayerRaid.any_instance.stub(:save).and_return(false)
         put :update, {id: player_raid.to_param, player_raid: {}}
         assigns(:player_raid).should eq(player_raid)
       end
 
       it "re-renders the 'edit' template" do
-        player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).attributes.symbolize_keys
+        player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).
+                                             attributes.symbolize_keys
         PlayerRaid.any_instance.stub(:save).and_return(false)
         put :update, {id: player_raid.to_param, player_raid: {}}
         response.should render_template('edit')
@@ -176,14 +196,16 @@ describe PlayerRaidsController do
 
   describe 'DELETE destroy' do
     it 'destroys the requested player_raid' do
-      player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).attributes.symbolize_keys
+      player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).
+                                           attributes.symbolize_keys
       expect {
         delete :destroy, {id: player_raid.to_param}
       }.to change(PlayerRaid, :count).by(-1)
     end
 
     it 'redirects to the player_raids list' do
-      player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).attributes.symbolize_keys
+      player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).
+                                           attributes.symbolize_keys
       delete :destroy, {id: player_raid.to_param}
       response.should redirect_to(player_raids_url)
     end

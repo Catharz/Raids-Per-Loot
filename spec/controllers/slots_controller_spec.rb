@@ -89,7 +89,8 @@ describe SlotsController do
         # specifies that the Slot created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Slot.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+        Slot.any_instance.should_receive(:update_attributes).
+            with({'these' => 'params'})
         put :update, id: slot.id, slot: {'these' => 'params'}
       end
 

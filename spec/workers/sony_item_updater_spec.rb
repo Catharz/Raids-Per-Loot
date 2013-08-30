@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe SonyItemUpdater do
-  fixtures :archetypes
+  fixtures :archetypes, :loot_types
 
   subject { SonyItemUpdater }
-  let(:unknown) { FactoryGirl.create(:loot_type, name: 'Unknown') }
-  let(:adornment) { FactoryGirl.create(:loot_type, name: 'Adornment') }
-  let(:armour) { FactoryGirl.create(:loot_type, name: 'Armour') }
-  let(:jewellery) { FactoryGirl.create(:loot_type, name: 'Jewellery') }
-  let(:weapon) { FactoryGirl.create(:loot_type, name: 'Weapon') }
-  let(:spell) { FactoryGirl.create(:loot_type, name: 'Spell') }
-  let(:trash) { FactoryGirl.create(:loot_type, name: 'Trash') }
+  let(:unknown) { LootType.find_by_name('Unknown') }
+  let(:adornment) { LootType.find_by_name('Adornment') }
+  let(:armour) { LootType.find_by_name('Armour') }
+  let(:jewellery) { LootType.find_by_name('Jewellery') }
+  let(:weapon) { LootType.find_by_name('Weapon') }
+  let(:spell) { LootType.find_by_name('Spell') }
+  let(:trash) { LootType.find_by_name('Trash') }
   let(:armour_item) { {
       type: 'Armor',
       slot_list: [name: 'Chest']

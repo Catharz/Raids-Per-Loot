@@ -1,9 +1,11 @@
 require 'spec_helper'
 require 'authentication_spec_helper'
+require 'item_spec_helper'
 
 describe ItemsController do
   include AuthenticationSpecHelper
-  fixtures :users, :services
+  include ItemSpecHelper
+  fixtures :users, :services, :loot_types
 
   before(:each) do
     login_as :admin
@@ -64,22 +66,7 @@ describe ItemsController do
   describe 'GET index' do
     it 'should render JSON by default' do
       item = Item.create! valid_attributes
-      expected = {'sEcho' => 0,
-                  'iTotalRecords'  => 1,
-                  'iTotalDisplayRecords' => 1,
-                  'aaData' => [
-                      {
-                          "0"=>'<a href="/items/' + item.id.to_s + '" class="itemPopupTrigger">Whatever</a>',
-                          "1"=>nil,
-                          "2"=>'None',
-                          "3"=>'None',
-                          "4"=>'<a href="/items/' + item.id.to_s + '" class="table-button">Show</a>',
-                          "5"=>'<a href="/items/' + item.id.to_s + '/edit" class="table-button">Edit</a>',
-                          "6"=>'<a href="/items/' + item.id.to_s + '" class="table-button" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Destroy</a>',
-                          "DT_RowId"=>item.id
-                      }
-                  ]
-      }
+      expected = item_as_json(item)
 
       get :index, format: :json
       actual = JSON.parse(response.body)
@@ -89,7 +76,8 @@ describe ItemsController do
 
     it 'should filter by item name when getting xml' do
       FactoryGirl.create(:item, valid_attributes)
-      FactoryGirl.create(:item, {name: 'Tin foil hat', :eq2_item_id => 'another id'})
+      FactoryGirl.create(:item, {name: 'Tin foil hat',
+                                 :eq2_item_id => 'another id'})
 
       get :index, format: :xml, name: 'Tin foil hat'
       response.body.should contain 'Tin foil hat'
@@ -98,7 +86,8 @@ describe ItemsController do
 
     it 'should filter by eq2_item_id when getting xml' do
       FactoryGirl.create(:item, valid_attributes)
-      FactoryGirl.create(:item, {name: 'Dagger of letter opening', :eq2_item_id => 'yet another id'})
+      FactoryGirl.create(:item, {name: 'Dagger of letter opening',
+                                 :eq2_item_id => 'yet another id'})
 
       get :index, format: :xml, :eq2_item_id => 'yet another id'
       response.body.should contain 'Dagger of letter opening'
@@ -106,10 +95,13 @@ describe ItemsController do
     end
 
     it 'should filter by loot_type when getting xml' do
-      armour = FactoryGirl.create(:loot_type, name: 'Armour', default_loot_method: 'n')
-      trash = FactoryGirl.create(:loot_type, name: 'Trash', default_loot_method: 't')
-      FactoryGirl.create(:item, valid_attributes.merge!(loot_type_id: armour.id))
-      FactoryGirl.create(:item, {name: 'Trash Drop', :eq2_item_id => 'yet another id', loot_type_id: trash.id})
+      armour = LootType.find_by_name('Armour')
+      trash = LootType.find_by_name('Trash')
+      FactoryGirl.create(:item,
+                         valid_attributes.merge!(loot_type_id: armour.id))
+      FactoryGirl.create(:item, {name: 'Trash Drop',
+                                 :eq2_item_id => 'yet another id',
+                                 loot_type_id: trash.id})
 
       get :index, format: :xml, loot_type_id: trash.id
       response.body.should contain 'Trash Drop'
@@ -191,7 +183,8 @@ describe ItemsController do
         # specifies that the Item created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Item.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+        Item.any_instance.should_receive(:update_attributes).
+            with({'these' => 'params'})
         put :update, id: item.id, item: {'these' => 'params'}
       end
 
@@ -241,5 +234,4 @@ describe ItemsController do
       response.should redirect_to(items_url)
     end
   end
-
 end

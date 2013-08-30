@@ -74,12 +74,14 @@ describe DifficultiesController do
     context 'with invalid attributes' do
       it 'does not save the new difficulty' do
         expect {
-          post :create, difficulty: FactoryGirl.attributes_for(:invalid_difficulty)
+          post :create, difficulty: FactoryGirl.
+              attributes_for(:invalid_difficulty)
         }.to_not change(Difficulty, :count)
       end
 
       it 're-renders the :new template' do
-        post :create, difficulty: FactoryGirl.attributes_for(:invalid_difficulty)
+        post :create, difficulty: FactoryGirl.
+            attributes_for(:invalid_difficulty)
         response.should render_template :new
       end
     end
@@ -92,38 +94,48 @@ describe DifficultiesController do
 
     context 'valid attributes' do
       it 'located the requested @difficulty' do
-        put :update, id: @difficulty, difficulty: FactoryGirl.attributes_for(:difficulty)
+        put :update, id: @difficulty,
+            difficulty: FactoryGirl.attributes_for(:difficulty)
         assigns(:difficulty).should eq (@difficulty)
       end
 
       it "changes @difficulty's attributes" do
-        put :update, id: @difficulty, difficulty: FactoryGirl.attributes_for(:difficulty, name: 'Super Hard', rating: 9)
+        put :update, id: @difficulty,
+            difficulty: FactoryGirl.attributes_for(:difficulty,
+                                                   name: 'Super Hard',
+                                                   rating: 9)
         @difficulty.reload
         @difficulty.name.should eq('Super Hard')
         @difficulty.rating.should eq(9)
       end
 
       it 'redirects to the updated @difficulty' do
-        put :update, id: @difficulty, difficulty: FactoryGirl.attributes_for(:difficulty)
+        put :update, id: @difficulty,
+            difficulty: FactoryGirl.attributes_for(:difficulty)
         response.should redirect_to @difficulty
       end
     end
 
     context 'invalid attributes' do
       it 'locates the requested @difficulty' do
-        put :update, id: @difficulty, difficulty: FactoryGirl.attributes_for(:invalid_difficulty)
+        put :update, id: @difficulty,
+            difficulty: FactoryGirl.attributes_for(:invalid_difficulty)
         assigns(:difficulty).should eq (@difficulty)
       end
 
       it "does not change @difficulty's attributes" do
-        put :update, id: @difficulty, difficulty: FactoryGirl.attributes_for(:difficulty, name: 'Whatever', rating: nil)
+        put :update, id: @difficulty,
+            difficulty: FactoryGirl.attributes_for(:difficulty,
+                                                   name: 'Whatever',
+                                                   rating: nil)
         @difficulty.reload
         @difficulty.name.should_not eq('Whatever')
         @difficulty.rating.should eq(10)
       end
 
       it 're-renders the :edit template' do
-        put :update, id: @difficulty, difficulty: FactoryGirl.attributes_for(:invalid_difficulty)
+        put :update, id: @difficulty,
+            difficulty: FactoryGirl.attributes_for(:invalid_difficulty)
         response.should render_template :edit
       end
     end

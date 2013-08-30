@@ -43,8 +43,10 @@ describe MobsController do
         results.should have_selector('mob') do |pr|
           pr.should have_selector('id', type: 'integer', content: mob.id.to_s)
           pr.should have_selector('name', content: mob.name)
-          pr.should have_selector('zone-id', type: 'integer', content: mob.zone_id.to_s)
-          pr.should have_selector('difficulty-id', type: 'integer', content: mob.difficulty_id.to_s)
+          pr.should have_selector('zone-id', type: 'integer',
+                                  content: mob.zone_id.to_s)
+          pr.should have_selector('difficulty-id', type: 'integer',
+                                  content: mob.difficulty_id.to_s)
         end
       end
       response.body.should eq([mob].to_xml)
@@ -65,9 +67,10 @@ describe MobsController do
       mob1 = FactoryGirl.create(:mob)
       mob2 = FactoryGirl.create(:mob)
       get :option_list
-      response.body.should eq('<option value=\'0\'>Select Mob</option>' +
-                                  "<option value='#{mob1.id}'>#{mob1.name}</option>" +
-                                  "<option value='#{mob2.id}'>#{mob2.name}</option>")
+      response.body.
+          should eq('<option value=\'0\'>Select Mob</option>' +
+                        "<option value='#{mob1.id}'>#{mob1.name}</option>" +
+                        "<option value='#{mob2.id}'>#{mob2.name}</option>")
     end
   end
 
@@ -175,7 +178,7 @@ describe MobsController do
         assigns(:mob).should eq (@mob)
       end
 
-      it 'changes @mob''s attributes' do
+      it 'changes @mob' 's attributes' do
         put :update, id: @mob, mob: @mob.attributes.merge!({name: 'Barney'})
         @mob.reload
         @mob.name.should eq('Barney')
@@ -193,7 +196,7 @@ describe MobsController do
         assigns(:mob).should eq (@mob)
       end
 
-      it 'does not change @mob''s attributes' do
+      it 'does not change @mob' 's attributes' do
         put :update, id: @mob, mob: FactoryGirl.attributes_for(:invalid_mob)
         @mob.reload
         @mob.name.should_not be_nil
@@ -222,5 +225,4 @@ describe MobsController do
       response.should redirect_to mobs_url
     end
   end
-
 end
