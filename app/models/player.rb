@@ -6,6 +6,9 @@ class Player < ActiveRecord::Base
   include PointsCalculationHelper
   has_paper_trail
 
+  include ActionView::Helpers::UrlHelper
+  delegate :url_helpers, to: 'Rails.application.routes'
+
   before_save :update_loot_rates
 
   belongs_to :rank, :inverse_of => :players, :touch => true
@@ -42,6 +45,10 @@ class Player < ActiveRecord::Base
     instance_id ? includes(:characters => :character_instances).
         where('character_instances.instance_id = ?', instance_id) : scoped
   }
+
+  def path(options = {})
+    link_to name, url_helpers.player_path(self), options
+  end
 
   def main_character(at_time = nil)
     characters_of_type('m', at_time).first || NullCharacter.new
