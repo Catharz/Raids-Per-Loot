@@ -140,26 +140,10 @@ class Character < ActiveRecord::Base
   end
 
   def to_csv
-    CSV.generate_line(
-        [self.name,
-         char_type_name(self.char_type),
-         self.current_main_name,
-         self.archetype_name,
-         self.first_raid_date,
-         self.last_raid_date,
-         self.raids_count,
-         self.instances_count,
-         self.armour_rate,
-         self.jewellery_rate,
-         self.weapon_rate,
-         self.adornments_count,
-         self.adornment_rate,
-         self.dislodgers_count,
-         self.dislodger_rate,
-         self.mounts_count,
-         self.mount_rate,
-         self.player_switches_count,
-         self.player_switch_rate
-        ])
+    csv_values = [name, char_type_name(char_type), current_main_name, archetype_name, first_raid_date, last_raid_date,
+                  raids_count, instances_count, armour_rate, jewellery_rate, weapon_rate, adornments_count,
+                  adornment_rate, dislodgers_count, dislodger_rate, mounts_count, mount_rate, player_switches_count,
+                  player_switch_rate]
+    CSV.generate_line(csv_values)
   end
 end
