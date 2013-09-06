@@ -43,32 +43,15 @@ class SonyDataService
 
   def update_player_list
     params = '&c:resolve=members(guild.rank,type.level)'
-    guild_details =
-        download_guild_characters('json', params).with_indifferent_access
+    guild_details = download_guild_characters('json', params).with_indifferent_access
     return -1 if guild_details.empty?
 
-    updates = 0
     character_list = guild_details[:guild_list][0][:member_list]
     rank_list = guild_details[:guild_list][0][:rank_list]
-    rank_list.keep_if { |rank|
-      !(['Officer alt', 'Officer alt', 'Alternate'].include? rank[:name].chomp)
-    }
-    character_list.keep_if do |soe_char|
-      soe_char[:guild] and
-          soe_char[:guild][:rank] and
-          rank_list.map { |rank| rank[:id] }.include? soe_char[:guild][:rank]
-    end
-    character_list.each do |soe_char|
-      player = Player.find_by_name(soe_char[:name][:first])
-      if player.nil?
-        updates += 1
-        player =
-            Player.create(name: soe_char[:name][:first],
-                          rank_id: Rank.find_by_name('Main').id)
-        player.save!
-      end
-    end
-    updates
+
+    filter_ranks(rank_list)
+    filter_characters(character_list, rank_list)
+    process_character_list(character_list)
   end
 
   def character_statistics(format = 'json')
@@ -170,20 +153,7 @@ class SonyDataService
 
   def resolve_duplicate_items
     duplicates = Item.group(:eq2_item_id).having(['count(items.id) > 1']).count
-    duplicates.each do |k, v|
-      eq2_item_id = k
-      count = v
-      duplicate_list = Item.where(eq2_item_id: eq2_item_id).order(:id)
-      keep = duplicate_list[0]
-      duplicate_list.each do |item|
-        unless item.eql? keep
-          item.drops.each do |drop|
-            drop.update_attribute(:item_id, keep.id)
-          end
-          item.delete unless item.drops.count > 0
-        end
-      end
-    end
+    process_duplicates(duplicates)
     (Item.group(:eq2_item_id).having(['count(items.id) > 1']).count).empty?
   end
 
@@ -211,6 +181,33 @@ class SonyDataService
   end
 
   private
+
+  def process_character_list(character_list)
+    updates = 0
+    character_list.each do |soe_char|
+      player = Player.find_by_name(soe_char[:name][:first])
+      if player.nil?
+        updates += 1
+        player = Player.create(name: soe_char[:name][:first], rank_id: Rank.find_by_name('Main').id)
+        player.save!
+      end
+    end
+    updates
+  end
+
+  def filter_characters(character_list, rank_list)
+    character_list.keep_if do |soe_char|
+      soe_char[:guild] and soe_char[:guild][:rank] and
+          rank_list.map { |rank| rank[:id] }.include? soe_char[:guild][:rank]
+    end
+  end
+
+  def filter_ranks(rank_list)
+    rank_list.keep_if { |rank|
+      !(['Officer alt', 'Officer alt', 'Alternate'].include? rank[:name].chomp)
+    }
+  end
+
   def resolve_achievement_data(format = 'json', value = {})
     if value['id']
       url = "/#{format}/get/eq2/achievement/#{value['id']}"
@@ -239,5 +236,22 @@ class SonyDataService
         "/#{format}/get/eq2/guild/?#{query_params.join('&')}#{params}".
             gsub(' ', '%20')
     @guild_details ||= SOEData.get(guild_details_url)
+  end
+
+  private
+  def process_duplicates(duplicates)
+    duplicates.each do |k, v|
+      eq2_item_id = k
+      duplicate_list = Item.where(eq2_item_id: eq2_item_id).order(:id)
+      keep = duplicate_list.first
+      duplicate_list.each { |item| remove_duplciates(item, keep.id) unless item.eql? keep }
+    end
+  end
+
+  def remove_duplciates(item, keep_id)
+    item.drops.each do |drop|
+      drop.update_attribute(:item_id, keep_id)
+    end
+    item.delete unless item.drops.count > 0
   end
 end
