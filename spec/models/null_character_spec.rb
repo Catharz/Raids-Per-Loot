@@ -13,8 +13,8 @@ describe NullCharacter do
 
   describe 'attributes' do
     describe 'id' do
-      it 'is always nil' do
-        NullCharacter.new.id.should be_nil
+      it 'returns the object_id of -1' do
+        NullCharacter.new.id.should eq -1
       end
     end
 
@@ -45,12 +45,12 @@ describe NullCharacter do
     end
 
     describe 'path' do
-      it 'always returns /' do
-        NullCharacter.new.path.should eq '/'
+      it 'always returns an empty string' do
+        NullCharacter.new.path.should eq ''
       end
 
       it 'ignores options' do
-        NullCharacter.new.path({id: 10000}).should eq '/'
+        NullCharacter.new.path({id: 10000}).should eq ''
       end
     end
   end

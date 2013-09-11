@@ -77,32 +77,9 @@ class ServicesController < ApplicationController
 
         # if the user is currently signed in, he/she might want to add another account to signin
         if user_signed_in?
-          if auth
-            flash[:notice] = 'Your account at ' + @authhash[:provider].capitalize +
-                ' is already connected with this site.'
-            redirect_to services_path
-          else
-            current_user.services.create!(:provider => @authhash[:provider], :uid => @authhash[:uid],
-                                          :uname => @authhash[:name], :uemail => @authhash[:email])
-            flash[:notice] = 'Your ' + @authhash[:provider].capitalize +
-                ' account has been added for signing in at this site.'
-            redirect_to services_path
-          end
+          handle_signed_in_user(auth)
         else
-          if auth
-            # signin existing user
-            # in the session his user id and the service id used for signing in is stored
-            session[:user_id] = auth.user.id
-            session[:service_id] = auth.id
-
-            flash[:notice] = 'Signed in successfully via ' + @authhash[:provider].capitalize + '.'
-            redirect_to root_url
-          else
-            # this is a new user; show signup; @authhash is available to the view
-            # and stored in the sesssion for creation of a new user
-            session[:authhash] = @authhash
-            render signup_services_path
-          end
+          signin_user(auth)
         end
       else
         flash[:error] =  'Error while authenticating via ' + service_route + '/' +
@@ -123,6 +100,36 @@ class ServicesController < ApplicationController
   end
 
   private
+
+  def handle_signed_in_user(auth)
+    if auth
+      flash[:notice] = 'Your account at ' + @authhash[:provider].capitalize +
+          ' is already connected with this site.'
+    else
+      current_user.services.create!(:provider => @authhash[:provider], :uid => @authhash[:uid],
+                                    :uname => @authhash[:name], :uemail => @authhash[:email])
+      flash[:notice] = 'Your ' + @authhash[:provider].capitalize +
+          ' account has been added for signing in at this site.'
+    end
+    redirect_to services_path
+  end
+
+  def signin_user(auth)
+    if auth
+      # signin existing user
+      # in the session his user id and the service id used for signing in is stored
+      session[:user_id] = auth.user.id
+      session[:service_id] = auth.id
+
+      flash[:notice] = 'Signed in successfully via ' + @authhash[:provider].capitalize + '.'
+      redirect_to root_url
+    else
+      # this is a new user; show signup; @authhash is available to the view
+      # and stored in the sesssion for creation of a new user
+      session[:authhash] = @authhash
+      render signup_services_path
+    end
+  end
 
   def populate_auth_hash(omniauth, service_route)
     # map the returned hashes to our variables first - the hashes differs for every service

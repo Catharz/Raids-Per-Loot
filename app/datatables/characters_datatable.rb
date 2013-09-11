@@ -25,30 +25,67 @@ class CharactersDatatable
   private
 
   def data
-    characters.paginate(page: page, per_page: per_page).map do |char|
+    paginated_characters.map do |char|
       character = Character.find(char['id'].to_i)
       {
-          '0' => h(link_to character.name, character, id: "char_#{character.id}_#{character.char_type}", remote: true),
-          '1' => character.current_main ? h(link_to character.current_main_name, character.current_main,
-                                                    id: "#{character.current_main.id}", remote: true) : nil,
-          '2' => character.player ? h(link_to character.player_name, character.player) : nil,
+          '0' => link_to_show_character(character),
+          '1' => link_to_show_current_main(character),
+          '2' => link_to_show_player(character),
           '3' => character.archetype_name,
           '4' => character.first_raid_date,
           '5' => character.last_raid_date,
           '6' => character.raids_count,
           '7' => character.instances_count,
-          '8' => @view.number_with_precision(character.armour_rate, precision: 2),
-          '9' => @view.number_with_precision(character.jewellery_rate, precision: 2),
-          '10' => @view.number_with_precision(character.weapon_rate, precision: 2),
-          '11' => h(link_to 'Edit', @view.edit_character_path(character), remote: true, class: 'table-button'),
-          '12' => h(link_to 'Update', @view.fetch_data_character_path(character), confirm: 'Are you sure?',
-                            class: 'table-button'),
-          '13' => h(link_to 'Destroy', character, :confirm => 'Are you sure?', method: :delete, remote: true,
-                            class: 'table-button'),
+          '8' => armour_rate(character),
+          '9' => jewellery_rate(character),
+          '10' => weapon_rate(character),
+          '11' => link_to_edit_character(character),
+          '12' => link_to_fetch_character_data(character),
+          '13' => link_to_destroy_character(character),
           'DT_RowId' => "character_#{character.id}_#{params[:char_type]}",
           'data' => character.character_row_data
       }
     end
+  end
+
+  def link_to_show_character(character)
+    character.path(id: "char_#{character.id}_#{character.char_type}", remote: true)
+  end
+
+  def link_to_edit_character(character)
+    h(link_to 'Edit', @view.edit_character_path(character), remote: true, class: 'table-button')
+  end
+
+  def link_to_fetch_character_data(character)
+    h(link_to 'Update', @view.fetch_data_character_path(character), confirm: 'Are you sure?', class: 'table-button')
+  end
+
+  def link_to_destroy_character(character)
+    h(link_to 'Destroy', character, :confirm => 'Are you sure?', method: :delete, remote: true, class: 'table-button')
+  end
+
+  def link_to_show_player(character)
+    character.player ? character.player.path : nil
+  end
+
+  def link_to_show_current_main(character)
+    character.current_main ? character.current_main.path(id: "#{character.current_main.id}", remote: true) : nil
+  end
+
+  def armour_rate(character)
+    @view.number_with_precision(character.armour_rate, precision: 2)
+  end
+
+  def jewellery_rate(character)
+    @view.number_with_precision(character.jewellery_rate, precision: 2)
+  end
+
+  def weapon_rate(character)
+    @view.number_with_precision(character.weapon_rate, precision: 2)
+  end
+
+  def paginated_characters
+    characters.paginate(page: page, per_page: per_page)
   end
 
   def characters
