@@ -54,6 +54,13 @@ describe Character do
   end
 
   context 'instance method' do
+    describe '#to_s' do
+      it 'includes the name and archetype name' do
+        character = FactoryGirl.create(:character)
+        character.to_s.should eq "#{character.name} (#{character.archetype.name})"
+      end
+    end
+
     describe '#loot_rate' do
       it 'should calculate to two decimal places' do
         character = FactoryGirl.create(:character)

@@ -6,6 +6,9 @@ class Player < ActiveRecord::Base
   include PointsCalculationHelper
   has_paper_trail
 
+  include ActionView::Helpers::UrlHelper
+  delegate :url_helpers, to: 'Rails.application.routes'
+
   before_save :update_loot_rates
 
   belongs_to :rank, :inverse_of => :players, :touch => true
@@ -31,9 +34,10 @@ class Player < ActiveRecord::Base
   validates_uniqueness_of :name
   validates :switches_count, presence: true
 
-  delegate :name, to: :current_main, prefix: :main, allow_nil: true
-  delegate :name, to: :current_raid_alternate, prefix: :raid_alternate, allow_nil: true
   delegate :name, to: :rank, prefix: :rank, allow_nil: true
+
+  delegate :date, to: :first_raid, allow_nil: true
+  delegate :date, to: :last_raid, allow_nil: true
 
   scope :of_rank, ->(rank_id) {
     rank_id ? where(:rank_id => rank_id) : scoped
@@ -42,6 +46,10 @@ class Player < ActiveRecord::Base
     instance_id ? includes(:characters => :character_instances).
         where('character_instances.instance_id = ?', instance_id) : scoped
   }
+
+  def path(options = {})
+    link_to name, url_helpers.player_path(self), options
+  end
 
   def main_character(at_time = nil)
     characters_of_type('m', at_time).first || NullCharacter.new
@@ -59,6 +67,14 @@ class Player < ActiveRecord::Base
     results = characters.eager_load(:character_types).where(['character_types.char_type = ?', char_type])
     results = results.where(['character_types.effective_date <= ?', at_time]) if at_time
     results.order('character_types.effective_date desc')
+  end
+
+  def current_main_name
+    current_main ? current_main.name : nil
+  end
+
+  def current_raid_alternate_name
+    current_raid_alternate ? current_raid_alternate.name : nil
   end
 
   def update_loot_rates
@@ -92,21 +108,9 @@ class Player < ActiveRecord::Base
   end
 
   def to_csv
-    CSV.generate_line(
-        [self.name,
-         self.rank ? self.rank.name : 'Unknown',
-         self.main_character ? self.main_character.name : 'Unknown',
-         self.first_raid ? self.first_raid.raid_date : nil,
-         self.last_raid ? self.last_raid.raid_date : nil,
-         self.raids_count,
-         self.instances_count,
-         self.armour_rate,
-         self.jewellery_rate,
-         self.weapon_rate,
-         self.adornment_rate,
-         self.dislodger_rate,
-         self.mount_rate,
-         self.switch_rate
-        ])
+    csv_values = [
+        name, rank_name, current_main_name, first_raid_date, last_raid_date, raids_count, instances_count,
+        armour_rate, jewellery_rate, weapon_rate, adornment_rate, dislodger_rate, mount_rate, switch_rate]
+    CSV.generate_line(csv_values)
   end
 end

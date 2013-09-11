@@ -6,7 +6,7 @@ class NullCharacter
   attr_reader :id, :name, :general_alternates
 
   def initialize(name = 'Unknown')
-    @id = nil
+    @id = -1
     @name = name
     @general_alternates = []
   end
@@ -20,10 +20,10 @@ class NullCharacter
   end
 
   def path(options = {})
-    '/'
+    ''
   end
 
   def html_id
-    nil
+    ''
   end
 end
