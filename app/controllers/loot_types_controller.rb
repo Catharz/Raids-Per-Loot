@@ -7,6 +7,9 @@
 #
 # xml formatting is provided on actions used by the ACT plug-in.
 class LootTypesController < ApplicationController
+  respond_to :html, :json, :js, :xml
+
+  before_filter :set_loot_type, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle
 
@@ -18,43 +21,22 @@ class LootTypesController < ApplicationController
   # GET /loot_types.xml
   def index
     @loot_types = LootType.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @loot_types }
-      format.xml  { render :xml => @loot_types.to_xml( :include => [:items, :drops] ) }
-    end
   end
 
   # GET /loot_types/1
   # GET /loot_types/1.xml
   def show
-    @loot_type = LootType.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render :json => @loot_type }
-      format.xml  { render :xml => @loot_type.to_xml( :include => [:items, :drops] ) }
-      format.js
-    end
   end
 
   # GET /loot_types/new
   # GET /loot_types/new.xml
   def new
     @loot_type = LootType.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @loot_type }
-      format.json { render :json => @loot_type.as_json(methods: [:default_loot_method_name]) }
-      format.js
-    end
+    respond_with @loot_type
   end
 
   # GET /loot_types/1/edit
   def edit
-    @loot_type = LootType.find(params[:id])
   end
 
   # POST /loot_types
@@ -69,7 +51,7 @@ class LootTypesController < ApplicationController
         format.json { render :json => @loot_type.as_json(methods: [:default_loot_method_name]),
                              :status => :created, :location => @loot_type }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => 'new' }
         format.xml  { render :xml => @loot_type.errors, :status => :unprocessable_entity }
         format.json { render :json => @loot_type.errors, :status => :unprocessable_entity }
       end
@@ -79,8 +61,6 @@ class LootTypesController < ApplicationController
   # PUT /loot_types/1
   # PUT /loot_types/1.xml
   def update
-    @loot_type = LootType.find(params[:id])
-
     respond_to do |format|
       if @loot_type.update_attributes(params[:loot_type])
         format.html { redirect_to(@loot_type, :notice => 'Loot type was successfully updated.') }
@@ -98,7 +78,6 @@ class LootTypesController < ApplicationController
   # DELETE /loot_types/1
   # DELETE /loot_types/1.xml
   def destroy
-    @loot_type = LootType.find(params[:id])
     @loot_type.destroy
 
     respond_to do |format|
@@ -107,5 +86,10 @@ class LootTypesController < ApplicationController
       format.json { head :ok }
       format.js
     end
+  end
+
+  private
+  def set_loot_type
+    @loot_type = LootType.find(params[:id])
   end
 end

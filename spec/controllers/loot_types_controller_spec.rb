@@ -3,7 +3,7 @@ require 'authentication_spec_helper'
 
 describe LootTypesController do
   include AuthenticationSpecHelper
-  fixtures :users, :services
+  fixtures :users, :services, :loot_types
 
   before(:each) do
     login_as :admin
@@ -15,6 +15,19 @@ describe LootTypesController do
       get :index
       assigns(:loot_types).should include loot_type
     end
+
+    it 'renders json' do
+      loot_types = LootType.all
+      get :index, format: :json
+      result = JSON.parse(response.body)
+      result.should eq loot_types.collect { |lt| JSON.parse(lt.to_json) }
+    end
+
+    it 'renders xml' do
+      loot_types = LootType.all
+      get :index, format: :xml
+      response.body.should eq loot_types.to_xml(include: [:items, :drops])
+    end
   end
 
   describe "GET show" do
@@ -22,6 +35,19 @@ describe LootTypesController do
       loot_type = LootType.create! FactoryGirl.attributes_for(:loot_type)
       get :show, id: loot_type.id.to_s
       assigns(:loot_type).should eq(loot_type)
+    end
+
+    it 'renders json' do
+      loot_type = LootType.create! FactoryGirl.attributes_for(:loot_type)
+      get :show, id: loot_type, format: :json
+      result = JSON.parse(response.body)
+      result.should eq JSON.parse(loot_type.to_json)
+    end
+
+    it 'renders xml' do
+      loot_type = LootType.create! FactoryGirl.attributes_for(:loot_type)
+      get :show, id: loot_type, format: :xml
+      response.body.should eq loot_type.to_xml
     end
   end
 
