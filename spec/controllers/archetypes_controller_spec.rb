@@ -15,6 +15,19 @@ describe ArchetypesController do
       get :index
       assigns(:archetypes).should include archetype
     end
+
+    it 'returns JSON' do
+      archetypes = Archetype.all
+      get :index, format: :json
+      result = JSON.parse(response.body)
+      result.should eq archetypes.collect { |a| JSON.parse(a.to_json(methods: [:parent_name, :root_name])) }
+    end
+
+    it 'returns XML' do
+      archetypes = Archetype.all
+      get :index, format: :xml
+      response.body.should eq archetypes.to_xml
+    end
   end
 
   describe 'GET show' do
@@ -22,6 +35,19 @@ describe ArchetypesController do
       archetype = Archetype.create! FactoryGirl.attributes_for(:archetype)
       get :show, id: archetype.id.to_s
       assigns(:archetype).should eq(archetype)
+    end
+
+    it 'returns JSON' do
+      archetype = Archetype.create! FactoryGirl.attributes_for(:archetype)
+      get :show, id: archetype, format: :json
+      result = JSON.parse(response.body)
+      result.should eq JSON.parse(archetype.to_json(methods: [:parent_name, :root_name]))
+    end
+
+    it 'returns XML' do
+      archetype = Archetype.create! FactoryGirl.attributes_for(:archetype)
+      get :show, id: archetype, format: :xml
+      response.body.should eq archetype.to_xml
     end
   end
 
