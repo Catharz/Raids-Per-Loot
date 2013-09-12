@@ -149,6 +149,9 @@ GEM
       multi_xml (>= 0.5.2)
     httpauth (0.2.0)
     i18n (0.6.5)
+    jbuilder (1.5.1)
+      activesupport (>= 3.0.0)
+      multi_json (>= 1.2.0)
     jquery-rails (3.0.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -394,6 +397,7 @@ DEPENDENCIES
   haml-rails
   hpricot
   httparty
+  jbuilder
   jquery-rails
   json
   launchy

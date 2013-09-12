@@ -5,6 +5,9 @@
 # json and js formatting options are available on actions
 # where ajax is used via jQueryUI popups.
 class AdjustmentsController < ApplicationController
+  respond_to :html, :json, :js
+
+  before_filter :set_adjustment, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle
 
@@ -16,40 +19,22 @@ class AdjustmentsController < ApplicationController
   # GET /adjustments.json
   def index
     @adjustments = Adjustment.for_player(params[:player_id]).for_character(params[:character_id])
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @adjustments.to_json(methods: [:adjusted_name]) }
-    end
   end
 
   # GET /adjustments/1
   # GET /adjustments/1.json
   def show
-    @adjustment = Adjustment.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @adjustment.to_json(methods: [:adjusted_name]) }
-      format.js
-    end
+    respond_with @adjustment
   end
 
   # GET /adjustments/new
   # GET /adjustments/new.json
   def new
     @adjustment = Adjustment.new(adjustable_id: params[:adjustable_id], adjustable_type: params[:adjustable_type])
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @adjustment }
-      format.js
-    end
   end
 
   # GET /adjustments/1/edit
   def edit
-    @adjustment = Adjustment.find(params[:id])
   end
 
   # POST /adjustments
@@ -72,8 +57,6 @@ class AdjustmentsController < ApplicationController
   # PUT /adjustments/1
   # PUT /adjustments/1.json
   def update
-    @adjustment = Adjustment.find(params[:id])
-
     respond_to do |format|
       if @adjustment.update_attributes(params[:adjustment])
         format.html { redirect_to @adjustment, notice: 'Adjustment was successfully updated.' }
@@ -89,7 +72,6 @@ class AdjustmentsController < ApplicationController
   # DELETE /adjustments/1
   # DELETE /adjustments/1.json
   def destroy
-    @adjustment = Adjustment.find(params[:id])
     @adjustment.destroy
 
     respond_to do |format|
@@ -97,5 +79,10 @@ class AdjustmentsController < ApplicationController
       format.json { head :ok }
       format.js
     end
+  end
+
+  private
+  def set_adjustment
+    @adjustment = Adjustment.find(params[:id])
   end
 end
