@@ -13,10 +13,7 @@ class ArchetypesController < ApplicationController
   before_filter :set_archetype, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, except: [:index, :show]
   before_filter :set_pagetitle
-
-  def set_pagetitle
-    @pagetitle = 'Archetypes'
-  end
+  after_filter { flash.discard if request.xhr? }
 
   # GET /archetypes
   # GET /archetypes.json
@@ -43,31 +40,22 @@ class ArchetypesController < ApplicationController
   # POST /archetypes.json
   def create
     @archetype = Archetype.new(params[:archetype])
-
-    respond_to do |format|
-      if @archetype.save
-        format.html { redirect_to @archetype, notice: 'Archetype was successfully created.' }
-        format.json { render json: @archetype.to_json(methods: [:parent_name, :root_name]),
-                             status: :created, location: @archetype  }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @archetype.errors, status: :unprocessable_entity }
-      end
+    if @archetype.save
+      flash[:notice] = 'Archetype was successfully created.'
+      respond_with @archetype
+    else
+      render action: 'new'
     end
   end
 
   # PUT /archetypes/1
   # PUT /archetypes/1.json
   def update
-    respond_to do |format|
-      if @archetype.update_attributes(params[:archetype])
-        format.html { redirect_to @archetype, notice: 'Archetype was successfully updated.' }
-        format.json { render json: @archetype.to_json(methods: [:parent_name, :root_name]),
-                             notice: 'Archetype was successfully updated.' }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @archetype.errors, status: :unprocessable_entity }
-      end
+    if @archetype.update_attributes(params[:archetype])
+      flash[:notice] = 'Archetype was successfully updated.'
+      respond_with @archetype
+    else
+      render action: 'edit'
     end
   end
 
@@ -75,15 +63,16 @@ class ArchetypesController < ApplicationController
   # DELETE /archetypes/1.json
   def destroy
     @archetype.destroy
-
-    respond_to do |format|
-      format.html { redirect_to archetypes_url }
-      format.js
-    end
+    flash[:notice] = 'Archetype successfully deleted.'
+    respond_with @archetype
   end
 
   private
   def set_archetype
     @archetype = Archetype.find(params[:id])
+  end
+
+  def set_pagetitle
+    @pagetitle = 'Archetypes'
   end
 end

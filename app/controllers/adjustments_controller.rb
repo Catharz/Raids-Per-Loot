@@ -10,6 +10,7 @@ class AdjustmentsController < ApplicationController
   before_filter :set_adjustment, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle
+  after_filter { flash.discard if request.xhr? }
 
   def set_pagetitle
     @pagetitle = 'Adjustments'
