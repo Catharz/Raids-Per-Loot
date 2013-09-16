@@ -11,6 +11,10 @@
 # index uses the CharactersDataTable class which will handle
 # pagination, searching and rendering the drops.
 class CharactersController < ApplicationController
+  respond_to :html, :json, :xml, :js
+  respond_to :csv, only: :index
+
+  before_filter :set_character, only: [:show, :edit, :update, :destroy, :info, :fetch_data]
   before_filter :authenticate_user!,
                 :except => [:index, :show, :info,
                             :statistics, :attendance, :loot]
@@ -35,21 +39,11 @@ class CharactersController < ApplicationController
 
   def attendance
     @characters = Character.order(:name)
-    @characters.sort! { |a, b| b.attendance <=> a.attendance }.
-        select! { |c| c.attendance >= 10.0 }
-
-    respond_to do |format|
-      format.html # attendance.html.erb
-      format.json { render json: @characters, methods: [:player_name,
-                                                        :archetype_name,
-                                                        :archetype_root_name,
-                                                        :attendance] }
-    end
+    @characters.sort! { |a, b| b.attendance <=> a.attendance }.select! { |c| c.attendance >= 10.0 }
+    respond_with @characters
   end
 
   def fetch_data
-    @character = Character.find(params[:id])
-
     Resque.enqueue(SonyCharacterUpdater, @character.id)
     flash[:notice] = 'Character details are being updated.'
     redirect_to @character
@@ -99,7 +93,6 @@ class CharactersController < ApplicationController
   # GET /characters/1
   # GET /characters/1.json
   def show
-    @character = Character.find(params[:id])
     @character_types = @character.character_types.order('effective_date desc')
 
     respond_to do |format|
@@ -117,8 +110,6 @@ class CharactersController < ApplicationController
   end
 
   def info
-    @character = Character.find(params[:id])
-
     render :layout => false
   end
 
@@ -138,7 +129,6 @@ class CharactersController < ApplicationController
 
   # GET /characters/1/edit
   def edit
-    @character = Character.find(params[:id])
   end
 
   # POST /characters
@@ -174,8 +164,6 @@ class CharactersController < ApplicationController
   # PUT /characters/1
   # PUT /characters/1.json
   def update
-    @character = Character.find(params[:id])
-
     expire_action action: :info
     expire_action action: :statistics
 
@@ -206,7 +194,6 @@ class CharactersController < ApplicationController
   # DELETE /characters/1
   # DELETE /characters/1.json
   def destroy
-    @character = Character.find(params[:id])
     @character.destroy
 
     respond_to do |format|
@@ -215,5 +202,10 @@ class CharactersController < ApplicationController
       format.xml { head :ok }
       format.js
     end
+  end
+
+  private
+  def set_character
+    @character = Character.find(params[:id])
   end
 end
