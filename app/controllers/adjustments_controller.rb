@@ -24,7 +24,6 @@ class AdjustmentsController < ApplicationController
   # GET /adjustments/1
   # GET /adjustments/1.json
   def show
-    respond_with @adjustment
   end
 
   # GET /adjustments/new
@@ -41,31 +40,22 @@ class AdjustmentsController < ApplicationController
   # POST /adjustments.json
   def create
     @adjustment = Adjustment.new(params[:adjustment])
-
-    respond_to do |format|
-      if @adjustment.save
-        format.html { redirect_to @adjustment, notice: 'Adjustment was successfully created.' }
-        format.json { render json: @adjustment.to_json(methods: [:adjusted_name]),
-                             status: :created, location: @adjustment }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @adjustment.errors, status: :unprocessable_entity }
-      end
+    if @adjustment.save
+      flash[:notice] = 'Adjustment was successfully created.'
+      respond_with @adjustment
+    else
+      render action: 'new'
     end
   end
 
   # PUT /adjustments/1
   # PUT /adjustments/1.json
   def update
-    respond_to do |format|
-      if @adjustment.update_attributes(params[:adjustment])
-        format.html { redirect_to @adjustment, notice: 'Adjustment was successfully updated.' }
-        format.json { render :json => @adjustment.to_json(methods: [:adjusted_name]),
-                             :notice => 'Adjustment was successfully updated.' }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @adjustment.errors, status: :unprocessable_entity }
-      end
+    if @adjustment.update_attributes(params[:adjustment])
+      flash[:notice] = 'Adjustment was successfully updated.'
+      respond_with(@adjustment)
+    else
+      render action: 'edit'
     end
   end
 
@@ -73,12 +63,8 @@ class AdjustmentsController < ApplicationController
   # DELETE /adjustments/1.json
   def destroy
     @adjustment.destroy
-
-    respond_to do |format|
-      format.html { redirect_to adjustments_url }
-      format.json { head :ok }
-      format.js
-    end
+    flash[:notice] = 'Adjustment successfully deleted.'
+    respond_with @adjustment
   end
 
   private

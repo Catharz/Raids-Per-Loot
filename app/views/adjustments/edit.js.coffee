@@ -21,10 +21,11 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/adjustments/<%= @adjustment.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 200)
-          updateAdjustment(data.adjustment)
-          displayFlash('notice', "Adjustment was successfully updated.")
-          $("#popup").dialog "close"
+        updateAdjustment(data.adjustment)
+        displayFlash('notice', "Adjustment was successfully updated.")
+        $("#popup").dialog "close"
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
     $(".actions").empty()

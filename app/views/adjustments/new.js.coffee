@@ -18,8 +18,8 @@ insertAdjustment = (adjustment) ->
 
 $("#popup").dialog
   autoOpen: true
-  height: 450
-  width: 450
+  height: 430
+  width: 605
   modal: true
   resizable: false
   title: 'New Adjustment'
@@ -28,10 +28,11 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/adjustments.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 201)
-          insertAdjustment(data.adjustment)
-          displayFlash('notice', 'Adjustment was successfully created.')
-          $("#popup").dialog "close"
+        insertAdjustment(data.adjustment)
+        displayFlash('notice', 'Adjustment was successfully created.')
+        $("#popup").dialog "close"
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
     $(".actions").empty()

@@ -111,14 +111,8 @@ describe AdjustmentsController do
     describe 'with valid params' do
       it 'updates the requested adjustment' do
         adjustment = Adjustment.create! FactoryGirl.attributes_for(:adjustment)
-        # Assuming there are no other adjustments in the database, this
-        # specifies that the Adjustment created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Adjustment.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
-        put :update, {id: adjustment.to_param,
-                      adjustment: {'these' => 'params'}}
+        Adjustment.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+        put :update, {id: adjustment.to_param, adjustment: {'these' => 'params'}}
       end
 
       it 'assigns the requested adjustment as @adjustment' do
@@ -133,6 +127,12 @@ describe AdjustmentsController do
         put :update, {id: adjustment.to_param,
                       adjustment: FactoryGirl.attributes_for(:adjustment)}
         response.should redirect_to(adjustment)
+      end
+
+      it 'accepts json' do
+        adjustment = Adjustment.create! FactoryGirl.attributes_for(:adjustment)
+        Adjustment.any_instance.should_receive(:update_attributes).with({'new' => 'params'})
+        put :update, {id: adjustment.to_param, format: :json, adjustment: {'new' => 'params'}}
       end
     end
 

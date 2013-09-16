@@ -5,9 +5,9 @@ describe Drop do
   include DropSpecHelper
 
   around do |example|
-    Timecop.freeze(DateTime.new(2013, 04, 01, 20, 15, 01))
-    example.run
-    Timecop.return
+    Timecop.travel(Time.zone.local(2013, 04, 01, 20, 15, 01)) do
+      example.run
+    end
   end
 
   let(:armour) { mock_model(LootType, name: 'Armour',
