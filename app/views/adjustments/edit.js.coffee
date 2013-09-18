@@ -42,6 +42,7 @@ $("#popup").dialog
         options_url = "/characters/option_list"
 
       $("#adjustable_field").empty()
-      $("#adjustable_field").append "<strong>" + adjustable_type + ":</strong> "
-      $adjustables = $('<select id="adjustment_adjustable_id" name="adjustment[adjustable_id]"></select>').appendTo '#adjustable_field'
+      $("#adjustable_field").append '<label class="header" for="adjustment_adjustable_id">' + adjustable_type + ':</label>'
+      $("#adjustable_field").append '<span class="data"/>'
+      $adjustables = $('<select id="adjustment_adjustable_id" name="adjustment[adjustable_id]"></select>').appendTo '#adjustable_field span.data'
       $adjustables.load options_url

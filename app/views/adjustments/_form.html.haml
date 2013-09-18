@@ -12,7 +12,7 @@
       %span.data
         = f.select(:adjustable_type, %w{Character Player}, :include_blank => true)
     .field#adjustable_field
-      = label_tag "#{@adjustment.type_label}:", nil, class: 'header'
+      = label_tag "#{@adjustment.type_label}", nil, class: 'header'
       %span.data
         - unless @adjustment.adjustable_entities.empty?
           = f.collection_select(:adjustable_id, @adjustment.adjustable_entities, :id, :name)
