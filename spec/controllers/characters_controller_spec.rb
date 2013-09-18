@@ -299,6 +299,16 @@ describe CharactersController do
       get :new
       response.should render_template :new
     end
+
+    it 'responds to JSON' do
+      get :new, format: :json
+      response.body.should eq Character.new.to_json(methods: :player_name)
+    end
+
+    it 'responds to XML' do
+      get :new, format: :xml
+      response.body.should eq Character.new.to_xml(methods: :player_name)
+    end
   end
 
   describe 'GET edit' do

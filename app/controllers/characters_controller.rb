@@ -94,13 +94,7 @@ class CharactersController < ApplicationController
   # GET /characters/new.json
   def new
     @character = Character.new
-    #respond_with @character
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @character.to_json(methods: [:player_name]) }
-      format.xml { render :xml => @character }
-      format.js
-    end
+    respond_with @character
   end
 
   # GET /characters/1/edit
