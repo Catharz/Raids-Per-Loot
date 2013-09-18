@@ -11,26 +11,21 @@
 # index uses the CharactersDataTable class which will handle
 # pagination, searching and rendering the drops.
 class CharactersController < ApplicationController
-  respond_to :html, :json, :xml, :js
+  respond_to :html
+  respond_to :json, :xml, :js, except: [:loot, :statistics, :option_list, :info]
   respond_to :csv, only: :index
 
   before_filter :set_character, only: [:show, :edit, :update, :destroy, :info, :fetch_data]
-  before_filter :authenticate_user!,
-                :except => [:index, :show, :info,
-                            :statistics, :attendance, :loot]
+  before_filter :authenticate_user!, :except => [:index, :show, :info, :statistics, :attendance, :loot]
   before_filter :set_pagetitle
 
   caches_action :statistics
   caches_action :info
 
-  def set_pagetitle
-    @pagetitle = 'Characters'
-  end
-
   def option_list
     @characters = Character.order(:name)
 
-    options = ""
+    options = ''
     @characters.each do |character|
       options += "<option value='#{character.id}'>#{character.name}</option>"
     end
@@ -58,29 +53,21 @@ class CharactersController < ApplicationController
   # GET /characters/loot
   # GET /characters/loot.json
   def loot
-    @characters = Character.by_instance(params[:instance_id]).
-        where(char_type: %w{m r}).
-        includes(:player, :external_data, :archetype).
-        order('characters.name')
+    @characters = Character.by_instance(params[:instance_id]).where(char_type: %w{m r}).
+        includes(:player, :external_data, :archetype).order('characters.name')
+    respond_with @characters
   end
 
   def statistics
     @characters = Character.joins(:archetype, :external_data)
-
-    respond_to do |format|
-      format.html # statistics.html.erb
-      format.json { render json: @characters }
-      format.xml { render :xml => @characters.to_xml }
-    end
+    respond_with @characters
   end
 
   # GET /characters
   # GET /characters.json
   def index
-    @characters = Character.
-        by_player(params[:player_id]).
-        by_instance(params[:instance_id]).
-        by_name(params[:name]) unless respond_to? :json
+    @characters = Character.by_player(params[:player_id]).
+        by_instance(params[:instance_id]).by_name(params[:name]) unless respond_to? :json
 
     respond_to do |format|
       format.html # index.html.erb
@@ -91,34 +78,23 @@ class CharactersController < ApplicationController
   end
 
   # GET /characters/1
+  # GET /characters/1.js
   # GET /characters/1.json
+  # GET /characters/1.xml
   def show
     @character_types = @character.character_types.order('effective_date desc')
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.js # show.js.coffee
-      format.json { render json: @character.
-          to_json(methods: [:player_name,
-                            :player_raids_count,
-                            :player_active,
-                            :player_switches_count,
-                            :player_switch_rate]) }
-      format.xml { render :xml => @character.
-          to_xml(:include => [:instances, :drops]) }
-    end
+    respond_with @character
   end
 
   def info
     render :layout => false
   end
 
-
   # GET /characters/new
   # GET /characters/new.json
   def new
     @character = Character.new
-
+    #respond_with @character
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @character.to_json(methods: [:player_name]) }
@@ -207,5 +183,9 @@ class CharactersController < ApplicationController
   private
   def set_character
     @character = Character.find(params[:id])
+  end
+
+  def set_pagetitle
+    @pagetitle = 'Characters'
   end
 end

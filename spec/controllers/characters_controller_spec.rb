@@ -39,8 +39,8 @@ describe CharactersController do
     it 'responds with JSON' do
       character1 = FactoryGirl.create(:character)
       character2 = FactoryGirl.create(:character)
-      character1.should_receive(:attendance).at_least(3).times.and_return(100.0)
-      character2.should_receive(:attendance).at_least(3).times.and_return(100.0)
+      character1.stub(:attendance).and_return(100.0)
+      character2.stub(:attendance).and_return(100.0)
       characters = [character1, character2]
       Character.should_receive(:order).with(:name).and_return(characters)
 
@@ -59,11 +59,24 @@ describe CharactersController do
                                                  :attendance]))]
     end
 
+    it 'responds with XML' do
+      character1 = FactoryGirl.create(:character)
+      character2 = FactoryGirl.create(:character)
+      character1.stub(:attendance).and_return(100.0)
+      character2.stub(:attendance).and_return(100.0)
+      characters = [character1, character2]
+      Character.should_receive(:order).with(:name).and_return(characters)
+
+      get :attendance, format: :xml
+
+      response.body.should eq characters.to_xml(only: [:id, :name], methods: [:attendance])
+    end
+
     it 'only returns characters with more than 10% attendance' do
       character1 = FactoryGirl.create(:character)
       character2 = FactoryGirl.create(:character)
-      character1.should_receive(:attendance).twice.times.and_return(7.06)
-      character2.should_receive(:attendance).at_least(3).times.and_return(10.9)
+      character1.stub(:attendance).and_return(7.06)
+      character2.stub(:attendance).and_return(10.9)
       characters = [character1, character2]
       Character.should_receive(:order).with(:name).and_return(characters)
 
@@ -245,6 +258,19 @@ describe CharactersController do
     it 'renders the :show template' do
       get :show, id: FactoryGirl.create(:character)
       response.should render_template :show
+    end
+
+    it 'responds with JSON' do
+      character = FactoryGirl.create(:character)
+      get :show, id: character, format: :json
+      response.body.should eq character.to_json(methods: [:player_name, :player_raids_count, :player_active,
+                                                          :player_switches_count, :player_switch_rate])
+    end
+
+    it 'responds with XML' do
+      character = FactoryGirl.create(:character)
+      get :show, id: character, format: :xml
+      response.body.should eq character.to_xml(methods: [:instances, :drops])
     end
   end
 
