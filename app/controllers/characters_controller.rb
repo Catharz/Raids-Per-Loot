@@ -18,6 +18,7 @@ class CharactersController < ApplicationController
   before_filter :set_character, only: [:show, :edit, :update, :destroy, :info, :fetch_data]
   before_filter :authenticate_user!, :except => [:index, :show, :info, :statistics, :attendance, :loot]
   before_filter :set_pagetitle
+  after_filter { flash.discard if request.xhr? }
 
   caches_action :statistics
   caches_action :info
@@ -106,58 +107,25 @@ class CharactersController < ApplicationController
   def create
     @character = Character.new(params[:character])
 
-    respond_to do |format|
-      if @character.save
-        format.html { redirect_to @character,
-                                  notice: 'Character was successfully created.'
-        }
-        format.json {
-          render json: @character.to_json(
-              methods: [:archetype_name, :main_character, :archetype_root,
-                        :player_name, :first_raid_date, :last_raid_date,
-                        :armour_rate, :jewellery_rate, :weapon_rate]
-          ), status: :created, location: @character
-        }
-        format.xml { render xml: @character,
-                            status: :created,
-                            location: @character }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @character.errors,
-                             status: :unprocessable_entity }
-        format.xml { render xml: @character.errors,
-                            status: :unprocessable_entity }
-      end
+    if @character.save
+      expire_action action: :statistics
+      flash[:notice] = 'Character was successfully created.'
+      respond_with @character
+    else
+      render action: :new
     end
   end
 
   # PUT /characters/1
   # PUT /characters/1.json
   def update
-    expire_action action: :info
-    expire_action action: :statistics
+    if @character.update_attributes(params[:character])
+      expire_action action: :info
+      expire_action action: :statistics
 
-    respond_to do |format|
-      if @character.update_attributes(params[:character])
-        format.html { redirect_to @character,
-                                  notice: 'Character was successfully updated.'
-        }
-        format.json { render :json => @character.
-            to_json(methods: [:archetype_name, :archetype_root,
-                              :main_character, :raid_alternate,
-                              :first_raid_date, :last_raid_date,
-                              :player_name, :player_raids_count,
-                              :player_switches_count, :player_switch_rate,
-                              :player_active]),
-                             :notice => 'Character was successfully updated.' }
-        format.xml { head :ok }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @character.errors,
-                             status: :unprocessable_entity }
-        format.xml { render xml: @character.errors,
-                            status: :unprocessable_entity }
-      end
+      respond_with @character
+    else
+      render action: :edit
     end
   end
 

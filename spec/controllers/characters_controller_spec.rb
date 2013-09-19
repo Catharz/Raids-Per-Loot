@@ -332,10 +332,16 @@ describe CharactersController do
         response.should redirect_to Character.last
       end
 
-      it 'responds to JSON' do
-        post :create,
-             character: FactoryGirl.attributes_for(:character), format: 'json'
-        response.response_code.should eq 201
+      it 'responds with JSON' do
+        post :create, character: FactoryGirl.attributes_for(:character), format: :json
+        response.body.should eq Character.last.to_json(methods: [:archetype_name, :main_character, :archetype_root,
+                                                                 :player_name, :first_raid_date, :last_raid_date,
+                                                                 :armour_rate, :jewellery_rate, :weapon_rate])
+      end
+
+      it 'responds with XML' do
+        post :create, character: FactoryGirl.attributes_for(:character), format: :xml
+        response.body.should eq Character.last.to_xml
       end
     end
 
@@ -408,40 +414,27 @@ describe CharactersController do
         response.should redirect_to @character
       end
 
-      context 'JSON response' do
-        it 'responds to JSON' do
-          put :update, id: @character, character:
-              @character.attributes.merge!({name: 'Bam Bam',
-                                            char_type: 'r'}), format: 'json'
+      it 'responds with JSON' do
+        put :update, id: @character, character:
+            @character.attributes.merge!({name: 'Foo', char_type: 'r'}), format: :json
 
-          response.response_code.should == 200
-        end
+        @character.reload
+        response.response_code.should == 200
+        response.body.should eq @character.to_json(methods: [:archetype_name, :archetype_root,
+                                                             :main_character, :raid_alternate,
+                                                             :first_raid_date, :last_raid_date,
+                                                             :player_name, :player_raids_count,
+                                                             :player_switches_count, :player_switch_rate,
+                                                             :player_active])
+      end
 
-        context 'extra methods' do
-          it 'returns all the normal methods' do
-            method_list = [:archetype_name, :archetype_root, :player_name,
-                           :first_raid_date, :last_raid_date, :armour_rate,
-                           :jewellery_rate, :weapon_rate]
-            method_list.each_with_index do |method, index|
-              put :update, id: @character,
-                  character: @character.attributes.
-                      merge!({name: "Update #{index}"}), format: 'json'
+      it 'responds with XML' do
+        put :update, id: @character, character:
+            @character.attributes.merge!({name: 'Bar', char_type: 'g'}), format: :xml
 
-              result = JSON.parse(response.body).with_indifferent_access
-              result[:character][method].should eq @character.send(method)
-            end
-          end
-
-          it 'returns the main character' do
-            put :update, id: @character, character:
-                @character.attributes.merge!({name: 'Bam Bam',
-                                              char_type: 'r'}), format: 'json'
-
-            result = JSON.parse(response.body).with_indifferent_access
-            result[:character][:main_character].
-                should eq JSON.parse(@character.main_character.to_json)
-          end
-        end
+        @character.reload
+        response.response_code.should == 200
+        response.body.should eq @character.to_xml
       end
     end
 
