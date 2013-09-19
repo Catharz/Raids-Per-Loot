@@ -7,8 +7,13 @@
 #
 # xml formatting is provided on actions used by the ACT plug-in.
 class RanksController < ApplicationController
+  respond_to :html, :json, :xml
+  respond_to :js, only: [:destroy, :edit, :new, :show]
+
+  before_filter :set_rank, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle
+
 
   def set_pagetitle
     @pagetitle = 'Player Ranks'
@@ -18,27 +23,15 @@ class RanksController < ApplicationController
   # GET /ranks.xml
   # GET /ranks.json
   def index
-    @ranks = Rank.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @ranks.to_xml( :include => [:players] ) }
-      format.json { render json: @ranks }
-    end
+    @ranks = Rank.order(:priority)
+    respond_with @ranks
   end
 
   # GET /ranks/1
   # GET /ranks/1.xml
   # GET /ranks/1.json
   def show
-    @rank = Rank.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @rank.to_xml( :include => [:players] ) }
-      format.json { render json: @rank }
-      format.js
-    end
+    respond_with @rank
   end
 
   # GET /ranks/new
@@ -56,7 +49,6 @@ class RanksController < ApplicationController
 
   # GET /ranks/1/edit
   def edit
-    @rank = Rank.find(params[:id])
   end
 
   # POST /ranks
@@ -82,8 +74,6 @@ class RanksController < ApplicationController
   # PUT /ranks/1.xml
   # PUT /ranks/1.json
   def update
-    @rank = Rank.find(params[:id])
-
     respond_to do |format|
       if @rank.update_attributes(params[:rank])
         format.html { redirect_to(@rank, :notice => 'Rank was successfully updated.') }
@@ -101,7 +91,6 @@ class RanksController < ApplicationController
   # DELETE /ranks/1.xml
   # DELETE /ranks/1.json
   def destroy
-    @rank = Rank.find(params[:id])
     @rank.destroy
 
     respond_to do |format|
@@ -110,5 +99,10 @@ class RanksController < ApplicationController
       format.json { head :ok }
       format.js
     end
+  end
+
+  private
+  def set_rank
+    @rank = Rank.find(params[:id])
   end
 end

@@ -12,7 +12,8 @@
 # pagination, searching and rendering the drops.
 class CharactersController < ApplicationController
   respond_to :html
-  respond_to :json, :xml, :js, except: [:loot, :statistics, :option_list, :info]
+  respond_to :json, :xml, except: [:loot, :statistics, :option_list, :info]
+  respond_to :js, only: [:destroy, :edit, :new, :show]
   respond_to :csv, only: :index
 
   before_filter :set_character, only: [:show, :edit, :update, :destroy, :info, :fetch_data]

@@ -5,7 +5,8 @@
 # json and js formatting options are available on actions
 # where ajax is used via jQueryUI popups.
 class AdjustmentsController < ApplicationController
-  respond_to :html, :json, :js
+  respond_to :html, :json
+  respond_to :js, only: [:destroy, :edit, :new, :show]
 
   before_filter :set_adjustment, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, :except => [:index, :show]

@@ -7,7 +7,8 @@
 #
 # xml formatting is provided on actions used by the ACT plug-in.
 class ArchetypesController < ApplicationController
-  respond_to :html, :json, :js
+  respond_to :html, :json
+  respond_to :js, only: [:destroy, :edit, :new, :show]
   respond_to :xml, only: [:show, :index]
 
   before_filter :set_archetype, only: [:show, :edit, :update, :destroy]
