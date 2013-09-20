@@ -7,15 +7,13 @@
 #
 # xml formatting is provided on actions used by the ACT plug-in.
 class LootTypesController < ApplicationController
-  respond_to :html, :json, :js, :xml
+  respond_to :html, :json, :xml
+  respond_to :js, only: [:destroy, :edit, :new, :show]
 
   before_filter :set_loot_type, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle
-
-  def set_pagetitle
-    @pagetitle = 'Loot Types'
-  end
+  after_filter { flash.discard if request.xhr? }
 
   # GET /loot_types
   # GET /loot_types.xml
@@ -44,34 +42,22 @@ class LootTypesController < ApplicationController
   def create
     @loot_type = LootType.new(params[:loot_type])
 
-    respond_to do |format|
-      if @loot_type.save
-        format.html { redirect_to(@loot_type, :notice => 'Loot type was successfully created.') }
-        format.xml  { render :xml => @loot_type, :status => :created, :location => @loot_type }
-        format.json { render :json => @loot_type.as_json(methods: [:default_loot_method_name]),
-                             :status => :created, :location => @loot_type }
-      else
-        format.html { render :action => 'new' }
-        format.xml  { render :xml => @loot_type.errors, :status => :unprocessable_entity }
-        format.json { render :json => @loot_type.errors, :status => :unprocessable_entity }
-      end
+    if @loot_type.save
+      flash[:notice] = 'Loot type was successfully created.'
+      respond_with @loot_type
+    else
+      render action: :new
     end
   end
 
   # PUT /loot_types/1
   # PUT /loot_types/1.xml
   def update
-    respond_to do |format|
-      if @loot_type.update_attributes(params[:loot_type])
-        format.html { redirect_to(@loot_type, :notice => 'Loot type was successfully updated.') }
-        format.xml  { head :ok }
-        format.json { render :json => @loot_type.as_json(methods: [:default_loot_method_name]),
-                             :notice => 'Loot type was successfully updated.' }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @loot_type.errors, :status => :unprocessable_entity }
-        format.json { render :json => @loot_type.errors, :status => :unprocessable_entity }
-      end
+    if @loot_type.update_attributes(params[:loot_type])
+      flash[:notice] = 'Loot type was successfully updated.'
+      respond_with @loot_type
+    else
+      render action: :edit
     end
   end
 
@@ -79,17 +65,15 @@ class LootTypesController < ApplicationController
   # DELETE /loot_types/1.xml
   def destroy
     @loot_type.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(loot_types_url) }
-      format.xml  { head :ok }
-      format.json { head :ok }
-      format.js
-    end
+    respond_with @loot_type
   end
 
   private
   def set_loot_type
     @loot_type = LootType.find(params[:id])
+  end
+
+  def set_pagetitle
+    @pagetitle = 'Loot Types'
   end
 end
