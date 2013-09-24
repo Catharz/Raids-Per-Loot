@@ -7,12 +7,12 @@
 #
 # xml formatting is provided on actions used by the ACT plug-in.
 class InstancesController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show]
+  respond_to :html, :json, :xml
+  respond_to :js, only: [:show, :new, :destroy]
   before_filter :set_pagetitle
-
-  def set_pagetitle
-    @pagetitle = 'Raid Instances'
-  end
+  before_filter :set_instance, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, except: [:index, :show]
+  after_filter { flash.discard if request.xhr? }
 
   def option_list
     @instances = Instance.by_raid(params[:raid_id]).order(:start_time)
@@ -29,45 +29,25 @@ class InstancesController < ApplicationController
   def index
     @instances = Instance.by_raid(params[:raid_id]).by_zone(params[:zone_id]).by_start_time(params[:start_time]).
         includes(:zone)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @instances }
-      format.xml { render xml: @instances.to_xml(include: [characters: [:player],
-                                                           drops: [:mob, :zone, :character, :item]]) }
-    end
+    respond_with @instances
   end
 
   # GET /instances/1
   # GET /instances/1.json
   def show
-    @instance = Instance.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @instance }
-      format.xml { render xml: @instance.to_xml(include: [characters: [:player],
-                                                          drops: [:mob, :zone, :character, :item]]) }
-      format.js
-    end
+    respond_with @instance
   end
 
   # GET /instances/new
   # GET /instances/new.json
   def new
+    # defaulting any new instance to being associated with the last raid and starting at 8pm
     @instance = Instance.new(raid: Raid.last, start_time: Raid.last.raid_date + 20.hours)
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @instance }
-      format.xml { render xml: @instance }
-      format.js
-    end
+    respond_with @instance
   end
 
   # GET /instances/1/edit
   def edit
-    @instance = Instance.find(params[:id])
   end
 
   # POST /instances
@@ -75,49 +55,39 @@ class InstancesController < ApplicationController
   def create
     @instance = Instance.new(params[:instance])
 
-    respond_to do |format|
-      if @instance.save
-        format.html { redirect_to @instance, notice: 'Instance was successfully created.' }
-        format.json { render json: @instance.to_json(methods: [:zone_name, :kills, :players, :characters, :drops]),
-                             status: :created, location: @instance }
-        format.xml { render xml: @instance, status: :created, location: @instance }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @instance.errors, status: :unprocessable_entity }
-        format.xml { render xml: @instance.errors, status: :unprocessable_entity }
-      end
+    if @instance.save
+      flash[:notice] = 'Instance was successfully created.'
+      respond_with @instance
+    else
+      render action: :new
     end
   end
 
   # PUT /instances/1
   # PUT /instances/1.json
   def update
-    @instance = Instance.find(params[:id])
-
-    respond_to do |format|
-      if @instance.update_attributes(params[:instance])
-        format.html { redirect_to @instance, notice: 'Instance was successfully updated.' }
-        format.json { render json: @instance.to_json(methods: [:zone_name, :kills, :players, :characters, :drops]) }
-        format.xml { head :ok }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @instance.errors, status: :unprocessable_entity }
-        format.xml { render xml: @instance.errors, status: :unprocessable_entity }
-      end
+    if @instance.update_attributes(params[:instance])
+      flash[:notice] = 'Instance was successfully updated.'
+      respond_with @instance
+    else
+      render action: :edit
     end
   end
 
   # DELETE /instances/1
   # DELETE /instances/1.json
   def destroy
-    @instance = Instance.find(params[:id])
     @instance.destroy
+    flash[:notice] = 'Instance successfully deleted.'
+    respond_with @instance
+  end
 
-    respond_to do |format|
-      format.html { redirect_to instances_url }
-      format.json { head :ok }
-      format.xml { head :ok }
-      format.js
-    end
+  private
+  def set_pagetitle
+    @pagetitle = 'Raid Instances'
+  end
+
+  def set_instance
+    @instance = Instance.find(params[:id])
   end
 end
