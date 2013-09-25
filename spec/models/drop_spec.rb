@@ -510,4 +510,11 @@ describe Drop do
       drop.correctly_assigned?.should be_false
     end
   end
+
+  describe '#to_s' do
+    it 'displays the item, character, drop time and zone_name' do
+      drop = FactoryGirl.create(:drop)
+      drop.to_s.should eq "#{drop.item_name} looted by #{drop.character_name} on #{drop.drop_time} in #{drop.zone_name}"
+    end
+  end
 end
