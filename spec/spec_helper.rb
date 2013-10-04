@@ -50,6 +50,8 @@ Spork.prefork do
   RSpec.configure do |config|
     config.fail_fast = %w{yes true on}.include? ENV['FAIL_FAST']
 
+    config.render_views = true # for JSON views
+
     # ## Mock Framework
     #
     # If you prefer to use mocha, flexmock or RR,

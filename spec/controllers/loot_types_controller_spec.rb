@@ -3,7 +3,7 @@ require 'authentication_spec_helper'
 
 describe LootTypesController do
   include AuthenticationSpecHelper
-  fixtures :users, :services
+  fixtures :users, :services, :loot_types
 
   before(:each) do
     login_as :admin
@@ -15,6 +15,19 @@ describe LootTypesController do
       get :index
       assigns(:loot_types).should include loot_type
     end
+
+    it 'renders json' do
+      loot_types = LootType.all
+      get :index, format: :json
+      result = JSON.parse(response.body)
+      result.should eq loot_types.collect { |lt| JSON.parse(lt.to_json) }
+    end
+
+    it 'renders xml' do
+      loot_types = LootType.all
+      get :index, format: :xml
+      response.body.should eq loot_types.to_xml(include: [:items, :drops])
+    end
   end
 
   describe "GET show" do
@@ -22,6 +35,19 @@ describe LootTypesController do
       loot_type = LootType.create! FactoryGirl.attributes_for(:loot_type)
       get :show, id: loot_type.id.to_s
       assigns(:loot_type).should eq(loot_type)
+    end
+
+    it 'renders json' do
+      loot_type = LootType.create! FactoryGirl.attributes_for(:loot_type)
+      get :show, id: loot_type, format: :json
+      result = JSON.parse(response.body)
+      result.should eq JSON.parse(loot_type.to_json)
+    end
+
+    it 'renders xml' do
+      loot_type = LootType.create! FactoryGirl.attributes_for(:loot_type)
+      get :show, id: loot_type, format: :xml
+      response.body.should eq loot_type.to_xml
     end
   end
 
@@ -57,6 +83,16 @@ describe LootTypesController do
       it "redirects to the created loot_type" do
         post :create, loot_type: FactoryGirl.attributes_for(:loot_type)
         response.should redirect_to(LootType.last)
+      end
+
+      it 'responds with JSON' do
+        post :create, loot_type: FactoryGirl.attributes_for(:loot_type), format: :json
+        response.body.should eq LootType.last.to_json(methods: [:default_loot_method_name])
+      end
+
+      it 'responds with XML' do
+        post :create, loot_type: FactoryGirl.attributes_for(:loot_type), format: :xml
+        response.body.should eq LootType.last.to_xml
       end
     end
 
@@ -102,6 +138,20 @@ describe LootTypesController do
         put :update, id: loot_type.id,
             loot_type: FactoryGirl.attributes_for(:loot_type)
         response.should redirect_to(loot_type)
+      end
+
+      it 'responds with JSON' do
+        loot_type = LootType.create! FactoryGirl.attributes_for(:loot_type)
+        put :update, id: loot_type.id, loot_type: loot_type.attributes.merge!(name: 'New Name 1'), format: :json
+        loot_type.reload
+        response.body.should eq loot_type.to_json(methods: [:default_loot_method_name])
+      end
+
+      it 'responds with XML' do
+        loot_type = LootType.create! FactoryGirl.attributes_for(:loot_type)
+        put :update, id: loot_type.id, loot_type: loot_type.attributes.merge!(name: 'New Name 2'), format: :xml
+        loot_type.reload
+        response.body.should eq loot_type.to_xml
       end
     end
 

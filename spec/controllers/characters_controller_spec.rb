@@ -39,8 +39,8 @@ describe CharactersController do
     it 'responds with JSON' do
       character1 = FactoryGirl.create(:character)
       character2 = FactoryGirl.create(:character)
-      character1.should_receive(:attendance).at_least(3).times.and_return(100.0)
-      character2.should_receive(:attendance).at_least(3).times.and_return(100.0)
+      character1.stub(:attendance).and_return(100.0)
+      character2.stub(:attendance).and_return(100.0)
       characters = [character1, character2]
       Character.should_receive(:order).with(:name).and_return(characters)
 
@@ -59,11 +59,24 @@ describe CharactersController do
                                                  :attendance]))]
     end
 
+    it 'responds with XML' do
+      character1 = FactoryGirl.create(:character)
+      character2 = FactoryGirl.create(:character)
+      character1.stub(:attendance).and_return(100.0)
+      character2.stub(:attendance).and_return(100.0)
+      characters = [character1, character2]
+      Character.should_receive(:order).with(:name).and_return(characters)
+
+      get :attendance, format: :xml
+
+      response.body.should eq characters.to_xml(only: [:id, :name], methods: [:attendance])
+    end
+
     it 'only returns characters with more than 10% attendance' do
       character1 = FactoryGirl.create(:character)
       character2 = FactoryGirl.create(:character)
-      character1.should_receive(:attendance).twice.times.and_return(7.06)
-      character2.should_receive(:attendance).at_least(3).times.and_return(10.9)
+      character1.stub(:attendance).and_return(7.06)
+      character2.stub(:attendance).and_return(10.9)
       characters = [character1, character2]
       Character.should_receive(:order).with(:name).and_return(characters)
 
@@ -246,6 +259,19 @@ describe CharactersController do
       get :show, id: FactoryGirl.create(:character)
       response.should render_template :show
     end
+
+    it 'responds with JSON' do
+      character = FactoryGirl.create(:character)
+      get :show, id: character, format: :json
+      response.body.should eq character.to_json(methods: [:player_name, :player_raids_count, :player_active,
+                                                          :player_switches_count, :player_switch_rate])
+    end
+
+    it 'responds with XML' do
+      character = FactoryGirl.create(:character)
+      get :show, id: character, format: :xml
+      response.body.should eq character.to_xml(methods: [:instances, :drops])
+    end
   end
 
   describe 'GET #info' do
@@ -273,6 +299,16 @@ describe CharactersController do
       get :new
       response.should render_template :new
     end
+
+    it 'responds to JSON' do
+      get :new, format: :json
+      response.body.should eq Character.new.to_json(methods: :player_name)
+    end
+
+    it 'responds to XML' do
+      get :new, format: :xml
+      response.body.should eq Character.new.to_xml(methods: :player_name)
+    end
   end
 
   describe 'GET edit' do
@@ -291,15 +327,15 @@ describe CharactersController do
         }.to change(Character, :count).by(1)
       end
 
+      it 'assigns a newly created character as @character' do
+        post :create, character: FactoryGirl.attributes_for(:character)
+        assigns(:character).should be_a(Character)
+        assigns(:character).should be_persisted
+      end
+
       it 'redirects to the new character' do
         post :create, character: FactoryGirl.attributes_for(:character)
         response.should redirect_to Character.last
-      end
-
-      it 'responds to JSON' do
-        post :create,
-             character: FactoryGirl.attributes_for(:character), format: 'json'
-        response.response_code.should eq 201
       end
     end
 
@@ -372,40 +408,27 @@ describe CharactersController do
         response.should redirect_to @character
       end
 
-      context 'JSON response' do
-        it 'responds to JSON' do
-          put :update, id: @character, character:
-              @character.attributes.merge!({name: 'Bam Bam',
-                                            char_type: 'r'}), format: 'json'
+      it 'responds with JSON' do
+        put :update, id: @character, character:
+            @character.attributes.merge!({name: 'Foo', char_type: 'r'}), format: :json
 
-          response.response_code.should == 200
-        end
+        @character.reload
+        response.response_code.should == 200
+        response.body.should eq @character.to_json(methods: [:archetype_name, :archetype_root,
+                                                             :main_character, :raid_alternate,
+                                                             :first_raid_date, :last_raid_date,
+                                                             :player_name, :player_raids_count,
+                                                             :player_switches_count, :player_switch_rate,
+                                                             :player_active])
+      end
 
-        context 'extra methods' do
-          it 'returns all the normal methods' do
-            method_list = [:archetype_name, :archetype_root, :player_name,
-                           :first_raid_date, :last_raid_date, :armour_rate,
-                           :jewellery_rate, :weapon_rate]
-            method_list.each_with_index do |method, index|
-              put :update, id: @character,
-                  character: @character.attributes.
-                      merge!({name: "Update #{index}"}), format: 'json'
+      it 'responds with XML' do
+        put :update, id: @character, character:
+            @character.attributes.merge!({name: 'Bar', char_type: 'g'}), format: :xml
 
-              result = JSON.parse(response.body).with_indifferent_access
-              result[:character][method].should eq @character.send(method)
-            end
-          end
-
-          it 'returns the main character' do
-            put :update, id: @character, character:
-                @character.attributes.merge!({name: 'Bam Bam',
-                                              char_type: 'r'}), format: 'json'
-
-            result = JSON.parse(response.body).with_indifferent_access
-            result[:character][:main_character].
-                should eq JSON.parse(@character.main_character.to_json)
-          end
-        end
+        @character.reload
+        response.response_code.should == 200
+        response.body.should eq @character.to_xml
       end
     end
 

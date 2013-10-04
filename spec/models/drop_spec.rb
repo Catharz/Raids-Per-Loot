@@ -5,9 +5,9 @@ describe Drop do
   include DropSpecHelper
 
   around do |example|
-    Timecop.freeze(DateTime.new(2013, 04, 01, 20, 15, 01))
-    example.run
-    Timecop.return
+    Timecop.travel(Time.zone.local(2013, 04, 01, 20, 15, 01)) do
+      example.run
+    end
   end
 
   let(:armour) { mock_model(LootType, name: 'Armour',
@@ -508,6 +508,13 @@ describe Drop do
       drop.should_receive(:assignment_issues).and_return(%w{Oops!})
 
       drop.correctly_assigned?.should be_false
+    end
+  end
+
+  describe '#to_s' do
+    it 'displays the item, character, drop time and zone_name' do
+      drop = FactoryGirl.create(:drop)
+      drop.to_s.should eq "#{drop.item_name} looted by #{drop.character_name} on #{drop.drop_time} in #{drop.zone_name}"
     end
   end
 end

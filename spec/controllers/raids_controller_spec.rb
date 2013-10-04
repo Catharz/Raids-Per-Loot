@@ -3,16 +3,14 @@ require 'authentication_spec_helper'
 
 describe RaidsController do
   include AuthenticationSpecHelper
-  fixtures :users, :services
+  fixtures :users, :services, :raid_types
 
   before(:each) do
     login_as :admin
-
-    @progression = RaidType.create(name: 'Progression')
   end
 
   def valid_attributes
-    {raid_date: Date.new(2011, 03, 30), raid_type_id: @progression.id}
+    FactoryGirl.build(:raid).attributes.symbolize_keys
   end
 
   describe 'GET index' do
@@ -20,6 +18,18 @@ describe RaidsController do
       raid = Raid.create! valid_attributes
       get :index
       assigns(:raids).should eq([raid])
+    end
+
+    it 'responds with JSON' do
+      Raid.create! valid_attributes
+      get :index, format: :json
+      response.body.should eq Raid.all.to_json
+    end
+
+    it 'responds with XML' do
+      Raid.create! valid_attributes
+      get :index, format: :xml
+      response.body.should eq Raid.all.to_xml
     end
 
     it 'filters on raid_date' do
@@ -43,11 +53,23 @@ describe RaidsController do
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested raid as @raid" do
+  describe 'GET show' do
+    it 'assigns the requested raid as @raid' do
       raid = Raid.create! valid_attributes
       get :show, id: raid.id.to_s
       assigns(:raid).should eq(raid)
+    end
+
+    it 'responds with JSON' do
+      raid = Raid.create! valid_attributes
+      get :show, id: raid, format: :json
+      response.body.should eq Raid.last.to_json(methods: [:players, :characters, :instances, :kills, :drops])
+    end
+
+    it 'responds with XML' do
+      raid = Raid.create! valid_attributes
+      get :show, id: raid, format: :xml
+      response.body.should eq Raid.last.to_xml(include: [:players, :characters, :instances, :kills, :drops])
     end
   end
 

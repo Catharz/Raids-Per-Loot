@@ -6,6 +6,7 @@ Before('@ranks') do
 end
 
 Given /^the following ranks:$/ do |ranks|
+  Rank.delete_all
   Rank.create!(ranks.hashes)
 end
 

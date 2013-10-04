@@ -37,24 +37,4 @@ class Instance < ActiveRecord::Base
       scoped
     end
   }
-  scope :at_time, ->(time) {
-    if time
-      start_time = time.is_a?(String) ? Time.zone.parse(time) : time
-      where('start_time <= ?', start_time).last
-    else
-      order(:start_time).last
-    end
-  }
-
-  def to_xml(options = {})
-    to_xml_opts = {}
-    # a builder instance is provided when to_xml is called on a collection of instructors,
-    # in which case you would not want to have <?xml ...?> added to each item
-    to_xml_opts.merge!(options.slice(:builder, :skip_instruct))
-    to_xml_opts[:root] ||= "instance"
-    xml_attributes = self.attributes
-    xml_attributes["players"] = self.players
-    xml_attributes["drops"] = self.drops
-    xml_attributes.to_xml(to_xml_opts)
-  end
 end

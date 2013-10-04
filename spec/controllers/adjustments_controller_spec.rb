@@ -16,6 +16,13 @@ describe AdjustmentsController do
       get :index, {}
       assigns(:adjustments).should eq([adjustment])
     end
+
+    it 'returns json' do
+      adjustments = Array.new(3) { |n| FactoryGirl.create(:adjustment) }
+      get :index, format: :json
+
+      response.body.should eq adjustments.to_json(methods: [:adjusted_name])
+    end
   end
 
   describe 'GET show' do
@@ -24,12 +31,29 @@ describe AdjustmentsController do
       get :show, {id: adjustment.to_param}
       assigns(:adjustment).should eq(adjustment)
     end
+
+    it 'returns json' do
+      adjustment = Adjustment.create! FactoryGirl.attributes_for(:adjustment)
+      get :show, id: adjustment.to_param, format: :json
+      response.body.should eq adjustment.to_json(methods: [:adjusted_name])
+    end
   end
 
   describe 'GET new' do
     it 'assigns a new adjustment as @adjustment' do
       get :new, {}
       assigns(:adjustment).should be_a_new(Adjustment)
+    end
+
+    it 'returns json' do
+      get :new, format: :json
+      response.body.should eq Adjustment.new.to_json
+    end
+
+    it 'accepts parameters for a json response' do
+      character = FactoryGirl.create(:character)
+      get :new, format: :json, adjustable_id: character.id, adjustable_type: 'Character'
+      response.body.should eq Adjustment.new(adjustable_id: character.id, adjustable_type: 'Character').to_json
     end
   end
 
@@ -59,6 +83,11 @@ describe AdjustmentsController do
         post :create, {adjustment: FactoryGirl.attributes_for(:adjustment)}
         response.should redirect_to(Adjustment.last)
       end
+
+      it 'accepts json' do
+        post :create, {format: :json, adjustment: FactoryGirl.attributes_for(:adjustment)}
+        response.body.should eq Adjustment.last.to_json(methods: [:adjusted_name])
+      end
     end
 
     describe 'with invalid params' do
@@ -82,14 +111,8 @@ describe AdjustmentsController do
     describe 'with valid params' do
       it 'updates the requested adjustment' do
         adjustment = Adjustment.create! FactoryGirl.attributes_for(:adjustment)
-        # Assuming there are no other adjustments in the database, this
-        # specifies that the Adjustment created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Adjustment.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
-        put :update, {id: adjustment.to_param,
-                      adjustment: {'these' => 'params'}}
+        Adjustment.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+        put :update, {id: adjustment.to_param, adjustment: {'these' => 'params'}}
       end
 
       it 'assigns the requested adjustment as @adjustment' do
@@ -104,6 +127,12 @@ describe AdjustmentsController do
         put :update, {id: adjustment.to_param,
                       adjustment: FactoryGirl.attributes_for(:adjustment)}
         response.should redirect_to(adjustment)
+      end
+
+      it 'accepts json' do
+        adjustment = Adjustment.create! FactoryGirl.attributes_for(:adjustment)
+        Adjustment.any_instance.should_receive(:update_attributes).with({'new' => 'params'})
+        put :update, {id: adjustment.to_param, format: :json, adjustment: {'new' => 'params'}}
       end
     end
 

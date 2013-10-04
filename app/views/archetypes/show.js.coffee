@@ -3,7 +3,7 @@ $("#popup").dialog
   width: 350
   modal: true
   resizable: false
-  title: 'Show Class'
+  title: 'Show Archetype'
   buttons:
     "Close": ->
       $("#popup").dialog "close"

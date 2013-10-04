@@ -15,6 +15,18 @@ describe RanksController do
       get :index
       assigns(:ranks).should include rank
     end
+
+    it 'responds with JSON' do
+      get :index, format: :json
+
+      response.body.should eq Rank.order(:priority).to_json
+    end
+
+    it 'responds with XML' do
+      get :index, format: :xml
+
+      response.body.should eq Rank.order(:priority).to_xml
+    end
   end
 
   describe 'GET show' do
@@ -23,12 +35,34 @@ describe RanksController do
       get :show, id: rank.id.to_s
       assigns(:rank).should eq(rank)
     end
+
+    it 'responds with JSON' do
+      rank = Rank.first
+      get :show, id: rank, format: :json
+      response.body.should eq rank.to_json
+    end
+
+    it 'responds with XML' do
+      rank = Rank.last
+      get :show, id: rank, format: :xml
+      response.body.should eq rank.to_xml
+    end
   end
 
   describe 'GET new' do
     it 'assigns a new rank as @rank' do
       get :new
       assigns(:rank).should be_a_new(Rank)
+    end
+
+    it 'responds with JSON' do
+      get :new, format: :json
+      response.body.should eq Rank.new.to_json
+    end
+
+    it 'responds with XML' do
+      get :new, format: :xml
+      response.body.should eq Rank.new.to_xml
     end
   end
 
@@ -57,6 +91,16 @@ describe RanksController do
       it 'redirects to the created rank' do
         post :create, rank: FactoryGirl.attributes_for(:rank)
         response.should redirect_to(Rank.last)
+      end
+
+      it 'responds with JSON' do
+        post :create, rank: FactoryGirl.attributes_for(:rank), format: :json
+        response.body.should eq Rank.last.to_json
+      end
+
+      it 'responds with XML' do
+        post :create, rank: FactoryGirl.attributes_for(:rank), format: :xml
+        response.body.should eq Rank.last.to_xml
       end
     end
 
@@ -100,6 +144,20 @@ describe RanksController do
         rank = Rank.create! FactoryGirl.attributes_for(:rank)
         put :update, id: rank.id, rank: FactoryGirl.attributes_for(:rank)
         response.should redirect_to(rank)
+      end
+
+      it 'responds with JSON' do
+        rank = Rank.create! FactoryGirl.attributes_for(:rank)
+        put :update, id: rank.id, rank: rank.attributes.merge!(name: 'New Name 1'), format: :json
+        rank.reload
+        response.body.should eq rank.to_json
+      end
+
+      it 'responds with XML' do
+        rank = Rank.create! FactoryGirl.attributes_for(:rank)
+        put :update, id: rank.id, rank: rank.attributes.merge!(name: 'New Name 2'), format: :xml
+        rank.reload
+        response.body.should eq rank.to_xml
       end
     end
 

@@ -7,54 +7,34 @@
 #
 # xml formatting is provided on actions used by the ACT plug-in.
 class LootTypesController < ApplicationController
+  respond_to :html, :json, :xml
+  respond_to :js, only: [:destroy, :edit, :new, :show]
+
+  before_filter :set_loot_type, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle
-
-  def set_pagetitle
-    @pagetitle = 'Loot Types'
-  end
+  after_filter { flash.discard if request.xhr? }
 
   # GET /loot_types
   # GET /loot_types.xml
   def index
     @loot_types = LootType.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @loot_types }
-      format.xml  { render :xml => @loot_types.to_xml( :include => [:items, :drops] ) }
-    end
   end
 
   # GET /loot_types/1
   # GET /loot_types/1.xml
   def show
-    @loot_type = LootType.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render :json => @loot_type }
-      format.xml  { render :xml => @loot_type.to_xml( :include => [:items, :drops] ) }
-      format.js
-    end
   end
 
   # GET /loot_types/new
   # GET /loot_types/new.xml
   def new
     @loot_type = LootType.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @loot_type }
-      format.json { render :json => @loot_type.as_json(methods: [:default_loot_method_name]) }
-      format.js
-    end
+    respond_with @loot_type
   end
 
   # GET /loot_types/1/edit
   def edit
-    @loot_type = LootType.find(params[:id])
   end
 
   # POST /loot_types
@@ -62,50 +42,38 @@ class LootTypesController < ApplicationController
   def create
     @loot_type = LootType.new(params[:loot_type])
 
-    respond_to do |format|
-      if @loot_type.save
-        format.html { redirect_to(@loot_type, :notice => 'Loot type was successfully created.') }
-        format.xml  { render :xml => @loot_type, :status => :created, :location => @loot_type }
-        format.json { render :json => @loot_type.as_json(methods: [:default_loot_method_name]),
-                             :status => :created, :location => @loot_type }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @loot_type.errors, :status => :unprocessable_entity }
-        format.json { render :json => @loot_type.errors, :status => :unprocessable_entity }
-      end
+    if @loot_type.save
+      flash[:notice] = 'Loot type was successfully created.'
+      respond_with @loot_type
+    else
+      render action: :new
     end
   end
 
   # PUT /loot_types/1
   # PUT /loot_types/1.xml
   def update
-    @loot_type = LootType.find(params[:id])
-
-    respond_to do |format|
-      if @loot_type.update_attributes(params[:loot_type])
-        format.html { redirect_to(@loot_type, :notice => 'Loot type was successfully updated.') }
-        format.xml  { head :ok }
-        format.json { render :json => @loot_type.as_json(methods: [:default_loot_method_name]),
-                             :notice => 'Loot type was successfully updated.' }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @loot_type.errors, :status => :unprocessable_entity }
-        format.json { render :json => @loot_type.errors, :status => :unprocessable_entity }
-      end
+    if @loot_type.update_attributes(params[:loot_type])
+      flash[:notice] = 'Loot type was successfully updated.'
+      respond_with @loot_type
+    else
+      render action: :edit
     end
   end
 
   # DELETE /loot_types/1
   # DELETE /loot_types/1.xml
   def destroy
-    @loot_type = LootType.find(params[:id])
     @loot_type.destroy
+    respond_with @loot_type
+  end
 
-    respond_to do |format|
-      format.html { redirect_to(loot_types_url) }
-      format.xml  { head :ok }
-      format.json { head :ok }
-      format.js
-    end
+  private
+  def set_loot_type
+    @loot_type = LootType.find(params[:id])
+  end
+
+  def set_pagetitle
+    @pagetitle = 'Loot Types'
   end
 end
