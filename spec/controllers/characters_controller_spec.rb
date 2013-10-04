@@ -327,21 +327,15 @@ describe CharactersController do
         }.to change(Character, :count).by(1)
       end
 
+      it 'assigns a newly created character as @character' do
+        post :create, character: FactoryGirl.attributes_for(:character)
+        assigns(:character).should be_a(Character)
+        assigns(:character).should be_persisted
+      end
+
       it 'redirects to the new character' do
         post :create, character: FactoryGirl.attributes_for(:character)
         response.should redirect_to Character.last
-      end
-
-      it 'responds with JSON' do
-        post :create, character: FactoryGirl.attributes_for(:character), format: :json
-        response.body.should eq Character.last.to_json(methods: [:archetype_name, :main_character, :archetype_root,
-                                                                 :player_name, :first_raid_date, :last_raid_date,
-                                                                 :armour_rate, :jewellery_rate, :weapon_rate])
-      end
-
-      it 'responds with XML' do
-        post :create, character: FactoryGirl.attributes_for(:character), format: :xml
-        response.body.should eq Character.last.to_xml
       end
     end
 

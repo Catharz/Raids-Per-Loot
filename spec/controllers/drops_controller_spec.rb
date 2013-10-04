@@ -71,28 +71,37 @@ describe DropsController do
   end
 
   describe 'GET index' do
+    it 'allows for pagination' do
+      Array.new(5) { |n| FactoryGirl.create(:drop, drop_time: DateTime.parse("2013-12-25 18:0#{4 - n}+11:00")) }
+
+      get :index, format: :json, sEcho: 0, iDisplayLength: 3
+
+      JSON.parse(response.body)['aaData'].count.should eq 3
+    end
+
     it 'should render JSON' do
-      drop =
-          FactoryGirl.create :drop,
-                             drop_time: DateTime.parse('2013-12-25 18:00+11:00')
+      drop = FactoryGirl.create :drop, drop_time: DateTime.parse('2013-12-25 18:00+11:00')
       expected = drop_as_json(drop)
 
-      get :index, format: :json
+      get :index, format: :json, sEcho: 0
       actual = JSON.parse(response.body)
 
       actual.should == expected
     end
 
+    it 'should render XML with chat' do
+      FactoryGirl.create :drop, drop_time: DateTime.parse('2013-12-25 18:00+11:00')
+
+      get :index, format: :xml
+
+      response.body.should eq Drop.select(:chat).to_xml
+    end
+
     it 'should filter by instance when fetching xml' do
       FactoryGirl.create(:drop)
-      instance =
-          FactoryGirl.create(:instance,
-                             raid_id: @drop_details[:raid].id,
-                             zone_id: @drop_details[:zone].id,
-                             start_time: DateTime.parse('03/01/2012 3:00PM'))
-      FactoryGirl.create(:drop,
-                         instance_id: instance.id,
-                         drop_time: DateTime.parse('03/01/2012 3:00PM'))
+      instance = FactoryGirl.create(:instance, raid_id: @drop_details[:raid].id, zone_id: @drop_details[:zone].id,
+                                    start_time: DateTime.parse('03/01/2012 3:00PM'))
+      FactoryGirl.create(:drop, instance_id: instance.id, drop_time: DateTime.parse('03/01/2012 3:00PM'))
 
       get :index, format: :xml, instance_id: instance.id
 
@@ -102,14 +111,9 @@ describe DropsController do
 
     it 'should filter by drop time when fetching xml' do
       FactoryGirl.create(:drop)
-      instance =
-          FactoryGirl.create(:instance,
-                             raid_id: @drop_details[:raid].id,
-                             zone_id: @drop_details[:zone].id,
-                             start_time: DateTime.parse('03/01/2012 3:00PM'))
-      FactoryGirl.create(:drop,
-                         instance_id: instance.id,
-                         drop_time: DateTime.parse('03/01/2012 3:00PM'))
+      instance = FactoryGirl.create(:instance, raid_id: @drop_details[:raid].id, zone_id: @drop_details[:zone].id,
+                                    start_time: DateTime.parse('03/01/2012 3:00PM'))
+      FactoryGirl.create(:drop, instance_id: instance.id, drop_time: DateTime.parse('03/01/2012 3:00PM'))
 
       get :index, format: :xml, drop_time: DateTime.parse('03/01/2012 3:00PM')
 
@@ -120,14 +124,9 @@ describe DropsController do
     it 'should filter by zone when fetching xml' do
       FactoryGirl.create(:drop)
       zone = FactoryGirl.create(:zone, name: 'Loot Lounge')
-      instance =
-          FactoryGirl.create(:instance,
-                             raid_id: @drop_details[:raid].id,
-                             start_time: DateTime.parse('03/01/2012 3:00PM'),
-                             zone_id: zone.id)
-      FactoryGirl.create(:drop,
-                         instance_id: instance.id,
-                         zone_id: zone.id,
+      instance = FactoryGirl.create(:instance, raid_id: @drop_details[:raid].id, zone_id: zone.id,
+                                    start_time: DateTime.parse('03/01/2012 3:00PM'))
+      FactoryGirl.create(:drop, instance_id: instance.id, zone_id: zone.id,
                          drop_time: DateTime.parse('03/01/2012 3:00PM'))
 
       get :index, format: :xml, zone_id: zone.id
@@ -138,12 +137,8 @@ describe DropsController do
 
     it 'should filter by mob when fetching xml' do
       FactoryGirl.create(:drop)
-      mob = FactoryGirl.create(:mob,
-                               zone_id: @drop_details[:zone].id,
-                               name: 'Whack-a-mole')
-      FactoryGirl.create(:drop,
-                         mob_id: mob.id,
-                         drop_time: DateTime.parse('03/01/2012 3:00PM'))
+      mob = FactoryGirl.create(:mob, zone_id: @drop_details[:zone].id, name: 'Whack-a-mole')
+      FactoryGirl.create(:drop, mob_id: mob.id, drop_time: DateTime.parse('03/01/2012 3:00PM'))
 
       get :index, format: :xml, mob_id: mob.id
 
@@ -153,11 +148,8 @@ describe DropsController do
 
     it 'should filter by item when fetching xml' do
       FactoryGirl.create(:drop)
-      item = FactoryGirl.create(:item, name: 'Letter Opener',
-                                :eq2_item_id => '1234')
-      FactoryGirl.create(:drop,
-                         item_id: item.id,
-                         drop_time: DateTime.parse('03/01/2012 3:00PM'))
+      item = FactoryGirl.create(:item, name: 'Letter Opener', :eq2_item_id => '1234')
+      FactoryGirl.create(:drop, item_id: item.id, drop_time: DateTime.parse('03/01/2012 3:00PM'))
 
       get :index, format: :xml, item_id: item.id
 
@@ -167,15 +159,9 @@ describe DropsController do
 
     it 'should filter by character when fetching xml' do
       FactoryGirl.create(:drop)
-      character =
-          FactoryGirl.create(:character,
-                             name: 'Them',
-                             player_id: @drop_details[:player_id],
-                             archetype_id: @drop_details[:archetype].id,
-                             char_type: 'm')
-      FactoryGirl.create(:drop,
-                         character_id: character.id,
-                         drop_time: DateTime.parse('03/01/2012 3:00PM'))
+      character = FactoryGirl.create(:character, name: 'Them', player_id: @drop_details[:player_id],
+                                     archetype_id: @drop_details[:archetype].id, char_type: 'm')
+      FactoryGirl.create(:drop, character_id: character.id, drop_time: DateTime.parse('03/01/2012 3:00PM'))
 
       get :index, format: :xml, character_id: character.id
 
@@ -194,15 +180,25 @@ describe DropsController do
     it 'renders JSON' do
       drop = FactoryGirl.create(:drop)
 
-      get :show, format: :json, id: drop.id.to_s
-      actual = JSON.parse(response.body)
+      get :show, id: drop, format: :json
 
-      actual.should.eql? drop.to_json(
-                             methods: [:loot_method_name,
-                                       :invalid_reason,
-                                       :character_name,
-                                       :character_archetype_name,
-                                       :loot_type_name])
+      JSON.parse(response.body).should eq JSON.parse(Drop.select(:chat).find(drop.id).
+                                                         to_json(methods: [:loot_method_name, :invalid_reason,
+                                                                           :character_name, :character_archetype_name,
+                                                                           :loot_type_name, :item_name,
+                                                                           :mob_name, :zone_name]))
+    end
+
+    it 'renders XML' do
+      drop = FactoryGirl.create(:drop)
+
+      get :show, format: :xml, id: drop
+
+      response.body.should eq Drop.select(:chat).find(drop.id).
+                                  to_xml(methods: [:loot_method_name, :invalid_reason,
+                                                   :character_name, :character_archetype_name,
+                                                   :loot_type_name, :item_name,
+                                                   :mob_name, :zone_name])
     end
   end
 
