@@ -18,7 +18,7 @@ $("#popup").dialog
     "Save": ->
       $.post "/archetypes/<%= @archetype.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
         updateArchetype data.archetype
-        displayFlash 'notice', 'Class was successfully updated.'
+        displayFlash 'notice', 'Archetype was successfully updated.'
         $("#popup").dialog "close"
       .fail (data, text, xhr) ->
         displayFlash 'error', parseErrors(data.responseJSON)

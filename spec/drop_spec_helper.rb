@@ -109,23 +109,16 @@ module DropSpecHelper
      'iTotalDisplayRecords' => 1,
      'aaData' => [
          {
-             '0' => '<a href="/items/' + drop.item_id.to_s +
-                 '" class="itemPopupTrigger">' + drop.item_name + '</a>',
+             '0' => '<a href="/items/' + drop.item_id.to_s + '" class="itemPopupTrigger">' + drop.item_name + '</a>',
              '1' => drop.character_name,
              '2' => drop.loot_type_name,
              '3' => drop.zone_name,
              '4' => drop.mob_name,
              '5' => '2013-12-25T18:00:00+11:00',
              "6" => drop.loot_method_name,
-             '7' => '<a href="/drops/' +
-                 drop.id.to_s +
-                 '" class="table-button">Show</a>',
-             '8' => '<a href="/drops/' +
-                 drop.id.to_s +
-                 '/edit" class="table-button">Edit</a>',
-             '9' => '<a href="/drops/' +
-                 drop.id.to_s +
-                 '" class="table-button" data-confirm="Are you sure?" ' +
+             '7' => '<a href="/drops/' + drop.id.to_s + '" class="table-button">Show</a>',
+             '8' => '<a href="/drops/' + drop.id.to_s + '/edit" class="table-button">Edit</a>',
+             '9' => '<a href="/drops/' + drop.id.to_s + '" class="table-button" data-confirm="Are you sure?" ' +
                  'data-method="delete" rel="nofollow">Destroy</a>',
              'DT_RowId' => drop.item.id
          }

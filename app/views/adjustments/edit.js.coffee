@@ -21,10 +21,11 @@ $("#popup").dialog
       $("#popup").dialog "close"
     "Save": ->
       $.post "/adjustments/<%= @adjustment.id %>.json", $("#popup form").serializeArray(), (data, text, xhr) ->
-        if (xhr.status == 200)
-          updateAdjustment(data.adjustment)
-          displayFlash('notice', "Adjustment was successfully updated.")
-          $("#popup").dialog "close"
+        updateAdjustment(data.adjustment)
+        displayFlash('notice', "Adjustment was successfully updated.")
+        $("#popup").dialog "close"
+      .fail (data, text, xhr) ->
+          displayFlash 'error', parseErrors(data.responseJSON)
   open: ->
     $("#popup").html "<%= escape_javascript(render('form')) %>"
     $(".actions").empty()
@@ -41,6 +42,7 @@ $("#popup").dialog
         options_url = "/characters/option_list"
 
       $("#adjustable_field").empty()
-      $("#adjustable_field").append "<strong>" + adjustable_type + ":</strong> "
-      $adjustables = $('<select id="adjustment_adjustable_id" name="adjustment[adjustable_id]"></select>').appendTo '#adjustable_field'
+      $("#adjustable_field").append '<label class="header" for="adjustment_adjustable_id">' + adjustable_type + ':</label>'
+      $("#adjustable_field").append '<span class="data"/>'
+      $adjustables = $('<select id="adjustment_adjustable_id" name="adjustment[adjustable_id]"></select>').appendTo '#adjustable_field span.data'
       $adjustables.load options_url

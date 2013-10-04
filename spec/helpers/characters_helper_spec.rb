@@ -15,22 +15,14 @@ describe CharactersHelper do
               ]}
       ]}.with_indifferent_access
   }
-  let(:fighter) {
-    FactoryGirl.create(:character, archetype: Archetype.find_by_name('Monk'))
-  }
-  let(:mage) {
-    FactoryGirl.create(:character,
-                       archetype: Archetype.find_by_name('Illusionist'))
-  }
-  let(:priest) {
-    FactoryGirl.create(:character, archetype: Archetype.find_by_name('Warden'))
-  }
-  let(:scout) {
-    FactoryGirl.create(:character, archetype: Archetype.find_by_name('Ranger'))
-  }
+  let(:fighter) { FactoryGirl.create(:character, archetype: Archetype.find_by_name('Monk')) }
+  let(:mage) { FactoryGirl.create(:character, archetype: Archetype.find_by_name('Illusionist')) }
+  let(:priest) { FactoryGirl.create(:character, archetype: Archetype.find_by_name('Warden')) }
+  let(:scout) { FactoryGirl.create(:character, archetype: Archetype.find_by_name('Ranger')) }
 
   describe '#overall_rating' do
     it 'checks all of the other ratings' do
+      fighter.stub(:data).and_return( character_data )
       fighter.should_receive(:health_rating).and_return('optimal')
       fighter.should_receive(:crit_rating).and_return('optimal')
       fighter.should_receive(:adornment_rating).and_return('optimal')
@@ -39,6 +31,7 @@ describe CharactersHelper do
     end
 
     it 'is unsatisfactory if any of the ratings are unsatisfactory' do
+      fighter.stub(:data).and_return( character_data )
       fighter.should_receive(:health_rating).and_return('unsatisfactory')
       fighter.should_receive(:crit_rating).and_return('optimal')
       fighter.should_receive(:adornment_rating).and_return('minimal')
@@ -47,6 +40,7 @@ describe CharactersHelper do
     end
 
     it 'is minimal if the worst rating is minimal' do
+      fighter.stub(:data).and_return( character_data )
       fighter.should_receive(:health_rating).and_return('optimal')
       fighter.should_receive(:crit_rating).and_return('optimal')
       fighter.should_receive(:adornment_rating).and_return('minimal')
@@ -55,6 +49,7 @@ describe CharactersHelper do
     end
 
     it 'is only optimal if all the ratings are optimal' do
+      fighter.stub(:data).and_return( character_data )
       fighter.should_receive(:health_rating).and_return('optimal')
       fighter.should_receive(:crit_rating).and_return('optimal')
       fighter.should_receive(:adornment_rating).and_return('optimal')

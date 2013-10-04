@@ -16,6 +16,7 @@ gem 'cocoon'
 gem 'nested_form'
 gem 'memoist'
 gem 'make_resourceful'
+gem 'jbuilder'
 
 gem 'omniauth'
 gem 'omniauth-facebook'

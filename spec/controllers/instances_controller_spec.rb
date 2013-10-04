@@ -48,6 +48,18 @@ describe InstancesController do
       response.should render_template :index
     end
 
+    it 'renders JSON' do
+      instance = FactoryGirl.create(:instance)
+      get :index, format: :json
+      response.body.should eq [instance].to_json
+    end
+
+    it 'renders XML' do
+      instance = FactoryGirl.create(:instance)
+      get :index, format: :xml
+      response.body.should eq [instance].to_xml
+    end
+
     context 'filters' do
       it 'by zone' do
         Instance.create(valid_attributes)
@@ -95,6 +107,18 @@ describe InstancesController do
       get :show, id: FactoryGirl.create(:instance)
       response.should render_template :show
     end
+
+    it 'renders JSON' do
+      instance = FactoryGirl.create(:instance)
+      get :show, id: instance, format: :json
+      response.body.should eq instance.to_json
+    end
+
+    it 'renders XML' do
+      instance = FactoryGirl.create(:instance)
+      get :show, id: instance, format: :xml
+      response.body.should eq instance.to_xml
+    end
   end
 
   describe 'GET #new' do
@@ -109,9 +133,26 @@ describe InstancesController do
       get :new
       response.should render_template :new
     end
+
+    it 'assigns a raid and start time' do
+      raid = FactoryGirl.create(:raid)
+      get :new
+      assigns(:instance).raid_id.should eq raid.id
+      assigns(:instance).start_time.should eq raid.raid_date + 20.hours
+    end
+
+    it 'renders JSON' do
+      get :new, format: :json
+      response.body.should eq Instance.new(raid: Raid.last, start_time: Raid.last.raid_date + 20.hours).to_json
+    end
+
+    it 'renders XML' do
+      get :new, format: :xml
+      response.body.should eq Instance.new(raid: Raid.last, start_time: Raid.last.raid_date + 20.hours).to_xml
+    end
   end
 
-  describe "GET edit" do
+  describe 'GET edit' do
     it 'assigns the requested item as @instance' do
       instance = Instance.create! valid_attributes
       get :edit, id: instance.id.to_s
@@ -132,6 +173,16 @@ describe InstancesController do
         post :create, instance: FactoryGirl.build(:instance).
             attributes.symbolize_keys
         response.should redirect_to Instance.last
+      end
+
+      it 'renders JSON' do
+        post :create, instance: FactoryGirl.build(:instance).attributes.symbolize_keys, format: :json
+        response.body.should eq Instance.last.to_json(methods: [:zone_name, :kills, :players, :characters, :drops])
+      end
+
+      it 'renders XML' do
+        post :create, instance: FactoryGirl.build(:instance).attributes.symbolize_keys, format: :xml
+        response.body.should eq Instance.last.to_xml
       end
     end
 

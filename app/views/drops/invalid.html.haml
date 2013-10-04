@@ -16,11 +16,11 @@
     - @drops.each do |drop|
       %tr{:id => "drop_#{drop.id}", :class => "item_#{drop.item.id}", 'data-drop_id' => drop.id}
         - item = drop.item
-        %td= drop.character ? drop.character_name : ''
-        %td= drop.character ? drop.character.archetype_name : ''
-        %td= drop.loot_type ? drop.loot_type_name : ''
+        %td= drop.character_name
+        %td= drop.character_archetype_name
+        %td= drop.loot_type_name
         - if item
-          %td= item.loot_type ? item.loot_type_name : ''
+          %td= item.loot_type_name
           %td= link_to item.name, item, {:class => 'itemPopupTrigger', :id => item.id}
           %td= consolidate_archetypes(item.archetypes)
         - else

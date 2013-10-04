@@ -11,22 +11,23 @@
 # index uses the CharactersDataTable class which will handle
 # pagination, searching and rendering the drops.
 class CharactersController < ApplicationController
-  before_filter :authenticate_user!,
-                :except => [:index, :show, :info,
-                            :statistics, :attendance, :loot]
+  respond_to :html
+  respond_to :json, :xml, except: [:loot, :statistics, :option_list, :info]
+  respond_to :js, only: [:destroy, :edit, :new, :show]
+  respond_to :csv, only: :index
+
+  before_filter :set_character, only: [:show, :edit, :update, :destroy, :info, :fetch_data]
+  before_filter :authenticate_user!, :except => [:index, :show, :info, :statistics, :attendance, :loot]
   before_filter :set_pagetitle
+  after_filter { flash.discard if request.xhr? }
 
   caches_action :statistics
   caches_action :info
 
-  def set_pagetitle
-    @pagetitle = 'Characters'
-  end
-
   def option_list
     @characters = Character.order(:name)
 
-    options = ""
+    options = ''
     @characters.each do |character|
       options += "<option value='#{character.id}'>#{character.name}</option>"
     end
@@ -35,21 +36,11 @@ class CharactersController < ApplicationController
 
   def attendance
     @characters = Character.order(:name)
-    @characters.sort! { |a, b| b.attendance <=> a.attendance }.
-        select! { |c| c.attendance >= 10.0 }
-
-    respond_to do |format|
-      format.html # attendance.html.erb
-      format.json { render json: @characters, methods: [:player_name,
-                                                        :archetype_name,
-                                                        :archetype_root_name,
-                                                        :attendance] }
-    end
+    @characters.sort! { |a, b| b.attendance <=> a.attendance }.select! { |c| c.attendance >= 10.0 }
+    respond_with @characters
   end
 
   def fetch_data
-    @character = Character.find(params[:id])
-
     Resque.enqueue(SonyCharacterUpdater, @character.id)
     flash[:notice] = 'Character details are being updated.'
     redirect_to @character
@@ -64,29 +55,21 @@ class CharactersController < ApplicationController
   # GET /characters/loot
   # GET /characters/loot.json
   def loot
-    @characters = Character.by_instance(params[:instance_id]).
-        where(char_type: %w{m r}).
-        includes(:player, :external_data, :archetype).
-        order('characters.name')
+    @characters = Character.by_instance(params[:instance_id]).where(char_type: %w{m r}).
+        includes(:player, :external_data, :archetype).order('characters.name')
+    respond_with @characters
   end
 
   def statistics
     @characters = Character.joins(:archetype, :external_data)
-
-    respond_to do |format|
-      format.html # statistics.html.erb
-      format.json { render json: @characters }
-      format.xml { render :xml => @characters.to_xml }
-    end
+    respond_with @characters
   end
 
   # GET /characters
   # GET /characters.json
   def index
-    @characters = Character.
-        by_player(params[:player_id]).
-        by_instance(params[:instance_id]).
-        by_name(params[:name]) unless respond_to? :json
+    @characters = Character.by_player(params[:player_id]).
+        by_instance(params[:instance_id]).by_name(params[:name]) unless respond_to? :json
 
     respond_to do |format|
       format.html # index.html.erb
@@ -97,48 +80,27 @@ class CharactersController < ApplicationController
   end
 
   # GET /characters/1
+  # GET /characters/1.js
   # GET /characters/1.json
+  # GET /characters/1.xml
   def show
-    @character = Character.find(params[:id])
     @character_types = @character.character_types.order('effective_date desc')
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.js # show.js.coffee
-      format.json { render json: @character.
-          to_json(methods: [:player_name,
-                            :player_raids_count,
-                            :player_active,
-                            :player_switches_count,
-                            :player_switch_rate]) }
-      format.xml { render :xml => @character.
-          to_xml(:include => [:instances, :drops]) }
-    end
+    respond_with @character
   end
 
   def info
-    @character = Character.find(params[:id])
-
     render :layout => false
   end
-
 
   # GET /characters/new
   # GET /characters/new.json
   def new
     @character = Character.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @character.to_json(methods: [:player_name]) }
-      format.xml { render :xml => @character }
-      format.js
-    end
+    respond_with @character
   end
 
   # GET /characters/1/edit
   def edit
-    @character = Character.find(params[:id])
   end
 
   # POST /characters
@@ -146,67 +108,31 @@ class CharactersController < ApplicationController
   def create
     @character = Character.new(params[:character])
 
-    respond_to do |format|
-      if @character.save
-        format.html { redirect_to @character,
-                                  notice: 'Character was successfully created.'
-        }
-        format.json {
-          render json: @character.to_json(
-              methods: [:archetype_name, :main_character, :archetype_root,
-                        :player_name, :first_raid_date, :last_raid_date,
-                        :armour_rate, :jewellery_rate, :weapon_rate]
-          ), status: :created, location: @character
-        }
-        format.xml { render xml: @character,
-                            status: :created,
-                            location: @character }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @character.errors,
-                             status: :unprocessable_entity }
-        format.xml { render xml: @character.errors,
-                            status: :unprocessable_entity }
-      end
+    if @character.save
+      expire_action action: :statistics
+      flash[:notice] = 'Character was successfully created.'
+      respond_with @character
+    else
+      render action: :new
     end
   end
 
   # PUT /characters/1
   # PUT /characters/1.json
   def update
-    @character = Character.find(params[:id])
+    if @character.update_attributes(params[:character])
+      expire_action action: :info
+      expire_action action: :statistics
 
-    expire_action action: :info
-    expire_action action: :statistics
-
-    respond_to do |format|
-      if @character.update_attributes(params[:character])
-        format.html { redirect_to @character,
-                                  notice: 'Character was successfully updated.'
-        }
-        format.json { render :json => @character.
-            to_json(methods: [:archetype_name, :archetype_root,
-                              :main_character, :raid_alternate,
-                              :first_raid_date, :last_raid_date,
-                              :player_name, :player_raids_count,
-                              :player_switches_count, :player_switch_rate,
-                              :player_active]),
-                             :notice => 'Character was successfully updated.' }
-        format.xml { head :ok }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @character.errors,
-                             status: :unprocessable_entity }
-        format.xml { render xml: @character.errors,
-                            status: :unprocessable_entity }
-      end
+      respond_with @character
+    else
+      render action: :edit
     end
   end
 
   # DELETE /characters/1
   # DELETE /characters/1.json
   def destroy
-    @character = Character.find(params[:id])
     @character.destroy
 
     respond_to do |format|
@@ -215,5 +141,14 @@ class CharactersController < ApplicationController
       format.xml { head :ok }
       format.js
     end
+  end
+
+  private
+  def set_character
+    @character = Character.find(params[:id])
+  end
+
+  def set_pagetitle
+    @pagetitle = 'Characters'
   end
 end

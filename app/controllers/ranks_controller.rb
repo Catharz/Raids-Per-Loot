@@ -7,8 +7,13 @@
 #
 # xml formatting is provided on actions used by the ACT plug-in.
 class RanksController < ApplicationController
+  respond_to :html, :json, :xml
+  respond_to :js, only: [:destroy, :edit, :new, :show]
+
+  before_filter :set_rank, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle
+  after_filter { flash.discard if request.xhr? }
 
   def set_pagetitle
     @pagetitle = 'Player Ranks'
@@ -18,45 +23,26 @@ class RanksController < ApplicationController
   # GET /ranks.xml
   # GET /ranks.json
   def index
-    @ranks = Rank.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @ranks.to_xml( :include => [:players] ) }
-      format.json { render json: @ranks }
-    end
+    @ranks = Rank.order(:priority)
+    respond_with @ranks
   end
 
   # GET /ranks/1
   # GET /ranks/1.xml
   # GET /ranks/1.json
   def show
-    @rank = Rank.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @rank.to_xml( :include => [:players] ) }
-      format.json { render json: @rank }
-      format.js
-    end
+    respond_with @rank
   end
 
   # GET /ranks/new
   # GET /ranks/new.xml
   def new
     @rank = Rank.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @rank }
-      format.json { render json: @rank }
-      format.js
-    end
+    respond_with @rank
   end
 
   # GET /ranks/1/edit
   def edit
-    @rank = Rank.find(params[:id])
   end
 
   # POST /ranks
@@ -65,16 +51,11 @@ class RanksController < ApplicationController
   def create
     @rank = Rank.new(params[:rank])
 
-    respond_to do |format|
-      if @rank.save
-        format.html { redirect_to(@rank, :notice => 'Rank was successfully created.') }
-        format.xml  { render :xml => @rank, :status => :created, :location => @rank }
-        format.json { render json: @rank.to_json, status: :created, location: @rank }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @rank.errors, :status => :unprocessable_entity }
-        format.json { render json: @rank.errors, status: :unprocessable_entity }
-      end
+    if @rank.save
+      flash[:notice] = 'Rank was successfully created.'
+      respond_with @rank
+    else
+      render action: :new
     end
   end
 
@@ -82,18 +63,11 @@ class RanksController < ApplicationController
   # PUT /ranks/1.xml
   # PUT /ranks/1.json
   def update
-    @rank = Rank.find(params[:id])
-
-    respond_to do |format|
-      if @rank.update_attributes(params[:rank])
-        format.html { redirect_to(@rank, :notice => 'Rank was successfully updated.') }
-        format.xml  { head :ok }
-        format.json { render :json => @rank.to_json, :notice => 'Rank was successfully updated.' }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @rank.errors, :status => :unprocessable_entity }
-        format.json { render json: @rank.errors, status: :unprocessable_entity }
-      end
+    if @rank.update_attributes(params[:rank])
+      flash[:notice] = 'Rank was successfully updated.'
+      respond_with @rank
+    else
+      render action: :edit
     end
   end
 
@@ -101,14 +75,13 @@ class RanksController < ApplicationController
   # DELETE /ranks/1.xml
   # DELETE /ranks/1.json
   def destroy
-    @rank = Rank.find(params[:id])
     @rank.destroy
+    flash[:notice] = 'Rank successfully deleted.'
+    respond_with @rank
+  end
 
-    respond_to do |format|
-      format.html { redirect_to(ranks_url) }
-      format.xml  { head :ok }
-      format.json { head :ok }
-      format.js
-    end
+  private
+  def set_rank
+    @rank = Rank.find(params[:id])
   end
 end
