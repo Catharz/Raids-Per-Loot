@@ -33,32 +33,19 @@ describe MobsController do
       assigns(:mobs).should eq([mob2])
     end
 
-    it 'renders xml' do
-      mob = FactoryGirl.create(:mob)
-
-      get :index, format: :xml
-
-      response.content_type.should eq('application/xml')
-      response.body.should have_selector('mobs', type: 'array') do |results|
-        results.should have_selector('mob') do |pr|
-          pr.should have_selector('id', type: 'integer', content: mob.id.to_s)
-          pr.should have_selector('name', content: mob.name)
-          pr.should have_selector('zone-id', type: 'integer',
-                                  content: mob.zone_id.to_s)
-          pr.should have_selector('difficulty-id', type: 'integer',
-                                  content: mob.difficulty_id.to_s)
-        end
-      end
-      response.body.should eq([mob].to_xml)
+    it 'renders json' do
+      FactoryGirl.create(:mob)
+      mobs = Mob.all
+      get :index, format: :json
+      result = JSON.parse(response.body)
+      result.should eq mobs.collect { |m| JSON.parse(m.to_json) }
     end
 
-    it 'renders json' do
-      mob = FactoryGirl.create(:mob)
-
-      get :index, format: :json
-
-      response.content_type.should eq('application/json')
-      JSON.parse(response.body)[0].should eq JSON.parse(mob.to_json)
+    it 'renders xml' do
+      FactoryGirl.create(:mob)
+      mobs = Mob.all
+      get :index, format: :xml
+      response.body.should eq mobs.to_xml(include: [:zone, :drops])
     end
   end
 
@@ -86,12 +73,12 @@ describe MobsController do
     end
 
     it 'renders xml' do
-      mob = FactoryGirl.create(:mob)
+      mob = Mob.create! FactoryGirl.attributes_for(:mob)
 
       get :show, format: :xml, id: mob.id
 
       response.content_type.should eq('application/xml')
-      response.body.should eq(mob.to_xml)
+      response.body.should eq mob.to_xml
     end
 
     it 'renders json' do

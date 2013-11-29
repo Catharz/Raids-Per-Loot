@@ -7,12 +7,13 @@
 #
 # xml formatting is provided on actions used by the ACT plug-in.
 class MobsController < ApplicationController
+  respond_to :html, :json, :xml
+  respond_to :js, only: [:destroy, :edit, :new, :show]
+
+  before_filter :set_mob, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle
-
-  def set_pagetitle
-    @pagetitle = 'Raid Mobs'
-  end
+  after_filter { flash.discard if request.xhr? }
 
   def option_list
     @mobs = Mob.by_zone(params[:zone_id]).order(:name)
@@ -29,42 +30,24 @@ class MobsController < ApplicationController
   def index
     @mobs = Mob.by_zone(params[:zone_id]).by_name(params[:name]).order("mobs.name").eager_load(:drops => :instance)
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @mobs }
-      format.xml { render :xml => @mobs.to_xml( :include => [:zone, :drops] ) }
-    end
+    respond_with @mobs
   end
 
   # GET /mobs/1
   # GET /mobs/1.json
   def show
-    @mob = Mob.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render :json => @mob }
-      format.xml { render :xml => @mob.to_xml(:include => [:zone, :drops]) }
-      format.js
-    end
+    respond_with @mob
   end
 
   # GET /mobs/new
   # GET /mobs/new.json
   def new
     @mob = Mob.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render :json => @mob }
-      format.xml { render :xml => @mob }
-      format.js
-    end
+    respond_with @mob
   end
 
   # GET /mobs/1/edit
   def edit
-    @mob = Mob.find(params[:id])
   end
 
   # POST /mobs
@@ -72,52 +55,38 @@ class MobsController < ApplicationController
   def create
     @mob = Mob.new(params[:mob])
 
-    respond_to do |format|
-      if @mob.save
-        format.html { redirect_to @mob, :notice => 'Mob was successfully created.' }
-        format.json { render :json => @mob.as_json(methods: [:difficulty_name, :kills, :first_killed,
-                                                             :last_killed, :progression, :zone_name]),
-                             :status => :created, :location => @mob }
-        format.xml { render :xml => @mob, :status => :created, :location => @mob }
-      else
-        format.html { render :action => "new" }
-        format.json { render :json => @mob.errors, :status => :unprocessable_entity }
-        format.xml { render :xml => @mob.errors, :status => :unprocessable_entity }
-      end
+    if @mob.save
+      flash[:notice] = 'Mob was successfully created.'
+      respond_with @mob
+    else
+      render action: :new
     end
   end
 
   # PUT /mobs/1
   # PUT /mobs/1.json
   def update
-    @mob = Mob.find(params[:id])
-
-    respond_to do |format|
-      if @mob.update_attributes(params[:mob])
-        format.html { redirect_to @mob, :notice => 'Mob was successfully updated.' }
-        format.json { render :json => @mob.as_json(methods: [:difficulty_name, :kills, :first_killed,
-                                                             :last_killed, :progression, :zone_name]),
-                             :notice => 'Mob was successfully updated.' }
-        format.xml { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.json { render :json => @mob.errors, :status => :unprocessable_entity }
-        format.xml { render :xml => @mob.errors, :status => :unprocessable_entity }
-      end
+    if @mob.update_attributes(params[:mob])
+      flash[:notice] = 'MOb was successfully updated.'
+      respond_with @mob
+    else
+      render action: :edit
     end
   end
 
   # DELETE /mobs/1
   # DELETE /mobs/1.json
   def destroy
-    @mob = Mob.find(params[:id])
     @mob.destroy
+    respond_with @mob
+  end
 
-    respond_to do |format|
-      format.html { redirect_to mobs_url }
-      format.json { head :ok }
-      format.xml { head :ok }
-      format.js
-    end
+  private
+  def set_mob
+    @mob = Mob.find(params[:id])
+  end
+
+  def set_pagetitle
+    @pagetitle = 'Raid Mobs'
   end
 end
