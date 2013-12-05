@@ -208,55 +208,33 @@ describe Drop do
       end
 
       describe 'by_character_type' do
-        it 'uses the last character type from before the drop' do
-          FactoryGirl.create(:character_type, character: d1.character,
-                             char_type: 'm',
-                             effective_date: d1.drop_time - 1.day)
-          FactoryGirl.create(:character_type, character: d2.character,
-                             char_type: 'm',
-                             effective_date: d2.drop_time - 1.day)
-          char1 = FactoryGirl.create(:character, char_type: 'g')
-          d3 = FactoryGirl.create(:drop, character: char1)
-          FactoryGirl.create(:character_type, character: char1, char_type: 'g',
-                             effective_date: d3.drop_time - 1.day)
-          FactoryGirl.create(:character_type, character: char1, char_type: 'r',
-                             effective_date: d3.drop_time - 1.hour)
-          FactoryGirl.create(:character_type, character: char1, char_type: 'm',
-                             effective_date: d3.drop_time + 1.day)
+        it 'uses the character type from the associated character' do
+          char1 = FactoryGirl.create(:character, char_type: 'm')
+          char2 = FactoryGirl.create(:character, char_type: 'r')
+          d3 = FactoryGirl.create(:drop, character: char1, drop_time: 2.weeks.ago)
+          d4 = FactoryGirl.create(:drop, character: char2, drop_time: 2.weeks.ago)
 
-          Drop.by_character_type('r').should match_array [d3]
+          Drop.by_character_type('m').should match_array [d3]
         end
         it 'filters based on a string' do
-          FactoryGirl.create(:character_type, character: d1.character,
-                             char_type: 'm',
-                             effective_date: d1.drop_time - 1.day)
-          FactoryGirl.create(:character_type, character: d2.character,
-                             char_type: 'm',
-                             effective_date: d2.drop_time - 1.day)
-          char1 = FactoryGirl.create(:character, char_type: 'g')
+          char1 = FactoryGirl.create(:character, char_type: 'm')
+          char2 = FactoryGirl.create(:character, char_type: 'r')
+          char3 = FactoryGirl.create(:character, char_type: 'g')
           d3 = FactoryGirl.create(:drop, character: char1)
-          FactoryGirl.create(:character_type, character: char1, char_type: 'g',
-                             effective_date: d3.drop_time - 1.day)
+          d4 = FactoryGirl.create(:drop, character: char2)
+          d5 = FactoryGirl.create(:drop, character: char3)
 
-          Drop.by_character_type('g').should match_array [d3]
+          Drop.by_character_type('g').should match_array [d5]
         end
         it 'filters based on an array' do
-          FactoryGirl.create(:character_type, character: d1.character,
-                             char_type: 'm',
-                             effective_date: d1.drop_time - 1.day)
-          FactoryGirl.create(:character_type, character: d2.character,
-                             char_type: 'm',
-                             effective_date: d2.drop_time - 1.day)
-          char1 = FactoryGirl.create(:character, char_type: 'g')
-          d3 = FactoryGirl.create(:drop, character: char1)
+          char1 = FactoryGirl.create(:character, char_type: 'm')
           char2 = FactoryGirl.create(:character, char_type: 'r')
+          char3 = FactoryGirl.create(:character, char_type: 'g')
+          d3 = FactoryGirl.create(:drop, character: char1)
           d4 = FactoryGirl.create(:drop, character: char2)
-          FactoryGirl.create(:character_type, character: char1, char_type: 'g',
-                             effective_date: d3.drop_time - 1.day)
-          FactoryGirl.create(:character_type, character: char2, char_type: 'r',
-                             effective_date: d4.drop_time - 1.day)
+          d5 = FactoryGirl.create(:drop, character: char3)
 
-          Drop.by_character_type(%w{g r}).order(:id).should match_array [d3, d4]
+          Drop.by_character_type(%w{g r}).should match_array [d4, d5]
         end
       end
 

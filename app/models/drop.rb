@@ -32,14 +32,14 @@ class Drop < ActiveRecord::Base
   delegate :name, to: :loot_type, prefix: :loot_type, allow_nil: true
   delegate :archetype_name, to: :character, prefix: :character, allow_nil: true
 
-  default_scope select((column_names - %w{chat}).map {|column_name| "#{table_name}.#{column_name}"})
+  default_scope select((column_names - %w{chat}).map { |column_name| "#{table_name}.#{column_name}" })
 
-  scope :by_character, ->(character_id ) { character_id ? where(character_id: character_id) : scoped }
+  scope :by_character, ->(character_id) { character_id ? where(character_id: character_id) : scoped }
   scope :by_instance, ->(instance_id) { instance_id ? where(instance_id: instance_id) : scoped }
   scope :by_zone, ->(zone_id) { zone_id ? where(zone_id: zone_id) : scoped }
   scope :by_mob, ->(mob_id) { mob_id ? where(mob_id: mob_id) : scoped }
   scope :by_item, ->(item_id) { item_id ? where(item_id: item_id) : scoped }
-  scope :by_log_line, ->(line) { line ? where(log_line:line) : scoped }
+  scope :by_log_line, ->(line) { line ? where(log_line: line) : scoped }
   scope :by_eq2_item_id, ->(eq2_item_id) {
     eq2_item_id ? joins(:item).
         where('items.eq2_item_id = ?', eq2_item_id) : scoped
@@ -76,16 +76,10 @@ class Drop < ActiveRecord::Base
         where('loot_method <> ?', loot_method)
   }
   scope :by_character_type, ->(character_type) {
-    current_character_type = '(select ct2.char_type from character_types ct2 ' +
-        'where ct2.character_id = drops.character_id ' +
-        'and ct2.effective_date = ((select max(ct3.effective_date) ' +
-        'from character_types ct3 ' +
-        'where ct3.character_id = drops.character_id ' +
-        'and ct3.effective_date <= drops.drop_time)))'
     if character_type.is_a? Array
-      where("#{current_character_type} in (?)", character_type)
+      joins{character}.where{{character.char_type.in => character_type}}
     else
-      where("#{current_character_type} = ?", character_type)
+      joins{character}.where{{character.char_type => character_type}}
     end
   }
   scope :with_default_loot_method, ->(loot_method) {
