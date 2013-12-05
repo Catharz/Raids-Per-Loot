@@ -4,6 +4,8 @@ rvm:
 bundler_args: --without production
 before_script:
   - psql -c 'create database rpl_test;' -U postgres
+services:
+  - redis-server
 script:
   - RAILS_ENV=test bundle exec rake db:schema:load --trace
   - bundle exec rake spec
