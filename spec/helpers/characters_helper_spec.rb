@@ -60,98 +60,98 @@ describe CharactersHelper do
 
   describe '#health_rating' do
     context 'Fighter' do
-      it 'should be optimal if 65,000 or higher' do
-        fighter.should_receive(:health).and_return(65000)
+      it 'should be optimal if 500,000 or higher' do
+        fighter.should_receive(:health).and_return(500000)
         fighter.health_rating.should eq 'optimal'
       end
-      it 'should be minimal if between 60,000 and 65,000' do
-        fighter.should_receive(:health).at_least(1).times.and_return(64999)
+      it 'should be minimal if between 450,000 and 500,000' do
+        fighter.should_receive(:health).at_least(1).times.and_return(499999)
         fighter.health_rating.should eq 'minimal'
       end
-      it 'should be minimal if exactly 60,000' do
-        fighter.should_receive(:health).at_least(1).times.and_return(60000)
+      it 'should be minimal if exactly 450,000' do
+        fighter.should_receive(:health).at_least(1).times.and_return(450000)
         fighter.health_rating.should eq 'minimal'
       end
-      it 'should be unsatisfactory if below 60,000' do
-        fighter.should_receive(:health).at_least(1).times.and_return(59999)
+      it 'should be unsatisfactory if below 450,000' do
+        fighter.should_receive(:health).at_least(1).times.and_return(449999)
         fighter.health_rating.should eq 'unsatisfactory'
       end
     end
 
     context 'Priest' do
-      it 'should be optimal if 60,000 or higher' do
-        priest.should_receive(:health).and_return(60000)
+      it 'should be optimal if 450,000 or higher' do
+        priest.should_receive(:health).and_return(450000)
         priest.health_rating.should eq 'optimal'
       end
-      it 'should be minimal if between 55,000 and 60,000' do
-        priest.should_receive(:health).at_least(1).times.and_return(59999)
+      it 'should be minimal if between 400,000 and 450,000' do
+        priest.should_receive(:health).at_least(1).times.and_return(449999)
         priest.health_rating.should eq 'minimal'
       end
-      it 'should be minimal if exactly 55,000' do
-        priest.should_receive(:health).at_least(1).times.and_return(55000)
+      it 'should be minimal if exactly 400,000' do
+        priest.should_receive(:health).at_least(1).times.and_return(400000)
         priest.health_rating.should eq 'minimal'
       end
-      it 'should be unsatisfactory if below 55,000' do
-        priest.should_receive(:health).at_least(1).times.and_return(54999)
+      it 'should be unsatisfactory if below 400,000' do
+        priest.should_receive(:health).at_least(1).times.and_return(399999)
         priest.health_rating.should eq 'unsatisfactory'
       end
     end
 
     context 'Scout' do
-      it 'should be optimal if 55,000 or higher' do
-        scout.should_receive(:health).and_return(55000)
+      it 'should be optimal if 400,000 or higher' do
+        scout.should_receive(:health).and_return(400000)
         scout.health_rating.should eq 'optimal'
       end
-      it 'should be minimal if between 50,000 and 55,000' do
-        scout.should_receive(:health).at_least(1).times.and_return(54999)
+      it 'should be minimal if between 350,000 and 400,000' do
+        scout.should_receive(:health).at_least(1).times.and_return(399999)
         scout.health_rating.should eq 'minimal'
       end
-      it 'should be minimal if exactly 50,000' do
-        scout.should_receive(:health).at_least(1).times.and_return(50000)
+      it 'should be minimal if exactly 350,000' do
+        scout.should_receive(:health).at_least(1).times.and_return(350000)
         scout.health_rating.should eq 'minimal'
       end
-      it 'should be unsatisfactory if below 50,000' do
-        scout.should_receive(:health).at_least(1).times.and_return(49999)
+      it 'should be unsatisfactory if below 350,000' do
+        scout.should_receive(:health).at_least(1).times.and_return(349999)
         scout.health_rating.should eq 'unsatisfactory'
       end
     end
 
     context 'Mage' do
-      it 'should be optimal if 55,000 or higher' do
-        mage.should_receive(:health).and_return(55000)
+      it 'should be optimal if 400,000 or higher' do
+        mage.should_receive(:health).and_return(400000)
         mage.health_rating.should eq 'optimal'
       end
-      it 'should be minimal if between 50,000 and 55,000' do
-        mage.should_receive(:health).at_least(1).times.and_return(54999)
+      it 'should be minimal if between 350,000 and 400,000' do
+        mage.should_receive(:health).at_least(1).times.and_return(399999)
         mage.health_rating.should eq 'minimal'
       end
-      it 'should be minimal if exactly 50,000' do
-        mage.should_receive(:health).at_least(1).times.and_return(50000)
+      it 'should be minimal if exactly 350,000' do
+        mage.should_receive(:health).at_least(1).times.and_return(350000)
         mage.health_rating.should eq 'minimal'
       end
-      it 'should be unsatisfactory if below 50,000' do
-        mage.should_receive(:health).at_least(1).times.and_return(49999)
+      it 'should be unsatisfactory if below 350,000' do
+        mage.should_receive(:health).at_least(1).times.and_return(349999)
         mage.health_rating.should eq 'unsatisfactory'
       end
     end
   end
 
   describe '#crit_rating' do
-    it 'should be optimal if 420.0' do
-      fighter.should_receive(:critical_chance).and_return(420.0)
+    it 'should be optimal if 600.0' do
+      fighter.should_receive(:critical_chance).and_return(600.0)
       fighter.crit_rating.should eq 'optimal'
     end
 
-    it 'should be minimal if between 350.0 and 420.0' do
-      priest.should_receive(:critical_chance).twice.and_return(419.99)
+    it 'should be minimal if between 580.0 and 600.0' do
+      priest.should_receive(:critical_chance).twice.and_return(599.99)
       priest.crit_rating.should eq 'minimal'
 
-      scout.should_receive(:critical_chance).twice.and_return(350.00)
+      scout.should_receive(:critical_chance).twice.and_return(580.00)
       scout.crit_rating.should eq 'minimal'
     end
 
-    it 'should be unsatisfactory if below 350.0' do
-      mage.should_receive(:critical_chance).twice.and_return(349.99)
+    it 'should be unsatisfactory if below 580.0' do
+      mage.should_receive(:critical_chance).twice.and_return(579.99)
       mage.crit_rating.should eq 'unsatisfactory'
     end
   end

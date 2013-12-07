@@ -146,8 +146,10 @@ describe 'characters/statistics.html.haml' do
             times.and_return([2, 1])
         char1.should_receive(:count_adornments).with('green').at_least(2).
             times.and_return([3, 3])
+        char1.should_receive(:count_adornments).with('purple').at_least(2).
+            times.and_return([12, 9])
         char1.should_receive(:count_adornments).with(nil).at_least(2).
-            times.and_return([19, 9])
+            times.and_return([31, 18])
 
         render
 
@@ -158,6 +160,8 @@ describe 'characters/statistics.html.haml' do
         rendered.should have_selector('tr', :'data-red-adornments' => '1 / 2')
         rendered.should have_selector('tr',
                                       :'data-green-adornments' => '3 / 3')
+        rendered.should have_selector('tr',
+                                      :'data-purple-adornments' => '9 / 12')
       end
     end
   end

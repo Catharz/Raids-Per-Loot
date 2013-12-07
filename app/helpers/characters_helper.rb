@@ -86,20 +86,20 @@ module CharactersHelper
   end
 
   def optimal_health(archetype)
-    return 65000 if archetype.eql? 'Fighter'
-    return 60000 if archetype.eql? 'Priest'
-    55000
+    return 500000 if archetype.eql? 'Fighter'
+    return 450000 if archetype.eql? 'Priest'
+    400000
   end
 
   def minimal_health(archetype)
-    return 60000 if archetype.eql? 'Fighter'
-    return 55000 if archetype.eql? 'Priest'
-    50000
+    return 450000 if archetype.eql? 'Fighter'
+    return 400000 if archetype.eql? 'Priest'
+    350000
   end
 
   def crit_rating
-    return 'optimal' if critical_chance >= 420.0
-    return 'minimal' if critical_chance >= 350.0
+    return 'optimal' if critical_chance >= 600.0
+    return 'minimal' if critical_chance >= 580.0
     'unsatisfactory'
   end
 
@@ -115,7 +115,8 @@ module CharactersHelper
         yellow_adornments: adornment_stats('yellow'),
         red_adornments: adornment_stats('red'),
         green_adornments: adornment_stats('green'),
-        blue_adornments: adornment_stats('blue')
+        blue_adornments: adornment_stats('blue'),
+        purple_adornments: adornment_stats('purple')
     }
   end
 
