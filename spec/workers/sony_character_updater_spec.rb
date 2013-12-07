@@ -41,6 +41,18 @@ describe SonyCharacterUpdater do
       let(:monk) { Archetype.find_by_name('Monk') }
       let(:bruiser) { Archetype.find_by_name('Bruiser') }
 
+      it 'deletes the external data if it exists' do
+        subject.stub(:internet_connection?).and_return(true)
+        Character.stub(:find).and_return(character)
+        character.stub(:archetype_name).and_return('Monk')
+        data = FactoryGirl.create(:external_data, data: monk_character_data)
+        character.stub(:external_data).and_return(data)
+        data.should_receive(:delete)
+        SonyDataService.any_instance.stub(:character_data).and_return(monk_character_data)
+
+        subject.perform(character.id)
+      end
+
       it 'does not update the character unnecessarily' do
         subject.stub(:internet_connection?).and_return(true)
         Character.stub(:find).and_return(character)
@@ -58,21 +70,6 @@ describe SonyCharacterUpdater do
         SonyDataService.any_instance.stub(:character_data).and_return(monk_character_data)
 
         character.should_receive(:update_attribute).with(:archetype, monk)
-        subject.perform(character.id)
-      end
-
-      it 'saves the data to external data' do
-        subject.stub(:internet_connection?).and_return(true)
-        Character.stub(:find).and_return(character)
-        character.stub(:archetype_name).and_return('Bruiser')
-        SonyDataService.any_instance.stub(:character_data).and_return(monk_character_data)
-
-        character.should_receive(:update_attribute).with(:archetype, monk)
-        external_data = double(ExternalData)
-        character.stub(:external_data).and_return(external_data)
-        external_data.should_receive(:data=).with({"type" => {"class" => "Monk"}})
-        external_data.should_receive(:save)
-
         subject.perform(character.id)
       end
 

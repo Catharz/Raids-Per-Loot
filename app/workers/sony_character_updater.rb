@@ -24,12 +24,8 @@ class SonyCharacterUpdater
   private
 
   def self.update_external_data(character, character_details)
-    if character.external_data.nil?
-      character.external_data = character.build_external_data(data: character_details)
-    else
-      character.external_data.data = character_details
-      character.external_data.save
-    end
+    character.external_data.delete unless character.external_data.nil?
+    character.external_data = character.build_external_data(data: character_details)
   end
 
   def self.update_archetype(character, character_details)
