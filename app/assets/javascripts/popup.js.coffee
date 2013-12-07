@@ -188,6 +188,7 @@ jQuery ->
       "Yellow: " + data.yellowAdornments + "</br>" +
       "Red: " + data.redAdornments + "</br>" +
       "Green: " + data.greenAdornments + "</br>" +
+      "Purple: " + data.purpleAdornments + "</br>" +
       "Blue: " + data.blueAdornments + "</div>"
       container.css
         display: "block"
