@@ -86,15 +86,13 @@ module CharactersHelper
   end
 
   def optimal_health(archetype)
-    return 500000 if archetype.eql? 'Fighter'
-    return 450000 if archetype.eql? 'Priest'
-    400000
+    return 550000 if archetype.eql? 'Fighter'
+    350000
   end
 
   def minimal_health(archetype)
-    return 450000 if archetype.eql? 'Fighter'
-    return 400000 if archetype.eql? 'Priest'
-    350000
+    return 500000 if archetype.eql? 'Fighter'
+    300000
   end
 
   def crit_rating
