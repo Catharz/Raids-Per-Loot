@@ -22,7 +22,7 @@ describe CharactersHelper do
 
   describe '#overall_rating' do
     it 'checks all of the other ratings' do
-      fighter.stub(:data).and_return( character_data )
+      fighter.stub(:data).and_return(character_data)
       fighter.should_receive(:health_rating).and_return('optimal')
       fighter.should_receive(:crit_rating).and_return('optimal')
       fighter.should_receive(:adornment_rating).and_return('optimal')
@@ -31,7 +31,7 @@ describe CharactersHelper do
     end
 
     it 'is unsatisfactory if any of the ratings are unsatisfactory' do
-      fighter.stub(:data).and_return( character_data )
+      fighter.stub(:data).and_return(character_data)
       fighter.should_receive(:health_rating).and_return('unsatisfactory')
       fighter.should_receive(:crit_rating).and_return('optimal')
       fighter.should_receive(:adornment_rating).and_return('minimal')
@@ -40,7 +40,7 @@ describe CharactersHelper do
     end
 
     it 'is minimal if the worst rating is minimal' do
-      fighter.stub(:data).and_return( character_data )
+      fighter.stub(:data).and_return(character_data)
       fighter.should_receive(:health_rating).and_return('optimal')
       fighter.should_receive(:crit_rating).and_return('optimal')
       fighter.should_receive(:adornment_rating).and_return('minimal')
@@ -49,7 +49,7 @@ describe CharactersHelper do
     end
 
     it 'is only optimal if all the ratings are optimal' do
-      fighter.stub(:data).and_return( character_data )
+      fighter.stub(:data).and_return(character_data)
       fighter.should_receive(:health_rating).and_return('optimal')
       fighter.should_receive(:crit_rating).and_return('optimal')
       fighter.should_receive(:adornment_rating).and_return('optimal')
@@ -59,79 +59,42 @@ describe CharactersHelper do
   end
 
   describe '#health_rating' do
-    context 'Fighter' do
-      it 'should be optimal if 500,000 or higher' do
-        fighter.should_receive(:health).and_return(500000)
-        fighter.health_rating.should eq 'optimal'
-      end
-      it 'should be minimal if between 450,000 and 500,000' do
-        fighter.should_receive(:health).at_least(1).times.and_return(499999)
-        fighter.health_rating.should eq 'minimal'
-      end
-      it 'should be minimal if exactly 450,000' do
-        fighter.should_receive(:health).at_least(1).times.and_return(450000)
-        fighter.health_rating.should eq 'minimal'
-      end
-      it 'should be unsatisfactory if below 450,000' do
-        fighter.should_receive(:health).at_least(1).times.and_return(449999)
-        fighter.health_rating.should eq 'unsatisfactory'
+    let(:health_requirements) {
+      {
+          fighter => {min: 500000, opt: 550000},
+          priest => {min: 300000, opt: 350000},
+          scout => {min: 300000, opt: 350000},
+          mage => {min: 300000, opt: 350000}
+      }
+    }
+    context 'returns unsatisfactory' do
+      it 'if the minimum is not met' do
+        health_requirements.each_pair do |k,v|
+          k.stub(:health).and_return(v[:min] - 1)
+          k.health_rating.should eq 'unsatisfactory'
+        end
       end
     end
-
-    context 'Priest' do
-      it 'should be optimal if 450,000 or higher' do
-        priest.should_receive(:health).and_return(450000)
-        priest.health_rating.should eq 'optimal'
+    context 'returns minimal' do
+      it 'if the minimum is just met' do
+        health_requirements.each_pair do |k,v|
+          k.stub(:health).and_return(v[:min])
+          k.health_rating.should eq 'minimal'
+        end
       end
-      it 'should be minimal if between 400,000 and 450,000' do
-        priest.should_receive(:health).at_least(1).times.and_return(449999)
-        priest.health_rating.should eq 'minimal'
-      end
-      it 'should be minimal if exactly 400,000' do
-        priest.should_receive(:health).at_least(1).times.and_return(400000)
-        priest.health_rating.should eq 'minimal'
-      end
-      it 'should be unsatisfactory if below 400,000' do
-        priest.should_receive(:health).at_least(1).times.and_return(399999)
-        priest.health_rating.should eq 'unsatisfactory'
+      it 'if just below optimal' do
+        health_requirements.each_pair do |k,v|
+          k.stub(:health).and_return(v[:opt] - 1)
+          k.health_rating.should eq 'minimal'
+        end
       end
     end
-
-    context 'Scout' do
-      it 'should be optimal if 400,000 or higher' do
-        scout.should_receive(:health).and_return(400000)
-        scout.health_rating.should eq 'optimal'
-      end
-      it 'should be minimal if between 350,000 and 400,000' do
-        scout.should_receive(:health).at_least(1).times.and_return(399999)
-        scout.health_rating.should eq 'minimal'
-      end
-      it 'should be minimal if exactly 350,000' do
-        scout.should_receive(:health).at_least(1).times.and_return(350000)
-        scout.health_rating.should eq 'minimal'
-      end
-      it 'should be unsatisfactory if below 350,000' do
-        scout.should_receive(:health).at_least(1).times.and_return(349999)
-        scout.health_rating.should eq 'unsatisfactory'
-      end
-    end
-
-    context 'Mage' do
-      it 'should be optimal if 400,000 or higher' do
-        mage.should_receive(:health).and_return(400000)
-        mage.health_rating.should eq 'optimal'
-      end
-      it 'should be minimal if between 350,000 and 400,000' do
-        mage.should_receive(:health).at_least(1).times.and_return(399999)
-        mage.health_rating.should eq 'minimal'
-      end
-      it 'should be minimal if exactly 350,000' do
-        mage.should_receive(:health).at_least(1).times.and_return(350000)
-        mage.health_rating.should eq 'minimal'
-      end
-      it 'should be unsatisfactory if below 350,000' do
-        mage.should_receive(:health).at_least(1).times.and_return(349999)
-        mage.health_rating.should eq 'unsatisfactory'
+    context 'returns optimal' do
+      it 'if optimal is just met' do
+        health_requirements.each_pair do |k,v|
+          k.stub(:health).and_return(v[:opt])
+          k.health_rating.should eq 'optimal'
+        end
       end
     end
   end
