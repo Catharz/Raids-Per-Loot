@@ -17,6 +17,31 @@ describe AdminController do
     end
   end
 
+  describe 'GET #upload' do
+    it 'renders the :upload template' do
+      get :upload, format: 'js'
+
+      response.should render_template :upload
+    end
+  end
+
+  describe 'POST #upload_files' do
+    it 'copies the uploaded files to temp' do
+      temp_file = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/eq2log_Catharz.txt'), 'text/plain')
+      temp_file.stub(:tempfile).and_return(temp_file)
+      post :upload_files, {upl: temp_file}
+
+      File.exist?(File.join(Dir.tmpdir, 'eq2log_Catharz.txt')).should be_true
+      response.should be_success
+    end
+
+    it 'returns failure if the file is nil' do
+      post :upload_files
+
+      response.response_code.should == 500
+    end
+  end
+
   context 'item clean-up actions' do
     describe 'POST #fix_trash_drops' do
       it 'calls Item.fix_trash_drops' do

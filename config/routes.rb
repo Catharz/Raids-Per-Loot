@@ -141,6 +141,8 @@ RaidsPerLoot::Application.routes.draw do
   get "pages/contact"
 
   get '/admin', :controller => 'admin', :action => 'show'
+  get '/admin/upload', :controller => 'admin', :action => 'upload'
+  post '/admin/upload_files', :controller => 'admin', :action => 'upload_files'
   post '/admin/update_player_list', :controller => 'admin', :action => 'update_player_list'
   post '/admin/update_character_list', :controller => 'admin', :action => 'update_character_list'
   post '/admin/update_character_details', :controller => 'admin', :action => 'update_character_details'

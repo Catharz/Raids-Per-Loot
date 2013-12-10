@@ -22,6 +22,28 @@ class AdminController < ApplicationController
     end
   end
 
+  def upload
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def upload_files
+    uploaded = params[:upl]
+    if uploaded.nil?
+      render nothing: true, status: 500
+    else
+      begin
+        file = uploaded.tempfile
+        file_name = uploaded.original_filename
+        FileUtils.copy(file.path, File.join(Dir.tmpdir, file_name))
+      ensure
+        file.unlink
+      end
+      render nothing: true, status: 200
+    end
+  end
+
   def fix_trash_drops
     incorrect_trash_drops = Item.of_type('Trash').includes(:drops).where('drops.loot_method <> ?', 't').count
 

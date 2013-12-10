@@ -48,6 +48,7 @@ Spork.prefork do
   #end
 
   RSpec.configure do |config|
+    config.include ActionDispatch::TestProcess
     config.fail_fast = %w{yes true on}.include? ENV['FAIL_FAST']
 
     config.render_views = true # for JSON views

@@ -1,0 +1,16 @@
+= stylesheet_link_tag 'jquery-fileupload'
+= form_tag('/admin/upload_files', method: :post, action: :upload_files, id: 'upload', enctype: 'multipart/form-data') do
+  #drop
+    Drop here
+    %br/
+    %a
+      Browse
+    %input{type: 'file', name: 'upl', multiple: true}
+
+  %ul
+
+= javascript_include_tag 'jquery.knob'
+= javascript_include_tag 'jquery.ui.widget'
+= javascript_include_tag 'jquery.iframe-transport'
+= javascript_include_tag 'jquery.fileupload'
+= javascript_include_tag 'uploads'
