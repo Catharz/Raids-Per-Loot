@@ -73,7 +73,7 @@ getHealthData = ->
     "type.level": 95
     "c:limit": 50
     "c:sort": "stats.health.max:-1"
-    "c:show": "name.first,type.level,stats.health.max"
+    "c:show": "name.first,type.level,type.class,stats.health.max"
 
   $.getJSON url + "?callback=?", params, (data) ->
     healthChart data.character_list
@@ -109,14 +109,18 @@ healthChart = (dataset) ->
   ).attr("x",(d, i) ->
     i * (w / dataset.length)
   ).attr("y",(d) ->
-    h - ((d.stats.health.max * h) / 100000)
+    h - ((d.stats.health.max * h) / 1000000)
   ).attr("width", (w / (dataset.length - barPadding)) - chartPadding).attr("height",(d) ->
-    (d.stats.health.max * h) / 100000
+    (d.stats.health.max * h) / 1000000
   ).attr "fill", (d) ->
-    if d.stats.health.max < 50000
+    # Check if they're a fighter
+    min_health = 300000
+    unless d.type.class.match(/Guardian|Beserker|Shadowknight|Paladin|Bruiser|Monk/) == null
+      min_health = 500000
+    if d.stats.health.max < min_health
       "rgb(" + (d.stats.health.max / 200).toFixed(0) + ", 0, 0)"
     else
-      "rgb(0, " + ((d.stats.health.max - 50000) / 200).toFixed(0) + ", 0)"
+      "rgb(0, " + ((d.stats.health.max - min_health) / 200).toFixed(0) + ", 0)"
   svg.selectAll("text").data(dataset).enter().append("text").text((d) ->
     d.name.first
   ).attr("x", (h * -1) + 2).attr("y",(d, i) ->

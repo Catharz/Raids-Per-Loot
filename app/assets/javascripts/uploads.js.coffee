@@ -17,7 +17,7 @@ $ ->
       data.context = tpl.appendTo(ul)
       tpl.find("input").knob()
       tpl.find("span").click ->
-        jqXHR.abort()  if tpl.hasClass("working")
+        jqXHR.abort() if tpl.hasClass("working") or tpl.hasClass("complete")
         tpl.fadeOut ->
           tpl.remove()
 
@@ -26,7 +26,9 @@ $ ->
     progress: (e, data) ->
       progress = parseInt(data.loaded / data.total * 100, 10)
       data.context.find("input").val(progress).change()
-      data.context.removeClass "working"  if progress is 100
+      if progress is 100
+        data.context.removeClass "working"
+        data.context.addClass "complete"
 
     fail: (e, data) ->
       data.context.addClass "error"
