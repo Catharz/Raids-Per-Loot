@@ -1,5 +1,5 @@
 # Redis
-rails_root  = ENV['RAILS_ROOT'] || '/home/deploy/app/current'
+rails_root = RUBY_PLATFORM =~ /darwin/i ? ENV['PWD'] : ENV['RAILS_ROOT']
 
 %w{6379}.each do |port|
   God.watch do |w|
@@ -10,6 +10,7 @@ rails_root  = ENV['RAILS_ROOT'] || '/home/deploy/app/current'
     w.restart = "/etc/init.d/redis_#{port} restart"
     w.start_grace = 10.seconds
     w.restart_grace = 10.seconds
+    w.pid_file = "#{rails_root}/tmp/pids/#{w.name}.pid"
     w.log      = "#{rails_root}/log/redis_scheduler.log"
     w.err_log  = "#{rails_root}/log/redis_scheduler_error.log"
 
