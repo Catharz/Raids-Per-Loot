@@ -1,0 +1,139 @@
+---
+zones_001:
+  id: '9'
+  name: ! 'Temple of Rallos Zek: Foundations of Stone [Challenge]'
+  created_at: '2011-12-28 09:53:37.385172'
+  updated_at: '2012-07-06 04:16:21.154823'
+  difficulty_id: '3'
+zones_002:
+  id: '22'
+  name: ! 'Sleeper''s Tomb: Unearthed [Raid]'
+  created_at: '2012-11-23 12:19:55.587231'
+  updated_at: '2012-11-23 12:19:55.587231'
+  difficulty_id: '2'
+zones_003:
+  id: '23'
+  name: Altar of Abhorrence (Raid)
+  created_at: '2012-11-25 00:29:24.68845'
+  updated_at: '2013-06-05 12:25:09.780572'
+  difficulty_id: '2'
+zones_004:
+  id: '24'
+  name: Altar of Abhorrence [Raid]
+  created_at: '2013-06-05 12:25:22.913328'
+  updated_at: '2013-06-05 12:25:22.913328'
+  difficulty_id: '2'
+zones_005:
+  id: '25'
+  name: ! 'Siren''s Grotto: Dissension [Raid]'
+  created_at: '2013-06-05 15:38:40.805579'
+  updated_at: '2013-06-05 15:38:40.805579'
+  difficulty_id: '3'
+zones_006:
+  id: '26'
+  name: Harrow's End (Raid)
+  created_at: '2013-06-05 15:39:29.967288'
+  updated_at: '2013-06-05 15:39:29.967288'
+  difficulty_id: '2'
+zones_007:
+  id: '27'
+  name: Harrow's End [Raid]
+  created_at: '2013-06-05 15:39:56.395585'
+  updated_at: '2013-06-05 15:39:56.395585'
+  difficulty_id: '2'
+zones_008:
+  id: '20'
+  name: Plane of War
+  created_at: '2012-08-27 14:49:15.18759'
+  updated_at: '2013-06-05 15:41:52.251327'
+  difficulty_id: '3'
+zones_009:
+  id: '28'
+  name: ! 'The Dreadcutter: The Pirate Kings [Raid]'
+  created_at: '2013-06-05 15:44:03.466351'
+  updated_at: '2013-06-05 15:44:03.466351'
+  difficulty_id: '3'
+zones_010:
+  id: '19'
+  name: Sullon's Spire [Challenge]
+  created_at: '2012-07-12 13:46:58.841188'
+  updated_at: '2013-06-05 15:45:06.425464'
+  difficulty_id: '3'
+zones_011:
+  id: '18'
+  name: Vallon's Tower [Challenge]
+  created_at: '2012-07-12 13:46:55.556245'
+  updated_at: '2013-06-05 15:46:37.684741'
+  difficulty_id: '3'
+zones_012:
+  id: '29'
+  name: Vallon's Tower
+  created_at: '2013-06-05 15:46:46.659972'
+  updated_at: '2013-06-05 15:46:46.659972'
+  difficulty_id: '2'
+zones_013:
+  id: '15'
+  name: Sullon's Spire
+  created_at: '2012-07-04 13:51:49.164482'
+  updated_at: '2013-08-10 09:36:12.867851'
+  difficulty_id: '2'
+zones_014:
+  id: '14'
+  name: Tallon's Stronghold
+  created_at: '2012-07-04 10:29:11.727942'
+  updated_at: '2013-08-10 09:33:33.907827'
+  difficulty_id: '2'
+zones_015:
+  id: '7'
+  name: Kraytoc's Fortress of Rime [Challenge]
+  created_at: '2011-12-28 09:53:37.376517'
+  updated_at: '2013-08-10 09:36:12.936027'
+  difficulty_id: '3'
+zones_016:
+  id: '8'
+  name: ! 'Throne of Storms: Hall of Legends [Challenge]'
+  created_at: '2011-12-28 09:53:37.380652'
+  updated_at: '2013-08-10 09:36:12.616826'
+  difficulty_id: '3'
+zones_017:
+  id: '1'
+  name: Kraytoc's Fortress of Rime
+  created_at: '2011-12-28 09:53:37.302922'
+  updated_at: '2013-08-10 09:36:13.117981'
+  difficulty_id: '1'
+zones_018:
+  id: '2'
+  name: ! 'Throne of Storms: Hall of Legends'
+  created_at: '2011-12-28 09:53:37.309876'
+  updated_at: '2013-08-10 09:36:13.140636'
+  difficulty_id: '1'
+zones_019:
+  id: '17'
+  name: Tallon's Stronghold [Challenge]
+  created_at: '2012-07-06 05:10:13.232312'
+  updated_at: '2013-08-10 07:17:17.886899'
+  difficulty_id: '3'
+zones_020:
+  id: '16'
+  name: ! 'Dracur Prime: Sevalak Awakened'
+  created_at: '2012-07-06 04:23:13.062696'
+  updated_at: '2013-08-10 09:07:44.446487'
+  difficulty_id: '1'
+zones_021:
+  id: '13'
+  name: ! 'Skyshrine: Betrayal in the Underdepths'
+  created_at: '2012-06-27 08:42:25.334424'
+  updated_at: '2013-08-30 06:25:43.027834'
+  difficulty_id: '1'
+zones_022:
+  id: '21'
+  name: ! 'Sleeper''s Tomb: A Temporal Leap'
+  created_at: '2012-09-23 01:30:12.341563'
+  updated_at: '2013-08-30 06:27:16.634624'
+  difficulty_id: '2'
+zones_023:
+  id: '3'
+  name: ! 'Temple of Rallos Zek: Foundations of Stone'
+  created_at: '2011-12-28 09:53:37.314588'
+  updated_at: '2013-08-30 06:01:46.660337'
+  difficulty_id: '1'

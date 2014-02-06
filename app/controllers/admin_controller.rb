@@ -36,7 +36,9 @@ class AdminController < ApplicationController
       begin
         file = uploaded.tempfile
         file_name = uploaded.original_filename
-        FileUtils.copy(file.path, File.join(Dir.tmpdir, file_name))
+        new_file_name = File.join(Dir.tmpdir, file_name)
+        FileUtils.copy(file.path, new_file_name)
+        Resque.enqueue(LogParser, new_file_name)
       ensure
         file.unlink
       end

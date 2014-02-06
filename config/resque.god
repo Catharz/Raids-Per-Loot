@@ -1,7 +1,13 @@
 #NOTE: You must set these values when running in development
-rails_env = ENV['RAILS_ENV'] || 'production'
-rails_root = ENV['RAILS_ROOT'] || '/home/deploy/app/current'
-num_workers = rails_env == 'production' ? 5 : 2
+if RUBY_PLATFORM =~ /darwin/i
+  rails_root = ENV['PWD']
+  rails_env = 'development'
+  num_workers = 2
+else
+  rails_root = ENV['RAILS_ROOT']
+  rails_env = 'production'
+  num_workers = 5
+end
 
 num_workers.times do |num|
   God.watch do |w|

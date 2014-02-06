@@ -5,7 +5,7 @@ describe 'Zones' do
     it 'responds with success' do
       get zones_path
 
-      response.status.should be(200)
+      expect(response.status).to be 200
     end
 
     it 'assigns the zones to @zones' do
@@ -13,7 +13,7 @@ describe 'Zones' do
 
       get zones_path
 
-      assigns(:zones).should eq [zone]
+      expect(assigns(:zones)).to include zone
     end
 
     it 'displays the zones name' do
@@ -21,7 +21,7 @@ describe 'Zones' do
 
       visit zones_path
 
-      response.body.should include zone.name
+      expect(response.body).to include zone.name
     end
   end
 end
