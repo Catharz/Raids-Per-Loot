@@ -52,17 +52,17 @@ Feature: Manage drops
       | item_name 4 | character_name 4 | Trash     | zone_name 4 | mob_name 4 | 2011-09-18T20:00:00+10:00 | Trash       |
 
   @javascript
-  Scenario: Invalid Drops (excluding Trash)
+  Scenario: Invalid Drops (Mismatched Loot Types)
     Given the following drops:
       | zone        | mob        | character        | item        | loot_type | eq2_item_id   | drop_time                 | loot_method |
       | zone_name 1 | mob_name 1 | character_name 1 | item_name 1 | Armour    | eq2_item_id 1 | 2011-09-21 20:45:00 +1000 | t           |
       | zone_name 2 | mob_name 2 | character_name 2 | item_name 2 | Weapon    | eq2_item_id 2 | 2011-09-20 20:30:00 +1000 | t           |
-      | zone_name 3 | mob_name 3 | character_name 3 | item_name 3 | Trash     | eq2_item_id 3 | 2011-09-19 20:15:00 +1000 | n           |
+      | zone_name 3 | mob_name 3 | character_name 3 | item_name 3 | Spell     | eq2_item_id 3 | 2011-09-19 20:15:00 +1000 | n           |
       | zone_name 4 | mob_name 4 | character_name 4 | item_name 4 | Weapon    | eq2_item_id 4 | 2011-09-18 20:00:00 +1000 | t           |
     When I view the invalid drops
     Then I should see the following invalid drops:
-      | Character        | Class | Drop Type | Item Type | Item Name   | Item Classes | Loot Method | Drop Time                 | Invalid Reason               |
-      | character_name 3 | Scout | Trash     | Trash     | item_name 3 | None         | Need        | 2011-09-19 20:15:00 +1000 | Loot via Need for Trash Item |
+      | Character        | Class | Drop Type | Item Type | Item Name   | Item Classes | Loot Method | Drop Time                 | Invalid Reason                    |
+      | character_name 3 | Scout | Spell     | Spell     | item_name 3 | None         | Need        | 2011-09-19 20:15:00 +1000 | Loot via Need for Guild Bank Item |
 
   @javascript
   Scenario: Invalid Drops (including Trash)

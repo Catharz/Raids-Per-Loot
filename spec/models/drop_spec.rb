@@ -271,19 +271,6 @@ describe Drop do
         end
       end
 
-      describe 'for_wrong_class' do
-        it "identifies drops where archetypes don't match" do
-          monk = FactoryGirl.create(:archetype)
-          bruiser = FactoryGirl.create(:archetype)
-          main = FactoryGirl.create(:character, archetype: bruiser)
-          weapon = FactoryGirl.create(:item)
-          FactoryGirl.create(:archetypes_item, item: weapon, archetype: monk)
-          d3 = FactoryGirl.create(:drop, item: weapon, character: main)
-
-          Drop.for_wrong_class.should match_array [d3]
-        end
-      end
-
       describe 'invalid_need_assignment' do
         it 'identifies drops looted via need by a general alt' do
           ga = FactoryGirl.create(:character, char_type: 'g')
@@ -335,24 +322,10 @@ describe Drop do
         end
       end
 
-      describe 'needed_for_wrong_class' do
-        it 'identifies items won by need for the wrong class' do
-          monk = FactoryGirl.create(:archetype)
-          bruiser = FactoryGirl.create(:archetype)
-          main = FactoryGirl.create(:character, archetype: monk)
-          weapon = FactoryGirl.create(:item)
-          FactoryGirl.create(:archetypes_item, item: weapon, archetype: bruiser)
-          d3 = FactoryGirl.create(:drop, item: weapon, character: main)
-
-          Drop.needed_for_wrong_class.should match_array [d3]
-        end
-      end
-
       describe 'invalidly_assigned' do
         context 'when validating trash' do
           it 'calls all the methods' do
               Drop.should_receive(:mismatched_loot_types).and_return([])
-              Drop.should_receive(:needed_for_wrong_class).and_return([])
               Drop.should_receive(:invalid_need_assignment).and_return([])
               Drop.should_receive(:invalid_guild_bank_assignment).and_return([])
               Drop.should_receive(:invalid_trash_assignment).and_return([])
@@ -364,7 +337,6 @@ describe Drop do
         context 'when not validating trash' do
           it 'calls all the normal methods' do
             Drop.should_receive(:mismatched_loot_types).and_return([])
-            Drop.should_receive(:needed_for_wrong_class).and_return([])
             Drop.should_receive(:invalid_need_assignment).and_return([])
             Drop.should_receive(:invalid_guild_bank_assignment).and_return([])
 

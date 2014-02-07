@@ -37,7 +37,6 @@ describe 'characters/show.html.haml' do
                              'Weapon' => 3,
                              'Jewellery' => 1)
     character.stub(:drops).and_return(drop_list)
-    character.stub(:adjustments).and_return([])
     character.stub(:armour_rate).and_return(2.0)
     character.stub(:weapon_rate).and_return(3.6)
     character.stub(:character_types).and_return([])
@@ -53,7 +52,6 @@ describe 'characters/show.html.haml' do
 
     assign(:drop_list, character.drops)
     assign(:instance_list, character.instances)
-    assign(:adjustment_list, [])
     assign(:character_types, [])
     assign(:data, external_data)
     assign(:character, character)
@@ -66,7 +64,6 @@ describe 'characters/show.html.haml' do
     rendered.should contain 'Attendance'
     rendered.should contain 'Drops'
     rendered.should contain 'History'
-    rendered.should contain 'Adjustments'
     rendered.should contain 'Statistics'
   end
 

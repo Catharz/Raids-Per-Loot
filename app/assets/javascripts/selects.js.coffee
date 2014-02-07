@@ -1,5 +1,4 @@
 jQuery ->
-  configureAdjustmentSelect()
   $("select#drop_raid_id").change ->
     raid_id = $(this).val()
     filterInstancesForRaid(raid_id)
@@ -42,20 +41,3 @@ filterMobsForZone = (zone_id) ->
   $("#mob_field").append '<label class="header" for="drop_mob_id">Mob</label>'
   $mob_list = $('<select id="drop_mob_id" name="drop[mob_id]"></select>').appendTo '#mob_field'
   $mob_list.load mob_options_url
-
-configureAdjustmentSelect = () ->
-  $("select#adjustment_adjustable_type").change ->
-    adjustable_type = $(this).val()
-    adjustable_select = $(this).next 'select'
-    options_url = ""
-
-    if adjustable_type == "Player"
-      options_url = "/players/option_list"
-    else
-      options_url = "/characters/option_list"
-
-    $("#adjustable_field").empty()
-    $("#adjustable_field").append '<label class="header" for="adjustment_adjustable_id">' + adjustable_type + ':</label>'
-    $("#adjustable_field").append '<span class="data"/>'
-    $adjustables = $('<select id="adjustment_adjustable_id" name="adjustment[adjustable_id]"></select>').appendTo '#adjustable_field span.data'
-    $adjustables.load options_url

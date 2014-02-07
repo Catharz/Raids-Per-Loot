@@ -81,11 +81,6 @@ class Eq2LogParser
     drop_regex = /\((?<log_line_id>\d+)\)\[(?<log_date>.*)\] (?<looter>\w+) (loot|loots) \\aITEM (?<item_id>-?\d+) -?\d+:(?<item_name>[^\\]+)\\\/a from (?<container>.+) of (?<mob_name>.+)\./
     drops = @file.grep(drop_regex).collect! { |d| d.match(drop_regex) }
     drops.delete_if { |d| (d[:log_line_id].to_i < start_line) or (d[:log_line_id].to_i > end_line) }
-    mobs_list = drops.collect { |d| "\"#{d[:mob_name]}\"" }.uniq.sort
-    drops_list = drops.collect { |d| "\"#{d[:item_name]}\"" }.uniq.sort
-    Rails.logger.debug "Mobs: #{mobs_list.join ', '}"
-    Rails.logger.debug "Drops: #{drops_list.join ', '}"
-    Rails.logger.info "#{mobs_list.count} mobs dropped #{drops_list.count} unique items."
     drops.sort { |a, b| DateTime.parse(a[:log_date]) <=> DateTime.parse(b[:log_date]) }
   end
 

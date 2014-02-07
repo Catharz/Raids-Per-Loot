@@ -53,24 +53,6 @@ Given /^the following player attendance:$/ do |all_attendance|
   end
 end
 
-When /^the following player adjustments:$/ do |adjustments|
-  adjustments.hashes.each do |adj|
-    player = Player.find_by_name(adj[:player])
-    adjustment = Adjustment.where(
-        :adjustable_id => player.id,
-        :adjustable_type => "Player",
-        :adjustment_date => adj[:date],
-        :adjustment_type => adj[:type]).first
-    if adjustment.nil?
-      Adjustment.create(:adjustable_id => player.id,
-              :adjustable_type => "Player",
-              :adjustment_date => adj[:date],
-              :adjustment_type => adj[:type],
-              :amount => adj[:amount])
-    end
-  end
-end
-
 Given /^I have a (.+) player named (.+)$/ do |rank_name, player_name|
   player = Player.find_by_name(player_name)
   if player.nil?

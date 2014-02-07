@@ -42,7 +42,6 @@ describe 'players/show.html.haml' do
     @player.stub(:raids_count).and_return(1)
     @player.stub(:instances_count).and_return(2)
     @player.stub(:drops).and_return([armour_drop, weapon_drop])
-    @player.stub(:adjustments).and_return([])
     @player.stub(:armour_rate).and_return(2.0)
     @player.stub(:weapon_rate).and_return(3.6)
     @player.stub(:jewellery_rate).and_return(6.9)
@@ -55,7 +54,6 @@ describe 'players/show.html.haml' do
     rendered.should match(/Characters/)
     rendered.should match(/Drops/)
     rendered.should match(/Attendance/)
-    rendered.should match(/Adjustments/)
   end
 
   it 'should show the loot types' do

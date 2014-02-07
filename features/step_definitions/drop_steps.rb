@@ -15,6 +15,14 @@ Given /^the following drops:$/ do |drops|
     mob ||= Mob.create(:name => drop[:mob], :zone_id => zone.id)
 
     default_loot_method = drop[:loot_type] == 'Trash' ? 't' : 'n'
+    default_loot_method = case drop[:loot_type]
+      when 'Weapon', 'Armour', 'Jewellery', 'Mount', 'Dislodger', 'Adornment'
+        'n'
+      when 'Spell', 'Trade Skill Component'
+        'g'
+      else
+        't'
+    end
     loot_type = LootType.find_by_name(drop[:loot_type])
     loot_type ||= LootType.create(:name => drop[:loot_type], :default_loot_method => default_loot_method)
 
