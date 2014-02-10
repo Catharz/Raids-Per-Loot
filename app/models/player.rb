@@ -22,7 +22,6 @@ class Player < ActiveRecord::Base
   has_many :drops, :through => :characters
   has_many :items, :through => :drops, :conditions => ['drops.loot_method = ?', 'n']
 
-  has_many :adjustments, as: :adjustable
   has_many :comments, as: :commented, dependent: :destroy
 
   has_one :current_main, class_name: 'Character', conditions: ['characters.char_type = ?', 'm']

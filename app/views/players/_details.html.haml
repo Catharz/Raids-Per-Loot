@@ -1,10 +1,9 @@
 #tabBook
   %ul
-    %li= link_to "Details", "#details"
-    %li= link_to "Characters", "#characters"
-    %li= link_to "Drops", "#drops"
-    %li= link_to "Attendance", "#attendance"
-    %li= link_to "Adjustments", "#adjustments"
+    %li= link_to 'Details', '#details'
+    %li= link_to 'Characters', '#characters'
+    %li= link_to 'Drops', '#drops'
+    %li= link_to 'Attendance', '#attendance'
 
   #details
     %p
@@ -12,7 +11,7 @@
       = @player.name
     %p
       %strong Rank:
-      = @player.rank ? @player.rank.name : "Unknown"
+      = @player.rank ? @player.rank.name : 'Unknown'
     %p
       %strong Characters:
       = @player.characters.count
@@ -43,6 +42,3 @@
 
   #attendance
     = render 'tabs/instances', :"@instance_list" => @player.instances
-
-  #adjustments
-    = render 'adjustments', :"@adjustment_list" => @player.adjustments

@@ -64,7 +64,7 @@ class Drop < ActiveRecord::Base
     end
   }
 
-  # scopes to support assignment validation
+  # scopes to support validation
   scope :won_by, ->(loot_method) {
     loot_method.is_a?(Array) ?
         where('loot_method in (?)', loot_method) :
@@ -93,24 +93,14 @@ class Drop < ActiveRecord::Base
   }
 
   scope :mismatched_loot_types, ->() { joins(:item).where('drops.loot_type_id <> items.loot_type_id') }
-  scope :for_wrong_class, ->() {
-    where('(select c.archetype_id ' +
-              'from characters c ' +
-              'where c.id = drops.character_id) ' +
-              'not in (select ai.archetype_id ' +
-              'from archetypes_items ai ' +
-              'where ai.item_id = drops.item_id)')
-  }
   scope :invalid_need_assignment, ->() { won_by('n').by_character_type('g') }
   scope :invalid_guild_bank_assignment, ->() { not_won_by(%w{g r}).with_default_loot_method('g') }
   scope :invalid_trash_assignment, ->() {
     not_won_by('t').with_default_loot_method('t') +
         won_by('t').with_default_loot_method(%w{b n r})
   }
-  scope :needed_for_wrong_class, ->() { won_by('n').for_wrong_class }
   scope :invalidly_assigned, ->(validate_trash = false) {
     invalid_list = mismatched_loot_types +
-        needed_for_wrong_class +
         invalid_need_assignment +
         invalid_guild_bank_assignment
 

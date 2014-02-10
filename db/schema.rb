@@ -11,20 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130730031355) do
-
-  create_table "adjustments", :force => true do |t|
-    t.date     "adjustment_date"
-    t.string   "adjustment_type"
-    t.integer  "amount"
-    t.string   "reason"
-    t.integer  "adjustable_id"
-    t.string   "adjustable_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "adjustments", ["adjustable_id"], :name => "index_adjustments_on_adjustable_id"
+ActiveRecord::Schema.define(:version => 20140206211129) do
 
   create_table "archetypes", :force => true do |t|
     t.string   "name"
