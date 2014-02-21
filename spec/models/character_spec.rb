@@ -14,7 +14,6 @@ describe Character do
     it { should have_many(:items).through(:drops) }
     it { should have_many(:instances).through(:character_instances) }
     it { should have_many(:raids).through(:instances) }
-    it { should have_many(:adjustments).dependent(:destroy) }
     it { should have_one(:external_data).dependent(:destroy) }
   end
 

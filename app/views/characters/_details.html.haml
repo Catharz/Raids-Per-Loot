@@ -1,11 +1,10 @@
 #tabBook
   %ul
-    %li= link_to "Details", "#details"
-    %li= link_to "Attendance", "#attendance"
-    %li= link_to "Drops", "#drops"
-    %li= link_to "History", "#history"
-    %li= link_to "Adjustments", "#adjustments"
-    %li= link_to "Statistics", "#statistics"
+    %li= link_to 'Details', '#details'
+    %li= link_to 'Attendance', '#attendance'
+    %li= link_to 'Drops', '#drops'
+    %li= link_to 'History', '#history'
+    %li= link_to 'Statistics', '#statistics'
 
   #details
     %p
@@ -46,9 +45,6 @@
 
   #attendance
     = render 'tabs/instances', :"@instance_list" => @character.instances
-
-  #adjustments
-    = render 'adjustments', :"@adjustments" => @character.adjustments
 
   #statistics
     -unless @character.external_data.nil? or @character.external_data.data.empty?

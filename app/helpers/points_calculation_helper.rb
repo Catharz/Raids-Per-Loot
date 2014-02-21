@@ -29,11 +29,9 @@ module PointsCalculationHelper
 
   def raid_count(range = {start:  nil, end: nil}, aggregate_up = true)
     if aggregate_up and self.is_a? Character
-      self.player.raids.for_period(range).uniq.count +
-          self.player.adjustments.for_period(range).by_adjustment_type('Raids').sum(:amount)
+      self.player.raids.for_period(range).uniq.count
     else
-      self.raids.for_period(range).uniq.count +
-          self.adjustments.for_period(range).by_adjustment_type('Raids').sum(:amount)
+      self.raids.for_period(range).uniq.count
     end
   end
 

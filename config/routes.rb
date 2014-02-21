@@ -65,7 +65,7 @@ RaidsPerLoot::Application.routes.draw do
     resources :players
   end
   resources :players do
-    resources :characters, :instances, :drops, :adjustments
+    resources :characters, :instances, :drops
     collection do
       get :option_list
       get :attendance
@@ -79,7 +79,7 @@ RaidsPerLoot::Application.routes.draw do
   resources :character_types
   resources :character_instances
   resources :characters do
-    resources :character_types, :adjustments, :drops
+    resources :character_types, :drops
     member do
       get :info
       post :fetch_data
@@ -92,8 +92,6 @@ RaidsPerLoot::Application.routes.draw do
       get :attendance
     end
   end
-
-  resources :adjustments
 
   resources :loot_types do
     resources :items

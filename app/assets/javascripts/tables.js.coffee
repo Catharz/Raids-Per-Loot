@@ -49,22 +49,6 @@ jQuery ->
     ]
     "aaSorting": [[2,'desc']]
 
-  $('#adjustmentsTable').dataTable
-    "bJQueryUI": true
-    "sPaginationType": "full_numbers"
-    "aoColumns": [
-      null, # Relationsip
-      null, # Adjusted Name
-      {"sType": "date"}, # Adjustment Date
-      null, # Adjustment Type
-      {"sType": "numeric", "sClass": "numeric"}, # Amount
-      null, # Reason
-      null, # Show
-      null, # Edit
-      null  # Destroy
-    ]
-    "aaSorting": [[1,'asc'], [2, 'desc']]
-
   $('#charactersTable_m').dataTable
     "bJQueryUI": true
     "sPaginationType":"full_numbers"

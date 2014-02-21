@@ -1,5 +1,0 @@
-oTable = $('#adjustmentsTable').dataTable()
-aPos = oTable.fnGetPosition( document.getElementById("adjustment_<%= @adjustment.id %>") )
-oTable.fnDeleteRow(aPos)
-oTable.fnDraw()
-displayFlash('#notice', "Adjustment was successfully deleted.")
