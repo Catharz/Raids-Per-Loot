@@ -71,7 +71,8 @@ class LogParser
                 item: item,
                 loot_type: item.loot_type,
                 loot_method: item.loot_type.default_loot_method,
-                log_line: drop_details.string)
+                chat: drop_details[:chat],
+                log_line: drop_details[:log_line])
   end
 
   def self.loot_type_by_name(name)

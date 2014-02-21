@@ -79,14 +79,26 @@ class Eq2LogParser
   def drops(start_line, end_line)
     @file.rewind
     drop_regex = /\((?<log_line_id>\d+)\)\[(?<log_date>.*)\] (?<looter>\w+) (loot|loots) \\aITEM (?<item_id>-?\d+) -?\d+:(?<item_name>[^\\]+)\\\/a from (?<container>.+) of (?<mob_name>.+)\./
-    drops = @file.grep(drop_regex).collect! { |d| d.match(drop_regex) }
+    drops = @file.grep(drop_regex).collect! { |d| drop_match_to_hash(d.match(drop_regex)) }
     drops.delete_if { |d| (d[:log_line_id].to_i < start_line) or (d[:log_line_id].to_i > end_line) }
-    mobs_list = drops.collect { |d| "\"#{d[:mob_name]}\"" }.uniq.sort
-    drops_list = drops.collect { |d| "\"#{d[:item_name]}\"" }.uniq.sort
-    Rails.logger.debug "Mobs: #{mobs_list.join ', '}"
-    Rails.logger.debug "Drops: #{drops_list.join ', '}"
-    Rails.logger.info "#{mobs_list.count} mobs dropped #{drops_list.count} unique items."
+    drops.collect { |d| d[:chat] = prior_chat Time.zone.parse(d[:log_date]) }
     drops.sort { |a, b| DateTime.parse(a[:log_date]) <=> DateTime.parse(b[:log_date]) }
+  end
+
+  def prior_chat(end_time, options = {max_lines: 20, max_time: 60.seconds})
+    chat = []
+    chat_match = /\((?<log_line_id>\d+)\)\[(?<log_date>.*)\] \\aPC -1 (?<character>\w+):.+\\\/a says to the (raid|guild|officers)/
+    rand_match = /\((?<log_line_id>\d+)\)\[(?<log_date>.*)\] Random: (?<character>\w+) rolls from 1 to (?<max>\d+)/
+    @file.rewind
+    @file.grep(/says to the (guild|raid|officers)|Random:/).each do |line|
+      match = line.match chat_match
+      match ||= line.match rand_match
+      next if match.nil?
+      next if Time.zone.parse(match[:log_date]) < (end_time - options[:max_time])
+      break if Time.zone.parse(match[:log_date]) > end_time
+      chat << line.strip
+    end
+    chat.last(options[:max_lines]).join("\n")
   end
 
   def attendees(start_line, end_line)
@@ -179,6 +191,19 @@ class Eq2LogParser
       }
     end
     @raid_list.delete_if { |raid_date| @raid_list[raid_date][:instances].empty? }
+  end
+
+  def drop_match_to_hash(match_data)
+    {
+      log_line_id: match_data[:log_line_id],
+      log_date: match_data[:log_date],
+      looter: match_data[:looter],
+      item_id: match_data[:item_id],
+      item_name: match_data[:item_name],
+      container: match_data[:container],
+      mob_name: match_data[:mob_name],
+      log_line: match_data.string
+    }
   end
 
   memoize :drops, :zone_entrances, :file_owner, :zone_match, :zone_names, :character_names
