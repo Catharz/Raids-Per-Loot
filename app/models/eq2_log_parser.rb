@@ -81,6 +81,7 @@ class Eq2LogParser
     drop_regex = /\((?<log_line_id>\d+)\)\[(?<log_date>.*)\] (?<looter>\w+) (loot|loots) \\aITEM (?<item_id>-?\d+) -?\d+:(?<item_name>[^\\]+)\\\/a from (?<container>.+) of (?<mob_name>.+)\./
     drops = @file.grep(drop_regex).collect! { |d| drop_match_to_hash(d.match(drop_regex)) }
     drops.delete_if { |d| (d[:log_line_id].to_i < start_line) or (d[:log_line_id].to_i > end_line) }
+    drops.collect { |d| d[:chat] = prior_chat Time.zone.parse(d[:log_date]) }
     drops.sort { |a, b| DateTime.parse(a[:log_date]) <=> DateTime.parse(b[:log_date]) }
   end
 
