@@ -32,6 +32,13 @@ begin
       t.profile = 'rerun'
     end
 
+    Cucumber::Rake::Task.new({:ci => 'db:test:prepare'}, "Run cucumber tests that don't require javascript") do |t|
+      t.binary = vendored_cucumber_bin
+      t.fork = true # You may get faster startup if you set this to false
+      t.profile = 'default'
+      t.cucumber_opts = 'features -t ~@javascript'
+    end
+
     desc 'Run all features'
     task :all => [:ok, :wip]
 
