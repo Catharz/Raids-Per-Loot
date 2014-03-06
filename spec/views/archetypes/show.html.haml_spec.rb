@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'archetypes/show.html.erb' do
+describe 'archetypes/show' do
   before(:each) do
     @archetype = assign(:archetype, stub_model(Archetype,
       name: 'Name'

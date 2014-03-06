@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'players/attendance.html.haml' do
+describe 'players/attendance' do
   fixtures :ranks
 
   let(:main) { Rank.find_by_name('Main') }

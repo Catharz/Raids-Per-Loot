@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'date'
 require 'authentication_spec_helper'
 
-describe 'players/show.html.haml' do
+describe 'players/show' do
   include AuthenticationSpecHelper
   fixtures :users, :services
 

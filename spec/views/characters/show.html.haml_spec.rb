@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'attendance_spec_helper'
 require 'drop_spec_helper'
 
-describe 'characters/show.html.haml' do
+describe 'characters/show' do
   include AttendanceSpecHelper, DropSpecHelper
 
   let(:main) { mock_model(Rank, name: 'Main') }

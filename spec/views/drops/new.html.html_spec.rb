@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'drops/new.html.erb' do
+describe 'drops/new' do
   before(:each) do
     assign(:drop,
            stub_model(Drop,

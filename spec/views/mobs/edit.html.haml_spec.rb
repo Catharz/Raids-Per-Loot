@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'mobs/edit.html.erb' do
+describe 'mobs/edit' do
   before(:each) do
     @mob = assign(:mob, stub_model(Mob,
       name: 'MyString',

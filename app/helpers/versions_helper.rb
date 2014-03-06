@@ -7,7 +7,7 @@ module VersionsHelper
   def changes(version, excluded_columns = %w{updated_at})
     return update_changes(version, excluded_columns) if version.event == 'update'
     return creation_changes(version, excluded_columns) if version.event == 'create'
-    return deletion_changes(version, excluded_columns) if version.event = 'destroy'
+    return deletion_changes(version, excluded_columns) if version.event == 'destroy'
     []
   end
 
@@ -16,7 +16,7 @@ module VersionsHelper
   def update_changes(version, excluded_columns)
     changed_values = []
     new_item = version.item
-    old_item = new_item.previous_version
+    old_item = version.previous_version
     differences = old_item.attributes.diff(new_item.attributes)
     differences.keys.reject { |k| excluded_columns.include? k }.each do |key|
       changed_values << {key: key, old: old_item[key], new: new_item[key]}

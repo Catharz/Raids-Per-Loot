@@ -90,11 +90,11 @@ describe DropsController do
     end
 
     it 'should render XML with chat' do
-      FactoryGirl.create :drop, drop_time: DateTime.parse('2013-12-25 18:00+11:00')
+      FactoryGirl.create :drop, drop_time: DateTime.parse('2013-12-25 18:00+11:00'), chat: 'Blah, de-blah!'
 
       get :index, format: :xml
 
-      response.body.should eq Drop.select(:chat).to_xml
+      Nokogiri.parse(response.body).at_xpath('/drops/*[1]/chat').inner_text.should eq 'Blah, de-blah!'
     end
 
     it 'should filter by instance when fetching xml' do
@@ -194,11 +194,7 @@ describe DropsController do
 
       get :show, format: :xml, id: drop
 
-      response.body.should eq Drop.select(:chat).find(drop.id).
-                                  to_xml(methods: [:loot_method_name, :invalid_reason,
-                                                   :character_name, :character_archetype_name,
-                                                   :loot_type_name, :item_name,
-                                                   :mob_name, :zone_name])
+      Nokogiri.parse(response.body).at_xpath('/drop/zone-name').inner_text.should eq drop.zone_name
     end
   end
 

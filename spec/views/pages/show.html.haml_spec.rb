@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'pages/show.html.erb' do
+describe 'pages/show' do
   before(:each) do
     @page = assign(:page, stub_model(Page,
       name: 'Name',

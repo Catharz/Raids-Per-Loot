@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'link_categories/new.html.erb' do
+describe 'link_categories/new' do
   before(:each) do
     assign(:link_category, stub_model(LinkCategory,
                                       title: 'Title',

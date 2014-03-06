@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'items/show.html.erb' do
+describe 'items/show' do
   before(:each) do
     weapon = stub_model(LootType, name: 'Weapon')
     @item = assign(:item, stub_model(Item,

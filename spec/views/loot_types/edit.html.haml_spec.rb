@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'loot_types/edit.html.erb' do
+describe 'loot_types/edit' do
   before(:each) do
     @loot_type = assign(:loot_type, stub_model(LootType,
       name: 'MyString', default_loot_method: 'n'

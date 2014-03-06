@@ -26,7 +26,8 @@ describe ArchetypesController do
     it 'returns XML' do
       archetypes = Archetype.all
       get :index, format: :xml
-      response.body.should eq archetypes.to_xml
+      response.body.should have_xpath '//archetypes/*[1]/name'
+      response.body.should have_content archetypes.first.name
     end
   end
 
@@ -47,7 +48,8 @@ describe ArchetypesController do
     it 'returns XML' do
       archetype = Archetype.create! FactoryGirl.attributes_for(:archetype)
       get :show, id: archetype, format: :xml
-      response.body.should eq archetype.to_xml
+      response.body.should have_xpath '//archetype/name'
+      response.body.should have_content archetype.name
     end
   end
 

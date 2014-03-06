@@ -6,6 +6,7 @@ class ExternalData < ActiveRecord::Base
   serialize :data, Hash
   belongs_to :character, :polymorphic => :true
   belongs_to :item, :polymorphic => :true
+  attr_accessible :retrievable_id, :retrievable_type, :data
 
   def data
     read_attribute(:data) || write_attribute(:data, {})

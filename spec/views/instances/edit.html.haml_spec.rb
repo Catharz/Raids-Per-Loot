@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'instances/edit.html.haml' do
+describe 'instances/edit' do
   before(:each) do
     @instance = assign(:instance, stub_model(Instance))
   end

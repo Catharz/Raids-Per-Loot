@@ -27,9 +27,11 @@ describe RaidsController do
     end
 
     it 'responds with XML' do
-      Raid.create! valid_attributes
+      raid = Raid.create! valid_attributes
+
       get :index, format: :xml
-      response.body.should eq Raid.all.to_xml
+
+      response.body.should have_xpath('//raids/*[1]/raid-date')
     end
 
     it 'filters on raid_date' do
@@ -69,7 +71,7 @@ describe RaidsController do
     it 'responds with XML' do
       raid = Raid.create! valid_attributes
       get :show, id: raid, format: :xml
-      response.body.should eq Raid.last.to_xml(include: [:players, :characters, :instances, :kills, :drops])
+      response.body.should have_xpath('//raid/raid-date')
     end
   end
 

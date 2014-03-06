@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'attendance_spec_helper'
 
-describe 'characters/info.html.haml' do
+describe 'characters/info' do
   before(:each) do
     character = assign(:character, FactoryGirl.create(:character,
                                                       name: 'Fighter'))

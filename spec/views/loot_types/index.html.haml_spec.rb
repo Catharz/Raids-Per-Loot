@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'loot_types/index.html.erb' do
+describe 'loot_types/index' do
   before(:each) do
     assign(:loot_types, [
       stub_model(LootType,

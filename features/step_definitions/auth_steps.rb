@@ -6,14 +6,12 @@ Given /^I am logged in as a user$/ do
   unless current_user
     current_user = User.create!(:name => 'admin',
                                 :email => 'admin@example.com',
-                                :roles_mask => 16,
-                                :created_at => '2011-09-30 04:25:41.899386')
+                                :roles => ['admin'])
     current_user.save
   end
   user_service = current_user.services.first
   if user_service.nil?
-    user_service = current_user.services.create(user_id: current_user.id,
-                                                provider: 'developer',
+    user_service = current_user.services.create(provider: 'developer',
                                                 uid: current_user.email,
                                                 uname: current_user.name,
                                                 uemail: current_user.email)

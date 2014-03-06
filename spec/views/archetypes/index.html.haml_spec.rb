@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'archetypes/index.html.erb' do
+describe 'archetypes/index' do
   before(:each) do
     assign(:archetypes, [
         stub_model(Archetype, name: 'Scout'),

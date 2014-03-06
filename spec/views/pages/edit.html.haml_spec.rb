@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'pages/edit.html.erb' do
+describe 'pages/edit' do
   before(:each) do
     @page = assign(:page, stub_model(Page,
       name: 'MyString',
