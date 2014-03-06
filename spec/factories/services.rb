@@ -13,7 +13,6 @@ FactoryGirl.define do
   end
 
   factory :service do
-    user { |a| a.association(:user) }
     provider { generate(:provider_name) }
     uid { generate(:uid) }
     uname { generate(:uname) }

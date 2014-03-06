@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'pages/index.html.erb' do
+describe 'pages/index' do
   before(:each) do
     assign(:pages, [
       stub_model(Page,

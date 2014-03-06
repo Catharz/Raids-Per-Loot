@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'slots/edit.html.erb' do
+describe 'slots/edit' do
   before(:each) do
     @slot = assign(:slot, stub_model(Slot,
       name: 'Chest'

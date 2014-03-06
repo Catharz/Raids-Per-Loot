@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'authentication_spec_helper'
 
-describe 'drops/show.html.erb' do
+describe 'drops/show' do
   include AuthenticationSpecHelper
   fixtures :users, :services
 

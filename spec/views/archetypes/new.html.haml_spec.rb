@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'archetypes/new.html.erb' do
+describe 'archetypes/new' do
   before(:each) do
     assign(:archetype, stub_model(Archetype, name: 'Name').as_new_record)
   end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'characters/index.html.haml' do
+describe 'characters/index' do
   it 'renders all tabs' do
     render
 

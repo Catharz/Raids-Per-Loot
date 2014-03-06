@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'zones/new.html.erb' do
+describe 'zones/new' do
   before(:each) do
     assign(:zone, stub_model(Zone,
       name: 'New Zone'

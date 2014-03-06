@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'raids/edit.html.erb' do
+describe 'raids/edit' do
   before(:each) do
     prog = stub_model(RaidType, name: 'Progression')
     @raid = assign(:raid, stub_model(Raid,

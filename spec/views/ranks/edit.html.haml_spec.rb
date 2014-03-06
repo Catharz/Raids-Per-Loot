@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'ranks/edit.html.erb' do
+describe 'ranks/edit' do
   before(:each) do
     @rank = assign(:rank, stub_model(Rank,
       name: 'Associate',

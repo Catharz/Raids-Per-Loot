@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'viewer/show.html.erb' do
+describe 'viewer/show' do
   it 'renders the page contents' do
     view.should_receive(:user_signed_in?).and_return(false)
     assign(:page, stub_model(Page,

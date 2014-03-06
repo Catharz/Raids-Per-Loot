@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "zones/show.html.erb" do
+describe "zones/show" do
   before(:each) do
     easy = stub_model(Difficulty, name: 'Easy', rating: 1)
     normal = stub_model(Difficulty, name: 'Normal', rating: 2)

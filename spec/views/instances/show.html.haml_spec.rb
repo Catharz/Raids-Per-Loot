@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'instances/show.html.haml' do
+describe 'instances/show' do
 
   before(:each) do
     raid = assign(:raid, stub_model(Raid, raid_date: Date.parse('2012-01-01')))

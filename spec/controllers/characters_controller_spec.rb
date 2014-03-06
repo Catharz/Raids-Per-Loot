@@ -69,7 +69,7 @@ describe CharactersController do
 
       get :attendance, format: :xml
 
-      response.body.should eq characters.to_xml(only: [:id, :name], methods: [:attendance])
+      Nokogiri.parse(response.body).at_xpath('/characters/*[1]/name').inner_text.should eq characters.first.name
     end
 
     it 'only returns characters with more than 10% attendance' do
@@ -270,7 +270,7 @@ describe CharactersController do
     it 'responds with XML' do
       character = FactoryGirl.create(:character)
       get :show, id: character, format: :xml
-      response.body.should eq character.to_xml(methods: [:instances, :drops])
+      Nokogiri.parse(response.body).at_xpath('/character/name').inner_text.should eq character.name
     end
   end
 
@@ -307,7 +307,7 @@ describe CharactersController do
 
     it 'responds to XML' do
       get :new, format: :xml
-      response.body.should eq Character.new.to_xml(methods: :player_name)
+      Nokogiri.parse(response.body).at_xpath('/character/player-name').inner_text.should eq ''
     end
   end
 
@@ -428,7 +428,7 @@ describe CharactersController do
 
         @character.reload
         response.response_code.should == 200
-        response.body.should eq @character.to_xml
+        Nokogiri.parse(response.body).at_xpath('/character/name').inner_text.should eq 'Bar'
       end
     end
 

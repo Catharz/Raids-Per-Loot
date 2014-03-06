@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'links/new.html.erb' do
+describe 'links/new' do
   before(:each) do
     assign(:link, stub_model(Link,
       url: 'MyString',

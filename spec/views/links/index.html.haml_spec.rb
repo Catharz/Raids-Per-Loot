@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'authentication_spec_helper'
 
-describe 'links/index.html.erb' do
+describe 'links/index' do
   include AuthenticationSpecHelper
   fixtures :users, :services
 

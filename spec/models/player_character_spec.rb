@@ -78,4 +78,72 @@ describe PlayerCharacter do
       end
     end
   end
+
+  describe 'equality checks' do
+    describe '#eql?' do
+      it 'is true when names and id are all equal' do
+        pc1 = PlayerCharacter.new(char1.id)
+        pc2 = PlayerCharacter.new(char1.id)
+
+        expect(pc1.eql?(pc2)).to be_true
+      end
+
+      it 'is false for player mismatches' do
+        pc1 = PlayerCharacter.new(char1.id)
+        pc2 = PlayerCharacter.new(char1.id)
+        pc1.player.stub(:eql?).and_return(false)
+
+        expect(pc1.eql?(pc2)).to be_false
+      end
+
+      it 'is false for character mismatches' do
+        pc1 = PlayerCharacter.new(char1.id)
+        pc2 = PlayerCharacter.new(char1.id)
+        pc1.character.stub(:eql?).and_return(false)
+
+        expect(pc1.eql?(pc2)).to be_false
+      end
+
+      it 'is false for id mismatches' do
+        pc1 = PlayerCharacter.new(char1.id)
+        pc2 = PlayerCharacter.new(char1.id)
+        pc2.stub(:id).and_return(-1)
+
+        expect(pc1.eql?(pc2)).to be_false
+      end
+    end
+
+    describe '#==' do
+      it 'is true when names and id are all equal' do
+        pc1 = PlayerCharacter.new(char1.id)
+        pc2 = PlayerCharacter.new(char1.id)
+
+        expect(pc1 == pc2).to be_true
+      end
+
+      it 'is false for player mismatches' do
+        pc1 = PlayerCharacter.new(char1.id)
+        pc2 = PlayerCharacter.new(char1.id)
+        pc1.player.stub(:==).and_return(false)
+
+        expect(pc1 == pc2).to be_false
+      end
+
+      it 'is false for character mismatches' do
+        pc1 = PlayerCharacter.new(char1.id)
+        pc2 = PlayerCharacter.new(char1.id)
+        pc1.character.stub(:==).and_return(false)
+
+        expect(pc1 == pc2).to be_false
+      end
+
+      it 'is false for id mismatches' do
+        pc1 = PlayerCharacter.new(char1.id)
+        pc2 = PlayerCharacter.new(char1.id)
+        pc2.stub(:id).and_return(-1)
+
+        expect(pc1 == pc2).to be_false
+      end
+    end
+  end
 end
