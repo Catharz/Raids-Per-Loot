@@ -4,5 +4,5 @@ rescue LoadError
   nil
 end
 
-require 'acts_as_textiled'
+require 'acts_as_textiled/acts_as_textiled'
 ActiveRecord::Base.send(:include, Err::Acts::Textiled)
