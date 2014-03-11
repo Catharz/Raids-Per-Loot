@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'instances/new.html.haml' do
+describe 'instances/new' do
   before(:each) do
     assign(:instance, stub_model(Instance).as_new_record)
   end

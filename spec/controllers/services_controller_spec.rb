@@ -359,7 +359,8 @@ user_info:
                            provider: 'developer',
                            uid: '001',
                            uname: 'Fred',
-                           uemail: 'fred@example.com')
+                           uemail: 'fred@example.com',
+                           user_id: 1)
       end
 
       context 'when logged in' do

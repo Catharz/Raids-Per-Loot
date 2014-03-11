@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'authentication_spec_helper'
 
-describe 'players/index.html.haml' do
+describe 'players/index' do
   include AuthenticationSpecHelper
   fixtures :users, :services
 

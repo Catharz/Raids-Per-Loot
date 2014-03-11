@@ -4,10 +4,12 @@ FactoryGirl.define do
   end
 
   factory :character_external_data, parent: :external_data do |f|
-    f.character { |a| a.association(:character) }
+    f.retrievable_id 1
+    f.retrievable_type 'Character'
   end
 
   factory :item_external_data, parent: :external_data do |f|
-    f.item { |a| a.association(:item) }
+    f.retrievable_id 1
+    f.retrievable_type 'Item'
   end
 end

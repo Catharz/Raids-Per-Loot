@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'authentication_spec_helper'
 
-describe 'instances/index.html.haml' do
+describe 'instances/index' do
   include AuthenticationSpecHelper
   fixtures :users, :services
 

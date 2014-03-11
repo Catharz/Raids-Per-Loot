@@ -5,7 +5,7 @@
 # This is used to simplify editing loot statistics
 # for a particular player and character.
 class PlayerCharacter
-  include Virtus
+  include Virtus.model
 
   extend ActiveModel::Naming
   include ActiveModel::Conversion

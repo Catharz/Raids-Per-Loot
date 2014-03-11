@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'players/new.html.haml' do
+describe 'players/new' do
   before(:each) do
     assign(:player, stub_model(Player, name: 'MyString').as_new_record)
   end

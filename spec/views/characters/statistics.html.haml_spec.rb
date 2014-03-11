@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'characters/statistics.html.haml' do
+describe 'characters/statistics' do
   fixtures :archetypes
 
   it 'should render the tabs' do

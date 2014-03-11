@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.12'
+gem 'rails', '~> 3.2.0'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -40,13 +40,14 @@ gem 'jquery-rails'
 
 gem 'will_paginate'
 gem 'acts_as_tree'
+gem 'dynamic_form'
 gem 'virtus'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails', "3.1.4"
-  gem 'coffee-rails', "~> 3.1.0"
+  gem 'sass-rails'
+  gem 'coffee-rails'
   gem 'uglifier'
 end
 
@@ -64,13 +65,18 @@ gem 'passenger', :group => :production
 group :development do
   gem 'bullet'
   gem 'pry-rails'
-end
+  gem 'spring'
 
+  gem 'capistrano', '~> 3.0', require: false
+  gem 'capistrano-rails',   '~> 1.1', require: false
+  gem 'capistrano-bundler', '~> 1.1', require: false
+  gem 'capistrano-chruby', github: 'capistrano/chruby', require: false
+end
 
 #START:dev_and_test_gems
 group :test, :development do
   # Pretty printed test output
-  gem "turn", '< 0.8.3', :require => false
+  gem "turn", "~> 0.9.6", :require => false
   gem "simplecov"
 
   #START_HIGHLIGHT
@@ -85,7 +91,6 @@ group :test, :development do
   gem "cucumber-rails", :require => false
   gem "webrat"
   gem "spork"
-	gem "test-unit", "2.4.7"
   gem 'timecop'
   gem "shoulda-matchers"
 
@@ -105,9 +110,6 @@ group :test, :development do
   # Deploy with Heroku
   #gem "heroku"
   #gem "taps"
-
-  #Deploy with Capistrano
-  gem 'capistrano'
 
 	# To use debugger
 	#gem 'ruby-debug'

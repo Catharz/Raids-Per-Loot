@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'characters/loot.html.haml' do
+describe 'characters/loot' do
   fixtures :users, :services
 
   before(:each) do
