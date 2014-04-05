@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Eq2LogParser do
   fixtures :zones
 
-  let(:file_name) { Rails.root.join('spec/fixtures/files/eq2log_Catharz.txt').to_s }
+  let(:file_name) { Rails.root.join('spec/fixtures/files/eq2log_Catharz.01.txt').to_s }
   let(:file) { File.open(file_name) }
   let(:character_list) {
     %w{

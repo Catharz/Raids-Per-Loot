@@ -119,17 +119,39 @@ module CharactersHelper
   end
 
   def character_row_data(character = self)
+    row_data = attendance_stats character
+    row_data.merge! attuned_loot_stats character
+    row_data.merge! misc_loot_stats character
+    row_data.merge! other_stats character
+  end
+
+  def attendance_stats(character = self)
     {
         player_raids: character.player.raids_count,
         raids: character.raids_count,
-        instances: character.instances_count,
+        instances: character.instances_count
+    }
+  end
+
+  def attuned_loot_stats(character = self)
+    {
         armour: character.armour_count,
         jewellery: character.jewellery_count,
         weapons: character.weapons_count,
-        attuned: character.armour_count + character.jewellery_count + character.weapons_count,
+        attuned: character.armour_count + character.jewellery_count + character.weapons_count
+    }
+  end
+
+  def misc_loot_stats(character = self)
+    {
         adornments: character.adornments_count,
         dislodgers: character.dislodgers_count,
-        mounts: character.mounts_count,
+        mounts: character.mounts_count
+    }
+  end
+
+  def other_stats(character = self)
+    {
         switches: character.player_switches_count,
         character_id: character.id,
         health: character.health,

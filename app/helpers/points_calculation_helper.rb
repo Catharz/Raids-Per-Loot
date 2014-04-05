@@ -14,17 +14,14 @@ module PointsCalculationHelper
   def recalculate_loot_rates(raids_attended = 0)
     return if @inside_callback
     @inside_callback = true
-    self.armour_rate = calculate_loot_rate(raids_attended, self.armour_count)
-    self.jewellery_rate = calculate_loot_rate(raids_attended, self.jewellery_count)
-    self.weapon_rate = calculate_loot_rate(raids_attended, self.weapons_count)
-    self.attuned_rate = calculate_loot_rate(raids_attended,
-                                            self.armour_count + self.jewellery_count + self.weapons_count)
-    self.adornment_rate = calculate_loot_rate(raids_attended, self.adornments_count)
-    self.dislodger_rate = calculate_loot_rate(raids_attended, self.dislodgers_count)
-    self.mount_rate = calculate_loot_rate(raids_attended, self.mounts_count)
-    if self.respond_to? :switches_count
-      self.switch_rate = calculate_loot_rate(raids_attended, self.switches_count)
-    end
+    calculate_armour_rate(raids_attended)
+    calculate_jewellery_rate(raids_attended)
+    calculate_weapon_rate(raids_attended)
+    calculate_attuned_rate(raids_attended)
+    calculate_adornment_rate(raids_attended)
+    calculate_dislodger_rate(raids_attended)
+    calculate_mount_rate(raids_attended)
+    calculate_switch_rate(raids_attended)
   end
 
   def raid_count(range = {start:  nil, end: nil}, aggregate_up = true)
@@ -70,5 +67,42 @@ module PointsCalculationHelper
 
   def last_raid_date
     last_raid ? last_raid.raid_date.strftime('%Y-%m-%d') : nil
+  end
+
+  private
+
+  def calculate_armour_rate(raids_attended)
+    self.armour_rate = calculate_loot_rate(raids_attended, self.armour_count)
+  end
+
+  def calculate_jewellery_rate(raids_attended)
+    self.jewellery_rate = calculate_loot_rate(raids_attended, self.jewellery_count)
+  end
+
+  def calculate_weapon_rate(raids_attended)
+    self.weapon_rate = calculate_loot_rate(raids_attended, self.weapons_count)
+  end
+
+  def calculate_attuned_rate(raids_attended)
+    self.attuned_rate = calculate_loot_rate \
+      raids_attended, self.armour_count + self.jewellery_count + self.weapons_count
+  end
+
+  def calculate_adornment_rate(raids_attended)
+    self.adornment_rate = calculate_loot_rate(raids_attended, self.adornments_count)
+  end
+
+  def calculate_dislodger_rate(raids_attended)
+    self.dislodger_rate = calculate_loot_rate(raids_attended, self.dislodgers_count)
+  end
+
+  def calculate_mount_rate(raids_attended)
+    self.mount_rate = calculate_loot_rate(raids_attended, self.mounts_count)
+  end
+
+  def calculate_switch_rate(raids_attended)
+    if self.respond_to? :switches_count
+      self.switch_rate = calculate_loot_rate(raids_attended, self.switches_count)
+    end
   end
 end

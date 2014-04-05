@@ -27,25 +27,36 @@ class CharactersDatatable
   def data
     paginated_characters.map do |char|
       character = Character.find(char['id'].to_i)
-      {
-          '0' => link_to_show_character(character),
-          '1' => link_to_show_current_main(character),
-          '2' => link_to_show_player(character),
-          '3' => character.archetype_name,
-          '4' => character.first_raid_date,
-          '5' => character.last_raid_date,
-          '6' => character.raids_count,
-          '7' => character.instances_count,
-          '8' => armour_rate(character),
-          '9' => jewellery_rate(character),
-          '10' => weapon_rate(character),
-          '11' => link_to_edit_character(character),
-          '12' => link_to_fetch_character_data(character),
-          '13' => link_to_destroy_character(character),
+      character_data = character_stats(character)
+      character_data.merge! character_links(character)
+      character_data.merge!({
           'DT_RowId' => "character_#{character.id}_#{params[:char_type]}",
-          'data' => character.character_row_data
-      }
+          'data' => character.character_row_data})
     end
+  end
+
+  def character_stats(character)
+    stats = {}
+    stats['3'] = character.archetype_name
+    stats['4'] = character.first_raid_date
+    stats['5'] = character.last_raid_date
+    stats['6'] = character.raids_count
+    stats['7'] = character.instances_count
+    stats['8'] = armour_rate(character)
+    stats['9'] = jewellery_rate(character)
+    stats['10'] = weapon_rate(character)
+    stats
+  end
+
+  def character_links(character)
+    links = {}
+    links['0'] = link_to_show_character(character)
+    links['1'] = link_to_show_current_main(character)
+    links['2'] = link_to_show_player(character)
+    links['11'] = link_to_edit_character(character)
+    links['12'] = link_to_fetch_character_data(character)
+    links['13'] = link_to_destroy_character(character)
+    links
   end
 
   def link_to_show_character(character)

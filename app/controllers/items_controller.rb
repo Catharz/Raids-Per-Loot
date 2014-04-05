@@ -10,12 +10,14 @@
 # index uses the ItemsDataTable class which will handle
 # pagination, searching and rendering the drops.
 class ItemsController < ApplicationController
+  respond_to :html
+  respond_to :json, :xml, except: [:loot, :statistics, :option_list, :info]
+  respond_to :js, only: [:destroy, :edit, :new, :show]
+
+  before_filter :set_item, only: [:show, :edit, :update, :destroy, :info, :fetch_data]
   before_filter :authenticate_user!, :except => [:index, :show, :info]
   before_filter :set_pagetitle
-
-  def set_pagetitle
-    @pagetitle = 'Items'
-  end
+  after_filter { flash.discard if request.xhr? }
 
   def fetch_all_data
     items = Item.order(:name)
@@ -26,8 +28,6 @@ class ItemsController < ApplicationController
   end
 
   def fetch_data
-    @item = Item.find(params[:id])
-
     Resque.enqueue(SonyItemUpdater, @item.id)
     flash[:notice] = 'Item details are being updated.'
     redirect_to @item
@@ -45,16 +45,12 @@ class ItemsController < ApplicationController
   end
 
   def info
-    @item = Item.find(params[:id])
-
     render :layout => false
   end
 
   # GET /items/1
   # GET /items/1.json
   def show
-    @item = Item.where('items.id = ? or items.eq2_item_id = ?', params[:id], params[:id]).first
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @item.to_json(:methods => [:class_names, :slot_names, :loot_type_name]) }
@@ -66,17 +62,11 @@ class ItemsController < ApplicationController
   # GET /items/new.json
   def new
     @item = Item.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render :json => @item }
-      format.xml { render :xml => @item }
-    end
+    respond_with @item
   end
 
   # GET /items/1/edit
   def edit
-    @item = Item.find(params[:id])
   end
 
   # POST /items
@@ -84,47 +74,39 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(params[:item])
 
-    respond_to do |format|
-      if @item.save
-        format.html { redirect_to @item, :notice => 'Item was successfully created.' }
-        format.json { render :json => @item, :status => :created, :location => @item }
-        format.xml { render :xml => @item, :status => :created, :location => @item }
-      else
-        format.html { render :action => "new" }
-        format.json { render :json => @item.errors, :status => :unprocessable_entity }
-        format.xml { render :xml => @item.errors, :status => :unprocessable_entity }
-      end
+    if @item.save
+      flash[:notice] = 'Item was successfully created.'
+      respond_with @item
+    else
+      render action: :new
     end
   end
 
   # PUT /items/1
   # PUT /items/1.json
   def update
-    @item = Item.find(params[:id])
-
-    respond_to do |format|
-      if @item.update_attributes(params[:item])
-        format.html { redirect_to @item, :notice => 'Item was successfully updated.' }
-        format.json { render :json => @item, :notice => 'Item was successfully updated.' }
-        format.xml {  render :xml => @item, :notice => 'Item was successfully updated.'  }
-      else
-        format.html { render :action => "edit" }
-        format.json { render :json => @item.errors, :status => :unprocessable_entity }
-        format.xml { render :xml => @item.errors, :status => :unprocessable_entity }
-      end
+    if @item.update_attributes(params[:item])
+      flash[:notice] = 'Item was successfully updated.'
+      respond_with @item
+    else
+      render action: :edit
     end
   end
 
   # DELETE /items/1
   # DELETE /items/1.json
   def destroy
-    @item = Item.find(params[:id])
     @item.destroy
+    respond_with @item
+  end
 
-    respond_to do |format|
-      format.html { redirect_to items_url }
-      format.json { head :ok }
-      format.xml { head :ok }
-    end
+  private
+
+  def set_item
+    @item = Item.where('items.id = ? or items.eq2_item_id = ?', params[:id], params[:id]).first
+  end
+
+  def set_pagetitle
+    @pagetitle = 'Items'
   end
 end

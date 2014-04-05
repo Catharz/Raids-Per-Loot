@@ -19,7 +19,7 @@ describe ApplicationHelper do
       expected << "<li>#{@p2.to_url}<ul><li>#{@p2a.to_url}</li>" +
           "<li>#{@p2b.to_url}</li></ul></li></ul>"
 
-      menu.should eq expected
+      expect(menu).to eq expected
     end
   end
 end
