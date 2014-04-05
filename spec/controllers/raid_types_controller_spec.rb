@@ -13,13 +13,30 @@ describe RaidTypesController do
     it 'assigns all raid_types as @raid_types' do
       raid_type = RaidType.create! FactoryGirl.attributes_for(:raid_type)
       get :index, {}
-      assigns(:raid_types).should include raid_type
+      expect(assigns(:raid_types)).to include raid_type
     end
 
     it 'filters by name' do
       pickup = RaidType.find_by_name('Pickup')
       get :index, name: 'Pickup'
-      assigns(:raid_types).should eq([pickup])
+      expect(assigns(:raid_types)).to eq([pickup])
+    end
+
+    context 'responds with' do
+      example 'XML' do
+        get :index, format: :xml
+
+        expect(response.content_type).to eq 'application/xml'
+        expect(response.body).to have_xpath '//raid-types/*[1]/name'
+      end
+
+      example 'JSON' do
+        raid_types = RaidType.all
+        get :index, format: :json
+        result = JSON.parse(response.body)
+        expect(response.content_type).to eq 'application/json'
+        expect(result).to eq raid_types.collect { |a| JSON.parse(a.to_json) }
+      end
     end
   end
 
@@ -27,14 +44,32 @@ describe RaidTypesController do
     it 'assigns the requested raid_type as @raid_type' do
       raid_type = RaidType.create! FactoryGirl.attributes_for(:raid_type)
       get :show, {id: raid_type.to_param}
-      assigns(:raid_type).should eq(raid_type)
+      expect(assigns(:raid_type)).to eq(raid_type)
+    end
+
+    context 'responds with' do
+      example 'XML' do
+        raid_type = FactoryGirl.create(:raid_type)
+
+        get :show, format: :xml, id: raid_type.id
+        expect(response.content_type).to eq 'application/xml'
+        expect(response.body).to have_xpath '//raid-type//name'
+      end
+
+      example 'JSON' do
+        raid_type = FactoryGirl.create(:raid_type)
+
+        get :show, format: :json, id: raid_type.id
+        expect(response.content_type).to eq 'application/json'
+        expect(JSON.parse(response.body)).to eq JSON.parse(raid_type.to_json)
+      end
     end
   end
 
   describe 'GET new' do
     it 'assigns a new raid_type as @raid_type' do
       get :new, {}
-      assigns(:raid_type).should be_a_new(RaidType)
+      expect(assigns(:raid_type)).to be_a_new(RaidType)
     end
   end
 
@@ -42,7 +77,7 @@ describe RaidTypesController do
     it 'assigns the requested raid_type as @raid_type' do
       raid_type = RaidType.create! FactoryGirl.attributes_for(:raid_type)
       get :edit, {id: raid_type.to_param}
-      assigns(:raid_type).should eq(raid_type)
+      expect(assigns(:raid_type)).to eq(raid_type)
     end
   end
 
@@ -56,13 +91,13 @@ describe RaidTypesController do
 
       it 'assigns a newly created raid_type as @raid_type' do
         post :create, {raid_type: FactoryGirl.attributes_for(:raid_type)}
-        assigns(:raid_type).should be_a(RaidType)
-        assigns(:raid_type).should be_persisted
+        expect(assigns(:raid_type)).to be_a(RaidType)
+        expect(assigns(:raid_type)).to be_persisted
       end
 
       it 'redirects to the created raid_type' do
         post :create, {raid_type: FactoryGirl.attributes_for(:raid_type)}
-        response.should redirect_to(RaidType.last)
+        expect(response).to redirect_to(RaidType.last)
       end
     end
 
@@ -71,14 +106,14 @@ describe RaidTypesController do
         # Trigger the behavior that occurs when invalid params are submitted
         RaidType.any_instance.stub(:save).and_return(false)
         post :create, {raid_type: {}}
-        assigns(:raid_type).should be_a_new(RaidType)
+        expect(assigns(:raid_type)).to be_a_new(RaidType)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         RaidType.any_instance.stub(:save).and_return(false)
         post :create, {raid_type: {}}
-        response.should render_template('new')
+        expect(response).to render_template('new')
       end
     end
   end
@@ -100,14 +135,14 @@ describe RaidTypesController do
         raid_type = RaidType.create! FactoryGirl.attributes_for(:raid_type)
         put :update, {id: raid_type.to_param,
                       raid_type: FactoryGirl.attributes_for(:raid_type)}
-        assigns(:raid_type).should eq(raid_type)
+        expect(assigns(:raid_type)).to eq(raid_type)
       end
 
       it 'redirects to the raid_type' do
         raid_type = RaidType.create! FactoryGirl.attributes_for(:raid_type)
         put :update, {id: raid_type.to_param,
                       raid_type: FactoryGirl.attributes_for(:raid_type)}
-        response.should redirect_to(raid_type)
+        expect(response).to redirect_to(raid_type)
       end
     end
 
@@ -117,7 +152,7 @@ describe RaidTypesController do
         # Trigger the behavior that occurs when invalid params are submitted
         RaidType.any_instance.stub(:save).and_return(false)
         put :update, {id: raid_type.to_param, raid_type: {}}
-        assigns(:raid_type).should eq(raid_type)
+        expect(assigns(:raid_type)).to eq(raid_type)
       end
 
       it "re-renders the 'edit' template" do
@@ -125,7 +160,7 @@ describe RaidTypesController do
         # Trigger the behavior that occurs when invalid params are submitted
         RaidType.any_instance.stub(:save).and_return(false)
         put :update, {id: raid_type.to_param, raid_type: {}}
-        response.should render_template('edit')
+        expect(response).to render_template('edit')
       end
     end
   end
@@ -141,7 +176,7 @@ describe RaidTypesController do
     it 'redirects to the raid_types list' do
       raid_type = RaidType.create! FactoryGirl.attributes_for(:raid_type)
       delete :destroy, {id: raid_type.to_param}
-      response.should redirect_to(raid_types_url)
+      expect(response).to redirect_to(raid_types_url)
     end
   end
 end

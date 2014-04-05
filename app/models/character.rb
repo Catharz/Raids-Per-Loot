@@ -116,14 +116,9 @@ class Character < ActiveRecord::Base
 
   # This is done from the player, as it will update all the characters using update_column
   def update_loot_rates
-    self.armour_rate = calculate_loot_rate(player_raids_count, self.armour_count)
-    self.jewellery_rate = calculate_loot_rate(player_raids_count, self.jewellery_count)
-    self.weapon_rate = calculate_loot_rate(player_raids_count, self.weapons_count)
-    self.attuned_rate = calculate_loot_rate(player_raids_count,
-                                            self.armour_count + self.jewellery_count + self.weapons_count)
-    self.adornment_rate = calculate_loot_rate(player_raids_count, self.adornments_count)
-    self.dislodger_rate = calculate_loot_rate(player_raids_count, self.dislodgers_count)
-    self.mount_rate = calculate_loot_rate(player_raids_count, self.mounts_count)
+    update_attuned_item_rates
+    update_adornment_rates
+    update_miscellaneous_item_rates
   end
 
   def must_have_rating_with_date
@@ -144,5 +139,23 @@ class Character < ActiveRecord::Base
                   adornment_rate, dislodgers_count, dislodger_rate, mounts_count, mount_rate, player_switches_count,
                   player_switch_rate]
     CSV.generate_line(csv_values)
+  end
+
+  private
+  def update_attuned_item_rates
+    self.armour_rate = calculate_loot_rate(player_raids_count, self.armour_count)
+    self.jewellery_rate = calculate_loot_rate(player_raids_count, self.jewellery_count)
+    self.weapon_rate = calculate_loot_rate(player_raids_count, self.weapons_count)
+    self.attuned_rate = calculate_loot_rate(player_raids_count,
+                                            self.armour_count + self.jewellery_count + self.weapons_count)
+  end
+
+  def update_adornment_rates
+    self.adornment_rate = calculate_loot_rate(player_raids_count, self.adornments_count)
+    self.dislodger_rate = calculate_loot_rate(player_raids_count, self.dislodgers_count)
+  end
+
+  def update_miscellaneous_item_rates
+    self.mount_rate = calculate_loot_rate(player_raids_count, self.mounts_count)
   end
 end

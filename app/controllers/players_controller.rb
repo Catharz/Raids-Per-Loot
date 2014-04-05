@@ -8,12 +8,17 @@
 # xml formatting is provided on actions used by the ACT plug-in.
 # csv formatting is provided for a CSV export of the player list.
 class PlayersController < ApplicationController
+  respond_to :html
+  respond_to :csv, only: :index
+  respond_to :js, only: [:destroy, :edit, :new, :show]
+  respond_to :json, except: [:attendance, :option_list]
+  respond_to :xml, only: [:index, :show]
+
+  before_filter :set_player, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, :except => [:index, :show, :attendance]
   before_filter :set_pagetitle
 
-  def set_pagetitle
-    @pagetitle = 'Players'
-  end
+  after_filter { flash.discard if request.xhr? }
 
   def option_list
     @players = Player.order(:name)
@@ -27,17 +32,11 @@ class PlayersController < ApplicationController
 
   # GET /players
   # GET /players.json
+  # GET /players.xml
   def index
     @players = Player.of_rank(params[:rank_id]).by_instance(params[:instance_id]) \
       .order("players.name") \
       .includes(:rank)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @players }
-      format.csv { render csv: @characters }
-      format.xml { render :xml => @players.to_xml }
-    end
   end
 
   def attendance
@@ -48,89 +47,61 @@ class PlayersController < ApplicationController
     end
   end
 
-# GET /players/1
-# GET /players/1.json
+  # GET /players/1
+  # GET /players/1.json
+  # GET /players/1.xml
   def show
-    @player = Player.includes(:drops).find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render :json => @player.to_json(methods: [:armour_count, :jewellery_count, :weapon_count]) }
-      format.xml { render :xml => @player.to_xml(:include => [:instances, :drops]) }
-      format.js
-    end
   end
 
-# GET /players/new
-# GET /players/new.json
+  # GET /players/new
+  # GET /players/new.json
   def new
     @player = Player.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render :json => @player }
-      format.xml { render :xml => @player }
-      format.js
-    end
   end
 
-# GET /players/1/edit
+  # GET /players/1/edit
   def edit
-    @player = Player.find(params[:id], :include => :characters)
   end
 
-# POST /players
-# POST /players.json
+  # POST /players
+  # POST /players.json
   def create
     @player = Player.new(params[:player])
 
-    respond_to do |format|
-      if @player.save
-        format.html { redirect_to @player, :notice => 'Player was successfully created.' }
-        format.json {
-          render json: @player.to_json(
-              methods: [:rank_name, :first_raid_date, :last_raid_date, :current_main, :current_raid_alternate]
-          ), status: :created, location: @player }
-        format.xml { render :xml => @player, :status => :created, :location => @player }
-      else
-        format.html { render :action => "new" }
-        format.json { render :json => @player.errors, :status => :unprocessable_entity }
-        format.xml { render :xml => @player.errors, :status => :unprocessable_entity }
-      end
+    if @player.save
+      flash[:notice] = 'Player was successfully created.'
+      respond_with @player
+    else
+      render action: :new
     end
   end
 
-# PUT /players/1
-# PUT /players/1.json
+  # PUT /players/1
+  # PUT /players/1.json
   def update
-    @player = Player.find(params[:id])
-
-    respond_to do |format|
-      if @player.update_attributes(params[:player])
-        format.html { redirect_to @player, :notice => 'Player was successfully updated.' }
-        format.json { render json: @player.to_json(
-            methods: [:rank_name, :first_raid_date, :last_raid_date, :current_main, :current_raid_alternate]
-        ), location: @player}
-        format.xml { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.json { render :json => @player.errors, :status => :unprocessable_entity }
-        format.xml { render :xml => @player.errors, :status => :unprocessable_entity }
-      end
+    if @player.update_attributes(params[:player])
+      flash[:notice] = 'Player was successfully updated.'
+      respond_with @player
+    else
+      render action: 'edit'
     end
   end
 
-# DELETE /players/1
-# DELETE /players/1.json
+  # DELETE /players/1
+  # DELETE /players/1.json
   def destroy
-    @player = Player.find(params[:id])
     @player.destroy
+    flash[:notice] = 'Player successfully deleted.'
+    respond_with @player
+  end
 
-    respond_to do |format|
-      format.html { redirect_to players_url }
-      format.json { head :ok }
-      format.xml { head :ok }
-      format.js
-    end
+  private
+
+  def set_pagetitle
+    @pagetitle = 'Players'
+  end
+
+  def set_player
+    @player = Player.find(params[:id])
   end
 end

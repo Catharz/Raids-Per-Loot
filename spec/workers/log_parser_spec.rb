@@ -3,7 +3,8 @@ require 'spec_helper'
 describe LogParser do
   fixtures :zones, :raid_types, :loot_types
   subject { LogParser }
-  let(:file_name) { Rails.root.join('spec/fixtures/files/eq2log_Catharz.txt').to_s }
+  let(:file_name) { Rails.root.join('spec/fixtures/files/eq2log_Catharz.02.txt').to_s }
+  let(:file) { File.open(file_name) }
 
   after(:each) do
     Resque.queues.each { |queue_name| Resque.remove_queue queue_name }
@@ -39,24 +40,6 @@ describe LogParser do
 
     context 'creates data for' do
       let(:parse) { -> { subject.perform file_name } }
-      let(:file_data) { StringIO.new %q{
-        (1354411800)[Sat Sep 17 20:00:00 2011] You have entered Plane of War.
-        (1354411820)[Sat Sep 17 20:11:38 2011] Mitia's Hemotoxin hits Prime-Cornicen Munderrad for 1115 poison damage.
-        (1354411840)[Sat Sep 17 20:11:39 2011] Beodan's Rime Strike hits Prime-Cornicen Munderrad for 1791 heat damage.
-        (1354411842)[Sat Sep 17 20:11:40 2011] Flecks hits Prime-Cornicen Munderrad for 50447 crushing damage.
-        (1354411844)[Sat Sep 17 20:11:40 2011] Daeson hits Prime-Cornicen Munderrad for 3 piercing damage.
-        (1354411846)[Sat Sep 17 20:11:40 2011] Chiteira hits Prime-Cornicen Munderrad for 30000 slashing damage.
-        (1354411848)[Sat Sep 17 20:11:41 2011] YOU hit Prime-Cornicen Munderrad for 5447 crushing damage.
-        (1354411850)[Sat Sep 17 20:24:10 2011] Random: Coronary rolls from 1 to 100 on the magic dice...and scores a 2!
-        (1354411852)[Sat Sep 17 20:24:12 2011] You loot \aITEM 842968069 -1475883379:Pure Primal Velium Shard\/a from the Exquisite Chest of Prime-Cornicen Munderrad1.
-        (1354411854)[Sat Sep 17 20:24:14 2011] \aPC -1 Ryhino:Ryhino\/a says to the guild, "lamo"
-        (1354411856)[Sat Sep 17 20:24:16 2011] Chiteira loots \aITEM 1371925287 183231148:Thornskin VIII (Master)\/a from the Exquisite Chest of Prime-Cornicen Munderrad2.
-        (1354411858)[Sat Sep 17 20:24:18 2011] \aPC -1 Beodan:Beodan\/a says to the officers, "Its Ryhinos Fault!!!"
-        (1354411860)[Sat Sep 17 20:24:20 2011] \aPC -1 Agaris:Agaris\/a says to the raid party, "Grats! :)"
-        (1354411890)[Sat Sep 17 20:24:30 2011] Spyce loots \aITEM 595219945 -1154546896:Wand of the Kromzek Warmonger\/a from the Exquisite Chest of Prime-Cornicen Munderrad3.
-        (1354411900)[Sat Sep 17 20:30:00 2011] You have entered Southern Cross' Guild Hall.
-       }
-      }
       let(:player_characters) {
         [
             {player: 'Mitia', characters: [name: 'Mitia', char_type: 'm']},
@@ -71,7 +54,6 @@ describe LogParser do
       let(:weapon) { LootType.find_by_name('Weapon') }
 
       example 'raids' do
-        File.stub(:open).with(file_name).and_return file_data
         player_characters.each do |pc|
           player = FactoryGirl.create(:player, name: pc[:player])
           pc[:characters].each do |c|
@@ -83,7 +65,6 @@ describe LogParser do
       end
 
       example 'instances' do
-        File.stub(:open).with(file_name).and_return file_data
         player_characters.each do |pc|
           player = FactoryGirl.create(:player, name: pc[:player])
           pc[:characters].each do |c|
@@ -95,7 +76,6 @@ describe LogParser do
       end
 
       example 'player raids' do
-        File.stub(:open).with(file_name).and_return file_data
         player_characters.each do |pc|
           player = FactoryGirl.create(:player, name: pc[:player])
           pc[:characters].each do |c|
@@ -107,7 +87,6 @@ describe LogParser do
       end
 
       example 'character instances' do
-        File.stub(:open).with(file_name).and_return file_data
         player_characters.each do |pc|
           player = FactoryGirl.create(:player, name: pc[:player])
           pc[:characters].each do |c|
@@ -119,7 +98,6 @@ describe LogParser do
       end
 
       example 'mobs' do
-        File.stub(:open).with(file_name).and_return file_data
         player_characters.each do |pc|
           player = FactoryGirl.create(:player, name: pc[:player])
           pc[:characters].each do |c|
@@ -131,7 +109,6 @@ describe LogParser do
       end
 
       example 'items' do
-        File.stub(:open).with(file_name).and_return file_data
         player_characters.each do |pc|
           player = FactoryGirl.create(:player, name: pc[:player])
           pc[:characters].each do |c|
@@ -143,7 +120,6 @@ describe LogParser do
       end
 
       example 'drops' do
-        File.stub(:open).with(file_name).and_return file_data
         player_characters.each do |pc|
           player = FactoryGirl.create(:player, name: pc[:player])
           pc[:characters].each do |c|
@@ -156,7 +132,6 @@ describe LogParser do
 
       context 'a drops chat' do
         example 'including random rolls' do
-          File.stub(:open).with(file_name).and_return file_data
           player_characters.each do |pc|
             player = FactoryGirl.create(:player, name: pc[:player])
             pc[:characters].each do |c|
@@ -174,7 +149,6 @@ describe LogParser do
         end
 
         example 'including guild chat' do
-          File.stub(:open).with(file_name).and_return file_data
           player_characters.each do |pc|
             player = FactoryGirl.create(:player, name: pc[:player])
             pc[:characters].each do |c|
@@ -192,7 +166,6 @@ describe LogParser do
         end
 
         example 'including officer chat' do
-          File.stub(:open).with(file_name).and_return file_data
           player_characters.each do |pc|
             player = FactoryGirl.create(:player, name: pc[:player])
             pc[:characters].each do |c|
@@ -210,7 +183,6 @@ describe LogParser do
         end
 
         example 'including raid chat' do
-          File.stub(:open).with(file_name).and_return file_data
           player_characters.each do |pc|
             player = FactoryGirl.create(:player, name: pc[:player])
             pc[:characters].each do |c|
@@ -229,7 +201,6 @@ describe LogParser do
       end
 
       example 'a drops loot type' do
-        File.stub(:open).with(file_name).and_return file_data
         player_characters.each do |pc|
           player = FactoryGirl.create(:player, name: pc[:player])
           pc[:characters].each do |c|
@@ -247,7 +218,6 @@ describe LogParser do
       end
 
       example 'a drops default loot method' do
-        File.stub(:open).with(file_name).and_return file_data
         player_characters.each do |pc|
           player = FactoryGirl.create(:player, name: pc[:player])
           pc[:characters].each do |c|
@@ -265,7 +235,6 @@ describe LogParser do
       end
 
       example 'one run only' do
-        File.stub(:open).with(file_name).and_return file_data
         player_characters.each do |pc|
           player = FactoryGirl.create(:player, name: pc[:player])
           pc[:characters].each do |c|

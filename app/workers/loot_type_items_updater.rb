@@ -10,11 +10,20 @@ class LootTypeItemsUpdater
   def self.perform(loot_type_id)
     loot_type = LootType.find(loot_type_id)
 
+    update_drop_loot_types loot_type
+    update_drop_loot_method loot_type
+  end
+
+  private
+  def self.update_drop_loot_types loot_type
     loot_type.items.each do |item|
       item.drops.each do |drop|
         drop.update_attribute(:loot_type, loot_type) unless drop.loot_type.eql? loot_type
       end
     end
+  end
+
+  def self.update_drop_loot_method loot_type
     if %w{t g}.include? loot_type.default_loot_method
       loot_type.drops.each do |drop|
         drop.update_attribute(:loot_method, loot_type.default_loot_method) \

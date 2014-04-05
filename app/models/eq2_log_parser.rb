@@ -8,13 +8,13 @@ class Eq2LogParser
   attr_reader :raid_list
 
   CHARACTER_REGEXP = [
-      /] \\aPC -1 (?<character>\w+):(?<name>\w+)\\\/a says to the raid party, \"(?<text>.*)\"$/,
-      /] (?<healer>\w+)('s|'|) (?<spell>.*)(| critically) (heals|heal) (?<character>\w+) for (?<health>\d+) hit points/,
-      /] (?<caster>\w+)('s|'|) (?<spell>.*)(| critically) (hit|multi attack)(|s) (?<target>.*) for (?<health>\d+) (?<damage_type>\w+) damage/,
-      /] (?<damager>\w+)('s|'|)(| critically) (multi attack|hit)(|s) (?<target>.*) for (?<damage>\d+) (?<damage_type>\w+) damage/,
-      /] (?<attacker>.*) tries to (?<method>\w+) (?<character>\w+), but (?<failure>\w+)/,
-      /] (?<attacker>.*) (hits|multi attacks) (?<character>\w+) but fails to inflict any damage./,
-      /] (?<attacker>.*) tries to (?<method>\w+) (?<character>\w+) with (?<spell>.*), but (?<character_2>\w+) resist(|s)./
+    /] \\aPC -1 (?<char1>\w+):(?<char2>\w+)\\\/a says to the raid party, \"(?<text>.*)\"$/,
+    /] (?<char1>\w+)('s|'|) (?<spell>.*)(| critically) (heals|heal) (?<char2>\w+) for (?<hps>\d+) hit points/,
+    /] (?<char1>\w+)('s|'|) (?<spell>.*)(| critically) (hit|multi attack)(|s) (?<mob>.*) for (?<hps>\d+) (?<type>\w+) damage/,
+    /] (?<char1>\w+)('s|'|)(| critically) (multi attack|hit)(|s) (?<mob>.*) for (?<hps>\d+) (?<type>\w+) damage/,
+    /] (?<mob>.*) tries to (?<method>\w+) (?<char1>\w+), but (?<failure>\w+)/,
+    /] (?<mob>.*) (hits|multi attacks) (?<char1>\w+) but fails to inflict any damage./,
+    /] (?<mob>.*) tries to (?<method>\w+) (?<char1>\w+) with (?<spell>.*), but (?<char2>\w+) resist(|s)./
   ]
 
   def initialize(file_name)
@@ -40,7 +40,6 @@ class Eq2LogParser
   end
 
   def parse_zones
-    Rails.logger.info "Parsing zones in #{@file_name}"
     zone_entrances.each { |line| record_zone_entry(zone_entry_details(line)) }
   end
 
@@ -59,27 +58,21 @@ class Eq2LogParser
 
   def populate_instances
     ignored, processed = 0, 0
-    Rails.logger.debug "Parsing instances in #{@file_name}"
     @raid_list.each_pair do |raid_date, raid|
       raid[:instances].each do |instance|
         if zone_names.include? instance[:zone_name]
           processed += 1
-          Rails.logger.info "Getting stats for #{instance[:zone_name]} raid on #{raid_date}"
           instance[:drops] = drops(instance[:start_line], instance[:end_line])
           instance[:attendees] = attendees(instance[:start_line], instance[:end_line])
-          Rails.logger.info "Found #{instance[:attendees].count} attendees and #{instance[:drops].count} drops"
         else
           ignored += 1
         end
       end
     end
-    Rails.logger.info "Found #{processed} raid instances and #{ignored} non-raid instances"
   end
 
   def drops(start_line, end_line)
-    @file.rewind
-    drop_regex = /\((?<log_line_id>\d+)\)\[(?<log_date>.*)\] (?<looter>\w+) (loot|loots) \\aITEM (?<item_id>-?\d+) -?\d+:(?<item_name>[^\\]+)\\\/a from (?<container>.+) of (?<mob_name>.+)\./
-    drops = @file.grep(drop_regex).collect! { |d| drop_match_to_hash(d.match(drop_regex)) }
+    drops = drop_list
     drops.delete_if { |d| (d[:log_line_id].to_i < start_line) or (d[:log_line_id].to_i > end_line) }
     drops.collect { |d| d[:chat] = prior_chat Time.zone.parse(d[:log_date]) }
     drops.sort { |a, b| DateTime.parse(a[:log_date]) <=> DateTime.parse(b[:log_date]) }
@@ -87,8 +80,8 @@ class Eq2LogParser
 
   def prior_chat(end_time, options = {max_lines: 20, max_time: 60.seconds})
     chat = []
-    chat_match = /\((?<log_line_id>\d+)\)\[(?<log_date>.*)\] \\aPC -1 (?<character>\w+):.+\\\/a says to the (raid|guild|officers)/
-    rand_match = /\((?<log_line_id>\d+)\)\[(?<log_date>.*)\] Random: (?<character>\w+) rolls from 1 to (?<max>\d+)/
+    chat_match = /\((?<log_line_id>\d+)\)\[(?<log_date>.*)\] \\aPC -1 (?<char1>\w+):.+\\\/a says to the (raid|guild|officers)/
+    rand_match = /\((?<log_line_id>\d+)\)\[(?<log_date>.*)\] Random: (?<char1>\w+) rolls from 1 to (?<max>\d+)/
     @file.rewind
     @file.grep(/says to the (guild|raid|officers)|Random:/).each do |line|
       match = line.match chat_match
@@ -113,14 +106,12 @@ class Eq2LogParser
       info = character_info(line)
       extract_names(characters, info) unless info.nil?
     end
-    Rails.logger.debug "Attendees: #{characters.uniq.sort.join ' '}"
-    Rails.logger.info "#{characters.uniq.count} characters attended."
     characters.uniq.sort
   end
 
   def extract_names(characters, info)
     info.names.each do |field|
-      if %w{character healer caster damager target}.include? field
+      if %w{char1 char2 mob}.include? field
         name = real_name(info[field.to_sym])
         characters << name if character_names.include? name
       end
@@ -145,8 +136,14 @@ class Eq2LogParser
   end
 
   private
+
+  def drop_list
+    @file.rewind
+    drop_regex = /\((?<log_line_id>\d+)\)\[(?<log_date>.*)\] (?<looter>\w+) (loot|loots) \\aITEM (?<item_id>-?\d+) -?\d+:(?<item_name>[^\\]+)\\\/a from (?<container>.+) of (?<mob_name>.+)\./
+    @file.grep(drop_regex).collect! { |d| drop_match_to_hash(d.match(drop_regex)) }
+  end
+
   def record_zone_entry(entry_details)
-    Rails.logger.debug "Entered #{entry_details[:zone_name]} at #{entry_details[:entry_time]}"
     raid_details = @raid_list[entry_details[:raid_date]]
     if raid_details[:instances].empty?
       raid_details[:instances] << entry_details
@@ -182,7 +179,6 @@ class Eq2LogParser
   end
 
   def cleanup_instances
-    Rails.logger.debug "Cleaning up data parsed from #{@file_name}"
     @raid_list.each_pair do |raid_date, raid|
       raid[:instances].delete_if { |i|
         i[:end_line] == 0 or

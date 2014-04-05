@@ -1,1 +1,6 @@
 --style-measure 120
+--style-exclude spec/**/*.rb
+--style-exclude lib/acts_as_textiled/**/*.rb
+--abc-exclude Err::Acts::Textiled::ClassMethods#acts_as_textiled
+--abc-exclude lib/acts_as_textiled/**/*.rb
+--doc-exclude lib/acts_as_textiled/**/*.rb

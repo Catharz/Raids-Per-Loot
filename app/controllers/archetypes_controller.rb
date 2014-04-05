@@ -7,9 +7,10 @@
 #
 # xml formatting is provided on actions used by the ACT plug-in.
 class ArchetypesController < ApplicationController
-  respond_to :html, :json
+  respond_to :html
   respond_to :js, only: [:destroy, :edit, :new, :show]
   respond_to :xml, only: [:show, :index]
+  respond_to :json, only: [:show, :index, :create, :update]
 
   before_filter :set_archetype, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!, except: [:index, :show]
@@ -18,17 +19,18 @@ class ArchetypesController < ApplicationController
 
   # GET /archetypes
   # GET /archetypes.json
+  # GET /archetypes.xml
   def index
     @archetypes = Archetype.by_item(params[:item_id])
   end
 
   # GET /archetypes/1
   # GET /archetypes/1.json
+  # GET /archetypes/1.xml
   def show
   end
 
   # GET /archetypes/new
-  # GET /archetypes/new.json
   def new
     @archetype = Archetype.new
   end
@@ -61,7 +63,6 @@ class ArchetypesController < ApplicationController
   end
 
   # DELETE /archetypes/1
-  # DELETE /archetypes/1.json
   def destroy
     @archetype.destroy
     flash[:notice] = 'Archetype successfully deleted.'

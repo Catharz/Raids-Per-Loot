@@ -26,26 +26,23 @@ describe CharacterInstancesController do
           FactoryGirl.create(:character_instance,
                              character_id: @char1.id,
                              instance_id: @inst1.id)
-      get :index
-      assigns(:character_instances).should eq([character_instance])
+      get :index, format: :json
+      expect(assigns(:character_instances)).to eq [character_instance]
     end
 
     it 'renders xml' do
-      character_instance = FactoryGirl.create(:character_instance)
+      ci = FactoryGirl.create(:character_instance)
 
       get :index, format: :xml
 
-      response.content_type.should eq('application/xml')
-      response.body.should have_selector('character-instances',
-                                         type: 'array') do |results|
-        results.should have_selector('character-instance') do |pr|
-          pr.should have_selector('character-id', type: 'integer',
-                                  content: character_instance.character_id.to_s)
-          pr.should have_selector('instance-id', type: 'integer',
-                                  content: character_instance.instance_id.to_s)
+      expect(response.content_type).to eq 'application/xml'
+      expect(response.body).to have_selector('character-instances', type: 'array') do |results|
+        expect(results).to have_selector('character-instance') do |pr|
+          expect(pr).to have_selector('character-id', type: 'integer', content: ci.character_id.to_s)
+          expect(pr).to have_selector('instance-id', type: 'integer', content: ci.instance_id.to_s)
         end
       end
-      response.body.should eq([character_instance].to_xml)
+      expect(response.body).to eq [ci].to_xml
     end
 
     it 'renders json' do
@@ -53,11 +50,11 @@ describe CharacterInstancesController do
 
       get :index, format: :json
 
-      response.content_type.should eq('application/json')
-      JSON.parse(response.body).should include(character_instance.as_json)
+      expect(response.content_type).to eq 'application/json'
+      expect(JSON.parse(response.body)).to include character_instance.as_json
     end
 
-    it 'should filter by instance when getting json' do
+    it 'filters by instance when getting json' do
       ci1 = FactoryGirl.create(:character_instance,
                                character_id: @char1.id,
                                instance_id: @inst1.id)
@@ -68,15 +65,14 @@ describe CharacterInstancesController do
       get :index, format: :json, instance_id: @inst1.id
 
       parsed_result = JSON.parse(response.body)
-      parsed_result.count.should eq 1
-      parsed_result.first['character_instance']['id'].should eq ci1.id
-      parsed_result.first['character_instance']['character_id'].
-          should eq @char1.id
-      parsed_result.first['character_instance']['instance_id'].
-          should eq @inst1.id
+
+      expect(parsed_result.count).to eq 1
+      expect(parsed_result.first['character_instance']['id']).to eq ci1.id
+      expect(parsed_result.first['character_instance']['character_id']).to eq @char1.id
+      expect(parsed_result.first['character_instance']['instance_id']).to eq @inst1.id
     end
 
-    it 'should filter by character when getting json' do
+    it 'filters by character when getting json' do
       FactoryGirl.create(:character_instance, character_id: @char1.id,
                          instance_id: @inst1.id)
       ci2 = FactoryGirl.create(:character_instance, character_id: @char2.id,
@@ -85,10 +81,11 @@ describe CharacterInstancesController do
       get :index, format: :json, character_id: @char2.id
 
       parsed_result = JSON.parse(response.body)
-      parsed_result.count.should eq 1
-      parsed_result[0]['character_instance']['id'].should eq ci2.id
-      parsed_result[0]['character_instance']['character_id'].should eq @char2.id
-      parsed_result[0]['character_instance']['instance_id'].should eq @inst2.id
+
+      expect(parsed_result.count).to eq 1
+      expect(parsed_result[0]['character_instance']['id']).to eq ci2.id
+      expect(parsed_result[0]['character_instance']['character_id']).to eq @char2.id
+      expect(parsed_result[0]['character_instance']['instance_id']).to eq @inst2.id
     end
   end
 
@@ -98,7 +95,7 @@ describe CharacterInstancesController do
                                               character_id: @char1.id,
                                               instance_id: @inst1.id)
       get :show, format: :json, id: character_instance.id.to_s
-      assigns(:character_instance).should eq(character_instance)
+      expect(assigns(:character_instance)).to eq character_instance
     end
 
     it 'renders xml' do
@@ -106,8 +103,8 @@ describe CharacterInstancesController do
 
       get :show, format: :xml, id: character_instance.id
 
-      response.content_type.should eq('application/xml')
-      response.body.should eq(character_instance.to_xml)
+      expect(response.content_type).to eq  'application/xml'
+      expect(response.body).to eq character_instance.to_xml
     end
 
     it 'renders json' do
@@ -115,15 +112,20 @@ describe CharacterInstancesController do
 
       get :show, format: :json, id: character_instance
 
-      response.content_type.should eq('application/json')
-      JSON.parse(response.body).should eq(character_instance.as_json)
+      expect(response.content_type).to eq 'application/json'
+      expect(JSON.parse(response.body)).to eq character_instance.as_json
     end
   end
 
   describe 'GET new' do
+    it 'renders the new template' do
+      get :new, format: :json
+      expect(response).to render_template :new
+    end
+
     it 'assigns a new character_instance as @character_instance' do
-      get :new
-      assigns(:character_instance).should be_a_new(CharacterInstance)
+      get :new, format: :xml
+      expect(assigns(:character_instance)).to be_a_new CharacterInstance
     end
   end
 
@@ -135,7 +137,7 @@ describe CharacterInstancesController do
               character_instance: FactoryGirl.build(:character_instance).
                   attributes.symbolize_keys
           }
-        }.to change(CharacterInstance, :count).by(1)
+        }.to change(CharacterInstance, :count).by 1
       end
 
       it 'assigns a newly created character_instance as @character_instance' do
@@ -143,23 +145,30 @@ describe CharacterInstancesController do
             character_instance: FactoryGirl.build(:character_instance).
                 attributes.symbolize_keys
         }
-        assigns(:character_instance).should be_a(CharacterInstance)
-        assigns(:character_instance).should be_persisted
+        expect(assigns(:character_instance)).to be_a CharacterInstance
+        expect(assigns(:character_instance)).to be_persisted
       end
 
-      it 'redirects to the created character_instance' do
-        post :create, format: :json,
-             character_instance: FactoryGirl.build(:character_instance).
-                 attributes.symbolize_keys
-        response.status.should == 201 # created
+      context 'redirects to the created character_instance' do
+        example 'with an XML response' do
+          post :create, format: :xml,
+               character_instance: FactoryGirl.attributes_for(:character_instance)
+          expect(response.status).to eq 201 # Created
+        end
+
+        example 'with a JSON response' do
+          post :create, format: :json,
+               character_instance: FactoryGirl.attributes_for(:character_instance)
+          expect(response.status).to eq 201 # Created
+        end
       end
     end
 
     describe 'with invalid params' do
       it 'assigns a newly created character_instance as @character_instance' do
         CharacterInstance.any_instance.stub(:save).and_return(false)
-        post :create, {character_instance: {}}
-        assigns(:character_instance).should be_a_new(CharacterInstance)
+        post :create, {character_instance: {}, format: :xml}
+        expect(assigns(:character_instance)).to be_a_new CharacterInstance
       end
     end
   end
@@ -168,23 +177,21 @@ describe CharacterInstancesController do
     describe 'with valid params' do
       it 'updates the requested character_instance' do
         character_instance =
-            CharacterInstance.create! FactoryGirl.build(:character_instance).
-                                          attributes.symbolize_keys
+            CharacterInstance.create! FactoryGirl.attributes_for(:character_instance)
         CharacterInstance.any_instance.should_receive(:update_attributes).
             with({'these' => 'params'})
         put :update, {id: character_instance.to_param,
-                      character_instance: {'these' => 'params'}}
+                      character_instance: {'these' => 'params'}, format: :xml}
       end
 
       it 'assigns the requested character_instance as @character_instance' do
         character_instance =
-            CharacterInstance.create! FactoryGirl.build(:character_instance).
-                                          attributes.symbolize_keys
+            CharacterInstance.create! FactoryGirl.attributes_for(:character_instance)
         put :update, {
             id: character_instance.to_param,
             character_instance: FactoryGirl.build(:character_instance).
-                attributes.symbolize_keys}
-        assigns(:character_instance).should eq(character_instance)
+                attributes.symbolize_keys, format: :json}
+        expect(assigns(:character_instance)).to eq character_instance
       end
 
       it 'responds with 200' do
@@ -192,9 +199,8 @@ describe CharacterInstancesController do
             CharacterInstance.create! FactoryGirl.build(:character_instance).
                                           attributes.symbolize_keys
         put :update, format: :json, id: character_instance.to_param,
-            character_instance: FactoryGirl.build(:character_instance).
-                attributes.symbolize_keys
-        response.status.should == 200 # OK
+            character_instance: FactoryGirl.attributes_for(:character_instance)
+        expect(response.status).to eq 200 # OK
       end
     end
 
@@ -204,8 +210,17 @@ describe CharacterInstancesController do
             CharacterInstance.create! FactoryGirl.build(:character_instance).
                                           attributes.symbolize_keys
         CharacterInstance.any_instance.stub(:save).and_return(false)
-        put :update, {id: character_instance.to_param, character_instance: {}}
-        assigns(:character_instance).should eq(character_instance)
+        put :update, id: character_instance.to_param, character_instance: {}, format: :xml
+        expect(assigns(:character_instance)).to eq character_instance
+      end
+
+      it 'responds with an error code' do
+        character_instance =
+            CharacterInstance.create! FactoryGirl.build(:character_instance).
+                                          attributes.symbolize_keys
+        CharacterInstance.any_instance.stub(:save).and_return(false)
+        put :update, id: character_instance.to_param, character_instance: {}, format: :json
+        expect(response.status).to eq 422 # Unprecessable Entity
       end
     end
   end
