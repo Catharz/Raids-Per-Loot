@@ -8,11 +8,8 @@
 # xml formatting is provided on actions used by the ACT plug-in.
 class RaidTypesController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
+  before_filter :set_raid_type, :only => [:show, :edit, :update, :destroy]
   before_filter :set_pagetitle
-
-  def set_pagetitle
-    @pagetitle = 'Raid Types'
-  end
 
   # GET /raid_types
   # GET /raid_types.json
@@ -29,8 +26,6 @@ class RaidTypesController < ApplicationController
   # GET /raid_types/1
   # GET /raid_types/1.json
   def show
-    @raid_type = RaidType.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @raid_type }
@@ -52,13 +47,12 @@ class RaidTypesController < ApplicationController
 
   # GET /raid_types/1/edit
   def edit
-    @raid_type = RaidType.find(params[:id])
   end
 
   # POST /raid_types
   # POST /raid_types.json
   def create
-    @raid_type = RaidType.new(params[:raid_type])
+    @raid_type = RaidType.new(raid_type_params)
 
     respond_to do |format|
       if @raid_type.save
@@ -76,10 +70,8 @@ class RaidTypesController < ApplicationController
   # PUT /raid_types/1
   # PUT /raid_types/1.json
   def update
-    @raid_type = RaidType.find(params[:id])
-
     respond_to do |format|
-      if @raid_type.update_attributes(params[:raid_type])
+      if @raid_type.update_attributes(raid_type_params)
         format.html { redirect_to @raid_type, notice: 'Raid type was successfully updated.' }
         format.json { head :ok }
         format.xml { head :ok }
@@ -94,7 +86,6 @@ class RaidTypesController < ApplicationController
   # DELETE /raid_types/1
   # DELETE /raid_types/1.json
   def destroy
-    @raid_type = RaidType.find(params[:id])
     @raid_type.destroy
 
     respond_to do |format|
@@ -102,5 +93,18 @@ class RaidTypesController < ApplicationController
       format.json { head :ok }
       format.xml { head :ok }
     end
+  end
+
+  private
+  def set_pagetitle
+    @pagetitle = 'Raid Types'
+  end
+
+  def set_raid_type
+    @raid_type = RaidType.find(params[:id])
+  end
+
+  def raid_type_params
+    params.require(:raid_type).permit(:name, :raid_counted, :raid_points, :loot_counted, :loot_cost)
   end
 end

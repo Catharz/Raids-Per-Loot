@@ -145,14 +145,14 @@ describe ZonesController do
       it 'assigns a newly created but unsaved zone as @zone' do
         # Trigger the behavior that occurs when invalid params are submitted
         Zone.any_instance.stub(:save).and_return(false)
-        post :create, zone: {}
+        post :create, zone: {"name" => "wherever"}
         assigns(:zone).should be_a_new(Zone)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Zone.any_instance.stub(:save).and_return(false)
-        post :create, zone: {}
+        post :create, zone: {"name" => "wherever"}
         response.should render_template('new')
       end
     end
@@ -167,8 +167,8 @@ describe ZonesController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Zone.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
-        put :update, id: zone.id, zone: {'these' => 'params'}
+            with({"name" => "wherever"})
+        put :update, id: zone.id, zone: {"name" => "wherever"}
       end
 
       it 'assigns the requested zone as @zone' do
@@ -189,7 +189,7 @@ describe ZonesController do
         zone = FactoryGirl.create(:zone, valid_attributes)
         # Trigger the behavior that occurs when invalid params are submitted
         Zone.any_instance.stub(:save).and_return(false)
-        put :update, id: zone.id.to_s, zone: {}
+        put :update, id: zone.id.to_s, zone: {"name" => "wherever"}
         assigns(:zone).should eq(zone)
       end
 
@@ -197,7 +197,7 @@ describe ZonesController do
         zone = FactoryGirl.create(:zone, valid_attributes)
         # Trigger the behavior that occurs when invalid params are submitted
         Zone.any_instance.stub(:save).and_return(false)
-        put :update, id: zone.id.to_s, zone: {}
+        put :update, id: zone.id.to_s, zone: {"name" => "wherever"}
         response.should render_template('edit')
       end
     end

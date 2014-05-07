@@ -53,7 +53,7 @@ class InstancesController < ApplicationController
   # POST /instances
   # POST /instances.json
   def create
-    @instance = Instance.new(params[:instance])
+    @instance = Instance.new(instance_params)
 
     if @instance.save
       flash[:notice] = 'Instance was successfully created.'
@@ -66,7 +66,7 @@ class InstancesController < ApplicationController
   # PUT /instances/1
   # PUT /instances/1.json
   def update
-    if @instance.update_attributes(params[:instance])
+    if @instance.update_attributes(instance_params)
       flash[:notice] = 'Instance was successfully updated.'
       respond_with @instance
     else
@@ -89,5 +89,9 @@ class InstancesController < ApplicationController
 
   def set_instance
     @instance = Instance.find(params[:id])
+  end
+
+  def instance_params
+    params.require(:instance).permit(:raid_id, :zone_id, :start_time)
   end
 end

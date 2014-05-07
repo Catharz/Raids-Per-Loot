@@ -114,14 +114,14 @@ describe RaidsController do
       it "assigns a newly created but unsaved raid as @raid" do
         # Trigger the behavior that occurs when invalid params are submitted
         Raid.any_instance.stub(:save).and_return(false)
-        post :create, raid: {}
+        post :create, raid: {"raid_date" => "2014-05-06"}
         assigns(:raid).should be_a_new(Raid)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Raid.any_instance.stub(:save).and_return(false)
-        post :create, raid: {}
+        post :create, raid: {"raid_date" => "2014-05-06"}
         response.should render_template("new")
       end
     end
@@ -136,8 +136,8 @@ describe RaidsController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Raid.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
-        put :update, id: raid.id, raid: {'these' => 'params'}
+            with({"raid_date" => "2014-05-06"})
+        put :update, id: raid.id, raid: {"raid_date" => "2014-05-06"}
       end
 
       it "assigns the requested raid as @raid" do
@@ -158,7 +158,7 @@ describe RaidsController do
         raid = Raid.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Raid.any_instance.stub(:save).and_return(false)
-        put :update, id: raid.id.to_s, raid: {}
+        put :update, id: raid.id.to_s, raid: {"raid_date" => "2014-05-06"}
         assigns(:raid).should eq(raid)
       end
 
@@ -166,7 +166,7 @@ describe RaidsController do
         raid = Raid.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Raid.any_instance.stub(:save).and_return(false)
-        put :update, id: raid.id.to_s, raid: {}
+        put :update, id: raid.id.to_s, raid: {"raid_date" => "2014-05-06"}
         response.should render_template("edit")
       end
     end
@@ -186,5 +186,4 @@ describe RaidsController do
       response.should redirect_to(raids_url)
     end
   end
-
 end

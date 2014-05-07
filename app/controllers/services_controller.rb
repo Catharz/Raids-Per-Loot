@@ -6,10 +6,6 @@ class ServicesController < ApplicationController
   before_filter :authenticate_user!, :except => [:create, :signin, :signup, :newaccount, :failure]
   before_filter :set_pagetitle
 
-  def set_pagetitle
-    @pagetitle = 'Authentication Services'
-  end
-
   # GET all authentication services assigned to the current user
   def index
     @services = current_user.services.order('provider asc')
@@ -100,6 +96,10 @@ class ServicesController < ApplicationController
   end
 
   private
+
+  def set_pagetitle
+    @pagetitle = 'Authentication Services'
+  end
 
   def handle_signed_in_user(auth)
     if auth

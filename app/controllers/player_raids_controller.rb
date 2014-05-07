@@ -9,10 +9,7 @@
 class PlayerRaidsController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle
-
-  def set_pagetitle
-    @pagetitle = 'Player Raids'
-  end
+  before_filter :set_player_raid, :only => [:show, :edit, :update, :destroy]
 
   # GET /player_raids
   def index
@@ -27,8 +24,6 @@ class PlayerRaidsController < ApplicationController
 
   # GET /player_raids/1
   def show
-    @player_raid = PlayerRaid.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.haml
       format.json { render json: @player_raid }
@@ -48,12 +43,11 @@ class PlayerRaidsController < ApplicationController
 
   # GET /player_raids/1/edit
   def edit
-    @player_raid = PlayerRaid.find(params[:id])
   end
 
   # POST /player_raids
   def create
-    @player_raid = PlayerRaid.new(params[:player_raid])
+    @player_raid = PlayerRaid.new(player_raid_params)
 
     respond_to do |format|
       if @player_raid.save
@@ -68,10 +62,8 @@ class PlayerRaidsController < ApplicationController
 
   # PUT /player_raids/1
   def update
-    @player_raid = PlayerRaid.find(params[:id])
-
     respond_to do |format|
-      if @player_raid.update_attributes(params[:player_raid])
+      if @player_raid.update_attributes(player_raid_params)
         format.html { redirect_to @player_raid, notice: 'Player raid was successfully updated.' }
         format.json { head :ok }
       else
@@ -83,12 +75,24 @@ class PlayerRaidsController < ApplicationController
 
   # DELETE /player_raids/1
   def destroy
-    @player_raid = PlayerRaid.find(params[:id])
     @player_raid.destroy
 
     respond_to do |format|
       format.html { redirect_to player_raids_url }
       format.json { head :ok }
     end
+  end
+
+  private
+  def set_pagetitle
+    @pagetitle = 'Player Raids'
+  end
+
+  def set_player_raid
+    @player_raid = PlayerRaid.find(params[:id])
+  end
+
+  def player_raid_params
+    params.require(:player_raid).permit(:player_id, :raid_id, :signed_up, :punctual, :status)
   end
 end

@@ -162,14 +162,14 @@ describe ItemsController do
       it 'assigns a newly created but unsaved item as @item' do
         # Trigger the behavior that occurs when invalid params are submitted
         Item.any_instance.stub(:save).and_return(false)
-        post :create, item: {}
+        post :create, item: valid_attributes
         assigns(:item).should be_a_new(Item)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Item.any_instance.stub(:save).and_return(false)
-        post :create, item: {}
+        post :create, item: valid_attributes
         response.should render_template('new')
       end
     end
@@ -184,8 +184,8 @@ describe ItemsController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Item.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
-        put :update, id: item.id, item: {'these' => 'params'}
+            with({'name' => 'Something Else'})
+        put :update, id: item.id, item: {'name' => 'Something Else'}
       end
 
       it 'assigns the requested item as @item' do
@@ -206,7 +206,7 @@ describe ItemsController do
         item = Item.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Item.any_instance.stub(:save).and_return(false)
-        put :update, id: item.id.to_s, item: {}
+        put :update, id: item.id.to_s, item: {'name' => 'whatever'}
         assigns(:item).should eq(item)
       end
 
@@ -214,7 +214,7 @@ describe ItemsController do
         item = Item.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Item.any_instance.stub(:save).and_return(false)
-        put :update, id: item.id.to_s, item: {}
+        put :update, id: item.id.to_s, item: {'name' => 'whatever'}
         response.should render_template('edit')
       end
     end

@@ -9,10 +9,7 @@
 class SlotsController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle
-
-  def set_pagetitle
-    @pagetitle = 'Item Slots'
-  end
+  before_filter :set_slot, :only => [:show, :edit, :update, :destroy]
 
   # GET /slots
   # GET /slots.xml
@@ -28,8 +25,6 @@ class SlotsController < ApplicationController
   # GET /slots/1
   # GET /slots/1.xml
   def show
-    @slot = Slot.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @slot.to_xml( :include => [:items] ) }
@@ -49,13 +44,12 @@ class SlotsController < ApplicationController
 
   # GET /slots/1/edit
   def edit
-    @slot = Slot.find(params[:id])
   end
 
   # POST /slots
   # POST /slots.xml
   def create
-    @slot = Slot.new(params[:slot])
+    @slot = Slot.new(slot_params)
 
     respond_to do |format|
       if @slot.save
@@ -71,10 +65,8 @@ class SlotsController < ApplicationController
   # PUT /slots/1
   # PUT /slots/1.xml
   def update
-    @slot = Slot.find(params[:id])
-
     respond_to do |format|
-      if @slot.update_attributes(params[:slot])
+      if @slot.update_attributes(slot_params)
         format.html { redirect_to(@slot, :notice => 'Slot was successfully updated.') }
         format.xml  { head :ok }
       else
@@ -87,12 +79,25 @@ class SlotsController < ApplicationController
   # DELETE /slots/1
   # DELETE /slots/1.xml
   def destroy
-    @slot = Slot.find(params[:id])
     @slot.destroy
 
     respond_to do |format|
       format.html { redirect_to(slots_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+
+  def set_pagetitle
+    @pagetitle = 'Item Slots'
+  end
+
+  def set_slot
+    @slot = Slot.find(params[:id])
+  end
+
+  def slot_params
+    params.require(:slot).permit(:name)
   end
 end

@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Archetype do
   describe 'archetype' do
     before(:each) do
+      Archetype.delete_all
       @grand_parent = FactoryGirl.create(:archetype, name: 'Grand Parent')
       @parent = FactoryGirl.create(:archetype,
                                    name: 'Parent', parent_id: @grand_parent.id)

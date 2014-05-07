@@ -9,10 +9,7 @@
 class ZonesController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show, :option_list]
   before_filter :set_pagetitle
-
-  def set_pagetitle
-    @pagetitle = 'Raid Zones'
-  end
+  before_filter :set_zone, :only => [:show, :edit, :update, :destroy]
 
   def option_list
     instance = params[:instance_id] ? Instance.find(params[:instance_id]) : nil
@@ -45,8 +42,6 @@ class ZonesController < ApplicationController
   # GET /zones/1
   # GET /zones/1.xml
   def show
-    @zone = Zone.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @zone}
@@ -69,13 +64,12 @@ class ZonesController < ApplicationController
 
   # GET /zones/1/edit
   def edit
-    @zone = Zone.find(params[:id])
   end
 
   # POST /zones
   # POST /zones.xml
   def create
-    @zone = Zone.new(params[:zone])
+    @zone = Zone.new(zone_params)
 
     respond_to do |format|
       if @zone.save
@@ -98,10 +92,8 @@ class ZonesController < ApplicationController
   # PUT /zones/1
   # PUT /zones/1.xml
   def update
-    @zone = Zone.find(params[:id])
-
     respond_to do |format|
-      if @zone.update_attributes(params[:zone])
+      if @zone.update_attributes(zone_params)
         format.html { redirect_to(@zone,
                                   :notice => 'Zone was successfully updated.') }
         format.json  { head :ok }
@@ -119,12 +111,25 @@ class ZonesController < ApplicationController
   # DELETE /zones/1
   # DELETE /zones/1.xml
   def destroy
-    @zone = Zone.find(params[:id])
     @zone.destroy
 
     respond_to do |format|
       format.html { redirect_to(zones_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+
+  def set_pagetitle
+    @pagetitle = 'Raid Zones'
+  end
+
+  def set_zone
+    @zone = Zone.find(params[:id])
+  end
+
+  def zone_params
+    params.require(:zone).permit(:name, :difficulty_id)
   end
 end

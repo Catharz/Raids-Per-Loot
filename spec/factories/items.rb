@@ -2,8 +2,14 @@ FactoryGirl.define do
   sequence :item_name do |n|
     "Item #{n}"
   end
+
   sequence :eq2_item_id do |n|
     "eq2_item_#{n}"
+  end
+
+  sequence :item_id do
+    item = FactoryGirl.create(:item)
+    item.id
   end
 
   factory :item do |f|

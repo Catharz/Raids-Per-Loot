@@ -158,7 +158,7 @@ describe CharacterInstancesController do
     describe 'with invalid params' do
       it 'assigns a newly created character_instance as @character_instance' do
         CharacterInstance.any_instance.stub(:save).and_return(false)
-        post :create, {character_instance: {}}
+        post :create, {character_instance: {character_id: 1}}
         assigns(:character_instance).should be_a_new(CharacterInstance)
       end
     end
@@ -171,9 +171,9 @@ describe CharacterInstancesController do
             CharacterInstance.create! FactoryGirl.build(:character_instance).
                                           attributes.symbolize_keys
         CharacterInstance.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
+            with({"character_id" => "1"})
         put :update, {id: character_instance.to_param,
-                      character_instance: {'these' => 'params'}}
+                      character_instance: {character_id: 1}}
       end
 
       it 'assigns the requested character_instance as @character_instance' do

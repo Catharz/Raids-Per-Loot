@@ -10,10 +10,7 @@
 class PlayersController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show, :attendance]
   before_filter :set_pagetitle
-
-  def set_pagetitle
-    @pagetitle = 'Players'
-  end
+  before_filter :set_player, :only => [:show, :edit, :update, :destroy]
 
   def option_list
     @players = Player.order(:name)
@@ -76,13 +73,12 @@ class PlayersController < ApplicationController
 
 # GET /players/1/edit
   def edit
-    @player = Player.find(params[:id], :include => :characters)
   end
 
 # POST /players
 # POST /players.json
   def create
-    @player = Player.new(params[:player])
+    @player = Player.new(player_params)
 
     respond_to do |format|
       if @player.save
@@ -103,10 +99,8 @@ class PlayersController < ApplicationController
 # PUT /players/1
 # PUT /players/1.json
   def update
-    @player = Player.find(params[:id])
-
     respond_to do |format|
-      if @player.update_attributes(params[:player])
+      if @player.update_attributes(player_params)
         format.html { redirect_to @player, :notice => 'Player was successfully updated.' }
         format.json { render json: @player.to_json(
             methods: [:rank_name, :first_raid_date, :last_raid_date, :current_main, :current_raid_alternate]
@@ -123,7 +117,6 @@ class PlayersController < ApplicationController
 # DELETE /players/1
 # DELETE /players/1.json
   def destroy
-    @player = Player.find(params[:id])
     @player.destroy
 
     respond_to do |format|
@@ -132,5 +125,22 @@ class PlayersController < ApplicationController
       format.xml { head :ok }
       format.js
     end
+  end
+
+  private
+  def set_player
+    @player = Player.find(params[:id])
+  end
+
+  def set_pagetitle
+    @pagetitle = 'Players'
+  end
+
+  def player_params
+    params.require(:player).permit(:name, :rank_id, :instances_count, :raids_count,
+      :armour_rate, :jewellery_rate, :weapon_rate, :armour_count, :jewellery_count, :weapons_count,
+      :adornments_count, :dislodgers_count, :mounts_count,
+      :adornment_rate, :dislodger_rate, :mount_rate, :attuned_rate,
+      :active, :switches_count, :switch_rate)
   end
 end

@@ -216,19 +216,22 @@ describe DropsController do
   describe 'POST create' do
     describe 'with valid params' do
       it 'creates a new Drop' do
+        drop_params = FactoryGirl.attributes_for(:drop)
         expect {
-          post :create, drop: valid_attributes
+          post :create, drop: drop_params
         }.to change(Drop, :count).by(1)
       end
 
       it 'assigns a newly created drop as @drop' do
-        post :create, drop: valid_attributes
+        drop_params = FactoryGirl.attributes_for(:drop)
+        post :create, drop: drop_params
         assigns(:drop).should be_a(Drop)
         assigns(:drop).should be_persisted
       end
 
       it 'redirects to the created drop' do
-        post :create, drop: valid_attributes
+        drop_params = FactoryGirl.attributes_for(:drop)
+        post :create, drop: drop_params
         response.should redirect_to(Drop.last)
       end
     end
@@ -237,14 +240,14 @@ describe DropsController do
       it 'assigns a newly created but unsaved drop as @drop' do
         # Trigger the behavior that occurs when invalid params are submitted
         Drop.any_instance.stub(:save).and_return(false)
-        post :create, drop: {}
+        post :create, drop: {drop_time: Time.now}
         assigns(:drop).should be_a_new(Drop)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Drop.any_instance.stub(:save).and_return(false)
-        post :create, drop: {}
+        post :create, drop: {drop_time: Time.now}
         response.should render_template('new')
       end
     end
@@ -259,26 +262,26 @@ describe DropsController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Drop.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
-        put :update, id: drop.id, drop: {'these' => 'params'}
+            with({'character_id' => '1'})
+        put :update, id: drop.id, drop: {character_id: 1}
       end
 
       it 'assigns the requested drop as @drop' do
         drop = FactoryGirl.create(:drop)
-        put :update, id: drop.id, drop: valid_attributes
+        put :update, id: drop.id, drop: FactoryGirl.attributes_for(:drop)
         assigns(:drop).should eq(drop)
       end
 
       it 'redirects to the drop' do
         drop = FactoryGirl.create(:drop)
-        put :update, id: drop.id, drop: valid_attributes
+        put :update, id: drop.id, drop: FactoryGirl.attributes_for(:drop)
         response.should redirect_to(drop)
       end
 
       it 'responds with 303 if HTTP_REFERER is set' do
         drop = FactoryGirl.create(:drop)
         @request.env['HTTP_REFERER'] = admin_path
-        put :update, id: drop.id, drop: valid_attributes
+        put :update, id: drop.id, drop: FactoryGirl.attributes_for(:drop)
         response.status.should == 303
         response.should redirect_to(admin_path)
       end
@@ -289,7 +292,7 @@ describe DropsController do
         drop = FactoryGirl.create(:drop)
         # Trigger the behavior that occurs when invalid params are submitted
         Drop.any_instance.stub(:save).and_return(false)
-        put :update, id: drop.id.to_s, drop: {}
+        put :update, id: drop.id.to_s, drop: {drop_time: Time.now}
         assigns(:drop).should eq(drop)
       end
 
@@ -297,7 +300,7 @@ describe DropsController do
         drop = FactoryGirl.create(:drop)
         # Trigger the behavior that occurs when invalid params are submitted
         Drop.any_instance.stub(:save).and_return(false)
-        put :update, id: drop.id.to_s, drop: {}
+        put :update, id: drop.id.to_s, drop: {drop_time: Time.now}
         response.should render_template('edit')
       end
     end
@@ -316,5 +319,17 @@ describe DropsController do
       delete :destroy, id: drop.id.to_s
       response.should redirect_to(drops_url)
     end
+  end
+
+  private
+  def drop_dependencies
+    zone = FactoryGirl.create(:zone)
+    mob = FactoryGirl.create(:mob, zone_id: zone.id)
+    raid = FactoryGirl.create(:raid)
+    instance = FactoryGirl.create(:instance, raid_id: raid.id, zone_id: zone.id)
+    character = FactoryGirl.create(:character)
+    item = FactoryGirl.create(:item)
+    {raid_id: raid.id, zone_id: zone.id, instance_id: instance.id,
+      mob_id: mob.id, character_id: character.id, item_id: item.id}
   end
 end

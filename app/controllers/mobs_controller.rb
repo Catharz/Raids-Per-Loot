@@ -53,7 +53,7 @@ class MobsController < ApplicationController
   # POST /mobs
   # POST /mobs.json
   def create
-    @mob = Mob.new(params[:mob])
+    @mob = Mob.new(mob_params)
 
     if @mob.save
       flash[:notice] = 'Mob was successfully created.'
@@ -66,7 +66,7 @@ class MobsController < ApplicationController
   # PUT /mobs/1
   # PUT /mobs/1.json
   def update
-    if @mob.update_attributes(params[:mob])
+    if @mob.update_attributes(mob_params)
       flash[:notice] = 'MOb was successfully updated.'
       respond_with @mob
     else
@@ -88,5 +88,9 @@ class MobsController < ApplicationController
 
   def set_pagetitle
     @pagetitle = 'Raid Mobs'
+  end
+
+  def mob_params
+    params.require(:mob).permit(:name, :strategy, :zone_id, :difficulty_id, :alias)
   end
 end

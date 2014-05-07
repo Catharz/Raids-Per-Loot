@@ -19,6 +19,7 @@ gem 'memoist'
 gem 'make_resourceful'
 gem 'jbuilder'
 
+gem 'strong_parameters'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-google'

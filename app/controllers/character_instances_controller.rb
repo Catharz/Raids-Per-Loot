@@ -5,10 +5,6 @@ class CharacterInstancesController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle
 
-  def set_pagetitle
-    @pagetitle = 'Instances'
-  end
-
   # GET /character_instances.json
   def index
     @character_instances = CharacterInstance.by_character(params[:character_id]).by_instance(params[:instance_id])
@@ -40,7 +36,7 @@ class CharacterInstancesController < ApplicationController
 
   # POST /character_instances.json
   def create
-    @character_instance = CharacterInstance.new(params[:character_instance])
+    @character_instance = CharacterInstance.new(character_instance_params)
 
     respond_to do |format|
       if @character_instance.save
@@ -56,7 +52,7 @@ class CharacterInstancesController < ApplicationController
     @character_instance = CharacterInstance.find(params[:id])
 
     respond_to do |format|
-      if @character_instance.update_attributes(params[:character_instance])
+      if @character_instance.update_attributes(character_instance_params)
         format.json { head :ok }
       else
         format.json { render json: @character_instance.errors, status: :unprocessable_entity }
@@ -74,4 +70,13 @@ class CharacterInstancesController < ApplicationController
     end
   end
 
+  private
+
+  def set_pagetitle
+    @pagetitle = 'Instances'
+  end
+
+  def character_instance_params
+    params.require(:character_instance).permit(:character_id, :instance_id)
+  end
 end

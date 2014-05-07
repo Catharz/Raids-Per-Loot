@@ -5,12 +5,9 @@
 # json and js formatting options are available on actions
 # where ajax is used via jQueryUI popups.
 class UsersController < ApplicationController
-  load_and_authorize_resource
+  authorize_resource
   before_filter :set_pagetitle
-
-  def set_pagetitle
-    @pagetitle = 'Users'
-  end
+  before_filter :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
@@ -35,6 +32,8 @@ class UsersController < ApplicationController
   # GET /user/new
   # GET /user/new.json
   def new
+    @user = User.new
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @user }
@@ -47,7 +46,7 @@ class UsersController < ApplicationController
 
 
   def create
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
 
     respond_to do |format|
       if @user.save
@@ -64,7 +63,7 @@ class UsersController < ApplicationController
   # PUT /users/1.json
   def update
     respond_to do |format|
-      if @user.update_attributes(params[:user])
+      if @user.update_attributes(user_params)
         format.html { redirect_to @user, :notice => 'User was successfully updated.' }
         format.json { head :ok }
       else
@@ -83,5 +82,19 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url }
       format.json { head :ok }
     end
+  end
+
+  private
+
+  def set_pagetitle
+    @pagetitle = 'Users'
+  end
+
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  def user_params
+    params.require(:user).permit(:name, :email, :roles_mask)
   end
 end

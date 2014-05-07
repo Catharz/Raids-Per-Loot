@@ -76,14 +76,14 @@ describe LinksController do
       it "assigns a newly created but unsaved link as @link" do
         # Trigger the behavior that occurs when invalid params are submitted
         Link.any_instance.stub(:save).and_return(false)
-        post :create, link: {}
+        post :create, link: {"title" => "blah"}
         assigns(:link).should be_a_new(Link)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Link.any_instance.stub(:save).and_return(false)
-        post :create, link: {}
+        post :create, link: {"title" => "blah"}
         response.should render_template("new")
       end
     end
@@ -98,8 +98,8 @@ describe LinksController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Link.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
-        put :update, id: link.id, link: {'these' => 'params'}
+            with({'url' => '.'})
+        put :update, id: link.id, link: {'url' => '.'}
       end
 
       it "assigns the requested link as @link" do
@@ -128,7 +128,7 @@ describe LinksController do
         link = Link.create! FactoryGirl.attributes_for(:link)
         # Trigger the behavior that occurs when invalid params are submitted
         Link.any_instance.stub(:save).and_return(false)
-        put :update, id: link.id.to_s, link: {}
+        put :update, id: link.id.to_s, link: {"title" => "blah"}
         response.should render_template("edit")
       end
     end

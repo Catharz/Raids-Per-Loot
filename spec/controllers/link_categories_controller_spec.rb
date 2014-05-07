@@ -68,14 +68,14 @@ describe LinkCategoriesController do
       it "assigns a newly created link_category as @link_category" do
         # Trigger the behavior that occurs when invalid params are submitted
         LinkCategory.any_instance.stub(:save).and_return(false)
-        post :create, link_category: {}
+        post :create, link_category: {'title' => 'whatever'}
         assigns(:link_category).should be_a_new(LinkCategory)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         LinkCategory.any_instance.stub(:save).and_return(false)
-        post :create, link_category: {}
+        post :create, link_category: {'title' => 'whatever'}
         response.should render_template("new")
       end
     end
@@ -90,8 +90,8 @@ describe LinkCategoriesController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         LinkCategory.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
-        put :update, id: link_category.id, link_category: {'these' => 'params'}
+            with({'title' => 'whatever'})
+        put :update, id: link_category.id, link_category: {'title' => 'whatever'}
       end
 
       it "assigns the requested link_category as @link_category" do
@@ -112,7 +112,7 @@ describe LinkCategoriesController do
         link_category = LinkCategory.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         LinkCategory.any_instance.stub(:save).and_return(false)
-        put :update, id: link_category.id.to_s, link_category: {}
+        put :update, id: link_category.id.to_s, link_category: {'title' => 'wherever'}
         assigns(:link_category).should eq(link_category)
       end
 
@@ -120,7 +120,7 @@ describe LinkCategoriesController do
         link_category = LinkCategory.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         LinkCategory.any_instance.stub(:save).and_return(false)
-        put :update, id: link_category.id.to_s, link_category: {}
+        put :update, id: link_category.id.to_s, link_category: {'title' => 'wherever'}
         response.should render_template("edit")
       end
     end

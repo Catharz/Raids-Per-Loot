@@ -40,7 +40,7 @@ class ArchetypesController < ApplicationController
   # POST /archetypes
   # POST /archetypes.json
   def create
-    @archetype = Archetype.new(params[:archetype])
+    @archetype = Archetype.new(archetype_params)
     if @archetype.save
       flash[:notice] = 'Archetype was successfully created.'
       respond_with @archetype
@@ -52,7 +52,7 @@ class ArchetypesController < ApplicationController
   # PUT /archetypes/1
   # PUT /archetypes/1.json
   def update
-    if @archetype.update_attributes(params[:archetype])
+    if @archetype.update_attributes(archetype_params)
       flash[:notice] = 'Archetype was successfully updated.'
       respond_with @archetype
     else
@@ -75,5 +75,9 @@ class ArchetypesController < ApplicationController
 
   def set_pagetitle
     @pagetitle = 'Archetypes'
+  end
+
+  def archetype_params
+    params.require(:archetype).permit(:name, :parent_id)
   end
 end

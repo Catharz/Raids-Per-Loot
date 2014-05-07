@@ -15,7 +15,7 @@ class DropsController < ApplicationController
   respond_to :js, only: [:destroy, :edit, :new, :show]
   respond_to :xml, only: [:show, :index]
 
-  before_filter :set_drop, only: [:show, :edit, :update, :destroy]
+  before_filter :set_drop, only: [:show, :update, :destroy]
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle
   after_filter { flash.discard if request.xhr? }
@@ -48,7 +48,7 @@ class DropsController < ApplicationController
 
   # POST /drops
   def create
-    @drop = Drop.new(params[:drop])
+    @drop = Drop.new(drop_params)
     if @drop.save
       flash[:notice] = 'Drop was successfully created.'
       respond_with @drop
@@ -59,7 +59,7 @@ class DropsController < ApplicationController
 
   # PUT /drops/1
   def update
-    if @drop.update_attributes(params[:drop])
+    if @drop.update_attributes(drop_params)
       flash[:notice] = 'Drop was successfully updated.'
       if request.env['HTTP_REFERER']
         redirect_to request.env['HTTP_REFERER'], :status => 303
@@ -85,5 +85,10 @@ class DropsController < ApplicationController
 
   def set_pagetitle
     @pagetitle = 'Loot Drops'
+  end
+
+  def drop_params
+    params.require(:drop).permit(:drop_time, :zone_id, :mob_id, :character_id, :item_id,
+      :loot_type_id, :instance_id, :loot_method, :chat, :log_line)
   end
 end

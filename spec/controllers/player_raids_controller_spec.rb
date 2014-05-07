@@ -132,13 +132,13 @@ describe PlayerRaidsController do
     describe 'with invalid params' do
       it 'assigns a newly created but unsaved player_raid as @player_raid' do
         PlayerRaid.any_instance.stub(:save).and_return(false)
-        post :create, {player_raid: {}}
+        post :create, {player_raid: {"player_id" => "1", "raid_id" => "1"}}
         assigns(:player_raid).should be_a_new(PlayerRaid)
       end
 
       it "re-renders the 'new' template" do
         PlayerRaid.any_instance.stub(:save).and_return(false)
-        post :create, {player_raid: {}}
+        post :create, {player_raid: {"player_id" => "1", "raid_id" => "1"}}
         response.should render_template('new')
       end
     end
@@ -151,9 +151,9 @@ describe PlayerRaidsController do
             PlayerRaid.create! FactoryGirl.build(:player_raid).
                                    attributes.symbolize_keys
         PlayerRaid.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
+            with({"player_id" => "1", "raid_id" => "1"})
         put :update, {id: player_raid.to_param,
-                      player_raid: {'these' => 'params'}}
+                      player_raid: {"player_id" => "1", "raid_id" => "1"}}
       end
 
       it 'assigns the requested player_raid as @player_raid' do
@@ -180,7 +180,7 @@ describe PlayerRaidsController do
         player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).
                                              attributes.symbolize_keys
         PlayerRaid.any_instance.stub(:save).and_return(false)
-        put :update, {id: player_raid.to_param, player_raid: {}}
+        put :update, {id: player_raid.to_param, player_raid: {"player_id" => "1", "raid_id" => "1"}}
         assigns(:player_raid).should eq(player_raid)
       end
 
@@ -188,7 +188,7 @@ describe PlayerRaidsController do
         player_raid = PlayerRaid.create! FactoryGirl.build(:player_raid).
                                              attributes.symbolize_keys
         PlayerRaid.any_instance.stub(:save).and_return(false)
-        put :update, {id: player_raid.to_param, player_raid: {}}
+        put :update, {id: player_raid.to_param, player_raid: {"player_id" => "1", "raid_id" => "1"}}
         response.should render_template('edit')
       end
     end

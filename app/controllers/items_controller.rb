@@ -82,7 +82,7 @@ class ItemsController < ApplicationController
   # POST /items
   # POST /items.json
   def create
-    @item = Item.new(params[:item])
+    @item = Item.new(item_params)
 
     respond_to do |format|
       if @item.save
@@ -103,7 +103,7 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
 
     respond_to do |format|
-      if @item.update_attributes(params[:item])
+      if @item.update_attributes(item_params)
         format.html { redirect_to @item, :notice => 'Item was successfully updated.' }
         format.json { render :json => @item, :notice => 'Item was successfully updated.' }
         format.xml {  render :xml => @item, :notice => 'Item was successfully updated.'  }
@@ -126,5 +126,9 @@ class ItemsController < ApplicationController
       format.json { head :ok }
       format.xml { head :ok }
     end
+  end
+
+  def item_params
+    params.require(:item).permit(:name, :eq2_item_id, :info_url, :loot_type_id)
   end
 end
