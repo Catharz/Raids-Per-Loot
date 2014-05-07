@@ -7,7 +7,7 @@ class CharacterType < ActiveRecord::Base
   belongs_to :character, :inverse_of => :character_types
 
   validates_presence_of :character, :char_type, :effective_date
-  validates_format_of :char_type, :with => /g|m|r/ # General Alt, Raid Main, Raid Alt
+  validates_format_of :char_type, :with => /\Ag|m|r\z/ # General Alt, Raid Main, Raid Alt
 
   delegate :name, to: :character, prefix: :character, allow_nil: true
   delegate :player_name, to: :character, allow_nil: true

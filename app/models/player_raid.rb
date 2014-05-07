@@ -11,7 +11,7 @@ class PlayerRaid < ActiveRecord::Base
 
   validates_presence_of :raid_id, :player_id
   validates_uniqueness_of :player_id, :scope => :raid_id
-  validates_format_of :status, :with => /a|b/ # Attended, Benched
+  validates_format_of :status, :with => /\Aa|b\z/ # Attended, Benched
 
   delegate :name, to: :player, prefix: :player
   delegate :description, to: :raid, prefix: :raid
