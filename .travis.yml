@@ -11,4 +11,4 @@ script:
   - bundle exec rake spec
   - bundle exec rake cucumber:ci
 env:
-  - SECRET=don't tell anyone, ok?
+  - SECRET=wtfyoushouldnotknowthis
