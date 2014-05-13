@@ -1,5 +1,6 @@
 source 'http://rubygems.org'
 
+gem 'dotenv-rails', :groups => [:development, :test]
 gem 'rails', '~> 3.2.0'
 
 # Bundle edge Rails instead:
