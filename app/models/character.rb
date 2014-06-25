@@ -38,7 +38,7 @@ class Character < ActiveRecord::Base
   validates_presence_of :player, :archetype, :char_type, :on => :update
 
   validates_uniqueness_of :name
-  validates_format_of :char_type, :with => /g|m|r/ # General Alt, Main, Raid Alt
+  validates_format_of :char_type, :with => /\Ag|m|r\z/ # General Alt, Main, Raid Alt
   validate :must_have_rating_with_date
 
   delegate :name, to: :player, prefix: :player, allow_nil: true
@@ -67,7 +67,7 @@ class Character < ActiveRecord::Base
       .where('archetype_id IN (?)', archetype.descendants([archetype]).collect { |a| a.id }.uniq)
   }
   scope :by_char_type, ->(char_type) {
-    char_type ? Character.where(char_type: char_type) : scoped
+    char_type ? where('characters.char_type = ?', char_type) : scoped
   }
 
   def path(options = {})

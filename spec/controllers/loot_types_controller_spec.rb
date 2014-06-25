@@ -100,14 +100,14 @@ describe LootTypesController do
       it "assigns a newly created but unsaved loot_type as @loot_type" do
         # Trigger the behavior that occurs when invalid params are submitted
         LootType.any_instance.stub(:save).and_return(false)
-        post :create, loot_type: {}
+        post :create, loot_type: {"name" => "whatever"}
         assigns(:loot_type).should be_a_new(LootType)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         LootType.any_instance.stub(:save).and_return(false)
-        post :create, loot_type: {}
+        post :create, loot_type: {"name" => "whatever"}
         response.should render_template("new")
       end
     end
@@ -122,8 +122,8 @@ describe LootTypesController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         LootType.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
-        put :update, id: loot_type.id, loot_type: {'these' => 'params'}
+            with({"name" => "whatever"})
+        put :update, id: loot_type.id, loot_type: {"name" => "whatever"}
       end
 
       it "assigns the requested loot_type as @loot_type" do
@@ -160,7 +160,7 @@ describe LootTypesController do
         loot_type = LootType.create! FactoryGirl.attributes_for(:loot_type)
         # Trigger the behavior that occurs when invalid params are submitted
         LootType.any_instance.stub(:save).and_return(false)
-        put :update, id: loot_type.id.to_s, loot_type: {}
+        put :update, id: loot_type.id.to_s, loot_type: {"name" => "whatever"}
         assigns(:loot_type).should eq(loot_type)
       end
 
@@ -168,7 +168,7 @@ describe LootTypesController do
         loot_type = LootType.create! FactoryGirl.attributes_for(:loot_type)
         # Trigger the behavior that occurs when invalid params are submitted
         LootType.any_instance.stub(:save).and_return(false)
-        put :update, id: loot_type.id.to_s, loot_type: {}
+        put :update, id: loot_type.id.to_s, loot_type: {"name" => "whatever"}
         response.should render_template("edit")
       end
     end

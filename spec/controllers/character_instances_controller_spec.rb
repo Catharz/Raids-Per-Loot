@@ -167,7 +167,7 @@ describe CharacterInstancesController do
     describe 'with invalid params' do
       it 'assigns a newly created character_instance as @character_instance' do
         CharacterInstance.any_instance.stub(:save).and_return(false)
-        post :create, {character_instance: {}, format: :xml}
+        post :create, format: :json, character_instance: {character_id: 1}
         expect(assigns(:character_instance)).to be_a_new CharacterInstance
       end
     end
@@ -179,9 +179,9 @@ describe CharacterInstancesController do
         character_instance =
             CharacterInstance.create! FactoryGirl.attributes_for(:character_instance)
         CharacterInstance.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
+            with({"character_id" => 1})
         put :update, {id: character_instance.to_param,
-                      character_instance: {'these' => 'params'}, format: :xml}
+                      character_instance: {character_id: 1}, format: :xml}
       end
 
       it 'assigns the requested character_instance as @character_instance' do
@@ -210,7 +210,8 @@ describe CharacterInstancesController do
             CharacterInstance.create! FactoryGirl.build(:character_instance).
                                           attributes.symbolize_keys
         CharacterInstance.any_instance.stub(:save).and_return(false)
-        put :update, id: character_instance.to_param, character_instance: {}, format: :xml
+        put :update, id: character_instance.to_param, format: :xml,
+            character_instance: {character_id: "fred"}
         expect(assigns(:character_instance)).to eq character_instance
       end
 
@@ -219,8 +220,9 @@ describe CharacterInstancesController do
             CharacterInstance.create! FactoryGirl.build(:character_instance).
                                           attributes.symbolize_keys
         CharacterInstance.any_instance.stub(:save).and_return(false)
-        put :update, id: character_instance.to_param, character_instance: {}, format: :json
-        expect(response.status).to eq 422 # Unprecessable Entity
+        put :update, id: character_instance.to_param, format: :json,
+            character_instance: {character_id: "fred"}
+        expect(response.status).to eq 422 # Unprocessable Entity
       end
     end
   end

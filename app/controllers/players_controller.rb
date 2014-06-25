@@ -66,7 +66,7 @@ class PlayersController < ApplicationController
   # POST /players
   # POST /players.json
   def create
-    @player = Player.new(params[:player])
+    @player = Player.new(player_params)
 
     if @player.save
       flash[:notice] = 'Player was successfully created.'
@@ -79,7 +79,7 @@ class PlayersController < ApplicationController
   # PUT /players/1
   # PUT /players/1.json
   def update
-    if @player.update_attributes(params[:player])
+    if @player.update_attributes(player_params)
       flash[:notice] = 'Player was successfully updated.'
       respond_with @player
     else
@@ -103,5 +103,22 @@ class PlayersController < ApplicationController
 
   def set_player
     @player = Player.find(params[:id])
+  end
+
+  private
+  def set_player
+    @player = Player.find(params[:id])
+  end
+
+  def set_pagetitle
+    @pagetitle = 'Players'
+  end
+
+  def player_params
+    params.require(:player).permit(:name, :rank_id, :instances_count, :raids_count,
+      :armour_rate, :jewellery_rate, :weapon_rate, :armour_count, :jewellery_count, :weapons_count,
+      :adornments_count, :dislodgers_count, :mounts_count,
+      :adornment_rate, :dislodger_rate, :mount_rate, :attuned_rate,
+      :active, :switches_count, :switch_rate)
   end
 end

@@ -3,10 +3,14 @@ FactoryGirl.define do
     n.hours
   end
 
+  sequence :instance_id do
+    instance = FactoryGirl.create(:instance)
+    instance.id
+  end
+
   factory :instance do |f|
-    raid_date = Date.parse('01/01/2012')
-    f.raid { |a| a.association(:raid, raid_date: raid_date) }
-    f.zone { |a| a.association(:zone) }
+    f.raid_id { generate(:raid_id) }
+    f.zone_id { generate(:zone_id) }
     f.start_time { raid_date + generate(:start_time) }
   end
 

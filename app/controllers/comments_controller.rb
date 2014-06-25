@@ -7,10 +7,7 @@
 class CommentsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :show]
   before_filter :set_pagetitle
-
-  def set_pagetitle
-    @pagetitle = 'Comments'
-  end
+  before_filter :set_comment, only: [:show, :edit, :update, :destroy]
 
   # GET /comments
   # GET /comments.json
@@ -26,8 +23,6 @@ class CommentsController < ApplicationController
   # GET /comments/1
   # GET /comments/1.json
   def show
-    @comment = Comment.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @comment }
@@ -49,13 +44,12 @@ class CommentsController < ApplicationController
 
   # GET /comments/1/edit
   def edit
-    @comment = Comment.find(params[:id])
   end
 
   # POST /comments
   # POST /comments.json
   def create
-    @comment = Comment.new(params[:comment])
+    @comment = Comment.new(comment_params)
 
     respond_to do |format|
       if @comment.save
@@ -71,10 +65,8 @@ class CommentsController < ApplicationController
   # PUT /comments/1
   # PUT /comments/1.json
   def update
-    @comment = Comment.find(params[:id])
-
     respond_to do |format|
-      if @comment.update_attributes(params[:comment])
+      if @comment.update_attributes(comment_params)
         format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
         format.json { render json: @comment.to_json(methods: [:commented_name]),
                              notice: 'Comment was successfully updated.' }
@@ -88,7 +80,6 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
-    @comment = Comment.find(params[:id])
     @comment.destroy
 
     respond_to do |format|
@@ -96,5 +87,19 @@ class CommentsController < ApplicationController
       format.json { head :ok }
       format.js
     end
+  end
+
+  private
+
+  def set_pagetitle
+    @pagetitle = 'Comments'
+  end
+
+  def set_comment
+    @comment = Comment.find(params[:id])
+  end
+
+  def comment_params
+    params.require(:comment).permit(:comment_date, :commented_id, :commented_type, :comment)
   end
 end

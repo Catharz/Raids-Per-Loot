@@ -6,11 +6,8 @@
 # where ajax is used via jQueryUI popups.
 class DifficultiesController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
+  before_filter :set_difficulty, only: [:show, :edit, :update, :destroy]
   before_filter :set_pagetitle
-
-  def set_pagetitle
-    @pagetitle = 'Difficulties'
-  end
 
   # GET /difficulties
   # GET /difficulties.json
@@ -26,8 +23,6 @@ class DifficultiesController < ApplicationController
   # GET /difficulties/1
   # GET /difficulties/1.json
   def show
-    @difficulty = Difficulty.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @difficulty }
@@ -49,13 +44,12 @@ class DifficultiesController < ApplicationController
 
   # GET /difficulties/1/edit
   def edit
-    @difficulty = Difficulty.find(params[:id])
   end
 
   # POST /difficulties
   # POST /difficulties.json
   def create
-    @difficulty = Difficulty.new(params[:difficulty])
+    @difficulty = Difficulty.new(difficulty_params)
 
     respond_to do |format|
       if @difficulty.save
@@ -71,10 +65,8 @@ class DifficultiesController < ApplicationController
   # PUT /difficulties/1
   # PUT /difficulties/1.json
   def update
-    @difficulty = Difficulty.find(params[:id])
-
     respond_to do |format|
-      if @difficulty.update_attributes(params[:difficulty])
+      if @difficulty.update_attributes(difficulty_params)
         format.html { redirect_to @difficulty, notice: 'Difficulty was successfully updated.' }
         format.json { render json: @difficulty }
       else
@@ -87,7 +79,6 @@ class DifficultiesController < ApplicationController
   # DELETE /difficulties/1
   # DELETE /difficulties/1.json
   def destroy
-    @difficulty = Difficulty.find(params[:id])
     @difficulty.destroy
 
     respond_to do |format|
@@ -95,5 +86,18 @@ class DifficultiesController < ApplicationController
       format.json { head :ok }
       format.js
     end
+  end
+
+  private
+  def set_pagetitle
+    @pagetitle = 'Difficulties'
+  end
+
+  def set_difficulty
+    @difficulty = Difficulty.find(params[:id])
+  end
+
+  def difficulty_params
+    params.require(:difficulty).permit(:name, :rating)
   end
 end

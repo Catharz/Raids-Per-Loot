@@ -26,6 +26,10 @@ module RaidsPerLoot
       g.test_framework :rspec
       g.fixture_replacement :factory_girl
     end
+
+    # Implementing protected attributes
+    config.active_record.whitelist_attributes = false
+
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]

@@ -12,6 +12,7 @@ class ZonesController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show, :option_list]
   before_filter :set_zone, only: [:show, :edit, :update, :destroy]
   before_filter :set_pagetitle
+  before_filter :set_zone, :only => [:show, :edit, :update, :destroy]
 
   def option_list
     instance = params[:instance_id] ? Instance.find(params[:instance_id]) : nil
@@ -52,7 +53,7 @@ class ZonesController < ApplicationController
   # POST /zones
   # POST /zones.xml
   def create
-    @zone = Zone.new(params[:zone])
+    @zone = Zone.new(zone_params)
 
     if @zone.save
       flash[:notice] = 'Zone was successfully created.'
@@ -65,7 +66,7 @@ class ZonesController < ApplicationController
   # PUT /zones/1
   # PUT /zones/1.xml
   def update
-    if @zone.update_attributes(params[:zone])
+    if @zone.update_attributes(zone_params)
       flash[:notice] = 'Zone was successfully updated.'
       respond_with @zone
     else
@@ -88,5 +89,19 @@ class ZonesController < ApplicationController
 
   def set_pagetitle
     @pagetitle = 'Raid Zones'
+  end
+
+  private
+
+  def set_pagetitle
+    @pagetitle = 'Raid Zones'
+  end
+
+  def set_zone
+    @zone = Zone.find(params[:id])
+  end
+
+  def zone_params
+    params.require(:zone).permit(:name, :difficulty_id)
   end
 end

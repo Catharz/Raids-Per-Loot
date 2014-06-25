@@ -10,8 +10,8 @@ class RaidTypesController < ApplicationController
   respond_to :html
   respond_to :xml, :json, only: [:index, :show]
   before_filter :authenticate_user!, :except => [:index, :show]
+  before_filter :set_raid_type, :only => [:show, :edit, :update, :destroy]
   before_filter :set_pagetitle
-  before_filter :set_raid_type, only: [:show, :edit, :update, :destroy]
 
   # GET /raid_types
   def index
@@ -33,7 +33,7 @@ class RaidTypesController < ApplicationController
 
   # POST /raid_types
   def create
-    @raid_type = RaidType.new(params[:raid_type])
+    @raid_type = RaidType.new(raid_type_params)
 
     if @raid_type.save
       flash[:notice] = 'Raid type was successfully created.'
@@ -45,7 +45,7 @@ class RaidTypesController < ApplicationController
 
   # PUT /raid_types/1
   def update
-    if @raid_type.update_attributes(params[:raid_type])
+    if @raid_type.update_attributes(raid_type_params)
       flash[:notice] = 'Raid type was successfully updated.'
       respond_with @raid_type
     else
@@ -68,5 +68,18 @@ class RaidTypesController < ApplicationController
 
   def set_raid_type
     @raid_type = RaidType.find(params[:id])
+  end
+
+  private
+  def set_pagetitle
+    @pagetitle = 'Raid Types'
+  end
+
+  def set_raid_type
+    @raid_type = RaidType.find(params[:id])
+  end
+
+  def raid_type_params
+    params.require(:raid_type).permit(:name, :raid_counted, :raid_points, :loot_counted, :loot_cost)
   end
 end

@@ -161,14 +161,14 @@ describe PlayersController do
       it 'assigns a newly created but unsaved player as @player' do
         # Trigger the behavior that occurs when invalid params are submitted
         Player.any_instance.stub(:save).and_return(false)
-        post :create, player: {}
+        post :create, player: {"name" => "doofus"}
         assigns(:player).should be_a_new(Player)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Player.any_instance.stub(:save).and_return(false)
-        post :create, player: {}
+        post :create, player: {"name" => "doofus"}
         response.should render_template('new')
       end
     end
@@ -185,8 +185,8 @@ describe PlayersController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Player.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
-        put :update, id: player.id, player: {'these' => 'params'}
+            with({"name" => "doofus"})
+        put :update, id: player.id, player: {"name" => "doofus"}
       end
 
       it 'assigns the requested player as @player' do
@@ -227,7 +227,7 @@ describe PlayersController do
                                                       rank_id: @main_rank.id)
         # Trigger the behavior that occurs when invalid params are submitted
         Player.any_instance.stub(:save).and_return(false)
-        put :update, id: player.id.to_s, player: {}
+        put :update, id: player.id.to_s, player: {"name" => "doofus"}
         assigns(:player).should eq(player)
       end
 
@@ -237,7 +237,7 @@ describe PlayersController do
                                                       rank_id: @main_rank.id)
         # Trigger the behavior that occurs when invalid params are submitted
         Player.any_instance.stub(:save).and_return(false)
-        put :update, id: player.id.to_s, player: {}
+        put :update, id: player.id.to_s, player: {"name" => "doofus"}
         response.should render_template('edit')
       end
     end

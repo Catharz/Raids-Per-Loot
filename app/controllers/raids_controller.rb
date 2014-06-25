@@ -40,7 +40,7 @@ class RaidsController < ApplicationController
   # POST /raids
   # POST /raids.json
   def create
-    @raid = Raid.new(params[:raid])
+    @raid = Raid.new(raid_params)
 
     if @raid.save
       flash[:notice] = 'Raid was successfully created.'
@@ -53,7 +53,7 @@ class RaidsController < ApplicationController
   # PUT /raids/1
   # PUT /raids/1.json
   def update
-    if @raid.update_attributes(params[:raid])
+    if @raid.update_attributes(raid_params)
       flash[:notice] = 'Raid was successfully updated.'
       respond_with @raid
     else
@@ -75,5 +75,9 @@ class RaidsController < ApplicationController
 
   def set_pagetitle
     @pagetitle = 'Raids'
+  end
+
+  def raid_params
+    params.require(:raid).permit(:raid_date, :raid_type_id)
   end
 end

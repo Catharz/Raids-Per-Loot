@@ -3,6 +3,7 @@
 # Controller for the CharacterInstance views.
 class CharacterInstancesController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
+  before_filter :set_pagetitle
   before_filter :set_character_instance, only: [:show, :edit, :update, :destroy]
   respond_to :json, :xml
 
@@ -25,7 +26,7 @@ class CharacterInstancesController < ApplicationController
 
   # POST /character_instances.json
   def create
-    @character_instance = CharacterInstance.new(params[:character_instance])
+    @character_instance = CharacterInstance.new(character_instance_params)
 
     if @character_instance.save
       flash[:notice] = 'Character instance was successfully created.'
@@ -37,7 +38,9 @@ class CharacterInstancesController < ApplicationController
 
   # PUT /character_instances/1.json
   def update
-    if @character_instance.update_attributes(params[:character_instance])
+    @character_instance = CharacterInstance.find(params[:id])
+
+    if @character_instance.update_attributes(character_instance_params)
       flash[:notice] = 'Character Instance was successfully updated.'
       respond_with @character_instance
     else
@@ -53,6 +56,15 @@ class CharacterInstancesController < ApplicationController
   end
 
   private
+
+  def set_pagetitle
+    @pagetitle = 'Instances'
+  end
+
+  def character_instance_params
+    params.require(:character_instance).permit(:character_id, :instance_id)
+  end
+
   def set_character_instance
     @character_instance = CharacterInstance.find(params[:id])
   end

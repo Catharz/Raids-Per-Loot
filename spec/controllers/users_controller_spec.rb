@@ -161,14 +161,14 @@ describe UsersController do
         it 'assigns a newly created but unsaved user as @user' do
           # Trigger the behavior that occurs when invalid params are submitted
           User.any_instance.stub(:save).and_return(false)
-          post :create, user: {}
+          post :create, user: {"name" => "fred", "email" => "fred@example.com"}
           assigns(:user).should be_a_new(User)
         end
 
         it "re-renders the 'new' template" do
           # Trigger the behavior that occurs when invalid params are submitted
           User.any_instance.stub(:save).and_return(false)
-          post :create, user: {}
+          post :create, user: {"name" => "fred", "email" => "fred@example.com"}
           response.should render_template('new')
         end
       end
@@ -183,8 +183,8 @@ describe UsersController do
           # receives the :update_attributes message with whatever params are
           # submitted in the request.
           User.any_instance.should_receive(:update_attributes).
-              with({'these' => 'params'})
-          put :update, id: user.id, user: {'these' => 'params'}
+              with({"name" => "fred", "email" => "fred@example.com"})
+          put :update, id: user.id, user: {"name" => "fred", "email" => "fred@example.com"}
         end
 
         it "assigns the requested user as @user" do
@@ -205,7 +205,7 @@ describe UsersController do
           user = User.create! FactoryGirl.attributes_for(:user)
           # Trigger the behavior that occurs when invalid params are submitted
           User.any_instance.stub(:save).and_return(false)
-          put :update, id: user.id.to_s, user: {}
+          put :update, id: user.id.to_s, user: {"name" => "fred", "email" => "fred@example.com"}
           assigns(:user).should eq(user)
         end
 
@@ -213,7 +213,7 @@ describe UsersController do
           user = User.create! FactoryGirl.attributes_for(:user)
           # Trigger the behavior that occurs when invalid params are submitted
           User.any_instance.stub(:save).and_return(false)
-          put :update, id: user.id.to_s, user: {}
+          put :update, id: user.id.to_s, user: {"name" => "fred", "email" => "fred@example.com"}
           response.should render_template('edit')
         end
       end

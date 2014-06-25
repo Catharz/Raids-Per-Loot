@@ -106,7 +106,7 @@ class CharactersController < ApplicationController
   # POST /characters
   # POST /characters.json
   def create
-    @character = Character.new(params[:character])
+    @character = Character.new(character_params)
 
     if @character.save
       expire_action action: :statistics
@@ -120,7 +120,7 @@ class CharactersController < ApplicationController
   # PUT /characters/1
   # PUT /characters/1.json
   def update
-    if @character.update_attributes(params[:character])
+    if @character.update_attributes(character_params)
       expire_action action: :info
       expire_action action: :statistics
 
@@ -150,5 +150,11 @@ class CharactersController < ApplicationController
 
   def set_pagetitle
     @pagetitle = 'Characters'
+  end
+
+  def character_params
+    params.require(:character).permit(:name, :player_id, :archetype_id, :char_type, :instances_count, :raids_count,
+      :armour_count, :jewellery_count, :weapons_count, :adornments_count, :dislodgers_count, :mounts_count,
+      :confirmed_rating, :confirmed_date)
   end
 end

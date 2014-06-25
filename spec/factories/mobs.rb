@@ -3,6 +3,11 @@ FactoryGirl.define do
     "Mob #{n}"
   end
 
+  sequence :mob_id do
+    mob = FactoryGirl.create(:mob)
+    mob.id
+  end
+
   factory :mob do |f|
     f.name { generate(:mob_name) }
     f.zone { |a| a.association(:zone) }

@@ -68,14 +68,14 @@ describe SlotsController do
       it "assigns a newly created but unsaved slot as @slot" do
         # Trigger the behavior that occurs when invalid params are submitted
         Slot.any_instance.stub(:save).and_return(false)
-        post :create, slot: {}
+        post :create, slot: {'name' => 'whatever'}
         assigns(:slot).should be_a_new(Slot)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Slot.any_instance.stub(:save).and_return(false)
-        post :create, slot: {}
+        post :create, slot: {'name' => 'whatever'}
         response.should render_template("new")
       end
     end
@@ -90,8 +90,8 @@ describe SlotsController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Slot.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
-        put :update, id: slot.id, slot: {'these' => 'params'}
+            with({'name' => 'whatever'})
+        put :update, id: slot.id, slot: {'name' => 'whatever'}
       end
 
       it "assigns the requested slot as @slot" do
@@ -112,7 +112,7 @@ describe SlotsController do
         slot = Slot.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Slot.any_instance.stub(:save).and_return(false)
-        put :update, id: slot.id.to_s, slot: {}
+        put :update, id: slot.id.to_s, slot: {'name' => 'whatever'}
         assigns(:slot).should eq(slot)
       end
 
@@ -120,7 +120,7 @@ describe SlotsController do
         slot = Slot.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Slot.any_instance.stub(:save).and_return(false)
-        put :update, id: slot.id.to_s, slot: {}
+        put :update, id: slot.id.to_s, slot: {'name' => 'whatever'}
         response.should render_template("edit")
       end
     end

@@ -3,11 +3,16 @@ FactoryGirl.define do
     "Character_#{n}"
   end
 
+  sequence :character_id do
+    character = FactoryGirl.create(:character)
+    character.id
+  end
+
   factory :character do |f|
-    f.player  { |a| a.association(:player) }
+    f.player_id  { generate(:player_id) }
     f.name { generate(:character_name) }
     f.char_type 'm'
-    f.archetype { |a| a.association(:archetype) }
+    f.archetype_id { generate(:archetype_id) }
     f.external_data { |a| a.association(:external_data) }
     f.armour_count  0
     f.jewellery_count 0

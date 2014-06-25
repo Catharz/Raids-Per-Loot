@@ -72,7 +72,7 @@ class ItemsController < ApplicationController
   # POST /items
   # POST /items.json
   def create
-    @item = Item.new(params[:item])
+    @item = Item.new(item_params)
 
     if @item.save
       flash[:notice] = 'Item was successfully created.'
@@ -85,7 +85,7 @@ class ItemsController < ApplicationController
   # PUT /items/1
   # PUT /items/1.json
   def update
-    if @item.update_attributes(params[:item])
+    if @item.update_attributes(item_params)
       flash[:notice] = 'Item was successfully updated.'
       respond_with @item
     else
@@ -108,5 +108,9 @@ class ItemsController < ApplicationController
 
   def set_pagetitle
     @pagetitle = 'Items'
+  end
+
+  def item_params
+    params.require(:item).permit(:name, :eq2_item_id, :info_url, :loot_type_id)
   end
 end

@@ -151,14 +151,14 @@ describe ZonesController do
       it 'assigns a newly created but unsaved zone as @zone' do
         # Trigger the behavior that occurs when invalid params are submitted
         Zone.any_instance.stub(:save).and_return(false)
-        post :create, zone: {}
+        post :create, zone: valid_attributes
         expect(assigns(:zone)).to be_a_new Zone
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Zone.any_instance.stub(:save).and_return(false)
-        post :create, zone: {}
+        post :create, zone: valid_attributes
         expect(response).to render_template 'new'
       end
     end
@@ -168,7 +168,7 @@ describe ZonesController do
     describe 'with valid params' do
       it 'updates the requested zone' do
         zone = FactoryGirl.create(:zone, valid_attributes)
-        put :update, id: zone.id, zone: {'name' => 'Anywhere'}
+        put :update, id: zone.id, zone: {"name" => "Anywhere"}
         zone.reload
         expect(zone.name).to eq 'Anywhere'
       end
@@ -190,7 +190,7 @@ describe ZonesController do
       it 'assigns the zone as @zone' do
         zone = FactoryGirl.create(:zone, valid_attributes)
         Zone.any_instance.stub(:save).and_return(false)
-        put :update, id: zone.id.to_s, zone: {}
+        put :update, id: zone.id.to_s, zone: {"name" => "wherever"}
         expect(assigns(:zone)).to eq zone
       end
 
@@ -198,7 +198,7 @@ describe ZonesController do
         zone = FactoryGirl.create(:zone, valid_attributes)
         # Trigger the behavior that occurs when invalid params are submitted
         Zone.any_instance.stub(:save).and_return(false)
-        put :update, id: zone.id.to_s, zone: {}
+        put :update, id: zone.id.to_s, zone: {"name" => "wherever"}
         expect(response).to render_template 'edit'
       end
     end

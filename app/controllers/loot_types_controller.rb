@@ -40,7 +40,7 @@ class LootTypesController < ApplicationController
   # POST /loot_types
   # POST /loot_types.xml
   def create
-    @loot_type = LootType.new(params[:loot_type])
+    @loot_type = LootType.new(loot_type_params)
 
     if @loot_type.save
       flash[:notice] = 'Loot type was successfully created.'
@@ -53,7 +53,7 @@ class LootTypesController < ApplicationController
   # PUT /loot_types/1
   # PUT /loot_types/1.xml
   def update
-    if @loot_type.update_attributes(params[:loot_type])
+    if @loot_type.update_attributes(loot_type_params)
       flash[:notice] = 'Loot type was successfully updated.'
       respond_with @loot_type
     else
@@ -75,5 +75,9 @@ class LootTypesController < ApplicationController
 
   def set_pagetitle
     @pagetitle = 'Loot Types'
+  end
+
+  def loot_type_params
+    params.require(:loot_type).permit(:name, :default_loot_method)
   end
 end

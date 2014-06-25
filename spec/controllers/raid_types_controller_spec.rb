@@ -105,14 +105,14 @@ describe RaidTypesController do
       it 'assigns a newly created but unsaved raid_type as @raid_type' do
         # Trigger the behavior that occurs when invalid params are submitted
         RaidType.any_instance.stub(:save).and_return(false)
-        post :create, {raid_type: {}}
+        post :create, {raid_type: {"name" => "corpse run"}}
         expect(assigns(:raid_type)).to be_a_new(RaidType)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         RaidType.any_instance.stub(:save).and_return(false)
-        post :create, {raid_type: {}}
+        post :create, {raid_type: {"name" => "corpse run"}}
         expect(response).to render_template('new')
       end
     end
@@ -127,8 +127,8 @@ describe RaidTypesController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         RaidType.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
-        put :update, {id: raid_type.to_param, raid_type: {'these' => 'params'}}
+            with({"name" => "corpse run"})
+        put :update, {id: raid_type.to_param, raid_type: {"name" => "corpse run"}}
       end
 
       it 'assigns the requested raid_type as @raid_type' do
@@ -151,7 +151,7 @@ describe RaidTypesController do
         raid_type = RaidType.create! FactoryGirl.attributes_for(:raid_type)
         # Trigger the behavior that occurs when invalid params are submitted
         RaidType.any_instance.stub(:save).and_return(false)
-        put :update, {id: raid_type.to_param, raid_type: {}}
+        put :update, {id: raid_type.to_param, raid_type: {"name" => "corpse run"}}
         expect(assigns(:raid_type)).to eq(raid_type)
       end
 
@@ -159,7 +159,7 @@ describe RaidTypesController do
         raid_type = RaidType.create! FactoryGirl.attributes_for(:raid_type)
         # Trigger the behavior that occurs when invalid params are submitted
         RaidType.any_instance.stub(:save).and_return(false)
-        put :update, {id: raid_type.to_param, raid_type: {}}
+        put :update, {id: raid_type.to_param, raid_type: {"name" => "corpse run"}}
         expect(response).to render_template('edit')
       end
     end

@@ -27,7 +27,10 @@ class InstancesController < ApplicationController
   # GET /instances
   # GET /instances.json
   def index
-    @instances = Instance.by_raid(params[:raid_id]).by_zone(params[:zone_id]).by_start_time(params[:start_time]).
+    @instances = Instance.by_raid(params[:raid_id]).
+        by_zone(params[:zone_id]).
+        by_start_time(params[:start_time]).
+        order(:start_time).
         includes(:zone)
     respond_with @instances
   end
@@ -53,7 +56,7 @@ class InstancesController < ApplicationController
   # POST /instances
   # POST /instances.json
   def create
-    @instance = Instance.new(params[:instance])
+    @instance = Instance.new(instance_params)
 
     if @instance.save
       flash[:notice] = 'Instance was successfully created.'
@@ -66,7 +69,7 @@ class InstancesController < ApplicationController
   # PUT /instances/1
   # PUT /instances/1.json
   def update
-    if @instance.update_attributes(params[:instance])
+    if @instance.update_attributes(instance_params)
       flash[:notice] = 'Instance was successfully updated.'
       respond_with @instance
     else
@@ -89,5 +92,9 @@ class InstancesController < ApplicationController
 
   def set_instance
     @instance = Instance.find(params[:id])
+  end
+
+  def instance_params
+    params.require(:instance).permit(:raid_id, :zone_id, :start_time)
   end
 end

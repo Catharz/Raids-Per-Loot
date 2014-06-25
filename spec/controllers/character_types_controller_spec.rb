@@ -38,10 +38,8 @@ describe CharacterTypesController do
 
   describe 'GET #new' do
     it 'assigns a new character_type to @character_type' do
-      character_type = CharacterType.new
-      CharacterType.should_receive(:new).and_return(character_type)
       get :new
-      assigns(:character_type).should eq(character_type)
+      assigns(:character_type).should be_a_new(CharacterType)
     end
 
     it 'renders the :new template' do

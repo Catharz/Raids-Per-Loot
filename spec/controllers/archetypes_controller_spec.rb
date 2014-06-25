@@ -92,14 +92,14 @@ describe ArchetypesController do
       it 'assigns a newly created but unsaved archetype as @archetype' do
         # Trigger the behavior that occurs when invalid params are submitted
         Archetype.any_instance.stub(:save).and_return(false)
-        post :create, archetype: {}
+        post :create, archetype: {"fred" => "barney"}
         assigns(:archetype).should be_a_new(Archetype)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Archetype.any_instance.stub(:save).and_return(false)
-        post :create, archetype: {}
+        post :create, archetype: {"fred" => "barney"}
         response.should render_template('new')
       end
     end
@@ -114,8 +114,8 @@ describe ArchetypesController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Archetype.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
-        put :update, id: archetype.id, archetype: {'these' => 'params'}
+            with({'name' => 'Whatever'})
+        put :update, id: archetype.id, archetype: {'name' => 'Whatever'}
       end
 
       it 'assigns the requested archetype as @archetype' do
@@ -146,7 +146,7 @@ describe ArchetypesController do
         archetype = Archetype.create! FactoryGirl.attributes_for(:archetype)
         # Trigger the behavior that occurs when invalid params are submitted
         Archetype.any_instance.stub(:save).and_return(false)
-        put :update, id: archetype.id.to_s, archetype: {}
+        put :update, id: archetype.id.to_s, archetype: {'fred' => 'barney'}
         response.should render_template('edit')
       end
     end

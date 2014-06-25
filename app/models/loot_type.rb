@@ -9,7 +9,7 @@ class LootType < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_format_of :default_loot_method, :with => /n|r|b|g|t/ # Need, Random, Bid, Guild Bank, Trash
+  validates_format_of :default_loot_method, :with => /\An|r|b|g|t\z/ # Need, Random, Bid, Guild Bank, Trash
 
   def self.option_names
     where(:default_loot_method => 'n').order(:name).each.collect { |loot_type| loot_type.name }

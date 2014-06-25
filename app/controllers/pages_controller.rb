@@ -7,10 +7,7 @@
 class PagesController < ApplicationController
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :set_pagetitle
-
-  def set_pagetitle
-    @pagetitle = 'Pages'
-  end
+  before_filter :set_page, only: [:show, :edit, :update, :destroy]
 
   # GET /pages
   # GET /pages.json
@@ -26,8 +23,6 @@ class PagesController < ApplicationController
   # GET /pages/1
   # GET /pages/1.json
   def show
-    @page = Page.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @page }
@@ -47,13 +42,12 @@ class PagesController < ApplicationController
 
   # GET /pages/1/edit
   def edit
-    @page = Page.find(params[:id])
   end
 
   # POST /pages
   # POST /pages.json
   def create
-    @page = Page.new(params[:page])
+    @page = Page.new(page_params)
 
     respond_to do |format|
       if @page.save
@@ -69,10 +63,8 @@ class PagesController < ApplicationController
   # PUT /pages/1
   # PUT /pages/1.json
   def update
-    @page = Page.find(params[:id])
-
     respond_to do |format|
-      if @page.update_attributes(params[:page])
+      if @page.update_attributes(page_params)
         format.html { redirect_to @page, :notice => 'Page was successfully updated.' }
         format.json { head :ok }
       else
@@ -85,12 +77,25 @@ class PagesController < ApplicationController
   # DELETE /pages/1
   # DELETE /pages/1.json
   def destroy
-    @page = Page.find(params[:id])
     @page.destroy
 
     respond_to do |format|
       format.html { redirect_to pages_url, :notice => "Page was successfully deleted." }
       format.json { head :ok }
     end
+  end
+
+  private
+  def set_page
+    @page = Page.find(params[:id])
+  end
+
+  def set_pagetitle
+    @pagetitle = 'Pages'
+  end
+
+  def page_params
+    params.require(:page).permit(:name, :title, :body, :admin, :parent_id, :navlabel,
+      :position, :redirect, :action_name, :controller_name, :pages_count)
   end
 end

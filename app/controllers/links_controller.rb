@@ -61,7 +61,7 @@ class LinksController < ApplicationController
   # POST /links
   # POST /links.json
   def create
-    @link = Link.new(params[:link])
+    @link = Link.new(link_params)
 
     respond_to do |format|
       if @link.save
@@ -80,7 +80,7 @@ class LinksController < ApplicationController
     @link = Link.find(params[:id])
 
     respond_to do |format|
-      if @link.update_attributes(params[:link])
+      if @link.update_attributes(link_params)
         format.html { redirect_to(@link, :notice => 'Link was successfully updated.') }
         format.json { render :json => @link, :notice => 'Link was successfully updated.' }
       else
@@ -102,5 +102,10 @@ class LinksController < ApplicationController
       format.json { head :ok }
       format.js
     end
+  end
+
+  private
+  def link_params
+    params.require(:link).permit(:url, :title, :description)
   end
 end

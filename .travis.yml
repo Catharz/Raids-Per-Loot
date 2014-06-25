@@ -10,3 +10,5 @@ script:
   - RAILS_ENV=test bundle exec rake db:schema:load --trace
   - bundle exec rake spec
   - bundle exec rake cucumber:ci
+env:
+  - SECRET=y0u5h0uldn0tkn0wth15@ndify0ugu3551t1m@yh@v3t0k1lly0u

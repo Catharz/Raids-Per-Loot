@@ -1,5 +1,6 @@
 source 'http://rubygems.org'
 
+gem 'dotenv-rails', :groups => [:development, :test]
 ruby '1.9.3'
 
 gem 'rails', '~> 3.2.0'
@@ -21,6 +22,7 @@ gem 'memoist'
 gem 'make_resourceful'
 gem 'jbuilder'
 
+gem 'strong_parameters'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-google'

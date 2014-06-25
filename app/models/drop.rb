@@ -15,7 +15,7 @@ class Drop < ActiveRecord::Base
   belongs_to :loot_type, :inverse_of => :drops, :touch => true
 
   validates_uniqueness_of :drop_time, :scope => [:instance_id, :zone_id, :mob_id, :item_id, :character_id]
-  validates_format_of :loot_method, :with => /n|r|b|g|t|m/ # Need, Random, Bid, Guild Bank, Trash, Transmuted
+  validates_format_of :loot_method, :with => /\An|r|b|g|t|m\z/ # Need, Random, Bid, Guild Bank, Trash, Transmuted
 
   # If the character received loot via "need", make sure all of the relationships are setup
   with_options :if => :needed do

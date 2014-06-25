@@ -15,10 +15,6 @@ class RanksController < ApplicationController
   before_filter :set_pagetitle
   after_filter { flash.discard if request.xhr? }
 
-  def set_pagetitle
-    @pagetitle = 'Player Ranks'
-  end
-
   # GET /ranks
   # GET /ranks.xml
   # GET /ranks.json
@@ -49,7 +45,7 @@ class RanksController < ApplicationController
   # POST /ranks.xml
   # POST /ranks.json
   def create
-    @rank = Rank.new(params[:rank])
+    @rank = Rank.new(rank_params)
 
     if @rank.save
       flash[:notice] = 'Rank was successfully created.'
@@ -63,7 +59,7 @@ class RanksController < ApplicationController
   # PUT /ranks/1.xml
   # PUT /ranks/1.json
   def update
-    if @rank.update_attributes(params[:rank])
+    if @rank.update_attributes(rank_params)
       flash[:notice] = 'Rank was successfully updated.'
       respond_with @rank
     else
@@ -81,7 +77,16 @@ class RanksController < ApplicationController
   end
 
   private
+
+  def set_pagetitle
+    @pagetitle = 'Player Ranks'
+  end
+
   def set_rank
     @rank = Rank.find(params[:id])
+  end
+
+  def rank_params
+    params.require(:rank).permit(:name, :priority)
   end
 end

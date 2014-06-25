@@ -108,14 +108,14 @@ describe RanksController do
       it 'assigns a newly created but unsaved rank as @rank' do
         # Trigger the behavior that occurs when invalid params are submitted
         Rank.any_instance.stub(:save).and_return(false)
-        post :create, rank: {}
+        post :create, rank: {'name' => 'whatever'}
         assigns(:rank).should be_a_new(Rank)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Rank.any_instance.stub(:save).and_return(false)
-        post :create, rank: {}
+        post :create, rank: {'name' => 'whatever'}
         response.should render_template('new')
       end
     end
@@ -130,8 +130,8 @@ describe RanksController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Rank.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
-        put :update, id: rank.id, rank: {'these' => 'params'}
+            with({'name' => 'whatever'})
+        put :update, id: rank.id, rank: {'name' => 'whatever'}
       end
 
       it 'assigns the requested rank as @rank' do
@@ -166,7 +166,7 @@ describe RanksController do
         rank = Rank.create! FactoryGirl.attributes_for(:rank)
         # Trigger the behavior that occurs when invalid params are submitted
         Rank.any_instance.stub(:save).and_return(false)
-        put :update, id: rank.id.to_s, rank: {}
+        put :update, id: rank.id.to_s, rank: {'name' => 'whatever'}
         assigns(:rank).should eq(rank)
       end
 
@@ -174,7 +174,7 @@ describe RanksController do
         rank = Rank.create! FactoryGirl.attributes_for(:rank)
         # Trigger the behavior that occurs when invalid params are submitted
         Rank.any_instance.stub(:save).and_return(false)
-        put :update, id: rank.id.to_s, rank: {}
+        put :update, id: rank.id.to_s, rank: {'name' => 'whatever'}
         response.should render_template('edit')
       end
     end

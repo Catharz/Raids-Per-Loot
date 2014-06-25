@@ -71,14 +71,14 @@ describe PagesController do
       it "assigns a newly created but unsaved page as @page" do
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        post :create, page: {}
+        post :create, page: {"title" => "whatever"}
         assigns(:page).should be_a_new(Page)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        post :create, page: {}
+        post :create, page: {"title" => "whatever"}
         response.should render_template("new")
       end
     end
@@ -93,8 +93,8 @@ describe PagesController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Page.any_instance.should_receive(:update_attributes).
-            with({'these' => 'params'})
-        put :update, id: page.id, page: {'these' => 'params'}
+            with({"title" => "whatever"})
+        put :update, id: page.id, page: {"title" => "whatever"}
       end
 
       it "assigns the requested page as @page" do
@@ -115,7 +115,7 @@ describe PagesController do
         page = Page.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        put :update, id: page.id.to_s, page: {}
+        put :update, id: page.id.to_s, page: {"title" => "whatever"}
         assigns(:page).should eq(page)
       end
 
@@ -123,7 +123,7 @@ describe PagesController do
         page = Page.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Page.any_instance.stub(:save).and_return(false)
-        put :update, id: page.id.to_s, page: {}
+        put :update, id: page.id.to_s, page: {"title" => "whatever"}
         response.should render_template("edit")
       end
     end

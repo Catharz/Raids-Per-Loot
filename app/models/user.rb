@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
 
   validates_presence_of :name, :email
   validates_length_of :name, minimum: 3, maximum: 100
-  validates_format_of :email, with: /.+@.+\..+/i
+  validates_format_of :email, with: /\A.+@.+\..+\z/i
 
   scope :with_role, lambda { |role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0 "} }
 

@@ -55,7 +55,7 @@ class LinkCategoriesController < ApplicationController
   # POST /link_categories
   # POST /link_categories.json
   def create
-    @link_category = LinkCategory.new(params[:link_category])
+    @link_category = LinkCategory.new(link_category_params)
 
     respond_to do |format|
       if @link_category.save
@@ -74,7 +74,7 @@ class LinkCategoriesController < ApplicationController
     @link_category = LinkCategory.find(params[:id])
 
     respond_to do |format|
-      if @link_category.update_attributes(params[:link_category])
+      if @link_category.update_attributes(link_category_params)
         format.html { redirect_to(@link_category, :notice => 'Link category was successfully updated.') }
         format.json { render :json => @link_category, :notice => 'Link category was successfully updated.' }
       else
@@ -95,5 +95,10 @@ class LinkCategoriesController < ApplicationController
       format.json  { head :ok }
       format.js
     end
+  end
+
+  private
+  def link_category_params
+    params.require(:link_category).permit(:title, :description)
   end
 end
