@@ -392,7 +392,7 @@ describe CharactersController do
       it 'located the requested @character' do
         put :update, id: @character,
             character: FactoryGirl.attributes_for(:character)
-        assigns(:character).should eq (@character)
+        assigns(:character).should eq @character
       end
 
       it "changes @character's attributes" do

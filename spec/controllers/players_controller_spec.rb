@@ -49,6 +49,27 @@ describe PlayersController do
       response.content_type.should eq('text/csv')
       response.header.should eq('Content-Type' => 'text/csv; charset=utf-8')
     end
+
+    it 'returns JSON' do
+      3.times { FactoryGirl.create(:player) }
+      players = Player.all
+
+      get :index, format: :json
+
+      result = JSON.parse(response.body)
+      expect(response.content_type).to eq 'application/json'
+      expect(result).to eq players.collect { |a| JSON.parse(a.to_json) }
+    end
+
+    it 'returns XML' do
+      3.times { FactoryGirl.create(:player) }
+      players = Player.all
+
+      get :index, format: :xml
+
+      expect(response.content_type).to eq 'application/xml'
+      expect(response.body).to have_xpath '//players/*[1]/name'
+    end
   end
 
   describe 'GET attendance' do
@@ -72,6 +93,25 @@ describe PlayersController do
                                                          rank_id: @main_rank.id)
       get :show, id: player.id.to_s
       assigns(:player).should eq(player)
+    end
+
+    it 'returns JSON' do
+      player = FactoryGirl.create(:player)
+
+      get :show, format: :json, id: player
+
+      result = JSON.parse(response.body)
+      expect(response.content_type).to eq 'application/json'
+      expect(result).to eq JSON.parse(player.to_json)
+    end
+
+    it 'returns XML' do
+      player = FactoryGirl.create(:player)
+
+      get :show, format: :xml, id: player
+
+      expect(response.content_type).to eq 'application/xml'
+      expect(response.body).to have_xpath '//player/name'
     end
   end
 
@@ -165,6 +205,18 @@ describe PlayersController do
         put :update, id: player.id,
             player: FactoryGirl.attributes_for(:player, rank_id: @main_rank.id)
         response.should redirect_to(player)
+      end
+
+      it 'responds to JSON' do
+        player =
+            Player.create! FactoryGirl.attributes_for(:player,
+                                                      rank_id: @main_rank.id)
+        put :update, format: :json, id: player.id,
+            player: FactoryGirl.attributes_for(:player, rank_id: @main_rank.id)
+
+        result = JSON.parse(response.body)
+        expect(response.content_type).to eq 'application/json'
+        expect(result['player']).to have_key 'rank_name'
       end
     end
 

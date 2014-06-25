@@ -5,14 +5,10 @@ class LogParser
   @queue = :log_parser
 
   def self.perform(file_name)
-    start_time = Time.zone.now
-    Rails.logger.info "Starting background parsing of #{file_name} at #{start_time.to_s}"
     @parser = Eq2LogParser.new(file_name)
     @parser.parse
     @normal_raid = RaidType.find_by_name('Normal')
     save_raids @parser.raid_list unless @parser.raid_list.empty?
-    end_time = Time.zone.now
-    Rails.logger.info "Completed background parsing of #{file_name} at #{end_time.to_s}, total duration: #{(end_time - start_time).to_s}"
   end
 
   private

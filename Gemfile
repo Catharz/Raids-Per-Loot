@@ -1,6 +1,8 @@
 source 'http://rubygems.org'
 
 gem 'dotenv-rails', :groups => [:development, :test]
+ruby '1.9.3'
+
 gem 'rails', '~> 3.2.0'
 
 # Bundle edge Rails instead:
@@ -67,12 +69,11 @@ gem 'passenger', :group => :production
 group :development do
   gem 'bullet'
   gem 'pry-rails'
-  gem 'spring'
 
-  gem 'capistrano', '~> 3.0', require: false
-  gem 'capistrano-rails',   '~> 1.1', require: false
-  gem 'capistrano-bundler', '~> 1.1', require: false
-  gem 'capistrano-chruby', github: 'capistrano/chruby', require: false
+  gem 'capistrano', '~> 3.0', :require => false
+  gem 'capistrano-rails',   '~> 1.1', :require => false
+  gem 'capistrano-bundler', '~> 1.1', :require => false
+  gem 'capistrano-chruby', :github => 'capistrano/chruby', :require => false
 end
 
 #START:dev_and_test_gems
@@ -115,5 +116,6 @@ group :test, :development do
 
 	# To use debugger
 	#gem 'ruby-debug'
+  gem 'debugger'
 	gem "ruby-prof"
 end

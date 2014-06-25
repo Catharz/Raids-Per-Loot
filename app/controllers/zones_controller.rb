@@ -7,7 +7,10 @@
 #
 # xml formatting is provided on actions used by the ACT plug-in.
 class ZonesController < ApplicationController
+  respond_to :html, :json, :xml
+  respond_to :js, only: [:destroy, :edit, :new, :show]
   before_filter :authenticate_user!, :except => [:index, :show, :option_list]
+  before_filter :set_zone, only: [:show, :edit, :update, :destroy]
   before_filter :set_pagetitle
   before_filter :set_zone, :only => [:show, :edit, :update, :destroy]
 
@@ -30,36 +33,17 @@ class ZonesController < ApplicationController
   # GET /zones.xml
   def index
     @zones = Zone.by_name(params[:name]).order(:name)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @zones }
-      format.xml  { render :xml => @zones.to_xml(
-          :include => [:instances, :mobs]) }
-    end
   end
 
   # GET /zones/1
   # GET /zones/1.xml
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render :json => @zone}
-      format.xml  { render :xml => @zone.to_xml(
-          :include => [:instances, :mobs] ) }
-    end
   end
 
   # GET /zones/new
   # GET /zones/new.xml
   def new
     @zone = Zone.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json  { render :json => @zone }
-      format.xml  { render :xml => @zone }
-    end
   end
 
   # GET /zones/1/edit
@@ -71,40 +55,22 @@ class ZonesController < ApplicationController
   def create
     @zone = Zone.new(zone_params)
 
-    respond_to do |format|
-      if @zone.save
-        format.html { redirect_to(@zone,
-                                  :notice => 'Zone was successfully created.') }
-        format.json  { render :json => @zone,
-                              :status => :created, :location => @zone }
-        format.xml  { render :xml => @zone,
-                             :status => :created, :location => @zone }
-      else
-        format.html { render :action => 'new' }
-        format.json  { render :json => @zone.errors,
-                              :status => :unprocessable_entity }
-        format.xml  { render :xml => @zone.errors,
-                             :status => :unprocessable_entity }
-      end
+    if @zone.save
+      flash[:notice] = 'Zone was successfully created.'
+      respond_with @zone
+    else
+      render action: :new
     end
   end
 
   # PUT /zones/1
   # PUT /zones/1.xml
   def update
-    respond_to do |format|
-      if @zone.update_attributes(zone_params)
-        format.html { redirect_to(@zone,
-                                  :notice => 'Zone was successfully updated.') }
-        format.json  { head :ok }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => 'edit' }
-        format.json  { render :json => @zone.errors,
-                              :status => :unprocessable_entity }
-        format.xml  { render :xml => @zone.errors,
-                             :status => :unprocessable_entity }
-      end
+    if @zone.update_attributes(zone_params)
+      flash[:notice] = 'Zone was successfully updated.'
+      respond_with @zone
+    else
+      render action: 'edit'
     end
   end
 
@@ -112,11 +78,17 @@ class ZonesController < ApplicationController
   # DELETE /zones/1.xml
   def destroy
     @zone.destroy
+    flash[:notice] = 'Zone successfully deleted.'
+    respond_with @zone
+  end
 
-    respond_to do |format|
-      format.html { redirect_to(zones_url) }
-      format.xml  { head :ok }
-    end
+  private
+  def set_zone
+    @zone = Zone.find(params[:id])
+  end
+
+  def set_pagetitle
+    @pagetitle = 'Raid Zones'
   end
 
   private

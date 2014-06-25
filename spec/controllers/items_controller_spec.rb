@@ -19,13 +19,13 @@ describe ItemsController do
     it 'assigns the requested item as @item' do
       item = Item.create! valid_attributes
       get :info, id: item.id
-      assigns(:item).should eq(item)
+      expect(assigns(:item)).to eq item
     end
 
     it 'renders the info view' do
       item = FactoryGirl.create(:item)
       get :info, id: item.id
-      response.should render_template("info")
+      expect(response).to render_template "info"
     end
   end
 
@@ -38,7 +38,7 @@ describe ItemsController do
 
     it 'redirects to the admin view' do
       post :fetch_all_data, delayed: false
-      response.should redirect_to '/admin'
+      expect(response).to redirect_to '/admin'
     end
   end
 
@@ -46,7 +46,7 @@ describe ItemsController do
     it 'assigns the requested item as @item' do
       item = Item.create! valid_attributes
       post :fetch_data, id: item.id.to_s
-      assigns(:item).should eq(item)
+      expect(assigns(:item)).to eq item
     end
 
     it 'uses Resque' do
@@ -59,53 +59,73 @@ describe ItemsController do
       item = FactoryGirl.create(:item)
       Resque.should_receive(:enqueue).with(SonyItemUpdater, item.id)
       post :fetch_data, id: item.id
-      response.should redirect_to(item)
+      expect(response).to redirect_to item
     end
   end
 
   describe 'GET index' do
-    it 'should render JSON by default' do
+    it 'should render JSON formatted for a data table' do
       item = Item.create! valid_attributes
       expected = item_as_json(item)
 
       get :index, format: :json
       actual = JSON.parse(response.body)
 
-      actual.should == expected
+      expect(actual['aaData']).to be_an Array
+      expect(actual['aaData'].count).to eq 1
     end
 
-    it 'should filter by item name when getting xml' do
-      FactoryGirl.create(:item, valid_attributes)
-      FactoryGirl.create(:item, {name: 'Tin foil hat',
-                                 :eq2_item_id => 'another id'})
-
-      get :index, format: :xml, name: 'Tin foil hat'
-      response.body.should contain 'Tin foil hat'
-      response.body.should_not contain 'Whatever'
+    it 'returns JSON' do
+      item = Item.create! valid_attributes
+      get :index, format: :json
+      result = JSON.parse(response.body)
+      expect(response.content_type).to eq 'application/json'
     end
 
-    it 'should filter by eq2_item_id when getting xml' do
-      FactoryGirl.create(:item, valid_attributes)
-      FactoryGirl.create(:item, {name: 'Dagger of letter opening',
-                                 :eq2_item_id => 'yet another id'})
-
-      get :index, format: :xml, :eq2_item_id => 'yet another id'
-      response.body.should contain 'Dagger of letter opening'
-      response.body.should_not contain 'Whatever'
+    it 'returns XML' do
+      item = Item.create! valid_attributes
+      get :index, format: :xml
+      expect(response.body).to have_xpath '//items/*[1]/name'
+      expect(response.body).to have_content item.name
     end
 
-    it 'should filter by loot_type when getting xml' do
-      armour = LootType.find_by_name('Armour')
-      trash = LootType.find_by_name('Trash')
-      FactoryGirl.create(:item,
-                         valid_attributes.merge!(loot_type_id: armour.id))
-      FactoryGirl.create(:item, {name: 'Trash Drop',
-                                 :eq2_item_id => 'yet another id',
-                                 loot_type_id: trash.id})
+    context 'renders XML' do
+      it 'filtered by item name' do
+        FactoryGirl.create(:item, valid_attributes)
+        FactoryGirl.create(:item, {name: 'Tin foil hat',
+                                   :eq2_item_id => 'another id'})
 
-      get :index, format: :xml, loot_type_id: trash.id
-      response.body.should contain 'Trash Drop'
-      response.body.should_not contain 'Whatever'
+        get :index, format: :xml, name: 'Tin foil hat'
+
+        expect(Nokogiri.parse(response.body).at_xpath('/items/*[1]/name').inner_text).to eq 'Tin foil hat'
+        expect(response.body).to_not contain 'Whatever'
+      end
+
+      it 'filtered by eq2_item_id' do
+        FactoryGirl.create(:item, valid_attributes)
+        FactoryGirl.create(:item, {name: 'Dagger of letter opening',
+                                   :eq2_item_id => 'yet another id'})
+
+        get :index, format: :xml, :eq2_item_id => 'yet another id'
+
+        expect(Nokogiri.parse(response.body).at_xpath('/items/*[1]/name').inner_text).to eq 'Dagger of letter opening'
+        expect(response.body).to_not contain 'Whatever'
+      end
+
+      it 'filtered by loot_type' do
+        armour = LootType.find_by_name('Armour')
+        trash = LootType.find_by_name('Trash')
+        FactoryGirl.create(:item,
+                           valid_attributes.merge!(loot_type_id: armour.id))
+        FactoryGirl.create(:item, {name: 'Trash Drop',
+                                   :eq2_item_id => 'yet another id',
+                                   loot_type_id: trash.id})
+
+        get :index, format: :xml, loot_type_id: trash.id
+
+        expect(Nokogiri.parse(response.body).at_xpath('/items/*[1]/name').inner_text).to eq 'Trash Drop'
+        expect(response.body).to_not contain 'Whatever'
+      end
     end
   end
 
@@ -113,13 +133,25 @@ describe ItemsController do
     it 'assigns the requested item as @item' do
       item = Item.create! valid_attributes
       get :show, id: item.id.to_s
-      assigns(:item).should eq(item)
+      expect(assigns(:item)).to eq item
     end
 
     it 'renders the show template' do
       item = Item.create! valid_attributes
       get :show, id: item.id.to_s
-      response.should render_template('show')
+      expect(response).to render_template 'show'
+    end
+
+    it 'renders JSON' do
+      item = Item.create! valid_attributes
+      get :show, id: item.id.to_s, format: :json
+      expect(JSON.parse(response.body)['item']['name']).to eq item.name
+    end
+
+    it 'renders XML' do
+      item = Item.create! valid_attributes
+      get :show, id: item.id.to_s, format: :xml
+      expect(Nokogiri.parse(response.body).at_xpath('/item/name').inner_text).to eq item.name
     end
   end
 

@@ -10,15 +10,31 @@ class HashParser
     end
     hash.each do |k, v|
       (v.is_a? Hash) ? nv = HashParser.new(v) : nv = v
-
-      ## create and initialize an instance variable for this key/value pair
-      self.instance_variable_set("@#{k}", nv)
-      ## create the getter that returns the instance variable
-      self.class.send(:define_method, k, proc { self.instance_variable_get("@#{k}") })
-      ## create the setter that sets the instance variable
-      self.class.send(:define_method, "#{k}=", proc { |nnv| self.instance_variable_set("@#{k}", nnv) })
-      ## Allow for data to be missing.  This does will NOT resolve to multiple levels
-      self.class.send(:define_method, :method_missing, proc { |meth, *args| 'N/A' })
+      create_instance_var k, nv
+      create_getter k
+      create_setter k
+      create_method_missing
     end
+  end
+
+  private
+  def create_instance_var key, value
+    ## create and initialize an instance variable for this key/value pair
+    self.instance_variable_set("@#{key}", value)
+  end
+
+  def create_getter key
+    ## create the getter that returns the instance variable
+    self.class.send(:define_method, key, proc { self.instance_variable_get("@#{key}") })
+  end
+
+  def create_setter key
+    ## create the setter that sets the instance variable
+    self.class.send(:define_method, "#{key}=", proc { |nnv| self.instance_variable_set("@#{key}", nnv) })
+  end
+
+  def create_method_missing
+    ## Allow for data to be missing.  This does will NOT resolve to multiple levels
+    self.class.send(:define_method, :method_missing, proc { |meth, *args| 'N/A' })
   end
 end
