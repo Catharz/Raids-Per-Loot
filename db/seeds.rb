@@ -7,13 +7,11 @@
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
 
 def create_default_users
-  unless User.find_by_login('admin')
-    User.create(:login => 'admin', :name => 'Admin User', :email => 'admin@sample.com',
-                :password => 'changeme', :password_confirmation => 'changeme')
+  unless User.find_by_name('admin')
+    User.create(:name => 'Admin User', :email => 'admin@sample.com')
   end
-  unless User.find_by_login('guest')
-    User.create(:login => 'guest', :name => 'Guest User', :email => 'guest@sample.com',
-                :password => 'changeme', :password_confirmation => 'changeme')
+  unless User.find_by_name('guest')
+    User.create(:name => 'Guest User', :email => 'guest@sample.com')
   end
 end
 

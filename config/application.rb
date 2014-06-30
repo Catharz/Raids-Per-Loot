@@ -38,9 +38,11 @@ module RaidsPerLoot
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
 
     # HACK, HACK, HACK!!!  Observers break CI
-    unless File.basename($0) == 'rake' && (ARGV.include?('db:migrate') || ARGV.include?('db:schema:load')  ||
-        ARGV.include?('test') || ARGV.include?('spec') || ARGV.include?('cucumber'))
+    invalid_args = ['db:migrate', 'db:schema:load', 'spec', 'cucumber', 'db:setup']
+    if File.basename($0) == 'rake' && (ARGV & invalid_args).empty?
       config.active_record.observers = :character_observer, :drop_observer, :loot_type_observer, :item_observer
+    else
+      config.active_record.observers = []
     end
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
